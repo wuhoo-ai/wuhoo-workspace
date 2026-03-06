@@ -1,0 +1,334 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.2",
+    "lastTouchedAt": "2026-03-06T05:16:37.309Z"
+  },
+  "env": {
+    "PATH": "/home/admin/local/node-v22.16.0-linux-x64/bin:/home/admin/.local/bin:/home/admin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-04T15:21:57.671Z",
+    "lastRunVersion": "2026.3.2",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "bailian": {
+        "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+        "apiKey": "${BAILIAN_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.5-plus",
+            "name": "qwen3.5-plus",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 1000000,
+            "maxTokens": 65536
+          },
+          {
+            "id": "qwen3-max-2026-01-23",
+            "name": "qwen3-max-2026-01-23",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 65536
+          },
+          {
+            "id": "qwen3-coder-next",
+            "name": "qwen3-coder-next",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 65536
+          },
+          {
+            "id": "qwen3-coder-plus",
+            "name": "qwen3-coder-plus",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 1000000,
+            "maxTokens": 65536
+          },
+          {
+            "id": "MiniMax-M2.5",
+            "name": "MiniMax-M2.5",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 204800,
+            "maxTokens": 131072
+          },
+          {
+            "id": "glm-5",
+            "name": "glm-5",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 202752,
+            "maxTokens": 16384
+          },
+          {
+            "id": "glm-4.7",
+            "name": "glm-4.7",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 202752,
+            "maxTokens": 16384
+          },
+          {
+            "id": "kimi-k2.5",
+            "name": "kimi-k2.5",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 32768
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "bailian/qwen3.5-plus"
+      },
+      "models": {
+        "bailian/qwen3.5-plus": {},
+        "bailian/qwen3-max-2026-01-23": {},
+        "bailian/qwen3-coder-next": {},
+        "bailian/qwen3-coder-plus": {},
+        "bailian/MiniMax-M2.5": {},
+        "bailian/glm-5": {},
+        "bailian/glm-4.7": {},
+        "bailian/kimi-k2.5": {}
+      },
+      "workspace": "~/.openclaw/workspace",
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "blockStreamingDefault": "on",
+      "blockStreamingBreak": "text_end",
+      "heartbeat": {
+        "every": "2h"
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "workspace": "/home/admin/.openclaw/workspace/agents/main",
+        "model": {
+          "primary": "bailian/qwen3.5-plus",
+          "fallbacks": [
+            "bailian/MiniMax-M2.5"
+          ]
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "edit",
+            "write",
+            "web_search",
+            "web_fetch",
+            "message",
+            "exec"
+          ],
+          "exec": {
+            "node": "local"
+          }
+        }
+      },
+      {
+        "id": "dev",
+        "workspace": "/home/admin/.openclaw/workspace/agents/dev",
+        "model": "bailian/qwen3-coder-next",
+        "tools": {
+          "allow": [
+            "read",
+            "edit",
+            "write",
+            "exec"
+          ],
+          "exec": {
+            "node": "local"
+          }
+        }
+      },
+      {
+        "id": "trade",
+        "workspace": "/home/admin/.openclaw/workspace/agents/trade",
+        "model": "bailian/qwen3.5-plus",
+        "tools": {
+          "allow": [
+            "read",
+            "edit",
+            "write",
+            "exec"
+          ],
+          "exec": {
+            "node": "local"
+          }
+        }
+      }
+    ]
+  },
+  "tools": {
+    "profile": "full"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "channels": {
+    "dingtalk": {
+      "enabled": true,
+      "clientId": "${DINGTALK_CLIENT_ID}",
+      "clientSecret": "${DINGTALK_CLIENT_SECRET}",
+      "robotCode": "${DINGTALK_ROBOT_CODE}",
+      "corpId": "${DINGTALK_CORP_ID}",
+      "agentId": 4201415235,
+      "dmPolicy": "open",
+      "groupPolicy": "open",
+      "messageType": "markdown",
+      "showThinking": true,
+      "allowFrom": [
+        "*"
+      ]
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "lan",
+    "controlUi": {
+      "allowedOrigins": [
+        "http://47.79.255.24:18789",
+        "http://127.0.0.1:18789",
+        "http://localhost:18789"
+      ],
+      "allowInsecureAuth": true,
+      "dangerouslyDisableDeviceAuth": true
+    },
+    "auth": {
+      "mode": "token",
+      "token": "0549b991371eada2b8060109e4d79524c81a115c3e6d9e68136fb69411c19760"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "reload": {
+      "mode": "hybrid",
+      "debounceMs": 300
+    }
+  },
+  "skills": {
+    "allowBundled": [
+      "weather",
+      "web_search",
+      "web_fetch",
+      "clawhub"
+    ],
+    "load": {
+      "extraDirs": [
+        "~/.openclaw/skills"
+      ]
+    },
+    "entries": {
+      "weather": {
+        "enabled": true
+      },
+      "web_search": {
+        "enabled": true
+      },
+      "web_fetch": {
+        "enabled": true
+      },
+      "clawhub": {
+        "enabled": true
+      }
+    }
+  },
+  "plugins": {
+    "enabled": true,
+    "allow": [
+      "dingtalk"
+    ],
+    "entries": {
+      "dingtalk": {
+        "enabled": true
+      }
+    }
+  }
+}

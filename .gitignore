@@ -1,0 +1,68 @@
+# Sensitive configuration files
+.env
+.env.backup
+.env.local
+.env.*.local
+
+# Backup files
+*.backup
+*.bak
+*.bak.*
+openclaw.json.backup
+openclaw.json.bak*
+openclaw.json.merged
+
+# Runtime data
+logs/
+identity/
+memory/
+delivery-queue/
+canvas/
+cron/
+devices/
+
+# Runtime state files
+update-check.json
+exec-approvals.json
+
+# Agent sessions
+agents/*/sessions/
+
+# Data directories (except README)
+data/ai-trader/
+data/backups/
+data/trendradar/
+data/v2ray/
+
+# Projects as submodules
+workspace/projects/
+
+# Qoder IDE
+.qoder/
+
+# Workspace runtime
+workspace/.openclaw/
+workspace/dingtalk-config-template.json
+workspace/agents/*/.openclaw/
+
+# Agent configs with sensitive data
+agents/*/agent/models.json
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if any)
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.iml
