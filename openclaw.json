@@ -1,7 +1,7 @@
 {
   "meta": {
     "lastTouchedVersion": "2026.3.2",
-    "lastTouchedAt": "2026-03-06T05:16:37.309Z"
+    "lastTouchedAt": "2026-03-09T12:39:27.371Z"
   },
   "env": {
     "PATH": "/home/admin/local/node-v22.16.0-linux-x64/bin:/home/admin/.local/bin:/home/admin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -257,14 +257,29 @@
       "clientSecret": "${DINGTALK_CLIENT_SECRET}",
       "robotCode": "${DINGTALK_ROBOT_CODE}",
       "corpId": "${DINGTALK_CORP_ID}",
-      "agentId": 4201415235,
+      "agentId": 4314706415,
       "dmPolicy": "open",
-      "groupPolicy": "open",
+      "groupPolicy": "closed",
       "messageType": "markdown",
       "showThinking": true,
       "allowFrom": [
         "*"
-      ]
+      ],
+      "requireMention": false
+    },
+    "wecom": {
+      "enabled": true,
+      "mode": "ws",
+      "botId": "${WECOM_BOT_ID}",
+      "secret": "${WECOM_SECRET}",
+      "dmPolicy": "open",
+      "groupPolicy": "closed",
+      "messageType": "markdown",
+      "showThinking": true,
+      "allowFrom": [
+        "*"
+      ],
+      "requireMention": false
     }
   },
   "gateway": {
@@ -275,14 +290,15 @@
       "allowedOrigins": [
         "http://47.79.255.24:18789",
         "http://127.0.0.1:18789",
-        "http://localhost:18789"
+        "http://localhost:18789",
+        "http://openclaw.shanavasa.click:18789"
       ],
       "allowInsecureAuth": true,
       "dangerouslyDisableDeviceAuth": true
     },
     "auth": {
       "mode": "token",
-      "token": "0549b991371eada2b8060109e4d79524c81a115c3e6d9e68136fb69411c19760"
+      "token": "${GATEWAY_AUTH_TOKEN}"
     },
     "tailscale": {
       "mode": "off",
@@ -321,12 +337,13 @@
     }
   },
   "plugins": {
-    "enabled": true,
-    "allow": [
-      "dingtalk"
-    ],
+    "load": {
+      "paths": [
+        "/home/admin/.openclaw/extensions/openclaw-china/packages/channels"
+      ]
+    },
     "entries": {
-      "dingtalk": {
+      "channels": {
         "enabled": true
       }
     }

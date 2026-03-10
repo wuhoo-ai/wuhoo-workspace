@@ -11,8 +11,35 @@
 ## 可用技能
 
 ### 信息检索
-- `web_search`: Brave Search API，联网检索
-- `web_fetch`: 网页内容提取
+- `jina_search`: **Jina AI API**（主力）- 高质量搜索，注重相关性和准确性
+- `web_fetch`: 网页内容提取（配合 jina_search 使用）
+- ~~`web_search`: Brave Search API~~（已弃用，改用 Jina）
+
+#### Jina Search 使用方式
+```bash
+# 基础搜索（exec 调用）
+exec curl -s -X POST "https://api.jina.ai/v1/search" \
+  -H "Authorization: Bearer $JINA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"q": "关键词", "count": 8}'
+
+# 带时间过滤
+exec curl -s -X POST "https://api.jina.ai/v1/search" \
+  -H "Authorization: Bearer $JINA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"q": "关键词", "count": 8, "freshness": "pm"}'
+
+# 读取 URL 全文
+exec curl -s -H "Authorization: Bearer $JINA_API_KEY" "https://r.jina.ai/https://example.com"
+```
+
+#### 时间过滤参数
+| 参数 | 说明 |
+|------|------|
+| `pd` | 最近 1 天 |
+| `pw` | 最近 1 周 |
+| `pm` | 最近 1 月 |
+| `py` | 最近 1 年 |
 
 ### 个人事务
 - `weather`: 天气查询 (wttr.in / Open-Meteo)

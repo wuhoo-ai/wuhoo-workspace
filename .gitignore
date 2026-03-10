@@ -66,3 +66,14 @@ node_modules/
 .vscode/
 .idea/
 *.iml
+.config/
+
+# Temporary scripts
+install-v2ray.sh
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary markdown files
+workspace/agents/main/*热点*.md
