@@ -1,15 +1,15 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.2",
-    "lastTouchedAt": "2026-03-09T12:39:27.371Z"
+    "lastTouchedVersion": "2026.3.13",
+    "lastTouchedAt": "2026-03-23T10:02:29.914Z"
   },
   "env": {
     "PATH": "/home/admin/local/node-v22.16.0-linux-x64/bin:/home/admin/.local/bin:/home/admin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   },
   "wizard": {
-    "lastRunAt": "2026-03-04T15:21:57.671Z",
-    "lastRunVersion": "2026.3.2",
-    "lastRunCommand": "onboard",
+    "lastRunAt": "2026-03-13T03:06:55.159Z",
+    "lastRunVersion": "2026.3.8",
+    "lastRunCommand": "doctor",
     "lastRunMode": "local"
   },
   "models": {
@@ -196,8 +196,18 @@
             "write",
             "web_search",
             "web_fetch",
+            "file-search",
+            "glob",
+            "grep",
+            "clawhub",
             "message",
-            "exec"
+            "exec",
+            "browse",
+            "memory_get",
+            "memory_write",
+            "jina_search",
+            "tavily_search",
+            "trendradar"
           ],
           "exec": {
             "node": "local"
@@ -213,7 +223,16 @@
             "read",
             "edit",
             "write",
-            "exec"
+            "file-search",
+            "glob",
+            "grep",
+            "clawhub",
+            "exec",
+            "browse",
+            "memory_get",
+            "memory_write",
+            "github",
+            "coding-agent"
           ],
           "exec": {
             "node": "local"
@@ -229,7 +248,18 @@
             "read",
             "edit",
             "write",
-            "exec"
+            "file-search",
+            "glob",
+            "grep",
+            "web_search",
+            "web_fetch",
+            "clawhub",
+            "exec",
+            "browse",
+            "memory_get",
+            "memory_write",
+            "jina_search",
+            "tavily_search"
           ],
           "exec": {
             "node": "local"
@@ -248,7 +278,7 @@
     "ownerDisplay": "raw"
   },
   "session": {
-    "dmScope": "per-channel-peer"
+    "dmScope": "main"
   },
   "channels": {
     "dingtalk": {
@@ -263,9 +293,15 @@
       "messageType": "markdown",
       "showThinking": true,
       "allowFrom": [
+        "01443329476136537748",
         "*"
       ],
-      "requireMention": false
+      "requireMention": false,
+      "sessionTimeout": 3600,
+      "heartbeatInterval": 300,
+      "preserveSession": true,
+      "autoReconnect": true,
+      "sessionPersistence": true
     },
     "wecom": {
       "enabled": true,
@@ -277,9 +313,15 @@
       "messageType": "markdown",
       "showThinking": true,
       "allowFrom": [
+        "haohaijiao",
         "*"
       ],
-      "requireMention": false
+      "requireMention": false,
+      "sessionTimeout": 3600,
+      "heartbeatInterval": 300,
+      "preserveSession": true,
+      "autoReconnect": true,
+      "sessionPersistence": true
     }
   },
   "gateway": {
@@ -293,12 +335,17 @@
         "http://localhost:18789",
         "http://openclaw.shanavasa.click:18789"
       ],
-      "allowInsecureAuth": true,
-      "dangerouslyDisableDeviceAuth": true
+      "allowInsecureAuth": false,
+      "dangerouslyDisableDeviceAuth": false
     },
     "auth": {
       "mode": "token",
-      "token": "${GATEWAY_AUTH_TOKEN}"
+      "token": "${GATEWAY_AUTH_TOKEN}",
+      "rateLimit": {
+        "maxAttempts": 10,
+        "windowMs": 60000,
+        "lockoutMs": 300000
+      }
     },
     "tailscale": {
       "mode": "off",
@@ -314,7 +361,26 @@
       "weather",
       "web_search",
       "web_fetch",
-      "clawhub"
+      "clawhub",
+      "file-search",
+      "web-search-pro",
+      "jina_search",
+      "tushare_search",
+      "skill-vetter",
+      "openclaw-backup",
+      "openclaw-tavily-search",
+      "browse",
+      "self-improving-agent",
+      "using-superpowers",
+      "task-status",
+      "technews",
+      "get-tldr",
+      "agent-news",
+      "agentguard",
+      "summarize",
+      "coding-agent",
+      "find-skills",
+      "github"
     ],
     "load": {
       "extraDirs": [
@@ -333,10 +399,72 @@
       },
       "clawhub": {
         "enabled": true
+      },
+      "file-search": {
+        "enabled": true
+      },
+      "web-search-pro": {
+        "enabled": true
+      },
+      "jina_search": {
+        "enabled": true
+      },
+      "tushare_search": {
+        "enabled": true
+      },
+      "skill-vetter": {
+        "enabled": true
+      },
+      "openclaw-backup": {
+        "enabled": true
+      },
+      "openclaw-tavily-search": {
+        "enabled": true
+      },
+      "browse": {
+        "enabled": true
+      },
+      "self-improving-agent": {
+        "enabled": true
+      },
+      "using-superpowers": {
+        "enabled": true
+      },
+      "task-status": {
+        "enabled": true
+      },
+      "technews": {
+        "enabled": true
+      },
+      "get-tldr": {
+        "enabled": true
+      },
+      "agent-news": {
+        "enabled": true
+      },
+      "agentguard": {
+        "enabled": true
+      },
+      "coding-agent": {
+        "enabled": true
+      },
+      "github": {
+        "enabled": true
+      },
+      "summarize": {
+        "enabled": true
       }
     }
   },
   "plugins": {
+    "allow": [
+      "channels",
+      "memory-core",
+      "device-pair",
+      "phone-control",
+      "talk-voice",
+      "openclaw-weixin"
+    ],
     "load": {
       "paths": [
         "/home/admin/.openclaw/extensions/openclaw-china/packages/channels"
@@ -345,6 +473,30 @@
     "entries": {
       "channels": {
         "enabled": true
+      },
+      "llm-task": {
+        "enabled": true
+      },
+      "lobster": {
+        "enabled": true
+      },
+      "openclaw-weixin": {
+        "enabled": true
+      }
+    },
+    "installs": {
+      "openclaw-weixin": {
+        "source": "npm",
+        "spec": "@tencent-weixin/openclaw-weixin",
+        "installPath": "/home/admin/.openclaw/extensions/openclaw-weixin",
+        "version": "1.0.2",
+        "resolvedName": "@tencent-weixin/openclaw-weixin",
+        "resolvedVersion": "1.0.2",
+        "resolvedSpec": "@tencent-weixin/openclaw-weixin@1.0.2",
+        "integrity": "sha512-kYPEowHB/0VWt9nQFee/AS6Fb+jbnu38wjkgZDBdKTuJoBL0IBW2obQ0ymgFKBFJJL9rDwnFrb/17ORGZD/X8Q==",
+        "shasum": "244baf0a873683a9c350d0f0b5bc055c07b0eb39",
+        "resolvedAt": "2026-03-23T09:28:28.503Z",
+        "installedAt": "2026-03-23T09:28:49.487Z"
       }
     }
   }

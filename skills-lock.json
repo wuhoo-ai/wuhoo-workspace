@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "composio": {
+      "source": "composiohq/skills",
+      "sourceType": "github",
+      "computedHash": "0eb1b5b4a315c6f87054ce0908c9bac71791927702eb0d3d8acbc54b52e687ff"
+    }
+  }
+}

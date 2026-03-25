@@ -77,3 +77,8 @@ __pycache__/
 
 # Temporary markdown files
 workspace/agents/main/*热点*.md
+
+# Agent workspace env files
+workspace/agents/*/.env
+workspace/agents/*/*/.env
+

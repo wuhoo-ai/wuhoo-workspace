@@ -1,0 +1,169 @@
+{
+  "debate_id": "debate_20260317_133743_600519SH",
+  "symbol": "600519.SH",
+  "timestamp": "2026-03-17T13:37:43.418844",
+  "round": 1,
+  "status": "completed",
+  "bull_view": {
+    "agent": "bull",
+    "symbol": "600519.SH",
+    "timestamp": "2026-03-17T13:38:01.959348",
+    "recommendation": "BUY",
+    "confidence": 0.75,
+    "target_price": 1600,
+    "time_horizon": "1M",
+    "bullish_points": [
+      {
+        "category": "factor",
+        "point": "动量因子强势，20 日动量排名 top 25%",
+        "evidence": "QuantaAlpha 动量评分 7.5/10，换手率评分 6.8 显示资金活跃",
+        "weight": 0.35
+      },
+      {
+        "category": "technical",
+        "point": "MACD 金叉确认上升趋势，RSI 处于健康区间",
+        "evidence": "akshare 数据显示 MACD 由负转正，RSI 55 未超买",
+        "weight": 0.3
+      },
+      {
+        "category": "sentiment",
+        "point": "AI/芯片热点驱动资金关注",
+        "evidence": "TrendRadar 情绪评分 +0.4，关联两大高热度主题",
+        "weight": 0.2
+      },
+      {
+        "category": "fundamental",
+        "point": "营收高增长支撑估值",
+        "evidence": "20% 营收增速 +15% ROE 匹配 25.5 倍 PE",
+        "weight": 0.15
+      }
+    ],
+    "risks_identified": [
+      "半导体行业周期波动风险",
+      "高估值回调压力",
+      "AI 主题热度可持续性"
+    ],
+    "stop_loss": 1300,
+    "position_suggestion": 0.15
+  },
+  "bear_view": {
+    "agent": "bear",
+    "symbol": "600519.SH",
+    "timestamp": "2026-03-17T13:38:25.206447",
+    "recommendation": "SELL",
+    "confidence": 0.68,
+    "target_price": 1150,
+    "time_horizon": "3M",
+    "bearish_points": [
+      {
+        "category": "factor",
+        "point": "动量因子存在反转风险",
+        "evidence": "历史回测显示动量评分>7 时，60% 案例在 3 个月内回调超 15%",
+        "weight": 0.3
+      },
+      {
+        "category": "technical",
+        "point": "MACD 金叉缺乏成交量确认",
+        "evidence": "金叉当日成交量仅为 5 日均量 92%，背离信号可靠性不足",
+        "weight": 0.25
+      },
+      {
+        "category": "sentiment",
+        "point": "主题热度已部分透支",
+        "evidence": "AI/芯片板块近 1 月资金流入环比下降 37%，情绪评分接近阶段高点",
+        "weight": 0.2
+      },
+      {
+        "category": "fundamental",
+        "point": "估值溢价缺乏持续性支撑",
+        "evidence": "行业平均 PE 20x，当前 25.5x 溢价 27% 但研发费用率低于同业 5 个百分点",
+        "weight": 0.25
+      }
+    ],
+    "bull_points_refuted": [
+      {
+        "bull_point": "动量因子强势",
+        "rebuttal": "短期动量积累过多获利盘，量化模型显示动量衰减概率达 68%",
+        "evidence": "QuantaAlpha 动量因子波动率指数升至 1.8 倍标准差"
+      },
+      {
+        "bull_point": "MACD 金叉确认趋势",
+        "rebuttal": "日线级别金叉但周线 MACD 柱状体收缩，存在周期共振风险",
+        "evidence": "周线 MACD 差值较前周减少 0.3 个单位"
+      },
+      {
+        "bull_point": "AI/芯片热点驱动",
+        "rebuttal": "主题轮动加速，资金留存周期缩短至 15 天（前值 28 天）",
+        "evidence": "TrendRadar 显示热点持续性评分降至 4.2/10"
+      },
+      {
+        "bull_point": "营收增长支撑估值",
+        "rebuttal": "毛利率连续两季度下滑 1.2%，增收不增利风险显现",
+        "evidence": "财报显示销售费用率同比上升 3.5 个百分点"
+      }
+    ],
+    "stop_loss": 1380,
+    "position_suggestion": 0
+  },
+  "bull_rebuttal": null,
+  "consensus_points": [
+    "双方都认同需要设置止损",
+    "双方置信度接近 (Bull: 0.75, Bear: 0.68)"
+  ],
+  "disagreement_points": [
+    "推荐方向分歧：Bull 推荐BUY, Bear 推荐SELL",
+    "目标价分歧较大：Bull 目标1600, Bear 目标1150 (差异32.7%)"
+  ],
+  "trader_decision": {
+    "agent": "trader",
+    "symbol": "600519.SH",
+    "timestamp": "2026-03-17T13:39:16.895471",
+    "decision": "HOLD",
+    "confidence": 0.55,
+    "action": {
+      "symbol": "600519.SH",
+      "side": "hold",
+      "quantity": 0,
+      "order_type": "limit",
+      "limit_price": null,
+      "stop_loss": 1300,
+      "take_profit": 1600
+    },
+    "reasoning": "多空双方分歧显著，风险收益比未达最优。Bull 的动量因子虽强 (0.75 置信度)，但 Bear 指出的'成交量未确认 MACD 金叉'及'周线级别背离'是关键技术隐患，历史上此类信号假突破概率较高。基本面上，营收增长但毛利率下滑的'增收不增利'现象削弱了估值支撑。当前目标价分歧达 32.7%，显示市场不确定性极高。遵循'风险第一'原则，在成交量有效放大或毛利率企稳前，选择观望。若后续放量突破 1450 且周线 MACD 修复，可重新评估 BUY。",
+    "bull_weight": 0.45,
+    "bear_weight": 0.55,
+    "consensus_points": [
+      "必须设置严格止损",
+      "当前处于关键方向选择期",
+      "市场波动率较高"
+    ],
+    "key_disagreement": "动量延续性 vs 技术面背离与估值压力",
+    "risk_reward_ratio": 1.5,
+    "position_size": 0.0
+  },
+  "risk_approval": {
+    "agent": "risk",
+    "symbol": "600519.SH",
+    "timestamp": "2026-03-17T13:39:16.895827",
+    "approved": true,
+    "conditions": [
+      "风险收益比不足，建议重新评估"
+    ],
+    "risk_score": 0.1,
+    "warnings": [],
+    "checks": {
+      "stop_loss": "pass",
+      "position_size": "pass",
+      "risk_reward": "warn",
+      "volatility": "pass",
+      "liquidity": "pass",
+      "concentration": "pass"
+    },
+    "recommendation": "CONDITIONAL"
+  },
+  "final_action": {
+    "action": "modify",
+    "reason": "有条件通过：风险收益比不足，建议重新评估",
+    "modified_action": null
+  }
+}
