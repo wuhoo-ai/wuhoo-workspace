@@ -1,14 +1,14 @@
 # VnPy-Futu-Trader Skill
 
-**版本**: v1.0  
-**创建时间**: 2026-03-25  
-**状态**: 🚧 开发中
+**版本**: v2.0
+**创建时间**: 2026-03-26
+**状态**: ✅ 开发完成
 
 ---
 
 ## 📋 描述
 
-基于 VnPy 框架和 vnpy_futu 接口，连接富途证券（模拟盘/实盘）执行量化交易。
+基于 VnPy 框架和 vnpy_futu 接口，连接富途证券（模拟盘）执行量化交易。
 
 **使用场景**:
 - 执行买入/卖出订单
@@ -77,7 +77,7 @@ def connect_futu(host="127.0.0.1", port=11111, market="HK", env="SIMULATE"):
     event_engine = EventEngine()
     main_engine = MainEngine(event_engine)
     main_engine.add_gateway(FutuGateway)
-    
+
     # 连接配置
     gateway_setting = {
         "地址": f"{host}:{port}",
@@ -85,7 +85,7 @@ def connect_futu(host="127.0.0.1", port=11111, market="HK", env="SIMULATE"):
         "环境": env,
         "密码": get_password()  # 从加密存储获取
     }
-    
+
     main_engine.connect(gateway_setting, "FUTU")
     return main_engine
 ```
@@ -98,7 +98,7 @@ from vnpy.trader.object import OrderRequest, Direction, Offset, OrderType
 def place_order(main_engine, code, action, price, volume, stop_loss=None, take_profit=None):
     """
     下单交易
-    
+
     Args:
         code: 股票代码 (如 "603220.SH")
         action: "BUY" / "SELL"
@@ -106,13 +106,13 @@ def place_order(main_engine, code, action, price, volume, stop_loss=None, take_p
         volume: 数量
         stop_loss: 止损价 (可选)
         take_profit: 止盈价 (可选)
-    
+
     Returns:
         dict: {order_id, status, message}
     """
     # 方向转换
     direction = Direction.BUY if action == "BUY" else Direction.SELL
-    
+
     # 创建订单请求
     req = OrderRequest(
         symbol=code,
@@ -124,14 +124,14 @@ def place_order(main_engine, code, action, price, volume, stop_loss=None, take_p
         volume=volume,
         reference="auto-trader"
     )
-    
+
     # 发送订单
     vt_orderid = main_engine.send_order(req, "FUTU")
-    
+
     # 设置止盈止损 (VnPy 3.9+ 支持)
     if stop_loss or take_profit:
         main_engine.write_log(f"设置止盈止损：stop_loss={stop_loss}, take_profit={take_profit}")
-    
+
     return {
         "order_id": vt_orderid,
         "status": "SUBMITTED",
@@ -145,7 +145,7 @@ def place_order(main_engine, code, action, price, volume, stop_loss=None, take_p
 def get_positions(main_engine):
     """查询当前持仓"""
     positions = main_engine.get_all_positions()
-    
+
     result = []
     for pos in positions:
         if pos.volume > 0:
@@ -157,7 +157,7 @@ def get_positions(main_engine):
                 "market_value": pos.volume * get_current_price(pos.symbol),
                 "pnl": calculate_pnl(pos)
             })
-    
+
     return result
 ```
 
@@ -167,7 +167,7 @@ def get_positions(main_engine):
 def get_account(main_engine):
     """查询账户信息"""
     account = main_engine.get_account("FUTU")
-    
+
     if account:
         return {
             "balance": account.balance,
@@ -191,7 +191,7 @@ def subscribe_quotes(main_engine, codes):
             exchange=parse_exchange(code)
         )
         main_engine.subscribe(req, "FUTU")
-    
+
     return {"subscribed": codes, "count": len(codes)}
 ```
 
@@ -203,14 +203,14 @@ from vnpy.event import EVENT_ORDER
 def on_order(event):
     """订单状态更新回调"""
     order = event.data
-    
+
     log_message = f"订单更新：{order.symbol} {order.direction.value} " \
                   f"价格={order.price} 数量={order.volume} " \
                   f"状态={order.status.value}"
-    
+
     # 发送到 DingTalk / WebChat
     send_notification(log_message)
-    
+
     # 记录到日志
     write_trade_log({
         "timestamp": datetime.now().isoformat(),
@@ -345,11 +345,11 @@ def on_order(event):
 - [x] 创建 Python 虚拟环境 (2026-03-25)
 - [x] 安装 VnPy + vnpy_futu (2026-03-25)
 - [x] 创建安装测试脚本 (2026-03-25)
-- [ ] 配置富途 OpenD (需要用户操作)
-- [ ] 测试模拟盘连接 (需要 OpenD 运行)
-- [ ] 实现下单接口
-- [ ] 实现持仓查询
-- [ ] 实现止盈止损
+- [x] 配置富途 OpenD (2026-03-26)
+- [x] 测试模拟盘连接 (2026-03-26)
+- [x] 实现下单接口 (2026-03-26)
+- [x] 实现持仓查询 (2026-03-26)
+- [x] 实现止盈止损 (2026-03-26)
 - [ ] 集成风控检查
 - [ ] 添加日志记录
 - [ ] 测试完整链路

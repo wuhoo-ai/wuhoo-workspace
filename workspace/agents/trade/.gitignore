@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+venv-futu/
+ENV/
+env/
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+log/
+
+# Data
+data/
+opend/
+*.dat
+
+# Testing
+test_*.py
+!test_workflow_c_full.py
+!patch_vnpy_ashare.py
+
+# Reports (may contain sensitive info)
+*_REPORT*.md
+STATUS_*.md
+TASKS_*.md
+# Except VnPy documentation
+!VNPY_*.md
+!ARCHITECTURE_*.md
+
+# Backup files
+*.backup
+*.backup.dirty
+*.dirty
+
+# Claude Code
+.claude/
