@@ -1,5 +1,21 @@
 # TOOLS.md - main-agent 工具笔记
 
+## ⚡ 快速设置命令 (新会话必执行)
+
+### 📌 各渠道默认配置
+
+| 渠道 | 命令 |
+|------|------|
+| **WebChat** | `/think high /verbose on /reasoning off` |
+| **Telegram** | `/think high /verbose on /reasoning on` |
+| **Discord** | `/think high /verbose on /reasoning on` |
+
+> 💡 **提示**: 使用 `/new` 开始新会话后，**先执行对应渠道的设置命令**。
+> 
+> ⚠️ **注意**: 这些是 Session 级别设置，每次 `/new` 或 `/reset` 后需要重新设置。
+
+---
+
 ## 已配置渠道
 
 ### DingTalk

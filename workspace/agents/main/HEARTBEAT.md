@@ -1,5 +1,18 @@
 # HEARTBEAT.md
 
-# Keep this file empty (or with only comments) to skip heartbeat API calls.
+**状态**: ⏸️ 已禁用
 
-# Add tasks below when you want the agent to check something periodically.
+**更新时间**: 2026-03-14 10:35
+
+---
+
+## 📋 说明
+
+所有定时任务已清空。
+
+如需启用 heartbeat，请在此文件配置检查项。
+
+---
+
+**最后推送**: 2026-03-13 22:37 (晚间新闻)  
+**下次推送**: ⏸️ 已禁用

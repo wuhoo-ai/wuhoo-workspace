@@ -89,10 +89,11 @@ class DataAggregator:
             "timestamp": datetime.now().isoformat()
         }
         
-        # 数据质量检查
+        # 数据质量检查 - 不允许模拟数据参与交易决策
         data_quality_ok = (
-            factor_data.get('data_source') == 'quantaalpha_real_data' and
-            fundamental_data.get('data_quality') == 'real'
+            factor_data.get('data_source') in ['quantaalpha_real_data', 'quantaalpha'] and
+            fundamental_data.get('data_quality') == 'real' and
+            sentiment_data.get('sentiment_label') != 'unavailable'  # 舆情数据必须可用
         )
         
         # 聚合数据

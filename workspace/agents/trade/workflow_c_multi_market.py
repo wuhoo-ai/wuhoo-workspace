@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Workflow C - 多市场模拟交易全链路执行脚本
+Workflow C - 多市场模拟交易全链路执行脚本 (整合美股完整因子)
 
 支持市场:
 - CN: A 股 (中证 1000) - 使用 Tushare 数据
 - HK: 港股 (Top 500) - 使用富途数据
-- US: 美股 (Top 500) - 使用富途数据 (需要美股行情权限)
+- US: 美股 (Top 500) - 使用 yfinance 数据 + 完整因子
+
+因子配置:
+- CN: 完整因子 (残差波动率 + 换手率 + 动量 + Beta)
+- HK: 简化因子 (波动率 + 动量)
+- US: 完整因子 (残差波动率 + 成交量 + 动量 + Beta) - 2026-03-27 升级
 
 流程:
 1. 选股 → 2. 多维度分析 → 3. 多空辩论 →
@@ -32,6 +37,21 @@ from typing import Dict, List, Optional
 # 添加路径
 sys.path.insert(0, str(Path(__file__).parent))
 
+# 加载环境变量 (从 ~/.openclaw/.env)
+env_file = Path.home() / '.openclaw' / '.env'
+if env_file.exists():
+    print(f"加载环境变量：{env_file}")
+    with open(env_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, value = line.split('=', 1)
+                key = key.strip()
+                value = value.strip()
+                if key and value and key not in os.environ:
+                    os.environ[key] = value
+                    print(f"  {key}=***")
+
 # 环境变量配置
 os.environ['FUTU_HOST'] = '127.0.0.1'
 os.environ['FUTU_PORT'] = '11111'
@@ -56,6 +76,7 @@ MARKET_CONFIG = {
     'us': {
         'name': '美股 (Top 500)',
         'gateway': 'Futu OpenAPI',
+        'acc_id': 18767299,  # 美股模拟账户
         'venv': Path.home() / '.openclaw' / 'workspace' / 'agents' / 'main' / 'skills' / 'stock-pick' / 'venv' / 'bin' / 'activate',
         'stock_pick_script': Path.home() / '.openclaw' / 'workspace' / 'agents' / 'main' / 'skills' / 'stock-pick' / 'stock_pick.py',
     },
@@ -171,6 +192,11 @@ class WorkflowCHandler:
         Step 2: 多维度分析
 
         对选股结果进行因子、技术面、基本面分析
+        
+        市场差异:
+        - CN: 简化分析 (直接使用选股因子)
+        - HK: 使用 Debate DataAggregator
+        - US: 简化分析 (美股数据源限制，使用因子数据)
         """
         print("\n" + "=" * 60)
         print("Step 2: 多维度分析")
@@ -186,28 +212,56 @@ class WorkflowCHandler:
 
         print(f"分析股票数量：{len(stocks_to_analyze)}")
 
-        # 对于 A 股，使用简化分析（跳过辩论以节省时间）
-        if self.market.lower() == 'cn':
-            print("\nA 股市场：使用简化分析模式")
+        # A 股和美股使用简化分析 (数据源限制)
+        if self.market.lower() in ['cn', 'us']:
+            market_name = "A 股" if self.market.lower() == 'cn' else "美股"
+            print(f"\n{market_name}市场：使用简化分析模式 (基于因子数据)")
             for stock in stocks_to_analyze:
-                # A 股选股结果中代码字段是 ts_code (如 603220.SH)
-                code = stock.get('ts_code', stock.get('code', ''))
-                name = stock.get('name', '')
-
-                analysis = {
-                    "code": code,
-                    "name": name,
-                    "score": stock.get('composite_score', 5.0),
-                    "momentum_10d": stock.get('momentum_10d', 0),
-                    "recommendation": "HOLD",  # 默认
-                    "timestamp": datetime.now().isoformat()
-                }
+                if self.market.lower() == 'us':
+                    # 美股选股结果字段
+                    code = stock.get('ts_code', stock.get('code', ''))
+                    name = stock.get('name', '')
+                    residual_vol = stock.get('residual_vol', 0)
+                    momentum_5d = stock.get('momentum_5d', 0)
+                    beta = stock.get('beta_20d', 0)
+                    
+                    # 简单评分
+                    score = 5.0
+                    if residual_vol < 20: score += 1
+                    if momentum_5d > 2: score += 1
+                    if 0.9 <= beta <= 1.3: score += 1
+                    
+                    analysis = {
+                        "code": code,
+                        "name": name,
+                        "score": min(score, 10),
+                        "residual_vol": residual_vol,
+                        "momentum_5d": momentum_5d,
+                        "beta_20d": beta,
+                        "recommendation": "BUY" if score >= 7 else "HOLD",
+                        "timestamp": datetime.now().isoformat()
+                    }
+                else:
+                    # A 股选股结果字段
+                    code = stock.get('ts_code', stock.get('code', ''))
+                    name = stock.get('name', '')
+                    analysis = {
+                        "code": code,
+                        "name": name,
+                        "score": stock.get('composite_score', 5.0),
+                        "momentum_10d": stock.get('momentum_10d', 0),
+                        "recommendation": "HOLD",
+                        "timestamp": datetime.now().isoformat()
+                    }
+                
                 analysis_results.append(analysis)
-                print(f"  {code} {name}: 10 日 ROC={stock.get('momentum_10d', 'N/A')}")
+                if self.market.lower() == 'us':
+                    print(f"  {code} {name}: 评分={analysis['score']:.1f}, 5 日动量={momentum_5d:.2f}%")
+                else:
+                    print(f"  {code} {name}: 10 日 ROC={stock.get('momentum_10d', 'N/A')}")
         else:
-            # 港股/美股使用 Debate 分析
+            # 港股使用 Debate DataAggregator
             try:
-                # 动态导入 debate 模块
                 debate_path = Path(__file__).parent.parent / 'debate'
                 sys.path.insert(0, str(debate_path))
 
@@ -215,12 +269,12 @@ class WorkflowCHandler:
                 aggregator = DataAggregator()
 
                 for i, stock in enumerate(stocks_to_analyze):
-                    code = stock.get('code', '')
+                    # 港股使用 ts_code 字段，A 股使用 code 字段
+                    code = stock.get('ts_code', stock.get('code', ''))
                     name = stock.get('name', '')
 
                     print(f"\n[{i+1}/{len(stocks_to_analyze)}] 分析 {code} {name}...")
 
-                    # 获取综合数据
                     data = aggregator.get_all_data(code, name)
 
                     analysis = {
@@ -244,6 +298,7 @@ class WorkflowCHandler:
             "success": True,
             "analyzed_count": len(analysis_results),
             "analysis_results": analysis_results,
+            "market": self.market.lower(),
             "timestamp": datetime.now().isoformat()
         }
 
@@ -259,6 +314,11 @@ class WorkflowCHandler:
         Step 3: 多空辩论
 
         对分析结果进行多空辩论，生成投资建议
+        
+        市场差异:
+        - CN: 简化辩论 (基于动量)
+        - HK: 完整辩论模块 (run_full_debate)
+        - US: 快速辩论分析 (基于因子，数据源限制)
         """
         print("\n" + "=" * 60)
         print("Step 3: 多空辩论")
@@ -267,30 +327,106 @@ class WorkflowCHandler:
         if not stocks:
             return {"error": "无股票可辩论"}
 
-        # A 股跳过辩论（节省时间）
-        if self.market.lower() == 'cn':
-            print("A 股市场：跳过辩论，使用简化建议")
+        # A 股和美股使用简化/快速辩论
+        if self.market.lower() in ['cn', 'us']:
+            market_name = "A 股" if self.market.lower() == 'cn' else "美股"
+            print(f"{market_name}市场：使用快速辩论分析")
+            
             debate_results = []
-            for stock in stocks[:3]:
-                # A 股选股结果中代码字段是 ts_code (如 603220.SH)
-                code = stock.get('ts_code', stock.get('code', ''))
-                name = stock.get('name', '')
-                debate_results.append({
-                    "code": code,
-                    "name": name,
-                    "recommendation": "BUY" if stock.get('momentum_10d', 0) < -5 else "HOLD",
-                    "confidence": 0.5,
-                    "timestamp": datetime.now().isoformat()
-                })
+            for stock in stocks[:5]:  # 最多 5 只
+                if self.market.lower() == 'us':
+                    code = stock.get('ts_code', '')
+                    name = stock.get('name', '')
+                    residual_vol = stock.get('residual_vol', 25)
+                    momentum_5d = stock.get('momentum_5d', 0)
+                    momentum_10d = stock.get('momentum_10d', 0)
+                    beta = stock.get('beta_20d', 1)
+                    
+                    # 快速多空分析
+                    bull_points = []
+                    bear_points = []
+                    
+                    if residual_vol < 20:
+                        bull_points.append("低残差波动")
+                    elif residual_vol > 23:
+                        bear_points.append("波动率偏高")
+                    
+                    if momentum_5d > 3:
+                        bull_points.append("强势动量")
+                    elif momentum_5d < 1.5:
+                        bear_points.append("动量疲软")
+                    
+                    if momentum_10d > 5:
+                        bear_points.append("短期涨幅过大")
+                    
+                    if 0.9 <= beta <= 1.3:
+                        bull_points.append("Beta 适中")
+                    elif beta > 1.4:
+                        bear_points.append("高 Beta 风险")
+                    
+                    # 综合判断
+                    bull_score = len(bull_points)
+                    bear_score = len(bear_points)
+                    
+                    if bull_score > bear_score:
+                        recommendation = "BUY"
+                        confidence = 0.5 + (bull_score - bear_score) * 0.1
+                    elif bear_score > bull_score:
+                        recommendation = "SELL"
+                        confidence = 0.5 + (bear_score - bull_score) * 0.1
+                    else:
+                        recommendation = "HOLD"
+                        confidence = 0.5
+                    
+                    # 风控检查
+                    risk_factors = []
+                    if residual_vol > 22: risk_factors.append("vol_high")
+                    if momentum_10d > 5: risk_factors.append("gain_large")
+                    if beta > 1.3: risk_factors.append("beta_high")
+                    
+                    if len(risk_factors) >= 2:
+                        risk_approval = "REJECT"
+                    elif len(risk_factors) == 1:
+                        risk_approval = "CONDITIONAL"
+                    else:
+                        risk_approval = "APPROVE"
+                    
+                    final_action = "reject" if risk_approval == "REJECT" else ("buy" if recommendation == "BUY" and confidence > 0.6 else "watch")
+                    
+                    debate_results.append({
+                        "code": code,
+                        "name": name,
+                        "bull_points": bull_points,
+                        "bear_points": bear_points,
+                        "recommendation": recommendation,
+                        "confidence": round(confidence, 2),
+                        "risk_approval": risk_approval,
+                        "final_action": final_action,
+                        "timestamp": datetime.now().isoformat()
+                    })
+                    
+                    print(f"  {code} {name}: {recommendation} (置信度{confidence:.0%}), 风控:{risk_approval}, 最终:{final_action}")
+                else:
+                    # A 股简化辩论
+                    code = stock.get('ts_code', '')
+                    name = stock.get('name', '')
+                    debate_results.append({
+                        "code": code,
+                        "name": name,
+                        "recommendation": "BUY" if stock.get('momentum_10d', 0) < -5 else "HOLD",
+                        "confidence": 0.5,
+                        "timestamp": datetime.now().isoformat()
+                    })
 
             result = {
                 "success": True,
                 "debate_results": debate_results,
-                "simplified": True,
+                "count": len(debate_results),
+                "method": "quick_analysis" if self.market.lower() == 'us' else "simplified",
                 "timestamp": datetime.now().isoformat()
             }
         else:
-            # 港股/美股使用完整辩论
+            # 港股使用完整辩论模块
             try:
                 debate_path = Path(__file__).parent.parent / 'debate'
                 sys.path.insert(0, str(debate_path))
@@ -299,19 +435,18 @@ class WorkflowCHandler:
 
                 debate_results = []
                 for stock in stocks[:3]:  # 限制数量
-                    code = stock.get('code', '')
+                    # 港股使用 ts_code 字段，A 股使用 code 字段
+                    code = stock.get('ts_code', stock.get('code', ''))
                     name = stock.get('name', '')
 
                     print(f"\n辩论：{code} {name}...")
 
-                    # 执行辩论（带超时）
                     import signal
-
                     def timeout_handler(signum, frame):
                         raise TimeoutError("辩论超时")
 
                     old_handler = signal.signal(signal.SIGALRM, timeout_handler)
-                    signal.alarm(60)  # 60 秒超时
+                    signal.alarm(60)
 
                     try:
                         result = run_full_debate(code, name, use_real_data=True)
@@ -325,6 +460,10 @@ class WorkflowCHandler:
                             "trader_decision": result.get('trader_decision', {}).get('decision'),
                             "risk_approval": result.get('risk_approval', {}).get('recommendation'),
                             "final_action": result.get('final_action', {}).get('action'),
+                            "bull_points": result.get('bull_view', {}).get('key_points', []),
+                            "bear_points": result.get('bear_view', {}).get('key_points', []),
+                            "consensus": result.get('consensus_points', []),
+                            "disagreement": result.get('disagreement_points', []),
                             "timestamp": datetime.now().isoformat()
                         })
 
@@ -346,6 +485,7 @@ class WorkflowCHandler:
                     "success": True,
                     "debate_results": debate_results,
                     "count": len(debate_results),
+                    "method": "full_debate",
                     "timestamp": datetime.now().isoformat()
                 }
 
@@ -363,42 +503,80 @@ class WorkflowCHandler:
     def step4_generate_recommendations(self, debate_results: Dict) -> Dict:
         """
         Step 4: 生成投资建议
+
+        支持快速辩论 (美股) 和完整辩论 (港股) 格式
         """
         print("\n" + "=" * 60)
         print("Step 4: 生成投资建议")
         print("=" * 60)
 
         recommendations = []
+        method = debate_results.get('method', 'unknown')
 
         for debate in debate_results.get('debate_results', []):
             code = debate.get('code', '')
             name = debate.get('name', '')
 
             # 根据辩论结果生成建议
-            if debate.get('risk_approval', {}).get('recommendation') == 'REJECT':
-                action = 'REJECT'
-            elif debate.get('final_action') == 'reject':
-                action = 'REJECT'
-            elif debate.get('recommendation') == 'BUY':
-                action = 'BUY'
+            if method == 'quick_analysis':
+                # 美股快速辩论格式
+                action = debate.get('final_action', 'watch').upper()
+                if action == 'BUY':
+                    action = 'BUY'
+                elif action in ['REJECT', 'WATCH']:
+                    action = 'HOLD'
+                confidence = debate.get('confidence', 0.5)
+                reason = f"快速辩论：{debate.get('recommendation', 'N/A')}, 风控:{debate.get('risk_approval', 'N/A')}"
+            elif method == 'full_debate':
+                # 港股完整辩论格式
+                risk_approval = debate.get('risk_approval', '')
+                final_action = debate.get('final_action', '')
+                trader_decision = debate.get('trader_decision', 'HOLD')
+
+                # 风控否决则拒绝
+                if risk_approval == 'REJECT':
+                    action = 'REJECT'
+                # 否则使用交易员决策
+                elif trader_decision == 'BUY':
+                    action = 'BUY'
+                elif trader_decision == 'SELL':
+                    action = 'SELL'
+                else:
+                    action = 'HOLD'
+
+                confidence = 0.7  # 默认置信度
+                reason = f"完整辩论：交易员决策={trader_decision}, 风控={risk_approval}, 动作={final_action}"
             else:
-                action = 'HOLD'
+                # 其他格式 (包括简化辩论)
+                if debate.get('risk_approval', {}).get('recommendation') == 'REJECT':
+                    action = 'REJECT'
+                elif debate.get('final_action') == 'reject':
+                    action = 'REJECT'
+                elif debate.get('recommendation') == 'BUY':
+                    action = 'BUY'
+                else:
+                    action = 'HOLD'
+                confidence = debate.get('confidence', 0.5)
+                reason = f"辩论结果：{debate.get('final_action', 'N/A')}"
 
             rec = {
                 "code": code,
                 "name": name,
                 "action": action,
-                "confidence": debate.get('confidence', 0.5),
-                "reason": f"辩论结果：{debate.get('final_action', 'N/A')}",
+                "confidence": confidence,
+                "reason": reason,
+                "bull_points": debate.get('bull_points', []),
+                "bear_points": debate.get('bear_points', []),
                 "timestamp": datetime.now().isoformat()
             }
             recommendations.append(rec)
-            print(f"  {code} {name}: {action}")
+            print(f"  {code} {name}: {action} (置信度{confidence:.0%})")
 
         result = {
             "success": True,
             "recommendations": recommendations,
             "count": len(recommendations),
+            "method": method,
             "timestamp": datetime.now().isoformat()
         }
 
@@ -415,8 +593,8 @@ class WorkflowCHandler:
 
         市场差异:
         - A 股 (CN): OpenCNTradeContext, 账户 18767295, DAY 订单
-        - 港股 (HK): OpenHKTradeContext, 账户 18767294, GTC 订单
-        - 美股 (US): OpenUSTradeContext, 账户 (动态获取), GTC 订单
+        - 港股 (HK): OpenHKTradeContext, 账户 18767294, DAY 订单
+        - 美股 (US): OpenUSTradeContext, 账户 18767299, DAY 订单
         """
         print("\n" + "=" * 60)
         print("Step 5: 执行交易")
@@ -454,11 +632,13 @@ class WorkflowCHandler:
 
         # ===== 美股 =====
         elif self.market.lower() == 'us':
-            # 美股账户需要动态获取
+            # 使用配置的美股账户
+            acc_id = self.config.get('acc_id')
+            print(f"美股账户：{acc_id}")
             return self._execute_trades_direct(
                 recommendations, trade_results,
                 market='us',
-                acc_id=None,  # 动态获取
+                acc_id=acc_id,
                 time_in_force='DAY'  # 模拟盘用 DAY
             )
 
@@ -477,7 +657,7 @@ class WorkflowCHandler:
             recommendations: 投资建议
             trade_results: 交易结果列表
             market: 市场 (cn/hk/us)
-            acc_id: 账户 ID (美股为 None 时自动获取)
+            acc_id: 账户 ID (固定配置)
             time_in_force: 订单类型 (DAY/GTC)
         """
         # 导入模块
@@ -489,22 +669,13 @@ class WorkflowCHandler:
             print(f"\n使用港股交易接口，账户：{acc_id}")
         elif market == 'us':
             from futu import OpenUSTradeContext as TradeContext, OrderType, TrdSide, TrdEnv
-            print(f"\n使用美股交易接口")
+            print(f"\n使用美股交易接口，账户：{acc_id}")
         else:
             raise ValueError(f"不支持的市场：{market}")
 
         try:
             # 创建交易上下文
             trade_ctx = TradeContext(host='127.0.0.1', port=11111)
-
-            # 获取账户 ID (美股需要)
-            if acc_id is None:
-                ret, data = trade_ctx.get_acc_list()
-                if ret == 0 and len(data) > 0:
-                    acc_id = int(data['acc_id'].iloc[0])
-                    print(f"自动获取账户 ID: {acc_id}")
-                else:
-                    raise Exception("无法获取账户列表")
 
             # 解锁交易 (模拟盘不需要密码)
             password = os.environ.get('FUTU_TRADING_PASSWORD', os.environ.get('FUTU_PASSWORD', ''))
@@ -715,6 +886,8 @@ def main():
     parser.add_argument("--date", type=str, default=None, help="交易日期 (YYYY-MM-DD)")
     parser.add_argument("--top-n", type=int, default=10, help="选股数量")
     parser.add_argument("--skip-trades", action="store_true", help="跳过交易执行")
+    parser.add_argument("--with-approval", action="store_true", help="启用人工审批 (大额交易)")
+    parser.add_argument("--skip-review", action="store_true", help="跳过每日复盘")
 
     args = parser.parse_args()
 
@@ -745,11 +918,100 @@ def main():
     if recommendations.get('error'):
         print("Step 4 失败")
 
-    # Step 5: 交易执行
+    # Step 5: 风控检查 + 人工审批 + 交易执行
     if not args.skip_trades:
-        trades = handler.step5_execute_trades(recommendations)
-        if trades.get('error'):
-            print("Step 5 失败")
+        print("\n" + "=" * 60)
+        print("Step 5: 风控检查 + 人工审批 + 交易执行")
+        print("=" * 60)
+
+        # 导入风控和审批模块
+        from risk_manager import risk_check, get_position
+        from approval_manager import send_trade_approval, wait_for_approval
+
+        # 获取当前持仓
+        current_position = get_position()
+
+        # 对每个推荐进行风控检查和审批
+        approved_recommendations = []
+        for rec in recommendations.get('recommendations', []):
+            if rec.get('action') != 'BUY':
+                continue
+
+            # 构建订单
+            order = {
+                "code": rec.get('code', ''),
+                "action": "BUY",
+                "price": rec.get('price', 0),
+                "quantity": 100,  # 默认数量
+                "position_ratio": rec.get('confidence', 0.5) * 0.1  # 基于置信度估算仓位
+            }
+
+            # 风控检查
+            risk_result = risk_check(order, current_position)
+            print(f"\n风控检查 {rec.get('code')}: {'✅ 通过' if risk_result['passed'] else '❌ 阻止'}")
+
+            if not risk_result['passed']:
+                print(f"  阻止原因：{risk_result['block_reason']}")
+                continue
+
+            # 打印警告
+            for warning in risk_result['warnings']:
+                print(f"  ⚠️  警告：{warning}")
+
+            # 大额交易确认
+            if risk_result['requires_confirmation']:
+                print(f"  ⚠️  大额交易，需要确认：{risk_result['confirmation_reason']}")
+
+                if args.with_approval:
+                    # 发送审批
+                    approval_result = send_trade_approval(rec, args.market)
+                    approval_id = approval_result.get('approval_id')
+
+                    if approval_id:
+                        print(f"  审批请求已发送：{approval_id}")
+                        print(f"  等待用户确认...")
+
+                        # 等待审批 (最多 5 分钟)
+                        wait_result = wait_for_approval(approval_id, timeout_minutes=5)
+
+                        if wait_result.get('status') == 'approved':
+                            print(f"  ✅ 审批通过")
+                            # 应用修改后的仓位
+                            if wait_result.get('modified_position_ratio'):
+                                rec['position_ratio'] = wait_result['modified_position_ratio']
+                            approved_recommendations.append(rec)
+                        elif wait_result.get('status') == 'rejected':
+                            print(f"  ❌ 审批拒绝")
+                        else:
+                            print(f"  ⏰ 审批超时")
+                    continue
+
+            # 无需审批或已通过，加入执行列表
+            approved_recommendations.append(rec)
+
+        # 执行交易
+        if approved_recommendations:
+            # 更新推荐列表为审批通过的结果
+            recommendations['recommendations'] = approved_recommendations
+            trades = handler.step5_execute_trades(recommendations)
+            if trades.get('error'):
+                print("Step 5 失败")
+        else:
+            print("\n⚠️  无股票可交易 (全部未通过风控或审批)")
+
+    # Step 6: 每日复盘报告
+    if not args.skip_review:
+        print("\n" + "=" * 60)
+        print("Step 6: 生成每日复盘报告")
+        print("=" * 60)
+
+        from daily_review import generate_daily_review
+
+        try:
+            review_report = generate_daily_review(args.date)
+            print(f"\n✅ 复盘报告已生成")
+        except Exception as e:
+            print(f"\n⚠️  复盘报告生成失败：{e}")
 
     # 保存结果
     handler.save_results()

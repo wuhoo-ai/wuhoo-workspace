@@ -36,21 +36,24 @@ class FundamentalAdapter:
         """初始化"""
         self.cache: Dict[str, Dict] = {}
         self.cache_ttl = 3600  # 1 小时缓存（基本面数据变化慢）
-        
+
         # 检测可用数据源
         self.ts_available = self._check_tushare()
         self.ak_available = self._check_akshare()
         self.qlib_available = self._check_qlib()
-        
+        self.futu_available = self._check_futu()
+
         # 数据源优先级
         self.data_priority = []
         if self.ts_available:
             self.data_priority.append("tushare")
+        if self.futu_available:
+            self.data_priority.append("futu")  # 富途优先级高于 AkShare
         if self.ak_available:
             self.data_priority.append("akshare")
         if self.qlib_available:
             self.data_priority.append("qlib")
-        
+
         print(f"[Fundamental] 数据源优先级：{self.data_priority if self.data_priority else ['degraded']}")
     
     def _check_tushare(self) -> bool:
@@ -122,6 +125,31 @@ class FundamentalAdapter:
         print("[Fundamental] ❌ Qlib: 未找到数据")
         return False
     
+    def _check_futu(self) -> bool:
+        """检查富途 OpenAPI 是否可用"""
+        try:
+            from futu import OpenQuoteContext
+            import os
+            host = os.environ.get('FUTU_HOST', '127.0.0.1')
+            port = int(os.environ.get('FUTU_PORT', 11111))
+
+            # 尝试连接
+            quote_ctx = OpenQuoteContext(host=host, port=port)
+            # 尝试获取一个港股行情
+            ret, data = quote_ctx.get_market_snapshot('HK.00700')
+            quote_ctx.close()
+
+            if ret == 0:
+                print("[Fundamental] ✅ 富途 OpenAPI: 已连接")
+                return True
+            else:
+                print(f"[Fundamental] ⚠️ 富途 OpenAPI: 连接失败")
+        except Exception as e:
+            print(f"[Fundamental] ⚠️ 富途 OpenAPI: 检查失败 - {e}")
+
+        print("[Fundamental] ❌ 富途 OpenAPI: 不可用")
+        return False
+
     def get_fundamental_data(self, symbol: str) -> Dict:
         """
         获取基本面数据（带优先级和降级处理）
@@ -147,6 +175,8 @@ class FundamentalAdapter:
             try:
                 if source == "tushare":
                     data = self._fetch_from_tushare(symbol)
+                elif source == "futu":
+                    data = self._fetch_from_futu(symbol)
                 elif source == "akshare":
                     data = self._fetch_from_akshare(symbol)
                 elif source == "qlib":
@@ -247,9 +277,41 @@ except Exception as e:
                     print(f"[Fundamental] Tushare 错误：{err.get('error', 'unknown')}")
         except Exception as e:
             print(f"[Fundamental] Tushare 错误：{e}")
-        
+
         return None
-    
+
+    def _fetch_from_futu(self, symbol: str) -> Optional[Dict]:
+        """从富途 OpenAPI 获取港股/美股基本面数据"""
+        try:
+            from futu import OpenQuoteContext
+            import os
+
+            host = os.environ.get('FUTU_HOST', '127.0.0.1')
+            port = int(os.environ.get('FUTU_PORT', 11111))
+
+            quote_ctx = OpenQuoteContext(host=host, port=port)
+            ret, data = quote_ctx.get_market_snapshot(symbol)
+            quote_ctx.close()
+
+            if ret == 0 and len(data) > 0:
+                row = data.iloc[0]
+                result = {
+                    "pe": float(row['pe']) if 'pe' in row and row['pe'] not in [None, '', 0] else None,
+                    "pb": float(row['pb']) if 'pb' in row and row['pb'] not in [None, '', 0] else None,
+                    "ps": float(row['ps']) if 'ps' in row and row['ps'] not in [None, '', 0] else None,
+                    "price": float(row['last_price']) if 'last_price' in row else None,
+                    "change_pct": float(row['change_pct']) / 100 if 'change_pct' in row else None,
+                    "volume": int(row['volume']) if 'volume' in row else None,
+                    "turnover_rate": float(row['turnover_rate']) / 100 if 'turnover_rate' in row else None,
+                    "market_cap": float(row['market_cap']) if 'market_cap' in row else None,
+                    "pe_ttm": float(row['pe_ttm']) if 'pe_ttm' in row and row['pe_ttm'] not in [None, '', 0] else None,
+                }
+                return result
+        except Exception as e:
+            print(f"[Fundamental] 富途错误：{e}")
+
+        return None
+
     def _fetch_from_akshare(self, symbol: str) -> Optional[Dict]:
         """从 AkShare 获取基本面数据"""
         try:

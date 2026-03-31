@@ -119,26 +119,23 @@ class TrendRadarAdapter:
         }
     
     def _get_mock_sentiment(self, symbol: str, company_name: Optional[str]) -> Dict:
-        """生成模拟舆情数据"""
-        hash_val = hash(symbol) % 100
-        
-        # 基于股票代码生成热点话题
-        topics_pool = ["AI", "芯片", "新能源", "跨境电商", "直播", "量化交易", "5G", "半导体"]
-        selected_topics = [topics_pool[hash_val % len(topics_pool)], 
-                          topics_pool[(hash_val + 3) % len(topics_pool)]]
-        
-        sentiment = (hash_val % 100 - 50) / 100  # -0.5 to +0.5
-        
+        """
+        返回中性舆情数据（当所有真实数据源失败时）
+
+        ⚠️ 注意：此函数仅用于降级，不应参与真实交易决策
+        """
+        # 不再返回模拟数据，仅返回错误标识
         return {
-            "sentiment_score": sentiment,
-            "hot_topics": selected_topics,
-            "news_count": 5 + (hash_val % 20),
-            "positive_ratio": 0.4 + (hash_val % 40) / 100,
-            "negative_ratio": 0.2 + (hash_val % 30) / 100,
-            "neutral_ratio": 0.2,
-            "trending_rank": 1 + (hash_val % 20),
+            "sentiment_score": 0.0,
+            "sentiment_label": "unavailable",
+            "hot_topics": [],
+            "news_count": 0,
+            "positive_ratio": 0,
+            "negative_ratio": 0,
+            "neutral_ratio": 1,
+            "trending_rank": None,
             "last_updated": datetime.now().isoformat(),
-            "note": "Mock data (TrendRadar not fully integrated)"
+            "warning": "⚠️ 舆情数据不可用，该股票不应参与交易决策"
         }
     
     def get_hot_topics(self, limit: int = 10) -> List[Dict]:
