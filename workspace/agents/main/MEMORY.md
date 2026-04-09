@@ -155,23 +155,23 @@ QuantaAlpha: ~/workspace/agents/main/skills/quantaalpha-deep/
 | 04-01 | A 股选股执行 |
 | 04-07 | A 股 Workflow C 分析（10 只候选，全部未通过风控） |
 | 04-08 | 模型切换到 qwen3.6-plus，记忆系统重建 |
+| 04-09 | OpenClaw 升级至 2026.4.9，删除钉钉/企微通道，审批改微信，Workflow B 重构，subprocess 安全修复 |
 
 ---
 
 ## 🔄 待办
 
 ### 紧急
-- [ ] 完善 MEMORY.md 更新机制（防止再次中断）
 - [ ] 验证 WeChat 审批流程端到端可用性
+- [ ] 重启 Gateway 使新配置生效
 
 ### 重要
 - [ ] QuantaAlpha 因子挖掘集成到 Workflow A
 - [ ] 实盘切换准备（小仓位测试）
 - [ ] 数据完整性监控
-- [ ] akshare-stock 安全风险修复
 
 ### 长期
-- [ ] 辩论 agent 完整实现
+- [ ] 辩论 agent 完整实现（当前简化分析可用）
 - [ ] 人工确认流程优化
 - [ ] 回测模块完善
 - [ ] 性能监控与告警
