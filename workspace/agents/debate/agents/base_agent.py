@@ -133,9 +133,6 @@ class BaseAgent(ABC):
         if response.status_code != 200:
             raise Exception(f"LLM API error: {response.status_code} - {response.text}")
         
-        if response.status_code != 200:
-            raise Exception(f"LLM API error: {response.status_code} - {response.text}")
-        
         result = response.json()
         content = result["choices"][0]["message"]["content"]
         

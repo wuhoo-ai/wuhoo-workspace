@@ -83,7 +83,7 @@ class AkShareAdapter:
         """
         从 Tushare 获取日K线数据并计算技术指标
 
-        使用 subprocess 调用 python3.11 避免环境冲突
+        使用环境变量传递参数，避免 f-string 拼接导致的代码注入风险
         """
         try:
             import subprocess
@@ -92,21 +92,23 @@ class AkShareAdapter:
             if not ts_token:
                 return self._get_mock_data(symbol)
 
-            code = f'''
+            # 使用环境变量传递参数，而非 f-string 拼接（安全修复）
+            code = '''
 import tushare as ts
 import pandas as pd
 import numpy as np
 import json
+import os
 import sys
 
-ts_token = "{ts_token[:30]}"
-symbol = "{symbol}"
+ts_token = os.environ.get('TUSHARE_TOKEN', '')
+symbol = os.environ.get('SYMBOL', '')
 
 # 转换代码格式：600519.SH -> 600519.SH (Tushare 使用相同格式)
 ts_code = symbol
 
 # 获取最近 120 个交易日的日线数据
-pro = ts.pro_api()
+pro = ts.pro_api(ts_token)
 from datetime import datetime, timedelta
 end_date = datetime.now().strftime('%Y%m%d')
 start_date = (datetime.now() - timedelta(days=180)).strftime('%Y%m%d')
@@ -114,11 +116,11 @@ start_date = (datetime.now() - timedelta(days=180)).strftime('%Y%m%d')
 try:
     df = pro.daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
 except Exception as e:
-    print(json.dumps({{"error": str(e), "data_quality": "degraded"}}))
+    print(json.dumps({"error": str(e), "data_quality": "degraded"}))
     sys.exit(0)
 
 if df is None or len(df) < 30:
-    print(json.dumps({{"error": "数据不足", "data_quality": "degraded"}}))
+    print(json.dumps({"error": "数据不足", "data_quality": "degraded"}))
     sys.exit(0)
 
 df = df.sort_values('trade_date').reset_index(drop=True)
@@ -213,17 +215,17 @@ else:
 support = float(np.min(low[-20:])) if len(low) >= 20 else current_price * 0.95
 resistance = float(np.max(high[-20:])) if len(high) >= 20 else current_price * 1.05
 
-result = {{
+result = {
     "macd": macd_state,
     "macd_value": round(float(macd_val), 4),
     "signal_value": round(float(signal_val), 4),
     "macd_histogram": round(float(macd_hist), 4),
     "rsi": round(float(rsi), 2),
-    "kdj": {{
+    "kdj": {
         "k": round(float(k_val), 2),
         "d": round(float(d_val), 2),
         "j": round(float(j_val), 2)
-    }},
+    },
     "trend": trend,
     "signal": signal,
     "ma5": round(float(ma5), 2),
@@ -242,17 +244,23 @@ result = {{
     "data_source": "tushare_daily",
     "trade_days": len(df),
     "last_updated": datetime.now().isoformat()
-}}
+}
 
 print(json.dumps(result))
 '''
+
+            # 通过环境变量安全传递参数
+            env = os.environ.copy()
+            env['TUSHARE_TOKEN'] = ts_token
+            env['SYMBOL'] = symbol
 
             result = subprocess.run(
                 ['/usr/bin/python3.11', '-c', code],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 universal_newlines=True,
-                timeout=30
+                timeout=30,
+                env=env
             )
 
             output = result.stdout.strip()
@@ -324,26 +332,35 @@ print(json.dumps(result))
             try:
                 import subprocess
                 ts_token = os.environ.get('TUSHARE_TOKEN', '') or os.environ.get('TS_TOKEN', '')
-                code = f'''
-import tushare as ts, pandas as pd, json
+                # 使用环境变量传递参数，避免 f-string 注入（安全修复）
+                code = '''
+import tushare as ts, pandas as pd, json, os
 from datetime import datetime, timedelta
-pro = ts.pro_api()
+pro = ts.pro_api(os.environ.get('TUSHARE_TOKEN', ''))
 end = datetime.now().strftime('%Y%m%d')
-start = (datetime.now() - timedelta(days={days * 2})).strftime('%Y%m%d')
-df = pro.daily(ts_code="{symbol}", start_date=start, end_date=end)
+start = (datetime.now() - timedelta(days=int(os.environ.get('FETCH_DAYS', '120')))).strftime('%Y%m%d')
+symbol = os.environ.get('SYMBOL', '')
+df = pro.daily(ts_code=symbol, start_date=start, end_date=end)
 if df is not None and len(df) > 0:
-    df = df.sort_values('trade_date').tail({days})
+    df = df.sort_values('trade_date').tail(int(os.environ.get('TAIL_DAYS', '60')))
     records = df[['trade_date','open','high','low','close','vol']].to_dict('records')
     print(json.dumps(records, ensure_ascii=False))
 else:
     print("[]")
 '''
+                env = os.environ.copy()
+                env['TUSHARE_TOKEN'] = ts_token
+                env['SYMBOL'] = symbol
+                env['FETCH_DAYS'] = str(days * 2)
+                env['TAIL_DAYS'] = str(days)
+
                 result = subprocess.run(
                     ['/usr/bin/python3.11', '-c', code],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     universal_newlines=True,
-                    timeout=30
+                    timeout=30,
+                    env=env
                 )
                 if result.stdout.strip():
                     return json.loads(result.stdout.strip())
