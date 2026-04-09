@@ -298,48 +298,6 @@
     "dmScope": "main"
   },
   "channels": {
-    "dingtalk": {
-      "enabled": false,
-      "clientId": "${DINGTALK_CLIENT_ID}",
-      "clientSecret": "${DINGTALK_CLIENT_SECRET}",
-      "dmPolicy": "open",
-      "groupPolicy": "closed",
-      "enableAICard": true,
-      "longTaskNoticeDelayMs": 30000,
-      "maxFileSizeMB": 100,
-      "showThinking": true,
-      "allowFrom": [
-        "01443329476136537748",
-        "*"
-      ],
-      "sessionTimeout": 3600,
-      "heartbeatInterval": 300,
-      "preserveSession": true,
-      "autoReconnect": true,
-      "sessionPersistence": true,
-      "inboundMedia": {
-        "dir": "/home/admin/.openclaw/media/dingtalk/inbound",
-        "keepDays": 7
-      }
-    },
-    "wecom": {
-      "enabled": false,
-      "mode": "ws",
-      "botId": "${WECOM_BOT_ID}",
-      "secret": "${WECOM_SECRET}",
-      "dmPolicy": "open",
-      "groupPolicy": "closed",
-      "showThinking": true,
-      "allowFrom": [
-        "haohaijiao",
-        "*"
-      ],
-      "sessionTimeout": 3600,
-      "heartbeatInterval": 300,
-      "preserveSession": true,
-      "autoReconnect": true,
-      "sessionPersistence": true
-    },
     "openclaw-weixin": {
       "channelConfigUpdatedAt": "2026-04-09T04:55:47.117Z"
     }
@@ -485,7 +443,6 @@
   },
   "plugins": {
     "allow": [
-      "channels",
       "memory-core",
       "device-pair",
       "phone-control",
@@ -494,15 +451,9 @@
       "openclaw-weixin"
     ],
     "load": {
-      "paths": [
-        "/home/admin/.openclaw/extensions/openclaw-china/packages/channels"
-      ]
+      "paths": []
     },
     "entries": {
-      "channels": {
-        "enabled": true,
-        "config": {}
-      },
       "llm-task": {
         "enabled": true
       },

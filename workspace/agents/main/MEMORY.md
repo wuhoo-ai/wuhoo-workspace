@@ -18,9 +18,8 @@ _最后更新: 2026-04-08_
 - web_fetch 配合 Jina 读取 URL 全文
 
 ### 渠道配置
-- **DingTalk**: 已配置，dmPolicy=open，allowFrom 包含 `01443329476136537748` 和 `*`
-- `message` 工具 send 正常可用，**sendAttachment 可能报 plugin not loaded**（Gateway 运行时问题）
-- 备选方案：直接用 curl 调钉钉 API 发送
+- **WeChat**: 唯一通道，通过 openclaw-weixin 插件
+- 审批消息通过消息队列文件传递，用户通过微信回复关键词
 
 ---
 
@@ -135,8 +134,7 @@ QuantaAlpha: ~/workspace/agents/main/skills/quantaalpha-deep/
 ## ⚠️ 教训与注意事项
 
 1. **凭证优先查 `.env`**，不要用 `openclaw config get` 拿敏感信息
-2. **DingTalk sendAttachment 可能失败**，用文本消息 + 文件路径作为备选
-3. **记忆维护**: MEMORY.md 需要定期更新，日志不能断
+2. **记忆维护**: MEMORY.md 需要定期更新，日志不能断
 4. **数据问题**: 成分股文件曾被清空，注意数据完整性检查
 5. **模拟盘优先**: 新策略必须先模拟盘验证
 
@@ -164,7 +162,7 @@ QuantaAlpha: ~/workspace/agents/main/skills/quantaalpha-deep/
 
 ### 紧急
 - [ ] 完善 MEMORY.md 更新机制（防止再次中断）
-- [ ] 检查 DingTalk sendAttachment 功能
+- [ ] 验证 WeChat 审批流程端到端可用性
 
 ### 重要
 - [ ] QuantaAlpha 因子挖掘集成到 Workflow A

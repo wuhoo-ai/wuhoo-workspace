@@ -4,8 +4,7 @@
 交易审批管理模块
 
 支持渠道:
-- DingTalk (已验证)
-- WeChat (待验证)
+- WeChat (通过 openclaw-weixin 插件)
 
 功能:
 1. 发送交易审批请求
@@ -17,7 +16,6 @@
 import os
 import sys
 import json
-import subprocess
 import re
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -31,8 +29,9 @@ APPROVAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
 # 审批超时配置 (小时)
 APPROVAL_TIMEOUT_HOURS = 24
 
-# DingTalk 配置
-DINGTALK_USER_ID = os.environ.get('DINGTALK_USER_ID', '01443329476136537748')
+# 审批消息队列目录 (openclaw-weixin 插件读取此目录)
+APPROVAL_MESSAGE_DIR = Path(__file__).parent / "data" / "approval_messages"
+APPROVAL_MESSAGE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 @dataclass
@@ -239,31 +238,18 @@ class ApprovalManager:
         return ''
 
     def _send_message(self, message: str) -> bool:
-        """发送消息到 DingTalk"""
+        """发送消息到微信（通过 openclaw-weixin 插件消息队列）"""
         try:
-            # 使用 notify.py 脚本发送
-            notify_script = Path.home() / '.openclaw' / 'scripts' / 'notify.py'
-            if not notify_script.exists():
-                print(f"notify.py 不存在：{notify_script}")
-                return False
+            # 将消息写入队列文件，openclaw-weixin 插件会读取并推送
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            msg_file = APPROVAL_MESSAGE_DIR / f"approval_{timestamp}.txt"
 
-            result = subprocess.run(
-                ["python3", str(notify_script), message],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=30
-            )
+            with open(msg_file, 'w', encoding='utf-8') as f:
+                f.write(message)
 
-            if result.returncode == 0:
-                return True
-            else:
-                stderr = result.stderr.decode('utf-8') if result.stderr else ""
-                print(f"发送失败：{stderr}")
-                return False
+            print(f"审批消息已写入队列：{msg_file}")
+            return True
 
-        except subprocess.TimeoutExpired:
-            print("发送超时")
-            return False
         except Exception as e:
             print(f"发送异常：{e}")
             return False
