@@ -155,17 +155,17 @@ class WebSearchSentimentAdapter:
     
     def _search_jina(self, query: str) -> List[Dict[str, Any]]:
         """使用 Jina AI API 搜索"""
-        url = "https://api.jina.ai/v1/search"
+        url = "https://s.jina.ai/"
         
         headers = {
             "Authorization": f"Bearer {self.jina_api_key}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
-        
+
         payload = {
             "q": query,
             "count": self.max_results,
-            "freshness": "week"  # 最近一周
         }
         
         try:
@@ -174,12 +174,13 @@ class WebSearchSentimentAdapter:
             data = response.json()
             
             results = []
-            for result in data.get("data", []):
+            search_results = data.get("data", []) or []
+            for result in search_results:
                 results.append({
                     "title": result.get("title", ""),
                     "url": result.get("url", ""),
-                    "content": result.get("snippet", ""),
-                    "published_date": result.get("date", ""),
+                    "content": result.get("snippet", result.get("description", "")),
+                    "published_date": result.get("date", result.get("published", "")),
                     "source": "jina"
                 })
             

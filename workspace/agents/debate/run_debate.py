@@ -149,14 +149,24 @@ def run_full_debate(
     
     # 8. 完成辩论
     record = protocol.finalize(action=action, reason=reason)
-    
+
+    # 附加数据质量信息
+    result_dict = record.to_dict()
+    if use_real_data:
+        result_dict['data_quality'] = data.get('data_quality', {})
+        result_dict['sentiment_summary'] = {
+            'source': data.get('sentiment_data', {}).get('source', 'unknown'),
+            'label': data.get('sentiment_data', {}).get('sentiment_label', 'unknown'),
+            'score': data.get('sentiment_data', {}).get('sentiment_score', 0),
+        }
+
     print("="*60)
     print("✅ 辩论完成：{}".format(record.debate_id))
     print("   最终动作：{}".format(action))
     print("   原因：{}".format(reason))
     print("="*60 + "\n")
-    
-    return record.to_dict()
+
+    return result_dict
 
 
 def _get_mock_data(symbol: str) -> Dict:

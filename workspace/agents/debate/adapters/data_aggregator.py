@@ -14,8 +14,28 @@ Data Aggregator - 数据聚合器（真实数据版本）
 """
 
 import json
+import os
+from pathlib import Path
 from typing import Dict, Any, Optional
 from datetime import datetime
+
+# 加载 .env 文件（如果环境变量未设置）
+def _load_env_file():
+    """从 ~/.openclaw/.env 加载 API Key 等配置"""
+    env_file = Path.home() / '.openclaw' / '.env'
+    if not env_file.exists():
+        return
+    with open(env_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, value = line.split('=', 1)
+                key = key.strip()
+                value = value.strip()
+                if key and value and key not in os.environ:
+                    os.environ[key] = value
+
+_load_env_file()
 
 from .quantaalpha_adapter import QuantaAlphaAdapter
 from .trendradar_adapter import TrendRadarAdapter
@@ -71,7 +91,8 @@ class DataAggregator:
         
         # 获取各数据源（按优先级）
         factor_data = self.quantaalpha.get_factor_scores(symbol)
-        sentiment_data = self.trendradar.get_sentiment_data(symbol, company_name)
+        # 获取综合舆情数据（TrendRadar + WebSearch 加权合并）
+        sentiment_data = self._get_combined_sentiment(symbol, company_name)
         technical_data = self.akshare.get_technical_data(symbol)
         
         # 获取基本面数据（真实数据优先）
@@ -86,6 +107,7 @@ class DataAggregator:
             "technical": technical_data.get('data_source', 'unknown'),
             "fundamental": fundamental_data.get('data_source', 'unknown'),
             "sentiment": sentiment_data.get('source', 'unknown'),
+            "sentiment_sources": sentiment_data.get('sources', []),
             "timestamp": datetime.now().isoformat()
         }
         
@@ -93,7 +115,7 @@ class DataAggregator:
         data_quality_ok = (
             factor_data.get('data_source') in ['quantaalpha_real_data', 'quantaalpha'] and
             fundamental_data.get('data_quality') == 'real' and
-            sentiment_data.get('sentiment_label') != 'unavailable'  # 舆情数据必须可用
+            sentiment_data.get('source') != 'none'  # 至少有一个舆情数据源
         )
         
         # 聚合数据
@@ -136,54 +158,70 @@ class DataAggregator:
     def _get_combined_sentiment(self, symbol: str, company_name: Optional[str]) -> Dict:
         """
         获取综合舆情数据 (整合多个数据源)
-        
+
         策略:
-        1. TrendRadar (主要)
-        2. Web Search (补充，Tavily/Jina)
-        3. 加权平均
+        1. TrendRadar (主要，提供市场整体情绪 + 股票相关新闻)
+        2. Web Search (补充，当 API Key 配置时启用，提供个股精准舆情)
+        3. 加权平均 (如果 WebSearch 可用则合并，否则仅用 TrendRadar)
         """
         sentiment_sources = []
-        
-        # 源 1: TrendRadar
+
+        # 源 1: TrendRadar (总是调用)
         try:
             tr_sentiment = self.trendradar.get_sentiment_data(symbol, company_name)
             if tr_sentiment and tr_sentiment.get("sentiment_score") is not None:
+                weight = 0.4  # TrendRadar 提供市场基准情绪
+                if tr_sentiment.get("stock_news_count", 0) > 0:
+                    weight = 0.6  # 有股票相关新闻时增加权重
+
                 sentiment_sources.append({
                     "source": "trendradar",
                     "score": tr_sentiment["sentiment_score"],
-                    "weight": 0.6,  # 60% 权重
+                    "weight": weight,
                     "data": tr_sentiment
                 })
         except Exception as e:
             print(f"TrendRadar 舆情获取失败：{e}")
-        
-        # 源 2: Web Search
-        try:
-            ws_sentiment = self.web_search.get_sentiment_data(symbol, company_name or "")
-            if ws_sentiment and ws_sentiment.get("sentiment_score") is not None:
-                sentiment_sources.append({
-                    "source": "web_search",
-                    "score": ws_sentiment["sentiment_score"],
-                    "weight": 0.4,  # 40% 权重
-                    "data": ws_sentiment
-                })
-        except Exception as e:
-            print(f"Web Search 舆情获取失败：{e}")
-        
+
+        # 源 2: Web Search (选择性执行，仅在 API Key 配置时调用)
+        if self.web_search.primary_source in ("tavily", "jina"):
+            try:
+                ws_sentiment = self.web_search.get_sentiment_data(symbol, company_name or "")
+                if ws_sentiment and ws_sentiment.get("sentiment_score") is not None:
+                    ws_weight = 0.6
+                    if not any(s["source"] == "trendradar" for s in sentiment_sources):
+                        ws_weight = 1.0  # TrendRadar 不可用时 WebSearch 成为唯一来源
+
+                    sentiment_sources.append({
+                        "source": "web_search",
+                        "score": ws_sentiment["sentiment_score"],
+                        "weight": ws_weight,
+                        "data": ws_sentiment
+                    })
+            except Exception as e:
+                print(f"Web Search 舆情获取失败：{e}")
+        else:
+            print(f"Web Search 未配置 API Key (Tavily/Jina)，跳过")
+
         # 如果没有有效数据源，返回中性数据
         if not sentiment_sources:
             return {
-                "sentiment_score": 0.0,
-                "sentiment_label": "neutral",
                 "source": "none",
-                "note": "所有舆情数据源失败"
+                "sentiment_score": 0.0,
+                "sentiment_label": "unavailable",
+                "hot_topics": [],
+                "news_count": 0,
+                "positive_ratio": 0,
+                "negative_ratio": 0,
+                "neutral_ratio": 1,
+                "note": "所有舆情数据源失败或未配置"
             }
-        
+
         # 加权平均计算综合评分
         total_weight = sum(s["weight"] for s in sentiment_sources)
         weighted_score = sum(s["score"] * s["weight"] for s in sentiment_sources)
         combined_score = weighted_score / total_weight if total_weight > 0 else 0.0
-        
+
         # 确定情感标签
         if combined_score > 0.2:
             label = "positive"
@@ -191,19 +229,25 @@ class DataAggregator:
             label = "negative"
         else:
             label = "neutral"
-        
+
         # 合并热点话题
         all_topics = []
         for s in sentiment_sources:
-            all_topics.extend(s["data"].get("hot_topics", [])[:3])
-        
+            topics = s["data"].get("hot_topics", [])
+            if isinstance(topics, list):
+                all_topics.extend(topics[:3])
+
+        # 合并新闻数量
+        total_news = sum(s["data"].get("news_count", 0) for s in sentiment_sources)
+
         return {
+            "source": "combined",
             "sentiment_score": round(combined_score, 3),
             "sentiment_label": label,
             "positive_ratio": sum(s["data"].get("positive_ratio", 0) * s["weight"] for s in sentiment_sources) / total_weight,
             "negative_ratio": sum(s["data"].get("negative_ratio", 0) * s["weight"] for s in sentiment_sources) / total_weight,
-            "news_count": sum(s["data"].get("news_count", 0) for s in sentiment_sources),
-            "hot_topics": list(set(all_topics))[:5],  # 去重，保留前 5
+            "news_count": total_news,
+            "hot_topics": list(dict.fromkeys(all_topics))[:5],  # 去重保留顺序，前 5
             "sources": [s["source"] for s in sentiment_sources],
             "last_updated": datetime.now().isoformat()
         }

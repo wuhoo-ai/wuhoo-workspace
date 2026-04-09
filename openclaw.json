@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.13",
-    "lastTouchedAt": "2026-03-23T10:02:29.914Z"
+    "lastTouchedVersion": "2026.3.28",
+    "lastTouchedAt": "2026-04-09T04:55:47.165Z"
   },
   "env": {
     "PATH": "/home/admin/local/node-v22.16.0-linux-x64/bin:/home/admin/.local/bin:/home/admin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -16,10 +16,27 @@
     "mode": "merge",
     "providers": {
       "bailian": {
-        "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
         "apiKey": "${BAILIAN_API_KEY}",
         "api": "openai-completions",
         "models": [
+          {
+            "id": "qwen3.6-plus",
+            "name": "qwen3.6-plus",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 1000000,
+            "maxTokens": 65536
+          },
           {
             "id": "qwen3.5-plus",
             "name": "qwen3.5-plus",
@@ -156,10 +173,9 @@
   },
   "agents": {
     "defaults": {
-      "model": {
-        "primary": "bailian/qwen3.5-plus"
-      },
+      "model": "bailian/qwen3.6-plus",
       "models": {
+        "bailian/qwen3.6-plus": {},
         "bailian/qwen3.5-plus": {},
         "bailian/qwen3-max-2026-01-23": {},
         "bailian/qwen3-coder-next": {},
@@ -184,8 +200,9 @@
         "id": "main",
         "workspace": "/home/admin/.openclaw/workspace/agents/main",
         "model": {
-          "primary": "bailian/qwen3.5-plus",
+          "primary": "bailian/qwen3.6-plus",
           "fallbacks": [
+            "bailian/qwen3.5-plus",
             "bailian/MiniMax-M2.5"
           ]
         },
@@ -282,46 +299,49 @@
   },
   "channels": {
     "dingtalk": {
-      "enabled": true,
+      "enabled": false,
       "clientId": "${DINGTALK_CLIENT_ID}",
       "clientSecret": "${DINGTALK_CLIENT_SECRET}",
-      "robotCode": "${DINGTALK_ROBOT_CODE}",
-      "corpId": "${DINGTALK_CORP_ID}",
-      "agentId": 4314706415,
       "dmPolicy": "open",
       "groupPolicy": "closed",
-      "messageType": "markdown",
+      "enableAICard": true,
+      "longTaskNoticeDelayMs": 30000,
+      "maxFileSizeMB": 100,
       "showThinking": true,
       "allowFrom": [
         "01443329476136537748",
         "*"
       ],
-      "requireMention": false,
+      "sessionTimeout": 3600,
+      "heartbeatInterval": 300,
+      "preserveSession": true,
+      "autoReconnect": true,
+      "sessionPersistence": true,
+      "inboundMedia": {
+        "dir": "/home/admin/.openclaw/media/dingtalk/inbound",
+        "keepDays": 7
+      }
+    },
+    "wecom": {
+      "enabled": false,
+      "mode": "ws",
+      "botId": "${WECOM_BOT_ID}",
+      "secret": "${WECOM_SECRET}",
+      "dmPolicy": "open",
+      "groupPolicy": "closed",
+      "showThinking": true,
+      "allowFrom": [
+        "haohaijiao",
+        "*"
+      ],
       "sessionTimeout": 3600,
       "heartbeatInterval": 300,
       "preserveSession": true,
       "autoReconnect": true,
       "sessionPersistence": true
     },
-    "wecom": {
-      "enabled": true,
-      "mode": "ws",
-      "botId": "${WECOM_BOT_ID}",
-      "secret": "${WECOM_SECRET}",
-      "dmPolicy": "open",
-      "groupPolicy": "closed",
-      "messageType": "markdown",
-      "showThinking": true,
-      "allowFrom": [
-        "haohaijiao",
-        "*"
-      ],
-      "requireMention": false,
-      "sessionTimeout": 3600,
-      "heartbeatInterval": 300,
-      "preserveSession": true,
-      "autoReconnect": true,
-      "sessionPersistence": true
+    "openclaw-weixin": {
+      "channelConfigUpdatedAt": "2026-04-09T04:55:47.117Z"
     }
   },
   "gateway": {
@@ -354,6 +374,13 @@
     "reload": {
       "mode": "hybrid",
       "debounceMs": 300
+    },
+    "http": {
+      "endpoints": {
+        "chatCompletions": {
+          "enabled": true
+        }
+      }
     }
   },
   "skills": {
@@ -463,6 +490,7 @@
       "device-pair",
       "phone-control",
       "talk-voice",
+      "openclaw-observability",
       "openclaw-weixin"
     ],
     "load": {
@@ -472,7 +500,8 @@
     },
     "entries": {
       "channels": {
-        "enabled": true
+        "enabled": true,
+        "config": {}
       },
       "llm-task": {
         "enabled": true
@@ -480,23 +509,43 @@
       "lobster": {
         "enabled": true
       },
+      "openclaw-observability": {
+        "enabled": true,
+        "config": {
+          "mode": "local"
+        }
+      },
       "openclaw-weixin": {
-        "enabled": true
+        "enabled": true,
+        "config": {}
       }
     },
     "installs": {
+      "openclaw-observability": {
+        "source": "npm",
+        "spec": "openclaw-observability",
+        "installPath": "/home/admin/.openclaw/extensions/openclaw-observability",
+        "version": "2026.3.26",
+        "resolvedName": "openclaw-observability",
+        "resolvedVersion": "2026.3.26",
+        "resolvedSpec": "openclaw-observability@2026.3.26",
+        "integrity": "sha512-lbVzW1ioe4DmmeSS5FAikgkdtlYN50uemwnXKeo8R9V1xkbRkV+uGJ+xbyyKwam6udJFrTth562q4jtdCs4ZHA==",
+        "shasum": "146a1da64f2fbd411d167b442ba048372ebcf3a8",
+        "resolvedAt": "2026-04-01T13:07:08.005Z",
+        "installedAt": "2026-04-01T13:07:40.378Z"
+      },
       "openclaw-weixin": {
         "source": "npm",
         "spec": "@tencent-weixin/openclaw-weixin",
         "installPath": "/home/admin/.openclaw/extensions/openclaw-weixin",
-        "version": "1.0.2",
+        "version": "2.1.7",
         "resolvedName": "@tencent-weixin/openclaw-weixin",
-        "resolvedVersion": "1.0.2",
-        "resolvedSpec": "@tencent-weixin/openclaw-weixin@1.0.2",
-        "integrity": "sha512-kYPEowHB/0VWt9nQFee/AS6Fb+jbnu38wjkgZDBdKTuJoBL0IBW2obQ0ymgFKBFJJL9rDwnFrb/17ORGZD/X8Q==",
-        "shasum": "244baf0a873683a9c350d0f0b5bc055c07b0eb39",
-        "resolvedAt": "2026-03-23T09:28:28.503Z",
-        "installedAt": "2026-03-23T09:28:49.487Z"
+        "resolvedVersion": "2.1.7",
+        "resolvedSpec": "@tencent-weixin/openclaw-weixin@2.1.7",
+        "integrity": "sha512-2x5/mbO2IVAsN4aUA41g6i8O84WIJCeFj8kwmB2pGjuxIBVy5FnEI5n52Pc5xroOLbxzW5FXN4cDtc/PvvKghg==",
+        "shasum": "94487d55a4e9e5e091e0997deaf4598f9c79bdba",
+        "resolvedAt": "2026-04-09T03:54:41.618Z",
+        "installedAt": "2026-04-09T03:55:09.339Z"
       }
     }
   }

@@ -1,0 +1,50 @@
+{
+  "name": "openclaw-observability",
+  "version": "2026.3.26",
+  "description": "OpenClaw observability plugin — records all conversation model actions into DuckDB/MySQL for traceability, with built-in visualization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "openclaw": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "files": [
+    "dist/",
+    "openclaw.plugin.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "openclaw",
+    "plugin",
+    "observability",
+    "tracing",
+    "duckdb",
+    "mysql",
+    "trace",
+    "security"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@duckdb/node-api": "^1.5.0-r.1",
+    "@opentelemetry/otlp-transformer": "^0.213.0",
+    "mysql2": "^3.9.0",
+    "protobufjs": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@vitest/ui": "^3.2.4",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

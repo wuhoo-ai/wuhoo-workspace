@@ -82,3 +82,26 @@ workspace/agents/main/*热点*.md
 workspace/agents/*/.env
 workspace/agents/*/*/.env
 
+# Agent runtime data directories
+.agents/
+backups/
+wecomConfig/
+data/observability.duckdb
+data/observability.duckdb.wal
+workspace/agents/data/
+workspace/agents/debate/data/
+workspace/agents/main/data/
+workspace/agents/trade/data/
+
+# Python venv
+venv/
+venv-futu/
+
+# Node build artifacts
+extensions/*/node_modules/
+extensions/*/dist/
+extensions/*/package-lock.json
+package-lock.json
+
+# Duplicated directory
+openclaw-weixin/

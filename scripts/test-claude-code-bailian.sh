@@ -45,16 +45,16 @@ echo ""
 
 # 测试 API 连接
 echo "3. 测试百炼 API 连接..."
-echo "   使用模型：qwen3-coder-next"
-echo "   Base URL: https://coding.dashscope.aliyuncs.com/v1"
+echo "   使用模型：qwen3.6-plus"
+echo "   Base URL: https://dashscope.aliyuncs.com/compatible-mode/v1"
 echo ""
 
 # 使用 curl 测试 API
-response=$(curl -s -X POST "https://coding.dashscope.aliyuncs.com/v1/chat/completions" \
+response=$(curl -s -X POST "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions" \
   -H "Authorization: Bearer $BAILIAN_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "qwen3-coder-next",
+    "model": "qwen3.6-plus",
     "messages": [
       {
         "role": "user",
@@ -79,8 +79,9 @@ echo "   (这可能需要几秒钟)"
 echo ""
 
 # 测试 claude 命令
-timeout 10 claude --api-key "$CODING_PLAN_KEY" \
-    --base-url "https://coding.dashscope.aliyuncs.com/v1" \
+timeout 10 claude --api-key "$BAILIAN_API_KEY" \
+    --base-url "https://dashscope.aliyuncs.com/compatible-mode/v1" \
+    --model "qwen3.6-plus" \
     "你好，这是一个测试连接。请简单回复'连接成功'即可。" || {
     echo "⚠️  Claude Code CLI 测试超时或失败（可能是网络问题）"
     echo "   但 API 测试已通过，配置应该是正确的"

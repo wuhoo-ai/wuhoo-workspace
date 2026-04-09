@@ -26,7 +26,7 @@ class BaseAgent(ABC):
         name: str,
         prompt_path: str,
         model: str = "qwen3.5-plus",
-        api_base: str = "https://coding.dashscope.aliyuncs.com/v1",
+        api_base: str = os.environ.get("LLM_API_BASE", "https://dashscope.aliyuncs.com/compatible-mode/v1"),
         api_key: Optional[str] = None
     ):
         """
