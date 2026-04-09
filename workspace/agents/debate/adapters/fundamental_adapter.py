@@ -65,15 +65,17 @@ class FundamentalAdapter:
             return False
         
         try:
-            # 使用 python3.11 检查 (兼容 python3.6)
-            import subprocess
-            code = f"import tushare as ts; ts.set_token('{ts_token[:20]}'); pro = ts.pro_api(); print('ok')"
+            # 使用环境变量传递 token（安全修复）
+            code = "import tushare as ts, os; ts.set_token(os.environ.get('TUSHARE_TOKEN','')); pro = ts.pro_api(); print('ok')"
+            env = os.environ.copy()
+            env['TUSHARE_TOKEN'] = ts_token
             result = subprocess.run(
                 ['/usr/bin/python3.11', '-c', code],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 universal_newlines=True,
-                timeout=10
+                timeout=10,
+                env=env
             )
             if result.returncode == 0 and 'ok' in result.stdout:
                 print("[Fundamental] ✅ Tushare: 已安装并配置")
@@ -217,34 +219,35 @@ class FundamentalAdapter:
         ts_token = os.environ.get('TUSHARE_TOKEN', '') or os.environ.get('TS_TOKEN', '')
         if not ts_token:
             return None
-        
+
         try:
             import subprocess
             from datetime import datetime
-            
-            # 使用 python3.11 执行 tushare 查询 (兼容 python3.6)
+
+            # 使用环境变量传递参数，避免 f-string 注入（安全修复）
             today = datetime.now().strftime('%Y%m%d')
-            code = f'''
+            code = '''
 import tushare as ts
 import json
 import os
 from datetime import datetime
 
-ts.set_token('{ts_token}')
+ts.set_token(os.environ.get('TUSHARE_TOKEN', ''))
 pro = ts.pro_api()
+symbol = os.environ.get('SYMBOL', '')
+today = os.environ.get('TODAY', '')
 
 try:
-    # 获取最近的基本面数据
-    df = pro.daily_basic(ts_code='{symbol}', trade_date='{today}')
-    
+    df = pro.daily_basic(ts_code=symbol, trade_date=today)
+
     if df.empty:
-        df = pro.daily_basic(ts_code='{symbol}')
-    
+        df = pro.daily_basic(ts_code=symbol)
+
     if df.empty:
-        print(json.dumps({{"error": "no_data"}}))
+        print(json.dumps({"error": "no_data"}))
     else:
         row = df.iloc[0]
-        result = {{
+        result = {
             "pe": float(row.pe) if hasattr(row, 'pe') and row.pe not in [None, ''] else None,
             "pb": float(row.pb) if hasattr(row, 'pb') and row.pb not in [None, ''] else None,
             "ps": float(row.ps) if hasattr(row, 'ps') and row.ps not in [None, ''] else None,
@@ -252,19 +255,25 @@ try:
             "turnover_rate": float(row.turnover_rate) / 100 if hasattr(row, 'turnover_rate') and row.turnover_rate not in [None, ''] else None,
             "volume_ratio": float(row.volume_ratio) if hasattr(row, 'volume_ratio') and row.volume_ratio not in [None, ''] else None,
             "total_mv": float(row.total_mv) if hasattr(row, 'total_mv') and row.total_mv not in [None, ''] else None,
-        }}
+        }
         print(json.dumps(result))
 except Exception as e:
-    print(json.dumps({{"error": str(e)}}))
+    print(json.dumps({"error": str(e)}))
 '''
+            env = os.environ.copy()
+            env['TUSHARE_TOKEN'] = ts_token
+            env['SYMBOL'] = symbol
+            env['TODAY'] = today
+
             result = subprocess.run(
                 ['/usr/bin/python3.11', '-c', code],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 universal_newlines=True,
-                timeout=15
+                timeout=15,
+                env=env
             )
-            
+
             if result.returncode == 0:
                 output = result.stdout.strip()
                 if output and not output.startswith('{"error"'):
@@ -316,41 +325,47 @@ except Exception as e:
         """从 AkShare 获取基本面数据"""
         try:
             import subprocess
-            
+
             # 转换股票代码格式
             ak_symbol = symbol.lower().replace(".", "")
-            
-            code = f'''
+
+            # 使用环境变量传递参数（安全修复）
+            code = '''
 import akshare as ak
 import json
+import os
 
 try:
-    # 获取实时行情
     df = ak.stock_zh_a_spot_em()
-    stock = df[df['代码'] == '{ak_symbol}']
-    
+    ak_symbol = os.environ.get('AK_SYMBOL', '')
+    stock = df[df['代码'] == ak_symbol]
+
     if stock.empty:
-        print(json.dumps({{"error": "not_found"}}))
+        print(json.dumps({"error": "not_found"}))
     else:
         row = stock.iloc[0]
-        print(json.dumps({{
+        print(json.dumps({
             "pe": float(row['市盈率']) if '市盈率' in row and row['市盈率'] not in ['', '-', None] else None,
             "pb": float(row['市净率']) if '市净率' in row and row['市净率'] not in ['', '-', None] else None,
             "ps": float(row['市销率']) if '市销率' in row and row['市销率'] not in ['', '-', None] else None,
             "price": float(row['最新价']) if '最新价' in row else None,
             "change_pct": float(row['涨跌幅']) / 100 if '涨跌幅' in row else None,
             "volume": int(row['成交量']) if '成交量' in row else None,
-            "turnover_rate": None,  # akshare 实时行情没有换手率
+            "turnover_rate": None,
             "market_cap": float(row['总市值']) if '总市值' in row else None,
-        }}))
+        }))
 except Exception as e:
-    print(json.dumps({{"error": str(e)}}))
+    print(json.dumps({"error": str(e)}))
 '''
+            env = os.environ.copy()
+            env['AK_SYMBOL'] = ak_symbol
+
             result = subprocess.run(
                 ['/usr/bin/python3.11', '-c', code],
-                capture_output=True, text=True, timeout=15
+                capture_output=True, text=True, timeout=15,
+                env=env
             )
-            
+
             if result.returncode == 0:
                 output = result.stdout.strip()
                 if output and not output.startswith('{"error"'):
@@ -358,7 +373,7 @@ except Exception as e:
                     return data
         except Exception as e:
             print(f"[Fundamental] AkShare 错误：{e}")
-        
+
         return None
     
     def _fetch_from_qlib(self, symbol: str) -> Optional[Dict]:
