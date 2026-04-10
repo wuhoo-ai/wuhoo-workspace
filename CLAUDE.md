@@ -120,6 +120,18 @@ Both channels configured with:
 - `messageType: markdown` - Rich formatting
 - Session persistence and auto-reconnect
 
+## Enterprise Critical Skills (wuhoo-*)
+
+> **以 `wuhoo-` 冠头的 skill 是当前 OpenClaw 系统的企业级关键 skill**，承担核心业务价值。
+> 这些 skill 的代码质量、稳定性和可维护性需要特别关注。修改这些 skill 时应更加谨慎。
+
+| Skill | Location | Purpose |
+|-------|----------|---------|
+| **wuhoo-stock-deep-analysis** | `skills/wuhoo-stock-deep-analysis/` | Workflow B — 单股深度分析与决策建议 |
+| **wuhoo-stock-autopick-trade** | `skills/wuhoo-stock-autopick-trade/` | Workflow C — 多市场自动选股交易全链路 |
+
+Skills 通过 `skills.load.extraDirs` 从 `~/.openclaw/skills/` 自动加载。
+
 ## Skills System
 
 ### Bundled Skills (enabled)
@@ -131,16 +143,19 @@ Both channels configured with:
 - `summarize`, `get-tldr` - Content summarization
 
 ### Custom Skills
+- **wuhoo-stock-deep-analysis** ⚠️ — Workflow B 单股深度分析与决策建议（企业级关键 skill）
+- **wuhoo-stock-autopick-trade** ⚠️ — Workflow C 多市场自动选股交易全链路（企业级关键 skill）
 - `quantaalpha-deep` - Alpha factor mining (main-agent)
 - `stock-pick` - Stock screening (main-agent)
-- `vnpy-futu-trader` - VnPy + Futu trading execution (trade-agent)
+- `futu-api` ⚠️ — **富途 OpenAPI 行情交易助手**（官方 skill，57 个脚本）
+- `install-futu-opend` — Futu OpenD 安装助手（官方 skill）
 - `akshare-stock` - A-share real-time quotes
 - `china-stock-analysis` - Value investment analysis
 
 ## Trading Pipeline (Automated)
 
 ```
-因子挖掘 (QuantaAlpha) → 选股 (Stock-Pick) → 辩论 (Debate) → 人工确认 → 交易执行 (VnPy) → 持仓管理
+因子挖掘 (QuantaAlpha) → 选股 (Stock-Pick) → 辩论 (Debate) → 人工确认 → 交易执行 (Futu) → 持仓管理
 ```
 
 See `workspace/agents/trade/AUTOMATION_PIPELINE.md` for full specification.
@@ -188,7 +203,6 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 |---------|---------------------|
 | AI-Trader | `workspace/projects/AI-Trader/venv/` |
 | TrendRadar | `workspace/projects/TrendRadar/venv/` |
-| Trade (Futu) | `workspace/agents/trade/venv-futu/` |
 | Debate | `workspace/agents/debate/venv/` |
 
 **Python Version**: 3.11+

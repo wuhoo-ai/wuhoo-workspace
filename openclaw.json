@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.28",
-    "lastTouchedAt": "2026-04-09T04:55:47.165Z"
+    "lastTouchedVersion": "2026.4.9",
+    "lastTouchedAt": "2026-04-09T07:04:41.493Z"
   },
   "env": {
     "PATH": "/home/admin/local/node-v22.16.0-linux-x64/bin:/home/admin/.local/bin:/home/admin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -469,6 +469,13 @@
       "openclaw-weixin": {
         "enabled": true,
         "config": {}
+      },
+      "memory-core": {
+        "config": {
+          "dreaming": {
+            "enabled": true
+          }
+        }
       }
     },
     "installs": {

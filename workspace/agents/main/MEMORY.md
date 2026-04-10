@@ -41,7 +41,8 @@ _最后更新: 2026-04-08_
 | Workflow | 功能 | 状态 |
 |----------|------|------|
 | **Workflow A** | 因子挖掘 → 回测 | ✅ 完成 80% |
-| **Workflow B** | 选股 → 辩论 → 投资策略报告 | ✅ 完成 90% |
+| **Workflow B v1** | 选股 → 辩论 → 投资策略报告 | ✅ 完成 90%（兼容版） |
+| **Workflow B v2** | 定性→定量→估值→决策（整合 akshare） | ✅ 完成 100%（增强版） |
 | **Workflow C** | 选股 → 分析 → 辩论 → 交易 → 持仓 | ✅ 完成 95% |
 
 ---
@@ -86,8 +87,11 @@ _最后更新: 2026-04-08_
 ## 🛠️ 工具与技能
 
 ### 已安装核心 Skills
+- **企业级关键 Skill**（wuhoo- 冠名）:
+  - `wuhoo-stock-deep-analysis`: Workflow B 增强版 — 单股深度分析（整合 akshare 财务 + 4 部分报告）
+  - `wuhoo-stock-autopick-trade`: Workflow C — 多市场自动选股交易全链路
 - `stock-pick`: 中证 1000 选股（残差波动率 + 换手率 + 动量 + Beta）
-- `china-stock-analysis`: A 股分析
+- `china-stock-analysis`: A 股价值投资分析
 - `backtest`: VectorBT 回测
 - `quantaalpha-skill`: 量化因子挖掘
 - `jina_search`: Jina AI 搜索
@@ -100,7 +104,9 @@ _最后更新: 2026-04-08_
 ### 关键路径
 ```
 选股数据: ~/workspace/agents/main/data/stock-pick/factors/
-Workflow 输出: ~/workspace/agents/trade/data/workflow_c/
+Workflow B 输出: ~/workspace/agents/trade/data/workflow_b/
+Workflow C 输出: ~/workspace/agents/trade/data/workflow_c/
+企业级 Skills: ~/.openclaw/skills/wuhoo-*/
 QuantaAlpha: ~/workspace/agents/main/skills/quantaalpha-deep/
 交易环境: ~/workspace/agents/trade/venv-futu/
 ```
@@ -155,7 +161,7 @@ QuantaAlpha: ~/workspace/agents/main/skills/quantaalpha-deep/
 | 04-01 | A 股选股执行 |
 | 04-07 | A 股 Workflow C 分析（10 只候选，全部未通过风控） |
 | 04-08 | 模型切换到 qwen3.6-plus，记忆系统重建 |
-| 04-09 | OpenClaw 升级至 2026.4.9，删除钉钉/企微通道，审批改微信，Workflow B 重构，subprocess 安全修复 |
+| 04-09 | OpenClaw 升级至 2026.4.9，删除钉钉/企微通道，审批改微信，Workflow B 增强版（整合 akshare 财务数据 + 4 部分报告），subprocess 安全修复 |
 
 ---
 
