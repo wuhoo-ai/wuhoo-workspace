@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.4.9",
-    "lastTouchedAt": "2026-04-09T07:04:41.493Z"
+    "lastTouchedVersion": "2026.4.11",
+    "lastTouchedAt": "2026-04-13T01:38:36.336Z"
   },
   "env": {
     "PATH": "/home/admin/local/node-v22.16.0-linux-x64/bin:/home/admin/.local/bin:/home/admin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -16,9 +16,9 @@
     "mode": "merge",
     "providers": {
       "bailian": {
-        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-        "apiKey": "${BAILIAN_API_KEY}",
-        "api": "openai-completions",
+        "baseUrl": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+        "apiKey": "${CODING_PLAN_KEY}",
+        "api": "anthropic-messages",
         "models": [
           {
             "id": "qwen3.6-plus",
@@ -448,7 +448,9 @@
       "phone-control",
       "talk-voice",
       "openclaw-observability",
-      "openclaw-weixin"
+      "openclaw-weixin",
+      "llm-task",
+      "lobster"
     ],
     "load": {
       "paths": []

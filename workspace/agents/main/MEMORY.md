@@ -99,6 +99,7 @@ _最后更新: 2026-04-08_
 - `futu-openapi`: 富途行情交易助手
 - `futu-install-opend`: OpenD 安装助手
 - `trendradar`: 热点趋势监控（42 平台）
+- `wuhoo-news-rss`: RSS 资讯采集引擎（RSSHub + 原生 RSS，SQLite + FTS5）
 - 其他: weather, file-search, get-tldr, technews, self-improving-agent 等
 
 ### 关键路径
@@ -115,6 +116,16 @@ QuantaAlpha: ~/workspace/agents/main/skills/quantaalpha-deep/
 - 交易系统: `venv-futu` (Python 3.11)
 - 依赖: VnPy 4.3.0, vnpy_futu 6.3.2808.0, futu-api 10.1.6108
 - 选股/分析: 系统 Python 3.11
+
+---
+
+## 🔧 技能开发模式
+
+### wuhoo- 企业级 Skills 持续迭代
+- 这些 skill 正在通过 **Claude Code** 在后台持续迭代开发
+- `install-futu-opend` / `futu-api` / `wuhoo-stock-autopick-trade` / `wuhoo-stock-deep-analysis` / `wuhoo-trade-diagnose`
+- 需要时常关注它们的 SKILL.md 更新，学习新增功能和用法
+- 不要随意删除这些 skill，即使当前看似未使用
 
 ---
 
@@ -161,7 +172,7 @@ QuantaAlpha: ~/workspace/agents/main/skills/quantaalpha-deep/
 | 04-01 | A 股选股执行 |
 | 04-07 | A 股 Workflow C 分析（10 只候选，全部未通过风控） |
 | 04-08 | 模型切换到 qwen3.6-plus，记忆系统重建 |
-| 04-09 | OpenClaw 升级至 2026.4.9，删除钉钉/企微通道，审批改微信，Workflow B 增强版（整合 akshare 财务数据 + 4 部分报告），subprocess 安全修复 |
+| 04-09 | OpenClaw 升级至 2026.4.11，百炼 API 切换验证通过，wuhoo-news-rss 资讯引擎搭建（RSSHub + 24 源 + SQLite FTS5），清理可观测插件(497MB)+Trader Frontend+QuantaAlpha(~16GB)，磁盘 69%→44% |
 
 ---
 

@@ -93,6 +93,9 @@ workspace/agents/debate/data/
 workspace/agents/main/data/
 workspace/agents/trade/data/
 
+# Skill runtime data
+workspace/agents/main/skills/wuhoo-news-rss/data/
+
 # Python venv
 venv/
 venv-futu/

@@ -1838,8 +1838,8 @@ class WorkflowBDeepHandler:
         # Step 6: 生成审计报告
         audit_report = self._generate_audit()
 
-        # 保存数据
-        self._save_data()
+        # 保存数据（传入审计报告以便持久化）
+        self._save_data(audit_report)
 
         print("\n" + "=" * 60)
         print("分析完成")
@@ -1878,12 +1878,12 @@ class WorkflowBDeepHandler:
         print("\nStep 3: 计算 DCF 估值...")
         if self.akshare_data.get("available"):
             basic = self.akshare_data.get("basic", {})
-            market_cap = basic.get("market_cap", 0)
-            pe = basic.get("pe_ttm", 0)
+            market_cap = basic.get("market_cap") or 0
+            pe = basic.get("pe_ttm") or 0  # safe_float can return None
 
             # 估算当前价格
             current_price = 0
-            if pe > 0 and self.akshare_data.get("income"):
+            if pe and pe > 0 and self.akshare_data.get("income"):
                 latest_income = self.akshare_data["income"][0]
                 net_profit = latest_income.get("净利润") or 0
                 # 需要股本数据
@@ -2000,12 +2000,22 @@ class WorkflowBDeepHandler:
         if audit_report:
             with open(self.output_dir / "audit_report.json", 'w', encoding='utf-8') as f:
                 json.dump(audit_report, f, ensure_ascii=False, indent=2, default=str)
+
+        # 从审计上下文中提取决策和评分
+        decision_info = self._audit_context.get("decision", {})
+        audit_score = 0
+        if audit_report:
+            audit_score = audit_report.get("reliability", {}).get("score", 0)
+
         with open(self.output_dir / "all_data.json", 'w', encoding='utf-8') as f:
             data = {
                 "akshare": self.akshare_data,
                 "factor": self.factor_data,
                 "valuation": self.dcf_data,
                 "debate": self.debate_data,
+                # Workflow D 依赖的顶层字段
+                "decision": decision_info.get("decision", "UNKNOWN") if isinstance(decision_info, dict) else "UNKNOWN",
+                "audit_score": audit_score,
             }
             if audit_report:
                 data["audit"] = audit_report

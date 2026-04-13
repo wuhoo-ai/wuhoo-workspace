@@ -96,7 +96,7 @@ Key variables (actual values stored in `.env` file):
 
 ### Model Configuration
 
-All models use Alibaba Bailian provider via `https://coding.dashscope.aliyuncs.com/v1`:
+All models use Alibaba Bailian provider via `https://coding.dashscope.aliyuncs.com/apps/anthropic` (anthropic-messages API):
 
 | Model | Use Case |
 |-------|----------|
@@ -129,6 +129,7 @@ Both channels configured with:
 |-------|----------|---------|
 | **wuhoo-stock-deep-analysis** | `skills/wuhoo-stock-deep-analysis/` | Workflow B — 单股深度分析与决策建议 |
 | **wuhoo-stock-autopick-trade** | `skills/wuhoo-stock-autopick-trade/` | Workflow C — 多市场自动选股交易全链路 |
+| **wuhoo-trade-diagnose** | `skills/wuhoo-trade-diagnose/` | Workflow D — 持仓诊断与调仓建议 |
 
 Skills 通过 `skills.load.extraDirs` 从 `~/.openclaw/skills/` 自动加载。
 
@@ -145,7 +146,7 @@ Skills 通过 `skills.load.extraDirs` 从 `~/.openclaw/skills/` 自动加载。
 ### Custom Skills
 - **wuhoo-stock-deep-analysis** ⚠️ — Workflow B 单股深度分析与决策建议（企业级关键 skill）
 - **wuhoo-stock-autopick-trade** ⚠️ — Workflow C 多市场自动选股交易全链路（企业级关键 skill）
-- `quantaalpha-deep` - Alpha factor mining (main-agent)
+- **wuhoo-trade-diagnose** ⚠️ — Workflow D 持仓诊断与调仓建议（企业级关键 skill）
 - `stock-pick` - Stock screening (main-agent)
 - `futu-api` ⚠️ — **富途 OpenAPI 行情交易助手**（官方 skill，57 个脚本）
 - `install-futu-opend` — Futu OpenD 安装助手（官方 skill）
@@ -155,7 +156,7 @@ Skills 通过 `skills.load.extraDirs` 从 `~/.openclaw/skills/` 自动加载。
 ## Trading Pipeline (Automated)
 
 ```
-因子挖掘 (QuantaAlpha) → 选股 (Stock-Pick) → 辩论 (Debate) → 人工确认 → 交易执行 (Futu) → 持仓管理
+选股 (Stock-Pick) → 辩论 (Debate) → 人工确认 → 交易执行 (Futu) → 持仓管理 (Trade-Diagnose)
 ```
 
 See `workspace/agents/trade/AUTOMATION_PIPELINE.md` for full specification.
