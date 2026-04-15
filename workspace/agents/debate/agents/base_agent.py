@@ -26,26 +26,32 @@ class BaseAgent(ABC):
         name: str,
         prompt_path: str,
         model: str = "qwen3.5-plus",
-        api_base: str = os.environ.get("LLM_API_BASE", "https://dashscope.aliyuncs.com/compatible-mode/v1"),
+        api_base: Optional[str] = None,
         api_key: Optional[str] = None
     ):
         """
         初始化 Agent
-        
+
         Args:
             name: Agent 名称
             prompt_path: Prompt 模板文件路径
             model: LLM 模型名称
-            api_base: API 基础 URL
-            api_key: API Key (可选，默认从环境变量读取)
+            api_base: API 基础 URL (默认使用百炼 Anthropic 兼容接口)
+            api_key: API Key (优先 CODING_PLAN_KEY，其次 BAILIAN_API_KEY)
         """
         self.name = name
         self.model = model
-        self.api_base = api_base
-        self.api_key = api_key or os.environ.get("BAILIAN_API_KEY")
-        
+
+        # API 配置：优先使用环境变量，默认百炼 Anthropic 兼容接口
+        self.api_base = api_base or os.environ.get(
+            "LLM_API_BASE",
+            "https://coding.dashscope.aliyuncs.com/apps/anthropic"
+        )
+        # API Key 优先级：显式传入 > CODING_PLAN_KEY > BAILIAN_API_KEY
+        self.api_key = api_key or os.environ.get("CODING_PLAN_KEY") or os.environ.get("BAILIAN_API_KEY")
+
         if not self.api_key:
-            raise ValueError("API key not provided and BAILIAN_API_KEY not set in environment")
+            raise ValueError("API key not provided and CODING_PLAN_KEY/BAILIAN_API_KEY not set in environment")
         
         # 加载 Prompt 模板
         self.prompt_template = self._load_prompt(prompt_path)
@@ -71,36 +77,35 @@ class BaseAgent(ABC):
     ) -> str:
         """
         调用 LLM
-        
+
         Args:
             user_input: 用户输入
             system_prompt: 系统提示 (可选)
             temperature: 温度参数
             max_tokens: 最大 token 数
-        
+
         Returns:
             LLM 响应文本
         """
         import requests
-        
-        messages = []
-        
-        # 添加系统提示
-        if system_prompt:
-            messages.append({"role": "system", "content": system_prompt})
+
+        # 注意：百炼 Anthropic 兼容接口不支持 {"role": "system"} in messages
+        # 系统提示需要作为第一个 user 消息的前缀传入
+        system_content = system_prompt or self._extract_system_prompt()
+
+        # 将系统提示拼接到用户输入前面
+        if system_content:
+            full_user_input = f"<system>{system_content}</system>\n\n{user_input}"
         else:
-            # 从 Prompt 模板提取系统提示
-            system_content = self._extract_system_prompt()
-            if system_content:
-                messages.append({"role": "system", "content": system_content})
-        
-        # 添加用户输入
-        messages.append({"role": "user", "content": user_input})
+            full_user_input = user_input
+
+        messages = [{"role": "user", "content": full_user_input}]
         
         # 调用 API
         headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
+            "x-api-key": self.api_key,
+            "Content-Type": "application/json",
+            "anthropic-version": "2023-06-01"
         }
         
         payload = {
@@ -114,10 +119,11 @@ class BaseAgent(ABC):
         max_retries = 2
         last_error = None
         
+        response = None
         for attempt in range(max_retries + 1):
             try:
                 response = requests.post(
-                    f"{self.api_base}/chat/completions",
+                    f"{self.api_base}/v1/messages",
                     headers=headers,
                     json=payload,
                     timeout=120  # 增加到 120 秒
@@ -130,13 +136,25 @@ class BaseAgent(ABC):
                     import time
                     time.sleep(2)  # 重试前等待 2 秒
         
+        if response is None:
+            raise Exception(f"LLM API request failed: {last_error}")
+
         if response.status_code != 200:
             raise Exception(f"LLM API error: {response.status_code} - {response.text}")
         
         result = response.json()
-        content = result["choices"][0]["message"]["content"]
+        # Anthropic 格式：content 是数组，提取 text 字段
+        content_list = result.get("content", [])
+        content = ""
+        for item in content_list:
+            if isinstance(item, dict) and item.get("type") == "text":
+                content = item.get("text", "")
+                break
+        if not content:
+            # 兼容 OpenAI 格式
+            content = result.get("choices", [{}])[0].get("message", {}).get("content", "")
         
-        # 添加到对话历史
+        # 添加到对话历史（只记录实际的用户输入和助手响应）
         self.conversation_history.append({"role": "user", "content": user_input})
         self.conversation_history.append({"role": "assistant", "content": content})
         

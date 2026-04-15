@@ -106,9 +106,6 @@ extensions/*/dist/
 extensions/*/package-lock.json
 package-lock.json
 
-# Duplicated directory
-openclaw-weixin/
-
 # OpenClaw runtime
 flows/
 tasks/

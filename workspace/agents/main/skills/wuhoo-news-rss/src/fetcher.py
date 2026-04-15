@@ -222,28 +222,31 @@ def parse_entry(entry: dict) -> dict:
 # ============================================================
 # 热点评分 & 关键词告警
 # ============================================================
-KEYWORDS_ALERT = [
-    # 量化交易
-    "量化交易", "quantitative trading", "algo trading", "算法交易", "alpha", "阿尔法", "因子", "回测", "策略",
-    # AI/大模型
-    "人工智能", "大模型", "LLM", "GPT", "Claude", "OpenAI", "deep learning", "transformer",
-    "NVIDIA", "英伟达", "GPU", "芯片", "semiconductor", "chip",
-    # 电商
-    "跨境电商", "cross-border", "Amazon", "亚马逊", "SHEIN", "Temu", "TikTok Shop",
-    # 市场信号
-    "涨停", "跌停", "surge", "plunge", "熔断", "降息", "加息", "rate cut", "rate hike",
-    "财报", "earnings", "revenue", "营收", "净利润", "net profit",
-]
+
+def load_alert_keywords(config: dict) -> List[str]:
+    """从配置加载告警关键词"""
+    keywords = config.get("alert_keywords", [])
+    if not keywords:
+        # 向后兼容：如果配置中没有，使用硬编码默认值
+        return [
+            "量化交易", "quantitative trading", "algo trading", "算法交易", "alpha", "阿尔法", "因子", "回测", "策略",
+            "人工智能", "大模型", "LLM", "GPT", "Claude", "OpenAI", "deep learning", "transformer",
+            "NVIDIA", "英伟达", "GPU", "芯片", "semiconductor", "chip",
+            "跨境电商", "cross-border", "Amazon", "亚马逊", "SHEIN", "Temu", "TikTok Shop",
+            "涨停", "跌停", "surge", "plunge", "熔断", "降息", "加息", "rate cut", "rate hike",
+            "财报", "earnings", "revenue", "营收", "净利润", "net profit",
+        ]
+    return keywords
 
 
-def calc_hot_score(entry: dict, feed_cfg: dict) -> Tuple[float, List[str]]:
+def calc_hot_score(entry: dict, feed_cfg: dict, keywords: Optional[List[str]] = None) -> Tuple[float, List[str]]:
     """计算热点评分 + 检查告警关键词"""
     score = 0.0
     hit_keywords = []
 
     text = f"{entry['title']} {entry.get('summary', '')}"
 
-    for kw in KEYWORDS_ALERT:
+    for kw in (keywords or []):
         if kw.lower() in text.lower():
             hit_keywords.append(kw)
             score += 5  # 每个关键词 +5 分
@@ -264,6 +267,7 @@ def fetch_all(config: dict, conn: sqlite3.Connection, category_filter: Optional[
     max_items = settings.get("max_items_per_feed", 50)
     timeout = settings.get("timeout_seconds", 30)
     retries = settings.get("retry_count", 3)
+    keywords = load_alert_keywords(config)
 
     stats = {"total": 0, "new": 0, "dup": 0, "failed": 0}
     all_titles = []  # 用于多源覆盖评分
@@ -300,8 +304,8 @@ def fetch_all(config: dict, conn: sqlite3.Connection, category_filter: Optional[
             parsed["tags"] = result["tags"]
             parsed["hash"] = article_hash(parsed["link"], parsed["title"])
 
-            # 热点评分
-            score, hit_keywords = calc_hot_score(parsed, result)
+            # 热点评分（传入关键词列表）
+            score, hit_keywords = calc_hot_score(parsed, result, keywords)
 
             # 多源覆盖加分
             title = parsed["title"]
@@ -444,6 +448,7 @@ def main():
     parser.add_argument("--limit", type=int, default=10, help="返回条数 (默认 10)")
     parser.add_argument("--fts", type=str, help="FTS5 全文搜索")
     parser.add_argument("--db", type=str, help="数据库路径 (默认 data/news.db)")
+    parser.add_argument("--json", action="store_true", help="JSON 输出模式 (供程序调用)")
 
     args = parser.parse_args()
     config = load_config()
@@ -470,7 +475,9 @@ def main():
 
         elif args.search:
             results = search_articles(conn, args.search, args.limit, args.category, args.hours)
-            if results:
+            if args.json:
+                print(json.dumps({"query": args.search, "count": len(results), "articles": [dict(r) for r in results]}, ensure_ascii=False, indent=2))
+            elif results:
                 print(f"\n搜索结果: '{args.search}' ({len(results)} 条)\n")
                 for r in results:
                     print(format_article(r))
@@ -479,7 +486,9 @@ def main():
 
         elif args.fts:
             results = fts_search(conn, args.fts, args.limit)
-            if results:
+            if args.json:
+                print(json.dumps({"query": args.fts, "count": len(results), "articles": [dict(r) for r in results]}, ensure_ascii=False, indent=2))
+            elif results:
                 print(f"\nFTS 搜索: '{args.fts}' ({len(results)} 条)\n")
                 for r in results:
                     print(format_article(r))
@@ -488,12 +497,15 @@ def main():
 
         elif args.top:
             results = top_articles(conn, args.top, args.hours, args.category)
-            cat_str = f" [{args.category}]" if args.category else ""
-            print(f"\n🔥 热门{cat_str} (近 {args.hours} 小时, TOP {args.top})\n")
-            for i, r in enumerate(results, 1):
-                print(f"  {i:2d}. {format_article(r)}")
-            if not results:
-                print("  暂无数据，请先运行 --fetch")
+            if args.json:
+                print(json.dumps({"top": args.top, "hours": args.hours, "category": args.category, "count": len(results), "articles": [dict(r) for r in results]}, ensure_ascii=False, indent=2))
+            else:
+                cat_str = f" [{args.category}]" if args.category else ""
+                print(f"\n🔥 热门{cat_str} (近 {args.hours} 小时, TOP {args.top})\n")
+                for i, r in enumerate(results, 1):
+                    print(f"  {i:2d}. {format_article(r)}")
+                if not results:
+                    print("  暂无数据，请先运行 --fetch")
 
         elif args.keywords:
             kws = [k.strip() for k in args.keywords.split(",")]

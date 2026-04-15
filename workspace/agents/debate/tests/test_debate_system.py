@@ -12,7 +12,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from adapters.data_aggregator import DataAggregator
-from adapters.quantaalpha_adapter import QuantaAlphaAdapter
 from adapters.trendradar_adapter import TrendRadarAdapter
 from adapters.akshare_adapter import AkShareAdapter
 
@@ -37,26 +36,6 @@ def test_data_aggregator():
     print("   因子评分：{}".format(data["factor_data"].get("momentum_score", 0)))
     print("   技术信号：{}".format(data["technical_data"].get("signal", "unknown")))
     print("   舆情评分：{}".format(data["sentiment_data"].get("sentiment_score", 0)))
-    
-    return True
-
-
-def test_quantaalpha_adapter():
-    """测试 QuantaAlpha 适配器"""
-    print("\n" + "="*60)
-    print("测试：QuantaAlphaAdapter")
-    print("="*60)
-    
-    adapter = QuantaAlphaAdapter()
-    
-    # 测试获取因子评分
-    scores = adapter.get_factor_scores("600519.SH")
-    
-    assert "momentum_score" in scores, "缺少动量评分"
-    assert "volatility_score" in scores, "缺少波动率评分"
-    
-    print("✅ QuantaAlpha 适配器工作正常")
-    print("   状态：{}".format(adapter.get_status()))
     
     return True
 
@@ -138,7 +117,6 @@ def run_all_tests():
     print("="*60)
     
     tests = [
-        ("QuantaAlpha 适配器", test_quantaalpha_adapter),
         ("TrendRadar 适配器", test_trendradar_adapter),
         ("AkShare 适配器", test_akshare_adapter),
         ("数据聚合器", test_data_aggregator),

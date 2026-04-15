@@ -1775,7 +1775,30 @@ class WorkflowBDeepHandler:
         self.date = datetime.now().strftime("%Y-%m-%d")
 
         # 判断市场
-        self.is_a_stock = not code.startswith(('US.', 'HK.')) and not code.startswith(('8', '4'))
+        # 支持两种格式: US.HD (前缀) 和 HD.US (后缀)
+        code_upper = code.upper().strip()
+        self.is_us_stock = code_upper.startswith('US.') or code_upper.endswith('.US')
+        self.is_hk_stock = code_upper.startswith('HK.') or code_upper.endswith('.HK')
+        self.is_a_stock = not self.is_us_stock and not self.is_hk_stock
+        
+        # 标准化代码为 Futu 格式 (US.XXX)
+        if self.is_us_stock:
+            if code_upper.startswith('US.'):
+                self.futu_code = code_upper
+            else:
+                self.futu_code = f"US.{code_upper.replace('.US', '')}"
+        elif self.is_hk_stock:
+            if code_upper.startswith('HK.'):
+                self.futu_code = code_upper
+            else:
+                self.futu_code = f"HK.{code_upper.replace('.HK', '')}"
+        else:
+            self.futu_code = code_upper
+            # A股自动补全市场前缀
+            if code.startswith(('600', '601', '603', '605', '688')):
+                self.futu_code = f"SH.{code}"
+            elif code.startswith(('000', '002', '300', '301')):
+                self.futu_code = f"SZ.{code}"
 
         # 输出目录
         safe_code = code.replace('.', '_')
@@ -1816,7 +1839,7 @@ class WorkflowBDeepHandler:
         print("Workflow B 增强版 — 单股深度分析")
         print(f"股票: {self.code} {self.name}")
         print(f"日期: {self.date}")
-        print(f"市场: {'A 股' if self.is_a_stock else '港股/美股'}")
+        print(f"市场: {'A 股' if self.is_a_stock else '美股' if self.is_us_stock else '港股'}")
         print("=" * 60)
 
         # Step 1: 获取 akshare 数据（仅 A 股）
@@ -1865,8 +1888,7 @@ class WorkflowBDeepHandler:
         print("\nStep 2: 获取因子数据...")
         loader = FactorDataLoader()
         if loader.is_available():
-            symbol = f"{self.code}.SH" if self.is_a_stock and self.code.startswith(('600', '601', '603', '605', '688')) else \
-                     f"{self.code}.SZ" if self.is_a_stock else self.code
+            symbol = self.futu_code
             self.factor_data = loader.load_all(symbol, self.name)
             print(f"  ✅ 因子数据获取完成")
         else:
@@ -1876,6 +1898,12 @@ class WorkflowBDeepHandler:
     def _calculate_dcf(self):
         """计算 DCF 估值"""
         print("\nStep 3: 计算 DCF 估值...")
+        # 美股/港股：AkShare 不支持，跳过 DCF
+        if not self.is_a_stock:
+            self.dcf_data = {"available": False, "reason": "非A股，AkShare 不支持，使用因子数据估值"}
+            print("  ⚠️ 非A股，跳过 DCF（使用因子数据估值）")
+            return
+        
         if self.akshare_data.get("available"):
             basic = self.akshare_data.get("basic", {})
             market_cap = basic.get("market_cap") or 0
@@ -1912,6 +1940,7 @@ class WorkflowBDeepHandler:
                 current_price = 0
 
             # 获取股本数据
+            total_shares = None
             indicators = self.akshare_data.get("indicators", [])
             if indicators:
                 total_shares = indicators[0].get("每股指标汇总", {}).get("总股本(万股)")
@@ -1940,9 +1969,7 @@ class WorkflowBDeepHandler:
         """执行多空辩论"""
         print("\nStep 4: 执行多空辩论...")
         runner = DebateRunner()
-        symbol = f"{self.code}.SH" if self.is_a_stock and self.code.startswith(('600', '601', '603', '605', '688')) else \
-                 f"{self.code}.SZ" if self.is_a_stock else self.code
-        self.debate_data = runner.run(symbol, self.name, self.output_dir)
+        self.debate_data = runner.run(self.futu_code, self.name, self.output_dir)
         print(f"  ✅ 辩论完成: {self.debate_data.get('recommendation', '--')}")
 
     def _generate_report(self) -> str:

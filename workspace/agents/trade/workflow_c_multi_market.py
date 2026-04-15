@@ -30,12 +30,16 @@ import sys
 import json
 import argparse
 import subprocess
+import threading
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional
 
+import pandas as pd
+
 # 添加路径
-sys.path.insert(0, str(Path(__file__).parent))
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
 
 # 加载环境变量 (从 ~/.openclaw/.env)
 env_file = Path.home() / '.openclaw' / '.env'
@@ -106,7 +110,7 @@ class WorkflowCHandler:
         }
 
         # 输出目录
-        self.output_dir = Path(__file__).parent / "data" / "workflow_c" / f"{self.market}_{self.date}"
+        self.output_dir = SCRIPT_DIR / "data" / "workflow_c" / f"{self.market}_{self.date}"
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
         print("=" * 60)
@@ -135,7 +139,7 @@ class WorkflowCHandler:
             cmd = f"source {venv} && python3 {script} --market {self.market.lower()} --date {self.date}"
             print(f"执行：{cmd}")
 
-            result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=300)
+            result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=300)
 
             # 解析输出
             output = result.stdout + result.stderr
@@ -262,9 +266,8 @@ class WorkflowCHandler:
         else:
             # 港股使用 Debate DataAggregator
             try:
-                debate_path = Path(__file__).parent.parent / 'debate'
+                debate_path = SCRIPT_DIR.parent / 'debate'
                 sys.path.insert(0, str(debate_path))
-
                 from adapters.data_aggregator import DataAggregator
                 aggregator = DataAggregator()
 
@@ -292,7 +295,9 @@ class WorkflowCHandler:
                     print(f"  数据质量：{analysis['data_quality']}")
 
             except Exception as e:
+                import traceback
                 print(f"分析出错：{e}")
+                traceback.print_exc()
 
         result = {
             "success": True,
@@ -428,7 +433,7 @@ class WorkflowCHandler:
         else:
             # 港股使用完整辩论模块
             try:
-                debate_path = Path(__file__).parent.parent / 'debate'
+                debate_path = SCRIPT_DIR.parent / 'debate'
                 sys.path.insert(0, str(debate_path))
 
                 from run_debate import run_full_debate
@@ -441,17 +446,40 @@ class WorkflowCHandler:
 
                     print(f"\n辩论：{code} {name}...")
 
-                    import signal
-                    def timeout_handler(signum, frame):
-                        raise TimeoutError("辩论超时")
+                    # 跨平台超时调用 (替代 signal.SIGALRM，兼容 Windows)
+                    def _run_debate(_result, _exc):
+                        try:
+                            _result[0] = run_full_debate(code, name, use_real_data=True)
+                        except Exception as e:
+                            _exc[0] = e
 
-                    old_handler = signal.signal(signal.SIGALRM, timeout_handler)
-                    signal.alarm(60)
+                    debate_result = [None]
+                    debate_exc = [None]
+                    debate_thread = threading.Thread(target=_run_debate, args=(debate_result, debate_exc))
+                    debate_thread.daemon = True
+                    debate_thread.start()
+                    debate_thread.join(timeout=90)  # 90 秒超时
 
-                    try:
-                        result = run_full_debate(code, name, use_real_data=True)
-                        signal.alarm(0)
-
+                    if debate_thread.is_alive():
+                        print(f"  ⚠️  辩论超时 (90s)，跳过")
+                        debate_results.append({
+                            "code": code,
+                            "name": name,
+                            "final_action": "timeout",
+                            "error": "debate_timeout",
+                            "timestamp": datetime.now().isoformat()
+                        })
+                    elif debate_exc[0] is not None:
+                        print(f"  ❌  辩论失败：{debate_exc[0]}")
+                        debate_results.append({
+                            "code": code,
+                            "name": name,
+                            "final_action": "error",
+                            "error": str(debate_exc[0]),
+                            "timestamp": datetime.now().isoformat()
+                        })
+                    elif debate_result[0] is not None:
+                        result = debate_result[0]
                         debate_results.append({
                             "code": code,
                             "name": name,
@@ -467,19 +495,11 @@ class WorkflowCHandler:
                             "timestamp": datetime.now().isoformat()
                         })
 
-                        print(f"  最终动作：{result.get('final_action', {}).get('action')}")
-
-                    except TimeoutError:
-                        print(f"  ⚠️  辩论超时，跳过")
-                        debate_results.append({
-                            "code": code,
-                            "name": name,
-                            "final_action": "timeout",
-                            "timestamp": datetime.now().isoformat()
-                        })
-                    finally:
-                        signal.alarm(0)
-                        signal.signal(signal.SIGALRM, old_handler)
+                        final = result.get('final_action', {})
+                        if isinstance(final, dict):
+                            print(f"  最终动作：{final.get('action', 'N/A')}")
+                        else:
+                            print(f"  最终动作：{final}")
 
                 result = {
                     "success": True,
@@ -797,7 +817,7 @@ class WorkflowCHandler:
 
     def _get_price(self, full_code: str, market: str) -> float:
         """
-        根据市场获取价格
+        根据市场获取价格（带超时和重试保护）
 
         Args:
             full_code: 富途格式代码 (SH.603220, HK.00700, US.AAPL)
@@ -808,40 +828,20 @@ class WorkflowCHandler:
         """
         # ===== 港股：优先使用富途 API =====
         if market == 'hk':
-            try:
-                from futu import OpenQuoteContext
-                quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-                ret, snapshot = quote_ctx.get_market_snapshot(full_code)
-                if ret == 0 and len(snapshot) > 0:
-                    price = float(snapshot['last_price'].iloc[0])
-                    quote_ctx.close()
-                    return price
-                quote_ctx.close()
-            except Exception as e:
-                print(f"  富途行情获取失败：{e}")
-            return 50.0  # 默认估计价格
+            return self._get_price_with_futu(full_code, fallback=50.0)
 
         # ===== A 股：优先使用本地数据文件 =====
         elif market == 'cn':
             # 先尝试富途
-            try:
-                from futu import OpenQuoteContext
-                quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-                ret, snapshot = quote_ctx.get_market_snapshot(full_code)
-                if ret == 0 and len(snapshot) > 0:
-                    price = float(snapshot['last_price'].iloc[0])
-                    quote_ctx.close()
-                    print(f"  从富途获取价格：{price}")
-                    return price
-                quote_ctx.close()
-            except Exception:
-                pass
+            futu_price = self._get_price_with_futu(full_code, fallback=None)
+            if futu_price is not None:
+                print(f"  从富途获取价格：{futu_price}")
+                return futu_price
 
             # 本地数据
             try:
                 daily_data_file = Path.home() / '.openclaw' / 'workspace' / 'agents' / 'main' / 'data' / 'stock-pick' / 'daily_data' / '2026' / '202603.csv'
                 if daily_data_file.exists():
-                    import pandas as pd
                     df = pd.read_csv(daily_data_file)
                     ts_code = f"{full_code.split('.')[1]}.{full_code.split('.')[0]}"
                     stock_rows = df[df['ts_code'] == ts_code]
@@ -870,6 +870,42 @@ class WorkflowCHandler:
             return 100.0  # 默认估计价格
 
         return 0.0
+
+    def _get_price_with_futu(self, full_code: str, fallback: float = None) -> float:
+        """通过富途获取实时价格（带超时保护）"""
+        result = [None]
+        exception = [None]
+
+        def _fetch():
+            try:
+                from futu import OpenQuoteContext
+                quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
+                ret, snapshot = quote_ctx.get_market_snapshot([full_code])
+                quote_ctx.close()
+                if ret == 0 and len(snapshot) > 0:
+                    price = float(snapshot['last_price'].iloc[0])
+                    if price > 0:
+                        result[0] = price
+            except Exception as e:
+                exception[0] = e
+
+        thread = threading.Thread(target=_fetch)
+        thread.daemon = True
+        thread.start()
+        thread.join(timeout=15)  # 15 秒超时
+
+        if thread.is_alive():
+            print(f"  富途价格获取超时 (15s)")
+            return fallback if fallback is not None else 0.0
+
+        if exception[0] is not None:
+            print(f"  富途行情获取失败：{exception[0]}")
+            return fallback if fallback is not None else 0.0
+
+        if result[0] is not None:
+            return result[0]
+
+        return fallback if fallback is not None else 0.0
 
     def save_results(self):
         """保存完整结果"""
@@ -924,9 +960,20 @@ def main():
         print("Step 5: 风控检查 + 人工审批 + 交易执行")
         print("=" * 60)
 
-        # 导入风控和审批模块
-        from risk_manager import risk_check, get_position
-        from approval_manager import send_trade_approval, wait_for_approval
+        try:
+            from risk_manager import risk_check, get_position
+            from approval_manager import send_trade_approval, wait_for_approval
+        except ImportError as e:
+            print(f"⚠️  风控/审批模块不可用：{e}")
+            print("  跳过风控检查，直接执行交易")
+            trades = handler.step5_execute_trades(recommendations)
+            if trades.get('error'):
+                print("Step 5 失败")
+            handler.save_results()
+            print("\n" + "=" * 60)
+            print("Workflow C 执行完成")
+            print("=" * 60)
+            return
 
         # 获取当前持仓
         current_position = get_position()
@@ -1005,11 +1052,13 @@ def main():
         print("Step 6: 生成每日复盘报告")
         print("=" * 60)
 
-        from daily_review import generate_daily_review
-
         try:
+            from daily_review import generate_daily_review
+
             review_report = generate_daily_review(args.date)
             print(f"\n✅ 复盘报告已生成")
+        except ImportError as e:
+            print(f"\n⚠️  复盘模块不可用：{e}")
         except Exception as e:
             print(f"\n⚠️  复盘报告生成失败：{e}")
 

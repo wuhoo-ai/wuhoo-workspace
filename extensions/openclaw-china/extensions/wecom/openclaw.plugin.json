@@ -1,0 +1,72 @@
+{
+  "id": "wecom",
+  "name": "WeCom",
+  "description": "企业微信消息渠道插件",
+  "version": "0.1.3",
+  "channels": ["wecom"],
+  "skills": ["./skills"],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": { "type": "boolean" },
+      "name": { "type": "string" },
+      "mode": { "type": "string", "enum": ["webhook", "ws"], "default": "ws" },
+      "webhookPath": { "type": "string" },
+      "token": { "type": "string" },
+      "encodingAESKey": { "type": "string" },
+      "receiveId": { "type": "string" },
+      "botId": { "type": "string" },
+      "secret": { "type": "string" },
+      "wsUrl": { "type": "string" },
+      "heartbeatIntervalMs": { "type": "integer", "minimum": 1 },
+      "reconnectInitialDelayMs": { "type": "integer", "minimum": 1 },
+      "reconnectMaxDelayMs": { "type": "integer", "minimum": 1 },
+      "publicBaseUrl": { "type": "string" },
+      "wsImageReplyMode": { "type": "string", "enum": ["native", "markdown-url"] },
+      "welcomeText": { "type": "string" },
+      "dmPolicy": { "type": "string", "enum": ["open", "pairing", "allowlist", "disabled"] },
+      "allowFrom": { "type": "array", "items": { "type": "string" } },
+      "groupPolicy": { "type": "string", "enum": ["open", "allowlist", "disabled"] },
+      "groupAllowFrom": { "type": "array", "items": { "type": "string" } },
+      "requireMention": { "type": "boolean" },
+      "defaultAccount": { "type": "string" },
+      "accounts": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "enabled": { "type": "boolean" },
+            "mode": { "type": "string", "enum": ["webhook", "ws"], "default": "ws" },
+            "webhookPath": { "type": "string" },
+            "token": { "type": "string" },
+            "encodingAESKey": { "type": "string" },
+            "receiveId": { "type": "string" },
+            "botId": { "type": "string" },
+            "secret": { "type": "string" },
+            "wsUrl": { "type": "string" },
+            "heartbeatIntervalMs": { "type": "integer", "minimum": 1 },
+            "reconnectInitialDelayMs": { "type": "integer", "minimum": 1 },
+            "reconnectMaxDelayMs": { "type": "integer", "minimum": 1 },
+            "publicBaseUrl": { "type": "string" },
+            "wsImageReplyMode": { "type": "string", "enum": ["native", "markdown-url"] },
+            "welcomeText": { "type": "string" },
+            "dmPolicy": { "type": "string", "enum": ["open", "pairing", "allowlist", "disabled"] },
+            "allowFrom": { "type": "array", "items": { "type": "string" } },
+            "groupPolicy": { "type": "string", "enum": ["open", "allowlist", "disabled"] },
+            "groupAllowFrom": { "type": "array", "items": { "type": "string" } },
+            "requireMention": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  },
+  "uiHints": {
+    "token": { "label": "Token", "sensitive": true },
+    "encodingAESKey": { "label": "EncodingAESKey", "sensitive": true },
+    "secret": { "label": "Secret", "sensitive": true },
+    "webhookPath": { "label": "Webhook Path" }
+  }
+}

@@ -31,20 +31,11 @@ def check_data_sources():
     # 1. 检查因子数据
     print("📊 [1/4] 检查因子数据...")
     try:
-        from adapters.quantaalpha_adapter import QuantaAlphaAdapter
-        adapter = QuantaAlphaAdapter()
-        status = adapter.get_status()
-        
-        if status.get('available'):
-            scores = adapter.get_factor_scores('600519.SH')
-            results["factor"]["status"] = "✅ 可用"
-            results["factor"]["quality"] = scores.get('data_source', 'unknown')
-            results["factor"]["message"] = f"181 个因子, 信号={scores.get('factor_signal', 0):.2f}"
-            print(f"   ✅ 因子数据: {results['factor']['message']}")
-        else:
-            results["factor"]["status"] = "❌ 不可用"
-            results["factor"]["quality"] = "degraded"
-            print(f"   ❌ 因子数据: 不可用")
+        # QuantaAlpha 已移除（2026-04-14），使用基本面+技术面替代
+        results["factor"]["status"] = "⏭️ 已移除"
+        results["factor"]["quality"] = "deprecated"
+        results["factor"]["message"] = "QuantaAlpha 已移除，使用基本面+技术面综合评分"
+        print(f"   ⏭️ 因子数据: QuantaAlpha 已移除，使用替代方案")
     except Exception as e:
         results["factor"]["status"] = "❌ 错误"
         results["factor"]["message"] = str(e)

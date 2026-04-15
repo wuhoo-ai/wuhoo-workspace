@@ -1,0 +1,64 @@
+# Dependencies 
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+*.js
+*.d.ts
+*.js.map
+!*.config.js
+*.tgz
+
+# IDE
+.idea/
+.vscode/
+.claude/
+openspec/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.kiro/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test
+coverage/
+.nyc_output/
+
+# Cache
+.cache/
+.turbo/
+.eslintcache
+*.tsbuildinfo
+
+# OS
+Thumbs.db
+
+# Downloads (test-server media files)
+downloads/
+
+doc/reference-projects/
+
+test-strip-markdown.mjs
+extensions/wecom-app/test-connection.mjs
+extensions/wecom-app/test-webhook.mjs
+extensions/wecom-app/test-server.mjs
+
+openclaw-multi-bot-config/
+.codex/
+# Independent projects
+.ccw/
+.workflow/

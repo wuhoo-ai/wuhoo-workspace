@@ -4,16 +4,19 @@
 Fundamental Adapter - 基本面数据适配器
 
 数据优先级策略:
-1. Tushare Pro API (最可靠，需要 token)
-2. AkShare (免费，但可能限流)
-3. Qlib 本地数据 (如果有)
-4. 降级数据 (明确标注，不可用于交易决策)
+1. Tushare Pro API (最可靠，需要 token) — 仅 A 股
+2. Futu OpenAPI (US/HK/A 股通用)
+3. AkShare (免费，仅 A 股)
+4. Qlib 本地数据 (如果有)
+5. 降级数据 (明确标注，不可用于交易决策)
 
 更新：2026-03-23 - 重写为真实数据优先，明确标注降级
+更新：2026-04-14 - 修复 Futu 连接生命周期（懒连接）+ 改进 US/HK 降级数据 + 删除 Qlib 引用
 """
 
 import json
 import os
+import subprocess
 from typing import Dict, Any, Optional, List
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -24,35 +27,36 @@ warnings.filterwarnings('ignore')
 class FundamentalAdapter:
     """
     基本面数据适配器
-    
+
     数据源优先级:
-    P0: Tushare Pro API (需要 token)
-    P1: AkShare (免费，可能限流)
-    P2: Qlib 本地数据
-    P3: 降级数据 (明确标注 DATA_QUALITY=degraded)
+    P0: Tushare Pro API (需要 token, 仅 A 股)
+    P1: Futu OpenAPI (US/HK/A 股通用，懒连接)
+    P2: AkShare (免费，仅 A 股)
+    P3: Qlib 本地数据
+    P4: 降级数据 (明确标注 DATA_QUALITY=degraded)
     """
-    
+
     def __init__(self):
         """初始化"""
         self.cache: Dict[str, Dict] = {}
         self.cache_ttl = 3600  # 1 小时缓存（基本面数据变化慢）
 
+        # Futu 懒连接：不在初始化时打开连接，需要时才创建
+        self._futu_ctx = None
+
         # 检测可用数据源
         self.ts_available = self._check_tushare()
         self.ak_available = self._check_akshare()
-        self.qlib_available = self._check_qlib()
-        self.futu_available = self._check_futu()
+        self.futu_importable = self._check_futu_importable()  # 仅检查库是否可导入
 
-        # 数据源优先级
+        # 数据源优先级（Futu 对所有市场都可用）
         self.data_priority = []
         if self.ts_available:
             self.data_priority.append("tushare")
-        if self.futu_available:
-            self.data_priority.append("futu")  # 富途优先级高于 AkShare
+        if self.futu_importable:
+            self.data_priority.append("futu")
         if self.ak_available:
             self.data_priority.append("akshare")
-        if self.qlib_available:
-            self.data_priority.append("qlib")
 
         print(f"[Fundamental] 数据源优先级：{self.data_priority if self.data_priority else ['degraded']}")
     
@@ -110,54 +114,40 @@ class FundamentalAdapter:
         
         print("[Fundamental] ❌ AkShare: 不可用")
         return False
-    
-    def _check_qlib(self) -> bool:
-        """检查 Qlib 本地数据是否可用"""
-        qlib_paths = [
-            Path("/home/admin/.openclaw/workspace/agents/main/skills/quantaalpha-deep/data/qlib"),
-            Path.home() / ".qlib/qlib_data/cn_data",
-        ]
-        
-        for path in qlib_paths:
-            if path.exists():
-                print(f"[Fundamental] ✅ Qlib: {path}")
-                self.qlib_path = path
-                return True
-        
-        print("[Fundamental] ❌ Qlib: 未找到数据")
-        return False
-    
-    def _check_futu(self) -> bool:
-        """检查富途 OpenAPI 是否可用"""
+
+    def _check_futu_importable(self) -> bool:
+        """检查富途 OpenAPI 库是否可导入（不实际连接）"""
         try:
-            from futu import OpenQuoteContext
-            import os
-            host = os.environ.get('FUTU_HOST', '127.0.0.1')
-            port = int(os.environ.get('FUTU_PORT', 11111))
-
-            # 尝试连接
-            quote_ctx = OpenQuoteContext(host=host, port=port)
-            # 尝试获取一个港股行情
-            ret, data = quote_ctx.get_market_snapshot('HK.00700')
-            quote_ctx.close()
-
-            if ret == 0:
-                print("[Fundamental] ✅ 富途 OpenAPI: 已连接")
-                return True
-            else:
-                print(f"[Fundamental] ⚠️ 富途 OpenAPI: 连接失败")
+            from futu import OpenQuoteContext  # noqa: F401
+            print("[Fundamental] ✅ 富途 OpenAPI: 库已安装")
+            return True
+        except ImportError:
+            print("[Fundamental] ❌ 富途 OpenAPI: 库未安装")
+            return False
         except Exception as e:
             print(f"[Fundamental] ⚠️ 富途 OpenAPI: 检查失败 - {e}")
+            return False
 
-        print("[Fundamental] ❌ 富途 OpenAPI: 不可用")
-        return False
+    def _get_futu_context(self):
+        """懒连接：获取 Futu 报价上下文（需要时才创建连接）"""
+        if self._futu_ctx is None:
+            try:
+                from futu import OpenQuoteContext
+                host = os.environ.get('FUTU_HOST', '127.0.0.1')
+                port = int(os.environ.get('FUTU_PORT', 11111))
+                self._futu_ctx = OpenQuoteContext(host=host, port=port)
+                print("[Fundamental] ✅ 富途 OpenAPI: 已连接")
+            except Exception as e:
+                print(f"[Fundamental] ❌ 富途 OpenAPI: 连接失败 - {e}")
+                self._futu_ctx = False  # 标记连接失败，避免重复尝试
+        return self._futu_ctx if self._futu_ctx else None
 
     def get_fundamental_data(self, symbol: str) -> Dict:
         """
         获取基本面数据（带优先级和降级处理）
         
         Args:
-            symbol: 股票代码 (如 "600519.SH")
+            symbol: 股票代码 (如 "600519.SH" 或 "US.HD")
         
         Returns:
             基本面数据字典，包含 data_quality 标识
@@ -168,12 +158,24 @@ class FundamentalAdapter:
             if self._is_cache_valid(cached):
                 return cached["data"]
         
+        # 检测市场类型：美股/港股跳过 Tushare 和 AkShare（仅支持A股）
+        sym_upper = symbol.upper()
+        is_non_cn = sym_upper.startswith(('US.', 'HK.')) or (sym_upper.endswith('.US') or sym_upper.endswith('.HK'))
+        
+        # 非A股：重新排列数据源优先级
+        if is_non_cn:
+            active_sources = [s for s in self.data_priority if s == 'futu']
+            if not active_sources:
+                active_sources = ['futu'] if self.futu_importable else []
+        else:
+            active_sources = self.data_priority
+        
         # 按优先级获取数据
         data = None
         data_source = "none"
         data_quality = "degraded"
         
-        for source in self.data_priority:
+        for source in active_sources:
             try:
                 if source == "tushare":
                     data = self._fetch_from_tushare(symbol)
@@ -181,9 +183,7 @@ class FundamentalAdapter:
                     data = self._fetch_from_futu(symbol)
                 elif source == "akshare":
                     data = self._fetch_from_akshare(symbol)
-                elif source == "qlib":
-                    data = self._fetch_from_qlib(symbol)
-                
+
                 if data and data.get('pe') is not None:
                     data_source = source
                     data_quality = "real"
@@ -290,17 +290,13 @@ except Exception as e:
         return None
 
     def _fetch_from_futu(self, symbol: str) -> Optional[Dict]:
-        """从富途 OpenAPI 获取港股/美股基本面数据"""
+        """从富途 OpenAPI 获取港股/美股基本面数据（使用懒连接）"""
+        quote_ctx = self._get_futu_context()
+        if quote_ctx is None:
+            return None
+
         try:
-            from futu import OpenQuoteContext
-            import os
-
-            host = os.environ.get('FUTU_HOST', '127.0.0.1')
-            port = int(os.environ.get('FUTU_PORT', 11111))
-
-            quote_ctx = OpenQuoteContext(host=host, port=port)
             ret, data = quote_ctx.get_market_snapshot(symbol)
-            quote_ctx.close()
 
             if ret == 0 and len(data) > 0:
                 row = data.iloc[0]
@@ -322,7 +318,12 @@ except Exception as e:
         return None
 
     def _fetch_from_akshare(self, symbol: str) -> Optional[Dict]:
-        """从 AkShare 获取基本面数据"""
+        """从 AkShare 获取基本面数据（仅支持A股）"""
+        # 美股/港股：AkShare 不支持，直接返回
+        sym_upper = symbol.upper()
+        if sym_upper.startswith(('US.', 'HK.')) or sym_upper.endswith('.US') or sym_upper.endswith('.HK'):
+            return None
+        
         try:
             import subprocess
 
@@ -375,77 +376,87 @@ except Exception as e:
             print(f"[Fundamental] AkShare 错误：{e}")
 
         return None
-    
-    def _fetch_from_qlib(self, symbol: str) -> Optional[Dict]:
-        """从 Qlib 获取基本面数据（有限）"""
-        # Qlib 主要存储行情数据，基本面数据有限
-        # 这里仅作为降级方案
-        
-        if not hasattr(self, 'qlib_path'):
-            return None
-        
-        # 转换股票代码
-        market, code = symbol.split(".")
-        qlib_code = f"{market.lower()}{code}"
-        
-        feature_dir = self.qlib_path / "cn_data" / "features" / qlib_code
-        if not feature_dir.exists():
-            return None
-        
-        # Qlib 不包含 PE/PB 等基本面数据
-        # 仅返回技术面相关数据
-        return {
-            "note": "Qlib 仅提供行情数据，不包含基本面指标",
-            "qlib_available": True
-        }
-    
+
     def _get_degraded_data(self, symbol: str) -> Dict:
         """
         降级数据（当所有真实数据源都失败时使用）
-        
+
         ⚠️ 明确标注为 degraded，不可用于真实交易决策
+
+        支持市场识别：
+        - A 股：根据代码前缀估计行业
+        - 美股 (US.XXX)：使用美股平均估值
+        - 港股 (HK.XXX)：使用港股平均估值
         """
-        # 使用行业平均估值作为参考（基于 A 股整体数据）
-        # 这些数据是合理的估计值，但不是真实数据
-        
-        # 基于股票代码生成可重复的"估计值"
+        sym_upper = symbol.upper()
+        is_us = sym_upper.startswith('US.')
+        is_hk = sym_upper.startswith('HK.')
+
+        # 提取裸代码用于行业判断
+        bare = sym_upper.replace('US.', '').replace('HK.', '').replace('SH.', '').replace('SZ.', '')
         hash_val = hash(symbol) % 1000
-        
-        # A 股平均估值参考（2026 年）
-        # 银行/金融：PE 5-8x, PB 0.5-1.0x
-        # 消费/食品：PE 20-40x, PB 5-10x
-        # 科技/电子：PE 25-50x, PB 3-8x
-        # 医药：PE 25-45x, PB 4-9x
-        
-        # 根据股票代码前缀估计行业
-        if symbol.startswith('600') or symbol.startswith('601'):
-            # 沪市主板，可能是传统行业
+
+        if is_us:
+            # 美股平均估值（2026 年 S&P 500 参考）
+            # 科技：PE 25-35x, PB 5-12x
+            # 金融：PE 10-15x, PB 1-2x
+            # 消费：PE 20-30x, PB 3-8x
+            # 能源：PE 8-12x, PB 1-3x
+            tech_tickers = ('AAPL', 'MSFT', 'GOOGL', 'GOOG', 'AMZN', 'NVDA', 'META', 'TSLA', 'AMD', 'NFLX', 'ADBE', 'CRM', 'INTC', 'ORACLE', 'CSCO')
+            finance_tickers = ('JPM', 'BAC', 'C', 'WFC', 'GS', 'MS', 'BLK', 'AXP', 'V', 'MA')
+            if bare in tech_tickers:
+                base_pe = 28 + (hash_val % 10)
+                base_pb = 6.0 + (hash_val % 60) / 10
+            elif bare in finance_tickers:
+                base_pe = 12 + (hash_val % 5)
+                base_pb = 1.5 + (hash_val % 10) / 10
+            else:
+                # S&P 500 平均
+                base_pe = 20 + (hash_val % 10)
+                base_pb = 3.5 + (hash_val % 40) / 10
+        elif is_hk:
+            # 港股平均估值（恒生指数参考）
+            # 科技（腾讯/阿里/美团）：PE 15-25x, PB 2-5x
+            # 金融/地产：PE 5-10x, PB 0.5-1.5x
+            # 消费：PE 15-25x, PB 2-5x
+            hk_tech = ('00700', '09988', '03690', '09618', '01810', '09888', '09626')
+            hk_finance = ('02318', '02628', '03988', '00939', '00941', '00388')
+            if bare in hk_tech:
+                base_pe = 18 + (hash_val % 10)
+                base_pb = 3.0 + (hash_val % 30) / 10
+            elif bare in hk_finance:
+                base_pe = 7 + (hash_val % 5)
+                base_pb = 0.8 + (hash_val % 10) / 10
+            else:
+                base_pe = 10 + (hash_val % 12)
+                base_pb = 1.2 + (hash_val % 25) / 10
+        elif bare.startswith('600') or bare.startswith('601'):
             base_pe = 12 + (hash_val % 20)
             base_pb = 1.2 + (hash_val % 30) / 10
-        elif symbol.startswith('300') or symbol.startswith('301'):
-            # 创业板，可能是科技/成长
+        elif bare.startswith('300') or bare.startswith('301'):
             base_pe = 25 + (hash_val % 30)
             base_pb = 3.0 + (hash_val % 50) / 10
-        elif symbol.startswith('000') or symbol.startswith('002'):
-            # 深市主板/中小板
+        elif bare.startswith('000') or bare.startswith('002'):
             base_pe = 18 + (hash_val % 25)
             base_pb = 2.0 + (hash_val % 40) / 10
         else:
             base_pe = 20
             base_pb = 2.5
-        
+
+        market_label = "美股" if is_us else "港股" if is_hk else "A股"
+
         return {
             "pe": float(base_pe),
             "pb": float(base_pb),
-            "ps": float(base_pe / 3),  # 粗略估计
-            "dv_ratio": float(1.0 + (hash_val % 40) / 10),  # 股息率
-            "roe": float(0.08 + (hash_val % 20) / 100),  # ROE 8%-28%
-            "revenue_growth": float(0.05 + (hash_val % 30) / 100),  # 营收增速 5%-35%
-            "profit_margin": float(0.08 + (hash_val % 25) / 100),  # 净利率 8%-33%
-            "debt_ratio": float(0.30 + (hash_val % 40) / 100),  # 负债率 30%-70%
-            "turnover_rate": float(0.01 + (hash_val % 100) / 1000),  # 换手率 1%-11%
-            "volume_ratio": float(0.8 + (hash_val % 100) / 100),  # 量比 0.8-1.8
-            "note": "降级数据 - 基于行业平均估计，非真实数据",
+            "ps": float(base_pe / 3),
+            "dv_ratio": float(1.0 + (hash_val % 40) / 10),
+            "roe": float(0.08 + (hash_val % 20) / 100),
+            "revenue_growth": float(0.05 + (hash_val % 30) / 100),
+            "profit_margin": float(0.08 + (hash_val % 25) / 100),
+            "debt_ratio": float(0.30 + (hash_val % 40) / 100),
+            "turnover_rate": float(0.01 + (hash_val % 100) / 1000),
+            "volume_ratio": float(0.8 + (hash_val % 100) / 100),
+            "note": f"降级数据 — {market_label}行业平均估计，非真实数据",
             "warning": "⚠️ 数据质量：degraded - 不可用于真实交易决策"
         }
     
@@ -499,7 +510,8 @@ except Exception as e:
             "available_sources": self.data_priority,
             "tushare_available": self.ts_available,
             "akshare_available": self.ak_available,
-            "qlib_available": self.qlib_available,
+            "futu_importable": self.futu_importable,
+            "futu_connected": self._futu_ctx is not None and self._futu_ctx is not False,
             "cache_size": len(self.cache)
         }
 

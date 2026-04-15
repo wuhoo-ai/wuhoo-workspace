@@ -1,13 +1,15 @@
 ---
 name: wuhoo-news-rss
 description: "RSS 资讯采集与检索引擎。通过 RSSHub + 原生 RSS 源自动采集多类别资讯，存储到 SQLite (FTS5 全文搜索)，支持关键词告警、热点评分、按类别/时间检索。wuhoo 冠名 skill 为 OpenClaw 企业级关键 skill，需重点维护。"
-metadata: { "openclaw": { "emoji": "📰", "requires": { "bins": ["python3"], "pip": ["feedparser", "pyyaml"] } } }
+metadata: { "openclaw": { "emoji": "📰", "requires": { "bins": ["python3.11"], "pip": ["feedparser", "pyyaml"] } } }
 ---
 
 # wuhoo-news-rss — RSS 资讯采集与检索引擎
 
 > **⚠️ 企业级关键 Skill**
 > 以 `wuhoo-` 冠头的 skill 是当前 OpenClaw 系统的**企业级关键 skill**，承担核心业务价值。
+>
+> **舆情管线优先数据源**：在辩论系统 (Workflow B/C/D) 中，RSS 舆情是综合评分的**最高权重**数据源 (50%)，优先于 TrendRadar 和 Web Search。
 
 ## 功能概述
 
@@ -66,6 +68,10 @@ cd ~/.openclaw/workspace/agents/main/skills/wuhoo-news-rss
 
 # 关键词告警
 /usr/bin/python3.11 src/fetcher.py --keywords "AI,英伟达,量化交易" --hours 6
+
+# JSON 输出模式（供程序调用）
+/usr/bin/python3.11 src/fetcher.py --search "NVDA" --json
+/usr/bin/python3.11 src/fetcher.py --top 10 --json
 ```
 
 ## 配置
@@ -99,12 +105,28 @@ feeds:
 
 ## 与 TrendRadar 的关系
 
-| 工具 | 定位 | 数据源 | 特点 |
-|------|------|--------|------|
-| **TrendRadar** | 热点榜单 | 42 平台爬虫 | 实时热搜，短平快 |
-| **wuhoo-news-rss** | 资讯内容 | RSSHub + RSS | 深度内容，可检索，可告警 |
+| 工具 | 定位 | 数据源 | 特点 | 权重 |
+|------|------|--------|------|------|
+| **wuhoo-news-rss** ⚠️ | 资讯内容 | RSSHub + RSS | 深度内容，可检索，可告警 | **50%** |
+| **TrendRadar** | 热点榜单 | 42 平台爬虫 | 实时热搜，短平快 | 30-40% |
+| **Web Search** | 个股精准舆情 | Tavily/Jina | 个股精准搜索 | 20% |
 
-两者**并存互补**，TrendRadar 看"大家在搜什么"，RSS 看"大家在看什么"。
+三者**并存互补**，wuhoo-news-rss 看"大家在关注什么新闻"，TrendRadar 看"大家在搜什么"，Web Search 提供个股精准舆情。
+
+## 与辩论系统的集成
+
+wuhoo-news-rss 通过 `debate/adapters/news_rss_adapter.py` 集成到 DataAggregator 的舆情管线：
+
+```
+DataAggregator._get_combined_sentiment()
+  ├── 源1: RSSNewsAdapter (50% 权重) ← wuhoo-news-rss
+  ├── 源2: TrendRadarAdapter (30-40% 权重)
+  └── 源3: WebSearchAdapter (20% 权重)
+        ↓
+  加权平均 → sentiment_score (-1 ~ +1)
+```
+
+调用路径：`workflow_b_deep_analysis.py → DataAggregator → news_rss.get_sentiment_data(symbol, company_name)`
 
 ## 依赖
 
