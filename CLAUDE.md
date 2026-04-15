@@ -9,8 +9,8 @@ OpenClaw 配置仓库。管理模型、Agent、Channel、Skills 等核心配置�
 | 组件 | 路径 | 独立仓库 |
 |------|------|----------|
 | Config | `~/.openclaw/` | 当前仓库 |
-| Skills | `skills/` → `~/skills-openclaw/` | [skills-openclaw](~/skills-openclaw/) |
-| Agent 代码 | `workspace/agents/` → `~/agents-openclaw/` | [agents-openclaw](~/agents-openclaw/) |
+| Skills | `skills/` → `~/wuhoo-skills/` | [wuhoo-skills](~/wuhoo-skills/) |
+| Agent 代码 | `workspace/agents/` → `~/wuhoo-agents/` | [wuhoo-agents](~/wuhoo-agents/) |
 | Projects | `workspace/projects/` | 各自独立仓库 |
 
 ### Core Agents

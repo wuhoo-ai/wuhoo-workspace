@@ -510,7 +510,7 @@
     }
   },
   "additionalDirectories": [
-    "~/skills-openclaw",
-    "~/agents-openclaw"
+    "~/wuhoo-skills",
+    "~/wuhoo-agents"
   ]
 }
