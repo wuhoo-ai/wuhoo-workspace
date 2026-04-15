@@ -109,3 +109,7 @@ package-lock.json
 # OpenClaw runtime
 flows/
 tasks/
+
+# Migration backups
+*.old/
+*.backup/

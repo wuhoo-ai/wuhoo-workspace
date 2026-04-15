@@ -1,251 +1,99 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+OpenClaw 配置仓库。管理模型、Agent、Channel、Skills 等核心配置。
 
-## Project Overview
+## 仓库架构
 
-OpenClaw configuration repository for a multi-agent AI system focused on quantitative trading and information management.
+当前 `.openclaw/` 是配置中心，代码通过软链接引用独立仓库：
+
+| 组件 | 路径 | 独立仓库 |
+|------|------|----------|
+| Config | `~/.openclaw/` | 当前仓库 |
+| Skills | `skills/` → `~/skills-openclaw/` | [skills-openclaw](~/skills-openclaw/) |
+| Agent 代码 | `workspace/agents/` → `~/agents-openclaw/` | [agents-openclaw](~/agents-openclaw/) |
+| Projects | `workspace/projects/` | 各自独立仓库 |
 
 ### Core Agents
 
-| Agent | Model | Purpose | Workspace |
-|-------|-------|---------|-----------|
-| **main-agent** | bailian/qwen3.5-plus | Daily assistant, information retrieval, task routing | `workspace/agents/main/` |
-| **dev-agent** | bailian/qwen3-coder-next | Code generation, review, debugging (via coding-agent) | `workspace/agents/dev/` |
-| **trade-agent** | bailian/qwen3.5-plus | Quantitative trading, market analysis, risk management | `workspace/agents/trade/` |
-| **debate-agent** | - | Multi-agent debate for stock analysis | `workspace/agents/debate/` |
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| **main-agent** | bailian/qwen3.5-plus | 日常助手、信息检索、任务路由 |
+| **dev-agent** | bailian/qwen3-coder-next | 代码生成、审查、调试 |
+| **trade-agent** | bailian/qwen3.5-plus | 量化交易、市场分析、风险管理 |
+| **debate-agent** | - | 多 agent 辩论分析股票 |
 
-## Architecture
+### 模型配置
 
-```
-~/.openclaw/
-├── openclaw.json              # Main configuration (models, agents, channels, plugins)
-├── .env                       # Environment variables (API keys, secrets)
-├── scripts/                   # Utility scripts (backup, heartbeat, testing)
-├── skills/                    # Custom skills (symlinks to .agents/skills/)
-├── extensions/                # Plugin extensions
-│   ├── openclaw-china/       # Channels plugin (DingTalk, WeCom)
-│   └── openclaw-weixin/      # WeChat integration
-├── workspace/
-│   ├── agents/               # Agent workspaces (main, dev, trade, debate)
-│   └── projects/             # External projects
-│       ├── AI-Trader/        # Quantitative trading system
-│       └── TrendRadar/       # Hotspot monitoring MCP server
-└── data/                     # Persistent data storage & backups
-```
+通过百炼代理 `https://coding.dashscope.aliyuncs.com/apps/anthropic`：
 
-## Key Projects
+| Model | 用途 |
+|-------|------|
+| qwen3.5-plus | 通用任务、交易分析 |
+| qwen3-coder-next | 代码生成 (dev-agent) |
+| MiniMax-M2.5 | 降级模型 |
 
-### AI-Trader (`workspace/projects/AI-Trader/`)
+### Channel 配置
 
-Autonomous AI trading agents competing in NASDAQ 100, A-shares, and cryptocurrency markets.
+| Channel | Mode | 用途 |
+|---------|------|------|
+| **DingTalk** | HTTP | 热点推送、交易通知 |
+| **WeCom** | WebSocket | 直接消息、会话管理 |
 
-```bash
-cd workspace/projects/AI-Trader
+## Skills 系统
 
-# US Stocks workflow
-bash scripts/main.sh                    # Complete workflow
-bash scripts/main_step1.sh              # Prepare price data
-bash scripts/main_step2.sh              # Start MCP services
-bash scripts/main_step3.sh              # Run trading agent
+### 企业级关键 Skills (wuhoo-*)
 
-# A-Shares workflow
-bash scripts/main_a_stock_step1.sh      # A-share data preparation
-bash scripts/main_a_stock_step2.sh      # Start MCP services
-bash scripts/main_a_stock_step3.sh      # Run A-share agent
+> 修改这些 skill 时需特别谨慎，承担核心业务价值。
 
-# Crypto workflow
-bash scripts/main_crypto_step1.sh       # Crypto data preparation
-bash scripts/main_crypto_step2.sh       # Start MCP services
-bash scripts/main_crypto_step3.sh       # Run crypto agent
+| Skill | 用途 |
+|-------|------|
+| **wuhoo-stock-deep-analysis** | Workflow B — 单股深度分析 |
+| **wuhoo-stock-autopick-trade** | Workflow C — 多市场自动选股 |
+| **wuhoo-trade-diagnose** | Workflow D — 持仓诊断与调仓 |
+| **wuhoo-news-rss** | RSS 资讯引擎 |
 
-# View performance
-python tools/calculate_metrics.py --signature trade-agent
-python tools/plot_metrics.py --signature trade-agent
-```
+### 其他 Skills
 
-**Data paths:**
-- Price data: `data/daily_prices_*.json`, `data/merged.jsonl`
-- Trading records: `data/agent_data/`, `data/agent_data_astock/`, `data/agent_data_crypto/`
+| Skill | 用途 |
+|-------|------|
+| futu-api | 富途 OpenAPI (57 脚本) |
+| stock-pick | A股因子选股 |
+| install-futu-opend | Futu OpenD 安装 |
 
-### TrendRadar (`workspace/projects/TrendRadar/`)
+Skills 通过 `skills.load.extraDirs: ["~/.openclaw/skills"]` 加载。
 
-MCP server for real-time hotspot monitoring and trend analysis.
-
-```bash
-cd workspace/projects/TrendRadar
-
-# Run locally
-./run-local.sh
-
-# Test MCP server
-python -m mcp_server
-```
-
-## Configuration
-
-### Environment Variables (`~/.openclaw/.env`)
-
-Key variables (actual values stored in `.env` file):
-- `BAILIAN_API_KEY` / `CODING_PLAN_KEY` -阿里云百炼 API
-- `TUSHARE_TOKEN` - Tushare Pro 金融数据
-- `JINA_API_KEY` - Jina AI 搜索
-- `DINGTALK_*` - 钉钉机器人配置
-- `WECOM_*` - 企业微信配置
-- `GATEWAY_AUTH_TOKEN` - Gateway 认证
-
-### Model Configuration
-
-All models use Alibaba Bailian provider via `https://coding.dashscope.aliyuncs.com/apps/anthropic` (anthropic-messages API):
-
-| Model | Use Case |
-|-------|----------|
-| qwen3.5-plus | General tasks, trading analysis |
-| qwen3-coder-next | Code generation (dev-agent default) |
-| qwen3-coder-plus | Code understanding |
-| MiniMax-M2.5 | Fallback model |
-| glm-5, glm-4.7 | Alternative general models |
-| kimi-k2.5 | Multimodal tasks |
-
-## Channels
-
-| Channel | Mode | Purpose |
-|---------|------|---------|
-| **DingTalk** | HTTP | Hotspot push, trading notifications |
-| **WeCom** | WebSocket | Direct messaging, session management |
-
-Both channels configured with:
-- `dmPolicy: open` - Direct messages enabled
-- `groupPolicy: closed` - Group messages restricted
-- `messageType: markdown` - Rich formatting
-- Session persistence and auto-reconnect
-
-## Enterprise Critical Skills (wuhoo-*)
-
-> **以 `wuhoo-` 冠头的 skill 是当前 OpenClaw 系统的企业级关键 skill**，承担核心业务价值。
-> 这些 skill 的代码质量、稳定性和可维护性需要特别关注。修改这些 skill 时应更加谨慎。
-
-| Skill | Location | Purpose |
-|-------|----------|---------|
-| **wuhoo-stock-deep-analysis** | `skills/wuhoo-stock-deep-analysis/` | Workflow B — 单股深度分析与决策建议 |
-| **wuhoo-stock-autopick-trade** | `skills/wuhoo-stock-autopick-trade/` | Workflow C — 多市场自动选股交易全链路 |
-| **wuhoo-trade-diagnose** | `skills/wuhoo-trade-diagnose/` | Workflow D — 持仓诊断与调仓建议 |
-
-Skills 通过 `skills.load.extraDirs` 从 `~/.openclaw/skills/` 自动加载。
-
-## Skills System
-
-### Bundled Skills (enabled)
-- `weather`, `web_search`, `web_fetch` - Information retrieval
-- `clawhub`, `file-search`, `browse` - File/web operations
-- `jina_search`, `tavily_search` - Specialized search
-- `coding-agent` - Code generation via Bailian
-- `github` - Repository operations
-- `summarize`, `get-tldr` - Content summarization
-
-### Custom Skills
-- **wuhoo-stock-deep-analysis** ⚠️ — Workflow B 单股深度分析与决策建议（企业级关键 skill）
-- **wuhoo-stock-autopick-trade** ⚠️ — Workflow C 多市场自动选股交易全链路（企业级关键 skill）
-- **wuhoo-trade-diagnose** ⚠️ — Workflow D 持仓诊断与调仓建议（企业级关键 skill）
-- `stock-pick` - Stock screening (main-agent)
-- `futu-api` ⚠️ — **富途 OpenAPI 行情交易助手**（官方 skill，57 个脚本）
-- `install-futu-opend` — Futu OpenD 安装助手（官方 skill）
-- `akshare-stock` - A-share real-time quotes
-- `china-stock-analysis` - Value investment analysis
-
-## Trading Pipeline (Automated)
+## Trading Pipeline
 
 ```
 选股 (Stock-Pick) → 辩论 (Debate) → 人工确认 → 交易执行 (Futu) → 持仓管理 (Trade-Diagnose)
 ```
 
-See `workspace/agents/trade/AUTOMATION_PIPELINE.md` for full specification.
+### 风控规则
+- 单股仓位 ≤ 20%
+- 总仓位 ≥ 10% 现金
+- 止损: -8%/笔, -15%/账户
+- 大额交易 (>5% 仓位) 需用户确认
 
-### Risk Controls
-- Single stock position ≤ 20%
-- Total position ≥ 10% cash
-- Stop-loss: -8% per trade, -15% total account
-- Large trades (>5% position) require user confirmation
+## 环境变量
 
-## Development Workflow
+关键变量在 `.env` 中：`BAILIAN_API_KEY`, `TUSHARE_TOKEN`, `JINA_API_KEY`, `DINGTALK_*`, `WECOM_*`
 
-### dev-agent Usage
-
-```bash
-# Send coding tasks to dev-agent
-/dev 帮我写一个 Python 函数计算斐波那契数列
-/dev 帮我审查这段代码...
-/dev 这个函数有 bug，帮我修复一下...
-```
-
-### Code Review Checklist
-- Logic correctness
-- Edge case handling
-- Error handling
-- Performance implications
-- Security vulnerabilities
-- Code readability and comments
-
-### Git Convention
-
-```
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
-```
-
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-
-## Python Environments
-
-| Project | Virtual Environment |
-|---------|---------------------|
-| AI-Trader | `workspace/projects/AI-Trader/venv/` |
-| TrendRadar | `workspace/projects/TrendRadar/venv/` |
-| Debate | `workspace/agents/debate/venv/` |
-
-**Python Version**: 3.11+
-
-## Utility Scripts
+## 开发工作流
 
 ```bash
-# Backup secrets (daily at 3:00 AM via cron)
-scripts/backup-secrets.sh
-
-# Test Claude Code Bailian connection
-scripts/test-claude-code-bailian.sh
-
-# Heartbeat news push
-scripts/heartbeat-news.sh
-
-# Set channel defaults
-scripts/set-channel-defaults.sh
+# dev-agent 用法
+/dev 帮我写一个 Python 函数
+/dev 帮我审查这段代码
 ```
 
-## Data & Logs
+### Git 规范
 
-### Trade Agent
-- Position: `workspace/projects/AI-Trader/data/agent_data/trade-agent/position/position.jsonl`
-- Logs: `workspace/projects/AI-Trader/data/agent_data/trade-agent/log/{date}/log.jsonl`
+`<type>(<scope>): <subject>` — types: feat, fix, docs, refactor, test, chore
 
-### Backups
-- Encrypted backups to `data/backups/secrets/` using age encryption
-- Daily automatic backup at 3:00 AM
-- 30-day retention
+## 工具脚本
 
-## Important Notes
-
-1. **API Key Security**: All sensitive data in `.env` - never commit to git
-2. **Simulated Trading First**: New strategies must validate in simulation before live trading
-3. **User Confirmation Required**: First trade and large trades always need approval
-4. **Model Routing**: dev-agent uses qwen3-coder-next for code, trade/main use qwen3.5-plus
-
-## Documentation
-
-- `workspace/agents/trade/AUTOMATION_PIPELINE.md` - Full trading pipeline design
-- `workspace/agents/*/SOUL.md` - Agent persona and behavior guidelines
-- `workspace/agents/*/TOOLS.md` - Agent-specific tool documentation
-- `data/ai-trader/configs/README.md` - AI-Trader configuration guide
-- `docs/CLAUDE-CODE-BAILIAN-CONFIG.md` - Bailian coding-agent setup
+```bash
+scripts/backup-secrets.sh            # 每日备份
+scripts/test-claude-code-bailian.sh  # 连接测试
+scripts/heartbeat-news.sh            # 心跳推送
+```
