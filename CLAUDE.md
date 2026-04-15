@@ -34,10 +34,8 @@ OpenClaw 配置仓库。管理模型、Agent、Channel、Skills 等核心配置�
 
 ### Channel 配置
 
-| Channel | Mode | 用途 |
-|---------|------|------|
-| **DingTalk** | HTTP | 热点推送、交易通知 |
-| **WeCom** | WebSocket | 直接消息、会话管理 |
+当前仅使用 **openclaw-weixin** 插件（enabled，NPM 安装于 `extensions/openclaw-weixin/`）。
+DingTalk/WeCom 已废弃（openclaw-china 插件已删除）。
 
 ## Skills 系统
 
@@ -76,7 +74,7 @@ Skills 通过 `skills.load.extraDirs: ["~/.openclaw/skills"]` 加载。
 
 ## 环境变量
 
-关键变量在 `.env` 中：`BAILIAN_API_KEY`, `TUSHARE_TOKEN`, `JINA_API_KEY`, `DINGTALK_*`, `WECOM_*`
+关键变量在 `.env` 中：`BAILIAN_API_KEY`, `TUSHARE_TOKEN`, `JINA_API_KEY`, `GATEWAY_AUTH_TOKEN`
 
 ## 开发工作流
 
