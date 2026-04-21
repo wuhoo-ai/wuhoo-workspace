@@ -37,6 +37,13 @@ checkpoints/
 sandboxes/
 
 # Large regenerable data
+data/cn/daily/
+data/cn/hourly/
+data/hk/daily/
+data/us/daily/
+data/us/factors/
+
+# Old paths (kept for reference)
 data/stock-pick/daily_data/
 data/stock-pick/factors/
 data/stock-pick/turnover_data/
