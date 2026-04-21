@@ -1,0 +1,51 @@
+{
+  "plan_id": "us_equal_weight_20260421",
+  "created_at": "2026-04-21T17:30:00+08:00",
+  "market": "US",
+  "strategy": "equal_weight",
+  "account": {
+    "total_assets": 1003305.01,
+    "available_cash": 983115.01,
+    "trd_env": "SIMULATE"
+  },
+  "existing_positions": [
+    {
+      "code": "US.NVDA",
+      "qty": 100,
+      "market_val": 20190.0
+    }
+  ],
+  "allocation": {
+    "investable_cash": 933959.26,
+    "cash_buffer_pct": 5.0,
+    "num_stocks": 11,
+    "per_stock_target": 84905.39
+  },
+  "orders": [
+    {"code": "US.HST", "symbol": "HST", "name": "Host Hotels", "price": 21.29, "shares": 3988, "target_amount": 84904.52, "beta": 1.200},
+    {"code": "US.PPG", "symbol": "PPG", "name": "PPG Industries", "price": 114.73, "shares": 740, "target_amount": 84900.20, "beta": 1.424},
+    {"code": "US.ABNB", "symbol": "ABNB", "name": "Airbnb", "price": 143.59, "shares": 591, "target_amount": 84861.69, "beta": 1.726},
+    {"code": "US.COF", "symbol": "COF", "name": "Capital One", "price": 205.71, "shares": 412, "target_amount": 84752.52, "beta": 1.378},
+    {"code": "US.NVDA", "symbol": "NVDA", "name": "Nvidia", "price": 202.06, "shares": 420, "target_amount": 84865.20, "beta": 1.740, "note": "已持100股，追加320股"},
+    {"code": "US.MS", "symbol": "MS", "name": "Morgan Stanley", "price": 190.70, "shares": 445, "target_amount": 84861.50, "beta": 1.208},
+    {"code": "US.C", "symbol": "C", "name": "Citigroup", "price": 133.05, "shares": 638, "target_amount": 84885.90, "beta": 1.808},
+    {"code": "US.GOOGL", "symbol": "GOOGL", "name": "Alphabet A", "price": 337.42, "shares": 251, "target_amount": 84692.42, "beta": 1.821},
+    {"code": "US.BEN", "symbol": "BEN", "name": "Franklin Resources", "price": 27.73, "shares": 3061, "target_amount": 84881.53, "beta": 1.662},
+    {"code": "US.ADI", "symbol": "ADI", "name": "Analog Devices", "price": 381.05, "shares": 222, "target_amount": 84593.10, "beta": 1.506},
+    {"code": "US.AMZN", "symbol": "AMZN", "name": "Amazon", "price": 248.28, "shares": 341, "target_amount": 84663.48, "beta": 1.490}
+  ],
+  "summary": {
+    "total_cost": 932862.07,
+    "remaining_cash": 50252.94,
+    "cash_pct": 5.0,
+    "portfolio_beta": 1.542,
+    "stock_count": 11
+  },
+  "risk_rules": {
+    "stop_loss_pct": -8.0,
+    "max_position_pct": 10.0,
+    "rebalance_trigger": "weekly"
+  },
+  "status": "pending",
+  "trigger": "wechat_manual"
+}

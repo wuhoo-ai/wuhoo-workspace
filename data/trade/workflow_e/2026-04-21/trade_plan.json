@@ -1,0 +1,174 @@
+{
+  "workflow": "E",
+  "generated_at": "2026-04-21T13:13:56.880766",
+  "pick_date": "latest",
+  "trd_env": "SIMULATE",
+  "dry_run": false,
+  "total_assets": 1026040.92,
+  "target_per_stock": 92343.68,
+  "sell_orders": [
+    {
+      "code": "HK.00700",
+      "name": "腾讯控股",
+      "qty": 500.0,
+      "price": 517.5,
+      "expected_value": 258750.0,
+      "current_pl": 0.0,
+      "in_target": false,
+      "execution": {
+        "order_id": "7604485",
+        "code": "HK.00700",
+        "side": "SELL",
+        "quantity": 500,
+        "price": 0.0,
+        "order_type": "MARKET",
+        "trd_env": "SIMULATE",
+        "status": "submitted"
+      }
+    },
+    {
+      "code": "HK.00945",
+      "name": "宏利金融-S",
+      "qty": 200.0,
+      "price": 300.8,
+      "expected_value": 60160.0,
+      "current_pl": 0.0,
+      "in_target": false,
+      "execution": {
+        "order_id": "7604486",
+        "code": "HK.00945",
+        "side": "SELL",
+        "quantity": 200,
+        "price": 0.0,
+        "order_type": "MARKET",
+        "trd_env": "SIMULATE",
+        "status": "submitted"
+      }
+    },
+    {
+      "code": "HK.00005",
+      "name": "汇丰控股",
+      "qty": 400.0,
+      "price": 142.9,
+      "expected_value": 57160.0,
+      "current_pl": 0.0,
+      "in_target": false,
+      "execution": {
+        "order_id": "7604487",
+        "code": "HK.00005",
+        "side": "SELL",
+        "quantity": 400,
+        "price": 0.0,
+        "order_type": "MARKET",
+        "trd_env": "SIMULATE",
+        "status": "submitted"
+      }
+    },
+    {
+      "code": "HK.02388",
+      "name": "中银香港",
+      "qty": 500.0,
+      "price": 44.32,
+      "expected_value": 22160.0,
+      "current_pl": 0.0,
+      "in_target": false,
+      "execution": {
+        "order_id": "7604488",
+        "code": "HK.02388",
+        "side": "SELL",
+        "quantity": 500,
+        "price": 0.0,
+        "order_type": "MARKET",
+        "trd_env": "SIMULATE",
+        "status": "submitted"
+      }
+    }
+  ],
+  "buy_orders": [
+    {
+      "code": "HK.00012",
+      "name": "恒基地产",
+      "action": "BUY",
+      "qty": 3000,
+      "price": 30.54,
+      "expected_value": 91620.0,
+      "execution": {
+        "order_id": "7604489",
+        "code": "HK.00012",
+        "side": "BUY",
+        "quantity": 3000,
+        "price": 0.0,
+        "order_type": "MARKET",
+        "trd_env": "SIMULATE",
+        "status": "submitted"
+      }
+    },
+    {
+      "code": "HK.00688",
+      "name": "中国海外发展",
+      "action": "BUY",
+      "qty": 7300,
+      "price": 12.59,
+      "expected_value": 91907.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-21 13:13:48,811 | 2947270 | 140460467939136 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7452223041946084671(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7fbf6fbe8c90>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"您所下订单包含不足1手数量的碎股\"}\n2026-04-21 13:13:48,918 | 2947270 | 140459953681984 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "HK.01109",
+      "name": "华润置地",
+      "action": "BUY",
+      "qty": 2900,
+      "price": 31.54,
+      "expected_value": 91466.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-21 13:13:50,700 | 2947282 | 140305379002176 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7452223049862030672(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f9b4626f190>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"您所下订单包含不足1手数量的碎股\"}\n2026-04-21 13:13:50,793 | 2947282 | 140304864765504 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "HK.01113",
+      "name": "长实集团",
+      "action": "BUY",
+      "qty": 1900,
+      "price": 48.52,
+      "expected_value": 92188.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-21 13:13:52,429 | 2947291 | 139628957108032 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7452223057118455864(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7efdc85833d0>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"您所下订单包含不足1手数量的碎股\"}\n2026-04-21 13:13:52,534 | 2947291 | 139628444194368 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "HK.02020",
+      "name": "安踏体育",
+      "action": "BUY",
+      "qty": 1000,
+      "price": 85.85,
+      "expected_value": 85850.0,
+      "execution": {
+        "order_id": "7604491",
+        "code": "HK.02020",
+        "side": "BUY",
+        "quantity": 1000,
+        "price": 0.0,
+        "order_type": "MARKET",
+        "trd_env": "SIMULATE",
+        "status": "submitted"
+      }
+    },
+    {
+      "code": "HK.01288",
+      "name": "农业银行",
+      "action": "BUY",
+      "qty": 14700,
+      "price": 6.25,
+      "expected_value": 91875.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-21 13:13:56,314 | 2947313 | 139950662100800 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7452223073409015173(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f48af606f10>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"您所下订单包含不足1手数量的碎股\"}\n2026-04-21 13:13:56,424 | 2947313 | 139950147827264 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    }
+  ],
+  "report_path": "/home/admin/wuhoo-agents/trade/data/workflow_e/2026-04-21/pnl_report.json"
+}

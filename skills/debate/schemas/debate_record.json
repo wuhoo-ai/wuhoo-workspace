@@ -1,0 +1,175 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Debate Record Schema",
+  "description": "多空辩论记录的数据结构",
+  "type": "object",
+  "required": [
+    "debate_id",
+    "symbol",
+    "timestamp",
+    "round",
+    "status"
+  ],
+  "properties": {
+    "debate_id": {
+      "type": "string",
+      "description": "辩论唯一标识",
+      "pattern": "^debate_[0-9]{8}_[A-Z0-9.]+$"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "股票代码",
+      "pattern": "^[A-Z]{2,6}[0-9]{6}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "辩论开始时间 (ISO8601)"
+    },
+    "round": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "当前辩论轮次"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ongoing", "completed", "timeout"],
+      "description": "辩论状态"
+    },
+    "bull_view": {
+      "type": "object",
+      "description": "Bull Agent 观点",
+      "properties": {
+        "agent": {"type": "string", "const": "bull"},
+        "recommendation": {"type": "string", "enum": ["BUY", "HOLD"]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "target_price": {"type": "number"},
+        "time_horizon": {"type": "string", "enum": ["1W", "1M", "3M", "6M"]},
+        "bullish_points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {"type": "string", "enum": ["factor", "technical", "sentiment", "fundamental"]},
+              "point": {"type": "string"},
+              "evidence": {"type": "string"},
+              "weight": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          }
+        },
+        "risks_identified": {"type": "array", "items": {"type": "string"}},
+        "stop_loss": {"type": "number"},
+        "position_suggestion": {"type": "number", "minimum": 0, "maximum": 0.2}
+      }
+    },
+    "bear_view": {
+      "type": "object",
+      "description": "Bear Agent 观点",
+      "properties": {
+        "agent": {"type": "string", "const": "bear"},
+        "recommendation": {"type": "string", "enum": ["SELL", "HOLD"]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "target_price": {"type": "number"},
+        "time_horizon": {"type": "string", "enum": ["1W", "1M", "3M", "6M"]},
+        "bearish_points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {"type": "string", "enum": ["factor", "technical", "sentiment", "fundamental", "rebuttal"]},
+              "point": {"type": "string"},
+              "evidence": {"type": "string"},
+              "weight": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          }
+        },
+        "bull_points_refuted": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "bull_point": {"type": "string"},
+              "rebuttal": {"type": "string"},
+              "evidence": {"type": "string"}
+            }
+          }
+        },
+        "stop_loss": {"type": "number"},
+        "position_suggestion": {"type": "number", "minimum": -0.2, "maximum": 0}
+      }
+    },
+    "bull_rebuttal": {
+      "type": "object",
+      "description": "Bull 对 Bear 反驳的回应 (可选)",
+      "properties": {
+        "bear_points_addressed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "bear_point": {"type": "string"},
+              "response": {"type": "string"},
+              "evidence": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "consensus_points": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "多空双方共识点"
+    },
+    "disagreement_points": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "多空双方分歧点"
+    },
+    "trader_decision": {
+      "type": "object",
+      "description": "Trader Agent 最终决策",
+      "properties": {
+        "agent": {"type": "string", "const": "trader"},
+        "decision": {"type": "string", "enum": ["BUY", "SELL", "HOLD"]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "action": {
+          "type": "object",
+          "properties": {
+            "side": {"type": "string", "enum": ["buy", "sell", "hold"]},
+            "quantity": {"type": "integer"},
+            "order_type": {"type": "string", "enum": ["market", "limit"]},
+            "limit_price": {"type": "number"},
+            "stop_loss": {"type": "number"},
+            "take_profit": {"type": "number"}
+          }
+        },
+        "reasoning": {"type": "string"},
+        "bull_weight": {"type": "number", "minimum": 0, "maximum": 1},
+        "bear_weight": {"type": "number", "minimum": 0, "maximum": 1},
+        "risk_reward_ratio": {"type": "number"},
+        "position_size": {"type": "number", "minimum": 0, "maximum": 0.2}
+      }
+    },
+    "risk_approval": {
+      "type": "object",
+      "description": "Risk Agent 审批结果",
+      "properties": {
+        "agent": {"type": "string", "const": "risk"},
+        "approved": {"type": "boolean"},
+        "conditions": {"type": "array", "items": {"type": "string"}},
+        "risk_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "recommendation": {"type": "string", "enum": ["APPROVE", "CONDITIONAL", "REJECT"]}
+      }
+    },
+    "final_action": {
+      "type": "object",
+      "description": "最终执行动作",
+      "properties": {
+        "action": {"type": "string", "enum": ["execute", "modify", "reject", "pending_user_approval"]},
+        "reason": {"type": "string"},
+        "modified_action": {"type": "object"}
+      }
+    }
+  }
+}

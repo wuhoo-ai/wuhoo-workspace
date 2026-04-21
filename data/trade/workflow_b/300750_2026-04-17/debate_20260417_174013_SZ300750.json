@@ -1,0 +1,170 @@
+{
+  "debate_id": "debate_20260417_174013_SZ300750",
+  "symbol": "SZ.300750",
+  "timestamp": "2026-04-17T17:40:13.991543",
+  "round": 1,
+  "status": "completed",
+  "bull_view": {
+    "agent": "bull",
+    "symbol": "SZ.300750",
+    "timestamp": "2026-04-17T17:41:31.431094",
+    "recommendation": "BUY",
+    "confidence": 0.65,
+    "target_price": 175,
+    "time_horizon": "1M",
+    "key_points": [
+      "MACD 出现金叉信号，成交量放大 1.84 倍",
+      "营收同比增长 27%，ROE 维持 20% 高位",
+      "舆情热点显示一季度月赚近 70 亿，盈利预期强劲"
+    ],
+    "bullish_points": [
+      {
+        "category": "technical",
+        "point": "技术面出现反弹信号，MACD 金叉配合放量",
+        "evidence": "MACD 状态 golden_cross，量比 1.84，换手率 6.2%",
+        "weight": 0.4
+      },
+      {
+        "category": "fundamental",
+        "point": "基本面稳健，成长性与盈利能力双优",
+        "evidence": "营收增速 27%，ROE 20%，PE 47.0 倍",
+        "weight": 0.35
+      },
+      {
+        "category": "sentiment",
+        "point": "核心舆情聚焦业绩超预期，市场关注度高",
+        "evidence": "新闻量 869 条，热点提及'一季度月赚近 70 亿'",
+        "weight": 0.25
+      }
+    ],
+    "risks_identified": [
+      "数据质量标记为 degraded，可能存在估算偏差",
+      "趋势标记为 downtrend，需确认反转有效性",
+      "PE 47 倍估值处于高位，对业绩兑现要求高"
+    ],
+    "stop_loss": 135,
+    "position_suggestion": 0.1
+  },
+  "bear_view": {
+    "agent": "bear",
+    "symbol": "SZ.300750",
+    "timestamp": "2026-04-17T17:42:08.022411",
+    "recommendation": "SELL",
+    "confidence": 0.62,
+    "target_price": 130,
+    "time_horizon": "1M",
+    "key_points": [
+      "技术面反弹信号存疑，下跌趋势未改",
+      "估值显著高于行业平均，存在回调压力",
+      "舆情隐含负面风险，市场情绪中性偏谨慎"
+    ],
+    "bearish_points": [
+      {
+        "category": "technical",
+        "point": "MACD 金叉但趋势仍为下跌，可能为假信号",
+        "evidence": "MACD histogram=0，趋势 downtrend，RSI=32 处于弱势区",
+        "weight": 0.3
+      },
+      {
+        "category": "fundamental",
+        "point": "估值过高，PE 显著高于行业合理水平",
+        "evidence": "PE=47x，行业平均约 30x，溢价 56%",
+        "weight": 0.35
+      },
+      {
+        "category": "sentiment",
+        "point": "舆情隐含负面风险，中性情绪难支撑持续上涨",
+        "evidence": "TrendRadar 情绪评分 0.059，负面新闻占比 10.89%，热点含'虚报 77 亿'等负面话题",
+        "weight": 0.25
+      },
+      {
+        "category": "fundamental",
+        "point": "盈利质量存疑，净利润率偏低",
+        "evidence": "净利润率 10%，营收增速 27% 但 ROE 仅 20%，盈利转化效率不足",
+        "weight": 0.1
+      }
+    ],
+    "bull_points_refuted": [
+      {
+        "bull_point": "MACD 金叉配合放量确认反弹",
+        "rebuttal": "下跌趋势中 MACD 金叉常为假信号，成交量放大可能为出货",
+        "evidence": "trend=downtrend，换手率 6.2% 高于 5 日均值 4.5%，量比 1.84 但未突破关键阻力"
+      },
+      {
+        "bull_point": "基本面稳健支撑高估值",
+        "rebuttal": "高 PE 缺乏持续盈利增长验证，行业对比显著高估",
+        "evidence": "PE 47x vs 行业 30x，净利润率 10% 低于营收增速 27%，盈利质量不匹配估值"
+      },
+      {
+        "bull_point": "舆情聚焦业绩超预期",
+        "rebuttal": "中性情绪评分与负面热点抵消利好，市场信心不足",
+        "evidence": "sentiment_score=0.059（中性），负面新闻含'虚报 77 亿'，正负面比 1.62:1 未形成一致乐观"
+      }
+    ],
+    "stop_loss": 167,
+    "position_suggestion": 0
+  },
+  "bull_rebuttal": null,
+  "consensus_points": [
+    "双方都认同需要设置止损",
+    "双方置信度接近 (Bull: 0.65, Bear: 0.62)"
+  ],
+  "disagreement_points": [
+    "推荐方向分歧：Bull 推荐BUY, Bear 推荐SELL",
+    "目标价分歧较大：Bull 目标175, Bear 目标130 (差异29.5%)"
+  ],
+  "trader_decision": {
+    "agent": "trader",
+    "symbol": "SZ.300750",
+    "timestamp": "2026-04-17T17:44:28.018656",
+    "decision": "HOLD",
+    "confidence": 0.5,
+    "action": {
+      "symbol": "SZ.300750",
+      "side": "hold",
+      "quantity": 0,
+      "order_type": "market",
+      "limit_price": 0,
+      "stop_loss": 0,
+      "take_profit": 0
+    },
+    "reasoning": "多空双方置信度接近 (0.65 vs 0.62)，且核心信息存在严重冲突。Bull 方舆情提到的'月赚 70 亿'与 Bear 方'虚报 77 亿'相悖，考虑到行业常态，该利好消息可信度存疑，且 Bull 方自承数据质量 degraded。基本面上，PE 47 倍显著高于行业平均 30 倍，估值压力较大 (支持 Bear)。技术面上，虽 MACD 金叉，但整体处于 downtrend 且 RSI 32 超卖，存在反弹需求但趋势未反转。BUY 风险收益比约 1:1 (未达 1:2 标准)，SELL 虽盈亏比合适但面临超卖反弹风险。基于'风险第一'原则，建议观望，等待消息面澄清或趋势确认。",
+    "bull_weight": 0.45,
+    "bear_weight": 0.55,
+    "consensus_points": [
+      "当前处于下跌趋势中的关键位置",
+      "必须设置止损控制风险",
+      "估值水平显著高于行业平均"
+    ],
+    "key_disagreement": "舆情真实性及估值是否已反映成长预期",
+    "risk_reward_ratio": 1.0,
+    "position_size": 0.0
+  },
+  "risk_approval": {
+    "agent": "risk",
+    "symbol": "SZ.300750",
+    "timestamp": "2026-04-17T17:44:28.018883",
+    "approved": false,
+    "conditions": [
+      "近期波动率较高，建议降低仓位"
+    ],
+    "risk_score": 0.5,
+    "warnings": [
+      "近期波动率有所上升"
+    ],
+    "checks": {
+      "stop_loss": "fail",
+      "position_size": "pass",
+      "risk_reward": "fail",
+      "volatility": "warn",
+      "liquidity": "pass",
+      "concentration": "pass"
+    },
+    "recommendation": "REJECT"
+  },
+  "final_action": {
+    "action": "reject",
+    "reason": "Risk Agent 拒绝交易",
+    "modified_action": null
+  }
+}

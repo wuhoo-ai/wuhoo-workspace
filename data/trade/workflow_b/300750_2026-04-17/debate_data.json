@@ -1,0 +1,30 @@
+{
+  "method": "full",
+  "bull_points": [
+    "MACD 出现金叉信号，成交量放大 1.84 倍",
+    "营收同比增长 27%，ROE 维持 20% 高位",
+    "舆情热点显示一季度月赚近 70 亿，盈利预期强劲"
+  ],
+  "bear_points": [
+    "技术面反弹信号存疑，下跌趋势未改",
+    "估值显著高于行业平均，存在回调压力",
+    "舆情隐含负面风险，市场情绪中性偏谨慎"
+  ],
+  "recommendation": "中性",
+  "confidence": 50,
+  "trader_decision": "HOLD",
+  "risk_approved": false,
+  "final_action": "reject",
+  "final_reason": "Risk Agent 拒绝交易",
+  "consensus": [
+    "双方都认同需要设置止损",
+    "双方置信度接近 (Bull: 0.65, Bear: 0.62)"
+  ],
+  "disagreements": [
+    "推荐方向分歧：Bull 推荐BUY, Bear 推荐SELL",
+    "目标价分歧较大：Bull 目标175, Bear 目标130 (差异29.5%)"
+  ],
+  "stop_loss": 135,
+  "take_profit": 175,
+  "position_suggestion": 0.1
+}

@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "recommendations": [
+    {
+      "code": "002511.SZ",
+      "name": "中顺洁柔",
+      "action": "HOLD",
+      "confidence": 0.5,
+      "reason": "简化辩论：HOLD",
+      "bull_points": [],
+      "bear_points": [],
+      "timestamp": "2026-04-17T18:08:31.107141"
+    }
+  ],
+  "count": 1,
+  "method": "simplified",
+  "timestamp": "2026-04-17T18:08:31.107169"
+}

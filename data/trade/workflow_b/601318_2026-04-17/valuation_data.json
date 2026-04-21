@@ -1,0 +1,179 @@
+{
+  "available": true,
+  "base_earnings": 13477800.0,
+  "base_growth_rate": 0.1,
+  "scenarios": {
+    "悲观": {
+      "stage1_years": 3,
+      "stage1_growth": 0.05,
+      "stage2_growth": 0.025,
+      "terminal_growth": 0.02,
+      "discount_rate": 0.12,
+      "stage1_pv": 35586525.15,
+      "stage2_pv": 27977078.2,
+      "terminal_pv": 86826148.49,
+      "total_value": 150389751.83,
+      "value_per_share": 58.68,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 14151690.0,
+          "pv": 12635437.5
+        },
+        {
+          "year": 2,
+          "earnings": 14859274.5,
+          "pv": 11845722.66
+        },
+        {
+          "year": 3,
+          "earnings": 15602238.23,
+          "pv": 11105364.99
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 4,
+          "earnings": 15992294.18,
+          "pv": 10163392.07
+        },
+        {
+          "year": 5,
+          "earnings": 16392101.54,
+          "pv": 9301318.63
+        },
+        {
+          "year": 6,
+          "earnings": 16801904.07,
+          "pv": 8512367.5
+        }
+      ]
+    },
+    "中性": {
+      "stage1_years": 5,
+      "stage1_growth": 0.1,
+      "stage2_growth": 0.05,
+      "terminal_growth": 0.03,
+      "discount_rate": 0.1,
+      "stage1_pv": 67389000.0,
+      "stage2_pv": 36867757.39,
+      "terminal_pv": 172483689.73,
+      "total_value": 276740447.11,
+      "value_per_share": 107.98,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 14825580.0,
+          "pv": 13477800.0
+        },
+        {
+          "year": 2,
+          "earnings": 16308138.0,
+          "pv": 13477800.0
+        },
+        {
+          "year": 3,
+          "earnings": 17938951.8,
+          "pv": 13477800.0
+        },
+        {
+          "year": 4,
+          "earnings": 19732846.98,
+          "pv": 13477800.0
+        },
+        {
+          "year": 5,
+          "earnings": 21706131.68,
+          "pv": 13477800.0
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 6,
+          "earnings": 22791438.26,
+          "pv": 12865172.73
+        },
+        {
+          "year": 7,
+          "earnings": 23931010.17,
+          "pv": 12280392.15
+        },
+        {
+          "year": 8,
+          "earnings": 25127560.68,
+          "pv": 11722192.51
+        }
+      ]
+    },
+    "乐观": {
+      "stage1_years": 7,
+      "stage1_growth": 0.15,
+      "stage2_growth": 0.075,
+      "terminal_growth": 0.04,
+      "discount_rate": 0.08,
+      "stage1_pv": 122245659.8,
+      "stage2_pv": 62177232.97,
+      "terminal_pv": 536370736.98,
+      "total_value": 720793629.76,
+      "value_per_share": 281.23,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 15499470.0,
+          "pv": 14351361.11
+        },
+        {
+          "year": 2,
+          "earnings": 17824390.5,
+          "pv": 15281541.92
+        },
+        {
+          "year": 3,
+          "earnings": 20498049.07,
+          "pv": 16272012.23
+        },
+        {
+          "year": 4,
+          "earnings": 23572756.44,
+          "pv": 17326679.69
+        },
+        {
+          "year": 5,
+          "earnings": 27108669.9,
+          "pv": 18449705.23
+        },
+        {
+          "year": 6,
+          "earnings": 31174970.39,
+          "pv": 19645519.46
+        },
+        {
+          "year": 7,
+          "earnings": 35851215.94,
+          "pv": 20918840.16
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 8,
+          "earnings": 38540057.14,
+          "pv": 20821993.68
+        },
+        {
+          "year": 9,
+          "earnings": 41430561.43,
+          "pv": 20725595.56
+        },
+        {
+          "year": 10,
+          "earnings": 44537853.53,
+          "pv": 20629643.73
+        }
+      ]
+    }
+  },
+  "ideal_buy_price": 41.08,
+  "current_price": 0,
+  "margin_of_safety": 100.0,
+  "shares_outstanding_billion": 256.3
+}

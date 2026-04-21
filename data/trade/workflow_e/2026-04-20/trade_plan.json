@@ -1,0 +1,199 @@
+{
+  "workflow": "E",
+  "generated_at": "2026-04-20T14:42:55.551415",
+  "pick_date": "20260417",
+  "trd_env": "SIMULATE",
+  "dry_run": false,
+  "total_assets": 999704.05,
+  "target_per_stock": 89973.36,
+  "sell_orders": [
+    {
+      "code": "SZ.002245",
+      "name": "蔚蓝锂芯",
+      "qty": 9200.0,
+      "price": 19.68,
+      "expected_value": 181056.0,
+      "current_pl": 0.0,
+      "in_target": true,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:30,476 | 2887931 | 140329046927168 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451882974764758411(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7fa0d67e0650>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"根据A股的T+1交易制度，你今天买入的股票需要等到下一个交易日才能卖出\"}\n2026-04-20 14:42:30,578 | 2887931 | 140328459826752 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SZ.300276",
+      "name": "三丰智能",
+      "qty": 25200.0,
+      "price": 7.21,
+      "expected_value": 181692.0,
+      "current_pl": 0.0,
+      "in_target": true,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:31,973 | 2887940 | 140622132356928 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451882981030773489(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7fe506316d90>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"根据A股的T+1交易制度，你今天买入的股票需要等到下一个交易日才能卖出\"}\n2026-04-20 14:42:32,081 | 2887940 | 140621619459648 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SH.688327",
+      "name": "云从科技-UW",
+      "qty": 13700.0,
+      "price": 13.23,
+      "expected_value": 181251.0,
+      "current_pl": 0.0,
+      "in_target": true,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:33,953 | 2887949 | 140652333537088 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451882989337696356(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7fec0ecc9450>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"根据A股的T+1交易制度，你今天买入的股票需要等到下一个交易日才能卖出\"}\n2026-04-20 14:42:34,065 | 2887949 | 140651820602944 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SZ.002182",
+      "name": "宝武镁业",
+      "qty": 10900.0,
+      "price": 16.46,
+      "expected_value": 179414.0,
+      "current_pl": 0.0,
+      "in_target": true,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:35,843 | 2887962 | 139882819516224 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451882997263951452(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f38e3a1ed90>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"根据A股的T+1交易制度，你今天买入的股票需要等到下一个交易日才能卖出\"}\n2026-04-20 14:42:35,965 | 2887962 | 139882305267264 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SZ.002354",
+      "name": "天娱数科",
+      "qty": 31800.0,
+      "price": 5.82,
+      "expected_value": 185076.0,
+      "current_pl": 0.0,
+      "in_target": true,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:37,580 | 2887971 | 139633159878464 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883004546815851(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7efed2b1cc10>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"根据A股的T+1交易制度，你今天买入的股票需要等到下一个交易日才能卖出\"}\n2026-04-20 14:42:37,696 | 2887971 | 139632646960704 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    }
+  ],
+  "buy_orders": [
+    {
+      "code": "SZ.002354",
+      "name": "天娱数科",
+      "action": "BUY",
+      "qty": 15600,
+      "price": 5.74,
+      "expected_value": 89544.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:39,225 | 2887985 | 140271652480832 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883011451022594(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f936bf7f490>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:39,340 | 2887985 | 140271139567168 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SH.688327",
+      "name": "云从科技-UW",
+      "action": "BUY",
+      "qty": 6700,
+      "price": 13.26,
+      "expected_value": 88842.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:40,769 | 2887998 | 140202579117888 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883017933907304(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f8366a55450>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:40,878 | 2887998 | 140202064873024 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SZ.002182",
+      "name": "宝武镁业",
+      "action": "BUY",
+      "qty": 5400,
+      "price": 16.63,
+      "expected_value": 89802.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:42,410 | 2888007 | 140342698555200 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883024814680871(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7fa4041cf350>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:42,511 | 2888007 | 140342184298048 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SZ.002245",
+      "name": "蔚蓝锂芯",
+      "action": "BUY",
+      "qty": 4500,
+      "price": 19.74,
+      "expected_value": 88830.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:44,169 | 2888017 | 140277811717952 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883032192961576(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f94db02b450>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:44,274 | 2888017 | 140277297473088 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SZ.300276",
+      "name": "三丰智能",
+      "action": "BUY",
+      "qty": 12400,
+      "price": 7.23,
+      "expected_value": 89652.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:46,145 | 2888033 | 140105470080832 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883040479743168(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f6cbab974d0>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:46,263 | 2888033 | 140104957142592 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SH.600114",
+      "name": "东睦股份",
+      "action": "BUY",
+      "qty": 2800,
+      "price": 31.75,
+      "expected_value": 88900.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:47,823 | 2888043 | 139657265076032 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883047520600770(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f04601d3810>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:47,942 | 2888043 | 139656760276544 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SH.688567",
+      "name": "孚能科技",
+      "action": "BUY",
+      "qty": 6400,
+      "price": 13.93,
+      "expected_value": 89152.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:49,764 | 2888058 | 139717115389760 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883055657883137(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f124ee929d0>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:49,874 | 2888058 | 139716601148992 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SH.603328",
+      "name": "依顿电子",
+      "action": "BUY",
+      "qty": 6800,
+      "price": 13.09,
+      "expected_value": 89012.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:51,192 | 2888069 | 140251970463552 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883061655046576(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f8ed6beee90>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:51,297 | 2888069 | 140251456202304 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SH.688306",
+      "name": "均普智能",
+      "action": "BUY",
+      "qty": 9500,
+      "price": 9.47,
+      "expected_value": 89965.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:53,098 | 2888078 | 139662879016768 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883069622035633(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7f05b0c5a090>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:53,210 | 2888078 | 139662374258240 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    },
+    {
+      "code": "SZ.300319",
+      "name": "麦捷科技",
+      "action": "BUY",
+      "qty": 7100,
+      "price": 12.55,
+      "expected_value": 89105.0,
+      "execution": {
+        "status": "error",
+        "error": "2026-04-20 14:42:55,032 | 2888090 | 140393471489856 | [open_context_base.py:409] _init_connect_sync: New connect ready: conn=7451883077753609439(1) context=<futu.trade.open_trade_context.OpenSecTradeContext object at 0x7fafc8e07290>\n{\"ret\": -1, \"action\": \"下单\", \"error\": \"账户购买力不足\"}\n2026-04-20 14:42:55,161 | 2888090 | 140392884336192 | [open_context_base.py:516] on_disconnect: Disconnected: conn=0(1) reason=CallClose"
+      }
+    }
+  ],
+  "report_path": "/home/admin/.openclaw/workspace/agents/trade/data/workflow_e/2026-04-20/pnl_report.json"
+}

@@ -1,0 +1,45 @@
+{
+  "scan_time": "2026-04-20T10:01:01.982694",
+  "market_filter": "CN",
+  "markets_scanned": [
+    "CN"
+  ],
+  "total_positions": 2,
+  "total_market_value": 9981.0,
+  "total_assets": 1001584.26,
+  "cash_by_market": {
+    "CN": 991603.258
+  },
+  "positions": [
+    {
+      "code": "SZ.002897",
+      "name": "意华股份",
+      "qty": 100.0,
+      "can_sell_qty": 100.0,
+      "average_cost": 0.0,
+      "nominal_price": 68.52,
+      "market_val": 6852.0,
+      "unrealized_pl": 0.0,
+      "pl_ratio_avg_cost": 0.0,
+      "realized_pl": 0.0,
+      "today_pl_val": 0.0,
+      "_market": "CN",
+      "_account_id": 18767295
+    },
+    {
+      "code": "SH.603220",
+      "name": "中贝通信",
+      "qty": 100.0,
+      "can_sell_qty": 100.0,
+      "average_cost": 0.0,
+      "nominal_price": 31.29,
+      "market_val": 3129.0,
+      "unrealized_pl": 0.0,
+      "pl_ratio_avg_cost": 0.0,
+      "realized_pl": 0.0,
+      "today_pl_val": 0.0,
+      "_market": "CN",
+      "_account_id": 18767295
+    }
+  ]
+}

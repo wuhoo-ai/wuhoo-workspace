@@ -1,0 +1,87 @@
+{
+  "workflow": "E",
+  "strategy": "周期平权 Top 10 (资金隔离调整版)",
+  "generated_at": "2026-04-20T15:06:53.076865",
+  "trd_env": "SIMULATE",
+  "issue": "账户资金不互通，CN 账户独立资金 (~1M)",
+  "constraint": "A股 T+1 交易制度：当日买入不可卖出",
+  "cn_account": {
+    "acc_id": 18767295,
+    "total_assets": 1002064.65,
+    "target_per_stock_pct": 0.09
+  },
+  "execution_summary": {
+    "existing_positions_unchanged": [
+      {
+        "code": "SZ.002354",
+        "name": "天娱数科",
+        "qty": 31800,
+        "val": 186030
+      },
+      {
+        "code": "SH.688327",
+        "name": "云从科技-UW",
+        "qty": 13700,
+        "val": 181662
+      },
+      {
+        "code": "SZ.002182",
+        "name": "宝武镁业",
+        "qty": 10900,
+        "val": 181049
+      },
+      {
+        "code": "SZ.002245",
+        "name": "蔚蓝锂芯",
+        "qty": 9200,
+        "val": 181148
+      },
+      {
+        "code": "SZ.300276",
+        "name": "三丰智能",
+        "qty": 25200,
+        "val": 181692
+      }
+    ],
+    "new_buys_today": [
+      {
+        "code": "SH.600114",
+        "name": "东睦股份",
+        "qty": 100,
+        "note": "限价单部分成交"
+      },
+      {
+        "code": "SH.688567",
+        "name": "孚能科技",
+        "qty": 100,
+        "note": "限价单部分成交"
+      },
+      {
+        "code": "SZ.300319",
+        "name": "麦捷科技",
+        "qty": 6800,
+        "note": "限价单待成交",
+        "order_id": "7601976"
+      }
+    ],
+    "remaining_to_buy": [
+      {
+        "code": "SH.603328",
+        "name": "依顿电子",
+        "target_qty": 6600,
+        "reason": "资金不足"
+      },
+      {
+        "code": "SH.688306",
+        "name": "均普智能",
+        "target_qty": 9100,
+        "reason": "资金不足"
+      }
+    ],
+    "next_steps": [
+      "等待下一个交易日",
+      "卖出 5 只旧仓位（T+1 后可卖）",
+      "重新等权买入 Top 10"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-04-20T10:11:49.204414",
+  "signal_counts": {
+    "HOLD": 2
+  },
+  "suggestions": {
+    "SZ.002897": {
+      "name": "意华股份",
+      "market": "CN",
+      "current_weight": 0.0068,
+      "market_val": 6852.0,
+      "pl_ratio": 0.0,
+      "signal": "HOLD",
+      "reason": "Workflow B 评估中性，估值合理，维持现状",
+      "workflow_b_decision": "持有",
+      "has_risk_violation": false
+    },
+    "SH.603220": {
+      "name": "中贝通信",
+      "market": "CN",
+      "current_weight": 0.0031,
+      "market_val": 3129.0,
+      "pl_ratio": 0.0,
+      "signal": "HOLD",
+      "reason": "Workflow B 评估中性，估值合理，维持现状",
+      "workflow_b_decision": "持有",
+      "has_risk_violation": false
+    }
+  }
+}

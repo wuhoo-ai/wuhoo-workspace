@@ -1,0 +1,179 @@
+{
+  "available": true,
+  "base_earnings": 8232006.71,
+  "base_growth_rate": 0.1,
+  "scenarios": {
+    "悲观": {
+      "stage1_years": 3,
+      "stage1_growth": 0.05,
+      "stage2_growth": 0.025,
+      "terminal_growth": 0.02,
+      "discount_rate": 0.12,
+      "stage1_pv": 21735632.95,
+      "stage2_pv": 17087914.6,
+      "terminal_pv": 53031907.06,
+      "total_value": 91855454.62,
+      "value_per_share": 706.59,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 8643607.05,
+          "pv": 7717506.29
+        },
+        {
+          "year": 2,
+          "earnings": 9075787.4,
+          "pv": 7235162.15
+        },
+        {
+          "year": 3,
+          "earnings": 9529576.77,
+          "pv": 6782964.51
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 4,
+          "earnings": 9767816.19,
+          "pv": 6207623.77
+        },
+        {
+          "year": 5,
+          "earnings": 10012011.59,
+          "pv": 5681084.26
+        },
+        {
+          "year": 6,
+          "earnings": 10262311.88,
+          "pv": 5199206.57
+        }
+      ]
+    },
+    "中性": {
+      "stage1_years": 5,
+      "stage1_growth": 0.1,
+      "stage2_growth": 0.05,
+      "terminal_growth": 0.03,
+      "discount_rate": 0.1,
+      "stage1_pv": 41160033.55,
+      "stage2_pv": 22518187.4,
+      "terminal_pv": 105350049.06,
+      "total_value": 169028270.01,
+      "value_per_share": 1300.23,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 9055207.38,
+          "pv": 8232006.71
+        },
+        {
+          "year": 2,
+          "earnings": 9960728.12,
+          "pv": 8232006.71
+        },
+        {
+          "year": 3,
+          "earnings": 10956800.93,
+          "pv": 8232006.71
+        },
+        {
+          "year": 4,
+          "earnings": 12052481.02,
+          "pv": 8232006.71
+        },
+        {
+          "year": 5,
+          "earnings": 13257729.13,
+          "pv": 8232006.71
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 6,
+          "earnings": 13920615.58,
+          "pv": 7857824.59
+        },
+        {
+          "year": 7,
+          "earnings": 14616646.36,
+          "pv": 7500650.74
+        },
+        {
+          "year": 8,
+          "earnings": 15347478.68,
+          "pv": 7159712.07
+        }
+      ]
+    },
+    "乐观": {
+      "stage1_years": 7,
+      "stage1_growth": 0.15,
+      "stage2_growth": 0.075,
+      "terminal_growth": 0.04,
+      "discount_rate": 0.08,
+      "stage1_pv": 74665530.87,
+      "stage2_pv": 37976776.56,
+      "terminal_pv": 327605952.45,
+      "total_value": 440248259.87,
+      "value_per_share": 3386.56,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 9466807.72,
+          "pv": 8765562.7
+        },
+        {
+          "year": 2,
+          "earnings": 10886828.87,
+          "pv": 9333701.02
+        },
+        {
+          "year": 3,
+          "earnings": 12519853.21,
+          "pv": 9938663.13
+        },
+        {
+          "year": 4,
+          "earnings": 14397831.19,
+          "pv": 10582835.74
+        },
+        {
+          "year": 5,
+          "earnings": 16557505.86,
+          "pv": 11268760.28
+        },
+        {
+          "year": 6,
+          "earnings": 19041131.74,
+          "pv": 11999142.89
+        },
+        {
+          "year": 7,
+          "earnings": 21897301.51,
+          "pv": 12776865.11
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 8,
+          "earnings": 23539599.12,
+          "pv": 12717712.96
+        },
+        {
+          "year": 9,
+          "earnings": 25305069.05,
+          "pv": 12658834.66
+        },
+        {
+          "year": 10,
+          "earnings": 27202949.23,
+          "pv": 12600228.94
+        }
+      ]
+    }
+  },
+  "ideal_buy_price": 494.61,
+  "current_price": 0,
+  "margin_of_safety": 100.0,
+  "shares_outstanding_billion": 13.0
+}

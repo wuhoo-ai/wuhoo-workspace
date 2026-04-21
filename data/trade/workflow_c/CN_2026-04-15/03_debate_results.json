@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "debate_results": [
+    {
+      "code": "002511.SZ",
+      "name": "中顺洁柔",
+      "recommendation": "HOLD",
+      "confidence": 0.5,
+      "method": "simplified",
+      "timestamp": "2026-04-17T18:08:31.106475"
+    }
+  ],
+  "count": 1,
+  "method": "simplified",
+  "timestamp": "2026-04-17T18:08:31.106540"
+}

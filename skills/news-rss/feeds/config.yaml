@@ -1,0 +1,444 @@
+# wuhoo-news-rss RSS 源配置
+# 最后更新: 2026-04-13 21:31
+# 状态标记: ✅ 可用 / ❌ 不可用 / 🔄 替代源
+
+# 网络模式说明:
+# RSSHub 容器以 --network host 模式运行，共享宿主机网络栈，可直接访问外部网络。
+# 原生 RSS 源由 Python fetcher 在宿主机上直接拉取，不受容器网络限制。
+
+feeds:
+  # ========== 🇨🇳 科技 ==========
+  - name: "IT之家"
+    url: "https://www.ithome.com/rss/"
+    category: "科技"
+    tags: ["科技", "中国", "IT"]
+    status: "✅"
+
+  - name: "少数派"
+    url: "https://sspai.com/feed"
+    category: "科技"
+    tags: ["科技", "数码", "效率"]
+    status: "✅"
+
+  - name: "36氪"
+    url: "https://36kr.com/feed"
+    category: "科技"
+    tags: ["科技", "创业", "中国"]
+    status: "✅"
+
+  - name: "Solidot 奇点资讯"
+    url: "http://127.0.0.1:1200/solidot"
+    category: "科技"
+    tags: ["科技", "科学", "开源"]
+    status: "✅ RSSHub"
+
+  # ========== 🆕 中国科技(新增) ==========
+  - name: "虎嗅"
+    url: "http://127.0.0.1:1200/huxiu/article"
+    category: "科技"
+    tags: ["科技", "商业", "中国"]
+    status: "✅ RSSHub"
+
+  - name: "雷锋网"
+    url: "http://127.0.0.1:1200/leiphone/newsflash"
+    category: "科技"
+    tags: ["科技", "AI", "中国"]
+    status: "✅ RSSHub"
+
+  - name: "品玩"
+    url: "http://127.0.0.1:1200/pingwest/status"
+    category: "科技"
+    tags: ["科技", "互联网", "中国"]
+    status: "✅ RSSHub"
+
+  # ========== 🌍 科技(英文) ==========
+  - name: "Hacker News"
+    url: "http://127.0.0.1:1200/hackernews/best"
+    category: "科技"
+    tags: ["科技", "编程", "硅谷"]
+    status: "✅"
+
+  - name: "HuggingFace Blog"
+    url: "http://127.0.0.1:1200/huggingface/blog"
+    category: "科技"
+    tags: ["AI", "开源", "模型"]
+    status: "✅ RSSHub"
+
+  - name: "TechCrunch"
+    url: "https://techcrunch.com/feed/"
+    category: "科技"
+    tags: ["科技", "创业", "硅谷", "英文"]
+    status: "✅"
+
+  - name: "The Verge"
+    url: "https://www.theverge.com/rss/index.xml"
+    category: "科技"
+    tags: ["科技", "数码", "英文"]
+    status: "✅"
+
+  - name: "arXiv AI 论文"
+    url: "http://export.arxiv.org/rss/cs.AI"
+    category: "科技"
+    tags: ["AI", "论文", "学术"]
+    status: "✅"
+
+  # ========== 🤖 AI/大模型 ==========
+  - name: "OpenAI Blog"
+    url: "https://openai.com/blog/rss.xml"
+    category: "AI"
+    tags: ["AI", "大模型", "OpenAI"]
+    status: "✅"
+
+  # ========== 💰 财经(中文) ==========
+  - name: "华尔街见闻"
+    url: "http://127.0.0.1:1200/wallstreetcn/news"
+    category: "财经"
+    tags: ["财经", "宏观", "全球"]
+    status: "✅ RSSHub"
+
+  - name: "华尔街见闻热门"
+    url: "http://127.0.0.1:1200/wallstreetcn/hot"
+    category: "财经"
+    tags: ["财经", "宏观", "热门"]
+    status: "✅ RSSHub 新增"
+
+  - name: "格隆汇"
+    url: "http://127.0.0.1:1200/gelonghui/live"
+    category: "财经"
+    tags: ["财经", "港股", "A股"]
+    status: "✅ RSSHub"
+
+  - name: "联合早报"
+    url: "http://127.0.0.1:1200/zaobao/realtime/china"
+    category: "财经"
+    tags: ["财经", "中国", "时政"]
+    status: "✅ RSSHub"
+
+  # ========== 🆕 中国财经(新增) ==========
+  - name: "凤凰网财经"
+    url: "http://127.0.0.1:1200/ifeng/news"
+    category: "财经"
+    tags: ["财经", "中国", "时政"]
+    status: "✅ RSSHub 新增"
+
+  - name: "第一财经"
+    url: "http://127.0.0.1:1200/yicai/brief"
+    category: "财经"
+    tags: ["财经", "中国", "快讯"]
+    status: "✅ RSSHub 新增"
+
+  # ========== 💵 财经(英文) ==========
+  - name: "NYT Business"
+    url: "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml"
+    category: "财经"
+    tags: ["财经", "英文", "全球"]
+    status: "✅"
+
+  - name: "BBC Business"
+    url: "https://feeds.bbci.co.uk/news/business/rss.xml"
+    category: "财经"
+    tags: ["财经", "英文", "全球"]
+    status: "✅"
+
+  - name: "Financial Times"
+    url: "https://www.ft.com/rss/home"
+    category: "财经"
+    tags: ["财经", "英文", "全球"]
+    status: "✅"
+
+  # ========== 🆕 国际财经(新增) ==========
+  - name: "路透社国际"
+    url: "http://127.0.0.1:1200/reuters/world"
+    category: "财经"
+    tags: ["财经", "英文", "全球"]
+    status: "✅ RSSHub 新增"
+
+  # ========== 📈 量化/投资 ==========
+  - name: "arXiv 量化金融"
+    url: "http://export.arxiv.org/rss/q-fin"
+    category: "投资"
+    tags: ["量化", "学术", "论文"]
+    status: "✅"
+
+  - name: "知乎日报"
+    url: "http://127.0.0.1:1200/zhihu/daily"
+    category: "投资"
+    tags: ["知识", "中文", "热门"]
+    status: "✅ RSSHub"
+
+  # ========== 🌐 综合新闻 ==========
+  - name: "BBC World"
+    url: "https://feeds.bbci.co.uk/news/world/rss.xml"
+    category: "综合"
+    tags: ["综合", "全球", "英文"]
+    status: "✅"
+
+  # ========== 🆕 国际新闻(新增) ==========
+  - name: "BBC 中文网"
+    url: "http://127.0.0.1:1200/bbc/chinese"
+    category: "综合"
+    tags: ["综合", "中文", "全球"]
+    status: "✅ RSSHub 新增"
+
+  - name: "美联社"
+    url: "http://127.0.0.1:1200/apnews/topics/apf-topnews"
+    category: "综合"
+    tags: ["综合", "英文", "全球"]
+    status: "✅ RSSHub 新增"
+
+  - name: "德国之声"
+    url: "http://127.0.0.1:1200/dw/news"
+    category: "综合"
+    tags: ["综合", "英文", "全球"]
+    status: "✅ RSSHub 新增"
+
+  - name: "半岛电视台"
+    url: "http://127.0.0.1:1200/aljazeera/news"
+    category: "综合"
+    tags: ["综合", "英文", "中东"]
+    status: "✅ RSSHub 新增"
+
+  # ========== 🆕 社交媒体(新增) ==========
+  - name: "B站排行榜"
+    url: "http://127.0.0.1:1200/bilibili/ranking/0"
+    category: "综合"
+    tags: ["视频", "中国", "热门"]
+    status: "✅ RSSHub 新增"
+
+  - name: "Telegram 频道"
+    url: "http://127.0.0.1:1200/telegram/channel/Telegram"
+    category: "综合"
+    tags: ["通讯", "全球"]
+    status: "✅ RSSHub 新增"
+
+  # ========== ❌ 已注释 — 路由不存在或源不可用 ==========
+  # - name: "机器之心"
+  #   url: "https://rsshub.app/jiqizhixin/www"
+  #   status: "❌ 路由不存在"
+
+  # - name: "财联社电报"
+  #   url: "http://127.0.0.1:1200/cls/telegraph"
+  #   status: "❌ 需要 Puppeteer"
+
+  # - name: "金十数据"
+  #   url: "http://127.0.0.1:1200/jin10"
+  #   status: "❌ API 被墙"
+
+  # - name: "雪球热帖"
+  #   url: "http://127.0.0.1:1200/xueqiu/hots"
+  #   status: "❌ 需要 Puppeteer"
+
+  # - name: "Product Hunt"
+  #   url: "http://127.0.0.1:1200/producthunt"
+  #   status: "❌ 路由不存在"
+
+  # - name: "OSChina"
+  #   url: "http://127.0.0.1:1200/oschina/news"
+  #   status: "❌ 路由不存在"
+
+  # - name: "FreeBuf"
+  #   url: "http://127.0.0.1:1200/freebuf"
+  #   status: "❌ 路由不存在"
+
+  # - name: "InfoQ"
+  #   url: "http://127.0.0.1:1200/infoq/news"
+  #   status: "❌ 路由不存在"
+
+  # - name: "雨果跨境"
+  #   url: "http://127.0.0.1:1200/cifnews/news"
+  #   status: "❌ 路由不存在"
+
+  # - name: "亿邦动力"
+  #   url: "http://127.0.0.1:1200/ebrun/news"
+  #   status: "❌ 路由不存在"
+
+  # ========== 🆕 国际中文(FeedX) ==========
+  - name: "纽约时报中文"
+    url: "https://feedx.net/rss/nytimes.xml"
+    category: "综合"
+    tags: ["综合", "中文", "全球"]
+    status: "✅ FeedX 新增"
+
+  - name: "BBC 中文"
+    url: "https://feedx.net/rss/bbc.xml"
+    category: "综合"
+    tags: ["综合", "中文", "全球"]
+    status: "✅ FeedX 新增"
+
+  - name: "法国国际广播电台"
+    url: "https://feedx.net/rss/rfi.xml"
+    category: "综合"
+    tags: ["综合", "中文", "法国"]
+    status: "✅ FeedX 新增"
+
+  - name: "德国之声中文"
+    url: "https://feedx.net/rss/dw.xml"
+    category: "综合"
+    tags: ["综合", "中文", "德国"]
+    status: "✅ FeedX 新增"
+
+  - name: "俄罗斯卫星通讯社"
+    url: "https://feedx.net/rss/sputnik.xml"
+    category: "综合"
+    tags: ["综合", "中文", "俄罗斯"]
+    status: "✅ FeedX 新增"
+
+  - name: "朝鲜日报中文"
+    url: "https://feedx.net/rss/chosun.xml"
+    category: "综合"
+    tags: ["综合", "中文", "韩国"]
+    status: "✅ FeedX 新增"
+
+  - name: "共同网中文"
+    url: "https://feedx.net/rss/kyodo.xml"
+    category: "综合"
+    tags: ["综合", "中文", "日本"]
+    status: "✅ FeedX 新增"
+
+  - name: "日经中文网"
+    url: "https://feedx.net/rss/nikkei.xml"
+    category: "综合"
+    tags: ["综合", "中文", "日本"]
+    status: "✅ FeedX 新增"
+
+  - name: "中央社"
+    url: "https://feedx.net/rss/cna.xml"
+    category: "综合"
+    tags: ["综合", "中文", "台湾"]
+    status: "✅ FeedX 新增"
+
+  - name: "澎湃新闻"
+    url: "https://feedx.net/rss/thepaper.xml"
+    category: "综合"
+    tags: ["综合", "中文", "时政"]
+    status: "✅ FeedX 新增"
+
+  # ========== 🆕 科技(新增) ==========
+  - name: "Engadget"
+    url: "https://www.engadget.com/rss.xml"
+    category: "科技"
+    tags: ["科技", "数码", "英文"]
+    status: "✅ 新增"
+
+  - name: "Ars Technica"
+    url: "https://feeds.arstechnica.com/arstechnica/index"
+    category: "科技"
+    tags: ["科技", "编程", "英文"]
+    status: "✅ 新增"
+
+  - name: "Hacker News 100+"
+    url: "https://hnrss.org/newest?points=100"
+    category: "科技"
+    tags: ["科技", "编程", "硅谷"]
+    status: "✅ 新增"
+
+  # ========== 🆕 技术博客 ==========
+  - name: "阮一峰"
+    url: "https://feeds.feedburner.com/ruanyifeng"
+    category: "科技"
+    tags: ["科技", "博客", "中文"]
+    status: "✅ 新增"
+
+  - name: "酷壳"
+    url: "https://coolshell.cn/feed"
+    category: "科技"
+    tags: ["科技", "博客", "中文"]
+    status: "✅ 新增"
+
+  - name: "云风 BLOG"
+    url: "https://blog.codingnow.com/atom.xml"
+    category: "科技"
+    tags: ["科技", "博客", "游戏开发"]
+    status: "✅ 新增"
+
+  - name: "唐巧"
+    url: "https://blog.devtang.com/atom.xml"
+    category: "科技"
+    tags: ["科技", "博客", "iOS"]
+    status: "✅ 新增"
+
+  - name: "OneV's Den"
+    url: "https://onevcat.com/atom.xml"
+    category: "科技"
+    tags: ["科技", "博客", "iOS"]
+    status: "✅ 新增"
+
+  - name: "Limboy"
+    url: "https://feeds.feedburner.com/lzyy"
+    category: "科技"
+    tags: ["科技", "博客", "iOS"]
+    status: "✅ 新增"
+
+  - name: "cnbang"
+    url: "https://blog.cnbang.net/feed/"
+    category: "科技"
+    tags: ["科技", "博客", "前端"]
+    status: "✅ 新增"
+
+  - name: "卫报国际"
+    url: "https://www.theguardian.com/world/rss"
+    category: "综合"
+    tags: ["综合", "英文", "全球"]
+    status: "✅ 新增"
+
+# 全局配置
+settings:
+  rsshub_base: "http://127.0.0.1:1200"
+  fetch_interval_minutes: 60
+  max_items_per_feed: 50
+  db_path: "data/news.db"
+  user_agent: "wuhoo-news-rss/1.0"
+  timeout_seconds: 30
+  retry_count: 3
+
+# 告警关键词（命中后自动标记文章并提升热度评分）
+alert_keywords:
+  # 量化交易
+  - "量化交易"
+  - "quantitative trading"
+  - "algo trading"
+  - "算法交易"
+  - "alpha"
+  - "阿尔法"
+  - "因子"
+  - "回测"
+  - "策略"
+  # AI/大模型
+  - "人工智能"
+  - "大模型"
+  - "LLM"
+  - "GPT"
+  - "Claude"
+  - "OpenAI"
+  - "deep learning"
+  - "transformer"
+  - "NVIDIA"
+  - "英伟达"
+  - "GPU"
+  - "芯片"
+  - "semiconductor"
+  - "chip"
+  # 电商
+  - "跨境电商"
+  - "cross-border"
+  - "Amazon"
+  - "亚马逊"
+  - "SHEIN"
+  - "Temu"
+  - "TikTok Shop"
+  # 市场信号
+  - "涨停"
+  - "跌停"
+  - "surge"
+  - "plunge"
+  - "熔断"
+  - "降息"
+  - "加息"
+  - "rate cut"
+  - "rate hike"
+  - "财报"
+  - "earnings"
+  - "revenue"
+  - "营收"
+  - "净利润"
+  - "net profit"

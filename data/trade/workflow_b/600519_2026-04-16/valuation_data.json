@@ -1,0 +1,6 @@
+{
+  "available": false,
+  "reason": "净利润和自由现金流均为负，不适合 DCF 估值",
+  "latest_net_profit": 0.0,
+  "latest_fcf": 0.0
+}

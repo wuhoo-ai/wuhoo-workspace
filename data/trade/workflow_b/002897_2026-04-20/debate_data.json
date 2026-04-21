@@ -1,0 +1,32 @@
+{
+  "method": "full",
+  "bull_points": [
+    "成交量放大 2.16 倍，资金活跃度显著提升",
+    "ROE 达 16%，盈利能力优于行业平均",
+    "舆情净正面，负面新闻占比仅 10.4%",
+    "营收同比增长 13%，基本面稳健增长"
+  ],
+  "bear_points": [
+    "估值偏高：PE 36x 远超 13% 营收增速，PEG>2.7",
+    "技术弱势：RSI 48 中性偏弱，KDJ 78 接近超买区",
+    "舆情隐忧：情绪评分仅 0.069，新闻含虚报/曝光关键词",
+    "负债风险：资产负债率 58%，财务杠杆较高"
+  ],
+  "recommendation": "中性",
+  "confidence": 75,
+  "trader_decision": "HOLD",
+  "risk_approved": false,
+  "final_action": "reject",
+  "final_reason": "Risk Agent 拒绝交易",
+  "consensus": [
+    "双方都认同需要设置止损",
+    "双方置信度接近 (Bull: 0.65, Bear: 0.60)"
+  ],
+  "disagreements": [
+    "推荐方向分歧：Bull 推荐BUY, Bear 推荐SELL",
+    "目标价分歧较大：Bull 目标190, Bear 目标143 (差异28.2%)"
+  ],
+  "stop_loss": 151,
+  "take_profit": 190,
+  "position_suggestion": 0.1
+}

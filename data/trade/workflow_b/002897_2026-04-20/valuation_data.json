@@ -1,0 +1,179 @@
+{
+  "available": true,
+  "base_earnings": 26954.08,
+  "base_growth_rate": 0.1,
+  "scenarios": {
+    "悲观": {
+      "stage1_years": 3,
+      "stage1_growth": 0.05,
+      "stage2_growth": 0.025,
+      "terminal_growth": 0.02,
+      "discount_rate": 0.12,
+      "stage1_pv": 71169.04,
+      "stage2_pv": 55951.0,
+      "terminal_pv": 173642.5,
+      "total_value": 300762.54,
+      "value_per_share": 15.17,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 28301.78,
+          "pv": 25269.45
+        },
+        {
+          "year": 2,
+          "earnings": 29716.87,
+          "pv": 23690.11
+        },
+        {
+          "year": 3,
+          "earnings": 31202.72,
+          "pv": 22209.48
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 4,
+          "earnings": 31982.78,
+          "pv": 20325.64
+        },
+        {
+          "year": 5,
+          "earnings": 32782.35,
+          "pv": 18601.59
+        },
+        {
+          "year": 6,
+          "earnings": 33601.91,
+          "pv": 17023.77
+        }
+      ]
+    },
+    "中性": {
+      "stage1_years": 5,
+      "stage1_growth": 0.1,
+      "stage2_growth": 0.05,
+      "terminal_growth": 0.03,
+      "discount_rate": 0.1,
+      "stage1_pv": 134770.4,
+      "stage2_pv": 73731.35,
+      "terminal_pv": 344947.92,
+      "total_value": 553449.67,
+      "value_per_share": 27.92,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 29649.49,
+          "pv": 26954.08
+        },
+        {
+          "year": 2,
+          "earnings": 32614.44,
+          "pv": 26954.08
+        },
+        {
+          "year": 3,
+          "earnings": 35875.88,
+          "pv": 26954.08
+        },
+        {
+          "year": 4,
+          "earnings": 39463.47,
+          "pv": 26954.08
+        },
+        {
+          "year": 5,
+          "earnings": 43409.81,
+          "pv": 26954.08
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 6,
+          "earnings": 45580.31,
+          "pv": 25728.89
+        },
+        {
+          "year": 7,
+          "earnings": 47859.32,
+          "pv": 24559.4
+        },
+        {
+          "year": 8,
+          "earnings": 50252.29,
+          "pv": 23443.06
+        }
+      ]
+    },
+    "乐观": {
+      "stage1_years": 7,
+      "stage1_growth": 0.15,
+      "stage2_growth": 0.075,
+      "terminal_growth": 0.04,
+      "discount_rate": 0.08,
+      "stage1_pv": 244477.52,
+      "stage2_pv": 124347.45,
+      "terminal_pv": 1072680.96,
+      "total_value": 1441505.93,
+      "value_per_share": 72.71,
+      "stage1_details": [
+        {
+          "year": 1,
+          "earnings": 30997.19,
+          "pv": 28701.1
+        },
+        {
+          "year": 2,
+          "earnings": 35646.77,
+          "pv": 30561.36
+        },
+        {
+          "year": 3,
+          "earnings": 40993.79,
+          "pv": 32542.19
+        },
+        {
+          "year": 4,
+          "earnings": 47142.85,
+          "pv": 34651.4
+        },
+        {
+          "year": 5,
+          "earnings": 54214.28,
+          "pv": 36897.33
+        },
+        {
+          "year": 6,
+          "earnings": 62346.42,
+          "pv": 39288.82
+        },
+        {
+          "year": 7,
+          "earnings": 71698.39,
+          "pv": 41835.32
+        }
+      ],
+      "stage2_details": [
+        {
+          "year": 8,
+          "earnings": 77075.77,
+          "pv": 41641.64
+        },
+        {
+          "year": 9,
+          "earnings": 82856.45,
+          "pv": 41448.85
+        },
+        {
+          "year": 10,
+          "earnings": 89070.68,
+          "pv": 41256.96
+        }
+      ]
+    }
+  },
+  "ideal_buy_price": 10.62,
+  "current_price": 0,
+  "margin_of_safety": 100.0,
+  "shares_outstanding_billion": 1.98
+}

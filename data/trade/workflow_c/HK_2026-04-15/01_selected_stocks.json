@@ -1,0 +1,59 @@
+{
+  "success": true,
+  "market": "HK",
+  "total_candidates": 6,
+  "selected_count": 6,
+  "selected_stocks": [
+    {
+      "ts_code": "HK.00012",
+      "volatility": 28.60639240450178,
+      "momentum_5d": 2.201467645096722,
+      "momentum_10d": 2.680965147453085,
+      "name": "恒基地产",
+      "market": "hk"
+    },
+    {
+      "ts_code": "HK.00688",
+      "volatility": 27.8208469176663,
+      "momentum_5d": 2.9190992493744794,
+      "momentum_10d": 3.6974789915966255,
+      "name": "中国海外发展",
+      "market": "hk"
+    },
+    {
+      "ts_code": "HK.01109",
+      "volatility": 31.02387226467945,
+      "momentum_5d": 4.141208418194164,
+      "momentum_10d": 9.964157706093202,
+      "name": "华润置地",
+      "market": "hk"
+    },
+    {
+      "ts_code": "HK.01113",
+      "volatility": 22.309416013754483,
+      "momentum_5d": 3.4541577825160097,
+      "momentum_10d": 10.373066424021848,
+      "name": "长实集团",
+      "market": "hk"
+    },
+    {
+      "ts_code": "HK.02020",
+      "volatility": 30.514617563604556,
+      "momentum_5d": 3.2039433148490337,
+      "momentum_10d": 10.780423280423278,
+      "name": "安踏体育",
+      "market": "hk"
+    },
+    {
+      "ts_code": "HK.01288",
+      "volatility": 24.620825069203143,
+      "momentum_5d": 4.895104895104896,
+      "momentum_10d": 11.524163568773238,
+      "name": "农业银行",
+      "market": "hk"
+    }
+  ],
+  "top_n": 10,
+  "result_file": "/home/admin/.openclaw/data/stock-pick/factors/result_hk_20260415.csv",
+  "timestamp": "2026-04-16T16:59:35.345167"
+}

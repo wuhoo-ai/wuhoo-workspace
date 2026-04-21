@@ -1,0 +1,74 @@
+{
+  "success": true,
+  "analyzed_count": 5,
+  "analysis_results": [
+    {
+      "code": "HK.00012",
+      "name": "恒基地产",
+      "factor_score": 0,
+      "momentum_score": 5.0,
+      "volatility_score": 5.0,
+      "technical_signal": "buy",
+      "fundamental_pe": null,
+      "fundamental_pb": null,
+      "sentiment_score": 0.069,
+      "data_quality": "degraded",
+      "timestamp": "2026-04-16T16:59:44.370064"
+    },
+    {
+      "code": "HK.00688",
+      "name": "中国海外发展",
+      "factor_score": 0,
+      "momentum_score": 5.0,
+      "volatility_score": 5.0,
+      "technical_signal": "buy",
+      "fundamental_pe": null,
+      "fundamental_pb": null,
+      "sentiment_score": 0.034,
+      "data_quality": "degraded",
+      "timestamp": "2026-04-16T16:59:52.716098"
+    },
+    {
+      "code": "HK.01109",
+      "name": "华润置地",
+      "factor_score": 0,
+      "momentum_score": 5.0,
+      "volatility_score": 5.0,
+      "technical_signal": "buy",
+      "fundamental_pe": null,
+      "fundamental_pb": null,
+      "sentiment_score": 0.089,
+      "data_quality": "degraded",
+      "timestamp": "2026-04-16T16:59:59.393972"
+    },
+    {
+      "code": "HK.01113",
+      "name": "长实集团",
+      "factor_score": 0,
+      "momentum_score": 5.0,
+      "volatility_score": 5.0,
+      "technical_signal": "buy",
+      "fundamental_pe": null,
+      "fundamental_pb": null,
+      "sentiment_score": 0.029,
+      "data_quality": "degraded",
+      "timestamp": "2026-04-16T17:00:06.978823"
+    },
+    {
+      "code": "HK.02020",
+      "name": "安踏体育",
+      "factor_score": 0,
+      "momentum_score": 5.0,
+      "volatility_score": 5.0,
+      "technical_signal": "buy",
+      "fundamental_pe": null,
+      "fundamental_pb": null,
+      "sentiment_score": 0.143,
+      "data_quality": "degraded",
+      "timestamp": "2026-04-16T17:00:13.364902"
+    }
+  ],
+  "market": "hk",
+  "method": "full",
+  "timestamp": "2026-04-16T17:00:13.364990"
+}

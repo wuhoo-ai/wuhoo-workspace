@@ -1,0 +1,181 @@
+{
+  "debate_id": "debate_20260420_100759_SH603220",
+  "symbol": "SH.603220",
+  "timestamp": "2026-04-20T10:07:59.160172",
+  "round": 1,
+  "status": "completed",
+  "bull_view": {
+    "agent": "bull",
+    "symbol": "SH.603220",
+    "timestamp": "2026-04-20T10:09:11.631998",
+    "recommendation": "BUY",
+    "confidence": 0.65,
+    "target_price": 198,
+    "time_horizon": "1M",
+    "key_points": [
+      "量能放大 2.24 倍，MACD 金叉确认强势",
+      "ROE 达 20%，市盈率 20 倍估值合理",
+      "舆情正面占比 63.16%，市场情绪回暖",
+      "趋势向上，换手率 8.2% 活跃度佳"
+    ],
+    "bullish_points": [
+      {
+        "category": "technical",
+        "point": "成交量显著放大，MACD 出现金叉信号",
+        "evidence": "Volume Ratio 2.24，MACD 状态 golden_cross，RSI=52 处于强势区",
+        "weight": 0.35
+      },
+      {
+        "category": "fundamental",
+        "point": "盈利能力强劲，估值处于合理区间",
+        "evidence": "ROE=0.2 (20%)，PE=20.0，Profit Margin=0.3 (30%)",
+        "weight": 0.3
+      },
+      {
+        "category": "sentiment",
+        "point": "市场舆情偏向正面，关注度较高",
+        "evidence": "Positive Ratio 0.6316，News Count 870，Sentiment Score 0.06",
+        "weight": 0.2
+      },
+      {
+        "category": "technical",
+        "point": "趋势向上，换手率显示资金活跃",
+        "evidence": "Trend 状态 uptrend，Turnover Rate 0.082 (8.2%)",
+        "weight": 0.15
+      }
+    ],
+    "risks_identified": [
+      "数据质量标记为 degraded，可能存在模拟偏差",
+      "资产负债率 0.62，杠杆水平较高需关注流动性"
+    ],
+    "stop_loss": 155,
+    "position_suggestion": 0.1
+  },
+  "bear_view": {
+    "agent": "bear",
+    "symbol": "SH.603220",
+    "timestamp": "2026-04-20T10:10:10.164043",
+    "recommendation": "SELL",
+    "confidence": 0.45,
+    "target_price": 150,
+    "time_horizon": "1M",
+    "key_points": [
+      "MACD 金叉但数值为 0，技术信号可靠性存疑",
+      "资产负债率 62% 偏高，营收增速仅 7% 支撑不足",
+      "舆情评分 0.06 接近中性，新闻目标价与现价严重倒挂",
+      "数据质量标记为 degraded，分析基础存在重大风险"
+    ],
+    "bearish_points": [
+      {
+        "category": "technical",
+        "point": "KDJ 指标高位钝化，MACD 信号异常",
+        "evidence": "KDJ 中 K=82, D=77, J=77 进入超买区，MACD 虽标金叉但 macd_value=0, histogram=0",
+        "weight": 0.3
+      },
+      {
+        "category": "fundamental",
+        "point": "负债率偏高，营收增长放缓",
+        "evidence": "debt_ratio=0.62 (62%)，revenue_growth=0.07 (7%)，低于高估值科技股预期",
+        "weight": 0.3
+      },
+      {
+        "category": "sentiment",
+        "point": "舆情评分中性，市场预期混乱",
+        "evidence": "sentiment_score=0.06 接近 0，新闻中出现目标价 100 元而现价 172 元的严重倒挂",
+        "weight": 0.2
+      },
+      {
+        "category": "fundamental",
+        "point": "数据质量降级，基本面真实性存疑",
+        "evidence": "数据源标记为 degraded/mock，warning 提示不可用于真实交易决策",
+        "weight": 0.2
+      }
+    ],
+    "bull_points_refuted": [
+      {
+        "bull_point": "MACD 出现金叉信号，成交量放大",
+        "rebuttal": "MACD 数值全为 0，金叉信号可能是数据错误，成交量放大可能是出货",
+        "evidence": "macd_value=0, signal_value=0, volume_ratio=2.24 但 data_quality=degraded"
+      },
+      {
+        "bull_point": "盈利能力强劲，估值合理",
+        "rebuttal": "高负债率侵蚀盈利质量，营收增速无法支撑高估值",
+        "evidence": "debt_ratio=0.62，revenue_growth=0.07，PE=20.0 对于 7% 增速偏高"
+      },
+      {
+        "bull_point": "市场舆情偏向正面，关注度较高",
+        "rebuttal": "情绪评分仅 0.06 属于中性，且新闻内容包含负面宏观话题",
+        "evidence": "sentiment_score=0.06，hot_topics 包含'巨额数虚报','骗局'等负面关键词"
+      },
+      {
+        "bull_point": "换手率显示资金活跃，趋势向上",
+        "rebuttal": "高换手率在高位可能是主力分布筹码，趋势数据可靠性低",
+        "evidence": "turnover_rate=0.082 (8.2%) 处于高位，data_source=mock 导致 trend 可信度低"
+      }
+    ],
+    "stop_loss": 190,
+    "position_suggestion": 0
+  },
+  "bull_rebuttal": null,
+  "consensus_points": [
+    "双方都认同需要设置止损"
+  ],
+  "disagreement_points": [
+    "推荐方向分歧：Bull 推荐BUY, Bear 推荐SELL",
+    "目标价分歧较大：Bull 目标198, Bear 目标150 (差异27.6%)"
+  ],
+  "trader_decision": {
+    "agent": "trader",
+    "symbol": "SH.603220",
+    "timestamp": "2026-04-20T10:11:49.185513",
+    "decision": "HOLD",
+    "confidence": 0.75,
+    "action": {
+      "symbol": "603220.SH",
+      "side": "hold",
+      "quantity": 0,
+      "order_type": "market",
+      "limit_price": 0,
+      "stop_loss": 0,
+      "take_profit": 0
+    },
+    "reasoning": "尽管 Bull 方置信度略高 (0.65)，但核心数据质量标记为'degraded/mock'，严重影响技术信号 (如 MACD=0) 的可信度。风险收益比计算约为 1.5:1 (入场 172, 止损 155, 目标 198)，未达到 1:2 的交易原则。Bear 方关于高负债 (62%) 和营收增速 (7%) 无法支撑估值的担忧合理。在数据可靠性存疑且风险收益比不佳的情况下，遵循'风险第一'原则，选择观望。",
+    "bull_weight": 0.35,
+    "bear_weight": 0.65,
+    "consensus_points": [
+      "双方均认为需要设置止损",
+      "双方均提及数据质量存在降级风险"
+    ],
+    "key_disagreement": "技术信号的有效性与基本面估值支撑",
+    "risk_reward_ratio": 1.53,
+    "position_size": 0.0
+  },
+  "risk_approval": {
+    "agent": "risk",
+    "symbol": "SH.603220",
+    "timestamp": "2026-04-20T10:11:49.185748",
+    "approved": false,
+    "conditions": [
+      "风险收益比不足，建议重新评估",
+      "近期波动率较高，建议降低仓位"
+    ],
+    "risk_score": 0.4,
+    "warnings": [
+      "近期波动率有所上升"
+    ],
+    "checks": {
+      "stop_loss": "fail",
+      "position_size": "pass",
+      "risk_reward": "warn",
+      "volatility": "warn",
+      "liquidity": "pass",
+      "concentration": "pass"
+    },
+    "recommendation": "REJECT"
+  },
+  "final_action": {
+    "action": "reject",
+    "reason": "Risk Agent 拒绝交易",
+    "modified_action": null
+  }
+}

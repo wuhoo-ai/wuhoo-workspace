@@ -1,0 +1,93 @@
+{
+  "workflow": "C",
+  "market": "CN",
+  "date": "2026-04-15",
+  "skip_flags": {
+    "select": false,
+    "analysis": false,
+    "debate": false,
+    "trades": false,
+    "review": false
+  },
+  "steps": {
+    "step1_select_stocks": {
+      "success": true,
+      "market": "CN",
+      "total_candidates": 1,
+      "selected_count": 1,
+      "selected_stocks": [
+        {
+          "ts_code": "002511.SZ",
+          "residual_vol": 27.995251411716172,
+          "turnover_5d": 1.6939999999999966,
+          "momentum_5d": -4.267589388696647,
+          "beta_20d": 1.0473607305180943,
+          "momentum_10d": -0.8363201911588791,
+          "name": "中顺洁柔"
+        }
+      ],
+      "top_n": 5,
+      "result_file": "/home/admin/.openclaw/data/stock-pick/factors/result_cn_20260415.csv",
+      "timestamp": "2026-04-17T18:08:31.104959"
+    },
+    "step2_analyze": {
+      "success": true,
+      "analyzed_count": 1,
+      "analysis_results": [
+        {
+          "code": "002511.SZ",
+          "name": "中顺洁柔",
+          "score": 5.0,
+          "momentum_10d": -0.8363201911588791,
+          "recommendation": "HOLD",
+          "timestamp": "2026-04-17T18:08:31.105892"
+        }
+      ],
+      "market": "cn",
+      "method": "simplified",
+      "timestamp": "2026-04-17T18:08:31.105938"
+    },
+    "step3_debate": {
+      "success": true,
+      "debate_results": [
+        {
+          "code": "002511.SZ",
+          "name": "中顺洁柔",
+          "recommendation": "HOLD",
+          "confidence": 0.5,
+          "method": "simplified",
+          "timestamp": "2026-04-17T18:08:31.106475"
+        }
+      ],
+      "count": 1,
+      "method": "simplified",
+      "timestamp": "2026-04-17T18:08:31.106540"
+    },
+    "step4_recommendations": {
+      "success": true,
+      "recommendations": [
+        {
+          "code": "002511.SZ",
+          "name": "中顺洁柔",
+          "action": "HOLD",
+          "confidence": 0.5,
+          "reason": "简化辩论：HOLD",
+          "bull_points": [],
+          "bear_points": [],
+          "timestamp": "2026-04-17T18:08:31.107141"
+        }
+      ],
+      "count": 1,
+      "method": "simplified",
+      "timestamp": "2026-04-17T18:08:31.107169"
+    },
+    "step5_trades": {
+      "success": true,
+      "market": "CN",
+      "trade_results": [],
+      "count": 0,
+      "gateway": "Futu OpenAPI (SIMULATE)",
+      "timestamp": "2026-04-17T18:08:31.647123"
+    }
+  }
+}

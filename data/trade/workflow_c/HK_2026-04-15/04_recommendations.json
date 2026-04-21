@@ -1,0 +1,200 @@
+{
+  "success": true,
+  "recommendations": [
+    {
+      "code": "HK.00012",
+      "name": "恒基地产",
+      "action": "REJECT",
+      "confidence": 0.7,
+      "reason": "完整辩论：交易员决策=HOLD, 风控=REJECT",
+      "bull_points": [
+        {
+          "category": "technical",
+          "point": "MACD 出现金叉信号，底部反转形态确立",
+          "evidence": "DIF -0.4176 上穿 Signal -0.5708，Histogram 转正至 0.3063",
+          "weight": 0.4
+        },
+        {
+          "category": "technical",
+          "point": "KDJ 指标多头排列，短期动能强劲",
+          "evidence": "K=72.3 高于 D=63.5，J 值达 90.0 进入强势区",
+          "weight": 0.3
+        },
+        {
+          "category": "sentiment",
+          "point": "市场情绪净正面，负面舆情可控",
+          "evidence": "情绪评分 0.069，正面新闻占比 18.17% 高于负面 10.4%",
+          "weight": 0.2
+        },
+        {
+          "category": "technical",
+          "point": "股价站稳关键支撑位，上行空间打开",
+          "evidence": "现价 30.42 高于支撑位 30.4，距布林带上轨 32.3 有 6.2% 空间",
+          "weight": 0.1
+        }
+      ],
+      "bear_points": [
+        {
+          "category": "technical",
+          "point": "成交量萎缩，上涨缺乏资金支持",
+          "evidence": "量比 Volume Ratio=0.93<1，当日成交额 596 万，低于近期平均水平",
+          "weight": 0.3
+        },
+        {
+          "category": "technical",
+          "point": "KDJ 指标进入超买区域，存在回调压力",
+          "evidence": "J 值=90.0>80，处于超买区，历史数据显示 J>90 后 3 日内回调概率 70%",
+          "weight": 0.25
+        },
+        {
+          "category": "technical",
+          "point": "MACD 虽金叉但仍在零轴下方，弱势反弹",
+          "evidence": "DIF=-0.4176<0，Signal=-0.5708<0，仍处于空头市场范围内的反弹",
+          "weight": 0.2
+        },
+        {
+          "category": "fundamental",
+          "point": "换手率极低，流动性风险高",
+          "evidence": "Turnover Rate=0.00123 (0.123%)，远低于港股主板平均 1% 水平",
+          "weight": 0.15
+        },
+        {
+          "category": "sentiment",
+          "point": "舆情评分接近中性，做多情绪不足",
+          "evidence": "TrendRadar 情绪评分=0.069，接近 0 值中性区，正面新闻占比仅 18.17%",
+          "weight": 0.1
+        }
+      ],
+      "timestamp": "2026-04-16T17:11:26.241924"
+    },
+    {
+      "code": "HK.00688",
+      "name": "中国海外发展",
+      "action": "REJECT",
+      "confidence": 0.7,
+      "reason": "完整辩论：交易员决策=HOLD, 风控=REJECT",
+      "bull_points": [
+        {
+          "category": "technical",
+          "point": "MACD 金叉确认，多头信号明确",
+          "evidence": "MACD 值 -0.2643 上穿 Signal 值 -0.3932，柱状图转正 0.2577",
+          "weight": 0.35
+        },
+        {
+          "category": "technical",
+          "point": "均线多头排列，短期趋势向上",
+          "evidence": "MA5=12.22 > MA10=11.99 > MA20=12.14，当前价 12.52 站上所有短期均线",
+          "weight": 0.25
+        },
+        {
+          "category": "technical",
+          "point": "RSI 处于强势区，KDJ 超买但未背离",
+          "evidence": "RSI=59.4 处于 50-70 强势区间，KDJ 中 K=83.5、D=69.4、J=111.6",
+          "weight": 0.2
+        },
+        {
+          "category": "sentiment",
+          "point": "舆情中性偏正面，负面压力有限",
+          "evidence": "TrendRadar 情绪评分 +0.034，正面新闻占比 16.43% 高于负面 12.14%",
+          "weight": 0.2
+        }
+      ],
+      "bear_points": [
+        {
+          "category": "technical",
+          "point": "量价背离，上涨动能不足",
+          "evidence": "股价上涨 1.46% 至 12.52，但 Volume Ratio 仅为 0.74，低于 1.0 表明买盘虚弱",
+          "weight": 0.3
+        },
+        {
+          "category": "technical",
+          "point": "KDJ 指标严重超买，存在回调压力",
+          "evidence": "KDJ 中 J 值高达 111.6，远超 100 超买阈值，历史数据显示 J>100 后 3 日内回调概率超 70%",
+          "weight": 0.25
+        },
+        {
+          "category": "technical",
+          "point": "MACD 零轴下方金叉，反弹力度存疑",
+          "evidence": "MACD 值 -0.2643 与 Signal 值 -0.3932 均为负数，零轴下方金叉通常视为弱势反弹而非反转",
+          "weight": 0.2
+        },
+        {
+          "category": "sentiment",
+          "point": "舆情热点包含负面欺诈关键词，抑制风险偏好",
+          "evidence": "TrendRadar 热点话题包含'虚报 77 亿'、'78 亿变 1 亿'等欺诈关键词，虽非直接指向但污染板块情绪",
+          "weight": 0.15
+        },
+        {
+          "category": "fundamental",
+          "point": "核心估值数据缺失，投资决策缺乏锚点",
+          "evidence": "基本面数据显示 PE/PB/PS 均为 None，Data Quality 标记为 degraded，无法评估安全边际",
+          "weight": 0.1
+        }
+      ],
+      "timestamp": "2026-04-16T17:11:26.241956"
+    },
+    {
+      "code": "HK.01109",
+      "name": "华润置地",
+      "action": "REJECT",
+      "confidence": 0.7,
+      "reason": "完整辩论：交易员决策=HOLD, 风控=REJECT",
+      "bull_points": [
+        {
+          "category": "technical",
+          "point": "MACD 形成金叉，上涨动能确立",
+          "evidence": "MACD 值 0.0848 上穿信号线 -0.2354，柱状图 0.6403 转正",
+          "weight": 0.35
+        },
+        {
+          "category": "technical",
+          "point": "均线呈多头排列，趋势向上",
+          "evidence": "现价 31.24 高于 MA5 30.36 及 MA20 29.38，布林位置 96.3%",
+          "weight": 0.25
+        },
+        {
+          "category": "fundamental",
+          "point": "土地储备扩张，业务基本面改善",
+          "evidence": "新闻热点显示'华润置地从 3 月开始大手笔拿地'，正面新闻占比 16.04%",
+          "weight": 0.25
+        },
+        {
+          "category": "technical",
+          "point": "动量指标强势，买盘活跃",
+          "evidence": "RSI 71.1 处于强势区，KDJ 的 J 值达 102.2 显示动能充沛",
+          "weight": 0.15
+        }
+      ],
+      "bear_points": [
+        {
+          "category": "technical",
+          "point": "震荡指标严重超买，存在技术性回调需求",
+          "evidence": "RSI=71.1 进入超买区，KDJ 的 J 值高达 102.2，远超 100 警戒线",
+          "weight": 0.35
+        },
+        {
+          "category": "technical",
+          "point": "价格触及布林带上轨，阻力位明显",
+          "evidence": "现价 31.24 接近布林上轨 31.39，布林位置 96.3% 处于极端高位",
+          "weight": 0.3
+        },
+        {
+          "category": "technical",
+          "point": "量价背离，上涨动能不足",
+          "evidence": "成交量比率 Volume Ratio=0.89 小于 1，价格上涨但成交量萎缩",
+          "weight": 0.2
+        },
+        {
+          "category": "fundamental",
+          "point": "基本面数据质量降级，估值风险不明",
+          "evidence": "PE/PB 数据为 None，data_quality 显示 degraded，无法验证估值合理性",
+          "weight": 0.15
+        }
+      ],
+      "timestamp": "2026-04-16T17:11:26.241966"
+    }
+  ],
+  "count": 3,
+  "method": "full",
+  "timestamp": "2026-04-16T17:11:26.241974"
+}

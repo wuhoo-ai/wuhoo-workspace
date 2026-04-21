@@ -1,0 +1,300 @@
+{
+  "audit_meta": {
+    "symbol": "603220",
+    "name": "中贝通信",
+    "date": "2026-04-20",
+    "generated_at": "2026-04-20T10:11:49.188682",
+    "started_at": "2026-04-20T10:11:49.188472",
+    "version": "2.0"
+  },
+  "reliability": {
+    "score": 95.5,
+    "grade": "A — 高可靠性",
+    "total_deduction": 95,
+    "max_possible": 2100,
+    "dimension_scores": {
+      "akshare": {
+        "score": 37.5,
+        "deduction": 10
+      },
+      "data_aggregator": {
+        "score": 100,
+        "deduction": 0
+      },
+      "web_search": {
+        "score": 0,
+        "deduction": 15
+      },
+      "analyst_reports": {
+        "score": 50,
+        "deduction": 10
+      },
+      "industry": {
+        "score": 100,
+        "deduction": 0
+      },
+      "moat": {
+        "score": 30,
+        "deduction": 10
+      },
+      "management": {
+        "score": 60,
+        "deduction": 5
+      },
+      "roe": {
+        "score": 0,
+        "deduction": 15
+      },
+      "cashflow": {
+        "score": 0,
+        "deduction": 10
+      },
+      "growth": {
+        "score": 0,
+        "deduction": 10
+      },
+      "data_periods": {
+        "score": 100,
+        "deduction": 0
+      },
+      "dcf": {
+        "score": 100,
+        "deduction": 0
+      },
+      "dcf_params": {
+        "score": 100,
+        "deduction": 0
+      },
+      "relative_valuation": {
+        "score": 100,
+        "deduction": 0
+      },
+      "historical_valuation": {
+        "score": 0,
+        "deduction": 10
+      },
+      "debate_method": {
+        "score": 100,
+        "deduction": 0
+      },
+      "bull_points": {
+        "score": 100,
+        "deduction": 0
+      },
+      "bear_points": {
+        "score": 100,
+        "deduction": 0
+      },
+      "debate_confidence": {
+        "score": 100,
+        "deduction": 0
+      },
+      "consistency": {
+        "score": 100,
+        "deduction": 0
+      },
+      "red_flags": {
+        "score": 100,
+        "deduction": 0
+      }
+    }
+  },
+  "summary": {
+    "total_alerts": 23,
+    "critical_alerts": 0,
+    "warning_alerts": 8,
+    "info_alerts": 15
+  },
+  "alerts": [
+    {
+      "level": "INFO",
+      "dimension": "DATA_ACQUISITION",
+      "rule": "akshare_available",
+      "message": "akshare 财务数据获取成功",
+      "detail": ""
+    },
+    {
+      "level": "WARNING",
+      "dimension": "DATA_ACQUISITION",
+      "rule": "financial_data_incomplete",
+      "message": "akshare 数据完整性仅 38%，部分财务数据缺失",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "DATA_ACQUISITION",
+      "rule": "data_aggregator_available",
+      "message": "DataAggregator 因子数据获取成功",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "DATA_ACQUISITION",
+      "rule": "data_overall",
+      "message": "数据获取完成 — akshare 38% + DataAggregator 100%",
+      "detail": ""
+    },
+    {
+      "level": "WARNING",
+      "dimension": "PUBLIC_INFO",
+      "rule": "no_web_search",
+      "message": "未执行网络搜索，缺少最新市场信息",
+      "detail": ""
+    },
+    {
+      "level": "WARNING",
+      "dimension": "PUBLIC_INFO",
+      "rule": "no_analyst_reports",
+      "message": "缺少券商研报数据，盈利预测基于估算",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "QUALITATIVE_ANALYSIS",
+      "rule": "industry_identified",
+      "message": "行业识别成功：通信服务",
+      "detail": ""
+    },
+    {
+      "level": "WARNING",
+      "dimension": "QUALITATIVE_ANALYSIS",
+      "rule": "no_moat_analysis",
+      "message": "护城河分析数据不足",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "QUALITATIVE_ANALYSIS",
+      "rule": "management_analysis_limited",
+      "message": "管理层分析数据有限，基于间接推断",
+      "detail": ""
+    },
+    {
+      "level": "WARNING",
+      "dimension": "QUANTITATIVE_ANALYSIS",
+      "rule": "no_roe_data",
+      "message": "ROE 数据缺失",
+      "detail": ""
+    },
+    {
+      "level": "WARNING",
+      "dimension": "QUANTITATIVE_ANALYSIS",
+      "rule": "no_cashflow_data",
+      "message": "现金流数据缺失",
+      "detail": ""
+    },
+    {
+      "level": "WARNING",
+      "dimension": "QUANTITATIVE_ANALYSIS",
+      "rule": "no_growth_data",
+      "message": "历史利润数据不足（< 2 期），无法计算 CAGR",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "QUANTITATIVE_ANALYSIS",
+      "rule": "data_periods_sufficient",
+      "message": "财务数据期数充足 — 10 期",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "VALUATION_ANALYSIS",
+      "rule": "dcf_available",
+      "message": "三阶段 DCF 估值完成",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "VALUATION_ANALYSIS",
+      "rule": "dcf_params_reasonable",
+      "message": "DCF 参数合理 — 乐观/悲观差异 3.8x",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "VALUATION_ANALYSIS",
+      "rule": "relative_valuation_available",
+      "message": "相对估值完成",
+      "detail": ""
+    },
+    {
+      "level": "WARNING",
+      "dimension": "VALUATION_ANALYSIS",
+      "rule": "no_historical_valuation",
+      "message": "缺少历史估值分位",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "DEBATE_QUALITY",
+      "rule": "debate_full",
+      "message": "完整四角色辩论完成",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "DEBATE_QUALITY",
+      "rule": "bull_points_available",
+      "message": "看多观点 4 条",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "DEBATE_QUALITY",
+      "rule": "bear_points_available",
+      "message": "看空观点 4 条",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "DEBATE_QUALITY",
+      "rule": "debate_confidence_high",
+      "message": "辩论置信度 75%，较高",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "CONSISTENCY_CHECK",
+      "rule": "fundamental_valuation_consistent",
+      "message": "基本面与估值结论一致",
+      "detail": ""
+    },
+    {
+      "level": "INFO",
+      "dimension": "RED_FLAG_DETECTION",
+      "rule": "no_red_flags",
+      "message": "未检测到财务红旗信号",
+      "detail": ""
+    }
+  ],
+  "deduction_rules": {
+    "akshare_unavailable": 15,
+    "tushare_unavailable": 15,
+    "data_aggregator_unavailable": 10,
+    "no_financial_data": 20,
+    "financial_data_incomplete": 10,
+    "no_web_search": 15,
+    "no_analyst_reports": 10,
+    "no_recent_news": 10,
+    "industry_unknown": 10,
+    "no_moat_analysis": 10,
+    "no_management_analysis": 5,
+    "no_roe_data": 15,
+    "no_cashflow_data": 10,
+    "no_growth_data": 10,
+    "data_periods_insufficient": 10,
+    "dcf_unavailable": 10,
+    "dcf_unreasonable_params": 10,
+    "no_relative_valuation": 10,
+    "no_historical_valuation": 10,
+    "debate_unavailable": 15,
+    "bull_points_empty": 10,
+    "bear_points_empty": 10,
+    "debate_confidence_low": 10,
+    "fundamental_valuation_conflict": 15,
+    "debate_valuation_conflict": 10,
+    "red_flags_ignored": 15,
+    "extreme_valuation_ignored": 10
+  }
+}

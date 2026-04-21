@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+venv-*/
+.venv/
+
+# Hermes runtime
+*.log
+*.pid
+*.lock
+*.db
+*.db-shm
+*.db-wal
+
+# Sensitive
+.env
+*.key
+*.pem
+auth.json
+channel_directory.json
+gateway_state.json
+
+# Cache
+cache/
+audio_cache/
+image_cache/
+.pastes/
+checkpoints/
+sandboxes/
+
+# Large regenerable data
+data/stock-pick/daily_data/
+data/stock-pick/factors/
+data/stock-pick/turnover_data/
+data/stock-pick/backups/
+data/news/
+data/trade/trade_logs/
+
+# Skills in ~/.hermes (managed separately)
+/hermes-agent/
+/migration/
+/plans/
+/scripts/hermes_*.py
+
+# OS
+.DS_Store
+Thumbs.db

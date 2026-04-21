@@ -1,0 +1,136 @@
+{
+  "factor_data": {
+    "data_source": "deprecated",
+    "note": "QuantaAlpha 已移除，使用基本面+技术面综合评分"
+  },
+  "technical_data": {
+    "macd": "golden_cross",
+    "macd_value": 0,
+    "signal_value": 0,
+    "macd_histogram": 0,
+    "rsi": 52,
+    "kdj": {
+      "k": 82,
+      "d": 77,
+      "j": 77
+    },
+    "trend": "uptrend",
+    "signal": "neutral",
+    "ma5": 0,
+    "ma10": 0,
+    "ma20": 0,
+    "boll_upper": 0,
+    "boll_lower": 0,
+    "boll_position": 50,
+    "support": 0,
+    "resistance": 0,
+    "volume_ratio": 2.24,
+    "turnover_rate": 0.08199999999999999,
+    "price": 172,
+    "change_pct": 0.02,
+    "volume": 1000072,
+    "data_quality": "degraded",
+    "data_source": "mock",
+    "trade_days": 0,
+    "last_updated": "2026-04-20T10:07:14.983066",
+    "note": "模拟数据 (Tushare 不可用)"
+  },
+  "sentiment_data": {
+    "source": "combined",
+    "sentiment_score": 0.06,
+    "sentiment_label": "neutral",
+    "positive_ratio": 0.6316,
+    "negative_ratio": 0.0684,
+    "news_count": 870,
+    "hot_topics": [
+      "科技爱好者周刊（第 390 期）：没有语料，大模型就是智障",
+      "78亿变1亿 河南3地曝巨额数",
+      "央视曝光黑中医馆骗局",
+      "焦点访谈丨虚报77亿、9.6亿",
+      "$中贝通信(SH603220)$2026三季度报之前可到100，现在还是底部。拿"
+    ],
+    "sources": [
+      "rss_news",
+      "trendradar",
+      "web_search"
+    ],
+    "last_updated": "2026-04-20T10:07:13.085798"
+  },
+  "fundamental_data": {
+    "pe": 20.0,
+    "pb": 2.5,
+    "ps": 6.666666666666667,
+    "dv_ratio": 4.2,
+    "roe": 0.2,
+    "revenue_growth": 0.07,
+    "profit_margin": 0.3,
+    "debt_ratio": 0.62,
+    "turnover_rate": 0.08199999999999999,
+    "volume_ratio": 1.52,
+    "note": "降级数据 — A股行业平均估计，非真实数据",
+    "warning": "⚠️ 数据质量：degraded - 不可用于真实交易决策",
+    "data_source": "degraded",
+    "data_quality": "degraded",
+    "last_updated": "2026-04-20T10:07:32.638866"
+  },
+  "market_data": {
+    "volatility": 0.8199999999999998,
+    "daily_turnover": 172012384,
+    "market_cap": 17200000000,
+    "earnings_soon": false,
+    "price": 172,
+    "data_quality": "degraded",
+    "last_updated": "2026-04-20T10:07:32.638902"
+  },
+  "data_quality": {
+    "overall": "degraded",
+    "factor": "deprecated",
+    "fundamental": "degraded",
+    "technical": "mock",
+    "sentiment": "combined",
+    "warning": "⚠️ 部分数据源使用降级数据，决策需谨慎"
+  },
+  "metadata": {
+    "symbol": "SH.603220",
+    "company_name": "中贝通信",
+    "timestamp": "2026-04-20T10:07:32.638915",
+    "data_sources": {
+      "news_rss": {
+        "available": true,
+        "db_path": "/home/admin/wuhoo-skills/wuhoo-news-rss/data/news.db",
+        "total_articles": 1286,
+        "alert_articles": 0
+      },
+      "trendradar": {
+        "available": true,
+        "data_dir": "/home/admin/.openclaw/data/trendradar",
+        "db_path": "/home/admin/.openclaw/data/trendradar/output/2026-04-09/news.db",
+        "data_date": "2026-04-09",
+        "cache_size": 1
+      },
+      "akshare": {
+        "tushare_available": true,
+        "cache_size": 1
+      },
+      "web_search": {
+        "primary_source": "tavily",
+        "tavily_configured": true,
+        "jina_configured": true,
+        "cache_size": 1,
+        "max_results": 10
+      },
+      "fundamental": {
+        "available_sources": [
+          "tushare",
+          "futu",
+          "akshare"
+        ],
+        "tushare_available": true,
+        "akshare_available": true,
+        "futu_importable": true,
+        "futu_connected": true,
+        "cache_size": 1
+      }
+    }
+  }
+}

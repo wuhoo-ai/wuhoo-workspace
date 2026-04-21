@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "analyzed_count": 1,
+  "analysis_results": [
+    {
+      "code": "002511.SZ",
+      "name": "中顺洁柔",
+      "score": 5.0,
+      "momentum_10d": -0.8363201911588791,
+      "recommendation": "HOLD",
+      "timestamp": "2026-04-17T18:08:31.105892"
+    }
+  ],
+  "market": "cn",
+  "method": "simplified",
+  "timestamp": "2026-04-17T18:08:31.105938"
+}

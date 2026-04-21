@@ -1,0 +1,22 @@
+{
+  "workflow": "D",
+  "date": "2026-04-16",
+  "market": "CN",
+  "generated_at": "2026-04-16T21:06:11.413269",
+  "summary": {
+    "total_positions": 2,
+    "total_assets": 1001430.26,
+    "sharpe_ratio": -20.0,
+    "signal_counts": {
+      "HOLD": 2
+    }
+  },
+  "actions": [],
+  "violations": [],
+  "next_steps": [
+    {
+      "action": "下次诊断时间",
+      "suggestion": "建议 7 天后再次运行 Workflow D"
+    }
+  ]
+}

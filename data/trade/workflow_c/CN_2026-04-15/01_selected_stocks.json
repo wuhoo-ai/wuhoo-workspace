@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "market": "CN",
+  "total_candidates": 1,
+  "selected_count": 1,
+  "selected_stocks": [
+    {
+      "ts_code": "002511.SZ",
+      "residual_vol": 27.995251411716172,
+      "turnover_5d": 1.6939999999999966,
+      "momentum_5d": -4.267589388696647,
+      "beta_20d": 1.0473607305180943,
+      "momentum_10d": -0.8363201911588791,
+      "name": "中顺洁柔"
+    }
+  ],
+  "top_n": 5,
+  "result_file": "/home/admin/.openclaw/data/stock-pick/factors/result_cn_20260415.csv",
+  "timestamp": "2026-04-17T18:08:31.104959"
+}
