@@ -33,6 +33,7 @@ data/ai-trader/
 data/backups/
 data/trendradar/
 data/v2ray/
+data/stock-pick/
 
 # Projects as submodules
 workspace/projects/
