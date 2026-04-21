@@ -6,7 +6,15 @@ WS_SKILLS = os.path.expanduser("~/wuhoo-workspace/skills")
 HERMES_SKILLS = os.path.expanduser("~/.hermes/skills")
 
 def sync():
-    """Use skills tap add to link workspace skills"""
+    """尝试 skills tap add，失败则手动复制"""
+    # Try skills tap add first
+    r = subprocess.run("hermes skills tap add ~/wuhoo-workspace 2>&1", shell=True, capture_output=True, text=True)
+    if r.returncode == 0 and ("added" in r.stdout.lower() or "added" in r.stderr.lower()):
+        print("Skills tap registered successfully")
+        return
+    
+    # Fallback: manual copy
+    print("Tap add not available, using manual sync...")
     for skill_dir in os.listdir(WS_SKILLS):
         skill_path = os.path.join(WS_SKILLS, skill_dir)
         if os.path.isdir(skill_path) and os.path.exists(os.path.join(skill_path, "SKILL.md")):
