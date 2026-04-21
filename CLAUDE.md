@@ -46,7 +46,7 @@ DingTalk/WeCom 已废弃（openclaw-china 插件已删除）。
 | Skill | 用途 |
 |-------|------|
 | **wuhoo-stock-deep-analysis** | Workflow B — 单股深度分析 |
-| **wuhoo-stock-autopick-trade** | Workflow C — 多市场自动选股 |
+| **wuhoo-stock-trade** | Workflow C — 多市场交易执行 |
 | **wuhoo-trade-diagnose** | Workflow D — 持仓诊断与调仓 |
 | **wuhoo-news-rss** | RSS 资讯引擎 |
 
@@ -55,7 +55,7 @@ DingTalk/WeCom 已废弃（openclaw-china 插件已删除）。
 | Skill | 用途 |
 |-------|------|
 | futu-api | 富途 OpenAPI (57 脚本) |
-| stock-pick | A股因子选股 |
+| wuhoo-stock-pick | A/HK/US 可配置因子选股 |
 | install-futu-opend | Futu OpenD 安装 |
 
 Skills 通过 `skills.load.extraDirs: ["~/.openclaw/skills"]` 加载。
@@ -63,7 +63,7 @@ Skills 通过 `skills.load.extraDirs: ["~/.openclaw/skills"]` 加载。
 ## Trading Pipeline
 
 ```
-选股 (Stock-Pick) → 辩论 (Debate) → 人工确认 → 交易执行 (Futu) → 持仓管理 (Trade-Diagnose)
+选股 (wuhoo-stock-pick) → 分析 (wuhoo-stock-deep-analysis) → 辩论 (Debate) → 交易执行 (Futu) → 持仓诊断 (Debate 独立触发)
 ```
 
 ### 风控规则
