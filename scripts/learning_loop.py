@@ -31,15 +31,23 @@ def analyze_sessions():
 def check_memory():
     """检查memory使用率"""
     mem_files = [
-        os.path.join(HERMES, "memory"),
-        os.path.join(HERMES, "user_memory"),
+        os.path.join(HERMES, "memories", "MEMORY.md"),
+        os.path.join(HERMES, "memories", "USER.md"),
     ]
     total_chars = 0
+    file_details = {}
     for mf in mem_files:
+        name = os.path.basename(mf)
         if os.path.exists(mf):
             with open(mf) as f:
-                total_chars += len(f.read())
-    return {"chars": total_chars, "limit": 2200}
+                content = f.read()
+                sz = len(content)
+                total_chars += sz
+                file_details[name] = sz
+        else:
+            file_details[name] = 0
+    # Each entry has ~2200 char limit; total ~8000 char practical limit
+    return {"chars": total_chars, "limit": 8000, "files": file_details}
 
 def generate_report():
     sessions = analyze_sessions()
