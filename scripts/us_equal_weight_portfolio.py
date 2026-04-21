@@ -35,7 +35,7 @@ PORTFOLIO_FILE = DATA_DIR / 'portfolio.json'
 FACTORS_DIR = Path.home() / '.hermes' / 'data' / 'stock-pick' / 'factors'
 
 # 策略参数
-CASH_RATIO = 0.02  # 2% 现金储备
+CASH_RATIO = 0.10  # 10% 现金储备
 REBALANCE_THRESHOLD = 0.05  # 5% 偏离阈值
 
 
@@ -117,7 +117,9 @@ def rebalance():
     old_positions = {}
     if old_portfolio and 'positions' in old_portfolio:
         for pos in old_portfolio['positions']:
-            old_positions[pos['ts_code']] = pos
+            # Handle both 'ts_code' (CSV format) and 'code' (portfolio format)
+            code = pos.get('ts_code', pos.get('code', ''))
+            old_positions[code] = pos
     
     # 计算等权权重
     n_stocks = len(stock_pick_result)
@@ -142,7 +144,14 @@ def rebalance():
     # 生成调仓订单
     orders = []
     new_stock_codes = set(row['ts_code'] for _, row in stock_pick_result.iterrows())
-    old_stock_codes = set(old_positions.keys())
+    # Normalize old codes from US.ABNB -> ABNB.US format for comparison
+    old_stock_codes = set()
+    for k in old_positions.keys():
+        parts = k.strip().split('.')
+        if len(parts) == 2:
+            old_stock_codes.add(f"{parts[1]}.{parts[0]}")
+        else:
+            old_stock_codes.add(k)
     
     # 需要买入的 (新选中的股票)
     for code in new_stock_codes:
@@ -156,21 +165,26 @@ def rebalance():
                 'reason': '新入选'
             })
     
-    # 需要卖出的 (不再选中的股票)
-    for code in old_stock_codes:
-        if code not in new_stock_codes:
+    # 需要卖出的 (不再选中的股票) - use original keys from old_positions
+    for orig_code in old_positions.keys():
+        parts = orig_code.strip().split('.')
+        normalized = f"{parts[1]}.{parts[0]}" if len(parts) == 2 else orig_code
+        if normalized not in new_stock_codes:
             orders.append({
                 'action': 'SELL',
-                'ts_code': code,
-                'name': old_positions[code].get('name', 'N/A'),
+                'ts_code': normalized,
+                'name': old_positions[orig_code].get('name', 'N/A'),
                 'target_weight': 0,
                 'reason': '未入选'
             })
     
-    # 权重调整的 (已持仓但权重变化)
+    # 权重调整的 (已持仓但权重变化) - normalize key for lookup
     for pos in new_positions:
-        if pos['ts_code'] in old_positions:
-            old_weight = old_positions[pos['ts_code']]['weight']
+        # Convert ts_code (ABNB.US) to old format (US.ABNB) for lookup
+        parts = pos['ts_code'].strip().split('.')
+        old_key = f"{parts[1]}.{parts[0]}" if len(parts) == 2 else pos['ts_code']
+        if old_key in old_positions:
+            old_weight = old_positions[old_key]['weight']
             if abs(pos['weight'] - old_weight) > 0.01:  # 1% 以上变化
                 orders.append({
                     'action': 'ADJUST',
@@ -239,7 +253,13 @@ def check():
     pick_date = str(stock_pick_result.iloc[0].get('date', ''))
     
     # 检查股票池是否变化
-    current_codes = set(pos['ts_code'] for pos in portfolio.get('positions', []))
+    # Portfolio uses 'code' (US.ABNB), CSV uses 'ts_code' (ABNB.US) - normalize both
+    def normalize_code(code):
+        parts = code.strip().split('.')
+        if len(parts) == 2:
+            return f"{parts[1]}.{parts[0]}"  # US.ABNB -> ABNB.US
+        return code
+    current_codes = set(normalize_code(pos['code']) for pos in portfolio.get('positions', []))
     new_codes = set(stock_pick_result['ts_code'])
     
     changed = current_codes != new_codes
