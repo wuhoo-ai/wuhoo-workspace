@@ -3,310 +3,276 @@
 美股等权持仓策略管理
 
 策略说明:
-- 持仓范围: S&P 500 成分股（或自定义股票池）
+- 持仓范围: stock_pick.py 选股脚本当天选出的结果
 - 权重分配: 每只股票等权重 (1/N)
-- 再平衡: 每月/季度再平衡一次
-- 调仓规则: 偏离目标权重 > 阈值时触发调仓
+- 再平衡: 每次选股结果更新后自动再平衡
+- 调仓规则: 对比当前持仓与最新选股结果，生成调仓订单
 
-配置参数:
-- rebalance_frequency: 再平衡频率 ('monthly' | 'quarterly')
-- weight_threshold: 权重偏离阈值 (默认 5%)
-- max_positions: 最大持仓数量 (0=全部)
-- min_liquidity: 最小日均成交额过滤 (美元)
+数据源:
+- 选股结果: ~/.hermes/data/stock-pick/factors/result_us_YYYYMMDD.csv
+- 持仓记录: ~/wuhoo-workspace/data/us/portfolio.json
+
+用法:
+  python3.11 scripts/us_equal_weight_portfolio.py show      # 查看当前持仓
+  python3.11 scripts/us_equal_weight_portfolio.py rebalance # 执行再平衡
+  python3.11 scripts/us_equal_weight_portfolio.py check     # 检查是否需要再平衡
 """
 
-import datetime
+import argparse
 import json
 import os
-import pandas as pd
+import sys
+from datetime import datetime, timedelta
 from pathlib import Path
+import glob
 
-# 配置
-DATA_ROOT = Path(os.path.expanduser("~/wuhoo-workspace/data"))
-CONFIG = {
-    "strategy": "equal_weight",
-    "market": "US",
-    "rebalance_frequency": "monthly",  # monthly 或 quarterly
-    "weight_threshold": 0.05,  # 5% 偏离阈值触发调仓
-    "max_positions": 100,  # 最大持仓数 (0=全部)
-    "min_liquidity": 1000000,  # 最小日均成交额 $1M
-    "cash_reserve": 0.02,  # 2% 现金储备
-}
+import pandas as pd
+import numpy as np
 
-def get_us_stock_list():
-    """获取美股可投资股票列表"""
-    stock_list_path = DATA_ROOT / "us/stock_info.csv"
-    
-    if not stock_list_path.exists():
-        print("❌ 美股股票列表不存在，请先运行数据更新脚本")
-        return []
-    
-    df = pd.read_csv(stock_list_path)
-    symbols = df["symbol"].tolist()
-    
-    # 限制最大持仓数
-    if CONFIG["max_positions"] > 0:
-        symbols = symbols[:CONFIG["max_positions"]]
-    
-    print(f"✓ 美股可投资股票: {len(symbols)} 只")
-    return symbols
+# 配置路径
+DATA_DIR = Path.home() / 'wuhoo-workspace' / 'data' / 'us'
+PORTFOLIO_FILE = DATA_DIR / 'portfolio.json'
+FACTORS_DIR = Path.home() / '.hermes' / 'data' / 'stock-pick' / 'factors'
 
-def calculate_equal_weight(symbols):
-    """计算等权权重"""
-    n = len(symbols)
-    if n == 0:
-        return {}
-    
-    # 扣除现金储备后等权分配
-    investable_weight = 1.0 - CONFIG["cash_reserve"]
-    weight_per_stock = investable_weight / n
-    
-    weights = {sym: weight_per_stock for sym in symbols}
-    weights["CASH"] = CONFIG["cash_reserve"]
-    
-    return weights
+# 策略参数
+CASH_RATIO = 0.02  # 2% 现金储备
+REBALANCE_THRESHOLD = 0.05  # 5% 偏离阈值
 
-def load_current_positions(portfolio_path=None):
+
+def get_latest_stock_pick_result():
+    """获取最新的选股结果"""
+    # 查找 result_us_*.csv 文件
+    pattern = str(FACTORS_DIR / "result_us_*.csv")
+    files = glob.glob(pattern)
+    
+    if not files:
+        print("❌ 未找到选股结果文件")
+        return None
+    
+    # 按文件名排序 (日期最新的)
+    latest_file = sorted(files)[-1]
+    
+    # 解析日期
+    filename = Path(latest_file).stem
+    date_str = filename.replace("result_us_", "")
+    
+    df = pd.read_csv(latest_file)
+    print(f"📊 加载选股结果: {latest_file}")
+    print(f"   日期: {date_str}, 股票数: {len(df)}")
+    
+    return df
+
+
+def load_portfolio():
     """加载当前持仓"""
-    if portfolio_path is None:
-        portfolio_path = DATA_ROOT / "us/portfolio.json"
-    
-    if not portfolio_path.exists():
-        print("📝 无历史持仓记录，将新建组合")
-        return {}
-    
-    with open(portfolio_path, "r") as f:
-        return json.load(f)
+    if PORTFOLIO_FILE.exists():
+        with open(PORTFOLIO_FILE, 'r') as f:
+            return json.load(f)
+    return None
 
-def save_portfolio(portfolio, path=None):
-    """保存持仓配置"""
-    if path is None:
-        path = DATA_ROOT / "us/portfolio.json"
-    
-    path.parent.mkdir(parents=True, exist_ok=True)
-    
-    portfolio["metadata"] = {
-        "strategy": CONFIG["strategy"],
-        "updated_at": datetime.datetime.now().isoformat(),
-        "rebalance_frequency": CONFIG["rebalance_frequency"],
-        "weight_threshold": CONFIG["weight_threshold"],
-        "total_positions": len([k for k in portfolio if k != "CASH"]),
-    }
-    
-    with open(path, "w") as f:
+
+def save_portfolio(portfolio):
+    """保存持仓"""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with open(PORTFOLIO_FILE, 'w') as f:
         json.dump(portfolio, f, indent=2, ensure_ascii=False)
-    
-    print(f"💾 持仓已保存: {path}")
+    print(f"✅ 持仓已保存: {PORTFOLIO_FILE}")
 
-def check_rebalance_needed(portfolio):
-    """检查是否需要再平衡"""
-    if not portfolio or "metadata" not in portfolio:
-        return True, "无历史持仓记录"
-    
-    last_update = datetime.datetime.fromisoformat(portfolio["metadata"]["updated_at"])
-    now = datetime.datetime.now()
-    
-    # 检查时间间隔
-    if CONFIG["rebalance_frequency"] == "monthly":
-        days_since = (now - last_update).days
-        if days_since >= 30:
-            return True, f"距离上次再平衡已 {days_since} 天 (月度策略)"
-    elif CONFIG["rebalance_frequency"] == "quarterly":
-        days_since = (now - last_update).days
-        if days_since >= 90:
-            return True, f"距离上次再平衡已 {days_since} 天 (季度策略)"
-    
-    # 检查权重偏离
-    if "weights" in portfolio:
-        current_weights = portfolio["weights"]
-        symbols = [k for k in current_weights if k != "CASH"]
-        n = len(symbols)
-        if n > 0:
-            target_weight = (1.0 - CONFIG["cash_reserve"]) / n
-            max_deviation = 0
-            
-            for sym, weight in current_weights.items():
-                if sym == "CASH":
-                    continue
-                deviation = abs(weight - target_weight) / target_weight
-                max_deviation = max(max_deviation, deviation)
-            
-            if max_deviation > CONFIG["weight_threshold"]:
-                return True, f"最大权重偏离 {max_deviation:.1%} 超过阈值 {CONFIG['weight_threshold']:.1%}"
-    
-    return False, "无需再平衡"
 
-def generate_rebalance_orders(target_weights, current_portfolio=None):
-    """生成再平衡调仓订单"""
-    if current_portfolio is None:
-        current_portfolio = {"weights": {}}
+def show_portfolio():
+    """展示当前持仓"""
+    portfolio = load_portfolio()
     
-    current_weights = current_portfolio.get("weights", {})
-    all_symbols = set(list(target_weights.keys()) + list(current_weights.keys()))
-    
-    orders = []
-    for sym in all_symbols:
-        if sym == "CASH":
-            continue
-        
-        target = target_weights.get(sym, 0)
-        current = current_weights.get(sym, 0)
-        diff = target - current
-        
-        if abs(diff) > 0.001:  # 忽略微小差异
-            action = "BUY" if diff > 0 else "SELL"
-            orders.append({
-                "symbol": sym,
-                "action": action,
-                "weight_change": abs(diff),
-                "target_weight": target,
-                "current_weight": current,
-            })
-    
-    # 按调整幅度排序
-    orders.sort(key=lambda x: x["weight_change"], reverse=True)
-    
-    return orders
-
-def run_rebalance():
-    """执行再平衡"""
-    print("=" * 60)
-    print(f"🔄 美股等权持仓再平衡 - {datetime.datetime.now().strftime('%Y-%m-%d')}")
-    print("=" * 60)
-    
-    # 1. 获取股票列表
-    symbols = get_us_stock_list()
-    if not symbols:
-        print("❌ 无可用股票列表")
-        return
-    
-    # 2. 计算目标权重
-    target_weights = calculate_equal_weight(symbols)
-    print(f"📊 目标权重: 每只 {target_weights[symbols[0]]:.2%} ({len(symbols)} 只)")
-    
-    # 3. 加载当前持仓
-    current_portfolio = load_current_positions()
-    
-    # 4. 检查是否需要再平衡
-    needs_rebalance, reason = check_rebalance_needed(current_portfolio)
-    print(f"📋 再平衡检查: {'需要' if needs_rebalance else '不需要'} - {reason}")
-    
-    if not needs_rebalance:
-        print("✅ 当前持仓无需调整")
-        return
-    
-    # 5. 生成调仓订单
-    orders = generate_rebalance_orders(target_weights, current_portfolio)
-    
-    if not orders:
-        print("✅ 无需调仓")
-        # 更新时间戳
-        current_portfolio["metadata"]["updated_at"] = datetime.datetime.now().isoformat()
-        save_portfolio(current_portfolio)
-        return
-    
-    print(f"\n📝 调仓订单 ({len(orders)} 笔):")
-    print("-" * 60)
-    
-    buy_orders = [o for o in orders if o["action"] == "BUY"]
-    sell_orders = [o for o in orders if o["action"] == "SELL"]
-    
-    print(f"  买入: {len(buy_orders)} 笔")
-    print(f"  卖出: {len(sell_orders)} 笔")
-    
-    # 显示前 10 笔最大调整
-    print("\n  最大调整 (前 10):")
-    for order in orders[:10]:
-        print(f"    {order['action']} {order['symbol']}: {order['weight_change']:.2%} "
-              f"(目标 {order['target_weight']:.2%}, 当前 {order['current_weight']:.2%})")
-    
-    # 6. 保存新持仓
-    new_portfolio = {
-        "weights": target_weights,
-        "orders": orders,
-        "last_rebalance": datetime.datetime.now().isoformat(),
-    }
-    
-    save_portfolio(new_portfolio)
-    
-    # 7. 保存调仓报告
-    report_path = DATA_ROOT / "us/rebalance_report.json"
-    report = {
-        "timestamp": datetime.datetime.now().isoformat(),
-        "total_orders": len(orders),
-        "buy_count": len(buy_orders),
-        "sell_count": len(sell_orders),
-        "reason": reason,
-        "orders": orders,
-    }
-    
-    with open(report_path, "w") as f:
-        json.dump(report, f, indent=2, ensure_ascii=False)
-    
-    print(f"\n📄 调仓报告已保存: {report_path}")
-    print("=" * 60)
-
-def show_current_portfolio():
-    """显示当前持仓"""
-    portfolio = load_current_positions()
-    
-    if not portfolio or "weights" not in portfolio:
+    if not portfolio:
         print("📝 当前无持仓记录")
         return
     
-    weights = portfolio["weights"]
-    symbols = [k for k in weights if k != "CASH"]
+    print("\n" + "=" * 80)
+    print(f"=== 美股等权持仓 ===")
+    print(f"创建日期: {portfolio.get('created_date', 'N/A')}")
+    print(f"最后更新: {portfolio.get('last_updated', 'N/A')}")
+    print(f"股票数量: {len(portfolio.get('positions', []))}")
+    print("=" * 80)
     
-    print("=" * 60)
-    print(f"📊 美股等权持仓组合")
-    print("=" * 60)
-    print(f"  股票数量: {len(symbols)}")
-    print(f"  现金比例: {weights.get('CASH', 0):.2%}")
-    print(f"  单股权重: {weights[symbols[0]]:.2%}" if symbols else "")
+    if 'positions' in portfolio:
+        print(f"\n{'代码':<12} {'名称':<30} {'权重':<8} {'状态':<10}")
+        print("-" * 80)
+        for pos in portfolio['positions']:
+            print(f"{pos['ts_code']:<12} {pos.get('name', 'N/A'):<30} {pos['weight']:.2%} {pos.get('status', 'active'):<10}")
     
-    if "metadata" in portfolio:
-        print(f"  最后更新: {portfolio['metadata']['updated_at']}")
-        print(f"  策略: {portfolio['metadata'].get('strategy', 'N/A')}")
+    print("\n")
+
+
+def rebalance():
+    """执行再平衡 - 基于最新选股结果"""
+    # 获取最新选股结果
+    stock_pick_result = get_latest_stock_pick_result()
     
-    print("=" * 60)
+    if stock_pick_result is None or stock_pick_result.empty:
+        print("❌ 无选股结果，无法再平衡")
+        return
+    
+    # 加载当前持仓
+    old_portfolio = load_portfolio()
+    old_positions = {}
+    if old_portfolio and 'positions' in old_portfolio:
+        for pos in old_portfolio['positions']:
+            old_positions[pos['ts_code']] = pos
+    
+    # 计算等权权重
+    n_stocks = len(stock_pick_result)
+    target_weight = (1 - CASH_RATIO) / n_stocks
+    
+    # 生成新持仓
+    new_positions = []
+    for _, row in stock_pick_result.iterrows():
+        new_positions.append({
+            'ts_code': row['ts_code'],
+            'name': row.get('name', 'N/A'),
+            'weight': target_weight,
+            'status': 'active',
+            'factors': {
+                'residual_vol': float(row.get('residual_vol', 0)),
+                'momentum_5d': float(row.get('momentum_5d', 0)),
+                'momentum_10d': float(row.get('momentum_10d', 0)),
+                'beta_20d': float(row.get('beta_20d', 0))
+            }
+        })
+    
+    # 生成调仓订单
+    orders = []
+    new_stock_codes = set(row['ts_code'] for _, row in stock_pick_result.iterrows())
+    old_stock_codes = set(old_positions.keys())
+    
+    # 需要买入的 (新选中的股票)
+    for code in new_stock_codes:
+        if code not in old_stock_codes:
+            stock_info = stock_pick_result[stock_pick_result['ts_code'] == code].iloc[0]
+            orders.append({
+                'action': 'BUY',
+                'ts_code': code,
+                'name': stock_info.get('name', 'N/A'),
+                'target_weight': target_weight,
+                'reason': '新入选'
+            })
+    
+    # 需要卖出的 (不再选中的股票)
+    for code in old_stock_codes:
+        if code not in new_stock_codes:
+            orders.append({
+                'action': 'SELL',
+                'ts_code': code,
+                'name': old_positions[code].get('name', 'N/A'),
+                'target_weight': 0,
+                'reason': '未入选'
+            })
+    
+    # 权重调整的 (已持仓但权重变化)
+    for pos in new_positions:
+        if pos['ts_code'] in old_positions:
+            old_weight = old_positions[pos['ts_code']]['weight']
+            if abs(pos['weight'] - old_weight) > 0.01:  # 1% 以上变化
+                orders.append({
+                    'action': 'ADJUST',
+                    'ts_code': pos['ts_code'],
+                    'name': pos['name'],
+                    'old_weight': old_weight,
+                    'new_weight': pos['weight'],
+                    'reason': f'权重调整 {old_weight:.2%} → {pos["weight"]:.2%}'
+                })
+    
+    # 保存新持仓
+    today = datetime.now().strftime('%Y-%m-%d')
+    portfolio = {
+        'created_date': old_portfolio.get('created_date', today) if old_portfolio else today,
+        'last_updated': today,
+        'source_file': str(FACTORS_DIR / f"result_us_{today.replace('-', '')}.csv"),
+        'n_stocks': n_stocks,
+        'target_weight': target_weight,
+        'cash_ratio': CASH_RATIO,
+        'positions': new_positions,
+        'orders': orders
+    }
+    
+    save_portfolio(portfolio)
+    
+    # 打印调仓订单
+    print("\n" + "=" * 80)
+    print(f"=== 调仓订单 ===")
+    print(f"买入: {sum(1 for o in orders if o['action'] == 'BUY')} 笔")
+    print(f"卖出: {sum(1 for o in orders if o['action'] == 'SELL')} 笔")
+    print(f"调整: {sum(1 for o in orders if o['action'] == 'ADJUST')} 笔")
+    print("=" * 80)
+    
+    if orders:
+        print(f"\n{'操作':<8} {'代码':<12} {'名称':<25} {'详情':<40}")
+        print("-" * 80)
+        for order in orders:
+            if order['action'] == 'BUY':
+                detail = f"买入 {order['target_weight']:.2%}"
+            elif order['action'] == 'SELL':
+                detail = "清仓"
+            else:
+                detail = order.get('reason', '')
+            print(f"{order['action']:<8} {order['ts_code']:<12} {order.get('name', 'N/A'):<25} {detail:<40}")
+    
+    print("\n")
+    return portfolio
+
+
+def check():
+    """检查是否需要再平衡"""
+    stock_pick_result = get_latest_stock_pick_result()
+    
+    if stock_pick_result is None:
+        print("❌ 无选股结果")
+        return False
+    
+    portfolio = load_portfolio()
+    
+    if not portfolio:
+        print("📝 无持仓，需要建仓")
+        return True
+    
+    # 检查选股日期是否更新
+    last_updated = portfolio.get('last_updated', '')
+    pick_date = str(stock_pick_result.iloc[0].get('date', ''))
+    
+    # 检查股票池是否变化
+    current_codes = set(pos['ts_code'] for pos in portfolio.get('positions', []))
+    new_codes = set(stock_pick_result['ts_code'])
+    
+    changed = current_codes != new_codes
+    
+    if changed:
+        added = new_codes - current_codes
+        removed = current_codes - new_codes
+        print(f"⚠️  股票池变化: +{len(added)} / -{len(removed)}")
+        if added:
+            print(f"   新增: {', '.join(list(added)[:5])}{'...' if len(added) > 5 else ''}")
+        if removed:
+            print(f"   移除: {', '.join(list(removed)[:5])}{'...' if len(removed) > 5 else ''}")
+        return True
+    else:
+        print("✅ 股票池未变化，无需再平衡")
+        return False
+
 
 def main():
-    import argparse
+    parser = argparse.ArgumentParser(description='美股等权持仓策略管理')
+    parser.add_argument('action', choices=['show', 'rebalance', 'check'],
+                        help='操作类型')
     
-    parser = argparse.ArgumentParser(description="美股等权持仓策略管理")
-    parser.add_argument("action", choices=["rebalance", "show", "check"], 
-                        help="rebalance=执行再平衡, show=查看持仓, check=检查是否需要再平衡")
-    parser.add_argument("--force", action="store_true", help="强制执行再平衡")
     args = parser.parse_args()
     
-    if args.action == "rebalance":
-        if args.force:
-            print("⚠️ 强制执行再平衡...")
-            # 临时修改检查逻辑
-            symbols = get_us_stock_list()
-            if symbols:
-                target_weights = calculate_equal_weight(symbols)
-                current_portfolio = load_current_positions()
-                orders = generate_rebalance_orders(target_weights, current_portfolio)
-                
-                new_portfolio = {
-                    "weights": target_weights,
-                    "orders": orders,
-                    "last_rebalance": datetime.datetime.now().isoformat(),
-                }
-                save_portfolio(new_portfolio)
-                print(f"✅ 强制再平衡完成，共 {len(orders)} 笔调仓订单")
-        else:
-            run_rebalance()
-    
-    elif args.action == "show":
-        show_current_portfolio()
-    
-    elif args.action == "check":
-        current_portfolio = load_current_positions()
-        needs_rebalance, reason = check_rebalance_needed(current_portfolio)
-        status = "需要" if needs_rebalance else "不需要"
-        print(f"📋 再平衡检查: {status} - {reason}")
+    if args.action == 'show':
+        show_portfolio()
+    elif args.action == 'rebalance':
+        rebalance()
+    elif args.action == 'check':
+        needs_rebalance = check()
+        sys.exit(0 if needs_rebalance else 1)
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()
