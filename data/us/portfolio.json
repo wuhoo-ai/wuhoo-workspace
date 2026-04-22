@@ -1,0 +1,170 @@
+{
+  "created_date": "2026-04-22",
+  "last_updated": "2026-04-22",
+  "source_file": "/home/admin/.hermes/data/stock-pick/factors/result_us_20260422.csv",
+  "n_stocks": 12,
+  "target_weight": 0.075,
+  "cash_ratio": 0.1,
+  "positions": [
+    {
+      "ts_code": "MET.US",
+      "name": "MetLife",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 18.689431600486756,
+        "momentum_5d": 3.105090656765741,
+        "momentum_10d": 9.374994294600514,
+        "beta_20d": 1.3093447399828488
+      }
+    },
+    {
+      "ts_code": "PPG.US",
+      "name": "PPG Industries",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 24.79782570452817,
+        "momentum_5d": 4.082373095307479,
+        "momentum_10d": 10.46601452214766,
+        "beta_20d": 1.4660752447534378
+      }
+    },
+    {
+      "ts_code": "COF.US",
+      "name": "Capital One",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 24.984954242197727,
+        "momentum_5d": 4.130601638093356,
+        "momentum_10d": 11.671461493075077,
+        "beta_20d": 1.6005674386678457
+      }
+    },
+    {
+      "ts_code": "GOOGL.US",
+      "name": "Alphabet Inc. (Class A)",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 24.09661531779807,
+        "momentum_5d": 5.0138545303753945,
+        "momentum_10d": 12.47709070696532,
+        "beta_20d": 1.8919404884538344
+      }
+    },
+    {
+      "ts_code": "GOOG.US",
+      "name": "Alphabet Inc. (Class C)",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 23.589729969372605,
+        "momentum_5d": 5.071897144449067,
+        "momentum_10d": 12.67889194720826,
+        "beta_20d": 1.7770866817775142
+      }
+    },
+    {
+      "ts_code": "ABNB.US",
+      "name": "Airbnb",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 24.635297799398533,
+        "momentum_5d": 10.182618376208286,
+        "momentum_10d": 13.232394213668774,
+        "beta_20d": 1.7379915698021575
+      }
+    },
+    {
+      "ts_code": "C.US",
+      "name": "Citigroup",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 20.585621808277608,
+        "momentum_5d": 5.361105747469219,
+        "momentum_10d": 13.369122665139413,
+        "beta_20d": 1.9404461110072484
+      }
+    },
+    {
+      "ts_code": "NVDA.US",
+      "name": "Nvidia",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 25.204963224583345,
+        "momentum_5d": 6.734985032184437,
+        "momentum_10d": 13.746902866949862,
+        "beta_20d": 1.652115877547581
+      }
+    },
+    {
+      "ts_code": "MS.US",
+      "name": "Morgan Stanley",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 18.42277812626405,
+        "momentum_5d": 5.277684437896757,
+        "momentum_10d": 14.500146174707318,
+        "beta_20d": 1.4330199144485507
+      }
+    },
+    {
+      "ts_code": "ADI.US",
+      "name": "Analog Devices",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 23.613193378546583,
+        "momentum_5d": 8.868311522898686,
+        "momentum_10d": 16.40090568300423,
+        "beta_20d": 1.5465847668143882
+      }
+    },
+    {
+      "ts_code": "AMZN.US",
+      "name": "Amazon",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 24.153938569316978,
+        "momentum_5d": 3.497436079451033,
+        "momentum_10d": 16.678418446793053,
+        "beta_20d": 1.5200950942675882
+      }
+    },
+    {
+      "ts_code": "BEN.US",
+      "name": "Franklin Resources",
+      "weight": 0.075,
+      "status": "active",
+      "factors": {
+        "residual_vol": 20.84496154827914,
+        "momentum_5d": 8.024929722710738,
+        "momentum_10d": 18.50427347988999,
+        "beta_20d": 1.642058912214371
+      }
+    }
+  ],
+  "orders": [
+    {
+      "action": "BUY",
+      "ts_code": "MET.US",
+      "name": "MetLife",
+      "target_weight": 0.075,
+      "reason": "新入选"
+    },
+    {
+      "action": "SELL",
+      "ts_code": "HST.US",
+      "name": "美国豪斯特酒店",
+      "target_weight": 0,
+      "reason": "未入选"
+    }
+  ]
+}

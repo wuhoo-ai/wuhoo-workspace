@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 
 
 # wuhoo-news-rss skill 路径
-RSS_SKILL_DIR = Path.home() / "wuhoo-skills" / "wuhoo-news-rss"
+RSS_SKILL_DIR = Path.home() / "wuhoo-workspace" / "skills" / "news-rss"
 RSS_DB_PATH = RSS_SKILL_DIR / "data" / "news.db"
 
 

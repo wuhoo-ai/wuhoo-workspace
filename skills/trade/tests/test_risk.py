@@ -22,11 +22,11 @@ class TestRiskManager:
         result = mgr.check({
             "code": "600519",
             "action": "BUY",
-            "price": 1500,
-            "quantity": 100,
+            "price": 0,       # 0 so position_ratio is used
+            "quantity": 0,
             "position_ratio": 0.25,  # 25% > 20%
         })
-        assert not result["passed"]
+        assert not result.passed
 
     def test_normal_position(self):
         """测试正常仓位"""
@@ -39,7 +39,7 @@ class TestRiskManager:
             "quantity": 100,
             "position_ratio": 0.10,  # 10% < 20%
         })
-        assert result["passed"]
+        assert result.passed
 
 
 class TestPortfolioMetrics:

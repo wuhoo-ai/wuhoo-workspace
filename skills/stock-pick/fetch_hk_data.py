@@ -9,7 +9,7 @@
 3. 换手率（含在 K 线数据中）
 
 用法:
-    source ~/wuhoo-agents/trade/venv-futu/bin/activate
+    source ~/wuhoo-workspace/venv-futu/bin/activate
     PYTHONUNBUFFERED=1 python fetch_hk_data.py --full
     PYTHONUNBUFFERED=1 python fetch_hk_data.py --incremental
 """

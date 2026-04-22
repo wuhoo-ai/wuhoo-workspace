@@ -69,7 +69,7 @@ python stock_pick.py --market cn --date 2026-04-15 --top-n 20
 
 ```bash
 # 所有命令必须使用 python3.11（系统 python3 为 3.6.8 不兼容）
-cd ~/wuhoo-skills/wuhoo-stock-pick
+cd ~/wuhoo-workspace/skills/stock-pick
 
 # A 股选股（使用默认因子）
 python3.11 stock_pick.py --market cn --date 2026-04-15

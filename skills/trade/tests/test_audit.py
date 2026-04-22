@@ -7,7 +7,7 @@ from pathlib import Path
 TRADE_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(TRADE_DIR))
 
-SKILL_DIR = Path.home() / 'wuhoo-skills' / 'wuhoo-stock-deep-analysis'
+SKILL_DIR = Path.home() / 'wuhoo-workspace' / 'skills' / 'deep-analysis'
 sys.path.insert(0, str(SKILL_DIR))
 
 from workflow_b_audit import WorkflowBAudit, build_audit_context

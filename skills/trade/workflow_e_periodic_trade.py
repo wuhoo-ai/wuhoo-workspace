@@ -43,8 +43,8 @@ try:
 except ImportError:
     from pathlib import Path
     HOME = Path.home()
-    TRADE_DIR = HOME / 'wuhoo-agents' / 'trade'
-    FUTU_API_SCRIPTS = HOME / 'wuhoo-skills' / 'futu-api' / 'scripts'
+    TRADE_DIR = HOME / 'wuhoo-workspace' / 'skills' / 'trade'
+    FUTU_API_SCRIPTS = HOME / 'wuhoo-workspace' / 'skills' / 'futu-api' / 'scripts'
     PICK_RESULT_DIR = HOME / '.hermes' / 'data' / 'stock-pick' / 'factors'
     DAILY_DATA_DIR = HOME / '.hermes' / 'data' / 'stock-pick' / 'daily_data'
     ENV_FILE = HOME / '.hermes' / '.env'

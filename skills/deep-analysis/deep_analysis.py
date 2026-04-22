@@ -284,7 +284,7 @@ class DebateRunner:
     def run(self, symbol: str, name: str, output_dir: Path, akshare_data: Dict = None) -> Dict:
         try:
             import sys
-            debate_dir = Path.home() / "wuhoo-agents" / "debate"
+            debate_dir = Path.home() / "wuhoo-workspace" / "skills" / "debate"
             if str(debate_dir) not in sys.path:
                 sys.path.insert(0, str(debate_dir))
             from run_debate import run_full_debate

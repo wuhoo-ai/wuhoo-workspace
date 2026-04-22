@@ -1,0 +1,702 @@
+{
+  "timestamp": "2026-04-21T22:46:12.366091",
+  "total_orders": 99,
+  "buy_count": 99,
+  "sell_count": 0,
+  "reason": "无历史持仓记录",
+  "orders": [
+    {
+      "symbol": "BAC",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MO",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "ITW",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MCD",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "DUK",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "SBUX",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CVX",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MCO",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "LOW",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "PG",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "INTC",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "EOG",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MA",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "TSLA",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "BRK-B",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "AMGN",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "EMR",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "AXP",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "ICE",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "TJX",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "DHR",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "KLAC",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MSFT",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "KO",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "ADI",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "HD",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "JPM",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "ZTS",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "UNH",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "NSC",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "FISV",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "WMT",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "GE",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "COST",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "LLY",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "UNP",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "SYK",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "BLK",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "DIS",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MRK",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "SHW",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CSX",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CRM",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "AVGO",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "REGN",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "NFLX",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CME",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "EQIX",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "QCOM",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "ISRG",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "ADBE",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "RTX",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "LIN",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "SPGI",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "AMZN",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "TGT",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "FCX",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "T",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "APD",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "WM",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "NVDA",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "PEP",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "JNJ",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CVS",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "EL",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MMM",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "BKNG",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "V",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MU",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "PNC",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MMC",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "ACN",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "TXN",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "MDLZ",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "META",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "PFE",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "SCHW",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CMCSA",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "BMY",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CI",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "GOOGL",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "TMO",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "USB",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "GILD",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CL",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "VZ",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "PLD",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "C",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "XOM",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CB",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "ABT",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "HON",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "AMD",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "GD",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "NEE",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "SO",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "AAPL",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "CSCO",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    },
+    {
+      "symbol": "AON",
+      "action": "BUY",
+      "weight_change": 0.0098,
+      "target_weight": 0.0098,
+      "current_weight": 0
+    }
+  ]
+}

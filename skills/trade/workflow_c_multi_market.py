@@ -65,8 +65,8 @@ os.environ['FUTU_PORT'] = '11111'
 os.environ['FUTU_ENV'] = 'SIMULATE'
 
 # 路径常量
-STOCK_PICK_SCRIPT = Path.home() / 'wuhoo-skills' / 'wuhoo-stock-pick' / 'stock_pick.py'
-STOCK_PICK_VENV = Path.home() / 'wuhoo-skills' / 'wuhoo-stock-pick' / 'venv' / 'bin' / 'activate'
+STOCK_PICK_SCRIPT = Path.home() / 'wuhoo-workspace' / 'skills' / 'stock-pick' / 'stock_pick.py'
+STOCK_PICK_VENV = None  # 统一使用系统 python3.11
 DEBATE_PATH = SCRIPT_DIR.parent / 'debate'
 FACTORS_DIR = Path.home() / '.hermes' / 'data' / 'stock-pick' / 'factors'
 
