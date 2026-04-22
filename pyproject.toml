@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+testpaths = [
+    "skills/trade/tests",
+    "skills/debate/tests",
+    "skills/stock-pick/tests",
+]

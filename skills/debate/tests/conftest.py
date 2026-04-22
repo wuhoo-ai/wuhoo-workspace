@@ -1,4 +1,4 @@
-"""Debate agent 测试套件"""
+"""Debate agent 测试套件 — conftest.py"""
 import sys
 from pathlib import Path
 
