@@ -3,4 +3,7 @@ testpaths = [
     "skills/trade/tests",
     "skills/debate/tests",
     "skills/stock-pick/tests",
+    "skills/deep-analysis/tests",
+    "skills/diagnose/tests",
+    "skills/futu-api/tests",
 ]
