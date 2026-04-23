@@ -1,0 +1,29 @@
+{
+  "football_sources": {
+    "espn_soccer": {
+      "url": "https://www.espn.com/soccer/rss",
+      "language": "en",
+      "category": "football"
+    },
+    "bbc_sport": {
+      "url": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+      "language": "en",
+      "category": "football"
+    },
+    "sky_sports": {
+      "url": "https://www.skysports.com/rss/12040",
+      "language": "en",
+      "category": "football"
+    },
+    "guardian_football": {
+      "url": "https://www.theguardian.com/football/rss",
+      "language": "en",
+      "category": "football"
+    }
+  },
+  "keywords": {
+    "injury": ["injury", "injured", "hamstring", "ankle", "knee", "out", "doubt", "fitness"],
+    "positive": ["win", "victory", "brilliant", "excellent", "fit", "return", "recovered"],
+    "negative": ["lose", "defeat", "crisis", "poor", "suspended", "ban", "red card"]
+  }
+}

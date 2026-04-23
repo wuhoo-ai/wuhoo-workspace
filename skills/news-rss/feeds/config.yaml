@@ -7,6 +7,61 @@
 # 原生 RSS 源由 Python fetcher 在宿主机上直接拉取，不受容器网络限制。
 
 feeds:
+  # ========== ⚽ 足球/体育 ==========
+  - name: "ESPN Football"
+    url: "https://www.espn.com/espn/rss/soccer/news"
+    category: "足球"
+    tags: ["足球", "国际", "英文"]
+    status: "✅ 新增"
+
+  - name: "BBC Sport Football"
+    url: "https://feeds.bbci.co.uk/sport/football/rss.xml"
+    category: "足球"
+    tags: ["足球", "英超", "英文"]
+    status: "✅ 新增"
+
+  - name: "Sky Sports Football"
+    url: "https://www.skysports.com/rss/12040"
+    category: "足球"
+    tags: ["足球", "英超", "转会"]
+    status: "✅ 新增"
+
+  - name: "The Guardian Football"
+    url: "https://www.theguardian.com/football/rss"
+    category: "足球"
+    tags: ["足球", "英超", "欧冠"]
+    status: "✅ 新增"
+
+  - name: "Goal.com International"
+    url: "https://www.goal.com/feeds/en/news"
+    category: "足球"
+    tags: ["足球", "国际", "转会"]
+    status: "✅ 新增"
+
+  - name: "FIFA.com News"
+    url: "https://www.fifa.com/news.rss"
+    category: "足球"
+    tags: ["足球", "世界杯", "国际"]
+    status: "✅ 新增"
+
+  - name: "UEFA News"
+    url: "https://www.uefa.com/insideuefa/news/news.rss"
+    category: "足球"
+    tags: ["足球", "欧洲杯", "欧冠"]
+    status: "✅ 新增"
+
+  - name: "懂球帝"
+    url: "http://127.0.0.1:1200/dongqiudi/news"
+    category: "足球"
+    tags: ["足球", "中超", "中文"]
+    status: "❌ 已禁用 (网站改版)"
+
+  - name: "直播吧"
+    url: "DISABLED"
+    category: "足球"
+    tags: ["足球", "综合", "中文"]
+    status: "❌ 已禁用 (网站改版)"
+
   # ========== 🇨🇳 科技 ==========
   - name: "IT之家"
     url: "https://www.ithome.com/rss/"

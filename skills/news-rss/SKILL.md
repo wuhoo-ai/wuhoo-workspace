@@ -41,7 +41,7 @@ RSSHub (--network host, 端口 1200)    Python 采集引擎 (python3.11)
 ## 使用方式
 
 ```bash
-cd ~/.openclaw/workspace/agents/main/skills/wuhoo-news-rss
+cd ~/wuhoo-workspace/skills/news-rss
 
 # 注意：必须使用 Python 3.11+
 # 系统默认 python3 是 3.6.8，请使用 /usr/bin/python3.11

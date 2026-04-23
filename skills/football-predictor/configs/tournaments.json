@@ -1,0 +1,36 @@
+{
+  "tournaments": {
+    "worldcup": {
+      "name": "FIFA World Cup",
+      "name_cn": "世界杯",
+      "code": "WC",
+      "latest_year": 2022,
+      "next_year": 2026,
+      "organizer": "FIFA",
+      "data_sources": ["openfootball", "clubelo"]
+    },
+    "euro": {
+      "name": "UEFA European Championship",
+      "name_cn": "欧洲杯",
+      "code": "EURO",
+      "latest_year": 2024,
+      "next_year": 2028,
+      "organizer": "UEFA",
+      "data_sources": ["openfootball", "clubelo"]
+    },
+    "copa": {
+      "name": "Copa America",
+      "name_cn": "美洲杯",
+      "code": "CA",
+      "latest_year": 2024,
+      "organizer": "CONMEBOL"
+    },
+    "asiancup": {
+      "name": "AFC Asian Cup",
+      "name_cn": "亚洲杯",
+      "code": "AC",
+      "latest_year": 2023,
+      "organizer": "AFC"
+    }
+  }
+}

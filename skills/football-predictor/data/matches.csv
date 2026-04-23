@@ -1,0 +1,25 @@
+date,tournament,stage,team_a,team_b,score_a,score_b,venue
+2022-11-20,worldcup,Group Stage,Qatar,Ecuador,0,2,Al Bayt Stadium
+2022-11-21,worldcup,Group Stage,England,Iran,6,2,Khalifa International Stadium
+2022-11-21,worldcup,Group Stage,Senegal,Netherlands,0,2,Al Thumama Stadium
+2022-11-21,worldcup,Group Stage,USA,Wales,1,1,Ahmad Bin Ali Stadium
+2022-11-22,worldcup,Group Stage,Argentina,Saudi Arabia,1,2,Lusail Stadium
+2022-11-22,worldcup,Group Stage,Denmark,Tunisia,0,0,Educ City Stadium
+2022-11-22,worldcup,Group Stage,Mexico,Poland,0,0,Stadium 974
+2022-11-22,worldcup,Group Stage,France,Australia,4,1,Al Janoub Stadium
+2022-11-23,worldcup,Group Stage,Morocco,Croatia,0,0,Al Bayt Stadium
+2022-11-23,worldcup,Group Stage,Germany,Japan,1,2,Khalifa International Stadium
+2022-11-23,worldcup,Group Stage,Spain,Costa Rica,7,0,Al Thumama Stadium
+2022-11-23,worldcup,Group Stage,Belgium,Canada,1,0,Ahmad Bin Ali Stadium
+2022-11-24,worldcup,Group Stage,Switzerland,Cameroon,1,0,Al Janoub Stadium
+2022-11-24,worldcup,Group Stage,Uruguay,Korea Republic,0,0,Educ City Stadium
+2022-11-24,worldcup,Group Stage,Portugal,Ghana,3,2,Stadium 974
+2022-11-24,worldcup,Group Stage,Brazil,Serbia,2,0,Lusail Stadium
+2022-12-09,worldcup,Quarter-finals,Croatia,Brazil,1,1,Educ City Stadium
+2022-12-09,worldcup,Quarter-finals,Netherlands,Argentina,2,2,Lusail Stadium
+2022-12-10,worldcup,Quarter-finals,Morocco,Portugal,1,0,Al Thumama Stadium
+2022-12-10,worldcup,Quarter-finals,England,France,1,2,Al Bayt Stadium
+2022-12-13,worldcup,Semi-finals,Argentina,Croatia,3,0,Lusail Stadium
+2022-12-14,worldcup,Semi-finals,France,Morocco,2,0,Al Bayt Stadium
+2022-12-17,worldcup,3rd Place Final,Croatia,Morocco,2,1,Khalifa International Stadium
+2022-12-18,worldcup,Final,Argentina,France,3,3,Lusail Stadium

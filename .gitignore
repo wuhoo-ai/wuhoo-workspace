@@ -60,3 +60,19 @@ data/trade/trade_logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# Hermes runtime dirs
+.hermes/
+.wuhoo-workspace/
+
+# Data files
+data/stock-pick/fetch_status.json
+data/stock-pick/index_members.csv
+data/stock-pick/index_members_hk_top500.csv
+data/stock-pick/stock_names.csv
+
+# Deprecated scripts
+scripts/update_memory.sh.deprecated
+
+# OpenD binaries and logs (regenerable)
+tools/opend/

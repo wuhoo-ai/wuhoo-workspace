@@ -1,0 +1,886 @@
+{
+  "tournament": "euro",
+  "year": 2024,
+  "model": "ensemble",
+  "metrics": {
+    "accuracy": 0.5294117647058824,
+    "random_baseline": 0.33,
+    "improvement": 60.42780748663101,
+    "brier_score": 0.617384117647059,
+    "log_loss": 1.036325746497388,
+    "total_matches": 51,
+    "correct_predictions": 27
+  },
+  "predictions": [
+    {
+      "match": "Germany vs Scotland",
+      "prediction": {
+        "home_win": 0.56,
+        "draw": 0.2,
+        "away_win": 0.239
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Hungary vs Switzerland",
+      "prediction": {
+        "home_win": 0.312,
+        "draw": 0.223,
+        "away_win": 0.465
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Spain vs Croatia",
+      "prediction": {
+        "home_win": 0.545,
+        "draw": 0.211,
+        "away_win": 0.244
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Italy vs Albania",
+      "prediction": {
+        "home_win": 0.588,
+        "draw": 0.202,
+        "away_win": 0.21
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Slovenia vs Denmark",
+      "prediction": {
+        "home_win": 0.304,
+        "draw": 0.218,
+        "away_win": 0.478
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Serbia vs England",
+      "prediction": {
+        "home_win": 0.199,
+        "draw": 0.196,
+        "away_win": 0.604
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Poland vs Netherlands",
+      "prediction": {
+        "home_win": 0.213,
+        "draw": 0.209,
+        "away_win": 0.577
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Austria vs France",
+      "prediction": {
+        "home_win": 0.177,
+        "draw": 0.185,
+        "away_win": 0.637
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Romania vs Ukraine",
+      "prediction": {
+        "home_win": 0.405,
+        "draw": 0.242,
+        "away_win": 0.353
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Belgium vs Slovakia",
+      "prediction": {
+        "home_win": 0.641,
+        "draw": 0.188,
+        "away_win": 0.17
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Turkey vs Georgia",
+      "prediction": {
+        "home_win": 0.437,
+        "draw": 0.216,
+        "away_win": 0.347
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Portugal vs Czech Republic",
+      "prediction": {
+        "home_win": 0.71,
+        "draw": 0.169,
+        "away_win": 0.12
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Germany vs Hungary",
+      "prediction": {
+        "home_win": 0.52,
+        "draw": 0.208,
+        "away_win": 0.272
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Scotland vs Switzerland",
+      "prediction": {
+        "home_win": 0.268,
+        "draw": 0.213,
+        "away_win": 0.519
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Croatia vs Albania",
+      "prediction": {
+        "home_win": 0.542,
+        "draw": 0.21,
+        "away_win": 0.248
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Spain vs Italy",
+      "prediction": {
+        "home_win": 0.527,
+        "draw": 0.213,
+        "away_win": 0.261
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Slovenia vs Serbia",
+      "prediction": {
+        "home_win": 0.375,
+        "draw": 0.232,
+        "away_win": 0.393
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Denmark vs England",
+      "prediction": {
+        "home_win": 0.251,
+        "draw": 0.208,
+        "away_win": 0.541
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Poland vs Austria",
+      "prediction": {
+        "home_win": 0.347,
+        "draw": 0.239,
+        "away_win": 0.414
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Netherlands vs France",
+      "prediction": {
+        "home_win": 0.26,
+        "draw": 0.208,
+        "away_win": 0.531
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Slovakia vs Ukraine",
+      "prediction": {
+        "home_win": 0.415,
+        "draw": 0.242,
+        "away_win": 0.344
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Belgium vs Romania",
+      "prediction": {
+        "home_win": 0.618,
+        "draw": 0.194,
+        "away_win": 0.188
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Georgia vs Czech Republic",
+      "prediction": {
+        "home_win": 0.42,
+        "draw": 0.229,
+        "away_win": 0.351
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Turkey vs Portugal",
+      "prediction": {
+        "home_win": 0.176,
+        "draw": 0.186,
+        "away_win": 0.638
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Germany vs Switzerland",
+      "prediction": {
+        "home_win": 0.457,
+        "draw": 0.213,
+        "away_win": 0.33
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Scotland vs Hungary",
+      "prediction": {
+        "home_win": 0.365,
+        "draw": 0.238,
+        "away_win": 0.397
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Albania vs Spain",
+      "prediction": {
+        "home_win": 0.138,
+        "draw": 0.18,
+        "away_win": 0.683
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Croatia vs Italy",
+      "prediction": {
+        "home_win": 0.348,
+        "draw": 0.237,
+        "away_win": 0.416
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "England vs Slovenia",
+      "prediction": {
+        "home_win": 0.62,
+        "draw": 0.191,
+        "away_win": 0.189
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Denmark vs Serbia",
+      "prediction": {
+        "home_win": 0.478,
+        "draw": 0.224,
+        "away_win": 0.298
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Netherlands vs Austria",
+      "prediction": {
+        "home_win": 0.523,
+        "draw": 0.21,
+        "away_win": 0.267
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "France vs Poland",
+      "prediction": {
+        "home_win": 0.697,
+        "draw": 0.173,
+        "away_win": 0.13
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Slovakia vs Romania",
+      "prediction": {
+        "home_win": 0.372,
+        "draw": 0.242,
+        "away_win": 0.386
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Ukraine vs Belgium",
+      "prediction": {
+        "home_win": 0.171,
+        "draw": 0.191,
+        "away_win": 0.638
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Georgia vs Portugal",
+      "prediction": {
+        "home_win": 0.154,
+        "draw": 0.176,
+        "away_win": 0.67
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Czech Republic vs Turkey",
+      "prediction": {
+        "home_win": 0.306,
+        "draw": 0.226,
+        "away_win": 0.467
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Switzerland vs Italy",
+      "prediction": {
+        "home_win": 0.349,
+        "draw": 0.228,
+        "away_win": 0.424
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Germany vs Denmark",
+      "prediction": {
+        "home_win": 0.46,
+        "draw": 0.218,
+        "away_win": 0.322
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "England vs Slovakia",
+      "prediction": {
+        "home_win": 0.639,
+        "draw": 0.189,
+        "away_win": 0.172
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Spain vs Georgia",
+      "prediction": {
+        "home_win": 0.666,
+        "draw": 0.173,
+        "away_win": 0.16
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "France vs Belgium",
+      "prediction": {
+        "home_win": 0.484,
+        "draw": 0.216,
+        "away_win": 0.3
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Portugal vs Slovenia",
+      "prediction": {
+        "home_win": 0.651,
+        "draw": 0.183,
+        "away_win": 0.166
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Romania vs Netherlands",
+      "prediction": {
+        "home_win": 0.244,
+        "draw": 0.209,
+        "away_win": 0.547
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Austria vs Turkey",
+      "prediction": {
+        "home_win": 0.424,
+        "draw": 0.233,
+        "away_win": 0.343
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Germany vs Spain",
+      "prediction": {
+        "home_win": 0.287,
+        "draw": 0.217,
+        "away_win": 0.496
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Portugal vs France",
+      "prediction": {
+        "home_win": 0.357,
+        "draw": 0.216,
+        "away_win": 0.427
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "England vs Switzerland",
+      "prediction": {
+        "home_win": 0.546,
+        "draw": 0.206,
+        "away_win": 0.248
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Netherlands vs Turkey",
+      "prediction": {
+        "home_win": 0.524,
+        "draw": 0.211,
+        "away_win": 0.265
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Spain vs France",
+      "prediction": {
+        "home_win": 0.36,
+        "draw": 0.227,
+        "away_win": 0.413
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Netherlands vs England",
+      "prediction": {
+        "home_win": 0.33,
+        "draw": 0.226,
+        "away_win": 0.444
+      },
+      "model": "ensemble"
+    },
+    {
+      "match": "Spain vs England",
+      "prediction": {
+        "home_win": 0.432,
+        "draw": 0.224,
+        "away_win": 0.344
+      },
+      "model": "ensemble"
+    }
+  ],
+  "actuals": [
+    {
+      "match": "Germany vs Scotland",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Hungary vs Switzerland",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Spain vs Croatia",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Italy vs Albania",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Slovenia vs Denmark",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Serbia vs England",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Poland vs Netherlands",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Austria vs France",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Romania vs Ukraine",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Belgium vs Slovakia",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Turkey vs Georgia",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Portugal vs Czech Republic",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Germany vs Hungary",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Scotland vs Switzerland",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Croatia vs Albania",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Spain vs Italy",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Slovenia vs Serbia",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Denmark vs England",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Poland vs Austria",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Netherlands vs France",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Slovakia vs Ukraine",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Belgium vs Romania",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Georgia vs Czech Republic",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Turkey vs Portugal",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Germany vs Switzerland",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Scotland vs Hungary",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Albania vs Spain",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Croatia vs Italy",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "England vs Slovenia",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Denmark vs Serbia",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Netherlands vs Austria",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "France vs Poland",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Slovakia vs Romania",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Ukraine vs Belgium",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Georgia vs Portugal",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Czech Republic vs Turkey",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Switzerland vs Italy",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Germany vs Denmark",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "England vs Slovakia",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Spain vs Georgia",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "France vs Belgium",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Portugal vs Slovenia",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Romania vs Netherlands",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Austria vs Turkey",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Germany vs Spain",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Portugal vs France",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "England vs Switzerland",
+      "actual": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "match": "Netherlands vs Turkey",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Spain vs France",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "match": "Netherlands vs England",
+      "actual": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "match": "Spain vs England",
+      "actual": [
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "timestamp": "2026-04-22T20:12:22.509197"
+}

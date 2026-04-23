@@ -30,26 +30,88 @@ from futu import *
 
 ## 启动 OpenD
 
-当用户说"启动 OpenD"、"打开 OpenD"、"运行 OpenD"时，**先检测本地是否已安装 OpenD**，再决定下一步操作。
+当用户说"启动 OpenD"、"打开 OpenD"、"运行 OpenD"、"OpenD 挂了"、"OpenD 连不上"时，使用以下运维流程。
 
-### 检测是否已安装
+### OpenD 安装位置
 
-**Windows**：
-```powershell
-Get-ChildItem -Path "C:\Users\$env:USERNAME\Desktop","C:\Program Files","C:\Program Files (x86)","D:\" -Recurse -Filter "*OpenD-GUI*.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
-```
+- **二进制**: `~/wuhoo-workspace/tools/opend/Futu_OpenD_10.3.6308_Centos7/Futu_OpenD_10.3.6308_Centos7/FutuOpenD`
+- **启动脚本**: `~/wuhoo-workspace/scripts/start_opend.sh`
+- **日志目录**: `~/wuhoo-workspace/tools/opend/logs/`
+- **监听端口**: `127.0.0.1:11111`（API）、`127.0.0.1:22222`（WebSocket）
 
-**MacOS**：
+### 命令行启动（推荐）
+
+OpenD 使用命令行参数启动，**不依赖 XML 配置文件**。凭证通过环境变量注入：
+
 ```bash
-ls /Applications/*OpenD-GUI*.app 2>/dev/null || mdfind "kMDItemFSName == '*OpenD-GUI*'" 2>/dev/null | head -1
+# 启动
+bash ~/wuhoo-workspace/scripts/start_opend.sh start
+
+# 重启
+bash ~/wuhoo-workspace/scripts/start_opend.sh restart
+
+# 停止
+bash ~/wuhoo-workspace/scripts/start_opend.sh stop
+
+# 状态
+bash ~/wuhoo-workspace/scripts/start_opend.sh status
 ```
 
-### 判断逻辑
+启动脚本自动执行：
+1. 从 `~/.hermes/.env` 加载 `FUTU_USERNAME`、`FUTU_LOGIN_PASSWORD`、`FUTU_TRADING_PASSWORD`
+2. 计算登录密码的 MD5
+3. 使用命令行参数启动 OpenD（模拟盘模式）
+4. 等待端口 11111 监听就绪
 
-- **已安装（找到可执行文件）**：直接启动，不需要运行安装流程
-  - Windows：`Start-Process "找到的exe路径"`
-  - MacOS：`open "/Applications/找到的.app"`
-- **未安装（未找到）**：提示用户当前未检测到 OpenD，调用 `/install-opend` 进入安装流程
+### 命令行参数详解
+
+```bash
+./FutuOpenD \
+    -login_account=15088682042 \        # 富途账号（手机号）
+    -login_pwd_md5=<md5> \              # 登录密码的 MD5 哈希
+    -api_ip=127.0.0.1 \                 # API 监听 IP
+    -api_port=11111 \                   # API 监听端口
+    -simulate_trade=enable \            # 启用模拟交易
+    -lang=chs \                         # 语言（中文）
+    -log_level=info \                   # 日志级别：no,debug,info,warning,error,fatal
+    -log_path=<path> \                  # 日志目录
+    -websocket_ip=127.0.0.1 \           # WebSocket IP
+    -websocket_port=22222 \             # WebSocket 端口
+    -remember=0 \                       # 不记住登录状态
+    -no_monitor=1                       # 不启动看门狗
+```
+
+### 常见问题排查
+
+#### 1. OpenD 启动失败，日志显示"登录失败,账号名与密码不匹配"
+
+- **原因**: `~/.hermes/.env` 中 `FUTU_LOGIN_PASSWORD` 的值不正确
+- **解决**: 检查 `.env` 文件中密码是否为真实值（不是 `***` 占位符），更新后重启
+
+#### 2. OpenD 进程存在但端口未监听
+
+- **原因**: OpenD 卡在登录验证阶段（可能剩余尝试次数耗尽）
+- **解决**: `kill` 进程，修正密码后重新启动
+
+#### 3. futu-api 连接被拒绝
+
+- 检查 OpenD 是否运行：`ss -tlnp | grep 11111`
+- 检查日志：`tail -20 ~/wuhoo-workspace/tools/opend/logs/stdout.log`
+- 查看 ftlog：`ls -lt ~/wuhoo-workspace/tools/opend/logs/Log/*.ftlog | head -3`
+
+### 旧版 GUI 启动方式（备用）
+
+**Windows**:
+```powershell
+Start-Process "C:\Program Files\Futu\OpenD\FutuOpenD.exe"
+```
+
+**MacOS**:
+```bash
+open "/Applications/FutuOpenD-GUI.app"
+```
+
+> 注意：GUI 方式需要手动输入密码，不适合自动化场景。优先使用命令行模式。
 
 ## 股票代码格式
 

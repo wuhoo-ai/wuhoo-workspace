@@ -1,0 +1,22 @@
+date,tournament,stage,team_a,team_b,score_a,score_b,venue
+2024-06-14,euro,Group Stage,Germany,Scotland,5,1,Allianz Arena
+2024-06-14,euro,Group Stage,Hungary,Switzerland,1,3,Cologne Stadium
+2024-06-15,euro,Group Stage,Italy,Albania,2,1,BVB Stadion Dortmund
+2024-06-15,euro,Group Stage,Spain,Croatia,3,0,Olympiastadion Berlin
+2024-06-15,euro,Group Stage,Poland,Netherlands,1,2,Volksparkstadion
+2024-06-16,euro,Group Stage,Slovenia,Denmark,1,1,Stuttgart Arena
+2024-06-16,euro,Group Stage,Serbia,England,0,1,Veltins-Arena
+2024-06-16,euro,Group Stage,Romania,Ukraine,3,0,Allianz Arena
+2024-06-17,euro,Group Stage,Belgium,Slovakia,0,1,Frankfurt Arena
+2024-06-17,euro,Group Stage,Austria,France,0,1,Dusseldorf Arena
+2024-06-29,euro,Round of 16,Switzerland,Italy,2,0,Olympiastadion Berlin
+2024-06-29,euro,Round of 16,Germany,Denmark,2,0,Dortmund Stadium
+2024-06-30,euro,Round of 16,England,Slovakia,1,1,Gelsenkirchen
+2024-06-30,euro,Round of 16,Spain,Georgia,4,1,Cologne Stadium
+2024-07-05,euro,Quarter-finals,Spain,Germany,1,1,Stuttgart Arena
+2024-07-05,euro,Quarter-finals,Portugal,France,0,0,Volksparkstadion
+2024-07-06,euro,Quarter-finals,England,Switzerland,1,1,Dusseldorf Arena
+2024-07-06,euro,Quarter-finals,Netherlands,Turkey,2,1,Olympiastadion Berlin
+2024-07-09,euro,Semi-finals,Spain,France,2,1,Allianz Arena
+2024-07-10,euro,Semi-finals,Netherlands,England,1,2,Westfalenstadion
+2024-07-14,euro,Final,Spain,England,2,1,Olympiastadion Berlin

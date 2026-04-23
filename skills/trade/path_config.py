@@ -21,8 +21,10 @@ STOCK_PICK_SCRIPT = SKILLS_DIR / 'stock-pick' / 'stock_pick.py'
 STOCK_PICK_VENV = None  # 统一使用系统 python3.11 + pip 依赖
 
 # ============== 数据路径 ==============
-PICK_RESULT_DIR = HOME / '.hermes' / 'data' / 'stock-pick' / 'factors'
-DAILY_DATA_DIR = HOME / '.hermes' / 'data' / 'stock-pick' / 'daily_data'
+# 统一使用 ~/wuhoo-workspace/data/ 作为数据源
+PICK_RESULT_DIR = WORKSPACE / 'data' / 'stock-pick' / 'factors'
+DAILY_DATA_DIR = WORKSPACE / 'data' / 'stock-pick' / 'daily_data'
+TURNOVER_DATA_DIR = WORKSPACE / 'data' / 'stock-pick' / 'turnover_data'
 
 # ============== 各市场数据路径 ==============
 CN_DATA_DIR = DATA_DIR / 'cn'

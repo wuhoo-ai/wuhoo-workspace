@@ -1,0 +1,225 @@
+{
+  "last_update": "2026-04-22T19:30:00",
+  "ratings": {
+    "Argentina": {
+      "elo": 1859,
+      "rank": 1,
+      "country": "Argentina"
+    },
+    "France": {
+      "elo": 1856,
+      "rank": 2,
+      "country": "France"
+    },
+    "Brazil": {
+      "elo": 1838,
+      "rank": 3,
+      "country": "Brazil"
+    },
+    "England": {
+      "elo": 1817,
+      "rank": 4,
+      "country": "England"
+    },
+    "Belgium": {
+      "elo": 1816,
+      "rank": 5,
+      "country": "Belgium"
+    },
+    "Spain": {
+      "elo": 1810,
+      "rank": 6,
+      "country": "Spain"
+    },
+    "Germany": {
+      "elo": 1795,
+      "rank": 7,
+      "country": "Germany"
+    },
+    "Portugal": {
+      "elo": 1780,
+      "rank": 8,
+      "country": "Portugal"
+    },
+    "Netherlands": {
+      "elo": 1765,
+      "rank": 9,
+      "country": "Netherlands"
+    },
+    "Italy": {
+      "elo": 1740,
+      "rank": 10,
+      "country": "Italy"
+    },
+    "Croatia": {
+      "elo": 1730,
+      "rank": 37,
+      "country": "Croatia"
+    },
+    "Morocco": {
+      "elo": 1680,
+      "rank": 12,
+      "country": "Morocco"
+    },
+    "Uruguay": {
+      "elo": 1690,
+      "rank": 13,
+      "country": "Uruguay"
+    },
+    "Switzerland": {
+      "elo": 1675,
+      "rank": 14,
+      "country": "Switzerland"
+    },
+    "Denmark": {
+      "elo": 1665,
+      "rank": 15,
+      "country": "Denmark"
+    },
+    "Senegal": {
+      "elo": 1650,
+      "rank": 16,
+      "country": "Senegal"
+    },
+    "USA": {
+      "elo": 1630,
+      "rank": 17,
+      "country": "USA"
+    },
+    "Mexico": {
+      "elo": 1640,
+      "rank": 18,
+      "country": "Mexico"
+    },
+    "Poland": {
+      "elo": 1620,
+      "rank": 19,
+      "country": "Poland"
+    },
+    "Japan": {
+      "elo": 1610,
+      "rank": 20,
+      "country": "Japan"
+    },
+    "South Korea": {
+      "elo": 1590,
+      "rank": 21,
+      "country": "South Korea"
+    },
+    "Australia": {
+      "elo": 1580,
+      "rank": 22,
+      "country": "Australia"
+    },
+    "Serbia": {
+      "elo": 1600,
+      "rank": 23,
+      "country": "Serbia"
+    },
+    "Wales": {
+      "elo": 1570,
+      "rank": 24,
+      "country": "Wales"
+    },
+    "Iran": {
+      "elo": 1550,
+      "rank": 25,
+      "country": "Iran"
+    },
+    "Ecuador": {
+      "elo": 1560,
+      "rank": 26,
+      "country": "Ecuador"
+    },
+    "Saudi Arabia": {
+      "elo": 1530,
+      "rank": 27,
+      "country": "Saudi Arabia"
+    },
+    "Tunisia": {
+      "elo": 1540,
+      "rank": 28,
+      "country": "Tunisia"
+    },
+    "Ghana": {
+      "elo": 1520,
+      "rank": 29,
+      "country": "Ghana"
+    },
+    "Cameroon": {
+      "elo": 1510,
+      "rank": 30,
+      "country": "Cameroon"
+    },
+    "Qatar": {
+      "elo": 1450,
+      "rank": 31,
+      "country": "Qatar"
+    },
+    "Canada": {
+      "elo": 1500,
+      "rank": 32,
+      "country": "Canada"
+    },
+    "Costa Rica": {
+      "elo": 1490,
+      "rank": 33,
+      "country": "Costa Rica"
+    },
+    "Scotland": {
+      "elo": 1550,
+      "rank": 34,
+      "country": "Scotland"
+    },
+    "Hungary": {
+      "elo": 1570,
+      "rank": 35,
+      "country": "Hungary"
+    },
+    "Albania": {
+      "elo": 1480,
+      "rank": 36,
+      "country": "Albania"
+    },
+    "Slovenia": {
+      "elo": 1530,
+      "rank": 38,
+      "country": "Slovenia"
+    },
+    "Slovakia": {
+      "elo": 1520,
+      "rank": 39,
+      "country": "Slovakia"
+    },
+    "Romania": {
+      "elo": 1540,
+      "rank": 40,
+      "country": "Romania"
+    },
+    "Ukraine": {
+      "elo": 1560,
+      "rank": 41,
+      "country": "Ukraine"
+    },
+    "Austria": {
+      "elo": 1600,
+      "rank": 42,
+      "country": "Austria"
+    },
+    "Turkey": {
+      "elo": 1580,
+      "rank": 43,
+      "country": "Turkey"
+    },
+    "Georgia": {
+      "elo": 1470,
+      "rank": 44,
+      "country": "Georgia"
+    },
+    "Korea Republic": {
+      "elo": 1590,
+      "rank": 45,
+      "country": "Korea Republic"
+    }
+  }
+}

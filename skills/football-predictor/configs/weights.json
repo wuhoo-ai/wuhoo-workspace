@@ -1,0 +1,20 @@
+{
+  "default": {
+    "elo": 0.35,
+    "poisson": 0.30,
+    "factor_model": 0.20,
+    "news_sentiment": 0.15
+  },
+  "conservative": {
+    "elo": 0.40,
+    "poisson": 0.35,
+    "factor_model": 0.15,
+    "news_sentiment": 0.10
+  },
+  "aggressive": {
+    "elo": 0.25,
+    "poisson": 0.25,
+    "factor_model": 0.25,
+    "news_sentiment": 0.25
+  }
+}

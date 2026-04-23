@@ -40,7 +40,7 @@ import efinance as ef
 warnings.filterwarnings('ignore')
 
 # ============== 配置 ==============
-DATA_DIR = Path.home() / '.hermes' / 'data' / 'stock-pick'
+DATA_DIR = Path.home() / 'wuhoo-workspace' / 'data' / 'stock-pick'
 DAILY_DATA_DIR = DATA_DIR / 'daily_data'
 TURNOVER_DATA_DIR = DATA_DIR / 'turnover_data'
 FACTORS_DIR = DATA_DIR / 'factors'
