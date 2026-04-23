@@ -1,7 +1,7 @@
 ---
 name: wuhoo-stock-deep-analysis
 description: "单股深度分析与决策建议（Workflow B 增强版）。整合 akshare 财务数据 + 因子数据 + 多空辩论，输出 4 部分完整投资分析报告（定性→定量→估值→决策）。wuhoo 冠名 skill 为 OpenClaw 企业级关键 skill，需重点维护。"
-metadata: { "openclaw": { "emoji": "🔬", "requires": { "bins": ["python3.11"], "pip": ["akshare", "pandas", "numpy"] } } }
+metadata: { "hermes": { "emoji": "🔬", "requires": { "bins": ["python3.11"], "pip": ["akshare", "pandas", "numpy"] } } }
 ---
 
 # wuhoo-stock-deep-analysis — 单股深度分析（Workflow B 增强版）
@@ -45,22 +45,22 @@ metadata: { "openclaw": { "emoji": "🔬", "requires": { "bins": ["python3.11"],
 
 ```bash
 # 增强版深度分析（推荐，整合 akshare 财务数据）
-python ~/.openclaw/skills/wuhoo-stock-deep-analysis/deep_analysis.py --code 600519
+python3.11 ~/wuhoo-workspace/skills/deep-analysis/deep_analysis.py --code 600519
 
 # 港股
-python ~/.openclaw/skills/wuhoo-stock-deep-analysis/deep_analysis.py --code 00700 --name 腾讯控股
+python3.11 ~/wuhoo-workspace/skills/deep-analysis/deep_analysis.py --code 00700 --name 腾讯控股
 
 # 美股（仅因子分析，无 akshare 财务数据）
-python ~/.openclaw/skills/wuhoo-stock-deep-analysis/deep_analysis.py --code US.AAPL --name Apple
+python3.11 ~/wuhoo-workspace/skills/deep-analysis/deep_analysis.py --code US.AAPL --name Apple
 
 # 策略报告版（因子数据 + 辩论）
-python ~/.openclaw/skills/wuhoo-stock-deep-analysis/strategy_report.py --symbol 600519.SH
+python3.11 ~/wuhoo-workspace/skills/deep-analysis/strategy_report.py --symbol 600519.SH
 ```
 
 ## 输出
 
 ```
-~/.openclaw/workspace/agents/trade/data/workflow_b/{code}_{date}/
+~/wuhoo-workspace/data/deep-analysis/{code}_{date}/
 ├── akshare_data.json           # akshare 原始财务数据
 ├── factor_data.json            # DataAggregator 因子数据
 ├── valuation_data.json         # 估值计算结果
@@ -114,8 +114,7 @@ python ~/.openclaw/skills/wuhoo-stock-deep-analysis/strategy_report.py --symbol 
 pip3.11 install akshare pandas numpy
 
 # 因子数据（trade-agent 环境）
-cd ~/.openclaw/workspace/agents/trade
-source venv-futu/bin/activate
+# 使用 ~/wuhoo-workspace 下的 Python 环境
 ```
 
 ## 版本历史

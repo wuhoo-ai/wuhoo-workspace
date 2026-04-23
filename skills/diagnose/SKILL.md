@@ -1,7 +1,7 @@
 ---
 name: wuhoo-trade-diagnose
 description: "持仓诊断与调仓建议（Workflow D）。扫描 OpenD 持仓，逐只重新评估（调用 Workflow B），生成组合级风险报告和调仓信号（HOLD/ADD/REDUCE/CLEAR）。支持 A股/港股/美股。wuhoo 冠名 skill 为 OpenClaw 企业级关键 skill，需重点维护。"
-metadata: { "openclaw": { "emoji": "🩺", "requires": { "bins": ["python3"], "pip": ["pandas", "numpy"] } } }
+metadata: { "hermes": { "emoji": "🩺", "requires": { "bins": ["python3.11"], "pip": ["pandas", "numpy"] } } }
 ---
 
 # wuhoo-trade-diagnose — 持仓诊断与调仓建议（Workflow D）
@@ -40,33 +40,29 @@ Step 6: 保存为行动指南 (供下次定时任务使用)
 ## 使用方式
 
 ```bash
-# 由 debate agent 触发（推荐，独立审计上下文）
-cd ~/.openclaw/workspace/agents/debate
-python workflow_diagnose.py
-
 # 直接调用 skill
-python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py
+python3.11 ~/wuhoo-workspace/skills/diagnose/diagnose.py
 
 # 全市场诊断
-python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py
+python3.11 ~/wuhoo-workspace/skills/diagnose/diagnose.py
 
 # 仅港股诊断
-python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py --market HK
+python3.11 ~/wuhoo-workspace/skills/diagnose/diagnose.py --market HK
 
 # A股指定账户
-python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py --market CN --account-id 18767295
+python3.11 ~/wuhoo-workspace/skills/diagnose/diagnose.py --market CN --account-id 18767295
 
 # 快速模式：跳过 Workflow B 重评估（仅持仓扫描 + 组合风险）
-python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py --market HK --skip-re-eval
+python3.11 ~/wuhoo-workspace/skills/diagnose/diagnose.py --market HK --skip-re-eval
 
 # 仅诊断前 5 只持仓（按市值排序）
-python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py --top-n 5
+python3.11 ~/wuhoo-workspace/skills/diagnose/diagnose.py --top-n 5
 
 # 指定日期
-python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py --market US --date 2026-04-13
+python3.11 ~/wuhoo-workspace/skills/diagnose/diagnose.py --market US --date 2026-04-13
 
 # 仅输出 JSON（不生成 Markdown 报告）
-python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py --skip-re-eval --json
+python3.11 ~/wuhoo-workspace/skills/diagnose/diagnose.py --skip-re-eval --json
 ```
 
 ### 参数说明
@@ -83,7 +79,7 @@ python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py --skip-re-eval --json
 ## 输出
 
 ```
-~/.openclaw/workspace/agents/trade/data/workflow_d/{DATE}/
+~/wuhoo-workspace/data/diagnose/{DATE}/
 ├── 01_portfolio_scan.json           # 持仓原始数据（Futu 返回）
 ├── 02_stock_diagnoses.json          # 逐股诊断结果（Workflow B）
 ├── 03_portfolio_risk.json           # 组合风险指标
@@ -137,9 +133,8 @@ python ~/.openclaw/skills/wuhoo-trade-diagnose/diagnose.py --skip-re-eval --json
 ## 依赖
 
 ```bash
-cd ~/.openclaw/workspace/agents/trade
-source venv-futu/bin/activate
-pip install pandas numpy
+# 使用 Python 3.11 环境
+pip3.11 install pandas numpy
 ```
 
 ## 与其他 Workflow 的关系

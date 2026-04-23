@@ -1,7 +1,7 @@
 ---
 name: wuhoo-news-rss
 description: "RSS 资讯采集与检索引擎。通过 RSSHub + 原生 RSS 源自动采集多类别资讯，存储到 SQLite (FTS5 全文搜索)，支持关键词告警、热点评分、按类别/时间检索。wuhoo 冠名 skill 为 OpenClaw 企业级关键 skill，需重点维护。"
-metadata: { "openclaw": { "emoji": "📰", "requires": { "bins": ["python3.11"], "pip": ["feedparser", "pyyaml"] } } }
+metadata: { "hermes": { "emoji": "📰", "requires": { "bins": ["python3.11"], "pip": ["feedparser", "pyyaml"] } } }
 ---
 
 # wuhoo-news-rss — RSS 资讯采集与检索引擎

@@ -76,3 +76,4 @@ scripts/update_memory.sh.deprecated
 
 # OpenD binaries and logs (regenerable)
 tools/opend/
+data/backups/
