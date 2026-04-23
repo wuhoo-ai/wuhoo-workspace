@@ -20,6 +20,11 @@ mkdir -p $BACKUP_DIR
 # 敏感文件列表
 declare -a FILES=(
     "$HOME/.hermes/.env"
+    "$HOME/.hermes/config.yaml"
+    "$HOME/.hermes/SOUL.md"
+    "$HOME/.hermes/weixin/accounts/46b4a361b914@im.bot.json"
+    "$HOME/.hermes/weixin/accounts/46b4a361b914@im.bot.context-tokens.json"
+    "$HOME/.hermes/weixin/accounts/46b4a361b914@im.bot.sync.json"
     "$HOME/.openclaw/openclaw.json"
     "$HOME/.openclaw/workspace/trader-shanavasa-host.pem"
     "$HOME/.ssh/id_rsa"
