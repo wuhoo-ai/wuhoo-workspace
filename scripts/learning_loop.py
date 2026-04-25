@@ -129,6 +129,8 @@ def generate_report():
     # Skill status section — dynamically check for issues
     report += "## Skill 状态检查\n\n"
     skill_issues = []
+    fixes_applied = []
+    import re as _re
     skill_dirs = [
         os.path.join(WS, "skills", "wuhoo"),
         os.path.join(HERMES, "skills"),
@@ -142,23 +144,52 @@ def generate_report():
                 with open(sp, errors='ignore') as sf:
                     sc = sf.read()
                 rel = os.path.relpath(sp, WS if WS in root else HERMES)
-                if '.openclaw' in sc:
-                    skill_issues.append(f"- ⚠️ `{rel}`: 包含过时的 `.openclaw` 路径")
-                if 'python3 ' in sc and 'python3.11' not in sc:
-                    import re
-                    if re.search(r'python3\b(?!\.11)', sc):
-                        skill_issues.append(f"- ⚠️ `{rel}`: 使用 `python3` 而非 `python3.11`")
-                if 'metadata:' in sc and '"openclaw"' in sc:
-                    skill_issues.append(f"- ⚠️ `{rel}`: metadata 仍使用 `openclaw` 键")
+                
+                # Check for actual .openclaw PATH usage (not documentation references)
+                # Match patterns like ~/.openclaw/..., /home/admin/.openclaw/..., home/admin/.openclaw/...
+                openclaw_paths = _re.findall(r'(?:~|/home/admin)/\.openclaw/[\w/]+', sc)
+                if openclaw_paths:
+                    skill_issues.append(f"- ⚠️ `{rel}`: 包含过时的 `.openclaw` 路径: {openclaw_paths[:2]}")
+                    # Auto-fix: replace with wuhoo-workspace paths
+                    old_content = sc
+                    sc = _re.sub(r'(?:~|/home/admin)/\.openclaw/skills/', '~/wuhoo-workspace/skills/', sc)
+                    sc = _re.sub(r'(?:~|/home/admin)/\.openclaw/workspace/', '~/wuhoo-workspace/data/', sc)
+                    sc = _re.sub(r'(?:~|/home/admin)/\.openclaw/', '~/wuhoo-workspace/', sc)
+                    if sc != old_content:
+                        with open(sp, 'w') as sf:
+                            sf.write(sc)
+                        fixes_applied.append(f"`{rel}`: .openclaw 路径已替换为 ~/wuhoo-workspace/")
+                
+                # Check for python3 without version ONLY in code blocks
+                # Extract code blocks first
+                code_blocks = _re.findall(r'```[^\n]*\n(.*?)```', sc, _re.DOTALL)
+                for block in code_blocks:
+                    # Only flag python3 when used as a command (python3 script.py, python3 -m, etc.)
+                    # Exclude: kernel names, version specs, documentation references
+                    if _re.search(r'python3\b(?!\.11|\.x)\s+(?:-m|[\w./]+\.(?:py|sh))', block):
+                        skill_issues.append(f"- ⚠️ `{rel}`: 代码块中使用 `python3` 命令而非 `python3.11`")
+                        break
+                
+                # Check for openclaw in YAML frontmatter metadata (not in code examples)
+                frontmatter_match = _re.match(r'^---\n(.*?)\n---', sc, _re.DOTALL)
+                if frontmatter_match:
+                    frontmatter = frontmatter_match.group(1)
+                    if _re.search(r'^\s+openclaw:', frontmatter, _re.MULTILINE):
+                        skill_issues.append(f"- ⚠️ `{rel}`: frontmatter metadata 仍使用 `openclaw` 键")
+                    if _re.search(r'"openclaw"', frontmatter):
+                        skill_issues.append(f"- ⚠️ `{rel}`: frontmatter metadata 仍使用 `openclaw` 值")
     
     if skill_issues:
-        report += "发现以下skill问题（已自动修复）：\n"
+        report += "发现以下skill问题：\n"
         report += "\n".join(skill_issues) + "\n\n"
+        if fixes_applied:
+            report += "已自动修复：\n"
+            report += "\n".join(f"- ✅ {f}" for f in fixes_applied) + "\n\n"
     else:
         report += "所有skill状态正常，无需修复。\n"
-        report += "- 无过时的 `.openclaw` 路径\n"
-        report += "- 所有Python脚本使用 `python3.11`\n"
-        report += "- metadata 已更新为 `hermes`\n\n"
+        report += "- 无过时的 `.openclaw` 路径（仅文档引用不计入）\n"
+        report += "- 代码块中Python脚本使用 `python3.11`\n"
+        report += "- frontmatter metadata 已更新为 `hermes`\n\n"
     
     # Include fixes summary
     fixes_file = os.path.join(LEARNING, "fixes_applied.json")
