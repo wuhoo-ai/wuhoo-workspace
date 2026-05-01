@@ -1,0 +1,121 @@
+{
+  "generated": "2026-05-01T22:34:53.825529",
+  "model": "Elo + Poisson + FIFA Official Bracket",
+  "n_sims": 10000,
+  "backtest_accuracy": "57.8% (WC2022), 51.0% (Euro2024)",
+  "champion": {
+    "Argentina": 54.8,
+    "France": 31.8,
+    "Brazil": 13.3,
+    "England": 0.0,
+    "Spain": 0.0
+  },
+  "final": {
+    "Argentina": 54.8,
+    "France": 31.8,
+    "Brazil": 13.3,
+    "England": 0.0,
+    "Spain": 0.0
+  },
+  "semifinal": {
+    "Argentina": 99.8,
+    "France": 67.8,
+    "Brazil": 30.1,
+    "Portugal": 2.0,
+    "Spain": 0.1,
+    "England": 0.1,
+    "Netherlands": 0.1,
+    "Belgium": 0.0,
+    "Uruguay": 0.0,
+    "Colombia": 0.0
+  },
+  "quarterfinal": {
+    "Argentina": 99.9,
+    "France": 99.7,
+    "Brazil": 61.8,
+    "England": 38.9,
+    "Portugal": 38.1,
+    "Spain": 30.6,
+    "Belgium": 25.8,
+    "Uruguay": 3.5,
+    "USA": 1.3,
+    "Netherlands": 0.2,
+    "Germany": 0.1,
+    "Colombia": 0.1,
+    "Morocco": 0.0,
+    "Mexico": 0.0,
+    "Croatia": 0.0,
+    "Senegal": 0.0
+  },
+  "group_advance": {
+    "A": {
+      "Mexico": 100.0,
+      "South Korea": 100.0,
+      "Czech Republic": 100.0
+    },
+    "B": {
+      "Switzerland": 100.0,
+      "Canada": 100.0,
+      "Bosnia and Herzegovina": 79.9,
+      "Qatar": 20.1
+    },
+    "C": {
+      "Brazil": 100.0,
+      "Morocco": 100.0,
+      "Scotland": 96.9,
+      "Haiti": 3.1
+    },
+    "D": {
+      "USA": 100.0,
+      "Turkey": 100.0,
+      "Australia": 99.5,
+      "Paraguay": 0.5
+    },
+    "E": {
+      "Germany": 100.0,
+      "Ecuador": 100.0,
+      "Ivory Coast": 79.7,
+      "Curacao": 20.3
+    },
+    "F": {
+      "Netherlands": 100.0,
+      "Japan": 100.0,
+      "Sweden": 68.0,
+      "Tunisia": 32.0
+    },
+    "G": {
+      "Belgium": 100.0,
+      "Iran": 100.0,
+      "Egypt": 100.0
+    },
+    "H": {
+      "Spain": 100.0,
+      "Uruguay": 100.0,
+      "Saudi Arabia": 80.2,
+      "Cape Verde": 19.8
+    },
+    "I": {
+      "France": 100.0,
+      "Senegal": 100.0,
+      "Norway": 69.7,
+      "Iraq": 30.3
+    },
+    "J": {
+      "Argentina": 100.0,
+      "Austria": 100.0,
+      "Algeria": 100.0
+    },
+    "K": {
+      "Portugal": 100.0,
+      "Colombia": 100.0,
+      "DR Congo": 67.6,
+      "Uzbekistan": 32.4
+    },
+    "L": {
+      "England": 100.0,
+      "Croatia": 100.0,
+      "Ghana": 99.5,
+      "Panama": 0.5
+    }
+  }
+}

@@ -80,11 +80,19 @@ if __name__ == '__main__':
         print("⚠️ clubelo.com unavailable, using fallback data")
         elo = fetch_elo_fallback()
     
+    # Convert to dict format compatible with fetch_data.py
+    ratings_dict = {}
+    for rank, (team, elo_val) in enumerate(elo.items(), 1):
+        ratings_dict[team] = {
+            'elo': elo_val,
+            'rank': rank,
+            'country': team
+        }
+    
     meta = {
-        'updated': datetime.now().strftime('%Y-%m-%d %H:%M'),
+        'last_update': datetime.now().isoformat(),
         'source': 'clubelo.com' if len(elo) > 50 else 'fallback',
-        'count': len(elo),
-        'ratings': elo
+        'ratings': ratings_dict
     }
     
     with open(output, 'w') as f:

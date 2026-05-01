@@ -27,8 +27,10 @@ class BullAgent(BaseAgent):
     def __init__(
         self,
         prompt_path: Optional[str] = None,
-        model: str = "qwen3.5-plus",
-        api_key: Optional[str] = None
+        model: str = "deepseek-v4-pro",
+        api_key: Optional[str] = None,
+        api_base: Optional[str] = None,
+        provider: str = "auto"
     ):
         # 默认 Prompt 路径
         if prompt_path is None:
@@ -38,7 +40,9 @@ class BullAgent(BaseAgent):
             name="bull",
             prompt_path=str(prompt_path),
             model=model,
-            api_key=api_key
+            api_key=api_key,
+            api_base=api_base,
+            provider=provider
         )
     
     def analyze(
@@ -198,7 +202,10 @@ class BullAgent(BaseAgent):
         lines.append(f"置信度：{bear_view.get('confidence')}")
         lines.append("看空理由:")
         for point in bear_view.get("bearish_points", []):
-            lines.append(f"- {point.get('point')} (证据：{point.get('evidence')})")
+            if isinstance(point, dict):
+                lines.append(f"- {point.get('point', '')} (证据：{point.get('evidence', '')})")
+            else:
+                lines.append(f"- {point}")
         lines.append("")
         
         lines.append("请分析 Bear 的观点，指出其中的问题或过度悲观的地方，并坚持你的多头立场 (如果数据支持)。")

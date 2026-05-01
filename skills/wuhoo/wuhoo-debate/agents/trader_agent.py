@@ -29,8 +29,10 @@ class TraderAgent(BaseAgent):
         self,
         prompt_path: Optional[str] = None,
         risk_rules_path: Optional[str] = None,
-        model: str = "qwen3.6-plus",
-        api_key: Optional[str] = None
+        model: str = "deepseek-v4-pro",
+        api_key: Optional[str] = None,
+        api_base: Optional[str] = None,
+        provider: str = "auto"
     ):
         import yaml
         
@@ -67,7 +69,9 @@ class TraderAgent(BaseAgent):
             name="trader",
             prompt_path=str(prompt_path),
             model=model,
-            api_key=api_key
+            api_key=api_key,
+            api_base=api_base,
+            provider=provider
         )
     
     @staticmethod
@@ -179,9 +183,12 @@ class TraderAgent(BaseAgent):
         lines.append(f"仓位建议：{bull_view.get('position_suggestion', 0):.1%}")
         lines.append("看多理由:")
         for point in bull_view.get("bullish_points", []):
-            lines.append(f"- [{point.get('category')}] {point.get('point')}")
-            lines.append(f"  证据：{point.get('evidence')}")
-            lines.append(f"  权重：{point.get('weight', 0):.1%}")
+            if isinstance(point, dict):
+                lines.append(f"- [{point.get('category', '')}] {point.get('point', '')}")
+                lines.append(f"  证据：{point.get('evidence', '')}")
+                lines.append(f"  权重：{point.get('weight', 0):.1%}")
+            else:
+                lines.append(f"- {point}")
         if bull_view.get("risks_identified"):
             lines.append("识别的风险:")
             for risk in bull_view.get("risks_identified"):
@@ -196,15 +203,21 @@ class TraderAgent(BaseAgent):
         lines.append(f"止损位：{bear_view.get('stop_loss')}")
         lines.append("看空理由:")
         for point in bear_view.get("bearish_points", []):
-            lines.append(f"- [{point.get('category')}] {point.get('point')}")
-            lines.append(f"  证据：{point.get('evidence')}")
-            lines.append(f"  权重：{point.get('weight', 0):.1%}")
+            if isinstance(point, dict):
+                lines.append(f"- [{point.get('category', '')}] {point.get('point', '')}")
+                lines.append(f"  证据：{point.get('evidence', '')}")
+                lines.append(f"  权重：{point.get('weight', 0):.1%}")
+            else:
+                lines.append(f"- {point}")
         if bear_view.get("bull_points_refuted"):
             lines.append("对 Bull 的反驳:")
-            for refutation in bear_view.get("bull_points_refuted"):
-                lines.append(f"- Bull: {refutation.get('bull_point')}")
-                lines.append(f"  反驳：{refutation.get('rebuttal')}")
-                lines.append(f"  证据：{refutation.get('evidence')}")
+            for refutation in bear_view.get("bull_points_refuted", []):
+                if isinstance(refutation, dict):
+                    lines.append(f"- Bull: {refutation.get('bull_point', '')}")
+                    lines.append(f"  反驳：{refutation.get('rebuttal', '')}")
+                    lines.append(f"  证据：{refutation.get('evidence', '')}")
+                else:
+                    lines.append(f"- {refutation}")
         lines.append("")
         
         # 共识和分歧

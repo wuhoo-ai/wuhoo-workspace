@@ -436,6 +436,79 @@ def strategy_big_prize(stats: dict, config: dict) -> list[dict]:
 
 
 # =============================================================================
+# 策略 6: 大遗漏反弹法
+# =============================================================================
+
+def strategy_cold_rebound(stats: dict, config: dict) -> list[dict]:
+    """大遗漏反弹策略 — 追高遗漏冷号
+    
+    核心思路：号码不会无限遗漏，当遗漏值接近历史最大值时，
+    反弹概率增加。本策略专门选取当前遗漏值最高的冷号。
+    
+    Args:
+        stats: 分析结果
+        config: 配置
+    
+    Returns:
+        推荐号码列表
+    """
+    omission = stats.get("omission", {})
+    red_omission = omission.get("red_omission", {})
+    red_max = omission.get("red_max_omission", {})
+    blue_omission = omission.get("blue_omission", {})
+    
+    count = config.get("generate_count", 5)
+    results = []
+    
+    # 红球：遗漏值越高，权重越大
+    red_numbers = list(range(1, 34))
+    for _ in range(count * 3):
+        weights = []
+        for num in red_numbers:
+            key = str(num).zfill(2)
+            current = red_omission.get(key, 0)
+            max_om = red_max.get(key, 30)
+            # 权重 = 当前遗漏 / 历史最大遗漏（越接近历史极限，反弹概率越高）
+            ratio = current / max(max_om, 1)
+            weight = ratio ** 2  # 平方放大差异
+            weights.append(max(0.05, weight))
+        
+        total = sum(weights)
+        weights = [w / total for w in weights]
+        
+        red_selected = random.choices(red_numbers, weights=weights, k=6)
+        red_selected = sorted(list(set(red_selected)))
+        while len(red_selected) < 6:
+            missing = [n for n in red_numbers if n not in red_selected]
+            if missing:
+                red_selected.append(random.choice(missing))
+                red_selected.sort()
+        red_selected = red_selected[:6]
+        
+        # 蓝球同理
+        blue_numbers = list(range(1, 17))
+        blue_weights = []
+        for num in blue_numbers:
+            key = str(num).zfill(2)
+            current = blue_omission.get(key, 0)
+            max_om_val = max(blue_omission.values()) if blue_omission else 50
+            ratio = current / max(max_om_val, 1)
+            blue_weights.append(max(0.05, ratio ** 2))
+        
+        total = sum(blue_weights)
+        blue_weights = [w / total for w in blue_weights]
+        blue_selected = random.choices(blue_numbers, weights=blue_weights, k=1)[0]
+        
+        results.append({
+            "red": red_selected,
+            "blue": blue_selected,
+            "strategy": "cold_rebound"
+        })
+    
+    return results
+
+
+# =============================================================================
 # 蓝球推荐
 # =============================================================================
 
@@ -534,27 +607,68 @@ def generate_predictions(stats: dict, config: dict | None = None, count: int = 5
         for c in cands:
             c["weight"] = strategies["pattern_matching"]["weight"]
         all_candidates.extend(cands)
+
+    if strategies.get("big_prize", {}).get("enabled", False):
+        cands = strategy_big_prize(stats, config)
+        for c in cands:
+            c["weight"] = strategies["big_prize"]["weight"]
+        all_candidates.extend(cands)
+
+    if strategies.get("cold_rebound", {}).get("enabled", False):
+        cands = strategy_cold_rebound(stats, config)
+        for c in cands:
+            c["weight"] = strategies["cold_rebound"]["weight"]
+        all_candidates.extend(cands)
     
-    # 去重并统计投票
-    combo_votes = {}
+    # ================================================================
+    # 投票与合并 (v2): 每策略贡献 top-N 候选，确保多样性
+    # ================================================================
+    per_strategy = {}
     for cand in all_candidates:
-        key = (tuple(cand["red"]), cand["blue"])
-        if key not in combo_votes:
-            combo_votes[key] = {
-                "red": list(cand["red"]),
-                "blue": cand["blue"],
-                "votes": 0,
-                "strategies": set(),
-                "total_weight": 0
-            }
-        combo_votes[key]["votes"] += 1
-        combo_votes[key]["strategies"].add(cand["strategy"])
-        combo_votes[key]["total_weight"] += cand["weight"]
+        strat = cand["strategy"]
+        if strat not in per_strategy:
+            per_strategy[strat] = []
+        per_strategy[strat].append(cand)
+
+    # 每策略内部去重后取 top-N
+    strategy_top = {}
+    for strat, cands in per_strategy.items():
+        seen = set()
+        unique_cands = []
+        for c in cands:
+            key = (tuple(c["red"]), c["blue"])
+            if key not in seen:
+                seen.add(key)
+                unique_cands.append(c)
+        # 每策略至少 1 个（当 count >= 策略数时）
+        num_strategies = len(per_strategy)
+        per_count = max(1, count // num_strategies)
+        # 确保总数 >= count
+        if per_count * num_strategies < count:
+            per_count += 1
+        strategy_top[strat] = unique_cands[:per_count]
     
-    # 按投票数和权重排序
+    # 合并所有策略 top，去重
+    combo_map = {}
+    for strat, cands in strategy_top.items():
+        for c in cands:
+            key = (tuple(c["red"]), c["blue"])
+            if key not in combo_map:
+                combo_map[key] = {
+                    "red": list(c["red"]),
+                    "blue": c["blue"],
+                    "strategies": set(),
+                    "total_weight": 0,
+                    "votes": 0,
+                }
+            combo_map[key]["strategies"].add(strat)
+            combo_map[key]["total_weight"] += c.get("weight", 0.1)
+            combo_map[key]["votes"] += 1
+    
+    # 按策略共识度排序（多策略共识优先）
     sorted_combos = sorted(
-        combo_votes.values(),
-        key=lambda x: (len(x["strategies"]), x["total_weight"], x["votes"]),
+        combo_map.values(),
+        key=lambda x: (len(x["strategies"]), x["total_weight"]),
         reverse=True
     )
     

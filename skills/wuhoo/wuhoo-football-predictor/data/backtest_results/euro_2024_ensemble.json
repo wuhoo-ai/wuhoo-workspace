@@ -3,183 +3,183 @@
   "year": 2024,
   "model": "ensemble",
   "metrics": {
-    "accuracy": 0.5294117647058824,
+    "accuracy": 0.5098039215686274,
     "random_baseline": 0.33,
-    "improvement": 60.42780748663101,
-    "brier_score": 0.617384117647059,
-    "log_loss": 1.036325746497388,
+    "improvement": 54.486036838978,
+    "brier_score": 0.6253116470588234,
+    "log_loss": 1.0472915376539151,
     "total_matches": 51,
-    "correct_predictions": 27
+    "correct_predictions": 26
   },
   "predictions": [
     {
       "match": "Germany vs Scotland",
       "prediction": {
-        "home_win": 0.56,
-        "draw": 0.2,
-        "away_win": 0.239
+        "home_win": 0.544,
+        "draw": 0.204,
+        "away_win": 0.252
       },
       "model": "ensemble"
     },
     {
       "match": "Hungary vs Switzerland",
       "prediction": {
-        "home_win": 0.312,
-        "draw": 0.223,
-        "away_win": 0.465
+        "home_win": 0.181,
+        "draw": 0.19,
+        "away_win": 0.629
       },
       "model": "ensemble"
     },
     {
       "match": "Spain vs Croatia",
       "prediction": {
-        "home_win": 0.545,
-        "draw": 0.211,
-        "away_win": 0.244
+        "home_win": 0.54,
+        "draw": 0.212,
+        "away_win": 0.248
       },
       "model": "ensemble"
     },
     {
       "match": "Italy vs Albania",
       "prediction": {
-        "home_win": 0.588,
-        "draw": 0.202,
-        "away_win": 0.21
+        "home_win": 0.674,
+        "draw": 0.184,
+        "away_win": 0.142
       },
       "model": "ensemble"
     },
     {
       "match": "Slovenia vs Denmark",
       "prediction": {
-        "home_win": 0.304,
-        "draw": 0.218,
-        "away_win": 0.478
+        "home_win": 0.195,
+        "draw": 0.19,
+        "away_win": 0.615
       },
       "model": "ensemble"
     },
     {
       "match": "Serbia vs England",
       "prediction": {
-        "home_win": 0.199,
-        "draw": 0.196,
-        "away_win": 0.604
+        "home_win": 0.213,
+        "draw": 0.2,
+        "away_win": 0.587
       },
       "model": "ensemble"
     },
     {
       "match": "Poland vs Netherlands",
       "prediction": {
-        "home_win": 0.213,
-        "draw": 0.209,
-        "away_win": 0.577
+        "home_win": 0.209,
+        "draw": 0.208,
+        "away_win": 0.584
       },
       "model": "ensemble"
     },
     {
       "match": "Austria vs France",
       "prediction": {
-        "home_win": 0.177,
-        "draw": 0.185,
-        "away_win": 0.637
+        "home_win": 0.204,
+        "draw": 0.193,
+        "away_win": 0.603
       },
       "model": "ensemble"
     },
     {
       "match": "Romania vs Ukraine",
       "prediction": {
-        "home_win": 0.405,
-        "draw": 0.242,
-        "away_win": 0.353
+        "home_win": 0.243,
+        "draw": 0.208,
+        "away_win": 0.549
       },
       "model": "ensemble"
     },
     {
       "match": "Belgium vs Slovakia",
       "prediction": {
-        "home_win": 0.641,
-        "draw": 0.188,
-        "away_win": 0.17
+        "home_win": 0.71,
+        "draw": 0.173,
+        "away_win": 0.117
       },
       "model": "ensemble"
     },
     {
       "match": "Turkey vs Georgia",
       "prediction": {
-        "home_win": 0.437,
-        "draw": 0.216,
-        "away_win": 0.347
+        "home_win": 0.586,
+        "draw": 0.185,
+        "away_win": 0.229
       },
       "model": "ensemble"
     },
     {
       "match": "Portugal vs Czech Republic",
       "prediction": {
-        "home_win": 0.71,
-        "draw": 0.169,
-        "away_win": 0.12
+        "home_win": 0.686,
+        "draw": 0.175,
+        "away_win": 0.139
       },
       "model": "ensemble"
     },
     {
       "match": "Germany vs Hungary",
       "prediction": {
-        "home_win": 0.52,
-        "draw": 0.208,
-        "away_win": 0.272
+        "home_win": 0.621,
+        "draw": 0.19,
+        "away_win": 0.189
       },
       "model": "ensemble"
     },
     {
       "match": "Scotland vs Switzerland",
       "prediction": {
-        "home_win": 0.268,
-        "draw": 0.213,
-        "away_win": 0.519
+        "home_win": 0.271,
+        "draw": 0.214,
+        "away_win": 0.515
       },
       "model": "ensemble"
     },
     {
       "match": "Croatia vs Albania",
       "prediction": {
-        "home_win": 0.542,
-        "draw": 0.21,
-        "away_win": 0.248
+        "home_win": 0.63,
+        "draw": 0.193,
+        "away_win": 0.177
       },
       "model": "ensemble"
     },
     {
       "match": "Spain vs Italy",
       "prediction": {
-        "home_win": 0.527,
-        "draw": 0.213,
-        "away_win": 0.261
+        "home_win": 0.512,
+        "draw": 0.216,
+        "away_win": 0.272
       },
       "model": "ensemble"
     },
     {
       "match": "Slovenia vs Serbia",
       "prediction": {
-        "home_win": 0.375,
-        "draw": 0.232,
-        "away_win": 0.393
+        "home_win": 0.242,
+        "draw": 0.2,
+        "away_win": 0.559
       },
       "model": "ensemble"
     },
     {
       "match": "Denmark vs England",
       "prediction": {
-        "home_win": 0.251,
-        "draw": 0.208,
-        "away_win": 0.541
+        "home_win": 0.257,
+        "draw": 0.209,
+        "away_win": 0.535
       },
       "model": "ensemble"
     },
     {
       "match": "Poland vs Austria",
       "prediction": {
-        "home_win": 0.347,
-        "draw": 0.239,
-        "away_win": 0.414
+        "home_win": 0.307,
+        "draw": 0.233,
+        "away_win": 0.46
       },
       "model": "ensemble"
     },
@@ -188,286 +188,286 @@
       "prediction": {
         "home_win": 0.26,
         "draw": 0.208,
-        "away_win": 0.531
+        "away_win": 0.532
       },
       "model": "ensemble"
     },
     {
       "match": "Slovakia vs Ukraine",
       "prediction": {
-        "home_win": 0.415,
-        "draw": 0.242,
-        "away_win": 0.344
+        "home_win": 0.265,
+        "draw": 0.21,
+        "away_win": 0.525
       },
       "model": "ensemble"
     },
     {
       "match": "Belgium vs Romania",
       "prediction": {
-        "home_win": 0.618,
-        "draw": 0.194,
-        "away_win": 0.188
+        "home_win": 0.702,
+        "draw": 0.176,
+        "away_win": 0.122
       },
       "model": "ensemble"
     },
     {
       "match": "Georgia vs Czech Republic",
       "prediction": {
-        "home_win": 0.42,
-        "draw": 0.229,
-        "away_win": 0.351
+        "home_win": 0.294,
+        "draw": 0.197,
+        "away_win": 0.509
       },
       "model": "ensemble"
     },
     {
       "match": "Turkey vs Portugal",
       "prediction": {
-        "home_win": 0.176,
-        "draw": 0.186,
-        "away_win": 0.638
+        "home_win": 0.207,
+        "draw": 0.195,
+        "away_win": 0.598
       },
       "model": "ensemble"
     },
     {
       "match": "Germany vs Switzerland",
       "prediction": {
-        "home_win": 0.457,
-        "draw": 0.213,
-        "away_win": 0.33
+        "home_win": 0.438,
+        "draw": 0.217,
+        "away_win": 0.345
       },
       "model": "ensemble"
     },
     {
       "match": "Scotland vs Hungary",
       "prediction": {
-        "home_win": 0.365,
-        "draw": 0.238,
-        "away_win": 0.397
+        "home_win": 0.55,
+        "draw": 0.205,
+        "away_win": 0.245
       },
       "model": "ensemble"
     },
     {
       "match": "Albania vs Spain",
       "prediction": {
-        "home_win": 0.138,
-        "draw": 0.18,
-        "away_win": 0.683
+        "home_win": 0.097,
+        "draw": 0.167,
+        "away_win": 0.737
       },
       "model": "ensemble"
     },
     {
       "match": "Croatia vs Italy",
       "prediction": {
-        "home_win": 0.348,
-        "draw": 0.237,
-        "away_win": 0.416
+        "home_win": 0.338,
+        "draw": 0.234,
+        "away_win": 0.428
       },
       "model": "ensemble"
     },
     {
       "match": "England vs Slovenia",
       "prediction": {
-        "home_win": 0.62,
-        "draw": 0.191,
-        "away_win": 0.189
+        "home_win": 0.703,
+        "draw": 0.172,
+        "away_win": 0.125
       },
       "model": "ensemble"
     },
     {
       "match": "Denmark vs Serbia",
       "prediction": {
-        "home_win": 0.478,
-        "draw": 0.224,
-        "away_win": 0.298
+        "home_win": 0.468,
+        "draw": 0.226,
+        "away_win": 0.305
       },
       "model": "ensemble"
     },
     {
       "match": "Netherlands vs Austria",
       "prediction": {
-        "home_win": 0.523,
-        "draw": 0.21,
-        "away_win": 0.267
+        "home_win": 0.486,
+        "draw": 0.218,
+        "away_win": 0.296
       },
       "model": "ensemble"
     },
     {
       "match": "France vs Poland",
       "prediction": {
-        "home_win": 0.697,
-        "draw": 0.173,
-        "away_win": 0.13
+        "home_win": 0.701,
+        "draw": 0.172,
+        "away_win": 0.127
       },
       "model": "ensemble"
     },
     {
       "match": "Slovakia vs Romania",
       "prediction": {
-        "home_win": 0.372,
-        "draw": 0.242,
-        "away_win": 0.386
+        "home_win": 0.382,
+        "draw": 0.245,
+        "away_win": 0.373
       },
       "model": "ensemble"
     },
     {
       "match": "Ukraine vs Belgium",
       "prediction": {
-        "home_win": 0.171,
-        "draw": 0.191,
-        "away_win": 0.638
+        "home_win": 0.213,
+        "draw": 0.203,
+        "away_win": 0.585
       },
       "model": "ensemble"
     },
     {
       "match": "Georgia vs Portugal",
       "prediction": {
-        "home_win": 0.154,
-        "draw": 0.176,
-        "away_win": 0.67
+        "home_win": 0.11,
+        "draw": 0.162,
+        "away_win": 0.728
       },
       "model": "ensemble"
     },
     {
       "match": "Czech Republic vs Turkey",
       "prediction": {
-        "home_win": 0.306,
-        "draw": 0.226,
-        "away_win": 0.467
+        "home_win": 0.296,
+        "draw": 0.223,
+        "away_win": 0.481
       },
       "model": "ensemble"
     },
     {
       "match": "Switzerland vs Italy",
       "prediction": {
-        "home_win": 0.349,
-        "draw": 0.228,
-        "away_win": 0.424
+        "home_win": 0.34,
+        "draw": 0.225,
+        "away_win": 0.435
       },
       "model": "ensemble"
     },
     {
       "match": "Germany vs Denmark",
       "prediction": {
-        "home_win": 0.46,
-        "draw": 0.218,
-        "away_win": 0.322
+        "home_win": 0.437,
+        "draw": 0.223,
+        "away_win": 0.34
       },
       "model": "ensemble"
     },
     {
       "match": "England vs Slovakia",
       "prediction": {
-        "home_win": 0.639,
-        "draw": 0.189,
-        "away_win": 0.172
+        "home_win": 0.717,
+        "draw": 0.171,
+        "away_win": 0.111
       },
       "model": "ensemble"
     },
     {
       "match": "Spain vs Georgia",
       "prediction": {
-        "home_win": 0.666,
-        "draw": 0.173,
-        "away_win": 0.16
+        "home_win": 0.709,
+        "draw": 0.161,
+        "away_win": 0.13
       },
       "model": "ensemble"
     },
     {
       "match": "France vs Belgium",
       "prediction": {
-        "home_win": 0.484,
-        "draw": 0.216,
-        "away_win": 0.3
+        "home_win": 0.526,
+        "draw": 0.207,
+        "away_win": 0.268
       },
       "model": "ensemble"
     },
     {
       "match": "Portugal vs Slovenia",
       "prediction": {
-        "home_win": 0.651,
-        "draw": 0.183,
-        "away_win": 0.166
+        "home_win": 0.745,
+        "draw": 0.161,
+        "away_win": 0.095
       },
       "model": "ensemble"
     },
     {
       "match": "Romania vs Netherlands",
       "prediction": {
-        "home_win": 0.244,
-        "draw": 0.209,
-        "away_win": 0.547
+        "home_win": 0.15,
+        "draw": 0.185,
+        "away_win": 0.665
       },
       "model": "ensemble"
     },
     {
       "match": "Austria vs Turkey",
       "prediction": {
-        "home_win": 0.424,
-        "draw": 0.233,
-        "away_win": 0.343
+        "home_win": 0.418,
+        "draw": 0.234,
+        "away_win": 0.348
       },
       "model": "ensemble"
     },
     {
       "match": "Germany vs Spain",
       "prediction": {
-        "home_win": 0.287,
-        "draw": 0.217,
-        "away_win": 0.496
+        "home_win": 0.275,
+        "draw": 0.219,
+        "away_win": 0.506
       },
       "model": "ensemble"
     },
     {
       "match": "Portugal vs France",
       "prediction": {
-        "home_win": 0.357,
+        "home_win": 0.355,
         "draw": 0.216,
-        "away_win": 0.427
+        "away_win": 0.429
       },
       "model": "ensemble"
     },
     {
       "match": "England vs Switzerland",
       "prediction": {
-        "home_win": 0.546,
-        "draw": 0.206,
-        "away_win": 0.248
+        "home_win": 0.541,
+        "draw": 0.208,
+        "away_win": 0.252
       },
       "model": "ensemble"
     },
     {
       "match": "Netherlands vs Turkey",
       "prediction": {
-        "home_win": 0.524,
-        "draw": 0.211,
-        "away_win": 0.265
+        "home_win": 0.479,
+        "draw": 0.221,
+        "away_win": 0.3
       },
       "model": "ensemble"
     },
     {
       "match": "Spain vs France",
       "prediction": {
-        "home_win": 0.36,
-        "draw": 0.227,
-        "away_win": 0.413
+        "home_win": 0.349,
+        "draw": 0.225,
+        "away_win": 0.426
       },
       "model": "ensemble"
     },
     {
       "match": "Netherlands vs England",
       "prediction": {
-        "home_win": 0.33,
-        "draw": 0.226,
-        "away_win": 0.444
+        "home_win": 0.34,
+        "draw": 0.229,
+        "away_win": 0.431
       },
       "model": "ensemble"
     },
     {
       "match": "Spain vs England",
       "prediction": {
-        "home_win": 0.432,
+        "home_win": 0.431,
         "draw": 0.224,
-        "away_win": 0.344
+        "away_win": 0.345
       },
       "model": "ensemble"
     }
@@ -882,5 +882,5 @@
       ]
     }
   ],
-  "timestamp": "2026-04-22T20:12:22.509197"
+  "timestamp": "2026-05-01T20:39:30.348657"
 }

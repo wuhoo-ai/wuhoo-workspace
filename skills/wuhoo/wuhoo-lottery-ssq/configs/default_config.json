@@ -1,9 +1,11 @@
 {
   "strategies": {
-    "frequency_weighted": {"weight": 0.30, "enabled": true},
-    "omission_recovery": {"weight": 0.25, "enabled": true},
-    "statistical_filter": {"weight": 0.25, "enabled": true},
-    "pattern_matching": {"weight": 0.20, "enabled": true}
+    "frequency_weighted": {"weight": 0.20, "enabled": true},
+    "omission_recovery": {"weight": 0.15, "enabled": true},
+    "statistical_filter": {"weight": 0.15, "enabled": true},
+    "pattern_matching": {"weight": 0.15, "enabled": true},
+    "big_prize": {"weight": 0.20, "enabled": true},
+    "cold_rebound": {"weight": 0.15, "enabled": true}
   },
   "constraints": {
     "sum_range": [80, 130],

@@ -24,17 +24,19 @@ metadata: { "hermes": { "requires": { "bins": ["python3.11"], "pip": ["pandas", 
 
 ## 账户配置 (path_config.py)
 
-> **⚠️ 已验证账户列表 (2026-04-24)**：
-> - SIMULATE HK CASH: `18767294` ✅
-> - SIMULATE US MARGIN: `18767296` ✅ (非 18767293)
-> - CN 账户 `18767295` **不存在**
-> - REAL MARGIN: `281756481352860561`, `281756455996103774`
+> **⚠️ 已验证账户列表 (2026-05-01 重新实测)**：
+> - SIMULATE US MARGIN: `18767293` ✅ (trdmarket_auth: ["US"])
+> - SIMULATE HK CASH: `18767294` ✅ (trdmarket_auth: ["HK"])
+> - SIMULATE CN CASH: `18767295` ✅ (trdmarket_auth: ["CN"]) — 实测存在
+> - SIMULATE HK MARGIN: `18767296` ✅ (trdmarket_auth: ["HK"]) — 注意是 HK 非 US
+> - REAL MARGIN: `281756481352860561`, `281756455996103774`, `281756460291071070`
 
 | 市场 | 账户 ID | 类型 | 环境 | 状态 |
 |------|---------|------|------|------|
-| CN   | 18767295 | CASH | SIMULATE | ❌ 不存在 |
+| US   | 18767293 | MARGIN | SIMULATE | ✅ |
 | HK   | 18767294 | CASH | SIMULATE | ✅ |
-| US   | 18767296 | MARGIN | SIMULATE | ✅ 修正为 18767296 |
+| CN   | 18767295 | CASH | SIMULATE | ✅ |
+| HK   | 18767296 | MARGIN | SIMULATE | ✅ 注意是 HK 非 US |
 
 ## 美股等权持仓策略 (us_equal_weight_portfolio.py)
 

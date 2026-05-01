@@ -1,0 +1,91 @@
+# WC2026 官方分组数据
+# 来源: FIFA 2025-12-05 Final Draw (Washington D.C.)
+# 最后确认: 2026-05-01
+
+groups:
+  A:
+    - Mexico
+    - South Africa
+    - South Korea
+    - Czech Republic
+  B:
+    - Canada
+    - Switzerland
+    - Bosnia and Herzegovina
+    - Qatar
+  C:
+    - Brazil
+    - Morocco
+    - Haiti
+    - Scotland
+  D:
+    - USA
+    - Turkey
+    - Paraguay
+    - Australia
+  E:
+    - Germany
+    - Ecuador
+    - Ivory Coast
+    - Curacao
+  F:
+    - Netherlands
+    - Japan
+    - Sweden
+    - Tunisia
+  G:
+    - Belgium
+    - Egypt
+    - Iran
+    - New Zealand
+  H:
+    - Spain
+    - Uruguay
+    - Saudi Arabia
+    - Cape Verde
+  I:
+    - France
+    - Senegal
+    - Iraq
+    - Norway
+  J:
+    - Argentina
+    - Algeria
+    - Austria
+    - Jordan
+  K:
+    - Portugal
+    - DR Congo
+    - Uzbekistan
+    - Colombia
+  L:
+    - England
+    - Croatia
+    - Ghana
+    - Panama
+
+# 回测基线
+backtest_baselines:
+  wc2022:
+    accuracy: 57.8%
+    matches: 64
+    model: ensemble
+    elo_scale: 2100
+  euro2024:
+    accuracy: 51.0%
+    matches: 51
+    model: ensemble
+    elo_scale: 2100
+
+# ELO 约定
+elo_convention:
+  scale: 2100  # 国家队专用, 非俱乐部混合
+  source: "clubelo.com (fallback when unavailable)"
+  file: data/elo_ratings.json
+  format: "{team: {elo: int, rank: int, country: str}}"
+  top_teams:
+    Argentina: 2114
+    France: 2075
+    Brazil: 2061
+    England: 2022
+    Spain: 2013

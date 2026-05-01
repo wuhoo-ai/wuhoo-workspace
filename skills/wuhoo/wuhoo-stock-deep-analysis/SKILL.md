@@ -1,6 +1,6 @@
 ---
 name: wuhoo-stock-deep-analysis
-description: "单股深度分析与决策建议（Workflow B 增强版）。整合 akshare 财务数据 + 因子数据 + 多空辩论，输出 4 部分完整投资分析报告（定性→定量→估值→决策）。wuhoo 冠名 skill 为 OpenClaw 企业级关键 skill，需重点维护。"
+description: "单股深度分析与决策建议（Workflow B 增强版）。整合 akshare 财务数据 + 因子数据 + 多空辩论，输出 4 部分完整投资分析报告（定性→定量→估值→决策）。wuhoo 冠名 skill 为 Hermes 企业级关键 skill，需重点维护。"
 tags: ["wuhoo"]
 category: wuhoo
 metadata: { "hermes": { "emoji": "🔬", "requires": { "bins": ["python3.11"], "pip": ["akshare", "pandas", "numpy"] } } }
@@ -9,7 +9,7 @@ metadata: { "hermes": { "emoji": "🔬", "requires": { "bins": ["python3.11"], "
 # wuhoo-stock-deep-analysis — 单股深度分析（Workflow B 增强版）
 
 > **⚠️ 企业级关键 Skill**
-> 以 `wuhoo-` 冠头的 skill 是当前 OpenClaw 系统的**企业级关键 skill**，承担核心业务价值。
+> 以 `wuhoo-` 冠头的 skill 是当前 Hermes 系统的**企业级关键 skill**，承担核心业务价值。
 > 这些 skill 的代码质量、稳定性和可维护性需要特别关注。
 
 ## 功能概述

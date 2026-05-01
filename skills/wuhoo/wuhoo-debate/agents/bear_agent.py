@@ -27,8 +27,10 @@ class BearAgent(BaseAgent):
     def __init__(
         self,
         prompt_path: Optional[str] = None,
-        model: str = "qwen3.5-plus",
-        api_key: Optional[str] = None
+        model: str = "deepseek-v4-pro",
+        api_key: Optional[str] = None,
+        api_base: Optional[str] = None,
+        provider: str = "auto"
     ):
         if prompt_path is None:
             prompt_path = Path(__file__).parent.parent / "prompts" / "bear_analyst.md"
@@ -37,7 +39,9 @@ class BearAgent(BaseAgent):
             name="bear",
             prompt_path=str(prompt_path),
             model=model,
-            api_key=api_key
+            api_key=api_key,
+            api_base=api_base,
+            provider=provider
         )
     
     def analyze(
@@ -100,8 +104,11 @@ class BearAgent(BaseAgent):
             lines.append(f"置信度：{bull_view.get('confidence')}")
             lines.append("看多理由:")
             for point in bull_view.get("bullish_points", []):
-                lines.append(f"- [{point.get('category')}] {point.get('point')}")
-                lines.append(f"  证据：{point.get('evidence')}")
+                if isinstance(point, dict):
+                    lines.append(f"- [{point.get('category', '')}] {point.get('point', '')}")
+                    lines.append(f"  证据：{point.get('evidence', '')}")
+                else:
+                    lines.append(f"- {point}")
             lines.append("")
         
         # 因子数据

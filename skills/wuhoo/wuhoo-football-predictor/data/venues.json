@@ -1,0 +1,199 @@
+{
+  "description": "2026 FIFA World Cup venues with altitude, climate, and match assignments",
+  "source": "FIFA official + Wikipedia",
+  "venues": {
+    "Estadio Azteca": {
+      "city": "Mexico City",
+      "country": "MEX",
+      "altitude_m": 2200,
+      "altitude_elo_penalty": 80,
+      "temp_c_jun_jul_avg": 18,
+      "humidity": "moderate",
+      "heat_elo_penalty": 0,
+      "climate_note": "High altitude — ~20% less oxygen, significant advantage for acclimated teams",
+      "capacity": 87523
+    },
+    "Estadio BBVA": {
+      "city": "Monterrey",
+      "country": "MEX",
+      "altitude_m": 537,
+      "altitude_elo_penalty": 15,
+      "temp_c_jun_jul_avg": 30,
+      "humidity": "moderate",
+      "heat_elo_penalty": 10,
+      "climate_note": "Warm, moderate altitude",
+      "capacity": 53500
+    },
+    "Estadio Akron": {
+      "city": "Guadalajara",
+      "country": "MEX",
+      "altitude_m": 1566,
+      "altitude_elo_penalty": 55,
+      "temp_c_jun_jul_avg": 26,
+      "humidity": "moderate",
+      "heat_elo_penalty": 5,
+      "climate_note": "High altitude — ~12% less oxygen",
+      "capacity": 48171
+    },
+    "AT&T Stadium": {
+      "city": "Arlington (Dallas)",
+      "country": "USA",
+      "altitude_m": 184,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 35,
+      "humidity": "moderate",
+      "heat_elo_penalty": 20,
+      "climate_note": "Very hot, indoor stadium (AC) — heat penalty reduced",
+      "indoor": true,
+      "capacity": 80000
+    },
+    "Mercedes-Benz Stadium": {
+      "city": "Atlanta",
+      "country": "USA",
+      "altitude_m": 302,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 32,
+      "humidity": "high",
+      "heat_elo_penalty": 15,
+      "climate_note": "Hot & humid, indoor stadium (AC) — heat penalty reduced",
+      "indoor": true,
+      "capacity": 71000
+    },
+    "Gillette Stadium": {
+      "city": "Foxborough (Boston)",
+      "country": "USA",
+      "altitude_m": 93,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 26,
+      "humidity": "moderate",
+      "heat_elo_penalty": 0,
+      "climate_note": "Mild summer, open air",
+      "capacity": 65878
+    },
+    "NRG Stadium": {
+      "city": "Houston",
+      "country": "USA",
+      "altitude_m": 13,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 34,
+      "humidity": "very high",
+      "heat_elo_penalty": 15,
+      "climate_note": "Very hot & humid, indoor (AC)",
+      "indoor": true,
+      "capacity": 72220
+    },
+    "Arrowhead Stadium": {
+      "city": "Kansas City",
+      "country": "USA",
+      "altitude_m": 277,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 31,
+      "humidity": "high",
+      "heat_elo_penalty": 10,
+      "climate_note": "Hot & humid summer, open air",
+      "capacity": 76416
+    },
+    "SoFi Stadium": {
+      "city": "Inglewood (Los Angeles)",
+      "country": "USA",
+      "altitude_m": 38,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 24,
+      "humidity": "low",
+      "heat_elo_penalty": 0,
+      "climate_note": "Mild, dry — ideal conditions",
+      "indoor": true,
+      "capacity": 70240
+    },
+    "Hard Rock Stadium": {
+      "city": "Miami Gardens",
+      "country": "USA",
+      "altitude_m": 2,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 32,
+      "humidity": "very high",
+      "heat_elo_penalty": 25,
+      "climate_note": "Hot & extremely humid — significant fatigue factor",
+      "capacity": 65326
+    },
+    "MetLife Stadium": {
+      "city": "East Rutherford (New York)",
+      "country": "USA",
+      "altitude_m": 3,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 29,
+      "humidity": "moderate",
+      "heat_elo_penalty": 5,
+      "climate_note": "Warm summer, moderate humidity — FINAL venue",
+      "capacity": 82500
+    },
+    "Lincoln Financial Field": {
+      "city": "Philadelphia",
+      "country": "USA",
+      "altitude_m": 12,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 29,
+      "humidity": "moderate",
+      "heat_elo_penalty": 5,
+      "climate_note": "Warm summer",
+      "capacity": 67594
+    },
+    "Levi's Stadium": {
+      "city": "Santa Clara (San Francisco)",
+      "country": "USA",
+      "altitude_m": 20,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 23,
+      "humidity": "low",
+      "heat_elo_penalty": 0,
+      "climate_note": "Mild, dry — ideal conditions",
+      "capacity": 68500
+    },
+    "Lumen Field": {
+      "city": "Seattle",
+      "country": "USA",
+      "altitude_m": 38,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 22,
+      "humidity": "moderate",
+      "heat_elo_penalty": 0,
+      "climate_note": "Mild, cool summer — favorable for European teams",
+      "capacity": 68740
+    },
+    "BC Place": {
+      "city": "Vancouver",
+      "country": "CAN",
+      "altitude_m": 2,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 19,
+      "humidity": "moderate",
+      "heat_elo_penalty": 0,
+      "climate_note": "Cool, mild — favorable for European teams",
+      "indoor": true,
+      "capacity": 54500
+    },
+    "BMO Field": {
+      "city": "Toronto",
+      "country": "CAN",
+      "altitude_m": 76,
+      "altitude_elo_penalty": 0,
+      "temp_c_jun_jul_avg": 25,
+      "humidity": "moderate",
+      "heat_elo_penalty": 0,
+      "climate_note": "Warm summer, moderate humidity",
+      "capacity": 45000
+    }
+  },
+  "altitude_scale": {
+    "note": "ELO penalty for non-acclimated teams at high altitude",
+    "teams_acclimated": ["Mexico", "Ecuador", "Bolivia", "Colombia", "Peru"],
+    "penalty_per_1000m": 40,
+    "recovery_days": 7
+  },
+  "heat_scale": {
+    "note": "ELO penalty for teams from cool climates playing in heat",
+    "teams_heat_resistant": ["Mexico", "Brazil", "Argentina", "Uruguay", "Paraguay", "Colombia", "Ecuador", "Nigeria", "Ghana", "Ivory Coast", "Senegal", "Cameroon", "Egypt", "Morocco", "Tunisia", "Algeria", "Saudi Arabia", "Iran", "Iraq", "Qatar", "Australia", "South Africa"],
+    "threshold_c": 28,
+    "penalty_per_5c_above": 10
+  }
+}

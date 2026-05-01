@@ -54,7 +54,7 @@ if env_file.exists():
 # ============================================================
 TRADE_DIR = Path.home() / 'wuhoo-workspace' / 'data' / 'trade'
 SKILL_DIR = Path(__file__).parent
-FUTU_API_SCRIPTS = Path.home() / 'wuhoo-workspace' / 'skills' / 'wuhoo' / 'wuhoo-futuapi' / 'scripts
+FUTU_API_SCRIPTS = Path.home() / 'wuhoo-workspace' / 'skills' / 'wuhoo' / 'wuhoo-futuapi' / 'scripts'
 sys.path.insert(0, str(TRADE_DIR))
 
 # ============================================================
@@ -63,7 +63,7 @@ sys.path.insert(0, str(TRADE_DIR))
 MARKET_ACCOUNTS = {
     'CN': 18767295,
     'HK': 18767294,
-    'US': 18767299,
+    'US': 18767293,
 }
 
 # ============================================================

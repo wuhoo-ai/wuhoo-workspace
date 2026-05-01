@@ -111,16 +111,18 @@ python3.11 ssq_predict.py --backtest --monte-carlo 10000
 ### 10. 历史同期
 - 同月/同月同日历史偏好
 
-## 预测策略
+## 预测策略（6 策略，2026-05-01 更新）
 
 | 策略 | 权重 | 原理 |
 |------|------|------|
-| 频率加权 | 30% | 基于出现频率加权随机采样 |
-| 遗漏回补 | 25% | 优先选择遗漏值接近历史平均的号码 |
-| 统计过滤 | 25% | 用统计条件过滤不合理组合 |
-| 形态匹配 | 20% | 匹配历史高频三区比形态 |
+| 频率加权 | 20% | 基于全量出现频率加权随机采样 |
+| 遗漏回补 | 15% | 优先选择遗漏值接近历史平均的号码 |
+| 统计过滤 | 15% | 用统计条件（和值/AC值/奇偶/连号）过滤不合理组合 |
+| 形态匹配 | 15% | 匹配历史高频三区比形态（如 2:2:2） |
+| **胆拖搏大奖** | 20% | 3 胆码(最热) + 9 拖码组合 × 3 热蓝球，C(9,3)=84 种 |
+| **冷号反弹** | 15% | 遗漏值² / 历史最大遗漏² 加权，追高遗漏冷号 |
 
-**集成推荐**：多策略并行生成候选，按策略共识度投票排序，输出高共识组合。
+**集成推荐（v2）**：每策略内部去重后各贡献 top-N 候选，合并去重，按策略共识度（多策略共同选中的组合）排序，确保 6 种策略多样性。
 
 ## 配置
 
@@ -129,18 +131,23 @@ python3.11 ssq_predict.py --backtest --monte-carlo 10000
 ```json
 {
   "strategies": {
-    "frequency_weighted": {"weight": 0.30, "enabled": true},
-    "omission_recovery": {"weight": 0.25, "enabled": true},
-    "statistical_filter": {"weight": 0.25, "enabled": true},
-    "pattern_matching": {"weight": 0.20, "enabled": true}
+    "frequency_weighted": {"weight": 0.20, "enabled": true},
+    "omission_recovery": {"weight": 0.15, "enabled": true},
+    "statistical_filter": {"weight": 0.15, "enabled": true},
+    "pattern_matching": {"weight": 0.15, "enabled": true},
+    "big_prize": {"weight": 0.20, "enabled": true},
+    "cold_rebound": {"weight": 0.15, "enabled": true}
   },
   "constraints": {
     "sum_range": [80, 130],
     "ac_range": [4, 9],
     "max_consecutive": 2,
-    "odd_even_ratios": ["3:3", "4:2", "2:4"]
+    "odd_even_ratios": ["3:3", "4:2", "2:4"],
+    "zone_ratios": ["2:2:2", "2:3:1", "1:3:2", "3:2:1"]
   },
-  "generate_count": 5
+  "blue_ball_strategy": "weighted_omission",
+  "generate_count": 5,
+  "random_seed": null
 }
 ```
 
@@ -200,3 +207,4 @@ skills/wuhoo-lottery-ssq/
 3. **娱乐为主**：数据可视化和统计分析本身有参考价值
 4. **数据时效**：建议在开奖前更新最新数据
 5. **随机种子**：设置 `--seed` 可复现预测结果
+6. **策略多样性 (2026-05-01)**：旧投票系统要求完全相同的组合才算共识，导致 frequency_weighted 霸榜（产出相似度高）。v2 改为每策略内部去重后各贡献 top-N，确保 6 策略多样性。`big_prize` 策略代码完整但最初未接入 config 和 generate_predictions，已修复。

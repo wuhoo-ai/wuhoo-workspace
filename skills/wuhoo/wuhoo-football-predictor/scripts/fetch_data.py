@@ -221,20 +221,20 @@ class DataFetcher:
         return total_goals / len(team_matches)
     
     def _get_default_elo(self) -> dict:
-        """默认 Elo 评分"""
+        """默认 Elo 评分 (国家队 2100-scale, clubelo.com)"""
         return {
-            'Argentina': {'elo': 1859, 'rank': 1, 'country': 'Argentina'},
-            'France': {'elo': 1856, 'rank': 2, 'country': 'France'},
-            'Brazil': {'elo': 1838, 'rank': 3, 'country': 'Brazil'},
-            'England': {'elo': 1817, 'rank': 4, 'country': 'England'},
-            'Spain': {'elo': 1840, 'rank': 5, 'country': 'Spain'},
-            'Germany': {'elo': 1800, 'rank': 6, 'country': 'Germany'},
-            'Portugal': {'elo': 1790, 'rank': 7, 'country': 'Portugal'},
-            'Netherlands': {'elo': 1780, 'rank': 8, 'country': 'Netherlands'},
-            'Italy': {'elo': 1760, 'rank': 9, 'country': 'Italy'},
-            'Croatia': {'elo': 1730, 'rank': 10, 'country': 'Croatia'},
-            'Belgium': {'elo': 1750, 'rank': 11, 'country': 'Belgium'},
-            'Morocco': {'elo': 1690, 'rank': 12, 'country': 'Morocco'},
+            'Argentina': {'elo': 2114, 'rank': 1, 'country': 'Argentina'},
+            'France': {'elo': 2075, 'rank': 2, 'country': 'France'},
+            'Brazil': {'elo': 2061, 'rank': 3, 'country': 'Brazil'},
+            'England': {'elo': 2022, 'rank': 4, 'country': 'England'},
+            'Spain': {'elo': 2013, 'rank': 5, 'country': 'Spain'},
+            'Portugal': {'elo': 1998, 'rank': 6, 'country': 'Portugal'},
+            'Netherlands': {'elo': 1985, 'rank': 7, 'country': 'Netherlands'},
+            'Belgium': {'elo': 1982, 'rank': 8, 'country': 'Belgium'},
+            'Germany': {'elo': 1978, 'rank': 9, 'country': 'Germany'},
+            'Italy': {'elo': 1968, 'rank': 10, 'country': 'Italy'},
+            'Croatia': {'elo': 1940, 'rank': 11, 'country': 'Croatia'},
+            'Morocco': {'elo': 1933, 'rank': 12, 'country': 'Morocco'},
         }
 
 

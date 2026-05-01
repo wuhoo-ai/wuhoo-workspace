@@ -1,6 +1,6 @@
 ---
 name: wuhoo-news-rss
-description: "RSS 资讯采集与检索引擎。通过 RSSHub + 原生 RSS 源自动采集多类别资讯，存储到 SQLite (FTS5 全文搜索)，支持关键词告警、热点评分、按类别/时间检索。wuhoo 冠名 skill 为 OpenClaw 企业级关键 skill，需重点维护。"
+description: "RSS 资讯采集与检索引擎。通过 RSSHub + 原生 RSS 源自动采集多类别资讯，存储到 SQLite (FTS5 全文搜索)，支持关键词告警、热点评分、按类别/时间检索。wuhoo 冠名 skill 为 Hermes 企业级关键 skill，需重点维护。"
 tags: ["wuhoo"]
 category: wuhoo
 metadata: { "hermes": { "emoji": "📰", "requires": { "bins": ["python3.11"], "pip": ["feedparser", "pyyaml"] } } }
@@ -9,7 +9,7 @@ metadata: { "hermes": { "emoji": "📰", "requires": { "bins": ["python3.11"], "
 # wuhoo-news-rss — RSS 资讯采集与检索引擎
 
 > **⚠️ 企业级关键 Skill**
-> 以 `wuhoo-` 冠头的 skill 是当前 OpenClaw 系统的**企业级关键 skill**，承担核心业务价值。
+> 以 `wuhoo-` 冠头的 skill 是当前 Hermes 系统的**企业级关键 skill**，承担核心业务价值。
 >
 > **舆情管线优先数据源**：在辩论系统 (Workflow B/C/D) 中，RSS 舆情是综合评分的**最高权重**数据源 (50%)，优先于 TrendRadar 和 Web Search。
 
@@ -43,7 +43,7 @@ RSSHub (--network host, 端口 1200)    Python 采集引擎 (python3.11)
 ## 使用方式
 
 ```bash
-cd ~/wuhoo-workspace/skills/news-rss
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss
 
 # 注意：必须使用 Python 3.11+
 # 系统默认 python3 是 3.6.8，请使用 /usr/bin/python3.11
@@ -137,9 +137,30 @@ DataAggregator._get_combined_sentiment()
 - `pyyaml` - 配置解析
 - RSSHub (Podman, `--network host`, 端口 1200)
 
+## 已知问题 / 注意事项
+
+- **`--top` 返回 hot_score=0.0**：当前热点评分系统未启用，`--top N` 按最近拉取时间排序而非实际热度。对于主题简报等需要按主题筛选的场景，应使用 `--fts` 全文搜索组合关键词查询来获取更精准的结果。
+- **路径硬编码**：调用 fetcher.py 时请使用绝对路径 `/home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/src/fetcher.py`，避免相对路径歧义。
+
+## 主题简报生成
+
+生成多主题分类简报的标准流程（参见 `scripts/generate_briefing.py`）：
+
+1. **拉取**：`/usr/bin/python3.11 src/fetcher.py --fetch`
+2. **多查询采集**：对每个主题运行 `--fts "<关键词>" --limit 30 --json`，覆盖所有目标主题
+3. **去重分类**：按文章 hash 去重，再按预定义关键词表打分归类
+4. **排序输出**：每个主题按匹配分降序、日期降序排列，取 TOP10
+5. **格式化**：按 `【主题名称】\n 1. 标题 | 来源 | 热度分\n    摘要（100字内）` 格式输出
+
+主题关键词表设计原则：
+- 每个主题 20-50 个关键词，覆盖中英文、缩写、别名
+- 关键词应包含名词（芯片/GPU）、品牌名（NVIDIA/英伟达）、技术术语（HBM/光刻）
+- 避免过于通用的词汇（如"价格"），防止误匹配
+
 ## 版本
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.2 | 2026-05-01 | 修复路径错误，添加热点评分说明，新增主题简报生成流程与脚本 |
 | 1.1 | 2026-04-13 | RSSHub 切换为 host 网络模式 + Python 版本检查 + 修复不可用路由 |
 | 1.0 | 2026-04-13 | 初始版本：RSSHub + 原生 RSS 采集，SQLite 存储，FTS5 搜索 |

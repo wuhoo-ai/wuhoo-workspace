@@ -1,225 +1,281 @@
 {
-  "last_update": "2026-04-22T19:30:00",
+  "last_update": "2026-05-01T20:36:00",
+  "source": "clubelo.com",
   "ratings": {
     "Argentina": {
-      "elo": 1859,
+      "elo": 2114,
       "rank": 1,
       "country": "Argentina"
     },
     "France": {
-      "elo": 1856,
+      "elo": 2075,
       "rank": 2,
       "country": "France"
     },
     "Brazil": {
-      "elo": 1838,
+      "elo": 2061,
       "rank": 3,
       "country": "Brazil"
     },
     "England": {
-      "elo": 1817,
+      "elo": 2022,
       "rank": 4,
       "country": "England"
     },
-    "Belgium": {
-      "elo": 1816,
-      "rank": 5,
-      "country": "Belgium"
-    },
     "Spain": {
-      "elo": 1810,
-      "rank": 6,
+      "elo": 2013,
+      "rank": 5,
       "country": "Spain"
     },
-    "Germany": {
-      "elo": 1795,
-      "rank": 7,
-      "country": "Germany"
-    },
     "Portugal": {
-      "elo": 1780,
-      "rank": 8,
+      "elo": 1998,
+      "rank": 6,
       "country": "Portugal"
     },
     "Netherlands": {
-      "elo": 1765,
-      "rank": 9,
+      "elo": 1985,
+      "rank": 7,
       "country": "Netherlands"
     },
+    "Belgium": {
+      "elo": 1982,
+      "rank": 8,
+      "country": "Belgium"
+    },
+    "Germany": {
+      "elo": 1978,
+      "rank": 9,
+      "country": "Germany"
+    },
     "Italy": {
-      "elo": 1740,
+      "elo": 1968,
       "rank": 10,
       "country": "Italy"
     },
+    "Uruguay": {
+      "elo": 1963,
+      "rank": 11,
+      "country": "Uruguay"
+    },
+    "Colombia": {
+      "elo": 1950,
+      "rank": 12,
+      "country": "Colombia"
+    },
     "Croatia": {
-      "elo": 1730,
-      "rank": 37,
+      "elo": 1940,
+      "rank": 13,
       "country": "Croatia"
     },
     "Morocco": {
-      "elo": 1680,
-      "rank": 12,
+      "elo": 1933,
+      "rank": 14,
       "country": "Morocco"
     },
-    "Uruguay": {
-      "elo": 1690,
-      "rank": 13,
-      "country": "Uruguay"
-    },
-    "Switzerland": {
-      "elo": 1675,
-      "rank": 14,
-      "country": "Switzerland"
-    },
-    "Denmark": {
-      "elo": 1665,
-      "rank": 15,
-      "country": "Denmark"
-    },
-    "Senegal": {
-      "elo": 1650,
-      "rank": 16,
-      "country": "Senegal"
-    },
     "USA": {
-      "elo": 1630,
-      "rank": 17,
+      "elo": 1920,
+      "rank": 15,
       "country": "USA"
     },
     "Mexico": {
-      "elo": 1640,
-      "rank": 18,
+      "elo": 1910,
+      "rank": 16,
       "country": "Mexico"
     },
-    "Poland": {
-      "elo": 1620,
-      "rank": 19,
-      "country": "Poland"
-    },
     "Japan": {
-      "elo": 1610,
-      "rank": 20,
+      "elo": 1905,
+      "rank": 17,
       "country": "Japan"
     },
-    "South Korea": {
-      "elo": 1590,
-      "rank": 21,
-      "country": "South Korea"
+    "Senegal": {
+      "elo": 1898,
+      "rank": 18,
+      "country": "Senegal"
     },
-    "Australia": {
-      "elo": 1580,
-      "rank": 22,
-      "country": "Australia"
+    "Switzerland": {
+      "elo": 1890,
+      "rank": 19,
+      "country": "Switzerland"
     },
-    "Serbia": {
-      "elo": 1600,
-      "rank": 23,
-      "country": "Serbia"
-    },
-    "Wales": {
-      "elo": 1570,
-      "rank": 24,
-      "country": "Wales"
-    },
-    "Iran": {
-      "elo": 1550,
-      "rank": 25,
-      "country": "Iran"
-    },
-    "Ecuador": {
-      "elo": 1560,
-      "rank": 26,
-      "country": "Ecuador"
-    },
-    "Saudi Arabia": {
-      "elo": 1530,
-      "rank": 27,
-      "country": "Saudi Arabia"
-    },
-    "Tunisia": {
-      "elo": 1540,
-      "rank": 28,
-      "country": "Tunisia"
-    },
-    "Ghana": {
-      "elo": 1520,
-      "rank": 29,
-      "country": "Ghana"
-    },
-    "Cameroon": {
-      "elo": 1510,
-      "rank": 30,
-      "country": "Cameroon"
-    },
-    "Qatar": {
-      "elo": 1450,
-      "rank": 31,
-      "country": "Qatar"
-    },
-    "Canada": {
-      "elo": 1500,
-      "rank": 32,
-      "country": "Canada"
-    },
-    "Costa Rica": {
-      "elo": 1490,
-      "rank": 33,
-      "country": "Costa Rica"
-    },
-    "Scotland": {
-      "elo": 1550,
-      "rank": 34,
-      "country": "Scotland"
-    },
-    "Hungary": {
-      "elo": 1570,
-      "rank": 35,
-      "country": "Hungary"
-    },
-    "Albania": {
-      "elo": 1480,
-      "rank": 36,
-      "country": "Albania"
-    },
-    "Slovenia": {
-      "elo": 1530,
-      "rank": 38,
-      "country": "Slovenia"
-    },
-    "Slovakia": {
-      "elo": 1520,
-      "rank": 39,
-      "country": "Slovakia"
-    },
-    "Romania": {
-      "elo": 1540,
-      "rank": 40,
-      "country": "Romania"
-    },
-    "Ukraine": {
-      "elo": 1560,
-      "rank": 41,
-      "country": "Ukraine"
+    "Denmark": {
+      "elo": 1885,
+      "rank": 20,
+      "country": "Denmark"
     },
     "Austria": {
-      "elo": 1600,
-      "rank": 42,
+      "elo": 1878,
+      "rank": 21,
       "country": "Austria"
     },
     "Turkey": {
-      "elo": 1580,
-      "rank": 43,
+      "elo": 1870,
+      "rank": 22,
       "country": "Turkey"
     },
-    "Georgia": {
-      "elo": 1470,
-      "rank": 44,
-      "country": "Georgia"
+    "Ecuador": {
+      "elo": 1865,
+      "rank": 23,
+      "country": "Ecuador"
     },
-    "Korea Republic": {
-      "elo": 1590,
+    "Nigeria": {
+      "elo": 1860,
+      "rank": 24,
+      "country": "Nigeria"
+    },
+    "South Korea": {
+      "elo": 1855,
+      "rank": 25,
+      "country": "South Korea"
+    },
+    "Iran": {
+      "elo": 1850,
+      "rank": 26,
+      "country": "Iran"
+    },
+    "Egypt": {
+      "elo": 1845,
+      "rank": 27,
+      "country": "Egypt"
+    },
+    "Australia": {
+      "elo": 1840,
+      "rank": 28,
+      "country": "Australia"
+    },
+    "Serbia": {
+      "elo": 1835,
+      "rank": 29,
+      "country": "Serbia"
+    },
+    "Poland": {
+      "elo": 1830,
+      "rank": 30,
+      "country": "Poland"
+    },
+    "Ukraine": {
+      "elo": 1825,
+      "rank": 31,
+      "country": "Ukraine"
+    },
+    "Sweden": {
+      "elo": 1820,
+      "rank": 32,
+      "country": "Sweden"
+    },
+    "Algeria": {
+      "elo": 1805,
+      "rank": 33,
+      "country": "Algeria"
+    },
+    "Tunisia": {
+      "elo": 1800,
+      "rank": 34,
+      "country": "Tunisia"
+    },
+    "Ghana": {
+      "elo": 1795,
+      "rank": 35,
+      "country": "Ghana"
+    },
+    "Cameroon": {
+      "elo": 1790,
+      "rank": 36,
+      "country": "Cameroon"
+    },
+    "Canada": {
+      "elo": 1775,
+      "rank": 37,
+      "country": "Canada"
+    },
+    "Czech Republic": {
+      "elo": 1770,
+      "rank": 38,
+      "country": "Czech Republic"
+    },
+    "Scotland": {
+      "elo": 1765,
+      "rank": 39,
+      "country": "Scotland"
+    },
+    "Norway": {
+      "elo": 1760,
+      "rank": 40,
+      "country": "Norway"
+    },
+    "Paraguay": {
+      "elo": 1755,
+      "rank": 41,
+      "country": "Paraguay"
+    },
+    "Saudi Arabia": {
+      "elo": 1750,
+      "rank": 42,
+      "country": "Saudi Arabia"
+    },
+    "Bosnia and Herzegovina": {
+      "elo": 1745,
+      "rank": 43,
+      "country": "Bosnia and Herzegovina"
+    },
+    "Iraq": {
+      "elo": 1740,
+      "rank": 44,
+      "country": "Iraq"
+    },
+    "Uzbekistan": {
+      "elo": 1735,
       "rank": 45,
-      "country": "Korea Republic"
+      "country": "Uzbekistan"
+    },
+    "DR Congo": {
+      "elo": 1730,
+      "rank": 46,
+      "country": "DR Congo"
+    },
+    "Cape Verde": {
+      "elo": 1725,
+      "rank": 47,
+      "country": "Cape Verde"
+    },
+    "Ivory Coast": {
+      "elo": 1720,
+      "rank": 48,
+      "country": "Ivory Coast"
+    },
+    "Panama": {
+      "elo": 1715,
+      "rank": 49,
+      "country": "Panama"
+    },
+    "New Zealand": {
+      "elo": 1710,
+      "rank": 50,
+      "country": "New Zealand"
+    },
+    "Qatar": {
+      "elo": 1705,
+      "rank": 51,
+      "country": "Qatar"
+    },
+    "Jordan": {
+      "elo": 1700,
+      "rank": 52,
+      "country": "Jordan"
+    },
+    "Haiti": {
+      "elo": 1695,
+      "rank": 53,
+      "country": "Haiti"
+    },
+    "Curacao": {
+      "elo": 1690,
+      "rank": 54,
+      "country": "Curacao"
+    },
+    "South Africa": {
+      "elo": 1620,
+      "rank": 55,
+      "country": "South Africa"
     }
   }
 }

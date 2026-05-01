@@ -1,6 +1,6 @@
 ---
 name: wuhoo-trade-diagnose
-description: "持仓诊断与调仓建议（Workflow D）。扫描 OpenD 持仓，逐只重新评估（调用 Workflow B），生成组合级风险报告和调仓信号（HOLD/ADD/REDUCE/CLEAR）。支持 A股/港股/美股。wuhoo 冠名 skill 为 OpenClaw 企业级关键 skill，需重点维护。"
+description: "持仓诊断与调仓建议（Workflow D）。扫描 OpenD 持仓，逐只重新评估（调用 Workflow B），生成组合级风险报告和调仓信号（HOLD/ADD/REDUCE/CLEAR）。支持 A股/港股/美股。wuhoo 冠名 skill 为 Hermes 企业级关键 skill，需重点维护。"
 tags: ["wuhoo"]
 category: wuhoo
 metadata: { "hermes": { "emoji": "🩺", "requires": { "bins": ["python3.11"], "pip": ["pandas", "numpy"] } } }
@@ -9,7 +9,7 @@ metadata: { "hermes": { "emoji": "🩺", "requires": { "bins": ["python3.11"], "
 # wuhoo-trade-diagnose — 持仓诊断与调仓建议（Workflow D）
 
 > **⚠️ 企业级关键 Skill**
-> 以 `wuhoo-` 冠头的 skill 是当前 OpenClaw 系统的**企业级关键 skill**，承担核心业务价值。
+> 以 `wuhoo-` 冠头的 skill 是当前 Hermes 系统的**企业级关键 skill**，承担核心业务价值。
 > 这些 skill 的代码质量、稳定性和可维护性需要特别关注。
 
 ## 功能概述
@@ -151,10 +151,60 @@ pip3.11 install pandas numpy
 
 **调用关系**：Workflow D 调用 Workflow B 对每只持仓做重评估，复用 risk_manager 做风控检查。
 
+## 已知问题与降级方案 (2026-04-25)
+
+### diagnose.py 脚本问题
+
+**1. MARKET_ACCOUNTS 映射** (2026-05-01 实测验证):
+- `HK=18767294` (CASH, SIMULATE) ✅
+- `CN=18767295` (CASH, SIMULATE) ✅ — **实测存在，非之前认为的"不存在"**
+- `HK=18767296` (MARGIN, SIMULATE) ✅ — 注意是 HK 市场，非 US
+### 数据源限制
+
+| 市场 | Workflow B (akshare) | 替代方案 |
+|------|---------------------|----------|
+| A股 | ✅ 可用 | — |
+| 港股 | ❌ akshare 不支持 | web_search 获取分析师评级 + futu snapshot |
+| 美股 | ❌ akshare 不支持 | web_search 获取分析师评级 + futu snapshot (PE/PB) |
+
+### 手动诊断流程（当 diagnose.py 不可用时，2026-05-01 验证可用）
+
+```bash
+# Step 0: 启动 OpenD (如未运行)
+bash ~/wuhoo-workspace/scripts/start_opend.sh start
+
+# Step 1: 获取账户列表确认映射
+python3.11 ~/wuhoo-workspace/skills/wuhoo/wuhoo-futuapi/scripts/trade/get_accounts.py --json
+
+# Step 2: 通过 Python 一次性获取持仓 + 资金
+# (优于多次调用脚本，避免反复建连；futu-api skill 文档有完整示例)
+
+# Step 3: 获取快照 (PE/PB/振幅等)
+python3.11 -c "from futu import *; ... get_market_snapshot(all_codes)"
+
+# Step 4: 使用 web_search 获取分析师评级和目标价
+# 搜索 "{ticker} stock analyst rating target price 2026"
+
+# Step 5: 手动计算组合指标
+# HHI = sum(weight²), 集中度 = top-N weights 求和
+# 现金比率 = cash / total_assets
+# 风控信号: 亏损 > 8% → REDUCE, > 15% → CLEAR
+```
+
+### 数据源限制
+
+| 市场 | Workflow B (akshare) | 替代方案 |
+|------|---------------------|----------|
+| A股 | ✅ 可用 | — |
+| 港股 | ❌ akshare 不支持 | 需 yfinance 或第三方数据 |
+| 美股 | ❌ akshare 不支持 | us-stock-portfolio-diagnosis skill (yfinance) |
+
 ## 版本历史
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.2 | 2026-05-01 | 修正账户映射 (18767293=US ✅, 18767296=HK, 18767295=CN ✅); 更新手动诊断流程替代方案 (web_search + futu snapshot) |
+| 1.1 | 2026-04-25 | 添加已知问题、账户映射修正、降级方案、数据源限制 |
 | 1.0 | 2026-04-13 | 初始版本，支持手动触发 + 组合指标 + 调仓信号 |
 
 ---
