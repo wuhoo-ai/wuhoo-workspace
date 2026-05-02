@@ -36,7 +36,9 @@ import pandas as pd
 
 # ============== 路径配置 ==============
 DATA_DIR = Path.home() / 'wuhoo-workspace' / 'data' / 'stock-pick'
-DAILY_DATA_DIR = DATA_DIR / 'daily_data'
+DAILY_DATA_DIR = DATA_DIR / 'daily_data'           # A股日线
+DAILY_DATA_HK_DIR = DATA_DIR / 'daily_data_hk'    # 港股日线
+DAILY_DATA_US_DIR = DATA_DIR / 'daily_data_us'    # 美股日线
 TURNOVER_DATA_DIR = DATA_DIR / 'turnover_data'
 FACTORS_DIR = DATA_DIR / 'factors'
 BACKUPS_DIR = DATA_DIR / 'backups'
@@ -45,7 +47,8 @@ INDEX_CODE = '000852.SH'  # 中证 1000
 
 
 def ensure_dirs():
-    for d in [DATA_DIR, DAILY_DATA_DIR, TURNOVER_DATA_DIR, FACTORS_DIR, BACKUPS_DIR]:
+    for d in [DATA_DIR, DAILY_DATA_DIR, DAILY_DATA_HK_DIR, DAILY_DATA_US_DIR,
+              TURNOVER_DATA_DIR, FACTORS_DIR, BACKUPS_DIR]:
         d.mkdir(parents=True, exist_ok=True)
 
 
@@ -328,7 +331,7 @@ def update_hk_daily(members, start_date=None, end_date=None, force=False):
         quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
 
         for i, code in enumerate(members):
-            stock_code = f"HK.{code.replace('.HK', '')}"
+            stock_code = code  # members file 已含 HK. 前缀
             try:
                 ret, msg, df = quote_ctx.request_history_kline(
                     code=stock_code, start=start_str, end=end_str, ktype=KLType.K_DAY
@@ -340,8 +343,15 @@ def update_hk_daily(members, start_date=None, end_date=None, force=False):
                         kline_df['ts_code'] = stock_code
                         all_data.append(kline_df)
                         success_count += 1
+                elif '额度不足' in str(msg):
+                    print(f"    Futu 历史K线额度耗尽 (已成功 {success_count}/{i+1})，停止拉取")
+                    break
             except Exception:
                 pass
+
+            # Futu 限流：每30秒最多60次 → 每2次暂停1秒
+            if (i + 1) % 2 == 0:
+                time.sleep(1.1)
 
             if (i + 1) % 50 == 0:
                 print(f"    进度：{i+1}/{len(members)} (成功：{success_count})")
@@ -357,7 +367,7 @@ def update_hk_daily(members, start_date=None, end_date=None, force=False):
             for ym in result['year_month'].unique():
                 ym_data = result[result['year_month'] == ym].copy()
                 year = ym[:4]
-                month_file = DAILY_DATA_DIR / year / f"{ym}.csv"
+                month_file = DAILY_DATA_HK_DIR / year / f"{ym}.csv"
                 month_file.parent.mkdir(parents=True, exist_ok=True)
                 # 只保留需要的列
                 cols = ['ts_code', 'time_key'] + [c for c in ym_data.columns if c in ['open', 'close', 'high', 'low', 'volume', 'turnover_rate']]
@@ -370,6 +380,87 @@ def update_hk_daily(members, start_date=None, end_date=None, force=False):
 
     except Exception as e:
         print(f"  ⚠️  Futu OpenD 连接失败：{e}")
+
+
+def update_hk_daily_yfinance(members, start_date=None, end_date=None, force=False):
+    """使用 yfinance 更新港股日线（推荐：无配额限制，批量下载）"""
+    print("\n[港股] 更新日线数据 (yfinance)...")
+
+    try:
+        import yfinance as yf
+    except ImportError:
+        print("  ⚠️  yfinance 未安装")
+        return
+
+    if not members:
+        hk_file = DATA_DIR / 'index_members_hk_top500.csv'
+        if hk_file.exists():
+            members = pd.read_csv(hk_file)['code'].tolist()
+        else:
+            print("  ⚠️  无港股成分股")
+            return
+
+    end_date = end_date or datetime.now()
+    start_date = start_date or (end_date - timedelta(days=550))
+    start_str = start_date.strftime('%Y-%m-%d')
+    end_str = end_date.strftime('%Y-%m-%d')
+
+    # Convert HK.00700 → 0700.HK (yfinance requires exactly 4-digit codes)
+    yf_codes = [f"{c.replace('HK.', '')[-4:]}.HK" for c in members]
+
+    print(f"  时间范围：{start_str} ~ {end_str}")
+    print(f"  股票数量：{len(yf_codes)}")
+
+    all_data = []
+    success_count = 0
+    batch_size = 20
+
+    for i in range(0, len(yf_codes), batch_size):
+        batch = yf_codes[i:i+batch_size]
+        tickers_str = ' '.join(batch)
+
+        try:
+            data = yf.download(tickers_str, start=start_str, end=end_str, group_by='ticker', progress=False)
+
+            if data is not None and not data.empty:
+                for yf_code in batch:
+                    try:
+                        if len(batch) == 1:
+                            df = data
+                        else:
+                            df = data[yf_code]
+                        if df is not None and not df.empty:
+                            df = df.copy()
+                            df.index = pd.to_datetime(df.index)
+                            hk_code = f"HK.{yf_code.replace('.HK', '')}"
+                            df['ts_code'] = hk_code
+                            df = df.reset_index()
+                            all_data.append(df)
+                            success_count += 1
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
+        print(f"    进度：{min(i+batch_size, len(yf_codes))}/{len(yf_codes)} (成功：{success_count})")
+        time.sleep(0.5)
+
+    if all_data:
+        result = pd.concat(all_data, ignore_index=True)
+        result['year_month'] = pd.to_datetime(result['Date'] if 'Date' in result.columns else result.iloc[:, 0]).dt.strftime('%Y%m')
+
+        for ym in result['year_month'].unique():
+            ym_data = result[result['year_month'] == ym].copy()
+            year = ym[:4]
+            month_file = DAILY_DATA_HK_DIR / year / f"{ym}.csv"
+            month_file.parent.mkdir(parents=True, exist_ok=True)
+            cols = ['ts_code', 'Date', 'Close', 'Volume']
+            available = [c for c in cols if c in ym_data.columns]
+            ym_data[available].to_csv(month_file, index=False)
+
+        print(f"  港股日线更新完成：{len(result)} 条记录 ({success_count}/{len(members)} 只股票)")
+    else:
+        print("  ⚠️  无港股数据")
 
 
 # ============== Yfinance 数据源 ==============
@@ -470,7 +561,7 @@ def update_us_daily(members, start_date=None, end_date=None, force=False):
         for ym in result['year_month'].unique():
             ym_data = result[result['year_month'] == ym].copy()
             year = ym[:4]
-            month_file = DAILY_DATA_DIR / year / f"{ym}.csv"
+            month_file = DAILY_DATA_US_DIR / year / f"{ym}.csv"
             month_file.parent.mkdir(parents=True, exist_ok=True)
             ym_data.to_csv(month_file, index=False)
 
@@ -504,10 +595,10 @@ def run_update(market='all', incremental=False, force=False):
             traceback.print_exc()
 
     if market in ['all', 'hk']:
-        # 港股
+        # 港股 — 使用 yfinance（无配额限制，批量下载）
         try:
             members = update_hk_members(force=force)
-            update_hk_daily(members, force=force)
+            update_hk_daily_yfinance(members, force=force, start_date=start_date, end_date=end_date)
         except Exception as e:
             print(f"\n[港股] 更新失败：{e}")
 
@@ -525,12 +616,13 @@ def run_update(market='all', incremental=False, force=False):
 
     # 数据质量检查
     print("\n数据质量检查:")
-    if DAILY_DATA_DIR.exists():
-        total_files = list(DAILY_DATA_DIR.rglob('*.csv'))
-        print(f"  日线数据文件：{len(total_files)} 个")
-        if total_files:
-            total_rows = sum(len(pd.read_csv(f)) for f in total_files[:10])
-            print(f"  最近 10 个月数据量：{total_rows} 条")
+    for label, d in [("A股", DAILY_DATA_DIR), ("港股", DAILY_DATA_HK_DIR), ("美股", DAILY_DATA_US_DIR)]:
+        if d.exists():
+            total_files = list(d.rglob('*.csv'))
+            print(f"  {label}日线数据文件：{len(total_files)} 个")
+            if total_files:
+                total_rows = sum(len(pd.read_csv(f)) for f in total_files[:5])
+                print(f"    最近 5 个月数据量：{total_rows} 条")
 
 
 def main():

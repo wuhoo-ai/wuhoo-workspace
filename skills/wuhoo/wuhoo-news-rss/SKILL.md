@@ -36,8 +36,8 @@ RSSHub (--network host, 端口 1200)    Python 采集引擎 (python3.11)
 └──────────────────────────┘         │ 检索接口                     │
        ↕ 外网直连                     └─────────────────────────────┘
                                               ↕
-                                     Heartbeat / Cron
-                                     每小时自动拉取
+                                     Cron Job (每日 09:30 微信推送)
+                                     自动拉取 + 生成热点简报
 ```
 
 ## 使用方式
@@ -141,10 +141,63 @@ DataAggregator._get_combined_sentiment()
 
 - **`--top` 返回 hot_score=0.0**：当前热点评分系统未启用，`--top N` 按最近拉取时间排序而非实际热度。对于主题简报等需要按主题筛选的场景，应使用 `--fts` 全文搜索组合关键词查询来获取更精准的结果。
 - **路径硬编码**：调用 fetcher.py 时请使用绝对路径 `/home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/src/fetcher.py`，避免相对路径歧义。
+- **手动简报生成模式**：当 cron 推送失败时，可通过 FTS5 JSON + Python 多查询模式手动生成。详见 [`references/manual-briefing-generation.md`](references/manual-briefing-generation.md)。
+- **微信推送 gateway timeout**：cron delivery 阶段可能出现 `"Timeout context manager should be used inside a task"` 错误（非 session expired）。内容已生成但投递失败。临时方案：保存到本地文件，gateway 恢复后补发。
 
-## 主题简报生成
+## 微信定时推送简报
 
-生成多主题分类简报的标准流程（参见 `scripts/generate_briefing.py`）：
+定时任务 `RSS资讯采集与推送` 每日 09:30 自动拉取并推送热点简报到用户微信。
+
+### 执行流程
+
+1. **拉取**：`python3.11 ~/wuhoo-workspace/skills/wuhoo-news-rss/src/fetcher.py --fetch`
+2. **检索**：`python3.11 ~/wuhoo-workspace/skills/wuhoo-news-rss/src/search.py --hours 24`
+3. **分类排序**：按四大类各取 TOP10（基于关键词匹配度 + 多源覆盖度）
+4. **格式化**：按标准微信简报格式生成 Markdown 报告
+5. **推送**：作为 cron final response 自动推送到用户微信
+
+### 四大分类
+
+| 分类 | 覆盖范围 |
+|------|---------|
+| 🔬 **科技/AI** | 技术突破、AI产品、大模型、半导体 |
+| 💰 **财经/投资** | 港股/美股市场、量化、IPO、大宗商品 |
+| 🏛️ **宏观政策** | 央行政策、地缘政治、贸易协定、监管 |
+| 🏭 **产业/公司** | 重点公司动态、财报、并购、产品发布 |
+
+### 微信推送格式规范
+
+```markdown
+# 📰 Wuhoo 新闻早报 — 2026-05-02
+
+## 🔬 科技/AI
+1. **文章标题** — 来源 | YYYY-MM-DD
+   摘要一句话，不超过50字。
+
+2. **热点话题** [3源] — 源A / 源B | YYYY-MM-DD
+   多源报道同一事件时合并为一条，标注源数。
+
+---
+
+## 💰 财经/投资
+1. ...
+
+---
+
+## 🏛️ 宏观政策
+...
+```
+
+**格式规则**：
+- 每条标题**加粗**，后附来源和日期
+- 摘要一行，**不超过 50 字**
+- 大类之间用 `---` 分隔
+- 同主题不同来源的文章**合并为一条**，标注 `[N源]`
+- 底部标注：总文章数、来源数、检索时间范围
+
+### 主题简报（非微信场景）
+
+生成多主题分类简报的标准流程：
 
 1. **拉取**：`/usr/bin/python3.11 src/fetcher.py --fetch`
 2. **多查询采集**：对每个主题运行 `--fts "<关键词>" --limit 30 --json`，覆盖所有目标主题
@@ -161,6 +214,7 @@ DataAggregator._get_combined_sentiment()
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.4 | 2026-05-02 | Cron push format finalized: 4 categories (科技AI/财经投资/宏观政策/产业公司) TOP10, merged multi-source articles [N源], 50-char summaries, WeChat delivery via live chat (cron push blocked by gateway asyncio timeout bug). Moved cron from 10:00 local to 09:30 weixin. |
 | 1.2 | 2026-05-01 | 修复路径错误，添加热点评分说明，新增主题简报生成流程与脚本 |
 | 1.1 | 2026-04-13 | RSSHub 切换为 host 网络模式 + Python 版本检查 + 修复不可用路由 |
 | 1.0 | 2026-04-13 | 初始版本：RSSHub + 原生 RSS 采集，SQLite 存储，FTS5 搜索 |

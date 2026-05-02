@@ -23,7 +23,7 @@ metadata: { "hermes": { "emoji": "📊", "requires": { "env": ["TUSHARE_TOKEN"],
 | 市场 | 代码 | 数据源 | 默认因子 | 排序方式 |
 |------|------|--------|----------|----------|
 | A股 | cn | Tushare Pro | 残差波动率 + 换手率 + 动量 + Beta | 10日动量，越低越好 |
-| 港股 | hk | 富途 OpenAPI | 波动率 + 动量 | 10日动量，越低越好 |
+| 港股 | hk | yfinance (批量) / Futu (实时) | 波动率 + 动量 | 10日动量，越低越好 |
 | 美股 | us | yfinance | 残差波动率 + 成交量 + 动量 + Beta | 10日动量，越低越好 |
 
 ## 因子配置方式
@@ -118,21 +118,26 @@ python3.11 stock_pick.py --market cn --date 2026-04-15 --factors-json configs/my
 
 ```
 ~/wuhoo-workspace/data/stock-pick/
-├── daily_data/          # 日线数据（按月存储）
-├── turnover_data/       # 换手率数据
+├── daily_data/          # A股日线（按月存储，Tushare 格式）
+├── daily_data_hk/       # 港股日线（按月存储，Futu 格式）
+├── daily_data_us/       # 美股日线（按月存储，yfinance 格式）
+├── turnover_data/       # A股换手率数据
 ├── factors/             # 因子计算结果 + 选股结果
 │   ├── factors_cn_YYYYMMDD.csv
 │   ├── result_cn_YYYYMMDD.csv
-│   └── factors_hk_YYYYMMDD.csv
-│   └── factors_us_YYYYMMDD.csv
+│   ├── factors_hk_YYYYMMDD.csv
+│   ├── result_hk_YYYYMMDD.csv
+│   ├── factors_us_YYYYMMDD.csv
 │   └── result_us_YYYYMMDD.csv
 ├── backups/             # 配置备份
-├── index_members.csv    # A 股成分股
+├── index_members.csv    # A 股中证1000成分股
 ├── index_members_hk_top500.csv
-├── index_members_us_top500.csv   # S&P 500 成分股（从 GitHub 动态更新）
+├── index_members_us_top500.csv   # S&P 500 成分股
 ├── stock_info_us_top500.csv      # 美股信息映射（ts_code 格式: SYMBOL.US）
 └── stock_names.csv      # A 股名称映射
 ```
+>
+> **v2.4 更新**：三市场日线现已独立存储到 `daily_data/` (A股), `daily_data_hk/` (港股), `daily_data_us/` (美股)。不再存在 US/CN 数据覆盖问题。
 
 ## 美股 S&P 500 成分股更新流程
 
@@ -233,64 +238,64 @@ else:
 "
 ```
 
-### 美股数据更新
+### 美股数据更新与修复
 
 ```bash
 cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-stock-pick
 python3.11 update_all_data.py --market us --incremental
 ```
 
-**⚠️ 已知问题：**
-- `update_all_data.py` 的 yfinance 下载逻辑存在但未成功生成 `daily_data_us/` 目录
-- 美股因子计算依赖 yfinance 实时下载，速度较慢
-- 建议：预下载美股日线数据或改用单独的美股数据下载脚本
-
-**🔴 致命陷阱：US/CN 数据文件冲突**
-- `update_all_data.py --market us` 和 `--market cn` **共用** `daily_data/` 目录
-- 美股数据是 yfinance 格式（列名: `Date,Open,High,Low,Close,Volume,ts_code,Adj Close`）
-- A股数据是 Tushare 格式（列名: `ts_code,trade_date,open,high,low,close,pre_close,change,pct_chg,vol,amount`）
-- **先跑 US 再跑 CN 选股会报 `KeyError: 'trade_date'`** — 因为月度 CSV 已被美股格式覆盖
-- **修复**: 见下方 "A股数据被污染后的并行修复"
-- **根治**: 需要代码层面分离 `daily_data_us/` 和 `daily_data_cn/` 目录，目前仅靠操作顺序规避：**永远先跑 CN 数据更新，最后跑 US**；或在 US 更新后、CN 选股前强制重下 CN 数据
-
-### A股数据被污染后的并行修复
-
-当 `daily_data/` 月度 CSV 被 yfinance 格式覆盖后，需要从 Tushare 批量重建。**不要用 `update_all_data.py --market cn --force`** — 它是纯串行的，18 个月需 ~15 分钟。使用 ThreadPoolExecutor 并行补拉：
+**⚠️ US daily_data_us 历史数据缺失修复**：
+如果 `daily_data_us/` 仅有 1-2 个月数据（缺少 2024-2025），运行修复脚本重新下载：
 
 ```bash
-# 1. 识别所有被污染的月份（列头以 "Date," 开头 = yfinance 格式）
-for f in ~/wuhoo-workspace/data/stock-pick/daily_data/*/20*.csv; do
-  head -1 "$f" | grep -q "^Date," && echo "CORRUPT: $f"
-done
-
-# 2. 运行并行修复脚本
-python3.11 /tmp/repair_cn_parallel.py
+python3.11 ~/wuhoo-workspace/scripts/repair_us_daily.py
 ```
 
-并行修复脚本模板（8 线程，84s 完成 13 个月）：
-```python
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import threading, time, calendar, pandas as pd, tushare as ts
-from pathlib import Path
+该脚本调用 `update_us_daily(members, start_date=2024-01-01, force=True)`，批量下载 S&P 500 全量历史日线。
+预计耗时 10-20 分钟（503 只 × 25 个月，yfinance 批量 API）。
 
-# ... (完整脚本见 references/20260430-audit.md 的修复过程)
+> 注意：美股因子计算（`calculate_factors_us_complete`）**直接使用 yfinance 实时数据**，不依赖 `daily_data_us/`。
+> 离线日线数据仅用于备份、质量检查和未来可能的离线回测。
 
-with ThreadPoolExecutor(max_workers=8) as executor:
-    futures = {executor.submit(download_month, ym): ym for ym in to_fix}
-    for future in as_completed(futures):
-        ym, count = future.result()
-```
+**✅ v3.0 已修复：三市场日线目录隔离**
+- 2026-05-02 修复：`update_all_data.py` 新增 `DAILY_DATA_HK_DIR` 和 `DAILY_DATA_US_DIR`，三市场数据完全隔离
+- A股 → `daily_data/` | 港股 → `daily_data_hk/` | 美股 → `daily_data_us/`
+- 不会再出现 US/HK 数据覆盖 CN 日线的问题
 
-**关键提醒**：修复后必须**全量扫描所有月份**确认无遗漏：
+### 数据完整性诊断（三市场交叉污染扫描）
+
+当怀疑数据被污染时，运行以下诊断流程：
+
 ```bash
-bad=0
-for f in ~/wuhoo-workspace/data/stock-pick/daily_data/*/20*.csv; do
-  head -1 "$f" | grep -q "^Date," && { echo "STILL CORRUPT: $f"; bad=$((bad+1)); }
+# 1. 检查各目录文件数量和日期范围
+for market in cn hk us; do
+  case $market in
+    cn) dir=~/wuhoo-workspace/data/stock-pick/daily_data ;;
+    hk) dir=~/wuhoo-workspace/data/stock-pick/daily_data_hk ;;
+    us) dir=~/wuhoo-workspace/data/stock-pick/daily_data_us ;;
+  esac
+  echo "$market: $(find $dir -name '*.csv' | wc -l) files, range: $(ls $dir/*/*.csv 2>/dev/null | head -1 | xargs basename) → $(ls $dir/*/*.csv 2>/dev/null | tail -1 | xargs basename)"
 done
-echo "Corrupted: $bad"  # 必须为 0 才能跑选股
+
+# 2. 交叉污染扫描：检查 CN 目录是否含 US/HK 代码
+echo "=== US codes in CN daily_data ==="
+grep -rl '\.US' ~/wuhoo-workspace/data/stock-pick/daily_data/*/ 2>/dev/null || echo "None ✅"
+echo "=== HK codes in CN daily_data ==="
+grep -rl 'HK\.' ~/wuhoo-workspace/data/stock-pick/daily_data/*/ 2>/dev/null || echo "None ✅"
+
+# 3. 代码类型抽样验证（每市场各年取样）
+for y in 2024 2025 2026; do
+  codes=$(head -3 ~/wuhoo-workspace/data/stock-pick/daily_data/$y/*.csv 2>/dev/null | grep -oP '^\d{6}\.(SZ|SH)|[A-Z]+\.US|HK\.\d{5}' | sort -u | head -3)
+  echo "CN $y: $codes"
+done
 ```
 
-**常见遗漏**：修复 2024-2025 年时容易忘记检查 2026 年 01-02 月是否也被污染。`pd.concat` 合并混列名 CSV 时会同时出现 `Date` 和 `trade_date` 两套列，静默导致因子计算结果为空（`results=[]` → `KeyError: 'ts_code'`）。
+**判断标准**：
+- CN 目录：所有代码应为数字.SZ 或 数字.SH
+- HK 目录：所有代码应为 HK.数字
+- US 目录：所有代码应为字母.US
+- 任一日录出现其他市场代码即为污染
 
 ### `--force` 模式的性能陷阱
 
@@ -334,7 +339,52 @@ python3.11 stock_pick.py --market cn --date YYYY-MM-DD
 head ~/wuhoo-workspace/data/stock-pick/factors/result_{us,hk,cn}_YYYYMMDD.csv
 ```
 
-### 港股 Futu OpenD 启动
+### 港股数据更新
+
+港股因子计算（`calculate_factors_simple`）通过 Futu OpenD API 实时获取 K 线，不依赖本地日线文件。
+`daily_data_hk/` 中的月度 CSV 用于离线备份和质量检查。
+
+### HK 代码前缀双重 Bug（已修复 2026-05-02）
+
+`update_hk_daily()` 曾存在严重 bug：`members_file` 存储格式为 `HK.00700`，但代码再次拼接 `f"HK.{code}"` → 产生 `HK.HK.00700`，Futu API 全部返回 `-1 (wrong format)`，异常被 `except: pass` 静默吞掉。
+
+**症状**：500 只港股仅 60 只成功（刚好那些缺 HK. 前缀的 code 侥幸通过），成功率 12%。
+
+**修复** (已应用到 `update_all_data.py:334`)：
+```python
+# 修复前（BUG）
+stock_code = f"HK.{code.replace('.HK', '')}"  # HK.00700 → HK.HK.00700 ❌
+
+# 修复后
+stock_code = code  # members file 已含 HK. 前缀 ✅
+```
+
+### Futu OpenD 批量调用限流
+
+500 只港股逐个调用 `request_history_kline` 时，如无延迟/重连，约 60 次后 API 开始拒绝（静默失败）。解决方案：
+
+- 每 100 次调用重建 `OpenQuoteContext` 连接
+- 每次调用间 `time.sleep(0.1)`
+- 连接建立后 `time.sleep(0.3)` 等待稳定
+
+完整脚本见 `scripts/repair_hk_daily_v2.py`。
+
+**HK daily_data_hk 数据迁移**：
+如果 `daily_data_hk/` 仅有少量月份，可从 legacy 目录迁移历史数据：
+
+```bash
+# legacy 数据在 data/hk/daily/（25 个月，202404-202604）
+SRC=~/wuhoo-workspace/data/hk/daily
+DST=~/wuhoo-workspace/data/stock-pick/daily_data_hk
+for srcfile in $(find "$SRC" -name '*.csv' -type f); do
+    rel=$(echo "$srcfile" | sed "s|$SRC/||")
+    dstfile="$DST/$rel"
+    mkdir -p "$(dirname "$dstfile")"
+    [ ! -f "$dstfile" ] && cp "$srcfile" "$dstfile"
+done
+```
+
+Legacy 格式（含 `change_rate` 列）与 stock-pick 格式兼容，额外列不影响使用。
 
 ### S&P 500 成分股补全
 
@@ -343,10 +393,12 @@ head ~/wuhoo-workspace/data/stock-pick/factors/result_{us,hk,cn}_YYYYMMDD.csv
 ---
 
 *创建时间：2026-03-12*
-*更新时间：2026-05-01*
-*版本：2.3 — 添加并行修复技术 + 全量扫描验证 + `--force` 性能陷阱 + 20260430 审计*
+*更新时间：2026-05-02*
+*版本：3.0 — 三市场日线目录隔离修复 + 数据完整性诊断流程 + HK 迁移/US 修复脚本*
 
 ## 参考文件
 
-- `references/20260430-audit.md` — 2026-04-30 全市场数据更新与选股审计记录（含 17 个月污染修复全过程）
+- `references/20260430-audit.md` — 2026-04-30 全市场数据更新与选股审计记录
 - `references/data-update-troubleshooting.md` — 历次数据更新故障排查记录
+- `scripts/repair_hk_daily_v2.py` — 港股日线修复（带延迟重连，避免 Futu API 限流）
+- `scripts/repair_us_daily.py` — 美股日线历史数据修复（yfinance 批量下载）

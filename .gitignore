@@ -82,6 +82,7 @@ skills/wuhoo/wuhoo-debate/batch_debate.py
 
 # Generated debate outputs
 data/debate/
+data/debate_*.json
 data/diagnose/
 data/portfolio_*.json
 data/risk_check_*.json
