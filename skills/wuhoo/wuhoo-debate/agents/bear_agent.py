@@ -76,8 +76,36 @@ class BearAgent(BaseAgent):
             bull_view=bull_view
         )
         
-        response = self._call_llm(input_text)
-        result = self._parse_json_output(response)
+        # 带重试的 LLM 调用 + JSON 解析（Bear 输出大，易截断）
+        max_retries = 2
+        last_error = None
+        for attempt in range(max_retries + 1):
+            try:
+                # 重试时增加 max_tokens
+                extra_tokens = attempt * 4000  # 首次 10000, 重试 14000, 再试 18000
+                response = self._call_llm(input_text, max_tokens=10000 + extra_tokens)
+                result = self._parse_json_output(response)
+                break  # 成功，退出重试循环
+            except ValueError as e:
+                last_error = e
+                if attempt < max_retries:
+                    import time as time_mod
+                    time_mod.sleep(1)  # 短暂等待后重试
+                continue
+        else:
+            # 所有重试都失败，返回带 error 字段的降级结果
+            result = {
+                "recommendation": "HOLD",
+                "confidence": 0.50,
+                "target_price": 0,
+                "time_horizon": "1M",
+                "key_points": [f"JSON parse failed after {max_retries+1} attempts: {str(last_error)[:100]}"],
+                "bullish_points": [],
+                "bearish_points": [],
+                "bull_points_refuted": [],
+                "stop_loss": 0,
+                "position_suggestion": 0.0,
+            }
         
         result["symbol"] = symbol
         result["timestamp"] = datetime.now().isoformat()

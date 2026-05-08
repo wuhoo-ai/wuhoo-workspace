@@ -170,8 +170,34 @@ class BullAgent(BaseAgent):
                 fundamental_data=data.get("fundamental_data")
             )
         
-        response = self._call_llm(input_text)
-        result = self._parse_json_output(response)
+        response = self._call_llm(input_text, max_tokens=10000)
+        
+        # 带重试的 JSON 解析（Bull Rebuttal 也可能截断）
+        max_retries = 2
+        last_error = None
+        for attempt in range(max_retries + 1):
+            try:
+                result = self._parse_json_output(response)
+                break
+            except ValueError as e:
+                last_error = e
+                if attempt < max_retries:
+                    import time as time_mod
+                    time_mod.sleep(1)
+                    response = self._call_llm(input_text, max_tokens=10000 + (attempt + 1) * 4000)
+                continue
+        else:
+            result = {
+                "recommendation": "HOLD",
+                "confidence": 0.50,
+                "target_price": 0,
+                "time_horizon": "1M",
+                "key_points": [f"JSON parse failed after {max_retries+1} attempts: {str(last_error)[:100]}"],
+                "bullish_points": [],
+                "bearish_points": [],
+                "stop_loss": 0,
+                "position_suggestion": 0.0,
+            }
         
         result["symbol"] = symbol
         result["timestamp"] = datetime.now().isoformat()

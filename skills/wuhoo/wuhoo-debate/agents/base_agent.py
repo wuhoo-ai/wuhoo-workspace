@@ -175,8 +175,9 @@ class BaseAgent(ABC):
         # deepseek-v4-pro: 移除 reasoning_effort 以获得更快结构化输出
         # （辩论系统需要 JSON 输出，不需要深度推理链）
         # 但 deepseek 内部仍做推理，需更多 max_tokens
+        # Bear Agent 输出最大（含 bull_points_refuted 三组数组），需 10000+
         if "deepseek" in (self.api_base or "").lower():
-            max_tokens = max(max_tokens, 6000)  # 至少 6000 tokens
+            max_tokens = max(max_tokens, 10000)  # 至少 10000 tokens
 
         response = self._http_post(
             f"{self.api_base}/chat/completions", headers, payload
@@ -308,12 +309,21 @@ class BaseAgent(ABC):
 
     @staticmethod
     def _repair_truncated_json(text: str) -> Optional[str]:
-        """尝试修复被截断的 JSON — 补全括号、移除尾部逗号"""
+        """修复截断 JSON — 处理 ```json 包裹 + 数组中间字符串截断"""
         import re
 
+        # 0. 剥离 ```json ... ``` 包裹
+        text = re.sub(r'^```json\s*', '', text.strip())
+        if text.endswith('```'):
+            text = text[:-3].strip()
+
         lines = text.split('\n')
-        # 移除末尾不完整的行
-        while lines and not re.search(r'["\],}\d]\s*$', lines[-1].strip()):
+        
+        # 移除末尾不完整的行（保留可能是截断字符串的行）
+        while lines and not re.search(r'["\],}\]]\s*$', lines[-1].strip()):
+            last_line = lines[-1].strip()
+            if re.search(r':\s*".*[^"]$', last_line) or re.search(r',\s*$', last_line):
+                break
             lines.pop()
         if not lines:
             return None
@@ -322,14 +332,22 @@ class BaseAgent(ABC):
 
         open_braces = text.count('{') - text.count('}')
         open_brackets = text.count('[') - text.count(']')
+        
+        # 检查是否在字符串中被截断（处理转义引号）
         in_string = False
-        for ch in text:
+        i = 0
+        while i < len(text):
+            ch = text[i]
+            if ch == '\\' and i + 1 < len(text):
+                i += 2
+                continue
             if ch == '"':
                 in_string = not in_string
-        # 如果在字符串中间被截断，补一个引号
+            i += 1
+        
         if in_string:
-            text += '"'
-
+            text += '"\n'
+        
         if open_brackets > 0:
             text += '\n]' * open_brackets
         if open_braces > 0:
@@ -337,8 +355,9 @@ class BaseAgent(ABC):
 
         # 移除尾部逗号
         text = re.sub(r',\s*([}\]])', r'\1', text)
+        text = re.sub(r',\s*$', '', text, flags=re.MULTILINE)
 
-        return text if open_braces > 0 or open_brackets > 0 else None
+        return text if (open_braces > 0 or open_brackets > 0 or in_string) else None
     
     def analyze(self, input_data: Dict) -> Dict:
         """
