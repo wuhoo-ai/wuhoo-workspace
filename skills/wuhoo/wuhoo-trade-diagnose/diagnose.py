@@ -56,6 +56,7 @@ TRADE_DIR = Path.home() / 'wuhoo-workspace' / 'data' / 'trade'
 SKILL_DIR = Path(__file__).parent
 FUTU_API_SCRIPTS = Path.home() / 'wuhoo-workspace' / 'skills' / 'wuhoo' / 'wuhoo-futuapi' / 'scripts'
 sys.path.insert(0, str(TRADE_DIR))
+sys.path.insert(0, str(Path.home() / 'wuhoo-workspace' / 'skills' / 'wuhoo' / 'wuhoo-trade'))
 
 # ============================================================
 # 市场-账户映射 (与 workflow_c_multi_market.py 保持一致)
