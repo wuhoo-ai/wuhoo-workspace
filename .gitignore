@@ -116,3 +116,6 @@ workspace/dingtalk-config-template.json
 # Migration backups
 *.old/
 *.backup/
+
+# Archived deprecated files
+archived/
