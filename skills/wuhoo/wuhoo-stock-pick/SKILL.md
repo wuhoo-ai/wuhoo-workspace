@@ -211,7 +211,10 @@ A 股需要 `TUSHARE_TOKEN` 环境变量。港股需要富途 OpenD 运行在 `1
 [ -n "$TUSHARE_TOKEN" ] && echo "✅ TUSHARE_TOKEN" || echo "❌ TUSHARE_TOKEN 未设置"
 
 # 2. 检查 Futu OpenD（港股必需）
-curl -s --connect-timeout 3 http://127.0.0.1:11111/ > /dev/null 2>&1 && echo "✅ OpenD" || echo "❌ OpenD 未运行"
+#    注意：OpenD 不响应 HTTP — curl 到 11111 会超时，需用 ss/netstat 检查端口监听
+ss -tlnp 2>/dev/null | grep -q 11111 && echo "✅ OpenD" || echo "❌ OpenD 未运行"
+# 如未运行，启动：
+# bash ~/wuhoo-workspace/scripts/start_opend.sh start
 
 # 3. 检查 python3.11 和关键包
 python3.11 -c "import tushare, pandas, yfinance; print('✅ 核心依赖')" 2>&1
@@ -297,18 +300,114 @@ done
 - US 目录：所有代码应为字母.US
 - 任一日录出现其他市场代码即为污染
 
+**⚠️ 各市场 CSV 列名差异**（验证脚本需注意）：
+| 市场 | 日期列 | 代码列 | 价格列 |
+|------|--------|--------|--------|
+| CN | `trade_date` | `ts_code` | `open/high/low/close` |
+| HK | `time_key` | `ts_code` | `open/high/low/close` |
+| US | `Date` | `ts_code` | `Open/High/Low/Close` |
+
+**⚠️ US daily_data_us ts_code 格式差异**：`daily_data_us/*.csv` 中 `ts_code` 列存储的是**裸股票代码**（如 `MMM`、`AAPL`），不含 `.US` 后缀。这与 `stock_info_us_top500.csv` 的 `SYMBOL.US` 格式要求**不同**。在格式检查时不要把裸代码误判为污染：
+- CN 污染判断：代码含 `.US` 后缀 → 异常
+- US 正常格式：裸代码（`head -2 daily_data_us/2026/202604.csv | tail -1 | cut -d',' -f2` 应看到纯大写字母）
+- 因子计算（`calculate_factors_us_complete`）直接使用 yfinance API，不受此差异影响
+
+```bash
+# 快速查看各市场列名
+head -1 ~/wuhoo-workspace/data/stock-pick/daily_data/2026/202604.csv      # CN
+head -1 ~/wuhoo-workspace/data/stock-pick/daily_data_hk/2026/202604.csv   # HK
+head -1 ~/wuhoo-workspace/data/stock-pick/daily_data_us/2026/202604.csv   # US
+```
+
 ### `--force` 模式的性能陷阱
 
 `update_all_data.py --market cn --force` 重新下载 ~18 个月的数据，但 **纯串行、无 ThreadPoolExecutor 实际使用**（虽然 import 了），每月 ~50 秒。完整运行需 12-15 分钟，且会卡在 efinance 换手率步骤。仅当需要全量重建时使用，并准备好在换手率步骤手动终止。
 
 ### efinance 换手率下载卡死处理
 
-efinance 接口持续返回 0 成功率时会无限重试。判断标准：
-- 进程无文件写入超过 5 分钟
-- CPU 低（<5%）但有活跃网络连接
-- `ps aux` 显示进程仍存在但 `/proc/<pid>/fd/` 只有 socket 无文件 FD
+efinance 接口持续返回极低成功率时（实测仅 **2.3%**，23/999），纯串行循环会导致进程运行 50+ 分钟。**症状分两种**：
+- **初期**（仍在遍历股票列表）：CPU 正常/偏高（10-20%），但超过 10 分钟无文件写入。此时进程在内存中累积数据，尚未触发进度打印（每 50 只才输出一次）。
+- **后期**（已遍历完但卡在重试）：CPU 低（<5%）但有活跃网络连接。
+- 通用判断：`/proc/<pid>/io` 中 `write_bytes: 0` 且 `rchar` 持续增长但无 CSV 文件产出。
+
+**⚠️ 关键陷阱：`update_cn_turnover_efinance()` 将所有数据累积在内存中**（`all_data` 列表），**CSV 文件在整个 for 循环结束后才写入**。因此监控期间 `turnover_data/` 无任何新文件是**预期行为**，不代表卡死。判断进程是否在工作的正确方法：多次采样 rchar 计算 KB/s 速率：
+- 速率稳定 > 100 KB/s → 仍在下载
+- 速率降至 0 → 进程卡死
+
+**诊断命令**：
+```bash
+# 查看进程 I/O 状态
+cat /proc/<pid>/io | head -4
+# 检查最近 15 分钟的文件写入
+find ~/wuhoo-workspace/data/stock-pick/daily_data/ -name "*.csv" -mmin -15
+# 检查 CPU
+ps -p <pid> -o %cpu,%mem,etime --no-headers
+```
 
 **处置**：`kill <pid>` 终止进程，日线数据已足够选股使用（换手率因子缺失属已知降级）。
+
+### Cron Job 输出缓冲陷阱
+
+在 Hermes 后台进程 (`terminal ... --background`) 或 cron 中运行 Python 脚本时，`stdout`/`stderr` 被管道缓冲，**进度输出在进程结束前完全不可见**。症状：
+- `process poll` 显示 `output_preview: ""`，`process log` 返回 0 行
+- 但 `/proc/<pid>/io` 显示 `wchar` 持续增长（输出正在累积）
+- 进程结束后所有输出一次性出现
+
+**这会导致 Agent 误判进程卡死**，实际进程可能正常运行。正确监控方式：
+
+```bash
+# 1. 确认进程存活
+pgrep -P <bash_pid>  # 查找 Python 子进程
+
+# 2. 检查 I/O 活动（rchar 增长 = 仍在读取，wchar 增长 = 仍在输出）
+cat /proc/<python_pid>/io | head -4
+
+# 3. 检查内存增长（VmRSS 持续增长 = 数据处理中）
+cat /proc/<python_pid>/status | grep VmRSS
+
+# 4. 检查网络连接（活跃 TCP = API 调用进行中）
+ss -tnp | grep <python_pid>
+
+# 5. 检查文件产出（确认数据正在落盘）
+find ~/wuhoo-workspace/data/stock-pick/daily_data/ -name "*.csv" -mmin -5
+```
+
+**⚠️ 父进程 vs 子进程 PID 陷阱**（2026-05-06 发现）：
+
+`terminal ... --background` 返回的 PID 是 **bash 包装进程**，而非实际的 Python 进程。bash 父进程始终处于 `wait4` 系统调用（等待子进程退出），其 `/proc/<pid>/io` **永远不变**。监控 bash PID 会误判进程卡死。
+
+```bash
+# ❌ 错误 — 监控的是 bash 包装进程，IO 永远冻结
+cat /proc/<returned_pid>/io  # rchar/wchar 不变 → 误判为卡死
+
+# ✅ 正确 — 先找到 Python 子进程，再监控
+pgrep -P <returned_pid>       # 获取实际 Python PID
+cat /proc/<python_pid>/io     # 真实 IO 活动
+```
+
+**识别方法**：
+- `pstree -p <returned_pid>` 查看进程树 → 应看到 `bash(pid)---python3.11(child_pid)`
+- bash 父进程：`State: S`, `wchan: 0`, syscall 为 `wait4`，IO 冻结
+- Python 子进程：`State: S`（网络等待）或 `Rl`（运行中），IO 持续增长，有 TCP 连接
+
+> 2026-05-06 cron：bash PID 798773 的 IO 在 3 分钟内完全不变（rchar=277301），但子进程 798797 的 rchar 从 53MB 增长到 114MB，CPU 25%。监控父进程导致误判"卡死"。
+
+**CN --incremental 进程监控要点**：
+- Tushare 阶段：检查 `daily_data/` 目录下的月度 CSV 文件写入
+- efinance 阶段：检查 `turnover_data/` 目录下的文件写入（**不是 daily_data/**）
+- 内存从 ~150MB 增长到 ~700MB+ 是正常的（efinance 逐只下载并累积数据）
+- 两个 Tushare HTTP 连接进入 CLOSE-WAIT 状态后，进程切换到 efinance 阶段（短连接，不持续保持 TCP）
+- **rchar 速率监控法**：多次采样 `/proc/<python_pid>/io` 的 `rchar`，计算 KB/s 速率。速率稳定 > 100 KB/s = 仍在下载（活着）；速率降至 0 = 卡死。详见 `references/20260507-cron-audit.md`
+
+**⚠️ CN --incremental 日线阶段 "0 months updated" 是正常的**：当 `daily_data/` 中已有当月和上月 CSV 时，Tushare 日线阶段会全部跳过（显示 "已存在，跳过"），最终报告 "A 股日线更新完成：0 个月"。**这不是错误** — 日线数据已是最新。efinance 换手率阶段不受影响，仍会独立运行并更新全部 999 只股票。
+
+### Tushare 节假日数据延迟
+
+中国长假期间（春节、五一、国庆），Tushare Pro 数据入库严重滞后：
+- 假期交易日少，且数据通常在 T+1 日傍晚才入库
+- 月初（如 5 月 1-5 日）可能完全查不到当月数据 → `202605.csv` 不生成是**预期行为**
+- 验证方法：`python3.11 -c "import tushare as ts, os; pro=ts.pro_api(os.environ['TUSHARE_TOKEN']); print(len(pro.daily(ts_code='000001.SZ', start_date='20260501', end_date='20260505')))"` → 返回 0 即确认延迟
+- 无需任何修复操作，下一次 cron 运行将自动补齐
 
 ### 多市场全量更新与选股审计流程
 
@@ -343,6 +442,26 @@ head ~/wuhoo-workspace/data/stock-pick/factors/result_{us,hk,cn}_YYYYMMDD.csv
 
 港股因子计算（`calculate_factors_simple`）通过 Futu OpenD API 实时获取 K 线，不依赖本地日线文件。
 `daily_data_hk/` 中的月度 CSV 用于离线备份和质量检查。
+
+### 增量模式 HK 成功率解读陷阱
+
+`fetch_hk_data.py --incremental` 输出的 "成功 X/500" **仅统计在增量窗口（35天）内有新数据的股票**，不是总覆盖率。例如 `96/500` 是正常的 — 历史数据中已有 596 只股票的完整记录，本次只是为 96 只有近期交易的股票追加新行。
+
+**判断数据是否健康的正确方法**：查看月份 CSV 中实际股票数和有效行数，而非增量输出：
+```bash
+python3.11 -c "
+import pandas as pd
+df = pd.read_csv('daily_data_hk/2026/202604.csv')
+print(f'股票数: {df.ts_code.nunique()}, 有效行: {df.close.notna().sum()}/{len(df)}')
+"
+```
+
+### daily_data_hk/ 根目录孤儿文件
+
+旧版脚本可能在 `daily_data_hk/` 根目录遗留 CSV 文件（如 `HK_stock_daily_20260421.csv`），这些不在年/月子目录结构中，不影响功能但应清理：
+```bash
+rm -f ~/wuhoo-workspace/data/stock-pick/daily_data_hk/HK_stock_daily_*.csv
+```
 
 ### HK 代码前缀双重 Bug（已修复 2026-05-02）
 
@@ -393,11 +512,16 @@ Legacy 格式（含 `change_rate` 列）与 stock-pick 格式兼容，额外列�
 ---
 
 *创建时间：2026-03-12*
-*更新时间：2026-05-02*
-*版本：3.0 — 三市场日线目录隔离修复 + 数据完整性诊断流程 + HK 迁移/US 修复脚本*
+*更新时间：2026-05-07*
+*版本：3.3 — efinance 内存累积行为 + rchar 速率监控法 + 20260507 cron 审计*
 
 ## 参考文件
 
+- `references/20260506-cron-audit.md` — 2026-05-06 cron 数据更新审计（父进程 vs 子进程 PID 监控陷阱 + 五一假期后数据更新）
+- `references/20260507-cron-audit.md` — 2026-05-07 cron 数据更新审计（efinance 2.3% 成功率 + 50min 超时 + rchar 速率监控法）
+- `references/20260505-cron-audit.md` — 2026-05-05 cron 数据更新审计（CN Tushare 跳过 + efinance 换手率 + US ts_code 格式 + 节假日延迟）
+- `references/20260504-cron-audit.md` — 2026-05-04 cron 数据更新审计（输出缓冲陷阱 + OpenD 检查修复 + efinance 诊断更新）
+- `references/20260503-cron-audit.md` — 2026-05-03 cron 数据更新审计（efinance 卡死 + HK 增量成功率误读）
 - `references/20260430-audit.md` — 2026-04-30 全市场数据更新与选股审计记录
 - `references/data-update-troubleshooting.md` — 历次数据更新故障排查记录
 - `scripts/repair_hk_daily_v2.py` — 港股日线修复（带延迟重连，避免 Futu API 限流）

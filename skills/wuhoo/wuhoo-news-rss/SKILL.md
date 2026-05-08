@@ -146,15 +146,15 @@ DataAggregator._get_combined_sentiment()
 
 ## 微信定时推送简报
 
-定时任务 `RSS资讯采集与推送` 每日 09:30 自动拉取并推送热点简报到用户微信。
+> **⚠️ 2026-05-03 更新**：原每日 09:30 cron 推送已删除（Gateway asyncio `Timeout context manager should be used inside a task` bug 导致推送失败）。改为**手动触发**模式。
 
-### 执行流程
+### 手动推送流程
 
-1. **拉取**：`python3.11 ~/wuhoo-workspace/skills/wuhoo-news-rss/src/fetcher.py --fetch`
-2. **检索**：`python3.11 ~/wuhoo-workspace/skills/wuhoo-news-rss/src/search.py --hours 24`
-3. **分类排序**：按四大类各取 TOP10（基于关键词匹配度 + 多源覆盖度）
-4. **格式化**：按标准微信简报格式生成 Markdown 报告
-5. **推送**：作为 cron final response 自动推送到用户微信
+用户发送"更新收集rss信息，并推送关键主题top新闻给我"即可触发：
+
+1. **拉取**：`/usr/bin/python3.11 ~/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/src/fetcher.py --fetch`
+2. **分类生成**：使用 `wuhoo-rss-briefing` skill 的 SQLite 直查 + 噪音过滤 + 事件去重流程
+3. **格式化输出**：按四大类各取 TOP，合并多源，微信 Markdown 格式
 
 ### 四大分类
 
@@ -214,7 +214,8 @@ DataAggregator._get_combined_sentiment()
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
-| 1.4 | 2026-05-02 | Cron push format finalized: 4 categories (科技AI/财经投资/宏观政策/产业公司) TOP10, merged multi-source articles [N源], 50-char summaries, WeChat delivery via live chat (cron push blocked by gateway asyncio timeout bug). Moved cron from 10:00 local to 09:30 weixin. |
+| 1.5 | 2026-05-03 | 删除 09:30 cron 微信推送（Gateway asyncio bug），改为手动触发模式；推送格式改用 wuhoo-rss-briefing skill 的 SQLite 直查流程 |
+| 1.4 | 2026-05-02 | Cron push format finalized: 4 categories TOP10, merged multi-source articles [N源], 50-char summaries. WeChat delivery blocked by gateway asyncio timeout bug. |
 | 1.2 | 2026-05-01 | 修复路径错误，添加热点评分说明，新增主题简报生成流程与脚本 |
 | 1.1 | 2026-04-13 | RSSHub 切换为 host 网络模式 + Python 版本检查 + 修复不可用路由 |
 | 1.0 | 2026-04-13 | 初始版本：RSSHub + 原生 RSS 采集，SQLite 存储，FTS5 搜索 |

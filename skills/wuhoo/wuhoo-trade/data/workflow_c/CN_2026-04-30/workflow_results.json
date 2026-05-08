@@ -1,0 +1,29 @@
+{
+  "workflow": "C",
+  "market": "CN",
+  "date": "2026-04-30",
+  "skip_flags": {
+    "select": true,
+    "analysis": true,
+    "debate": true,
+    "trades": false,
+    "review": false
+  },
+  "steps": {
+    "step4_recommendations": {
+      "success": true,
+      "recommendations": [],
+      "count": 0,
+      "method": "unknown",
+      "timestamp": "2026-05-06T10:19:48.053054"
+    },
+    "step5_trades": {
+      "success": true,
+      "market": "CN",
+      "trade_results": [],
+      "count": 0,
+      "gateway": "Futu OpenAPI (SIMULATE)",
+      "timestamp": "2026-05-06T10:19:48.377433"
+    }
+  }
+}
