@@ -1,0 +1,5 @@
+code,name,direction,score,close,momentum_10d,adx_14,volatility_20d,contracts,stop_pct,stop_price,margin_used,margin_pct,notional_value,leverage
+US.MNQmain,微型纳斯达克100,LONG,0.5951,28822.5,0.0506,38.0,0.1396,197,1.76,28315.39,0,0.0,11356065.0,0
+HK.HTImain,恒生科技指数,LONG,0.5636,5102.0,0.0483,16.3,0.2402,25,3.03,4947.63,0,0.0,6377500.0,0
+US.MGCmain,微黄金,LONG,0.5242,4734.39990234375,0.0026,14.6,0.211,158,2.66,4608.52,0,0.0,7480352.0,0
+US.MGCmain,微黄金,SHORT,0.505,4734.39990234375,0.0026,14.6,0.211,158,2.66,4608.52,0,0.0,7480352.0,0

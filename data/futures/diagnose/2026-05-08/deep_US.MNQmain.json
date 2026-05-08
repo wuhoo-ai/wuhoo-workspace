@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "code": "US.MNQmain",
+    "name": "微型纳斯达克100",
+    "market": "US",
+    "category": "股指期货",
+    "date": "2026-05-08",
+    "generated_at": "2026-05-08T15:25:02.679881"
+  },
+  "contract_specs": {
+    "lot_size": 2,
+    "long_margin": 3637.0,
+    "short_margin": 3594.0,
+    "margin_currency": "USD"
+  },
+  "market_data": {
+    "close": 28822.5,
+    "momentum_10d": 0.0505740841990158,
+    "momentum_20d": 0.1400741656365884,
+    "volatility_20d": 0.1396494913113375,
+    "volatility_60d": 0.1842194141670942,
+    "adx_14": 37.97561965659828,
+    "volume_ratio": 0.884749108569024,
+    "ma20_deviation": 0.0566328249049704,
+    "sharpe_20d": 11.936286803946272
+  },
+  "factor_scores": {
+    "long_score": 0.59515,
+    "short_score": 0.339472
+  },
+  "technical_analysis": {
+    "code": "US.MNQmain",
+    "name": "微型纳斯达克100",
+    "market": "US",
+    "date": "2026-05-08",
+    "indicators": {
+      "close": 28822.5,
+      "macd": {
+        "dif": 890.6636,
+        "dea": 560.9012,
+        "histogram": 659.5249,
+        "state": "bullish",
+        "divergence": "bearish_divergence"
+      },
+      "rsi": 81.1,
+      "bollinger": {
+        "upper": 29012.74,
+        "middle": 27277.69,
+        "lower": 25542.64,
+        "bandwidth_pct": 12.72,
+        "price_position": "inside",
+        "position_pct": 94.5
+      },
+      "support_resistance": {
+        "supports": [
+          22961.5,
+          24000.0
+        ],
+        "resistances": [],
+        "nearest_support": 24000.0,
+        "nearest_resistance": null
+      },
+      "volume": {
+        "volume_trend": "bearish_divergence",
+        "vol_ratio_vs_20d": 0.08,
+        "is_spike": "False",
+        "avg_vol_20d": 532052.0
+      },
+      "atr_14": 426.7,
+      "atr_pct": 1.48,
+      "trend": {
+        "mas": {
+          "ma5": 28426.7,
+          "ma10": 27950.0,
+          "ma20": 27277.7,
+          "ma50": 25631.5,
+          "ma200": 25067.5
+        },
+        "alignment": "bullish_aligned",
+        "above_ma_count": "5/5",
+        "pct_above_ma20": 5.66,
+        "trend_5d": "up",
+        "trend_20d": "up",
+        "trend_60d": "up",
+        "trend_strength": "strong"
+      },
+      "adx_14": 38.0
+    },
+    "technical_score": {
+      "score": 7.0,
+      "label": "bullish",
+      "reasons": [
+        "多周期趋势一致",
+        "均线多头排列",
+        "MACD 顶背离",
+        "RSI=81 超买"
+      ]
+    },
+    "trade_params": {
+      "stop_long": 27969.11,
+      "stop_short": 29675.89,
+      "stop_pct_long": 2.96,
+      "stop_pct_short": 2.96,
+      "targets": []
+    }
+  },
+  "debate": {
+    "bull": {
+      "recommendation": "BUY",
+      "confidence": 0.78,
+      "key_points": [
+        "10日和20日动量强劲，趋势向上",
+        "ADX达37.98，趋势强度高",
+        "价格高于20日均线5.66%，多头占优"
+      ],
+      "risk_factors": [
+        "成交量系数0.88，缩量上涨存疑",
+        "短期涨幅较大，可能超买回撤"
+      ],
+      "entry_zone": "回调至28400-28600区间或当前价附近，止损设28000下方",
+      "timeframe": "波段1-2周"
+    },
+    "bear": {
+      "recommendation": "HOLD",
+      "confidence": 0.55,
+      "key_points": [
+        "成交量系数0.88，缩量上涨，需求可能减弱",
+        "价格偏离20日均线5.66%，超买状态增加均值回归风险",
+        "20日涨幅14.01%，短期过度延伸，获利回吐压力上升"
+      ],
+      "bull_points_refuted": [
+        "多头以ADX高为由看趋势强劲，但极高ADX往往预示趋势末端",
+        "Sharpe比率异常偏高（11.94），可能掩盖波动率骤升的风险"
+      ],
+      "stop_loss_suggestion": "若持有多头，建议将止损上移至28300（接近MA20），以保护利润",
+      "max_holding_days": "7"
+    },
+    "trader": {
+      "decision": "BUY",
+      "confidence": 0.75,
+      "position_pct": 10,
+      "entry_price": 28600,
+      "stop_loss": 27900,
+      "take_profit": [
+        29300,
+        29800
+      ],
+      "timeframe": "波段",
+      "key_reason": "多头信号强劲，空头质疑较弱，顺应趋势做多",
+      "risk_note": "注意缩量上涨和超买风险，严格执行止损"
+    },
+    "risk": {
+      "approved": true,
+      "risk_level": "MEDIUM",
+      "adjustments": [
+        "建议等待回调至28400-28600区间入场，以降低追高风险",
+        "止损可考虑适当上移，如28200，以控制单笔风险",
+        "关注成交量变化，若持续缩量上涨则减仓"
+      ],
+      "block_reasons": [],
+      "margin_check": {
+        "single_position_pct": "10%",
+        "total_margin_pct": "10%",
+        "pass": true
+      }
+    },
+    "final_decision": "BUY",
+    "final_confidence": 0.75
+  },
+  "decision": {
+    "decision": "BUY",
+    "confidence": 0.88,
+    "reason": "多头信号占优 (L:2.2 vs S:0.0)",
+    "signals": [
+      {
+        "source": "technical",
+        "direction": "LONG",
+        "strength": 1.0
+      },
+      {
+        "source": "debate",
+        "direction": "LONG",
+        "strength": 0.75
+      },
+      {
+        "source": "factor",
+        "direction": "LONG",
+        "strength": 0.5
+      }
+    ],
+    "suggested_margin_pct": 10,
+    "tech_score": 7.0,
+    "tech_label": "bullish",
+    "debate_decision": "BUY",
+    "debate_confidence": 0.75,
+    "risk_approved": true
+  }
+}

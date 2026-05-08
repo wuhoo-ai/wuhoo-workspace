@@ -1,0 +1,58 @@
+{
+  "code": "HK.HTImain",
+  "name": "恒生科技指数",
+  "bull": {
+    "recommendation": "HOLD",
+    "confidence": 0.52,
+    "key_points": [
+      "短期动量仍为正，价格高于20日均线",
+      "ADX仅16.25，趋势强度不足",
+      "波动率偏高，需控制风险"
+    ],
+    "risk_factors": [
+      "ADX低于20，方向不明确",
+      "成交量未显著放大，动能有限"
+    ],
+    "entry_zone": "等待回调至5000-5030区间",
+    "timeframe": "短线1-3天"
+  },
+  "bear": {
+    "recommendation": "HOLD",
+    "confidence": 0.55,
+    "key_points": [
+      "ADX仅16.25，趋势强度不足，上涨缺乏稳固基础",
+      "20日波动率24.4%，60日波动率31.5%，高波动环境下多头持仓风险大",
+      "成交量比率0.90，上涨过程缩量，量价背离暗示多头动能减弱"
+    ],
+    "bull_points_refuted": [
+      "动量虽正但ADX低，短期反弹可能是震荡而非趋势延续",
+      "高杠杆下隔夜跳空风险高，不适合短线持有"
+    ],
+    "stop_loss_suggestion": "若做空，止损设在5200上方（突破后趋势可能加速）",
+    "max_holding_days": 2
+  },
+  "trader": {
+    "decision": "HOLD",
+    "confidence": 0.5,
+    "position_pct": 0,
+    "entry_price": null,
+    "stop_loss": null,
+    "take_profit": [],
+    "timeframe": "短线",
+    "key_reason": "多空双方均建议持有且置信度接近，ADX低趋势不明，观望为宜",
+    "risk_note": "高波动环境，避免强行交易"
+  },
+  "risk": {
+    "approved": true,
+    "risk_level": "LOW",
+    "adjustments": [],
+    "block_reasons": [],
+    "margin_check": {
+      "single_position_pct": 0,
+      "total_margin_pct": 0,
+      "pass": true
+    }
+  },
+  "final_decision": "HOLD",
+  "final_confidence": 0.5
+}

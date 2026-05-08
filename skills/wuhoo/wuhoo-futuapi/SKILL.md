@@ -554,6 +554,8 @@ python skills/wuhoo-futuapi/scripts/trade/get_accounts.py [--json]
 ```
 脚本使用 `FUTUSECURITIES` 券商标识，按 `acc_id` 去重合并，确保不同券商下的实盘账户都能被获取到。
 
+> **重要：get_acc_list() 是环境无关的。** 无论传入什么 TrdEnv（REAL/SIMULATE）或 TrdMarket（HK/US/CN），返回的账户列表完全相同。OpenD 将服务端所有账户（模拟+实盘）一次性返回，不做市场或环境过滤。市场权限过滤应在获取账户后按 `trdmarket_auth` 字段自行筛选。
+
 > **提示**：实盘账户的 `uni_card_num` 后四位等于 app/桌面端上显示的账号数字。展示实盘账户信息时应**优先显示 `uni_card_num`**（而非 `acc_id`），因为用户在 app/桌面端看到的就是这个编号，更容易关联识别。模拟账户无需关注此字段。
 
 JSON 输出包含 `trdmarket_auth` 字段，表示该账户拥有交易权限的市场列表（如 `["HK", "US", "HKCC"]`）；`acc_role` 字段表示账户角色（如 `MASTER` 为主账户）。下单时应选择 `trdmarket_auth` 包含目标市场且 `acc_role` 不是 `MASTER` 的账户。
@@ -728,6 +730,8 @@ python skills/wuhoo-futuapi/scripts/trade/get_history_orders.py [--acc-id 12345]
 
 期货交易必须使用 **`OpenFutureTradeContext`**（而非证券交易的 `OpenSecTradeContext`），现有交易脚本（`place_order.py` 等）使用的是 `OpenSecTradeContext`，**不适用于期货**。期货交易需直接生成 Python 代码执行。
 
+> 📁 **参考文件**：`references/futures-contract-catalog.md` — 全市场 300+ 主力合约完整目录（代码/lot_size/类别/保证金），含 Phase 1 选品池
+
 ### 期货 vs 证券的关键区别
 
 | 特性 | 证券交易 | 期货交易 |
@@ -887,16 +891,100 @@ ret, data = trd_ctx.modify_order(
 trd_ctx.close()
 ```
 
-### 期货合约信息查询
+### 期货合约元数据查询（关键陷阱）
+
+**⚠️ `get_future_info` 需要行情权限**（需在富途 App 购买期货行情卡），未购买时返回「行情权限不足」。
+
+**替代方案**：用 `get_stock_basicinfo(market, SecurityType.FUTURE)` 获取合约信息（无需行情权限）：
 
 ```python
 from futu import *
 quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-ret, data = quote_ctx.get_future_info(['SG.CNmain', 'SG.NKmain'])
-if ret == RET_OK:
-    print(data)  # 包含合约乘数、最小变动价位、交易时间等
+
+# ✅ 正确：各市场期货合约列表（无需行情权限）
+for market in [Market.HK, Market.US, Market.SG, Market.JP]:
+    ret, data = quote_ctx.get_stock_basicinfo(market, SecurityType.FUTURE)
+    if ret == RET_OK:
+        main = data[data['main_contract'] == True]
+        print(f'{market}: {len(data)} total, {len(main)} main contracts')
+
 quote_ctx.close()
 ```
+
+可用字段：`code`, `name`, `lot_size`（合约乘数），`main_contract`（是否主力合约）
+
+**合约到期月提取**（因 `get_future_info` 不可用）：
+```python
+# 从名称提取到期月，如 "恒指期货主连 (2605)" → "2026-05"
+import re
+name = "恒指期货主连 (2605)"
+m = re.search(r'\((\d{2})(\d{2})\)', name)
+if m:
+    expiry = f"20{m.group(1)}-{m.group(2)}"  # "2026-05"
+```
+
+### 期货保证金查询（关键发现）
+
+**❌ `accinfo_query.initial_margin` 对期货模拟账户返回 N/A**（与证券模拟账户同样的已知问题）。不能用 `accinfo_query` 获取账户级保证金。
+
+**✅ 正确方案：`acctradinginfo_query` 逐品种查询**（2026-05-08 实测验证）：
+
+```python
+from futu import *
+
+trd = OpenFutureTradeContext(host='127.0.0.1', port=11111)
+
+# 查询单品种保证金
+ret, data = trd.acctradinginfo_query(
+    order_type=OrderType.NORMAL,
+    code='US.MESmain',    # 微型标普500
+    price=5865.0,         # 当前价格
+    trd_env=TrdEnv.SIMULATE,
+    acc_id=18767290
+)
+if ret == RET_OK:
+    long_im = data['long_required_im'].iloc[0]   # $2408.0
+    short_im = data['short_required_im'].iloc[0] # $2271.0
+    print(f'做多保证金: {long_im}, 做空保证金: {short_im}')
+
+trd.close()
+```
+
+**实测保证金参考（US 期货模拟账户 18767290）**：
+
+| 合约 | lot_size | 做多保证金(USD) | 做空保证金(USD) |
+|------|:--------:|:-------------:|:-------------:|
+| US.MESmain (微标普) | 5 | $2,408 | $2,271 |
+| US.ESmain (标普E-mini) | 50 | $24,078 | $22,714 |
+
+### 已验证期货模拟账户（2026-05-08）
+
+```python
+trd = OpenFutureTradeContext(host='127.0.0.1', port=11111)
+ret, data = trd.get_acc_list()  # 无需 filter_trdmarket，直接返回全部
+```
+
+| acc_id | trdmarket_auth | acc_type | 状态 |
+|--------|---------------|----------|:----:|
+| 18767297 | [FUTURES_SIMULATE_HK] | MARGIN | ACTIVE |
+| 18767290 | [FUTURES_SIMULATE_US] | MARGIN | ACTIVE |
+| 18767298 | [FUTURES_SIMULATE_SG] | MARGIN | ACTIVE |
+| 18767291 | [FUTURES_SIMULATE_JP] | MARGIN | ACTIVE |
+
+> **注意**：与证券 `OpenSecTradeContext` 不同，`OpenFutureTradeContext.get_acc_list()` 无需 `filter_trdmarket` 即可返回全部 4 个市场账户。
+
+### 期货合约常见陷阱
+
+| 陷阱 | 详情 | 解决 |
+|------|------|------|
+| MYMmain lot_size=0 | 微型道指 `US.MYMmain` 不可交易 | 用 `US.YMmain`（道指E-mini, lot_size=5） |
+| CNmain 市场归属 | A50 是 `SG.CNmain`（SG 市场），非 HK | 正确代码 SG.CNmain, lot_size=1 |
+| get_future_info 权限 | 需要行情卡，未购买时失败 | 用 get_stock_basicinfo 替代 |
+| accinfo_query margin N/A | 期货模拟账户 initial_margin 返回 N/A | 用 acctradinginfo_query 逐品种查询 |
+| 单笔下单限 1000 手 | `place_order qty>1000` 报错 | 拆分为多笔（如 1500→1000+500） |
+| US 期货历史 K 线 | `request_history_kline` 需行情权限 | 用 yfinance 替代（ES=F, NQ=F 等） |
+
+> **完整期货合约目录**：见 `references/futures-contract-catalog.md` — 全市场 300+ 主力合约的代码/lot_size/类别
 
 ---
 
@@ -1324,13 +1412,48 @@ OpenSecTradeContext(filter_trdmarket=TrdMarket.NONE, host='127.0.0.1', port=1111
 - 无 `env` 参数，交易环境在方法调用时指定（如 `position_list_query(trd_env=TrdEnv.SIMULATE, ...)`）
 - 使用 `filter_trdmarket=TrdMarket.NONE` 可查询所有市场账户
 
-### 模拟账户查询 "Nonexisting acc_id"
+### ⚠️ `filter_trdmarket` 参数是必须的！账户查询关键陷阱（2026-05-06 实锤）
 
-**现象**：`get_acc_list()` 能返回模拟账户 (18767294, 18767296)，但 `accinfo_query(trd_env=TrdEnv.SIMULATE, acc_id=18767294)` 返回 "Nonexisting acc_id"。
+**结论**：CN/US 模拟账户**并未消失**。`get_acc_list()` 默认只返回 HK 市场账户，必须用 `filter_trdmarket` 按市场分别查询！
 
-**原因**：模拟账户可能需要先通过 OpenD GUI 激活或存在权限限制。
+**错误用法**（只返回 HK 账户）：
+```python
+trd = OpenSecTradeContext(host='127.0.0.1', port=11111, security_firm=SecurityFirm.FUTUSECURITIES)
+ret, data = trd.get_acc_list()  # ❌ 只返回 HK 模拟账户
+```
 
-**解决**：确保 OpenD 以模拟盘模式启动 (`-simulate_trade=enable`)，模拟账户查询必须显式指定 `trd_env=TrdEnv.SIMULATE`。如仍失败，检查 OpenD 日志确认模拟交易是否启用。
+**正确用法**（按市场分别查询）：
+```python
+# CN 账户
+trd_cn = OpenSecTradeContext(filter_trdmarket=TrdMarket.CN, host='127.0.0.1', port=11111,
+                              security_firm=SecurityFirm.FUTUSECURITIES)
+ret, data = trd_cn.get_acc_list()  # ✅ 返回 18767295 (CN CASH)
+
+# US 账户
+trd_us = OpenSecTradeContext(filter_trdmarket=TrdMarket.US, host='127.0.0.1', port=11111,
+                              security_firm=SecurityFirm.FUTUSECURITIES)
+ret, data = trd_us.get_acc_list()  # ✅ 返回 18767293 (US MARGIN)
+```
+
+**已验证的完整模拟账户列表**（2026-05-06 实测）：
+| acc_id | filter_trdmarket | sim_acc_type | trdmarket_auth | 状态 |
+|--------|:---:|------|------|------|
+| 18767294 | HK | STOCK | [HK] | ACTIVE |
+| 18767296 | HK | OPTION | [HK] | ACTIVE |
+| **18767293** | **US** | **STOCK_AND_OPTION** | **[US]** | **ACTIVE** |
+| **18767295** | **CN** | **STOCK** | **[CN]** | **ACTIVE** |
+
+> **重要**：之前误判 CN/US 账户"消失"是因为创建 `OpenSecTradeContext` 时未传 `filter_trdmarket`，导致 `get_acc_list()` 默认只返回 HK 市场账户。升级 OpenD 和 SDK 均无用 — 问题出在调用方式上。
+
+> 详见 `references/cn-sim-trading.md` — A 股模拟交易完整手册（账户查询、行情替代、下单方式）。
+
+### Python SDK 运行环境
+
+futu 模块安装在 `/home/admin/.local/lib/python3.11/site-packages/futu/`，但依赖 pandas。系统 Python (`/usr/bin/python3`) 缺 pandas 会导致 `ModuleNotFoundError`。SDK 脚本须在以下 venv 运行：
+
+```bash
+/home/admin/.openclaw/workspace/projects/AI-Trader/venv/bin/python3
+```
 
 ### OpenD 连接慢 / 多账户查询超时
 

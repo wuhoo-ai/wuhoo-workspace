@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "code": "US.MGCmain",
+    "name": "微黄金",
+    "market": "US",
+    "category": "贵金属",
+    "date": "2026-05-08",
+    "generated_at": "2026-05-08T15:25:04.333180"
+  },
+  "contract_specs": {
+    "lot_size": 10,
+    "long_margin": 2817.0,
+    "short_margin": 2817.0,
+    "margin_currency": "USD"
+  },
+  "market_data": {
+    "close": 4734.39990234375,
+    "momentum_10d": 0.0025623315241948,
+    "momentum_20d": -0.0057750058934386,
+    "volatility_20d": 0.2110360432706531,
+    "volatility_60d": 0.3049931696646672,
+    "adx_14": 14.5518626541443,
+    "volume_ratio": 2.840707458073379,
+    "ma20_deviation": 0.0081406618327533,
+    "sharpe_20d": -0.2402459872386323
+  },
+  "factor_scores": {
+    "long_score": 0.524203,
+    "short_score": 0.505012
+  },
+  "technical_analysis": {
+    "code": "US.MGCmain",
+    "name": "微黄金",
+    "market": "US",
+    "date": "2026-05-08",
+    "indicators": {
+      "close": 4734.4,
+      "macd": {
+        "dif": -28.9959,
+        "dea": -23.3148,
+        "histogram": -11.3623,
+        "state": "bearish",
+        "divergence": "none"
+      },
+      "rsi": 45.3,
+      "bollinger": {
+        "upper": 4883.58,
+        "middle": 4696.17,
+        "lower": 4508.76,
+        "bandwidth_pct": 7.98,
+        "price_position": "inside",
+        "position_pct": 60.2
+      },
+      "support_resistance": {
+        "supports": [
+          4100.8
+        ],
+        "resistances": [
+          4851.0,
+          4879.7,
+          5405.0
+        ],
+        "nearest_support": 4100.8,
+        "nearest_resistance": 4851.0
+      },
+      "volume": {
+        "volume_trend": "bullish_accumulation",
+        "vol_ratio_vs_20d": 13.71,
+        "is_spike": "True",
+        "avg_vol_20d": 1747.0
+      },
+      "atr_14": 79.04,
+      "atr_pct": 1.67,
+      "trend": {
+        "mas": {
+          "ma5": 4638.3,
+          "ma10": 4624.8,
+          "ma20": 4696.2,
+          "ma50": 4780.9,
+          "ma200": 4285.7
+        },
+        "alignment": "mixed",
+        "above_ma_count": "4/5",
+        "pct_above_ma20": 0.81,
+        "trend_5d": "up",
+        "trend_20d": "down",
+        "trend_60d": "down",
+        "trend_strength": "diverging"
+      },
+      "adx_14": 14.6
+    },
+    "technical_score": {
+      "score": 4.0,
+      "label": "neutral",
+      "reasons": [
+        "短中期趋势背离",
+        "MACD 死叉",
+        "ADX=15 无趋势",
+        "量价齐升",
+        "异常放量"
+      ]
+    },
+    "trade_params": {
+      "stop_long": 4576.31,
+      "stop_short": 4892.49,
+      "stop_pct_long": 3.34,
+      "stop_pct_short": 3.34,
+      "targets": [
+        {
+          "level": 4851.0,
+          "distance_pct": 2.46,
+          "type": "R1"
+        },
+        {
+          "level": 4879.7,
+          "distance_pct": 3.07,
+          "type": "R2"
+        },
+        {
+          "level": 5405.0,
+          "distance_pct": 14.16,
+          "type": "R3"
+        }
+      ]
+    }
+  },
+  "debate": {
+    "bull": {
+      "recommendation": "HOLD",
+      "confidence": 0.45,
+      "key_points": [
+        "短期动量略正但中期为负，方向模糊",
+        "ADX仅14.55，无明显趋势",
+        "高成交量比暗示异动，但方向不明确"
+      ],
+      "risk_factors": [
+        "中期动量负值，可能回归弱势",
+        "波动率偏高，风险控制难度大"
+      ],
+      "entry_zone": "建议观望，等待方向确认",
+      "timeframe": "短线1-3天"
+    },
+    "bear": {
+      "recommendation": "HOLD",
+      "confidence": 0.52,
+      "key_points": [
+        "中期动量为负，但短期动量转正，多空力量胶着，空头缺乏明确入场信号",
+        "ADX仅14.55，市场无明显趋势，做空面临震荡风险",
+        "成交量比高达2.84，异动明显但方向不明确，可能为情绪极点而非可靠派发"
+      ],
+      "bull_points_refuted": [
+        "多头依赖的短期动量仅为0.0026，力度极弱，且20日动量-0.0058和负夏普暗示中期弱势未改",
+        "虽价格位于MA20上方，但偏离仅0.8%，在无趋势环境下极易回吐，不具备持续反弹支撑"
+      ],
+      "stop_loss_suggestion": "若做空，建议止损设在近期高点4738上方，但因波动率高（20日波动率21%），止损宽度需较宽，风险报酬比不佳，当前不建议操作",
+      "max_holding_days": 1
+    },
+    "trader": {
+      "decision": "HOLD",
+      "confidence": 0.5,
+      "position_pct": 0,
+      "entry_price": null,
+      "stop_loss": null,
+      "take_profit": [],
+      "timeframe": "观望",
+      "key_reason": "多空信心不足，且双方置信度差距小，建议观望。",
+      "risk_note": null
+    },
+    "risk": {
+      "approved": true,
+      "risk_level": "LOW",
+      "adjustments": [],
+      "block_reasons": [],
+      "margin_check": {
+        "single_position_pct": 0,
+        "total_margin_pct": 0,
+        "pass": true
+      }
+    },
+    "final_decision": "HOLD",
+    "final_confidence": 0.5
+  },
+  "decision": {
+    "decision": "HOLD",
+    "confidence": 0.4,
+    "reason": "信号矛盾 (0.0/0.0)",
+    "signals": [],
+    "suggested_margin_pct": 0,
+    "tech_score": 4.0,
+    "tech_label": "neutral",
+    "debate_decision": "HOLD",
+    "debate_confidence": 0.5,
+    "risk_approved": true
+  }
+}

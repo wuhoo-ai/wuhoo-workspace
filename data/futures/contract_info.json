@@ -1,0 +1,44 @@
+{
+  "US.MESmain": {
+    "name": "微型标普500",
+    "market": "US",
+    "lot_size": 5,
+    "source": "yfinance"
+  },
+  "US.MNQmain": {
+    "name": "微型纳斯达克100",
+    "market": "US",
+    "lot_size": 2,
+    "source": "yfinance"
+  },
+  "US.MGCmain": {
+    "name": "微黄金",
+    "market": "US",
+    "lot_size": 10,
+    "source": "yfinance"
+  },
+  "US.SImain": {
+    "name": "白银",
+    "market": "US",
+    "lot_size": 5000,
+    "source": "yfinance"
+  },
+  "HK.MHImain": {
+    "name": "小恒指",
+    "market": "HK",
+    "lot_size": 10,
+    "source": "futu"
+  },
+  "HK.MCHmain": {
+    "name": "小国指",
+    "market": "HK",
+    "lot_size": 10,
+    "source": "futu"
+  },
+  "HK.HTImain": {
+    "name": "恒生科技指数",
+    "market": "HK",
+    "lot_size": 50,
+    "source": "futu"
+  }
+}
