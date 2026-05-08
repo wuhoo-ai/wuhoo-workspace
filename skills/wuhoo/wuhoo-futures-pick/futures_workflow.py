@@ -19,9 +19,8 @@ SKILLS_DIR = WORKSPACE / "skills" / "wuhoo"
 PICK_DIR = SKILLS_DIR / "wuhoo-futures-pick"
 TRADE_DIR = SKILLS_DIR / "wuhoo-futures-trade"
 
-# Python venvs
-VENV_AI = "/home/admin/.openclaw/workspace/projects/AI-Trader/venv/bin/python3"
-VENV_HERMES = "/home/admin/.hermes/hermes-agent/venv/bin/python3"
+# Python venv (统一使用 hermes-agent venv)
+VENV = "/home/admin/.hermes/hermes-agent/venv/bin/python3"
 
 DATA_DIR = WORKSPACE / "data" / "futures"
 FACTORS_DIR = DATA_DIR / "factors"
@@ -89,12 +88,12 @@ for code, ticker, name in [('US.MESmain','ES=F','MES'),('US.MNQmain','NQ=F','MNQ
         print(f'{code}: {len(merged)} rows, latest {merged[\"trade_date\"].iloc[-1]}')
 print('US data updated')
 """
-    cmd = [VENV_HERMES, "-c", us_script]
+    cmd = [VENV, "-c", us_script]
     if not run(cmd, "US 期货数据更新 (yfinance)", timeout=120):
         ok = False
 
     # HK: Futu via AI-Trader venv
-    cmd = [VENV_AI, str(PICK_DIR / "fetch_futures_kline.py"), "--days", "252"]
+    cmd = [VENV, str(PICK_DIR / "fetch_futures_kline.py"), "--days", "252"]
     if not run(cmd, "HK 期货数据更新 (Futu)", timeout=120):
         ok = False
 
@@ -126,12 +125,12 @@ def main():
             failures.append("数据更新")
 
     # Step 2: 因子计算
-    if not run([VENV_AI, str(PICK_DIR / "futures_factors.py")], "因子计算", timeout=60):
+    if not run([VENV, str(PICK_DIR / "futures_factors.py")], "因子计算", timeout=60):
         failures.append("因子计算")
 
     # Step 3: 选品
     pick_path = FACTORS_DIR / f"pick_result_{date_str}.csv"
-    if not run([VENV_AI, str(PICK_DIR / "futures_pick.py"), "--top-n", "3", "--direction", "both"],
+    if not run([VENV, str(PICK_DIR / "futures_pick.py"), "--top-n", "3", "--direction", "both"],
                "品种选择", timeout=60):
         failures.append("选品")
 
@@ -150,7 +149,7 @@ def main():
         out_dir = DEBATE_DIR / date_str
         out_dir.mkdir(parents=True, exist_ok=True)
         tech_path = out_dir / f"tech_{code}.json"
-        cmd = [VENV_AI, str(PICK_DIR / "futures_technical.py"), "--code", code, "--json"]
+        cmd = [VENV, str(PICK_DIR / "futures_technical.py"), "--code", code, "--json"]
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
             # Extract JSON from output
@@ -170,7 +169,7 @@ def main():
             if debate_path.exists():
                 print(f"   ⏭️ {code}: 辩论已存在")
                 continue
-            if not run([VENV_AI, str(PICK_DIR / "futures_debate.py"),
+            if not run([VENV, str(PICK_DIR / "futures_debate.py"),
                         "--date", date_str, "--code", code],
                        f"辩论: {code}", timeout=300):
                 failures.append(f"辩论-{code}")
@@ -179,14 +178,14 @@ def main():
 
     # Step 6: 深度报告
     for code in codes:
-        if not run([VENV_AI, str(PICK_DIR / "futures_deep_analysis.py"),
+        if not run([VENV, str(PICK_DIR / "futures_deep_analysis.py"),
                     "--code", code, "--date", date_str],
                    f"深度报告: {code}", timeout=60):
             failures.append(f"报告-{code}")
 
     # Step 7: 调仓计划
     if not args.skip_trade:
-        cmd = [VENV_AI, str(TRADE_DIR / "futures_trade.py"), "rebalance", "--date", date_str]
+        cmd = [VENV, str(TRADE_DIR / "futures_trade.py"), "rebalance", "--date", date_str]
         if args.execute:
             cmd.append("--execute")
         if not run(cmd, "调仓计划", timeout=60):

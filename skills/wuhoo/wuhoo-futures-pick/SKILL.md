@@ -28,34 +28,34 @@ metadata:
 | HK.MCHmain | 小国指 | HK | 10 | HK$6,730 | 股指 |
 | HK.HTImain | 恒生科技指数 | HK | 50 | HK$26,290 | 股指 |
 
-## 双数据源
+## 统一 venv
 
-| 市场 | 数据源 | 方式 |
+所有期货脚本统一使用 hermes-agent venv（已包含 futu-api + yfinance + pandas + ta-lib 等全部依赖）。
+
+| 市场 | 数据源 | venv |
 |------|--------|------|
 | US 期货 | yfinance (ES=F, NQ=F, GC=F, SI=F) | `~/.hermes/hermes-agent/venv/bin/python3` |
-| HK 期货 | Futu OpenD subscribe + get_cur_kline | `~/.openclaw/workspace/projects/AI-Trader/venv/bin/python3` |
+| HK 期货 | Futu OpenD subscribe + get_cur_kline | `~/.hermes/hermes-agent/venv/bin/python3` |
 
 ## 使用方式
 
 ```bash
-# 1. 更新数据（US 用 hermes-agent venv, HK 用 AI-Trader venv）
-~/.hermes/hermes-agent/venv/bin/python3 -c "
-import yfinance as yf; import pandas as pd
-# ... (见 fetch_futures_kline.py)
-"
-~/.openclaw/workspace/projects/AI-Trader/venv/bin/python3 fetch_futures_kline.py
+VENV=~/.hermes/hermes-agent/venv/bin/python3
+
+# 1. 更新数据
+$VENV fetch_futures_kline.py
 
 # 2. 计算因子
-~/.openclaw/workspace/projects/AI-Trader/venv/bin/python3 futures_factors.py
+$VENV futures_factors.py
 
 # 3. 选品
-~/.openclaw/workspace/projects/AI-Trader/venv/bin/python3 futures_pick.py --top-n 3 --direction both
+$VENV futures_pick.py --top-n 3 --direction both
 
 # 4. 调仓（dry-run）
-~/.openclaw/workspace/projects/AI-Trader/venv/bin/python3 ../wuhoo-futures-trade/futures_trade.py rebalance --date 2026-05-08
+$VENV ../wuhoo-futures-trade/futures_trade.py rebalance --date 2026-05-08
 
 # 5. 查询持仓
-~/.openclaw/workspace/projects/AI-Trader/venv/bin/python3 ../wuhoo-futures-trade/futures_trade.py check
+$VENV ../wuhoo-futures-trade/futures_trade.py check
 ```
 
 ## 因子体系
@@ -84,7 +84,7 @@ import yfinance as yf; import pandas as pd
 
 ```bash
 cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-futures-pick
-VENV=/home/admin/.openclaw/workspace/projects/AI-Trader/venv/bin/python3
+VENV=~/.hermes/hermes-agent/venv/bin/python3
 
 # 一键全链路（选品→技术面→辩论→报告→调仓）
 $VENV futures_workflow.py --skip-fetch --skip-debate  # 快速模式 9s
@@ -105,6 +105,16 @@ $VENV futures_trade.py rebalance --date 2026-05-08      # 调仓
 $VENV futures_risk_manager.py validate-order ...         # 风控验证
 $VENV futures_diagnose.py                               # 持仓诊断
 ```
+
+## 子 Skills
+
+本 skill 包含一个嵌套子 skill，注册在 available_skills 但 SKILL.md 位于非标准路径：
+
+| 子 Skill | SKILL.md 路径 | 说明 |
+|----------|--------------|------|
+| `wuhoo-futures-debate` | `prompts/SKILL.md` | 期货 4 角色辩论 (Bull/Bear/Trader/Risk) |
+
+⚠️ `skill_view('wuhoo-futures-debate')` 可能因非标准路径而查找失败，直接读取 `prompts/SKILL.md`。
 
 ## 实测关键发现
 

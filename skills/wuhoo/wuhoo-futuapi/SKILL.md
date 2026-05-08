@@ -1452,7 +1452,7 @@ ret, data = trd_us.get_acc_list()  # ✅ 返回 18767293 (US MARGIN)
 futu 模块安装在 `/home/admin/.local/lib/python3.11/site-packages/futu/`，但依赖 pandas。系统 Python (`/usr/bin/python3`) 缺 pandas 会导致 `ModuleNotFoundError`。SDK 脚本须在以下 venv 运行：
 
 ```bash
-/home/admin/.openclaw/workspace/projects/AI-Trader/venv/bin/python3
+/home/admin/.hermes/hermes-agent/venv/bin/python3
 ```
 
 ### OpenD 连接慢 / 多账户查询超时

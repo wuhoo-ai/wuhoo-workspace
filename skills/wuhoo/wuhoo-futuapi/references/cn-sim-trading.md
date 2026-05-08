@@ -72,5 +72,5 @@ CN CASH 18767295:
 futu 安装路径: `/home/admin/.local/lib/python3.11/site-packages/futu/`
 但系统 Python 缺 pandas，须使用:
 ```
-/home/admin/.openclaw/workspace/projects/AI-Trader/venv/bin/python3
+/home/admin/.hermes/hermes-agent/venv/bin/python3
 ```

@@ -27,7 +27,7 @@ metadata:
 
 ```bash
 cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-futures-trade
-VENV=~/.openclaw/workspace/projects/AI-Trader/venv/bin/python3
+VENV=~/.hermes/hermes-agent/venv/bin/python3
 
 # 查询持仓
 $VENV futures_trade.py check
@@ -71,7 +71,7 @@ $VENV futures_risk_manager.py validate-order --code US.MESmain --direction LONG 
 ## 依赖
 
 - Futu OpenD 运行在 127.0.0.1:11111
-- AI-Trader venv: futu-api, pandas, numpy
+- hermes-agent venv: futu-api, pandas, numpy
 
 ---
 

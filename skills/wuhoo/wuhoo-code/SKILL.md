@@ -157,3 +157,4 @@ claude auth status --text 2>&1 | grep -q "api.deepseek.com"
 4. **`--max-turns` 不是越大越好** — 太大可能跑飞，WeChat 30min 超时内需留余量
 5. **Claude Code 无法访问 Hermes venv** — 如果任务需要 venv 中的依赖（如 akshare），在 `workdir` 中设置正确的 Python 路径
 6. **成本显示是 Anthropic 定价** — `total_cost_usd` 按 Anthropic 公式计算，实际 DeepSeek 成本约为此值的 1/50
+7. **Git commit 消息避免 shell 特殊字符** — `&`、`> <`、`>=` 等会被 terminal() 工具解析为 shell 重定向/后台操作。用单引号包裹 `-m '...'` 而非双引号，或转义 `\>`。提交信息中用 `->` 替代 `→`，用 `to` 替代 `>=`
