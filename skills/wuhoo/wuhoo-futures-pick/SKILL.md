@@ -108,13 +108,26 @@ $VENV futures_diagnose.py                               # 持仓诊断
 
 ## 子 Skills
 
-本 skill 包含一个嵌套子 skill，注册在 available_skills 但 SKILL.md 位于非标准路径：
+本 skill 包含一个嵌套子 skill：
 
-| 子 Skill | SKILL.md 路径 | 说明 |
-|----------|--------------|------|
-| `wuhoo-futures-debate` | `prompts/SKILL.md` | 期货 4 角色辩论 (Bull/Bear/Trader/Risk) |
+| 子 Skill | 路径 | 加载方式 |
+|----------|------|---------|
+| `wuhoo-futures-debate` | `prompts/SKILL.md` | ⚠️ 无法通过 `skill_view()` 加载（非标准路径）。**替代方式**：直接读取 `skills/wuhoo/wuhoo-futures-pick/prompts/SKILL.md`；或传参调用 `futures_debate.py --date <date>` |
 
-⚠️ `skill_view('wuhoo-futures-debate')` 可能因非标准路径而查找失败，直接读取 `prompts/SKILL.md`。
+### futures-debate 快速参考
+
+```bash
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-futures-pick
+VENV=~/.hermes/hermes-agent/venv/bin/python3
+
+# 批量辩论（读取 pick_result 自动获取品种）
+$VENV futures_debate.py --date 2026-05-08
+
+# 单品种辩论
+$VENV futures_debate.py --date 2026-05-08 --code US.MNQmain
+```
+
+辩论 prompt 文件：`prompts/bull_futures.md`、`prompts/bear_futures.md`、`prompts/trader_futures.md`、`prompts/risk_futures.md`
 
 ## 实测关键发现
 

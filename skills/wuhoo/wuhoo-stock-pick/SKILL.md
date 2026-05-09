@@ -421,7 +421,7 @@ grep TUSHARE_TOKEN ~/.hermes/.env | wc -c              # Token?
 # 2. 启动 OpenD（如未运行）
 bash ~/wuhoo-workspace/scripts/start_opend.sh start    # 需要 start 参数！
 
-# 3. 并行更新数据（注意：CN 必须不晚于 US）
+# 3. 并行更新数据（v3.0 目录隔离后可任意顺序，三市场可完全并行）
 python3.11 update_all_data.py --market cn --incremental &
 python3.11 fetch_hk_data.py --incremental &            # futu 全局可用，无需 venv
 python3.11 update_all_data.py --market us --incremental &
@@ -437,6 +437,28 @@ python3.11 stock_pick.py --market cn --date YYYY-MM-DD
 # 6. 验证输出
 head ~/wuhoo-workspace/data/stock-pick/factors/result_{us,hk,cn}_YYYYMMDD.csv
 ```
+
+### Cron Job 执行策略
+
+CN efinance 换手率阶段耗时 50+ 分钟（999 只股票，成功率 ~2.3%），而 US 和 HK 各仅需 2-5 分钟。
+定时任务中优先策略：
+
+```bash
+# ✅ 推荐：三市场并行启动，US/HK 完成即可先报告
+US_PID=$!; HK_PID=$!; CN_PID=$!
+wait $US_PID $HK_PID  # 仅等待 US+HKC（~3 分钟）
+# → 此时可生成 US+HKC 部分报告
+wait $CN_PID          # 再异步等待 CN
+
+# ⚠️ 避免：不要等 CN 完成再输出报告 — 会导致整个 cron 响应延迟 50+ 分钟
+# ❌ wait $US_PID $HK_PID $CN_PID  # 等全部完成才继续
+```
+
+**CN 进程监控要点**（Cron 中适用）：
+- `process wait` 超时被限制在 60s，需多次轮询
+- 输出缓冲导致 `output_preview` 为空属正常现象
+- 使用 rchar 速率法确认存活：多次采样 `/proc/<python_pid>/io`，速率 > 100 KB/s = 正常
+- 每 2-3 分钟采样一次即可，无需密集轮询（避免浪费 token）
 
 ### 港股数据更新
 
@@ -512,12 +534,12 @@ Legacy 格式（含 `change_rate` 列）与 stock-pick 格式兼容，额外列�
 ---
 
 *创建时间：2026-03-12*
-*更新时间：2026-05-07*
-*版本：3.3 — efinance 内存累积行为 + rchar 速率监控法 + 20260507 cron 审计*
+*更新时间：2026-05-09*
+*版本：3.4 — 移除过时的 CN/US 串行约束 + Cron Job 执行策略*
 
 ## 参考文件
 
-- `references/20260506-cron-audit.md` — 2026-05-06 cron 数据更新审计（父进程 vs 子进程 PID 监控陷阱 + 五一假期后数据更新）
+- `references/20260509-cron-audit.md` — 2026-05-09 cron 数据更新审计（三市场并行启动，US/HK 快速完成，CN efinance 阻塞报告）
 - `references/20260507-cron-audit.md` — 2026-05-07 cron 数据更新审计（efinance 2.3% 成功率 + 50min 超时 + rchar 速率监控法）
 - `references/20260505-cron-audit.md` — 2026-05-05 cron 数据更新审计（CN Tushare 跳过 + efinance 换手率 + US ts_code 格式 + 节假日延迟）
 - `references/20260504-cron-audit.md` — 2026-05-04 cron 数据更新审计（输出缓冲陷阱 + OpenD 检查修复 + efinance 诊断更新）

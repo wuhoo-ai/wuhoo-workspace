@@ -1455,6 +1455,8 @@ futu 模块安装在 `/home/admin/.local/lib/python3.11/site-packages/futu/`，�
 /home/admin/.hermes/hermes-agent/venv/bin/python3
 ```
 
+> 📁 **参考**：`references/venv-setup.md` — 全量 venv 架构、依赖清单、合并记录与验证脚本
+
 ### OpenD 连接慢 / 多账户查询超时
 
 **现象**：连续查询多个账户时 OpenD 响应变慢甚至超时，尤其是创建多个 `OpenSecTradeContext` 连接时。
