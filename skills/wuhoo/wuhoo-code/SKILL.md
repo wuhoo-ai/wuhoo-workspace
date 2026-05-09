@@ -1,9 +1,9 @@
 ---
 name: wuhoo-code
-description: "编码任务路由 Skill — 将终端和 WeChat 中的编码任务自动路由到 Claude Code harness（DeepSeek v4-pro 后端）。覆盖 bug 修复、功能实现、重构、PR 审查、测试编写等编码场景。"
+description: "编码任务路由 Skill — fix bug 修复 error 报错 refactor 重构 implement 实现 PR review 审查 test 测试 代码 编码 python py 脚本 — 以上关键词命中时自动加载此 skill，将编码任务路由到 Claude Code harness（DeepSeek v4-pro 后端）。覆盖 bug修复、功能实现、重构、代码审查、测试编写等编码场景。"
 tags: ["wuhoo"]
 category: wuhoo
-version: 1.0.0
+version: 1.1.0
 metadata:
   hermes:
     emoji: "🔧"
@@ -15,6 +15,22 @@ metadata:
 # wuhoo-code — 编码任务 Claude Code 路由
 
 将 Hermes 中的编码任务路由到 **Claude Code harness + DeepSeek v4-pro 后端**执行。
+
+## ⚠️ 加载强制规则（CRITICAL）
+
+**此 skill 存在自引用触发问题：** coding 任务的关键词（fix/bug/refactor/实现/重构等）写在 skill 内容里，但 Hermes 必须先加载 skill 才能看到这些关键词。如果 Hermes 没加载此 skill 就直接处理 coding 任务，Claude Code 路由将永远不会触发。
+
+**解决方案（双重保障）：**
+
+1. **Memory 规则**（持久）— memory 中存有：`用户消息含 fix/bug/refactor/实现/重构/PR/review/test/代码/编码 → 先 skill_view('wuhoo-code') 再处理`
+2. **Description 关键词**（自动）— 此 skill 的 description 包含 `fix bug 修复 error refactor 实现 test 代码` 等高频词，Hermes 扫描 available_skills 时应能命中
+
+**Agent 收到编码任务时的强制流程：**
+```
+1. skill_view('wuhoo-code')   ← 先加载，确认是否走 Claude Code
+2. 匹配触发条件 → 是 → terminal("claude -p ...")
+3. 匹配触发条件 → 否（轻量操作/排除列表）→ Hermes 自行处理
+```
 
 ## 为什么
 
@@ -46,6 +62,11 @@ Claude Code 的 agentic harness 在编码场景下优于 Hermes delegate_task：
 - 资讯/新闻分析
 - 双色球/足球预测
 - 纯对话/咨询
+- **轻量 Git 操作**：git add/commit/push、git status、git log — 纯文件管理无代码逻辑变更
+- **纯文件搬运**：cp/mv/rsync 复制同步文件、mkdir 创建目录 — 无代码编辑
+- **SKILL.md 文档编辑**：修改 skill frontmatter、更新版本号、添加引用链接 — 文档性修改
+- **数据文件操作**：CSV 追加、JSON 格式化、数据库查询 — 数据管理非代码逻辑
+- **配置微调**：修改一两行 yaml/json 配置值（非结构性重构）
 
 ## 调用模板
 
@@ -158,3 +179,4 @@ claude auth status --text 2>&1 | grep -q "api.deepseek.com"
 5. **Claude Code 无法访问 Hermes venv** — 如果任务需要 venv 中的依赖（如 akshare），在 `workdir` 中设置正确的 Python 路径
 6. **成本显示是 Anthropic 定价** — `total_cost_usd` 按 Anthropic 公式计算，实际 DeepSeek 成本约为此值的 1/50
 7. **Git commit 消息避免 shell 特殊字符** — `&`、`> <`、`>=` 等会被 terminal() 工具解析为 shell 重定向/后台操作。用单引号包裹 `-m '...'` 而非双引号，或转义 `\>`。提交信息中用 `->` 替代 `→`，用 `to` 替代 `>=`
+8. **⚠️ 触发缺口（2026-05-09 审计发现）** — 此 skill 创建后，累计 0 次 Claude Code 调用。原因：Hermes 必须**主动** `skill_view('wuhoo-code')` 才能看到触发关键词表，但 coding 任务进来时 Hermes 没有加载此 skill 就直接处理了。修复：description 已添加关键词 + memory 规则强制先加载。每次 session 开始的 available_skills 扫描应能根据 description 关键词命中此 skill。
