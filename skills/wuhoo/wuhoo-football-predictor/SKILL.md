@@ -1,7 +1,4 @@
----
-name: wuhoo-football-predictor
-description: 足球赛事预测系统 — Elo+Poisson+Monte Carlo v2.1，支持 2026 世界杯全流程模拟 + 中文 Markdown 综合报告
-version: 2.1.0
+---\nname: wuhoo-football-predictor\ndescription: 足球赛事预测系统 — Elo+Poisson+Monte Carlo v2.2，支持 2026 世界杯全流程模拟 + 中文 Markdown 综合报告 + 新闻情感集成\nversion: 2.2.0
 dependencies:
   - wuhoo-news-rss
   - pandas
@@ -10,7 +7,7 @@ tags: ["wuhoo"]
 category: wuhoo
 ---
 
-# 足球赛事预测系统 v2.1
+# 足球赛事预测系统 v2.2
 
 ## 概述
 
@@ -36,6 +33,18 @@ category: wuhoo
 - ✅ KO 平局概率化 (非确定性强队胜)
 - ✅ 代码复用：wc2026_predict.py 引入 prediction_models
 
+### v2.2 更新 (2026-05-21)
+- ✅ ELO 数据刷新到 2026-05-20 (eloratings.net — clubelo.com API 已失效)
+- ✅ 动态冷门模型：ELO 差相关冷门概率 (0.18 - 0.0003×|Δ|, clamped [0.02, 0.18])
+- ✅ ELO 比赛级抖动：每场模拟前对 ELO 添加 N(0,35) 高斯噪声
+- ✅ 比分随机扰动增强：20% → 30%
+- ✅ `--news` 模式：集成 wuhoo-news-rss 新闻情感分析 → ±40 ELO 调整
+- ✅ 修复: 决赛 runner_up 统计（之前只追踪 winner）
+- ✅ 修复: South Africa 缺失 ELO（补充 1720）
+- ✅ 修复: RSSConnector 路径解析（news-rss → wuhoo-news-rss）
+- ✅ 冠军分布改善：Top3 从 99.9% → ~99%，夺冠候选从 3 → 6 队
+- ✅ ELO 数据源更新: eloratings.net (2100-scale, 55队), 不再使用已失效的 clubelo.com API
+
 ### v2.1 更新 (2026-05-02)
 - ✅ `--report` 模式：生成中文 Markdown 综合报告（48队简介 + 分组分析 + 淘汰赛路径 + 比分预测）
 - ✅ 新增 `data/team_profiles.json` — 48队结构化元数据（中英文名、FIFA排名、世界杯历史）
@@ -52,8 +61,8 @@ category: wuhoo
 # 2026 世界杯全流程模拟
 python3.11 wc2026_predict.py --full --sims 10000
 
-# 生成中文综合报告 (Markdown)
-python3.11 wc2026_predict.py --report --sims 10000
+# 生成中文综合报告 (Markdown) + --news 集成情感分析
+python3.11 wc2026_predict.py --report --sims 10000 --news
 
 # 仅小组赛
 python3.11 wc2026_predict.py --groups
@@ -71,28 +80,29 @@ python3.11 fp_predict.py --news "Argentina"
 python3.11 scripts/fetch_elo.py --output=data/elo_ratings.json
 ```
 
-## 2026 世界杯预测结果 (v2.1, 10,000 sims, 2026-05-02)
+## 2026 世界杯预测结果 (v2.2, 10,000 sims, 2026-05-21)
+
+> ⚠️ 基于 eloratings.net 2026-05-20 数据 + v2.2 动态冷门模型
 
 | 阶段 | 球队 | 概率 |
 |------|------|------|
-| 🏆 冠军 | Argentina | 54.4% |
-| | France | 32.1% |
-| | Brazil | 13.4% |
-| 🥈 亚军 | France | 32.1% |
-| | Brazil | 13.4% |
-| 🏅 四强 | Argentina | 99.8% |
-| | France | 67.8% |
-| | Brazil | 30.1% |
-| | Portugal | 2.0% |
-| 🏟️ 八强 | Argentina | 100.0% |
-| | France | 100.0% |
-| | Brazil | 90.3% |
-| | England | 79.9% |
-| | Belgium | 11.1% |
-| | Portugal | 9.9% |
-| | Spain | 8.6% |
+| 🏆 冠军 | Spain | 58.5% |
+| | Argentina | 23.1% |
+| | France | 17.8% |
+| | Portugal | 0.4% |
+| | Brazil | 0.1% |
+| | Germany | 0.1% |
+| 🥈 决赛 | France | 74.3% |
+| | Spain | 67.2% |
+| | Argentina | 32.5% |
+| 🏅 四强 | Spain | 82.2% |
+| | France | 79.8% |
+| | Argentina | 64.2% |
+| | Portugal | 26.2% |
+| | Brazil | 13.6% |
+| | Germany | 12.5% |
 
-> v2.1 变更：加入 3% 冷门扰动因子 + 约束分配路径 + 分离 Poisson/MC 决赛展示
+> v2.2 变更：动态冷门概率 + ELO N(0,35) 抖动 → 冠军候选从 3 队扩展到 6 队
 
 ### 回测基线
 - WC 2022: 57.8% 准确率 (64场)
@@ -101,10 +111,11 @@ python3.11 scripts/fetch_elo.py --output=data/elo_ratings.json
 ## 架构
 
 详见 [references/bracket-2026.md](references/bracket-2026.md) — 完整官方对阵表、第三名分配算法、模型参数。
+详见 [references/elo-pipeline-status.md](references/elo-pipeline-status.md) — ELO 数据采集管线状态、数据源迁移记录。
 
 ```
 wuhoo-football-predictor/
-├── wc2026_predict.py       # 2026世界杯全流程 Monte Carlo (v2.1)
+├── wc2026_predict.py       # 2026世界杯全流程 Monte Carlo (v2.2)
 ├── fp_predict.py           # 通用预测 CLI
 ├── scripts/
 │   ├── prediction_models.py  # Poisson + Elo + Factor + Ensemble
@@ -133,16 +144,14 @@ wuhoo-football-predictor/
 
 ## 已知限制
 
-1. **Top 3 集中度高**: 仅 Argentina/France/Brazil 夺冠（>99.9%），ELO 差异主导 —— 🔧 v2.1 已加入 3% 冷门扰动因子，效果温和但未根本改变
-2. **无实时新闻集成**: 赛前伤病/状态新闻未接入 Monte Carlo
-3. **无阵容/伤病数据**: 纯基于 ELO + 历史统计数据
-4. **第3名分配 fallback**: 当组合不在 FIFA 495 种映射表中时使用最佳可用队替代
-5. **ELO 静态**: 未在锦标赛期间动态更新
-6. **无阵容磨合/教练因子**: 球队化学反应、战术体系未建模
-7. **小组赛 venue 未建模**: 仅淘汰赛阶段应用 venue 惩罚
-8. ~~概率加权路径不自洽~~ → ✅ v2.1 已修复：约束分配算法确保同一球队不跨 slot
-9. ~~决赛比分-冠军矛盾~~ → ✅ v2.1 已修复：Poisson 预期(90min)与 MC 冠军(含加时)分开展示
-10. **小组出线过度确定**: v2.1 冷门因子使弱队出线率从 0% → 0.3%~6.6%，但仍高度确定（top2 仍是 100%）
+1. **无实时伤病/阵容数据**: 纯基于 ELO + 历史统计数据（Manually curated injury JSON planned for v2.3）
+2. **ELO 半静态**: fetch_elo.py 仍用已失效的 clubelo.com API，需重写为 eloratings.net 抓取
+3. **第3名分配 fallback**: 当组合不在 FIFA 495 种映射表中时使用最佳可用队替代
+4. **无阵容磨合/教练因子**: 球队化学反应、战术体系未建模（FP predict 的 fa 有桩代码）
+5. **小组赛 venue 未建模**: 仅淘汰赛阶段应用 venue 惩罚
+6. **RSS 新闻覆盖不均**: 751 条新闻偏重欧洲豪门，非主流球队情感调整为零
+7. **冠军分布仍偏集中**: v2.2 改善但 Top3 仍 ~99%（实际世界杯有更多冷门）
+8. **fp_predict.py `--full` 为桩代码**: 仅配置了多赛事框架，缺具体赛事的 Bracket 实现
 
 ## 开发陷阱
 
@@ -156,6 +165,19 @@ wuhoo-football-predictor/
 r32_slot_pair[slot_id][(t1, t2)] += 1  # 追踪完整对阵
 r32_slot_winner[slot_id][winner] += 1  # 分离 winner 追踪
 ```
+
+### 决赛 runner_up 缺失 Bug (v2.2 修复)
+`stage_winners['F'] = {1: champion}` 只存了冠军，导致 `final_count` 与 `champion_count` 完全一致。
+**修复**: `stage_winners['F'] = {1: champion, 2: runner_up}`。
+
+### ELO 数据源失效
+clubelo.com API (`http://api.clubelo.com/`) 已不可用。当前使用 eloratings.net 但网站为 JS 渲染，无法通过 curl/web_extract 直接采集。
+**临时方案**: 通过 web_search 搜索结果片段提取 Top 球队 ELO，辅以手动维护。
+**待做**: 重写 fetch_elo.py 支持 eloratings.net 或其备选源。
+
+### RSSConnector 路径解析
+sentiment_analyzer.py 中的 RSSConnector 默认查找 `../news-rss`，但实际目录为 `wuhoo-news-rss`。
+**修复**: 在 possible_paths 中增加 `wuhoo-news-rss` 路径。
 同样适用于 R16/QF/SF 的 pair 追踪。**Final 的 pair 和 winner 必须用独立的 dict**，避免混用 `defaultdict(int)` 中的 tuple key 和 str key 导致 `most_frequent()` 取出错误类型。
 
 ### 约束分配算法 (P2 fix)

@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 """
-2026 FIFA World Cup — 全流程 Monte Carlo 预测系统 v2.1
+2026 FIFA World Cup — 全流程 Monte Carlo 预测系统 v2.2
 基于: Elo + Poisson + FIFA 官方 Bracket + 10,000次 全流程模拟
 
 Usage:
-  python3.11 wc2026_predict.py [--full|--groups|--knockout|--report] [--sims N]
+  python3.11 wc2026_predict.py [--full|--groups|--knockout|--report] [--sims N] [--news]
+
+v2.2 更新:
+- ELO 数据刷新到 2026-05-20 (eloratings.net)
+- 动态冷门模型：ELO 差相关冷门概率 (max 18% for equal teams, min 2%)
+- ELO 比赛级抖动：每场模拟前对 ELO 添加 N(0,35) 高斯噪声
+- 比分扰动增强：20% → 30%
+- --news 模式：集成 wuhoo-news-rss 新闻情感分析
 
 v2.1 更新:
 - --report 模式：生成中文 Markdown 综合报告（含 48 队简介、分组分析、淘汰赛预测）
@@ -23,9 +30,24 @@ from datetime import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'scripts'))
 from prediction_models import PoissonModel
+# v2.2: News sentiment integration
+try:
+    from sentiment_analyzer import SentimentAnalyzer, RSSConnector
+    _sentiment_available = True
+except Exception:
+    _sentiment_available = False
 
 random.seed(42)
 _poisson = PoissonModel()
+
+# v2.2: ELO jitter — adds Gaussian noise to each match ELO to simulate
+# form fluctuation, reducing top-team concentration
+ELO_JITTER_SIGMA = 35  # std dev of ELO perturbation per match
+# v2.2: Dynamic upset probability — replaces flat 3% with ELO-difference-based formula
+# Higher upset chance for close matches, lower for blowouts
+def _upset_prob(elo_diff):
+    """Dynamic upset probability based on absolute ELO difference."""
+    return max(0.02, 0.18 - 0.0003 * abs(elo_diff))
 
 # ============================================================
 # 1. 分组 & ELO
@@ -70,6 +92,55 @@ def _load_profiles():
         return json.load(f)['teams']
 
 TEAM_PROFILES = _load_profiles()
+
+# ============================================================
+# 1b. News Sentiment (v2.2)
+# ============================================================
+def load_news_sentiment(enable_news=False):
+    """Load news sentiment scores and convert to ELO adjustments.
+    Returns dict: team_name -> elo_adjustment (int).
+    When enable_news=False or data unavailable, returns empty dict (no adjustment).
+    """
+    if not enable_news or not _sentiment_available:
+        return {}
+
+    try:
+        connector = RSSConnector()
+        if not connector.db_path or not connector.db_path.exists():
+            print("⚠️ News sentiment disabled: news-rss DB not found", file=sys.stderr)
+            return {}
+
+        analyzer = SentimentAnalyzer()
+        # Fetch recent football news for all 48 WC teams
+        all_teams_list = list(ALL_TEAMS)
+        news_items = connector.fetch_football_news(all_teams_list, days_back=14)
+
+        if not news_items:
+            print("⚠️ No recent football news found", file=sys.stderr)
+            return {}
+
+        # Get per-team sentiment
+        sentiment_scores = analyzer.analyze_news_batch(news_items)
+
+        # Convert sentiment to ELO adjustment (scale: ±50 max)
+        elo_adj = {}
+        teams_with_news = 0
+        for team in ALL_TEAMS:
+            impact = analyzer.get_sentiment_impact(team, sentiment_scores)
+            # Scale: impact ranges from -0.15 to +0.05 in analyzer
+            # Map to ELO adjustment: ±40 max
+            adj = int(round(impact * 250))  # -0.15*250=-37, 0.05*250=12
+            if adj != 0:
+                elo_adj[team] = adj
+                teams_with_news += 1
+
+        print(f"📰 News sentiment loaded: {teams_with_news}/{len(ALL_TEAMS)} teams with adjustments "
+              f"(range: {min(elo_adj.values()) if elo_adj else 0} to {max(elo_adj.values()) if elo_adj else 0} ELO)",
+              file=sys.stderr)
+        return elo_adj
+    except Exception as e:
+        print(f"⚠️ News sentiment unavailable: {e}", file=sys.stderr)
+        return {}
 
 # ============================================================
 # 1a. Data Validation
@@ -250,16 +321,25 @@ def get_venue_penalty(team, venue_name):
     return int(penalty)
 
 def sim_match(team_a, team_b, elo_a, elo_b, home_adv=0, ko=False, venue_name=None):
-    """Simulate one match, return (goals_a, goals_b)."""
+    """Simulate one match, return (goals_a, goals_b).
+    v2.2: ELO jitter per match + increased score perturbation."""
     venue_penalty_a = get_venue_penalty(team_a, venue_name) if venue_name else 0
     venue_penalty_b = get_venue_penalty(team_b, venue_name) if venue_name else 0
 
-    pred = predict_score(elo_a - venue_penalty_a, elo_b - venue_penalty_b, home_adv)
+    # v2.2: Apply ELO jitter to simulate match-day form fluctuation
+    jitter_a = random.gauss(0, ELO_JITTER_SIGMA)
+    jitter_b = random.gauss(0, ELO_JITTER_SIGMA)
+
+    pred = predict_score(
+        elo_a - venue_penalty_a + jitter_a,
+        elo_b - venue_penalty_b + jitter_b,
+        home_adv)
     ga, gb = pred['score']
 
-    if random.random() < 0.2:
+    # v2.2: Increased score perturbation (20% → 30%) to add more variance
+    if random.random() < 0.3:
         ga += random.choice([-1, 0, 1])
-    if random.random() < 0.2:
+    if random.random() < 0.3:
         gb += random.choice([-1, 0, 1])
     ga, gb = max(0, ga), max(0, gb)
 
@@ -278,11 +358,14 @@ def sim_match(team_a, team_b, elo_a, elo_b, home_adv=0, ko=False, venue_name=Non
 # ============================================================
 # 5. Single tournament simulation (enhanced to return r32_teams)
 # ============================================================
-def simulate_one_tournament():
+def simulate_one_tournament(elo_adjustments=None):
     """Run one complete tournament simulation, return champion & round results.
     Also returns `r32_teams` dict for bracket tracking.
+    v2.2: elo_adjustments applies news sentiment adjustments per team.
     """
-    elos = {t: ELO.get(t, 1700) for g in GROUPS.values() for t in g}
+    if elo_adjustments is None:
+        elo_adjustments = {}
+    elos = {t: ELO.get(t, 1700) + elo_adjustments.get(t, 0) for g in GROUPS.values() for t in g}
 
     # --- Group Stage ---
     group_standings = {}
@@ -304,8 +387,10 @@ def simulate_one_tournament():
 
                 gh, ga_goals = sim_match(home, away, elos[home], elos[away], home_adv)
 
-                # P4: Group stage upset factor (3% chance of +2 goals for underdog)
-                if random.random() < 0.03:
+                # v2.2: Dynamic upset factor — higher chance for close teams
+                elo_diff = elos[home] - elos[away]
+                upset_chance = _upset_prob(elo_diff)
+                if random.random() < upset_chance:
                     if elos[home] < elos[away]:
                         gh += 2
                     else:
@@ -402,20 +487,26 @@ def simulate_one_tournament():
 
     # SF
     sf_winners = {}
+    sf_losers_list = []  # v2.2: track all 4 SF participants
     for i, (s1, s2) in enumerate(SF_PAIRING, 1):
         if s1 in qf_winners and s2 in qf_winners:
             t1, t2 = qf_winners[s1], qf_winners[s2]
             venue_name = SF_VENUES.get(i, (None,))[0]
             g1, g2 = sim_match(t1, t2, elos[t1], elos[t2], ko=True, venue_name=venue_name)
-            sf_winners[i] = t1 if g1 > g2 else t2
+            winner = t1 if g1 > g2 else t2
+            loser = t2 if g1 > g2 else t1
+            sf_winners[i] = winner
+            sf_losers_list.append(loser)
     stage_winners['SF'] = sf_winners
+    stage_winners['SF_all'] = list(sf_winners.values()) + sf_losers_list  # all 4 SF teams
 
     # Final
     if 1 in sf_winners and 2 in sf_winners:
         t1, t2 = sf_winners[1], sf_winners[2]
         g1, g2 = sim_match(t1, t2, elos[t1], elos[t2], ko=True, venue_name=FINAL_VENUE[0])
         champion = t1 if g1 > g2 else t2
-        stage_winners['F'] = {1: champion}
+        runner_up = t2 if g1 > g2 else t1
+        stage_winners['F'] = {1: champion, 2: runner_up}
     else:
         champion = None
 
@@ -437,8 +528,10 @@ def simulate_one_tournament():
 # ============================================================
 # 6. Monte Carlo aggregation (enhanced with slot tracking)
 # ============================================================
-def run_monte_carlo(n_sims=10000):
-    """Run full tournament Monte Carlo, return aggregated stats + expected bracket data."""
+def run_monte_carlo(n_sims=10000, elo_adjustments=None):
+    """Run full tournament Monte Carlo, return aggregated stats + expected bracket data.
+    v2.2: elo_adjustments applies per-team news sentiment ELO adjustments.
+    """
     # Counters
     champion_count = defaultdict(int)
     final_count = defaultdict(int)
@@ -466,7 +559,7 @@ def run_monte_carlo(n_sims=10000):
         if sim_idx % 2000 == 0 and sim_idx > 0:
             print(f"  ... {sim_idx}/{n_sims} simulations", file=sys.stderr)
 
-        stage_winners, group_standings, r32_teams = simulate_one_tournament()
+        stage_winners, group_standings, r32_teams = simulate_one_tournament(elo_adjustments)
 
         # Group stage stats
         for letter, standings in group_standings.items():
@@ -488,8 +581,10 @@ def run_monte_carlo(n_sims=10000):
         for team in qf_winners.values():
             qf_count[team] += 1
 
+        # v2.2: Count all 4 SF participants (SF_all includes both winners and losers)
         sf_winners = stage_winners.get('SF', {})
-        for team in sf_winners.values():
+        sf_all = stage_winners.get('SF_all', [])
+        for team in sf_all:
             sf_count[team] += 1
 
         finalists = stage_winners.get('F', {})
@@ -685,18 +780,24 @@ def expected_score(team_a, team_b, home_adv=0, venue_name=None):
 # ============================================================
 # 9. Report Generation
 # ============================================================
-def generate_report(stats, expected_bracket):
-    """Generate comprehensive Chinese Markdown report."""
+def generate_report(stats, expected_bracket, elo_adjustments=None):
+    """Generate comprehensive Chinese Markdown report.
+    v2.2: elo_adjustments for news sentiment display.
+    """
+    if elo_adjustments is None:
+        elo_adjustments = {}
     n = stats['n_sims']
     lines = []
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
 
     lines.append(f"# 🌍 2026 FIFA 世界杯预测报告")
     lines.append(f"")
-    lines.append(f"**生成时间**: {now} | **模拟次数**: {n:,} | **模型**: Elo + Poisson + FIFA Bracket")
-    lines.append(f"**数据来源**: ELO (clubelo.com 2026-05-01) | **回测准确率**: WC2022 57.8%, Euro2024 51.0%")
+    lines.append(f"**生成时间**: {now} | **模拟次数**: {n:,} | **模型**: Elo + Poisson + FIFA Bracket v2.2")
+    lines.append(f"**数据来源**: eloratings.net (2026-05-20) | **回测准确率**: WC2022 57.8%, Euro2024 51.0%")
     lines.append(f"")
-    lines.append(f"> ⚠️ 本报告基于 ELO 评分和统计模型，不含实时新闻/伤病/阵容磨合数据。预测仅供娱乐参考。")
+    lines.append(f"> ⚠️ 本报告基于 ELO 评分和统计模型，不含实时伤病/阵容磨合数据。预测仅供娱乐参考。")
+    if elo_adjustments:
+        lines.append(f"> 📰 已集成新闻情感分析：{len(elo_adjustments)} 支球队有情感调整 (±{max(abs(v) for v in elo_adjustments.values())} ELO)")
     lines.append(f"")
 
     # ===== Section 1: 48队实力排行 =====
@@ -925,8 +1026,9 @@ def generate_report(stats, expected_bracket):
     lines.append(f"- **模拟**: {n:,} 次 Monte Carlo 全流程模拟")
     lines.append(f"- **球场因素**: 16 个球场，建模海拔（Azteca 2200m）和高温（Miami, Dallas 等）对非适应球队的惩罚")
     lines.append(f"- **平局处理**: KO 阶段概率化打破（非确定性强队胜），ELO 差 0 → 50:50")
-    lines.append(f"- **冷门因子**: 小组赛 3% 概率弱队获得 +2 球冷门加成（模拟世界杯不确定性）")
-    lines.append(f"- **已知局限**: 无实时伤病/阵容/教练数据，ELO 为静态数据（2026-05-01），小组赛无 venue 建模")
+    lines.append(f"- **冷门因子 v2.2**: 动态冷门概率（ELO 接近时高达 18%，差距大时最低 2%）+ 每场 ELO N(0,35) 高斯噪声")
+    lines.append(f"- **新闻情感 v2.2**: {'已启用 (' + str(len(elo_adjustments)) + ' 支球队有调整)' if elo_adjustments else '未启用（--news 参数可选）'}")
+    lines.append(f"- **已知局限**: 无实时伤病/阵容/教练数据，ELO 为静态数据（2026-05-20），小组赛无 venue 建模")
     lines.append(f"")
 
     return '\n'.join(lines)
@@ -985,6 +1087,7 @@ def print_results(stats):
 # ============================================================
 def main():
     mode = sys.argv[1] if len(sys.argv) >= 2 else '--full'
+    enable_news = '--news' in sys.argv
     n_sims = 5000
     for i, arg in enumerate(sys.argv):
         if arg == '--sims' and i + 1 < len(sys.argv):
@@ -993,18 +1096,24 @@ def main():
     if not validate_data():
         sys.exit(1)
 
-    print("🌍 2026 FIFA World Cup — Monte Carlo Prediction System v2.1")
+    # v2.2: Load news sentiment if --news flag enabled
+    elo_adj = load_news_sentiment(enable_news)
+
+    print("🌍 2026 FIFA World Cup — Monte Carlo Prediction System v2.2")
     print(f"📅 June 11 – July 19, 2026 | 🏟️ USA 🇺🇸 Canada 🇨🇦 Mexico 🇲🇽")
     print(f"👥 48 teams | 12 groups | Official FIFA Bracket | {n_sims:,} sims")
+    if elo_adj:
+        teams_adj = len(elo_adj)
+        print(f"📰 News sentiment enabled: {teams_adj} teams with ELO adjustments")
     print()
 
     if mode == '--report':
         # Report mode: run MC + generate markdown report
         print("🔄 Running Monte Carlo simulation...")
-        stats, expected_bracket = run_monte_carlo(n_sims)
+        stats, expected_bracket = run_monte_carlo(n_sims, elo_adj)
 
         print("📝 Generating report...")
-        report = generate_report(stats, expected_bracket)
+        report = generate_report(stats, expected_bracket, elo_adj)
 
         # Save report
         report_dir = os.path.join(os.path.dirname(__file__), 'data')
@@ -1046,13 +1155,13 @@ def main():
 
     elif mode == '--groups':
         # Groups only (quick)
-        stats, _ = run_monte_carlo(n_sims)
+        stats, _ = run_monte_carlo(n_sims, elo_adj)
         print_results(stats)
 
     else:
         # --full or --knockout
         print("🔄 Running Monte Carlo simulation...")
-        stats, _ = run_monte_carlo(n_sims)
+        stats, _ = run_monte_carlo(n_sims, elo_adj)
         print_results(stats)
 
         # Save JSON

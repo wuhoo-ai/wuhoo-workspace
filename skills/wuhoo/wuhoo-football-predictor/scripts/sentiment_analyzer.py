@@ -126,7 +126,8 @@ class RSSConnector:
     def __init__(self, news_rss_dir: str = None):
         if news_rss_dir is None:
             possible_paths = [
-                Path(__file__).parent.parent.parent / "news-rss",
+                Path(__file__).parent.parent.parent / "wuhoo-news-rss",
+                Path.home() / "wuhoo-workspace" / "skills" / "wuhoo" / "wuhoo-news-rss",
                 Path.home() / "wuhoo-workspace" / "skills" / "news-rss",
             ]
             for p in possible_paths:
