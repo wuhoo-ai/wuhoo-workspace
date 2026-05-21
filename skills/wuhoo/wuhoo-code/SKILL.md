@@ -3,7 +3,7 @@ name: wuhoo-code
 description: "编码任务路由 Skill — fix bug 修复 error 报错 refactor 重构 implement 实现 PR review 审查 test 测试 代码 编码 python py 脚本 — 以上关键词命中时自动加载此 skill，将编码任务路由到 Claude Code harness（DeepSeek v4-pro 后端）。覆盖 bug修复、功能实现、重构、代码审查、测试编写等编码场景。"
 tags: ["wuhoo"]
 category: wuhoo
-version: 1.1.0
+version: 1.1.1
 metadata:
   hermes:
     emoji: "🔧"
@@ -180,3 +180,8 @@ claude auth status --text 2>&1 | grep -q "api.deepseek.com"
 6. **成本显示是 Anthropic 定价** — `total_cost_usd` 按 Anthropic 公式计算，实际 DeepSeek 成本约为此值的 1/50
 7. **Git commit 消息避免 shell 特殊字符** — `&`、`> <`、`>=` 等会被 terminal() 工具解析为 shell 重定向/后台操作。用单引号包裹 `-m '...'` 而非双引号，或转义 `\>`。提交信息中用 `->` 替代 `→`，用 `to` 替代 `>=`
 8. **⚠️ 触发缺口（2026-05-09 审计发现）** — 此 skill 创建后，累计 0 次 Claude Code 调用。原因：Hermes 必须**主动** `skill_view('wuhoo-code')` 才能看到触发关键词表，但 coding 任务进来时 Hermes 没有加载此 skill 就直接处理了。修复：description 已添加关键词 + memory 规则强制先加载。每次 session 开始的 available_skills 扫描应能根据 description 关键词命中此 skill。
+
+## 参考文件
+
+- `references/trigger-gap-debugging.md` — 路由型 skill 触发缺口调试方法论（session_search 检测 → 根因分析 → 双重保障修复 → 验证）
+- `references/repo-sync-workflow.md` — 多仓库同步工作流（wuhoo-workspace → wuhoo-skills → wuhoo-agents 的提交与同步规则）

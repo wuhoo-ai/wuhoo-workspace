@@ -23,6 +23,17 @@ metadata:
 | US | 18767290 | MARGIN | SIMULATE |
 | HK | 18767297 | MARGIN | SIMULATE |
 
+## Cron 持仓诊断（2026-05-09 新增）
+
+两个定时诊断 cron 已配置，均使用 `deliver=local`，工作日执行：
+
+| 名称 | Schedule | 市场 | Skills |
+|------|----------|:----:|--------|
+| 港股期货持仓诊断 | `0 9 * * 1-5` | HK | wuhoo-futures-trade |
+| 美股期货持仓诊断 | `30 22 * * 1-5` | US | wuhoo-futures-trade |
+
+**流程**: 检查工作日 → `futures_trade.py check` 查持仓 → `futures_diagnose.py` 诊断 → 输出盈亏+风控+调仓建议。无持仓则跳过。
+
 ## 使用方式
 
 ```bash
@@ -75,4 +86,4 @@ $VENV futures_risk_manager.py validate-order --code US.MESmain --direction LONG 
 
 ---
 
-*创建时间: 2026-05-08 | 版本: 0.1.0 — MVP (Phase 0+1+4)*
+*创建时间: 2026-05-08 | 版本: 0.2.0 — MVP (Phase 0+1+4) + Cron 持仓诊断*

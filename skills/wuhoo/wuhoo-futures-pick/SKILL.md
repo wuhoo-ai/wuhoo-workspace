@@ -39,6 +39,8 @@ metadata:
 
 ## 使用方式
 
+### 手动执行
+
 ```bash
 VENV=~/.hermes/hermes-agent/venv/bin/python3
 
@@ -79,6 +81,17 @@ $VENV ../wuhoo-futures-trade/futures_trade.py check
 ├── contract_info.json      # 合约元数据（含保证金）
 └── diagnose/               # 持仓诊断（Phase 5）
 ```
+
+## Cron 自动化（2026-05-09 新增）
+
+**期货品种筛选** cron 已配置：
+- **Schedule**: `30 8 * * 1-5`（工作日 08:30）
+- **Skills**: `wuhoo-futures-pick`
+- **Delivery**: `local`
+- **Workdir**: `~/wuhoo-workspace/skills/wuhoo/wuhoo-futures-pick`
+- **流程**: fetch → factors → pick（Top 3，多空双向）→ 输出推荐
+
+定时任务在数据更新后自动执行选品，结果保存到 cron 日志。
 
 ## 全链路工作流 (Phase 0-6 完整)
 
@@ -140,4 +153,4 @@ $VENV futures_debate.py --date 2026-05-08 --code US.MNQmain
 
 ---
 
-*创建时间: 2026-05-08 | 版本: 0.1.0 — MVP (Phase 0+1+4)*
+*创建时间: 2026-05-08 | 版本: 0.2.0 — MVP (Phase 0+1+4) + Cron 自动化*

@@ -36,8 +36,8 @@ RSSHub (--network host, 端口 1200)    Python 采集引擎 (python3.11)
 └──────────────────────────┘         │ 检索接口                     │
        ↕ 外网直连                     └─────────────────────────────┘
                                               ↕
-                                     Cron Job (每日 09:30 微信推送)
-                                     自动拉取 + 生成热点简报
+                                     Cron Job (每日 09:30, deliver=local)
+                                     自动拉取 + 生成热点简报（local 日志，非微信推送）
 ```
 
 ## 使用方式
@@ -144,11 +144,18 @@ DataAggregator._get_combined_sentiment()
 - **手动简报生成模式**：当 cron 推送失败时，可通过 FTS5 JSON + Python 多查询模式手动生成。详见 [`references/manual-briefing-generation.md`](references/manual-briefing-generation.md)。
 - **微信推送 gateway timeout**：cron delivery 阶段可能出现 `"Timeout context manager should be used inside a task"` 错误（非 session expired）。内容已生成但投递失败。临时方案：保存到本地文件，gateway 恢复后补发。
 
-## 微信定时推送简报
+## Cron 自动简报
 
-> **⚠️ 2026-05-03 更新**：原每日 09:30 cron 推送已删除（Gateway asyncio `Timeout context manager should be used inside a task` bug 导致推送失败）。改为**手动触发**模式。
+> **2026-05-09 更新**：09:30 cron 已恢复，使用 **`deliver=local`** 绕过 Gateway asyncio timeout bug。简报保存到 cron 日志而非微信推送，需要时手动查看或转发。
 
-### 手动推送流程
+### Cron 配置
+
+- **Schedule**: `30 9 * * *`（每日 09:30）
+- **Skills**: `wuhoo-news-rss`, `wuhoo-rss-briefing`
+- **Delivery**: `local`（⚠️ 不使用 WeChat/auto，避免 asyncio `Timeout context manager` bug）
+- **流程**: fetch → SQLite 直查 → 噪音过滤 → 四类 TOP 5 输出
+
+### 手动触发（备用）
 
 用户发送"更新收集rss信息，并推送关键主题top新闻给我"即可触发：
 
@@ -214,6 +221,7 @@ DataAggregator._get_combined_sentiment()
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.6 | 2026-05-09 | 恢复 09:30 cron（deliver=local 绕过 Gateway asyncio bug），同时加载 wuhoo-rss-briefing skill |
 | 1.5 | 2026-05-03 | 删除 09:30 cron 微信推送（Gateway asyncio bug），改为手动触发模式；推送格式改用 wuhoo-rss-briefing skill 的 SQLite 直查流程 |
 | 1.4 | 2026-05-02 | Cron push format finalized: 4 categories TOP10, merged multi-source articles [N源], 50-char summaries. WeChat delivery blocked by gateway asyncio timeout bug. |
 | 1.2 | 2026-05-01 | 修复路径错误，添加热点评分说明，新增主题简报生成流程与脚本 |

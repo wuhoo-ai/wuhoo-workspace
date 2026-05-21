@@ -438,7 +438,19 @@ python3.11 stock_pick.py --market cn --date YYYY-MM-DD
 head ~/wuhoo-workspace/data/stock-pick/factors/result_{us,hk,cn}_YYYYMMDD.csv
 ```
 
-### Cron Job 执行策略
+### Cron 自动化（2026-05-09 批量增设）
+
+全部 13 个定时任务清单、设计模式和经验教训见：
+- `references/cron-inventory.md` — 完整 cron inventory，含 delivery 模式、token 优化、交易日策略
+
+本 skill 相关的 cron 任务：
+- **市场数据更新** (`0 8 * * *`) — 更新三市场日线
+- **每日选股结果** (`20 8 * * 1-5`) — 数据更新后自动产出 Top 10 选股
+- **美股等权调仓检查** (`0 22 * * 1`) — 每周一检查是否需要 rebalance
+- **数据完整性扫描** (`0 8 * * 6`) — 每周六交叉污染检查
+- **S&P500 成分股更新** (`0 3 * * 6`) — 每周六自动刷新
+
+## Cron Job 执行策略
 
 CN efinance 换手率阶段耗时 50+ 分钟（999 只股票，成功率 ~2.3%），而 US 和 HK 各仅需 2-5 分钟。
 定时任务中优先策略：
@@ -535,7 +547,7 @@ Legacy 格式（含 `change_rate` 列）与 stock-pick 格式兼容，额外列�
 
 *创建时间：2026-03-12*
 *更新时间：2026-05-09*
-*版本：3.4 — 移除过时的 CN/US 串行约束 + Cron Job 执行策略*
+*版本：3.5 — 批量增设 cron（选股/调仓/数据扫描/S&P500更新）+ cron-inventory 参考文件*
 
 ## 参考文件
 

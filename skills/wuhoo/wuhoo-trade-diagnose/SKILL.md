@@ -163,14 +163,57 @@ cp /home/admin/wuhoo-workspace/data/trade/data/workflow_d/{DATE}/* \
 
 | 数据源 | 内容 | 说明 |
 |--------|------|------|
-| **Futu OpenD** | 实时持仓、资金、盈亏 | 通过 futu-api get_portfolio |
+| **用户直接粘贴** | 成本/现价/仓位/盈亏 | WeChat/CLI 模式，绕过 OpenD |
+| **akshare** | K线/技术指标/全市场覆盖 | ⭐ Futu无A股权限时的主力数据源，覆盖全A股 |
+| **Futu OpenD** | 实时持仓、资金、盈亏 | 通过 futu-api get_portfolio（需A股行情权限）|
 | **Futu 快照** | PE/PB/市值/振幅 | OpenQuoteContext.get_market_snapshot |
-| **web_search** | 分析师评级、目标价 | 详见 `references/analyst-data-sources.md` |
+| **web_search** | Q1业绩/研报/分析师评级/行业动态 | 每只股票 1-2 次搜索 |
+| **daily_data** | 历史K线（仅~1000只） | 选股因子覆盖股票，可能有缺失 |
 | **Workflow B** | 逐股深度分析 | 调用 wuhoo-stock-deep-analysis/deep_analysis.py |
 | **risk_manager** | 风控规则检查 | 仓位/止损/黑名单 |
 | **portfolio_metrics** | 组合级指标计算 | Sharpe/HHI/集中度/回撤 |
 
 > 📁 **参考文件**：`references/futu-portfolio-fetch.py`（持仓获取脚本模板）、`references/analyst-data-sources.md`（分析师数据源指南）
+
+## 用户直接提供持仓数据的快速诊断模式（2026-05-12 新增）
+
+**触发条件**：用户通过 WeChat/CLI 直接粘贴持仓数据（含成本、现价、盈亏、市值），无需拉取 OpenD。
+
+**数据获取优先级链**（当 Futu OpenD A股无权限时）：
+
+```
+用户粘贴的持仓数据（成本/现价/仓位）  ← 始终可用
+    ↓
+akshare stock_zh_a_hist()            ← ✅ 覆盖全A股，获取技术指标
+    ↓
+web_search（基本面/Q1业绩/研报）      ← 每只股票 1-2 次搜索
+    ↓
+daily_data（仅~1000只股票，可能缺失） ← 补充因子数据
+```
+
+**快速诊断步骤**：
+
+```bash
+# Step 1: 解析用户粘贴的持仓（成本/现价/仓位/盈亏）
+# Step 2: akshare 拉取每只个股近60日K线，计算技术指标
+python3.11 -c "
+import akshare as ak
+import numpy as np
+# 对每只个股：mom5/mom10/mom20, volatility, RSI, volume_ratio, turnover
+"
+# Step 3: web_search 获取最新基本面/Q1业绩/研报评级
+# Step 4: 识别组合集中度风险（行业/单票/Top-N）
+# Step 5: 按模板生成诊断报告（见 references/rapid-diagnosis-template.md）
+```
+
+**⚠️ 已知陷阱**：
+
+1. **ETF 代码易混淆**：华泰柏瑞航空航天ETF → **563380**（非 512770 战略新兴ETF华夏，非 512770）。ETF简称相同但基金公司不同时代码不同，务必搜索确认。
+2. **daily_data 覆盖不全**：daily_data 仅含 ~1000 只选股因子覆盖的股票。天华新能(300390)、英维克(002837)、多数ETF **不在 daily_data 中**，须回退到 akshare。
+3. **daily_data 最新日期可能滞后**：202605.csv 实测仅含 5月6日数据（5月7-12日缺失），用户 OpenD 数据可能更新 → **优先相信用户提供的持仓数据**。
+4. **锂电产业链集中度风险**：若多只持仓属同一产业链（锂电电解液/氢氧化锂/溶剂 → 均为锂电上游），须在报告顶部用红色标注组合级行业集中度风险。
+
+**报告格式**：见 `references/rapid-diagnosis-template.md`
 
 ## 降级策略
 
@@ -180,6 +223,8 @@ cp /home/admin/wuhoo-workspace/data/trade/data/workflow_d/{DATE}/* \
 | Workflow B 不可用 | 使用 `--skip-re-eval` 模式，仅做持仓扫描 + 组合风险 |
 | 单只股票分析失败 | 标记该股票为"分析失败"，继续处理其余持仓 |
 | 所有分析失败 | 输出持仓概览 + 基础风控检查，报告标注"降级模式" |
+| daily_data 缺失个股 | 回退到 akshare（覆盖全A股），无额外限制 |
+| Futu 无A股权限 | 跳过Futu行情，直接用用户数据+akshare+web_search |
 
 ## 依赖
 
@@ -300,6 +345,7 @@ python3.11 ~/wuhoo-workspace/skills/wuhoo/wuhoo-futuapi/scripts/trade/get_accoun
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.8 | 2026-05-12 | 新增「用户直接提供持仓数据的快速诊断模式」章节（WeChat/CLI粘贴持仓，无需OpenD）；新增数据获取优先级链（akshare回退→web_search→daily_data）；新增ETF代码易混淆陷阱（563380≠512770）；新增 daily_data覆盖不全陷阱（仅~1000只）；添加 references/rapid-diagnosis-template.md 报告模板；添加 scripts/akshare_tech_factors.py 因子计算脚本；降级策略表新增2行（daily_data缺失/Futu无A股权限） |
 | 1.7 | 2026-05-08 | 新增串行执行+备份模式的具体命令；新增「解读所有 REDUCE 时的注意事项」章节（区分风控驱动 vs 基本面驱动 REDUCE） |
 | 1.6 | 2026-05-07 | 修正输出路径文档（actual→`workflow_d/`，非旧 `data/diagnose/`）；新增 Hermes Agent 并行 process wait 60s clamp 注意事项；确认输出目录覆盖问题在 CN/HK 并行时仍存在 |（sys.path 缺失 wuhoo-trade 目录）；发现输出目录覆盖问题（CN/HK 并行运行时 HK 覆盖 CN 的 01_portfolio_scan 等文件） |
 | 1.4 | 2026-05-03 | 定时任务拆分：CN/HK 10:00 + US 23:00，新增交易日检查脚本；确认微信推送不可用（Gateway asyncio bug），全部改为 local delivery |
@@ -311,4 +357,4 @@ python3.11 ~/wuhoo-workspace/skills/wuhoo/wuhoo-futuapi/scripts/trade/get_accoun
 ---
 
 *创建时间：2026-04-13*
-*版本：1.7*
+*版本：1.8*
