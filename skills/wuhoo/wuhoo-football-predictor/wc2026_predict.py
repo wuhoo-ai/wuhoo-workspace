@@ -86,6 +86,13 @@ def _load_venues():
 
 VENUES = _load_venues()
 
+def _load_group_venues():
+    gv_path = os.path.join(os.path.dirname(__file__), 'data', 'group_venues.json')
+    with open(gv_path) as f:
+        return json.load(f)['groups']
+
+GROUP_VENUES = _load_group_venues()
+
 def _load_profiles():
     ppath = os.path.join(os.path.dirname(__file__), 'data', 'team_profiles.json')
     with open(ppath) as f:
@@ -187,6 +194,16 @@ def validate_data():
     for vname, _ in [FINAL_VENUE, THIRD_VENUE]:
         if vname and vname not in all_venue_names:
             errors.append(f"Venue '{vname}' not in venues.json")
+
+    # v2.2: Validate group stage venues
+    for letter in 'ABCDEFGHIJKL':
+        if letter not in GROUP_VENUES:
+            errors.append(f"Group {letter} missing from group_venues.json")
+        else:
+            gv = GROUP_VENUES[letter]
+            for md, vname in enumerate(gv.get('venues', [])):
+                if vname not in all_venue_names:
+                    errors.append(f"Group {letter} MD{md+1} venue '{vname}' not in venues.json")
 
     if errors:
         print("❌ DATA VALIDATION ERRORS:", file=sys.stderr)
@@ -376,6 +393,10 @@ def simulate_one_tournament(elo_adjustments=None):
         gf = {t: 0 for t in teams}
         ga = {t: 0 for t in teams}
 
+        # v2.2: Get group stage venues for this group
+        gv = GROUP_VENUES.get(letter, {})
+        group_venue_list = gv.get('venues', [None, None, None])
+
         for i in range(4):
             for j in range(i + 1, 4):
                 home, away = teams[i], teams[j]
@@ -385,7 +406,18 @@ def simulate_one_tournament(elo_adjustments=None):
                 elif home in ('Brazil', 'Argentina', 'Uruguay', 'Colombia', 'Ecuador', 'Paraguay'):
                     home_adv = 15
 
-                gh, ga_goals = sim_match(home, away, elos[home], elos[away], home_adv)
+                # v2.2: Determine matchday for venue lookup
+                # MD1: (0,1) (2,3) | MD2: (0,2) (1,3) | MD3: (0,3) (1,2)
+                if (i == 0 and j == 1) or (i == 2 and j == 3):
+                    md = 0
+                elif (i == 0 and j == 2) or (i == 1 and j == 3):
+                    md = 1
+                else:
+                    md = 2
+                venue_name = group_venue_list[md] if md < len(group_venue_list) else None
+
+                gh, ga_goals = sim_match(home, away, elos[home], elos[away], home_adv,
+                                         venue_name=venue_name)
 
                 # v2.2: Dynamic upset factor — higher chance for close teams
                 elo_diff = elos[home] - elos[away]
@@ -1028,7 +1060,7 @@ def generate_report(stats, expected_bracket, elo_adjustments=None):
     lines.append(f"- **平局处理**: KO 阶段概率化打破（非确定性强队胜），ELO 差 0 → 50:50")
     lines.append(f"- **冷门因子 v2.2**: 动态冷门概率（ELO 接近时高达 18%，差距大时最低 2%）+ 每场 ELO N(0,35) 高斯噪声")
     lines.append(f"- **新闻情感 v2.2**: {'已启用 (' + str(len(elo_adjustments)) + ' 支球队有调整)' if elo_adjustments else '未启用（--news 参数可选）'}")
-    lines.append(f"- **已知局限**: 无实时伤病/阵容/教练数据，ELO 为静态数据（2026-05-20），小组赛无 venue 建模")
+    lines.append(f"- **已知局限**: 无实时伤病/阵容/教练数据，ELO 为静态数据（2026-05-20），小组赛 venue 建模已启用")
     lines.append(f"")
 
     return '\n'.join(lines)

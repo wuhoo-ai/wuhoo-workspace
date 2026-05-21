@@ -1,307 +1,128 @@
 {
-  "generated": "2026-05-21T11:30:59.478376",
-  "model": "Elo + Poisson + FIFA Official Bracket v2.1",
-  "n_sims": 10000,
+  "generated": "2026-05-21T12:13:36.056646",
+  "model": "Elo + Poisson + FIFA Official Bracket",
+  "n_sims": 200,
   "backtest_accuracy": "57.8% (WC2022), 51.0% (Euro2024)",
   "champion": {
-    "Spain": 58.5,
-    "Argentina": 23.1,
-    "France": 17.8,
-    "Portugal": 0.4,
-    "Brazil": 0.1,
-    "England": 0.1,
-    "Germany": 0.1,
-    "Belgium": 0.0,
-    "Netherlands": 0.0,
-    "Colombia": 0.0
+    "Spain": 60.5,
+    "Argentina": 25.0,
+    "France": 14.0,
+    "Germany": 0.5
   },
   "final": {
-    "France": 74.3,
-    "Spain": 67.2,
-    "Argentina": 32.5,
-    "Portugal": 10.6,
-    "Brazil": 5.4,
-    "Germany": 4.5,
-    "Netherlands": 1.6,
-    "Colombia": 1.4,
+    "France": 71.0,
+    "Spain": 69.5,
+    "Argentina": 30.5,
+    "Portugal": 9.5,
+    "Brazil": 6.5,
+    "Germany": 6.0,
+    "Colombia": 2.5,
+    "Netherlands": 1.5,
     "Ecuador": 1.0,
-    "Mexico": 0.7
+    "Mexico": 1.0
   },
   "semifinal": {
-    "Spain": 97.2,
-    "Argentina": 95.8,
-    "France": 85.2,
-    "Portugal": 41.8,
-    "Brazil": 21.8,
-    "Germany": 20.4,
-    "Colombia": 11.3,
-    "Netherlands": 5.7,
-    "Ecuador": 5.6,
-    "Mexico": 3.7
+    "Spain": 97.5,
+    "Argentina": 95.0,
+    "France": 83.5,
+    "Portugal": 45.0,
+    "Brazil": 24.0,
+    "Germany": 18.5,
+    "Colombia": 13.0,
+    "Ecuador": 5.5,
+    "Netherlands": 4.0,
+    "England": 3.5
   },
   "quarterfinal": {
-    "Spain": 97.2,
-    "Argentina": 95.8,
-    "France": 85.2,
-    "Portugal": 41.8,
-    "Brazil": 21.8,
-    "Germany": 20.4,
-    "Colombia": 11.3,
-    "Netherlands": 5.7,
-    "Ecuador": 5.6,
-    "Mexico": 3.7,
-    "Morocco": 3.4,
-    "England": 3.1,
-    "Belgium": 1.4,
-    "Japan": 1.2,
-    "Switzerland": 0.8,
-    "South Korea": 0.4
+    "Spain": 97.5,
+    "Argentina": 95.0,
+    "France": 83.5,
+    "Portugal": 45.0,
+    "Brazil": 24.0,
+    "Germany": 18.5,
+    "Colombia": 13.0,
+    "Ecuador": 5.5,
+    "Netherlands": 4.0,
+    "England": 3.5,
+    "Mexico": 3.0,
+    "Morocco": 2.5,
+    "Senegal": 1.5,
+    "Switzerland": 1.0,
+    "South Korea": 1.0,
+    "Iran": 0.5
   },
   "group_advance": {
     "A": {
       "Mexico": 100.0,
-      "South Korea": 97.4,
-      "Czech Republic": 69.4,
-      "South Africa": 33.2
+      "South Korea": 97.5,
+      "Czech Republic": 68.5,
+      "South Africa": 34.0
     },
     "B": {
-      "Switzerland": 99.8,
-      "Canada": 97.4,
-      "Bosnia and Herzegovina": 65.4,
-      "Qatar": 37.4
+      "Switzerland": 100.0,
+      "Canada": 97.5,
+      "Bosnia and Herzegovina": 67.5,
+      "Qatar": 35.0
     },
     "C": {
-      "Brazil": 100.0,
       "Morocco": 100.0,
-      "Scotland": 77.2,
-      "Haiti": 22.9
+      "Brazil": 100.0,
+      "Scotland": 79.5,
+      "Haiti": 20.5
     },
     "D": {
       "USA": 100.0,
-      "Turkey": 92.4,
-      "Australia": 82.2,
-      "Paraguay": 25.4
+      "Turkey": 91.5,
+      "Australia": 83.0,
+      "Paraguay": 25.5
     },
     "E": {
       "Germany": 100.0,
       "Ecuador": 100.0,
-      "Ivory Coast": 59.1,
-      "Curacao": 40.9
+      "Ivory Coast": 62.5,
+      "Curacao": 37.5
     },
     "F": {
       "Netherlands": 99.5,
-      "Japan": 95.5,
-      "Sweden": 57.0,
-      "Tunisia": 48.0
+      "Japan": 91.5,
+      "Tunisia": 55.0,
+      "Sweden": 54.0
     },
     "G": {
       "Belgium": 100.0,
-      "Egypt": 96.3,
-      "Iran": 96.0,
-      "New Zealand": 7.7
+      "Egypt": 98.0,
+      "Iran": 95.0,
+      "New Zealand": 7.0
     },
     "H": {
       "Spain": 100.0,
-      "Uruguay": 99.8,
-      "Saudi Arabia": 55.4,
-      "Cape Verde": 44.8
+      "Uruguay": 100.0,
+      "Saudi Arabia": 55.0,
+      "Cape Verde": 45.0
     },
     "I": {
       "France": 100.0,
-      "Senegal": 99.6,
-      "Iraq": 50.4,
-      "Norway": 50.0
+      "Senegal": 99.5,
+      "Iraq": 57.0,
+      "Norway": 43.5
     },
     "J": {
       "Argentina": 100.0,
-      "Austria": 99.1,
-      "Algeria": 89.5,
-      "Jordan": 11.5
+      "Austria": 98.0,
+      "Algeria": 92.5,
+      "Jordan": 9.5
     },
     "K": {
       "Portugal": 100.0,
-      "Colombia": 100.0,
-      "DR Congo": 57.8,
-      "Uzbekistan": 42.2
+      "Colombia": 99.5,
+      "DR Congo": 57.0,
+      "Uzbekistan": 43.5
     },
     "L": {
       "England": 100.0,
-      "Croatia": 99.9,
-      "Ghana": 81.8,
-      "Panama": 18.3
+      "Croatia": 100.0,
+      "Ghana": 84.0,
+      "Panama": 16.0
     }
-  },
-  "expected_bracket": {
-    "r32_pairs": {
-      "15": [
-        "Argentina",
-        "Uruguay"
-      ],
-      "11": [
-        "Spain",
-        "Austria"
-      ],
-      "5": [
-        "Ecuador",
-        "Senegal"
-      ],
-      "12": [
-        "Colombia",
-        "Croatia"
-      ],
-      "4": [
-        "Netherlands",
-        "Morocco"
-      ],
-      "1": [
-        "South Korea",
-        "Canada"
-      ],
-      "2": [
-        "Brazil",
-        "Japan"
-      ],
-      "14": [
-        "Turkey",
-        "Egypt"
-      ],
-      "9": [
-        "Belgium",
-        "Czech Republic"
-      ],
-      "8": [
-        "England",
-        "Algeria"
-      ],
-      "16": [
-        "Portugal",
-        "Ghana"
-      ],
-      "6": [
-        "France",
-        "Iran"
-      ],
-      "10": [
-        "USA",
-        "Bosnia and Herzegovina"
-      ],
-      "7": [
-        "Mexico",
-        "Scotland"
-      ],
-      "3": [
-        "Germany",
-        "Australia"
-      ],
-      "13": [
-        "Switzerland",
-        "New Zealand"
-      ]
-    },
-    "r32_winners": {
-      "15": "Argentina",
-      "11": "Spain",
-      "5": "Ecuador",
-      "12": "Colombia",
-      "4": "Netherlands",
-      "1": "South Korea",
-      "2": "Brazil",
-      "14": "Turkey",
-      "9": "Belgium",
-      "8": "England",
-      "16": "Portugal",
-      "6": "France",
-      "10": "USA",
-      "7": "Mexico",
-      "3": "Germany",
-      "13": "Switzerland"
-    },
-    "r16_pairs": {
-      "1": [
-        "Brazil",
-        "Germany"
-      ],
-      "2": [
-        "South Korea",
-        "Portugal"
-      ],
-      "3": [
-        "Netherlands",
-        "Ecuador"
-      ],
-      "4": [
-        "France",
-        "Mexico"
-      ],
-      "5": [
-        "Belgium",
-        "USA"
-      ],
-      "6": [
-        "England",
-        "Spain"
-      ],
-      "7": [
-        "Switzerland",
-        "Turkey"
-      ],
-      "8": [
-        "Colombia",
-        "Argentina"
-      ]
-    },
-    "r16_winners": {
-      "1": "Brazil",
-      "2": "Portugal",
-      "3": "Netherlands",
-      "4": "France",
-      "5": "Belgium",
-      "6": "Spain",
-      "7": "Switzerland",
-      "8": "Argentina"
-    },
-    "qf_pairs": {
-      "1": [
-        "Brazil",
-        "Portugal"
-      ],
-      "2": [
-        "Netherlands",
-        "France"
-      ],
-      "3": [
-        "Belgium",
-        "Spain"
-      ],
-      "4": [
-        "Switzerland",
-        "Argentina"
-      ]
-    },
-    "qf_winners": {
-      "1": "Portugal",
-      "2": "France",
-      "3": "Spain",
-      "4": "Argentina"
-    },
-    "sf_pairs": {
-      "1": [
-        "Portugal",
-        "France"
-      ],
-      "2": [
-        "Spain",
-        "Argentina"
-      ]
-    },
-    "sf_winners": {
-      "1": "France",
-      "2": "Spain"
-    },
-    "final_pair": [
-      "France",
-      "Spain"
-    ],
-    "final_winner": "Spain"
   }
 }

@@ -1,4 +1,7 @@
----\nname: wuhoo-football-predictor\ndescription: 足球赛事预测系统 — Elo+Poisson+Monte Carlo v2.2，支持 2026 世界杯全流程模拟 + 中文 Markdown 综合报告 + 新闻情感集成\nversion: 2.2.0
+---
+name: wuhoo-football-predictor
+description: 足球赛事预测系统 — Elo+Poisson+Monte Carlo v2.2，支持 2026 世界杯全流程模拟 + 中文 Markdown 综合报告 + 新闻情感集成
+version: 2.2.0
 dependencies:
   - wuhoo-news-rss
   - pandas
@@ -138,8 +141,9 @@ wuhoo-football-predictor/
 │   └── weights.json          # 模型权重
 ├── tests/
 │   └── test_football.py      # 18个单元测试
-└── .hermes/plans/            # 开发计划 (v2.1)
-    └── 2026-05-02_180000-wc2026-report-enhancement.md
+└── .hermes/plans/            # 开发计划
+    ├── 2026-05-02_180000-wc2026-report-enhancement.md
+    └── 2026-05-21_052100-wc2026-v2.2-iteration-plan.md
 ```
 
 ## 已知限制
@@ -148,7 +152,7 @@ wuhoo-football-predictor/
 2. **ELO 半静态**: fetch_elo.py 仍用已失效的 clubelo.com API，需重写为 eloratings.net 抓取
 3. **第3名分配 fallback**: 当组合不在 FIFA 495 种映射表中时使用最佳可用队替代
 4. **无阵容磨合/教练因子**: 球队化学反应、战术体系未建模（FP predict 的 fa 有桩代码）
-5. **小组赛 venue 未建模**: 仅淘汰赛阶段应用 venue 惩罚
+5. **小组赛 venue 已启用**: 各组3个比赛日匹配到实际球场（含海拔/高温惩罚）
 6. **RSS 新闻覆盖不均**: 751 条新闻偏重欧洲豪门，非主流球队情感调整为零
 7. **冠军分布仍偏集中**: v2.2 改善但 Top3 仍 ~99%（实际世界杯有更多冷门）
 8. **fp_predict.py `--full` 为桩代码**: 仅配置了多赛事框架，缺具体赛事的 Bracket 实现
@@ -169,6 +173,12 @@ r32_slot_winner[slot_id][winner] += 1  # 分离 winner 追踪
 ### 决赛 runner_up 缺失 Bug (v2.2 修复)
 `stage_winners['F'] = {1: champion}` 只存了冠军，导致 `final_count` 与 `champion_count` 完全一致。
 **修复**: `stage_winners['F'] = {1: champion, 2: runner_up}`。
+
+### 半决赛 SF 计数错误 (v2.2 修复)
+`sf_count` 原来只追踪 `sf_winners.values()`（2 支决赛队），遗漏了 2 支半决赛负方。
+**修复**: 在 `simulate_one_tournament()` 中新增 `stage_winners['SF_all']` 追踪全部 4 队，
+MC 聚合改用 `stage_winners.get('SF_all', [])` 替代 `sf_winners.values()`。
+**症状**: semifinal 百分比与 final 完全一致；**验证**: C% < F% < SF% 且 SF% < 100%。
 
 ### ELO 数据源失效
 clubelo.com API (`http://api.clubelo.com/`) 已不可用。当前使用 eloratings.net 但网站为 JS 渲染，无法通过 curl/web_extract 直接采集。
