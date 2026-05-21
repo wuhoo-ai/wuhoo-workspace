@@ -180,22 +180,49 @@ def _predict_match(team_a: str, team_b: str, tournament: str,
 
 
 def _analyze_tournament(tournament: str, fetcher: DataFetcher):
-    """分析赛事"""
+    """分析赛事 — v2.2: 支持 worldcup Monte Carlo 全流程模拟"""
     print(f"\n📊 分析 {tournament}...")
-    
-    # 加载数据
+
     if tournament == 'worldcup':
-        df = fetcher.fetch_worldcup_history()
+        # Delegate to wc2026_predict.py Monte Carlo
+        _run_full_worldcup_simulation()
+        return
     elif tournament == 'euro':
         df = fetcher.fetch_euro_history()
-    
+    elif tournament == 'copa':
+        print("⚠️ Copa America 全流程模拟尚未实现，请使用 --predict 预测单场")
+        return
+    elif tournament == 'asiancup':
+        print("⚠️ Asian Cup 全流程模拟尚未实现，请使用 --predict 预测单场")
+        return
+    else:
+        print(f"❌ 未知赛事: {tournament}")
+        return
+
     if df.empty:
         print("❌ 未找到数据，请先运行 --update")
         return
-    
-    print(f"✅ 共 {len(df)} 场比赛数据")
-    print("📊 使用 --predict 预测具体比赛")
-    print("📊 使用 --backtest 回测历史表现")
+
+    print(f"✅ 共 {len(df)} 场比赛历史数据")
+
+
+def _run_full_worldcup_simulation():
+    """Run WC2026 full Monte Carlo simulation via wc2026_predict."""
+    import subprocess
+    import os
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    wc_script = os.path.join(script_dir, 'wc2026_predict.py')
+
+    print("🔄 运行 2026 世界杯 10,000 次 Monte Carlo 模拟...")
+    result = subprocess.run(
+        ['python3.11', wc_script, '--full', '--sims', '10000'],
+        capture_output=False, text=True
+    )
+    if result.returncode != 0:
+        print("❌ 模拟失败")
+    else:
+        print("✅ 模拟完成，结果已保存到 data/wc2026_mc_report.json")
 
 
 def _show_news(team: str):
