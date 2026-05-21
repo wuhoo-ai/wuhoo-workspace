@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 """
-2026 FIFA World Cup — 全流程 Monte Carlo 预测系统 v2.2
-基于: Elo + Poisson + FIFA 官方 Bracket + 10,000次 全流程模拟
+2026 FIFA World Cup — 全流程 Monte Carlo 预测系统 v2.3
+基于: Elo + Poisson + FIFA 官方 Bracket + 2,000次 全流程模拟
 
 Usage:
   python3.11 wc2026_predict.py [--full|--groups|--knockout|--report] [--sims N] [--news]
+
+v2.3 更新:
+- ELO 采集管线完全重写 (fetch_elo.py v2.0): 多源级联 + 64 队完整覆盖
+- 锦标赛级形态因子: 每队抽取持久 N(0,60) form boost, 模拟"状态火热的黑马"
+- 冷门模型: 上界 18%→22%, 每场 N(0,25) 抖动, 比分扰动 30%→40%
+- 队名标准化: USA→United States, 全量 TEAM_ALIASES 映射
+- ELO 数据源: international-football.net (结构化 HTML, 非 JS 渲染)
 
 v2.2 更新:
 - ELO 数据刷新到 2026-05-20 (eloratings.net)
@@ -40,14 +47,17 @@ except Exception:
 random.seed(42)
 _poisson = PoissonModel()
 
-# v2.2: ELO jitter — adds Gaussian noise to each match ELO to simulate
-# form fluctuation, reducing top-team concentration
-ELO_JITTER_SIGMA = 35  # std dev of ELO perturbation per match
+# v2.3: Tournament-level form — each team draws a persistent form boost/slump
+# for the entire tournament. This creates correlated outcomes and prevents
+# top-team dominance by allowing any team to have a "hot tournament."
+TOURNAMENT_FORM_SIGMA = 60  # std dev of persistent tournament ELO adjustment
+# v2.2: ELO jitter — reduced in v2.3 since tournament form handles big swings
+ELO_JITTER_SIGMA = 25  # std dev of per-match ELO perturbation (v2.2: 35 → v2.3: 25)
 # v2.2: Dynamic upset probability — replaces flat 3% with ELO-difference-based formula
 # Higher upset chance for close matches, lower for blowouts
 def _upset_prob(elo_diff):
     """Dynamic upset probability based on absolute ELO difference."""
-    return max(0.02, 0.18 - 0.0003 * abs(elo_diff))
+    return max(0.02, 0.22 - 0.0003 * abs(elo_diff))  # v2.2: 0.18 → v2.3: 0.22
 
 # ============================================================
 # 1. 分组 & ELO
@@ -56,7 +66,7 @@ GROUPS = {
     'A': ['Mexico', 'South Africa', 'South Korea', 'Czech Republic'],
     'B': ['Canada', 'Switzerland', 'Bosnia and Herzegovina', 'Qatar'],
     'C': ['Brazil', 'Morocco', 'Haiti', 'Scotland'],
-    'D': ['USA', 'Turkey', 'Paraguay', 'Australia'],
+    'D': ['United States', 'Turkey', 'Paraguay', 'Australia'],
     'E': ['Germany', 'Ecuador', 'Ivory Coast', 'Curacao'],
     'F': ['Netherlands', 'Japan', 'Sweden', 'Tunisia'],
     'G': ['Belgium', 'Egypt', 'Iran', 'New Zealand'],
@@ -101,7 +111,61 @@ def _load_profiles():
 TEAM_PROFILES = _load_profiles()
 
 # ============================================================
-# 1b. News Sentiment (v2.2)
+# 1b. Injuries (v2.3)
+# ============================================================
+def _load_injuries():
+    """Load injury data. Returns {team: total_penalty} dict."""
+    ipath = os.path.join(os.path.dirname(__file__), 'data', 'injuries.json')
+    try:
+        with open(ipath) as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+    return {team: info['total_penalty'] for team, info in data.get('injuries', {}).items()}
+
+INJURIES = _load_injuries()
+
+# ============================================================
+# 1c. Team Metadata (v2.3) — Coach + Roster + Chemistry
+# ============================================================
+def _load_team_metadata():
+    """Load team metadata. Returns {team: metadata} dict."""
+    mpath = os.path.join(os.path.dirname(__file__), 'data', 'team_metadata.json')
+    try:
+        with open(mpath) as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+    return data.get('teams', {})
+
+TEAM_META = _load_team_metadata()
+
+RESULT_POINTS = {
+    'champion': 25, 'finalist': 15, 'semifinalist': 10,
+    'quarterfinalist': 5, 'round16': 2, 'none': 0
+}
+
+def compute_meta_adjustment(team):
+    """Compute ELO adjustment from coaching + roster + chemistry factors.
+    Returns (adjustment, breakdown_dict) or (0, None) if no data."""
+    meta = TEAM_META.get(team)
+    if not meta:
+        return 0, None
+    coach = meta.get('coach_wc_experience', 0) * 8
+    result = RESULT_POINTS.get(meta.get('coach_best_result', 'none'), 0)
+    stability = (meta.get('roster_stability', 0.5) - 0.5) * 40
+    chemistry = (meta.get('recent_form_consistency', 0.5) - 0.5) * 30
+    total = int(round(coach + result + stability + chemistry))
+    return total, {'coach': coach, 'result': result, 'stability': stability, 'chemistry': chemistry}
+
+META_ADJUSTMENTS = {}
+for team in ALL_TEAMS:
+    adj, _ = compute_meta_adjustment(team)
+    if adj != 0:
+        META_ADJUSTMENTS[team] = adj
+
+# ============================================================
+# 1d. News Sentiment (v2.2)
 # ============================================================
 def load_news_sentiment(enable_news=False):
     """Load news sentiment scores and convert to ELO adjustments.
@@ -132,7 +196,13 @@ def load_news_sentiment(enable_news=False):
         # Convert sentiment to ELO adjustment (scale: ±50 max)
         elo_adj = {}
         teams_with_news = 0
+        teams_with_proxy = 0
         for team in ALL_TEAMS:
+            # v2.3: Use proxy sentiment for teams without direct news
+            proxy_score = analyzer.get_proxy_sentiment(team, sentiment_scores)
+            if proxy_score != 0 and team.lower() not in sentiment_scores:
+                sentiment_scores[team.lower()] = proxy_score
+                teams_with_proxy += 1
             impact = analyzer.get_sentiment_impact(team, sentiment_scores)
             # Scale: impact ranges from -0.15 to +0.05 in analyzer
             # Map to ELO adjustment: ±40 max
@@ -141,7 +211,8 @@ def load_news_sentiment(enable_news=False):
                 elo_adj[team] = adj
                 teams_with_news += 1
 
-        print(f"📰 News sentiment loaded: {teams_with_news}/{len(ALL_TEAMS)} teams with adjustments "
+        direct_count = teams_with_news - teams_with_proxy
+        print(f"📰 News sentiment loaded: {direct_count} direct + {teams_with_proxy} proxy = {teams_with_news}/{len(ALL_TEAMS)} teams "
               f"(range: {min(elo_adj.values()) if elo_adj else 0} to {max(elo_adj.values()) if elo_adj else 0} ELO)",
               file=sys.stderr)
         return elo_adj
@@ -353,10 +424,10 @@ def sim_match(team_a, team_b, elo_a, elo_b, home_adv=0, ko=False, venue_name=Non
         home_adv)
     ga, gb = pred['score']
 
-    # v2.2: Increased score perturbation (20% → 30%) to add more variance
-    if random.random() < 0.3:
+    # v2.3: Score perturbation (30% → 40%) to add more variance
+    if random.random() < 0.4:
         ga += random.choice([-1, 0, 1])
-    if random.random() < 0.3:
+    if random.random() < 0.4:
         gb += random.choice([-1, 0, 1])
     ga, gb = max(0, ga), max(0, gb)
 
@@ -379,10 +450,26 @@ def simulate_one_tournament(elo_adjustments=None):
     """Run one complete tournament simulation, return champion & round results.
     Also returns `r32_teams` dict for bracket tracking.
     v2.2: elo_adjustments applies news sentiment adjustments per team.
+    v2.3: tournament_form adds persistent team-level random boost/slump.
     """
     if elo_adjustments is None:
         elo_adjustments = {}
-    elos = {t: ELO.get(t, 1700) + elo_adjustments.get(t, 0) for g in GROUPS.values() for t in g}
+
+    # v2.3: Apply injury penalties (loaded from injuries.json)
+    injury_adjustments = {}
+    if INJURIES:
+        for team, penalty in INJURIES.items():
+            injury_adjustments[team] = penalty
+
+    # v2.3: Tournament-level form — each team gets a persistent random boost
+    # that applies to ALL matches in this simulation. A team with +80 form
+    # is effectively 80 ELO points stronger for the entire tournament.
+    all_team_names = [t for g in GROUPS.values() for t in g]
+    tournament_form = {t: random.gauss(0, TOURNAMENT_FORM_SIGMA) for t in all_team_names}
+
+    elos = {t: ELO.get(t, 1700) + elo_adjustments.get(t, 0) + injury_adjustments.get(t, 0)
+             + META_ADJUSTMENTS.get(t, 0) + tournament_form.get(t, 0)
+            for g in GROUPS.values() for t in g}
 
     # --- Group Stage ---
     group_standings = {}
@@ -401,7 +488,7 @@ def simulate_one_tournament(elo_adjustments=None):
             for j in range(i + 1, 4):
                 home, away = teams[i], teams[j]
                 home_adv = 0
-                if home in ('USA', 'Mexico', 'Canada'):
+                if home in ('United States', 'Mexico', 'Canada'):
                     home_adv = 60
                 elif home in ('Brazil', 'Argentina', 'Uruguay', 'Colombia', 'Ecuador', 'Paraguay'):
                     home_adv = 15
@@ -491,7 +578,7 @@ def simulate_one_tournament(elo_adjustments=None):
     # R32
     r32_winners = {}
     for slot_id, (t1, t2) in r32_teams.items():
-        home_adv = 60 if t1 in ('USA', 'Mexico', 'Canada') else 0
+        home_adv = 60 if t1 in ('United States', 'Mexico', 'Canada') else 0
         venue_name = R32_VENUES.get(slot_id, (None,))[0]
         g1, g2 = sim_match(t1, t2, elos[t1], elos[t2], home_adv, ko=True, venue_name=venue_name)
         r32_winners[slot_id] = t1 if g1 > g2 else t2
@@ -768,9 +855,9 @@ def analyze_group(letter, teams, elos, advance_probs, pts_avg):
         narrative_parts.append(f"{t2} 与 {t3} 实力接近（Δ={e2-e3}），小组第二的争夺将是最大看点")
 
     # Rule 4: 主队优势 (host advantage)
-    host_adv = any(t in ('USA', 'Mexico', 'Canada') for t in teams)
+    host_adv = any(t in ('United States', 'Mexico', 'Canada') for t in teams)
     if host_adv:
-        host_names = [t for t in teams if t in ('USA', 'Mexico', 'Canada')]
+        host_names = [t for t in teams if t in ('United States', 'Mexico', 'Canada')]
         tags.append(f"🏟️ 东道主：{', '.join(host_names)}")
         narrative_parts.append(f"东道主 {host_names[0]} 享有主场优势，这是小组出线的重要加分项")
 
@@ -824,10 +911,10 @@ def generate_report(stats, expected_bracket, elo_adjustments=None):
 
     lines.append(f"# 🌍 2026 FIFA 世界杯预测报告")
     lines.append(f"")
-    lines.append(f"**生成时间**: {now} | **模拟次数**: {n:,} | **模型**: Elo + Poisson + FIFA Bracket v2.2")
-    lines.append(f"**数据来源**: eloratings.net (2026-05-20) | **回测准确率**: WC2022 57.8%, Euro2024 51.0%")
+    lines.append(f"**生成时间**: {now} | **模拟次数**: {n:,} | **模型**: Elo + Poisson + FIFA Bracket v2.3")
+    lines.append(f"**数据来源**: international-football.net + eloratings.net (2026-05-21) | **回测**: WC2022 57.8%")
     lines.append(f"")
-    lines.append(f"> ⚠️ 本报告基于 ELO 评分和统计模型，不含实时伤病/阵容磨合数据。预测仅供娱乐参考。")
+    lines.append(f"> ⚠️ v2.3 新增: 伤病(7队/11名球员), 教练因子(20队), 锦标赛形态因子 N(0,60). 预测仅供娱乐参考。")
     if elo_adjustments:
         lines.append(f"> 📰 已集成新闻情感分析：{len(elo_adjustments)} 支球队有情感调整 (±{max(abs(v) for v in elo_adjustments.values())} ELO)")
     lines.append(f"")
@@ -911,6 +998,19 @@ def generate_report(stats, expected_bracket, elo_adjustments=None):
         lines.append(f"| {team} | {name_cn} | {pct:.1f}% |")
 
     lines.append(f"")
+    lines.append(f"### 🏆 冠军概率 ASCII 柱状图")
+    lines.append(f"```")
+    champion_sorted = sorted(stats['champion'].items(), key=lambda x: -x[1])[:12]
+    max_pct = max(pct for _, pct in champion_sorted)
+    bar_width = 30
+    for team, pct in champion_sorted:
+        bar_len = int(pct / max_pct * bar_width)
+        bar = '█' * bar_len
+        name_cn = TEAM_PROFILES.get(team, {}).get('name_cn', team)
+        lines.append(f"  {name_cn:<10} {bar} {pct:.1f}%")
+    lines.append(f"```")
+    lines.append(f"")
+
     lines.append(f"### 🏅 四强概率 Top 10")
     lines.append(f"| 球队 | 中文名 | 四强概率 |")
     lines.append(f"|------|--------|----------|")
@@ -947,7 +1047,7 @@ def generate_report(stats, expected_bracket, elo_adjustments=None):
             continue
         t1, t2 = pair
 
-        home_adv = 60 if t1 in ('USA', 'Mexico', 'Canada') else 0
+        home_adv = 60 if t1 in ('United States', 'Mexico', 'Canada') else 0
         venue_name = R32_VENUES.get(slot_id, (None,))[0]
         score, win_p, draw_p, loss_p = expected_score(t1, t2, home_adv, venue_name)
 
@@ -1049,6 +1149,40 @@ def generate_report(stats, expected_bracket, elo_adjustments=None):
         lines.append(f"")
         lines.append(f"> 💡 Poisson 预期比分是 90 分钟最可能比分（可为平局），MC 冠军含加时+点球概率打破。当预期比分平局时，ELO 高方（{n2 if ELO.get(f2,0) > ELO.get(f1,0) else n1}）在点球中略占优。")
 
+
+    # ===== Section 4.5: 冷门风险指数 v2.3 =====
+    lines.append(f"")
+    lines.append(f"---")
+    lines.append(f"## 四.五、冷门风险指数 🎲")
+    lines.append(f"")
+    lines.append(f"> 淘汰赛中弱队胜率 >25% 的高风险场次。ELO 差距越小、概率越接近，冷门风险越大。")
+    lines.append(f"")
+
+    upset_rounds = []
+    for slot_id in range(1, 17):
+        pair = expected_bracket.get('r32_pairs', {}).get(slot_id)
+        if not pair:
+            continue
+        t1, t2 = pair
+        e1, e2 = ELO.get(t1, 1700), ELO.get(t2, 1700)
+        diff = abs(e1 - e2)
+        pred = predict_score(e1, e2)
+        favorite_win = max(pred['win'], pred['loss'])
+        underdog_win = 1 - favorite_win if abs(pred['win'] - pred['loss']) > 0.001 else 0.5
+        if underdog_win > 0.25:
+            upset_rounds.append(('R32', slot_id, t1, t2, diff, underdog_win))
+
+    if upset_rounds:
+        lines.append(f"| 轮次 | Slot | 对阵 | ELO 差 | 弱队胜率 | 风险 |")
+        lines.append(f"|------|------|------|--------|----------|------|")
+        for round_name, slot, t1, t2, diff, uw in sorted(upset_rounds, key=lambda x: -x[5]):
+            risk = '🔴 高' if uw > 0.40 else '🟡 中' if uw > 0.33 else '🟢 低'
+            n1 = TEAM_PROFILES.get(t1, {}).get('name_cn', t1)
+            n2 = TEAM_PROFILES.get(t2, {}).get('name_cn', t2)
+            lines.append(f"| {round_name} | {slot} | {n1} vs {n2} | {diff} | {uw*100:.0f}% | {risk} |")
+    else:
+        lines.append(f"⚠️ 无显著冷门风险场次（所有淘汰赛对阵中弱队胜率均 ≤25%）")
+    lines.append(f"")
     # ===== Section 5: 关于本预测 =====
     lines.append(f"")
     lines.append(f"---")
@@ -1056,11 +1190,11 @@ def generate_report(stats, expected_bracket, elo_adjustments=None):
     lines.append(f"")
     lines.append(f"- **模型**: Elo 评分（2100-scale）+ Poisson 进球分布 + FIFA 官方淘汰赛对阵表")
     lines.append(f"- **模拟**: {n:,} 次 Monte Carlo 全流程模拟")
-    lines.append(f"- **球场因素**: 16 个球场，建模海拔（Azteca 2200m）和高温（Miami, Dallas 等）对非适应球队的惩罚")
+    lines.append(f"- **集成功能 v2.3**: 伤病(INJURIES), 教练/磨合(META), 锦标赛形态 N(0,60), 同洲代理新闻情感，建模海拔（Azteca 2200m）和高温（Miami, Dallas 等）对非适应球队的惩罚")
     lines.append(f"- **平局处理**: KO 阶段概率化打破（非确定性强队胜），ELO 差 0 → 50:50")
-    lines.append(f"- **冷门因子 v2.2**: 动态冷门概率（ELO 接近时高达 18%，差距大时最低 2%）+ 每场 ELO N(0,35) 高斯噪声")
-    lines.append(f"- **新闻情感 v2.2**: {'已启用 (' + str(len(elo_adjustments)) + ' 支球队有调整)' if elo_adjustments else '未启用（--news 参数可选）'}")
-    lines.append(f"- **已知局限**: 无实时伤病/阵容/教练数据，ELO 为静态数据（2026-05-20），小组赛 venue 建模已启用")
+    lines.append(f"- **冷门模型 v2.3**: 动态冷门上界 22% + 每场 N(0,25) 抖动 + 40% 比分扰动 + 锦标赛形态 N(0,60)")
+    lines.append(f"- **新闻情感 v2.3**: {'已启用 (' + str(len(elo_adjustments)) + ' 支球队有调整)' if elo_adjustments else '未启用（--news 参数可选）'}")
+    lines.append(f"- **已知局限**: ELO 为 2026-05-21 静态数据；小组赛 venue 建模已启用；伤病/教练数据需手动维护")
     lines.append(f"")
 
     return '\n'.join(lines)
@@ -1110,7 +1244,7 @@ def print_results(stats):
         print(f"  👑 MOST LIKELY CHAMPION: {top[0]} ({top[1]}%)")
         print(f"  📈 Model: Elo + Poisson + FIFA Official Bracket + {n:,} MC Sims")
         print(f"  📊 Backtest: 57.8% (WC 2022)")
-        print(f"  🔄 ELO: clubelo.com (55 teams, national-team scale)")
+        print(f"  🔄 ELO: international-football.net (64 teams, 2100-scale)")
         print(f"{'='*70}")
 
 

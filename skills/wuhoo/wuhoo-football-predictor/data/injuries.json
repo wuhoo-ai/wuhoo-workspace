@@ -1,0 +1,158 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "last_updated": "2026-05-21",
+    "description": "World Cup 2026 player injuries. ELO penalty is subtracted from the team's base ELO for Monte Carlo simulation. Updated manually as news breaks.",
+    "sources": [
+      "Al Jazeera (2026-04-26): https://www.aljazeera.com/sports/2026/4/26/will-yamal-salah-and-ekitike-miss-the-world-cup-2026-due-to-injury",
+      "BBC Sport (2026-05): https://www.bbc.com/sport/football/articles/c87wzlpd5l7o"
+    ],
+    "penalty_scale": {
+      "OUT_core": -40,
+      "OUT_important": -25,
+      "OUT_role": -15,
+      "DOUBTFUL_core": -20,
+      "DOUBTFUL_important": -15,
+      "DOUBTFUL_role": -10,
+      "MINOR_core": -10,
+      "MINOR_important": -5,
+      "MINOR_role": -3
+    }
+  },
+  "injuries": {
+    "Brazil": {
+      "total_penalty": -60,
+      "players": [
+        {
+          "name": "Rodrygo",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Torn meniscus + ACL (right knee)",
+          "severity": "core",
+          "elo_penalty": -30,
+          "note": "March 2026 injury. Decisively ruled out of World Cup."
+        },
+        {
+          "name": "Eder Militao",
+          "position": "DF",
+          "status": "OUT",
+          "injury": "Hamstring (requires surgery)",
+          "severity": "important",
+          "elo_penalty": -20,
+          "note": "Sustained during Real Madrid vs Alaves. Not available."
+        },
+        {
+          "name": "Estevao",
+          "position": "FW",
+          "status": "DOUBTFUL",
+          "injury": "Hamstring",
+          "severity": "role",
+          "elo_penalty": -10,
+          "note": "19yo Chelsea forward. 5 goals in last 6 international apps. No guarantee yet."
+        }
+      ]
+    },
+    "Germany": {
+      "total_penalty": -35,
+      "players": [
+        {
+          "name": "Marc-Andre ter Stegen",
+          "position": "GK",
+          "status": "DOUBTFUL",
+          "injury": "Severe hamstring (Feb 2026)",
+          "severity": "core",
+          "elo_penalty": -20,
+          "note": "Nagelsmann: chances 'very slim'. Oliver Baumann likely replacement."
+        },
+        {
+          "name": "Serge Gnabry",
+          "position": "FW",
+          "status": "DOUBTFUL",
+          "injury": "Torn adductor muscle (right thigh)",
+          "severity": "important",
+          "elo_penalty": -15,
+          "note": "Ruled out of Bayern's remaining season."
+        }
+      ]
+    },
+    "Spain": {
+      "total_penalty": -15,
+      "players": [
+        {
+          "name": "Lamine Yamal",
+          "position": "FW",
+          "status": "DOUBTFUL",
+          "injury": "Hamstring (left leg, biceps femoris)",
+          "severity": "core",
+          "elo_penalty": -15,
+          "note": "Euro 2024 winner. Domestic season over. 4-6 weeks recovery — should be fit but not certain."
+        }
+      ]
+    },
+    "Netherlands": {
+      "total_penalty": -25,
+      "players": [
+        {
+          "name": "Xavi Simons",
+          "position": "MF",
+          "status": "OUT",
+          "injury": "Ruptured ACL (right knee)",
+          "severity": "important",
+          "elo_penalty": -25,
+          "note": "April 25 injury. Surgery required. 6 goals in 34 national apps."
+        }
+      ]
+    },
+    "France": {
+      "total_penalty": -10,
+      "players": [
+        {
+          "name": "Hugo Ekitike",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Torn Achilles tendon",
+          "severity": "role",
+          "elo_penalty": -10,
+          "note": "Return possibly not until 2027. Not a guaranteed starter."
+        }
+      ]
+    },
+    "Egypt": {
+      "total_penalty": -10,
+      "players": [
+        {
+          "name": "Mohamed Salah",
+          "position": "FW",
+          "status": "DOUBTFUL",
+          "injury": "Hamstring tear",
+          "severity": "core",
+          "elo_penalty": -10,
+          "note": "Expected to be FIT for World Cup (4 weeks recovery). Historical: injured before 2018 WC but played. Conservative penalty."
+        }
+      ]
+    },
+    "Japan": {
+      "total_penalty": -25,
+      "players": [
+        {
+          "name": "Wataru Endo",
+          "position": "MF",
+          "status": "DOUBTFUL",
+          "injury": "Ankle (Feb 2026)",
+          "severity": "important",
+          "elo_penalty": -15,
+          "note": "Has not played since February. May return just in time."
+        },
+        {
+          "name": "Takumi Minamino",
+          "position": "MF",
+          "status": "DOUBTFUL",
+          "injury": "Ruptured ACL (Dec 2025)",
+          "severity": "role",
+          "elo_penalty": -10,
+          "note": "Recovery ongoing. Same situation as Endo."
+        }
+      ]
+    }
+  }
+}

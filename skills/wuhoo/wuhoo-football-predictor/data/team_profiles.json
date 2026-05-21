@@ -114,16 +114,6 @@
       "style_tag": "硬朗直接、身体对抗",
       "summary_cn": "欧洲杯常客，Robertson + McTominay 双核，争小组第三是主要目标"
     },
-    "USA": {
-      "name_cn": "美国",
-      "fifa_rank_est": 12,
-      "confederation": "CONCACAF",
-      "wc_appearances": 12,
-      "wc_best": "四强 (1930)",
-      "style_tag": "年轻活力、速度冲击",
-      "summary_cn": "东道主中最有实力的，Pulisic 领军黄金一代，目标至少八强",
-      "host_nation": true
-    },
     "Turkey": {
       "name_cn": "土耳其",
       "fifa_rank_est": 29,
@@ -438,6 +428,18 @@
       "wc_best": "小组赛",
       "style_tag": "中北美黑马、硬朗风格",
       "summary_cn": "第三次世界杯之旅，中北美区竞争提升带来进步"
+    },
+    "United States": {
+      "name_cn": "美国",
+      "fifa_rank_est": 12,
+      "confederation": "CONCACAF",
+      "wc_appearances": 12,
+      "wc_best": "四强 (1930)",
+      "style_tag": "年轻活力、速度冲击",
+      "summary_cn": "东道主中最有实力的，Pulisic 领军黄金一代，目标至少八强",
+      "host_nation": true,
+      "country": "United States",
+      "name_en": "United States"
     }
   }
 }

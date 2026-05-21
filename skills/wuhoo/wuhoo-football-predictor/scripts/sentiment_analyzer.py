@@ -12,7 +12,40 @@ from datetime import datetime, timedelta
 
 
 class SentimentAnalyzer:
-    """足球新闻情感分析器"""
+    """足球新闻情感分析器 v2.3 — 支持无新闻球队的同洲代理策略"""
+    
+    # Confederation mapping for proxy sentiment strategy
+    CONFEDERATIONS = {
+        'UEFA': ['Spain', 'France', 'England', 'Portugal', 'Netherlands', 'Germany',
+                 'Italy', 'Belgium', 'Croatia', 'Denmark', 'Switzerland', 'Austria',
+                 'Norway', 'Sweden', 'Poland', 'Ukraine', 'Serbia', 'Scotland',
+                 'Czech Republic', 'Hungary', 'Wales', 'Slovenia', 'Ireland', 'Slovakia'],
+        'CONMEBOL': ['Argentina', 'Brazil', 'Colombia', 'Ecuador', 'Uruguay',
+                     'Paraguay', 'Peru', 'Venezuela', 'Chile', 'Bolivia'],
+        'CAF': ['Senegal', 'Morocco', 'Nigeria', 'Algeria', 'Egypt', 'Ivory Coast',
+                'DR Congo', 'Tunisia', 'Cameroon', 'Ghana', 'South Africa', 'Cape Verde'],
+        'AFC': ['Japan', 'South Korea', 'Iran', 'Australia', 'Uzbekistan',
+                'Saudi Arabia', 'Iraq', 'Jordan', 'Qatar'],
+        'CONCACAF': ['Mexico', 'United States', 'Canada', 'Panama', 'Costa Rica',
+                     'Haiti', 'Jamaica', 'Curacao'],
+        'OFC': ['New Zealand'],
+    }
+    
+    # Reverse mapping: team → confederation
+    TEAM_CONFED = {}
+    for confed, teams in CONFEDERATIONS.items():
+        for team in teams:
+            TEAM_CONFED[team.lower()] = confed
+    
+    # Teams most likely to have news coverage (used as confederation proxies)
+    CONFED_PROXIES = {
+        'UEFA': ['spain', 'france', 'england', 'germany', 'portugal'],
+        'CONMEBOL': ['argentina', 'brazil', 'colombia'],
+        'CAF': ['senegal', 'morocco', 'egypt'],
+        'AFC': ['japan', 'south korea', 'australia'],
+        'CONCACAF': ['united states', 'mexico', 'canada'],
+        'OFC': ['new zealand'],
+    }
     
     def __init__(self):
         # 情感关键词词典
@@ -107,6 +140,43 @@ class SentimentAnalyzer:
             return 0.03
         else:
             return 0.05
+    
+    def get_proxy_sentiment(self, team: str, sentiment_scores: Dict[str, float]) -> float:
+        """v2.3: 对无新闻球队使用同洲代理策略。
+        
+        优先级：
+        1. 球队有直接新闻 → 返回直接情感
+        2. 球队无新闻但有同洲代理 → 返回同洲强队的中位数情感 × 0.5（衰减）
+        3. 完全无数据 → 返回 0（中性）
+        
+        衰减系数 0.5 反映了「同洲趋势影响有限但非零」的假设。
+        """
+        direct = sentiment_scores.get(team.lower())
+        if direct is not None and direct != 0:
+            return direct
+        
+        # Find confederation
+        confed = self.TEAM_CONFED.get(team.lower())
+        if not confed:
+            return 0.0
+        
+        # Get proxy teams' sentiments
+        proxies = self.CONFED_PROXIES.get(confed, [])
+        proxy_scores = []
+        for proxy in proxies:
+            if proxy == team.lower():
+                continue
+            score = sentiment_scores.get(proxy)
+            if score is not None and score != 0:
+                proxy_scores.append(score)
+        
+        if not proxy_scores:
+            return 0.0
+        
+        # Use median of proxy sentiments × attenuation factor
+        proxy_scores.sort()
+        median = proxy_scores[len(proxy_scores) // 2]
+        return round(median * 0.5, 3)
     
     def _days_since(self, date_str: str) -> int:
         """计算日期距今的天数"""

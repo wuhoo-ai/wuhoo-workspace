@@ -1,0 +1,157 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "last_updated": "2026-05-21",
+    "description": "Team metadata for World Cup 2026 prediction — coach experience, roster stability, chemistry. These are manually curated off-field factors that affect team performance beyond ELO.",
+    "scoring": {
+      "coach_wc_experience": "Number of World Cups coached (0-5). Each WC adds 8 ELO.",
+      "coach_best_result": {
+        "champion": 25, "finalist": 15, "semifinalist": 10, "quarterfinalist": 5, "round16": 2, "none": 0
+      },
+      "roster_stability": "Fraction of players retained from last major tournament (0.0-1.0). Formula: (stability - 0.5) × 40",
+      "recent_form_consistency": "Win rate in last 10 competitive matches. Formula: (consistency - 0.5) × 30"
+    }
+  },
+  "teams": {
+    "Spain": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.72,
+      "recent_form_consistency": 0.90,
+      "_comment": "Luis de la Fuente — 1st WC as head coach. Euro 2024 winners. Very consistent form."
+    },
+    "Argentina": {
+      "coach_wc_experience": 2,
+      "coach_best_result": "champion",
+      "roster_stability": 0.78,
+      "recent_form_consistency": 0.85,
+      "_comment": "Scaloni — WC 2022 champion coach. Core squad intact."
+    },
+    "France": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "finalist",
+      "roster_stability": 0.70,
+      "recent_form_consistency": 0.75,
+      "_comment": "Deschamps — WC 2022 finalist. Some roster turnover."
+    },
+    "England": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "quarterfinalist",
+      "roster_stability": 0.74,
+      "recent_form_consistency": 0.80,
+      "_comment": "Tuchel (new) — 1st WC as England coach. Strong talent pipeline."
+    },
+    "Brazil": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.65,
+      "recent_form_consistency": 0.70,
+      "_comment": "Dorival Junior — 1st WC. Injuries: Rodrygo, Militao, Estevao out. Roster disrupted."
+    },
+    "Portugal": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.76,
+      "recent_form_consistency": 0.82,
+      "_comment": "Roberto Martinez — WC 2018 (Belgium 3rd). Strong squad depth."
+    },
+    "Colombia": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.80,
+      "recent_form_consistency": 0.88,
+      "_comment": "Nestor Lorenzo — excellent form, dark horse candidate."
+    },
+    "Netherlands": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "quarterfinalist",
+      "roster_stability": 0.68,
+      "recent_form_consistency": 0.72,
+      "_comment": "Koeman — Xavi Simons OUT (ACL), significant midfield blow."
+    },
+    "Germany": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.70,
+      "recent_form_consistency": 0.65,
+      "_comment": "Nagelsmann — 1st WC. Ter Stegen/Gnabry injuries. Inconsistent form."
+    },
+    "Morocco": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "semifinalist",
+      "roster_stability": 0.75,
+      "recent_form_consistency": 0.70,
+      "_comment": "Regragui — WC 2022 semifinalist. Strong team cohesion."
+    },
+    "Japan": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.82,
+      "recent_form_consistency": 0.85,
+      "_comment": "Moriyasu — consistent performer. Endo/Minamino injuries."
+    },
+    "United States": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.78,
+      "recent_form_consistency": 0.65,
+      "_comment": "Pochettino (new) — host nation advantage. Inconsistent team form."
+    },
+    "Senegal": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.72,
+      "recent_form_consistency": 0.78,
+      "_comment": "Aliou Cisse — long-tenured. AFCON winners 2021."
+    },
+    "Ecuador": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.74,
+      "recent_form_consistency": 0.80,
+      "_comment": "Felix Sanchez — strong CONMEBOL qualifiers."
+    },
+    "Uruguay": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.66,
+      "recent_form_consistency": 0.70,
+      "_comment": "Marcelo Bielsa — 1st WC with Uruguay. Squad transition period."
+    },
+    "Croatia": {
+      "coach_wc_experience": 2,
+      "coach_best_result": "finalist",
+      "roster_stability": 0.70,
+      "recent_form_consistency": 0.75,
+      "_comment": "Dalic — WC 2018 finalist, 2022 semifinalist. Aging squad."
+    },
+    "Belgium": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.62,
+      "recent_form_consistency": 0.68,
+      "_comment": "Rudi Garcia (new) — golden generation fading, rebuild phase."
+    },
+    "Mexico": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.70,
+      "recent_form_consistency": 0.72,
+      "_comment": "Aguirre — host nation. Inconsistent but dangerous at home."
+    },
+    "Denmark": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.76,
+      "recent_form_consistency": 0.70,
+      "_comment": "Hjulmand — consistent performer in UEFA."
+    },
+    "Switzerland": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.80,
+      "recent_form_consistency": 0.78,
+      "_comment": "Murat Yakin — reliable tournament team."
+    }
+  }
+}

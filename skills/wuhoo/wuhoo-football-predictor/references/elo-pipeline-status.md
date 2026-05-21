@@ -1,44 +1,57 @@
-# ELO Data Pipeline Status (v2.2)
+# ELO Data Pipeline Status (v2.3)
 
 ## Current State (2026-05-21)
 
 ### Source
-- **Primary**: eloratings.net (2100-scale national team ELO)
-- **Secondary** (fallback): clubelo.com (API dead since ~2026-05)
+- **Primary**: international-football.net (structured HTML table, mirrors eloratings.net)
+- **Secondary**: eloratings.net web_search snippets (for cross-validation)
+- **Tertiary**: Hardcoded STATIC_ELO fallback in fetch_elo.py (64 teams, updated 2026-05-21)
 
-### Top 5 Confirmations (2026-05-20)
-From web_search snippet of eloratings.net main page:
-1. Spain 2165
-2. Argentina 2113
-3. France 2082
-4. England 2020
-5. Brazil 1984
+### Pipeline Architecture (fetch_elo.py v2.0)
 
-### Key Changes vs v2.1 (2026-05-01 data)
-| Team | Old | New | Δ |
-|------|-----|-----|---|
-| Spain | 2013 | 2165 | +152 |
-| Argentina | 2114 | 2113 | -1 |
-| France | 2075 | 2082 | +7 |
-| Brazil | 2061 | 1984 | -77 |
-| Netherlands | 1985 | 1961 | -24 |
-| Uruguay | 1963 | 1892 | -71 |
-| Ecuador | 1865 | 1933 | +68 |
+```
+fetch_elo.py
+├── Tier 1: HTTP fetch international-football.net
+│   └── curl with rate-limit awareness (429 → skip to Tier 3)
+├── Tier 2: Merge with existing elo_ratings.json (preserve manual curation)
+├── Tier 3: STATIC_ELO fallback (64 teams, updated via --update-static)
+└── Output: elo_ratings.json (same format, backwards compatible)
+```
+
+### Key Improvements vs v2.2
+| Item | Old | New |
+|------|-----|-----|
+| Data source | clubelo.com (dead) | international-football.net + eloratings.net |
+| Teams | 55 | 64 |
+| Auto-update | ❌ curl dead API | ✅ multi-source cascade |
+| Agent-assisted update | ❌ manual | ✅ --update-static via stdin |
+| Name normalization | ❌ raw keys | ✅ TEAM_ALIASES dict |
+| Duplicate detection | ❌ | ✅ canonical name dedup |
+| Diff support | ❌ | ✅ --diff flag |
 
 ### Data Quality
 - 48/48 WC teams covered ✅
-- 55 teams total (7 non-qualified: Italy, Denmark, etc.)
-- 9 teams confirmed from live source
-- 46 teams carried forward from 2026-05-01 with tier adjustments
-- South Africa added manually (ELO 1720)
+- 64 teams total (16 non-Q: Italy, Chile, Wales, Peru, etc.)
+- Source: international-football.net + eloratings.net (2026-05-21)
+- All team names normalized to canonical form (e.g., "United States" not "USA")
 
-### Pipeline Issues
-1. **clubelo.com API**: `http://api.clubelo.com/` returns empty → API likely decomissioned
-2. **eloratings.net JS**: Site is JS-rendered, web_extract/curl returns empty body. Only web_search snippets reveal data.
-3. **fetch_elo.py**: Still points to clubelo.com, falls back to hardcoded data from 2026-04-23
+### Key ELO Changes vs v2.2 (May 1 data)
+| Team | Old | New | Δ |
+|------|-----|-----|---|
+| Norway | 1760 | 1912 | +152 |
+| Paraguay | 1755 | 1833 | +78 |
+| Ecuador | 1865 | 1933 | +68 |
+| United States | 1920 | 1721 | -199 |
+| Belgium | 1982 | 1866 | -116 |
+| Morocco | 1933 | 1821 | -112 |
+| Italy | 1968 | 1856 | -112 |
+| Qatar | 1705 | 1427 | -278 |
+| Ghana | 1795 | 1505 | -290 |
 
-### Recommended Fix
-Rewrite `scripts/fetch_elo.py` to:
-1. Try eloratings.net via headless browser or proxy
-2. Fall back to a maintained static JSON
-3. Add web_search-based extraction as last resort
+### Agent Update Procedure
+```bash
+# Agent fetches latest data via web_extract, then pipes to script:
+python3.11 scripts/fetch_elo.py --update-static <<'EOF'
+{"Spain": 2165, "Argentina": 2113, ...}
+EOF
+```
