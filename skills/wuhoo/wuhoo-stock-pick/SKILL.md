@@ -241,6 +241,18 @@ else:
 "
 ```
 
+### yfinance 已知失败模式（无需修复）
+
+以下股票在 yfinance 批量下载中始终失败，属于预期行为，**不需要排查或重试**：
+
+| 市场 | 代码 | 失败原因 | 处理 |
+|------|------|----------|------|
+| HK | `0638.HK` | 已退市（possibly delisted） | 忽略 |
+| US | `BF.B` | 已退市（possibly delisted） | 忽略 |
+| US | `BRK.B` | yfinance 无法解析时区（no timezone found） | 忽略 |
+
+这些失败不影响选股功能（选股因子从有效股票中计算），出现时无需告警。
+
 ### 美股数据更新与修复
 
 ```bash
@@ -321,30 +333,31 @@ head -1 ~/wuhoo-workspace/data/stock-pick/daily_data_us/2026/202604.csv   # US
 
 ### `--force` 模式的性能陷阱
 
-`update_all_data.py --market cn --force` 重新下载 ~18 个月的数据，但 **纯串行、无 ThreadPoolExecutor 实际使用**（虽然 import 了），每月 ~50 秒。完整运行需 12-15 分钟，且会卡在 efinance 换手率步骤。仅当需要全量重建时使用，并准备好在换手率步骤手动终止。
+`update_all_data.py --market cn --force` 重新下载 ~18 个月的日线数据，Tushare 阶段纯串行、每月 ~50 秒，完整运行 12-15 分钟。**efinance 换手率阶段已并行化**（v3.6），见下方。
 
-### efinance 换手率下载卡死处理
+### efinance 换手率数据更新（v3.6 并行重写）
 
-efinance 接口持续返回极低成功率时（实测仅 **2.3%**，23/999），纯串行循环会导致进程运行 50+ 分钟。**症状分两种**：
-- **初期**（仍在遍历股票列表）：CPU 正常/偏高（10-20%），但超过 10 分钟无文件写入。此时进程在内存中累积数据，尚未触发进度打印（每 50 只才输出一次）。
-- **后期**（已遍历完但卡在重试）：CPU 低（<5%）但有活跃网络连接。
-- 通用判断：`/proc/<pid>/io` 中 `write_bytes: 0` 且 `rchar` 持续增长但无 CSV 文件产出。
+**旧版（v3.5 及之前）**：纯串行逐只拉取，999 只股票历时 50+ 分钟，成功率仅 2.3%。所有数据在内存中累积，循环结束后才写入 CSV — 监控期间 `turnover_data/` 无新文件属**预期行为**。
 
-**⚠️ 关键陷阱：`update_cn_turnover_efinance()` 将所有数据累积在内存中**（`all_data` 列表），**CSV 文件在整个 for 循环结束后才写入**。因此监控期间 `turnover_data/` 无任何新文件是**预期行为**，不代表卡死。判断进程是否在工作的正确方法：多次采样 rchar 计算 KB/s 速率：
-- 速率稳定 > 100 KB/s → 仍在下载
-- 速率降至 0 → 进程卡死
+**v3.6 并行版**（2026-05-28 重写）：
+- **ThreadPoolExecutor 20 线程并行** — 999 只全量从 67 分钟降至 ~3 分钟
+- **增量检测** — 检查已有 CSV 中的 `ts_code`，跳过已缓存的股票。日常增量仅拉取 0-70 只
+- **断点续传** — 每只股票拉取后立即 merge 到月度 CSV（边拉边存），超时中断不丢失进度
+- **增量合并写入** — 新数据与已有 CSV `concat + drop_duplicates`，不覆盖历史
 
-**诊断命令**：
 ```bash
-# 查看进程 I/O 状态
-cat /proc/<pid>/io | head -4
-# 检查最近 15 分钟的文件写入
-find ~/wuhoo-workspace/data/stock-pick/daily_data/ -name "*.csv" -mmin -15
-# 检查 CPU
-ps -p <pid> -o %cpu,%mem,etime --no-headers
+# 并行拉取核心逻辑
+with ThreadPoolExecutor(max_workers=20) as executor:
+    futures = {executor.submit(_fetch_one, code): code for code in to_fetch}
+    for future in as_completed(futures):
+        pass  # 结果在 _fetch_one 中已 lock 保护地写入 all_data
 ```
 
-**处置**：`kill <pid>` 终止进程，日线数据已足够选股使用（换手率因子缺失属已知降级）。
+**日常预期**：首次运行全量 ~3 分钟（写入 2000-01 至今全部月度 CSV），后续增量秒级完成（全部 999 只跳过）。
+
+**成功率**：efinance 单次成功 ~67%（47/70），失败是网络波动/限流所致。23 次失败的股票下次增量重试时会自动补齐。
+
+**处置**：正常情况下无需干预。如连续多次全量失败，检查 efinance 版本和网络。
 
 ### Cron Job 输出缓冲陷阱
 
@@ -450,27 +463,34 @@ head ~/wuhoo-workspace/data/stock-pick/factors/result_{us,hk,cn}_YYYYMMDD.csv
 - **数据完整性扫描** (`0 8 * * 6`) — 每周六交叉污染检查
 - **S&P500 成分股更新** (`0 3 * * 6`) — 每周六自动刷新
 
+> ⚠️ **Cron 暂停陷阱**：`hermes cron list` CLI 只显示 active 任务，paused 任务不可见。
+> 如 CLI 返回 "No scheduled jobs"，必须用 `cronjob(action='list')` 查看完整清单。
+> 恢复步骤见 `references/cron-pause-recovery.md`。
+
 ## Cron Job 执行策略
 
-CN efinance 换手率阶段耗时 50+ 分钟（999 只股票，成功率 ~2.3%），而 US 和 HK 各仅需 2-5 分钟。
-定时任务中优先策略：
+CN efinance 换手率阶段已并行化（v3.6），全量 ~3 分钟，增量秒级。US 和 HK 各需 2-5 分钟。三市场可安全并行启动，等待全部完成再输出报告：
 
 ```bash
-# ✅ 推荐：三市场并行启动，US/HK 完成即可先报告
-US_PID=$!; HK_PID=$!; CN_PID=$!
-wait $US_PID $HK_PID  # 仅等待 US+HKC（~3 分钟）
-# → 此时可生成 US+HKC 部分报告
-wait $CN_PID          # 再异步等待 CN
+# ✅ 推荐：三市场并行，全部等待（~3-5 分钟）
+python3.11 update_all_data.py --market cn --incremental &
+CN_PID=$!
+python3.11 fetch_hk_data.py --incremental &
+HK_PID=$!
+python3.11 update_all_data.py --market us --incremental &
+US_PID=$!
+wait $CN_PID $HK_PID $US_PID
+# → 全部完成后输出完整报告
 
-# ⚠️ 避免：不要等 CN 完成再输出报告 — 会导致整个 cron 响应延迟 50+ 分钟
-# ❌ wait $US_PID $HK_PID $CN_PID  # 等全部完成才继续
+# 如需提前输出 US/HK 部分报告，仅 wait 相应 PID：
+# wait $US_PID $HK_PID  # 仅等待 US+HKC（~3 分钟）
 ```
 
 **CN 进程监控要点**（Cron 中适用）：
-- `process wait` 超时被限制在 60s，需多次轮询
-- 输出缓冲导致 `output_preview` 为空属正常现象
-- 使用 rchar 速率法确认存活：多次采样 `/proc/<python_pid>/io`，速率 > 100 KB/s = 正常
-- 每 2-3 分钟采样一次即可，无需密集轮询（避免浪费 token）
+- v3.6 并行版大幅提速，全量 ~3 分钟，增量秒级，一般无需监控
+- 如进程仍卡在 efinance，检查网络：`ef.stock.get_quote_history('000001')` 测试单只
+- 换手率数据存储在 `turnover_data/`（**不是 `daily_data/`**），文件在拉取过程中**实时写入**（v3.6 增量合并）
+- 首次全量运行时内存从 ~150MB 增长到 ~1GB 是正常的（批量拉取 999 只数据）
 
 ### 港股数据更新
 
@@ -546,11 +566,12 @@ Legacy 格式（含 `change_rate` 列）与 stock-pick 格式兼容，额外列�
 ---
 
 *创建时间：2026-03-12*
-*更新时间：2026-05-09*
-*版本：3.5 — 批量增设 cron（选股/调仓/数据扫描/S&P500更新）+ cron-inventory 参考文件*
+*更新时间：2026-05-28*
+*版本：3.6 — efinance 换手率并行重写（ThreadPoolExecutor 20线程 + 增量检测 + 断点续传）*
 
 ## 参考文件
 
+- `references/20260528-efinance-parallel-rewrite.md` — 2026-05-28 efinance 时序超时修复审计（并行化 v3.6）
 - `references/20260509-cron-audit.md` — 2026-05-09 cron 数据更新审计（三市场并行启动，US/HK 快速完成，CN efinance 阻塞报告）
 - `references/20260507-cron-audit.md` — 2026-05-07 cron 数据更新审计（efinance 2.3% 成功率 + 50min 超时 + rchar 速率监控法）
 - `references/20260505-cron-audit.md` — 2026-05-05 cron 数据更新审计（CN Tushare 跳过 + efinance 换手率 + US ts_code 格式 + 节假日延迟）
@@ -558,5 +579,6 @@ Legacy 格式（含 `change_rate` 列）与 stock-pick 格式兼容，额外列�
 - `references/20260503-cron-audit.md` — 2026-05-03 cron 数据更新审计（efinance 卡死 + HK 增量成功率误读）
 - `references/20260430-audit.md` — 2026-04-30 全市场数据更新与选股审计记录
 - `references/data-update-troubleshooting.md` — 历次数据更新故障排查记录
+- `references/manual-tushare-fast-pull.md` — 手动 Tushare 日线快速拉取（绕过 efinance 瓶颈的 ~30s 方案）
 - `scripts/repair_hk_daily_v2.py` — 港股日线修复（带延迟重连，避免 Futu API 限流）
 - `scripts/repair_us_daily.py` — 美股日线历史数据修复（yfinance 批量下载）

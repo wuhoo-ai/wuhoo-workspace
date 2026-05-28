@@ -186,8 +186,8 @@ def update_cn_daily(pro, members, start_date=None, end_date=None, force=False, i
 
 
 def update_cn_turnover_efinance(members, start_date=None, end_date=None, force=False):
-    """使用 efinance 更新 A 股换手率"""
-    print("\n[A 股] 更新换手率数据 (efinance)...")
+    """使用 efinance 并行更新 A 股换手率（增量：跳过已有股票）"""
+    print("\n[A 股] 更新换手率数据 (efinance 并行)...")
 
     try:
         import efinance as ef
@@ -208,11 +208,42 @@ def update_cn_turnover_efinance(members, start_date=None, end_date=None, force=F
     start_str = start_date.strftime('%Y%m%d')
     end_str = end_date.strftime('%Y%m%d')
 
-    all_data = []
-    success_count = 0
+    print(f"  股票数量：{len(members)}，时间范围：{start_str} ~ {end_str}")
 
-    print(f"  股票数量：{len(members)}")
-    for i, ts_code in enumerate(members):
+    # 增量模式：检查每只股票是否已有当月数据
+    current_ym = end_date.strftime('%Y%m')
+    existing_member_files = set()
+    year_dir = TURNOVER_DATA_DIR / current_ym[:4]
+    if year_dir.exists() and not force:
+        for f in year_dir.glob(f"{current_ym}*.csv"):
+            try:
+                existing_df = pd.read_csv(f)
+                existing_member_files.update(existing_df['ts_code'].unique().tolist())
+            except Exception:
+                pass
+
+    if existing_member_files:
+        print(f"  已缓存的股票：{len(existing_member_files)}（跳过）")
+
+    to_fetch = [m for m in members if m not in existing_member_files]
+    if not to_fetch:
+        print(f"  所有 {len(members)} 只股票已完成，无需更新")
+        return
+
+    print(f"  待拉取：{len(to_fetch)} 只（{len(existing_member_files)} 只已缓存）")
+
+    # 并行拉取
+    MAX_WORKERS = 20
+    success_count = 0
+    fail_count = 0
+    all_data = []
+    lock = threading.Lock()
+    _print_lock = threading.Lock()
+    last_progress = [0]
+
+    def _fetch_one(ts_code):
+        """拉取单只股票换手率"""
+        nonlocal success_count, fail_count
         clean_code = ts_code.split('.')[0]
         try:
             df = ef.stock.get_quote_history(clean_code, start=start_str, end=end_str)
@@ -225,29 +256,61 @@ def update_cn_turnover_efinance(members, start_date=None, end_date=None, force=F
                 })
                 df_rename['ts_code'] = ts_code
                 df_rename['trade_date'] = pd.to_datetime(df_rename['trade_date']).dt.strftime('%Y%m%d')
-                all_data.append(df_rename[['ts_code', 'trade_date', 'turnover_rate', 'vol']])
-                success_count += 1
+                result = df_rename[['ts_code', 'trade_date', 'turnover_rate', 'vol']]
+
+                with lock:
+                    all_data.append(result)
+                    success_count += 1
+
+                # 进度打印（限流）
+                with _print_lock:
+                    total_done = success_count + fail_count
+                    current_10 = total_done // 50
+                    if current_10 > last_progress[0]:
+                        last_progress[0] = current_10
+                        print(f"    进度：{total_done}/{len(to_fetch)} (成功：{success_count}, 失败：{fail_count})")
+
+                return True
+            else:
+                with lock:
+                    fail_count += 1
+                return False
         except Exception:
-            pass
+            with lock:
+                fail_count += 1
+            return False
 
-        if (i + 1) % 50 == 0:
-            print(f"    进度：{i+1}/{len(members)} (成功：{success_count})")
-            time.sleep(1)
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        futures = {executor.submit(_fetch_one, code): code for code in to_fetch}
+        for future in as_completed(futures):
+            pass  # 结果已在 _fetch_one 中收集
 
+    # 增量存储：按月合并写入（与已有数据合并）
     if all_data:
         result = pd.concat(all_data, ignore_index=True)
         result['year_month'] = pd.to_datetime(result['trade_date'], format='%Y%m%d').dt.strftime('%Y%m')
+
         for ym in result['year_month'].unique():
-            ym_data = result[result['year_month'] == ym]
+            ym_data = result[result['year_month'] == ym].drop(columns=['year_month'])
             year = ym[:4]
             month_file = TURNOVER_DATA_DIR / year / f"{ym}.csv"
+
+            # 增量：如果文件已存在则合并
+            if month_file.exists():
+                try:
+                    existing = pd.read_csv(month_file)
+                    ym_data = pd.concat([existing, ym_data], ignore_index=True)
+                    ym_data['trade_date'] = ym_data['trade_date'].astype(str)
+                    ym_data = ym_data.drop_duplicates(subset=['ts_code', 'trade_date'])
+                except Exception:
+                    pass
+
             month_file.parent.mkdir(parents=True, exist_ok=True)
-            ym_data.drop(columns=['year_month'], inplace=True)
             ym_data.to_csv(month_file, index=False)
 
-        print(f"  换手率更新完成：{len(result)} 条记录 ({success_count}/{len(members)} 只股票)")
+        print(f"  换手率更新完成：新拉取 {len(result)} 条记录 ({success_count}/{len(to_fetch)} 只股票成功)")
     else:
-        print("  ⚠️  换手率数据获取失败")
+        print(f"  ⚠️  换手率数据获取失败：{fail_count}/{len(to_fetch)} 只股票失败")
 
 
 # ============== Futu OpenD 数据源 ==============
@@ -572,7 +635,7 @@ def update_us_daily(members, start_date=None, end_date=None, force=False):
 
 # ============== 主流程 ==============
 
-def run_update(market='all', incremental=False, force=False):
+def run_update(market='all', incremental=False, force=False, start_date=None, end_date=None):
     """执行数据更新"""
     ensure_dirs()
     print("=" * 60)
@@ -639,7 +702,8 @@ def main():
     start_date = parse_date(args.start_date) if args.start_date else None
     end_date = parse_date(args.end_date) if args.end_date else None
 
-    run_update(market=args.market, incremental=args.incremental, force=args.force)
+    run_update(market=args.market, incremental=args.incremental, force=args.force,
+              start_date=start_date, end_date=end_date)
 
 
 if __name__ == '__main__':

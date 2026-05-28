@@ -67,7 +67,7 @@ BIIB.US,BIIB,Biogen,0
 BLK.US,BLK,BlackRock,0
 BX.US,BX,Blackstone Inc.,0
 XYZ.US,XYZ,"Block, Inc.",0
-BK.US,BK,BNY Mellon,0
+BNY.US,BNY,BNY Mellon,0
 BA.US,BA,Boeing,0
 BKNG.US,BKNG,Booking Holdings,0
 BSX.US,BSX,Boston Scientific,0
@@ -85,7 +85,7 @@ CPT.US,CPT,Camden Property Trust,0
 CPB.US,CPB,Campbell's Company (The),0
 COF.US,COF,Capital One,0
 CAH.US,CAH,Cardinal Health,0
-CCL.US,CCL,Carnival,0
+CCL.US,CCL,Carnival Corporation,0
 CARR.US,CARR,Carrier Global,0
 CVNA.US,CVNA,Carvana,0
 CASY.US,CASY,Casey's,0
@@ -133,7 +133,6 @@ CPAY.US,CPAY,Corpay,0
 CTVA.US,CTVA,Corteva,0
 CSGP.US,CSGP,CoStar Group,0
 COST.US,COST,Costco,0
-CTRA.US,CTRA,Coterra,0
 CRH.US,CRH,CRH plc,0
 CRWD.US,CRWD,CrowdStrike,0
 CCI.US,CCI,Crown Castle,0
@@ -465,6 +464,7 @@ URI.US,URI,United Rentals,0
 UNH.US,UNH,UnitedHealth Group,0
 UHS.US,UHS,Universal Health Services,0
 VLO.US,VLO,Valero Energy,0
+VEEV.US,VEEV,Veeva Systems,0
 VTR.US,VTR,Ventas,0
 VLTO.US,VLTO,Veralto,0
 VRSN.US,VRSN,Verisign,0

@@ -1,11 +1,14 @@
 {
   "_meta": {
-    "version": "1.0",
-    "last_updated": "2026-05-21",
+    "version": "2.0",
+    "last_updated": "2026-05-26",
     "description": "World Cup 2026 player injuries. ELO penalty is subtracted from the team's base ELO for Monte Carlo simulation. Updated manually as news breaks.",
     "sources": [
-      "Al Jazeera (2026-04-26): https://www.aljazeera.com/sports/2026/4/26/will-yamal-salah-and-ekitike-miss-the-world-cup-2026-due-to-injury",
-      "BBC Sport (2026-05): https://www.bbc.com/sport/football/articles/c87wzlpd5l7o"
+      "ESPN Injuries Tracker (2026-05-26): https://www.espn.com/soccer/story/_/id/48572979",
+      "BBC Sport Squad Announcements (2026-05-26): https://www.bbc.com/sport/football/articles/cvgz43lgn15o",
+      "The Athletic Squad Tracker (2026-05-15): https://www.nytimes.com/athletic/7279459",
+      "Yahoo/BBC Injury Watch (2026-04-23): https://sports.yahoo.com/articles/world-cup-2026-injury-watch-175035681.html",
+      "Al Jazeera (2026-04-26): https://www.aljazeera.com/sports/2026/4/26/will-yamal-salah-and-ekitike-miss-the-world-cup-2026-due-to-injury"
     ],
     "penalty_scale": {
       "OUT_core": -40,
@@ -17,75 +20,112 @@
       "MINOR_core": -10,
       "MINOR_important": -5,
       "MINOR_role": -3
-    }
+    },
+    "changes_v2.0": [
+      "Gnabry (Germany): DOUBTFUL→OUT (confirmed torn adductor, ESPN)",
+      "Estevao (Brazil): DOUBTFUL→OUT (confirmed torn hamstring, left off preliminary squad)",
+      "Mohamed Salah (Egypt): DOUBTFUL→REMOVED (named in Egypt squad, expected fit)",
+      "NEW: England — Foden/Palmer/TAA all OUT (BBC: 'to miss World Cup') — MASSIVE impact",
+      "NEW: Kaoru Mitoma (Japan): OUT — left out of squad due to injury (BBC)",
+      "NEW: Mohammed Kudus (Ghana): DOUBTFUL — quad injury since Jan",
+      "NEW: Mikel Merino (Spain): DOUBTFUL — fractured foot since Feb",
+      "NEW: Reece James (England): DOUBTFUL — hamstring since March",
+      "NEW: Cristian Romero (Argentina): DOUBTFUL — knee injury April",
+      "NEW: Alphonso Davies (Canada): MINOR — recurring muscle issues",
+      "Brazil: Militao status kept as OUT (ESPN says hamstring requiring surgery)",
+      "Lamine Yamal (Spain): kept DOUBTFUL — club expects fit but not confirmed",
+      "Xavi Simons (Netherlands): kept OUT — confirmed ACL",
+      "Hugo Ekitike (France): kept OUT — torn Achilles",
+      "Wataru Endo (Japan): kept DOUBTFUL — knee+ankle surgery",
+      "Takumi Minamino (Japan): kept DOUBTFUL — ACL recovery",
+      "Marc-Andre ter Stegen (Germany): kept DOUBTFUL — but Neuer back as #1 reduces impact"
+    ]
   },
   "injuries": {
+    "England": {
+      "total_penalty": -90,
+      "players": [
+        {
+          "name": "Phil Foden",
+          "position": "MF",
+          "status": "OUT",
+          "injury": "Unknown (BBC confirms will miss World Cup)",
+          "severity": "core",
+          "elo_penalty": -40,
+          "note": "BBC Sport: confirmed OUT of World Cup squad. Premier League Player of the Season 2024."
+        },
+        {
+          "name": "Cole Palmer",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Unknown (BBC confirms will miss World Cup)",
+          "severity": "core",
+          "elo_penalty": -30,
+          "note": "BBC Sport: confirmed OUT. Chelsea's top scorer and primary creative outlet."
+        },
+        {
+          "name": "Trent Alexander-Arnold",
+          "position": "DF",
+          "status": "OUT",
+          "injury": "Unknown (BBC confirms will miss World Cup)",
+          "severity": "important",
+          "elo_penalty": -20,
+          "note": "BBC Sport: confirmed OUT. Key playmaker from right-back."
+        }
+      ]
+    },
     "Brazil": {
-      "total_penalty": -60,
+      "total_penalty": -80,
       "players": [
         {
           "name": "Rodrygo",
           "position": "FW",
           "status": "OUT",
-          "injury": "Torn meniscus + ACL (right knee)",
+          "injury": "Torn ACL + meniscus (right knee, March 2026)",
           "severity": "core",
           "elo_penalty": -30,
-          "note": "March 2026 injury. Decisively ruled out of World Cup."
+          "note": "OUT for 2026. Real Madrid forward, 2nd top scorer in WC qualifying."
         },
         {
           "name": "Eder Militao",
           "position": "DF",
           "status": "OUT",
-          "injury": "Hamstring (requires surgery)",
+          "injury": "Hamstring requiring surgery",
           "severity": "important",
           "elo_penalty": -20,
-          "note": "Sustained during Real Madrid vs Alaves. Not available."
+          "note": "Sustained Real Madrid vs Alaves. Not available."
         },
         {
           "name": "Estevao",
           "position": "FW",
-          "status": "DOUBTFUL",
-          "injury": "Hamstring",
-          "severity": "role",
-          "elo_penalty": -10,
-          "note": "19yo Chelsea forward. 5 goals in last 6 international apps. No guarantee yet."
+          "status": "OUT",
+          "injury": "Torn hamstring (April 2026)",
+          "severity": "important",
+          "elo_penalty": -30,
+          "note": "v2.0: Upgraded from DOUBTFUL→OUT. Left off Brazil preliminary squad. 19yo Chelsea star, 5 goals in last 6 apps."
         }
       ]
     },
     "Germany": {
-      "total_penalty": -35,
+      "total_penalty": -45,
       "players": [
+        {
+          "name": "Serge Gnabry",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Torn adductor muscle (April 2026)",
+          "severity": "core",
+          "elo_penalty": -30,
+          "note": "v2.0: Upgraded DOUBTFUL→OUT. ESPN confirms ruled out. Played most games in qualifying (8)."
+        },
         {
           "name": "Marc-Andre ter Stegen",
           "position": "GK",
           "status": "DOUBTFUL",
           "injury": "Severe hamstring (Feb 2026)",
-          "severity": "core",
-          "elo_penalty": -20,
-          "note": "Nagelsmann: chances 'very slim'. Oliver Baumann likely replacement."
-        },
-        {
-          "name": "Serge Gnabry",
-          "position": "FW",
-          "status": "DOUBTFUL",
-          "injury": "Torn adductor muscle (right thigh)",
           "severity": "important",
           "elo_penalty": -15,
-          "note": "Ruled out of Bayern's remaining season."
-        }
-      ]
-    },
-    "Spain": {
-      "total_penalty": -15,
-      "players": [
-        {
-          "name": "Lamine Yamal",
-          "position": "FW",
-          "status": "DOUBTFUL",
-          "injury": "Hamstring (left leg, biceps femoris)",
-          "severity": "core",
-          "elo_penalty": -15,
-          "note": "Euro 2024 winner. Domestic season over. 4-6 weeks recovery — should be fit but not certain."
+          "note": "Chances 'very slim' per Nagelsmann. BUT: Neuer (40) out of retirement as #1 — impact reduced."
         }
       ]
     },
@@ -96,10 +136,10 @@
           "name": "Xavi Simons",
           "position": "MF",
           "status": "OUT",
-          "injury": "Ruptured ACL (right knee)",
+          "injury": "Ruptured ACL (right knee, April 2026)",
           "severity": "important",
           "elo_penalty": -25,
-          "note": "April 25 injury. Surgery required. 6 goals in 34 national apps."
+          "note": "Tottenham. Surgery required. Confirmed OUT of World Cup."
         }
       ]
     },
@@ -110,38 +150,56 @@
           "name": "Hugo Ekitike",
           "position": "FW",
           "status": "OUT",
-          "injury": "Torn Achilles tendon",
+          "injury": "Torn Achilles tendon (April 2026)",
           "severity": "role",
           "elo_penalty": -10,
-          "note": "Return possibly not until 2027. Not a guaranteed starter."
+          "note": "Liverpool. 17 goals + 6 assists this season. Return not until 2027."
         }
       ]
     },
-    "Egypt": {
-      "total_penalty": -10,
+    "Spain": {
+      "total_penalty": -30,
       "players": [
         {
-          "name": "Mohamed Salah",
+          "name": "Lamine Yamal",
           "position": "FW",
           "status": "DOUBTFUL",
-          "injury": "Hamstring tear",
+          "injury": "Hamstring (left biceps femoris, April 2026)",
           "severity": "core",
-          "elo_penalty": -10,
-          "note": "Expected to be FIT for World Cup (4 weeks recovery). Historical: injured before 2018 WC but played. Conservative penalty."
+          "elo_penalty": -15,
+          "note": "Club (Barcelona) expects fit for World Cup. 4-6 weeks recovery. Cautiously optimistic but not confirmed."
+        },
+        {
+          "name": "Mikel Merino",
+          "position": "MF",
+          "status": "DOUBTFUL",
+          "injury": "Fractured foot (Feb 2026)",
+          "severity": "important",
+          "elo_penalty": -15,
+          "note": "v2.0 NEW: Arsenal midfielder. Medical staff wary of premature return. Missed rest of club season."
         }
       ]
     },
     "Japan": {
-      "total_penalty": -25,
+      "total_penalty": -50,
       "players": [
+        {
+          "name": "Kaoru Mitoma",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Unknown (left out of squad due to injury)",
+          "severity": "core",
+          "elo_penalty": -30,
+          "note": "v2.0 NEW: BBC confirms 'Injured Mitoma left out of squad'. Brighton star, Japan's best attacker."
+        },
         {
           "name": "Wataru Endo",
           "position": "MF",
           "status": "DOUBTFUL",
-          "injury": "Ankle (Feb 2026)",
+          "injury": "Knee + ankle surgery (Feb 2026)",
           "severity": "important",
           "elo_penalty": -15,
-          "note": "Has not played since February. May return just in time."
+          "note": "Has not played since February. Liverpool captain. May return just in time."
         },
         {
           "name": "Takumi Minamino",
@@ -149,8 +207,50 @@
           "status": "DOUBTFUL",
           "injury": "Ruptured ACL (Dec 2025)",
           "severity": "role",
+          "elo_penalty": -5,
+          "note": "Recovery ongoing. Same situation as Endo. Penalty reduced from -10 with Mitoma's absence making him less critical."
+        }
+      ]
+    },
+    "Ghana": {
+      "total_penalty": -20,
+      "players": [
+        {
+          "name": "Mohammed Kudus",
+          "position": "MF",
+          "status": "DOUBTFUL",
+          "injury": "Quad injury (since Jan 4, 2026)",
+          "severity": "core",
+          "elo_penalty": -20,
+          "note": "v2.0 NEW: Tottenham midfielder. May require surgery. Out 3+ months. Ghana's most important player."
+        }
+      ]
+    },
+    "Argentina": {
+      "total_penalty": -15,
+      "players": [
+        {
+          "name": "Cristian Romero",
+          "position": "DF",
+          "status": "DOUBTFUL",
+          "injury": "Knee injury (April 2026)",
+          "severity": "important",
+          "elo_penalty": -15,
+          "note": "v2.0 NEW: Collision with GK Kinsky. Optimism he'll recover but match fitness concerns. WC 2022 champion CB."
+        }
+      ]
+    },
+    "Canada": {
+      "total_penalty": -10,
+      "players": [
+        {
+          "name": "Alphonso Davies",
+          "position": "DF",
+          "status": "DOUBTFUL",
+          "injury": "Recurring muscle issues",
+          "severity": "core",
           "elo_penalty": -10,
-          "note": "Recovery ongoing. Same situation as Endo."
+          "note": "v2.0 NEW: Explosive pace central to Canada's threat. Recurring muscle problems at worst possible moment."
         }
       ]
     }

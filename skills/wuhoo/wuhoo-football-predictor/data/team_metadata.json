@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": "1.0",
-    "last_updated": "2026-05-21",
-    "description": "Team metadata for World Cup 2026 prediction — coach experience, roster stability, chemistry. These are manually curated off-field factors that affect team performance beyond ELO.",
+    "version": "2.0",
+    "last_updated": "2026-05-26",
+    "description": "Team metadata for World Cup 2026 prediction — coach experience, roster stability, chemistry. Manually curated. v2.0: expanded from 20→32 teams based on squad announcements.",
     "scoring": {
       "coach_wc_experience": "Number of World Cups coached (0-5). Each WC adds 8 ELO.",
       "coach_best_result": {
@@ -10,106 +10,119 @@
       },
       "roster_stability": "Fraction of players retained from last major tournament (0.0-1.0). Formula: (stability - 0.5) × 40",
       "recent_form_consistency": "Win rate in last 10 competitive matches. Formula: (consistency - 0.5) × 30"
-    }
+    },
+    "changes_v2.0": [
+      "England: MAJOR update — Foden/Palmer/TAA OUT, stability dropped 0.74→0.58, chemistry 0.80→0.70, coach name corrected",
+      "Brazil: Estevao upgraded to OUT, stability dropped 0.65→0.55, coach updated to Ancelotti",
+      "Germany: Gnabry confirmed OUT, but Neuer returns, stability 0.70→0.66, coach name corrected",
+      "Japan: Mitoma OUT, stability 0.82→0.72",
+      "Spain: Merino DOUBTFUL added, chemistry 0.90→0.85",
+      "Argentina: Romero DOUBTFUL, stability 0.78→0.72",
+      "NEW: Norway (Haaland+Odegaard), Sweden (Isak+Gyokeres), South Korea (Son), Scotland",
+      "NEW: Tunisia, Egypt, Ivory Coast, New Zealand, Cape Verde",
+      "NEW: DR Congo, Bosnia and Herzegovina, Haiti, Curacao",
+      "NEW: Algeria, Austria, Ghana, Canada",
+      "Denmark removed (not in WC 2026)"
+    ]
   },
   "teams": {
     "Spain": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.72,
-      "recent_form_consistency": 0.90,
-      "_comment": "Luis de la Fuente — 1st WC as head coach. Euro 2024 winners. Very consistent form."
+      "recent_form_consistency": 0.85,
+      "_comment": "Luis de la Fuente — 1st WC. Euro 2024 champions. Merino DOUBTFUL. Yamal expected fit."
     },
     "Argentina": {
       "coach_wc_experience": 2,
       "coach_best_result": "champion",
-      "roster_stability": 0.78,
+      "roster_stability": 0.72,
       "recent_form_consistency": 0.85,
-      "_comment": "Scaloni — WC 2022 champion coach. Core squad intact."
+      "_comment": "Scaloni — WC 2022 champion. Romero DOUBTFUL (knee). Provisional squad announced."
     },
     "France": {
       "coach_wc_experience": 1,
       "coach_best_result": "finalist",
       "roster_stability": 0.70,
-      "recent_form_consistency": 0.75,
-      "_comment": "Deschamps — WC 2022 finalist. Some roster turnover."
+      "recent_form_consistency": 0.78,
+      "_comment": "Deschamps — WC 2022 finalist. Mbappe+Dembele lead. Squad confirmed. Ekitike OUT (Achilles)."
     },
     "England": {
       "coach_wc_experience": 1,
       "coach_best_result": "quarterfinalist",
-      "roster_stability": 0.74,
-      "recent_form_consistency": 0.80,
-      "_comment": "Tuchel (new) — 1st WC as England coach. Strong talent pipeline."
+      "roster_stability": 0.58,
+      "recent_form_consistency": 0.70,
+      "_comment": "Thomas Tuchel — 1st WC. MASSIVE: Foden/Palmer/TAA all OUT. James DOUBTFUL. Squad confirmed. Three key creative players missing."
     },
     "Brazil": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
-      "roster_stability": 0.65,
-      "recent_form_consistency": 0.70,
-      "_comment": "Dorival Junior — 1st WC. Injuries: Rodrygo, Militao, Estevao out. Roster disrupted."
+      "roster_stability": 0.55,
+      "recent_form_consistency": 0.68,
+      "_comment": "Carlo Ancelotti — 1st WC with Brazil. Rodrygo+Militao+Estevao all OUT. Neymar (34) in squad. Severely disrupted."
     },
     "Portugal": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
       "roster_stability": 0.76,
       "recent_form_consistency": 0.82,
-      "_comment": "Roberto Martinez — WC 2018 (Belgium 3rd). Strong squad depth."
+      "_comment": "Roberto Martinez — WC 2018 (Belgium 3rd). Ronaldo set for record 6th WC. Squad confirmed."
     },
     "Colombia": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
       "roster_stability": 0.80,
       "recent_form_consistency": 0.88,
-      "_comment": "Nestor Lorenzo — excellent form, dark horse candidate."
+      "_comment": "Nestor Lorenzo — excellent form, dark horse. Strong CONMEBOL qualifiers."
     },
     "Netherlands": {
       "coach_wc_experience": 1,
       "coach_best_result": "quarterfinalist",
       "roster_stability": 0.68,
       "recent_form_consistency": 0.72,
-      "_comment": "Koeman — Xavi Simons OUT (ACL), significant midfield blow."
+      "_comment": "Ronald Koeman — Xavi Simons OUT (ACL). Reijnders to lead midfield."
     },
     "Germany": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
-      "roster_stability": 0.70,
+      "roster_stability": 0.66,
       "recent_form_consistency": 0.65,
-      "_comment": "Nagelsmann — 1st WC. Ter Stegen/Gnabry injuries. Inconsistent form."
+      "_comment": "Julian Nagelsmann — 1st WC. Gnabry OUT. ter Stegen DOUBTFUL. BUT: Neuer (40) returns as #1 GK. Squad confirmed."
     },
     "Morocco": {
       "coach_wc_experience": 1,
       "coach_best_result": "semifinalist",
       "roster_stability": 0.75,
-      "recent_form_consistency": 0.70,
-      "_comment": "Regragui — WC 2022 semifinalist. Strong team cohesion."
+      "recent_form_consistency": 0.72,
+      "_comment": "Walid Regragui — WC 2022 semifinalist. Strong team cohesion."
     },
     "Japan": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
-      "roster_stability": 0.82,
-      "recent_form_consistency": 0.85,
-      "_comment": "Moriyasu — consistent performer. Endo/Minamino injuries."
+      "roster_stability": 0.72,
+      "recent_form_consistency": 0.80,
+      "_comment": "Hajime Moriyasu — Mitoma OUT (left off squad). Endo/Minamino DOUBTFUL. Squad confirmed. Son-less attack significantly weakened."
     },
     "United States": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.78,
       "recent_form_consistency": 0.65,
-      "_comment": "Pochettino (new) — host nation advantage. Inconsistent team form."
+      "_comment": "Mauricio Pochettino — 1st WC. Host nation (60 ELO bonus). Inconsistent form."
     },
     "Senegal": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
       "roster_stability": 0.72,
       "recent_form_consistency": 0.78,
-      "_comment": "Aliou Cisse — long-tenured. AFCON winners 2021."
+      "_comment": "Aliou Cisse — long-tenured. Mane in squad. AFCON 2021 winners. Squad announced."
     },
     "Ecuador": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.74,
       "recent_form_consistency": 0.80,
-      "_comment": "Felix Sanchez — strong CONMEBOL qualifiers."
+      "_comment": "Felix Sanchez — strong CONMEBOL qualifiers. Dangerous dark horse."
     },
     "Uruguay": {
       "coach_wc_experience": 0,
@@ -121,37 +134,149 @@
     "Croatia": {
       "coach_wc_experience": 2,
       "coach_best_result": "finalist",
-      "roster_stability": 0.70,
-      "recent_form_consistency": 0.75,
-      "_comment": "Dalic — WC 2018 finalist, 2022 semifinalist. Aging squad."
+      "roster_stability": 0.68,
+      "recent_form_consistency": 0.74,
+      "_comment": "Zlatko Dalic — WC 2018 finalist, 2022 semifinalist. Modric (40) in squad. Squad confirmed."
     },
     "Belgium": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.62,
-      "recent_form_consistency": 0.68,
-      "_comment": "Rudi Garcia (new) — golden generation fading, rebuild phase."
+      "recent_form_consistency": 0.66,
+      "_comment": "Rudi Garcia — new coach. Lukaku in squad ('out of shape'). Golden generation fading. Squad confirmed."
     },
     "Mexico": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.70,
       "recent_form_consistency": 0.72,
-      "_comment": "Aguirre — host nation. Inconsistent but dangerous at home."
-    },
-    "Denmark": {
-      "coach_wc_experience": 1,
-      "coach_best_result": "round16",
-      "roster_stability": 0.76,
-      "recent_form_consistency": 0.70,
-      "_comment": "Hjulmand — consistent performer in UEFA."
+      "_comment": "Javier Aguirre — host nation (60 ELO bonus). Preliminary squad announced."
     },
     "Switzerland": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
       "roster_stability": 0.80,
       "recent_form_consistency": 0.78,
-      "_comment": "Murat Yakin — reliable tournament team."
+      "_comment": "Murat Yakin — Xhaka makes 4th WC. Reliable tournament team. Squad confirmed."
+    },
+    "Norway": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.76,
+      "recent_form_consistency": 0.80,
+      "_comment": "Stale Solbakken — 1st WC for Norway in 28 years. Haaland+Odegaard headline. Squad confirmed."
+    },
+    "Sweden": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.74,
+      "recent_form_consistency": 0.78,
+      "_comment": "Jon Dahl Tomasson — Isak+Gyokeres named. Squad confirmed. Dangerous attack."
+    },
+    "South Korea": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.78,
+      "recent_form_consistency": 0.82,
+      "_comment": "Hong Myung-bo — Son Heung-min (LA FC) captain for 4th WC. Kim Min-jae anchors defense. Squad confirmed."
+    },
+    "Scotland": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.72,
+      "recent_form_consistency": 0.68,
+      "_comment": "Steve Clarke — 1st WC since 1998. Stewart & Curtis in squad. Squad confirmed."
+    },
+    "Tunisia": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.70,
+      "recent_form_consistency": 0.72,
+      "_comment": "Sabri Lamouchi — Sassi left out. Squad confirmed. Consistent African qualifier."
+    },
+    "Egypt": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "round16",
+      "roster_stability": 0.74,
+      "recent_form_consistency": 0.76,
+      "_comment": "Hossam Hassan — Salah FIT and named in squad (hamstring recovery complete). Marmoush also in. Squad confirmed."
+    },
+    "Ivory Coast": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.68,
+      "recent_form_consistency": 0.70,
+      "_comment": "Emerse Fae — AFCON 2023 champions. Zaha OMITTED from squad. Squad confirmed."
+    },
+    "New Zealand": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.72,
+      "recent_form_consistency": 0.74,
+      "_comment": "Darren Bazeley — Chris Wood leads. Braintree's Smith makes squad. Squad confirmed."
+    },
+    "Cape Verde": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.70,
+      "recent_form_consistency": 0.72,
+      "_comment": "Bubista — 1st WC appearance. Shamrock's Lopes in squad. Squad confirmed."
+    },
+    "DR Congo": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.68,
+      "recent_form_consistency": 0.70,
+      "_comment": "Sebastien Desabre — Wan-Bissaka+Wissa in squad. Squad confirmed. Dangerous on counter."
+    },
+    "Bosnia and Herzegovina": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.66,
+      "recent_form_consistency": 0.64,
+      "_comment": "Sergej Barbarez — Dzeko (40) joins WC's oldest players. Squad confirmed."
+    },
+    "Haiti": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.64,
+      "recent_form_consistency": 0.62,
+      "_comment": "Jean-Jacques Pierre — Isidor+Bellegarde in squad. First WC since 1974."
+    },
+    "Curacao": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.62,
+      "recent_form_consistency": 0.60,
+      "_comment": "Dean Gorre — Smallest nation at WC. Debut appearance. Squad confirmed."
+    },
+    "Algeria": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.68,
+      "recent_form_consistency": 0.72,
+      "_comment": "Vladimir Petkovic — strong African qualifier. Experienced squad."
+    },
+    "Austria": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.72,
+      "recent_form_consistency": 0.74,
+      "_comment": "Ralf Rangnick — high-pressing style. Competitive in Euro 2024 group of death."
+    },
+    "Ghana": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "quarterfinalist",
+      "roster_stability": 0.66,
+      "recent_form_consistency": 0.64,
+      "_comment": "Otto Addo — Kudus DOUBTFUL (quad, since Jan). Key player for Ghana's hopes."
+    },
+    "Canada": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.74,
+      "recent_form_consistency": 0.68,
+      "_comment": "Jesse Marsch — host nation co-host. Davies DOUBTFUL (recurring muscle). Squad TBC."
     }
   }
 }

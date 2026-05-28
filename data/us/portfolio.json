@@ -1,349 +1,65 @@
 {
-  "created_date": "2026-05-05",
-  "last_updated": "2026-05-05",
-  "source_file": "/home/admin/wuhoo-workspace/data/stock-pick/factors/result_us_20260504.csv",
+  "date": "2026-05-26",
+  "updated": "2026-05-26",
+  "strategy": "equal_weight",
   "n_stocks": 11,
-  "target_weight": 0.0818,
-  "cash_ratio": 0.1,
-  "positions": [
-    {
-      "ts_code": "BAC.US",
-      "name": "Bank of America",
+  "weight_per_stock": 0.0818,
+  "cash_reserve": 0.1,
+  "stocks": {
+    "US.ROST": {
       "weight": 0.0818,
       "status": "active",
-      "factors": {
-        "residual_vol": 17.340640579236904,
-        "momentum_5d": 2.286267932467023,
-        "momentum_10d": -1.2428087012459454,
-        "beta_20d": 1.0248997019701704
-      },
-      "debate": {
-        "decision": "HOLD",
-        "confidence": 0.5,
-        "bull_score": 0,
-        "bear_score": 0
-      }
+      "lot_size": 1
     },
-    {
-      "ts_code": "ABBV.US",
-      "name": "AbbVie",
+    "US.FITB": {
       "weight": 0.0818,
       "status": "active",
-      "factors": {
-        "residual_vol": 24.841596097298478,
-        "momentum_5d": 3.9706099960077346,
-        "momentum_10d": -0.8542080514384764,
-        "beta_20d": 0.693065101633858
-      },
-      "debate": {
-        "decision": "HOLD",
-        "confidence": 0.5,
-        "bull_score": 0.5,
-        "bear_score": 0.55
-      }
+      "lot_size": 1
     },
-    {
-      "ts_code": "SCHW.US",
-      "name": "Charles Schwab Corporation",
+    "US.HST": {
       "weight": 0.0818,
       "status": "active",
-      "factors": {
-        "residual_vol": 21.027772809492422,
-        "momentum_5d": 3.4350292830817475,
-        "momentum_10d": -0.8019049345019624,
-        "beta_20d": 1.5238824888370857
-      },
-      "debate": {
-        "decision": "HOLD",
-        "confidence": 0.5,
-        "bull_score": 0.5,
-        "bear_score": 0.55
-      }
+      "lot_size": 1
     },
-    {
-      "ts_code": "CL.US",
-      "name": "Colgate-Palmolive",
+    "US.WY": {
       "weight": 0.0818,
-      "status": "active",
-      "factors": {
-        "residual_vol": 20.550014014554353,
-        "momentum_5d": 3.0832847764965976,
-        "momentum_10d": 2.321767571852118,
-        "beta_20d": 1.1459191512427147
-      },
-      "debate": {
-        "decision": "BUY",
-        "confidence": 0.68,
-        "bull_score": 0.75,
-        "bear_score": 0.65
-      }
+      "status": "new_buy",
+      "lot_size": 1
     },
-    {
-      "ts_code": "MET.US",
-      "name": "MetLife",
+    "US.RF": {
       "weight": 0.0818,
-      "status": "active",
-      "factors": {
-        "residual_vol": 18.708270717294106,
-        "momentum_5d": 3.2561216319953123,
-        "momentum_10d": 2.753587955250003,
-        "beta_20d": 1.4274363758177997
-      },
-      "debate": {
-        "decision": "HOLD",
-        "confidence": 0.5,
-        "bull_score": 0,
-        "bear_score": 0
-      }
+      "status": "new_buy",
+      "lot_size": 1
     },
-    {
-      "ts_code": "ORLY.US",
-      "name": "O’Reilly Automotive",
+    "US.RTX": {
       "weight": 0.0818,
-      "status": "active",
-      "factors": {
-        "residual_vol": 22.204812811830685,
-        "momentum_5d": 3.8011392890891837,
-        "momentum_10d": 3.1586800911228563,
-        "beta_20d": 1.1892350660550641
-      },
-      "debate": {
-        "decision": "BUY",
-        "confidence": 0.68,
-        "bull_score": 0.75,
-        "bear_score": 0.52
-      }
+      "status": "new_buy",
+      "lot_size": 1
     },
-    {
-      "ts_code": "AAPL.US",
-      "name": "Apple Inc.",
+    "US.XEL": {
       "weight": 0.0818,
-      "status": "active",
-      "factors": {
-        "residual_vol": 19.973029943178773,
-        "momentum_5d": 3.349818184765896,
-        "momentum_10d": 3.6672476258052367,
-        "beta_20d": 1.0103380746528965
-      },
-      "debate": {
-        "decision": "BUY",
-        "confidence": 0.65,
-        "bull_score": 0.72,
-        "bear_score": 0.55
-      }
+      "status": "new_buy",
+      "lot_size": 1
     },
-    {
-      "ts_code": "CSCO.US",
-      "name": "Cisco",
+    "US.PLD": {
       "weight": 0.0818,
-      "status": "active",
-      "factors": {
-        "residual_vol": 22.711497541549686,
-        "momentum_5d": 3.190648544805108,
-        "momentum_10d": 6.492751854053447,
-        "beta_20d": 0.8139833461240131
-      },
-      "debate": {
-        "decision": "BUY",
-        "confidence": 0.73,
-        "bull_score": 0.72,
-        "bear_score": 0.7
-      }
+      "status": "new_buy",
+      "lot_size": 1
     },
-    {
-      "ts_code": "TROW.US",
-      "name": "T. Rowe Price",
+    "US.MS": {
       "weight": 0.0818,
-      "status": "active",
-      "factors": {
-        "residual_vol": 19.597227400184277,
-        "momentum_5d": 4.401373629928296,
-        "momentum_10d": 6.6405388627482465,
-        "beta_20d": 1.0468176000042304
-      },
-      "debate": {
-        "decision": "BUY",
-        "confidence": 0.75,
-        "bull_score": 0.75,
-        "bear_score": 0.7
-      }
+      "status": "new_buy",
+      "lot_size": 1
     },
-    {
-      "ts_code": "BEN.US",
-      "name": "Franklin Resources",
+    "US.MMM": {
       "weight": 0.0818,
-      "status": "active",
-      "factors": {
-        "residual_vol": 22.17978949783998,
-        "momentum_5d": 10.029495682830447,
-        "momentum_10d": 9.42427448362051,
-        "beta_20d": 1.27673368888199
-      },
-      "debate": {
-        "decision": "SELL",
-        "confidence": 0.65,
-        "bull_score": 0.72,
-        "bear_score": 0.75
-      }
+      "status": "new_buy",
+      "lot_size": 1
     },
-    {
-      "ts_code": "GOOGL.US",
-      "name": "Alphabet Inc. (Class A)",
+    "US.HON": {
       "weight": 0.0818,
-      "status": "active",
-      "factors": {
-        "residual_vol": 25.467096772790914,
-        "momentum_5d": 11.98896901180908,
-        "momentum_10d": 12.88047609137768,
-        "beta_20d": 2.1230299964669257
-      },
-      "debate": {
-        "decision": "BUY",
-        "confidence": 0.62,
-        "bull_score": 0.75,
-        "bear_score": 0.55
-      }
+      "status": "new_buy",
+      "lot_size": 1
     }
-  ],
-  "orders": [
-    {
-      "action": "BUY",
-      "ts_code": "BAC.US",
-      "name": "Bank of America",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "BUY",
-      "ts_code": "ABBV.US",
-      "name": "AbbVie",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "BUY",
-      "ts_code": "SCHW.US",
-      "name": "Charles Schwab Corporation",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "BUY",
-      "ts_code": "CL.US",
-      "name": "Colgate-Palmolive",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "BUY",
-      "ts_code": "MET.US",
-      "name": "MetLife",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "BUY",
-      "ts_code": "ORLY.US",
-      "name": "O’Reilly Automotive",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "BUY",
-      "ts_code": "AAPL.US",
-      "name": "Apple Inc.",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "BUY",
-      "ts_code": "CSCO.US",
-      "name": "Cisco",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "BUY",
-      "ts_code": "TROW.US",
-      "name": "T. Rowe Price",
-      "target_weight": 0.0818,
-      "reason": "新入选选股结果"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "COF.US",
-      "name": "第一资本信贷",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "ADI.US",
-      "name": "亚德诺",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "ABNB.US",
-      "name": "爱彼迎",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "GOOG.US",
-      "name": "谷歌-C",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "PPG.US",
-      "name": "PPG工业",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "HST.US",
-      "name": "美国豪斯特酒店",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "C.US",
-      "name": "花旗集团",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "AMZN.US",
-      "name": "亚马逊",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "NVDA.US",
-      "name": "英伟达",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    },
-    {
-      "action": "SELL",
-      "ts_code": "MS.US",
-      "name": "摩根士丹利",
-      "target_weight": 0,
-      "reason": "未入选本期选股"
-    }
-  ],
-  "rebalance_summary": {
-    "total_stocks": 11,
-    "buy": 9,
-    "sell": 10,
-    "hold": 2
   }
 }

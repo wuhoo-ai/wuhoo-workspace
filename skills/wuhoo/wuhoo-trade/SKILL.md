@@ -188,6 +188,23 @@ qty = int(target_amount / price / 100) * 100  # 中国石油股份会报"不足1
 | HK.00857 中国石油股份 | **2000** | ❌ 碎股 | ❌ 碎股 | ✅ |
 | HK.01113 长实集团 | 500 | — | — | — |
 
+### 🔴 HK 模拟盘卖单挂起：所有订单类型均可能卡 SUBMITTED
+
+**症状（2026-05-25 实测）**：HK 模拟账户 (18767294) 卖出 400 股 HK.00005 汇丰控股，三种订单类型全部失败：
+- NORMAL 限价单 @ bid (143.9)：SUBMITTED → 等待 60s 未成交
+- MARKET 市价单：SUBMITTED → 等待 60s 未成交
+- NORMAL 限价单 @ ask (144.0)：SUBMITTED → 等待 60s 未成交
+
+**区别**: CN 模拟盘市价单秒级成交，HK 模拟盘存在系统级延迟。这不是限价/市价的选择问题 — 是整个 HK 模拟交易引擎的 fill 延迟。
+
+**当前 workaround**：
+1. 接受延迟 — 订单最终会在数分钟到数十分钟后成交
+2. 不要反复取消重建（会产生大量 CANCELLED_ALL 垃圾单）
+3. 核查时用 `refresh_cache=True` 重新查询持仓确认
+4. 在审计报告中标注 "HK 模拟盘卖出挂单中，待成交"
+
+**待探索**：是否需要特定时间窗口（如港股交易活跃时段）fill 更快？还是纯 Futu 模拟引擎限制？
+
 ### 🐛 workflow_c 路径不匹配（2026-05-06 发现）
 
 `workflow_c_multi_market.py` 硬编码了数据路径，与实际目录不一致：
@@ -254,7 +271,32 @@ for _, o in orders[orders['order_status'] == 'SUBMITTED'].iterrows():
     )
 ```
 
-### 🐛 OpenSecTradeContext 构造函数签名陷阱
+### 🔴 下单频率限制：30 秒内最多 15 次
+
+Futu OpenD 对所有订单类型施加频率限制：**每 30 秒最多 15 次下单**（含买卖）。超过后返回错误 `下单频率太高，请求失败，每30秒最多15次`。
+
+**实际触发场景**（2026-05-26 US 调仓）：卖出 9 只 + 买入 8 只 = 17 次下单，第 16-17 次（MMM、HON）被拒绝。
+
+**解决方案**：
+1. **拆分批次**：每批 ≤ 15 次下单，批次间 `sleep(35)` 让计数器重置
+2. **优先级排序**：先下卖单（释放资金），再下买单
+3. **失败重试**：检测频率限制错误后 `sleep(35)` 重试
+4. **预估下单数**：卖单数 + 买单数 > 15 则自动拆分
+
+```python
+# ✅ 正确：拆分批次
+MAX_ORDERS_PER_WINDOW = 15
+all_orders = sell_orders + buy_orders
+for i in range(0, len(all_orders), MAX_ORDERS_PER_WINDOW):
+    batch = all_orders[i:i + MAX_ORDERS_PER_WINDOW]
+    for code, side, qty in batch:
+        place_order(...)
+    if i + MAX_ORDERS_PER_WINDOW < len(all_orders):
+        print(f'批次 {i//MAX_ORDERS_PER_WINDOW+1} 完成，等待 35s...')
+        time.sleep(35)
+```
+
+
 
 `OpenSecTradeContext.__init__` 签名为 `(self, filter_trdmarket, host, port, is_encrypt, security_firm, ai_type)`。**`filter_trdmarket` 是第一个位置参数**，不是仅关键字参数。
 

@@ -1,0 +1,563 @@
+{
+  "champions": {
+    "Argentina": 1217,
+    "Spain": 1185,
+    "France": 781,
+    "Colombia": 253,
+    "Portugal": 253,
+    "Croatia": 181,
+    "Netherlands": 149,
+    "England": 132,
+    "Ecuador": 119,
+    "Switzerland": 95,
+    "Norway": 91,
+    "Turkey": 64,
+    "Brazil": 60,
+    "Uruguay": 59,
+    "Japan": 56,
+    "Senegal": 55,
+    "Belgium": 49,
+    "Mexico": 41,
+    "Germany": 40,
+    "Morocco": 26,
+    "Austria": 26,
+    "Paraguay": 20,
+    "South Korea": 10,
+    "Canada": 9,
+    "Scotland": 7,
+    "Iran": 4,
+    "Algeria": 3,
+    "Australia": 3,
+    "Uzbekistan": 2,
+    "Sweden": 2
+  },
+  "runners_up": {
+    "Spain": 591,
+    "Argentina": 586,
+    "France": 517,
+    "Colombia": 314,
+    "Portugal": 302,
+    "Croatia": 263,
+    "Netherlands": 254,
+    "Ecuador": 237,
+    "England": 212,
+    "Norway": 180,
+    "Switzerland": 153,
+    "Brazil": 141,
+    "Uruguay": 136,
+    "Germany": 122,
+    "Senegal": 121,
+    "Turkey": 119,
+    "Japan": 112,
+    "Belgium": 104,
+    "Morocco": 91,
+    "Mexico": 89
+  },
+  "semifinalists": {
+    "Spain": 2462,
+    "Argentina": 2450,
+    "France": 1981,
+    "Colombia": 1169,
+    "Portugal": 1166,
+    "Croatia": 965,
+    "Netherlands": 861,
+    "England": 827,
+    "Ecuador": 763,
+    "Norway": 656,
+    "Switzerland": 651,
+    "Brazil": 565,
+    "Uruguay": 532,
+    "Germany": 484,
+    "Turkey": 476,
+    "Belgium": 469,
+    "Japan": 463,
+    "Senegal": 461,
+    "Mexico": 415,
+    "Morocco": 373
+  },
+  "quarterfinalists": {
+    "Spain": 2462,
+    "Argentina": 2450,
+    "France": 1981,
+    "Colombia": 1169,
+    "Portugal": 1166,
+    "Croatia": 965,
+    "Netherlands": 861,
+    "England": 827,
+    "Ecuador": 763,
+    "Norway": 656,
+    "Switzerland": 651,
+    "Brazil": 565,
+    "Uruguay": 532,
+    "Germany": 484,
+    "Turkey": 476,
+    "Belgium": 469,
+    "Japan": 463,
+    "Senegal": 461,
+    "Mexico": 415,
+    "Morocco": 373
+  },
+  "r16": {
+    "Argentina": 3231,
+    "Spain": 3227,
+    "France": 2807,
+    "Portugal": 2063,
+    "Colombia": 2030,
+    "Croatia": 1856,
+    "Netherlands": 1699,
+    "England": 1661,
+    "Ecuador": 1646,
+    "Switzerland": 1474,
+    "Norway": 1356,
+    "Uruguay": 1264,
+    "Brazil": 1257,
+    "Germany": 1188,
+    "Turkey": 1162,
+    "Japan": 1118,
+    "Belgium": 1114,
+    "Senegal": 1108,
+    "Mexico": 1075,
+    "Morocco": 960,
+    "Austria": 747,
+    "Canada": 696,
+    "Paraguay": 690,
+    "South Korea": 575,
+    "Scotland": 574,
+    "Iran": 416,
+    "Australia": 377,
+    "United States": 335,
+    "Czech Republic": 308,
+    "Egypt": 304
+  },
+  "group_winners": {
+    "Argentina": 4278,
+    "Spain": 3997,
+    "France": 3262,
+    "Mexico": 3170,
+    "Switzerland": 2943,
+    "Netherlands": 2806,
+    "Belgium": 2800,
+    "Ecuador": 2746,
+    "Croatia": 2600,
+    "Portugal": 2452,
+    "Brazil": 2358,
+    "England": 2297,
+    "Colombia": 2282,
+    "Turkey": 2137,
+    "Germany": 1905,
+    "Canada": 1849,
+    "Japan": 1634,
+    "Morocco": 1606,
+    "Iran": 1194,
+    "Paraguay": 1149,
+    "South Korea": 1104,
+    "Scotland": 978,
+    "Norway": 943,
+    "United States": 925,
+    "Uruguay": 920,
+    "Australia": 789,
+    "Senegal": 763,
+    "Egypt": 763,
+    "Czech Republic": 672,
+    "Austria": 460
+  },
+  "group_qualifiers": {
+    "Spain": 4883,
+    "Argentina": 4844,
+    "Croatia": 4633,
+    "Switzerland": 4593,
+    "England": 4551,
+    "France": 4452,
+    "Ecuador": 4433,
+    "Mexico": 4412,
+    "Portugal": 4410,
+    "Colombia": 4353,
+    "Uruguay": 4263,
+    "Netherlands": 4244,
+    "Canada": 4224,
+    "Belgium": 4121,
+    "Germany": 4078,
+    "Brazil": 3882,
+    "Japan": 3567,
+    "Turkey": 3440,
+    "Morocco": 3334,
+    "South Korea": 3073,
+    "Iran": 2849,
+    "Norway": 2845,
+    "Austria": 2750,
+    "Paraguay": 2583,
+    "Senegal": 2499,
+    "Scotland": 2498,
+    "Czech Republic": 2166,
+    "Egypt": 2109,
+    "United States": 2106,
+    "Australia": 1871
+  },
+  "groups": {
+    "A": {
+      "Mexico": {
+        "elo": 1873,
+        "win_pct": 63.4,
+        "qual_pct": 88.24,
+        "injury": 0,
+        "meta": 15
+      },
+      "South Africa": {
+        "elo": 1524,
+        "win_pct": 1.08,
+        "qual_pct": 6.98,
+        "injury": 0,
+        "meta": 0
+      },
+      "South Korea": {
+        "elo": 1783,
+        "win_pct": 22.08,
+        "qual_pct": 61.46,
+        "injury": 0,
+        "meta": 31
+      },
+      "Czech Republic": {
+        "elo": 1726,
+        "win_pct": 13.44,
+        "qual_pct": 43.32,
+        "injury": 0,
+        "meta": 0
+      }
+    },
+    "B": {
+      "Canada": {
+        "elo": 1789,
+        "win_pct": 36.980000000000004,
+        "qual_pct": 84.48,
+        "injury": -10,
+        "meta": 15
+      },
+      "Switzerland": {
+        "elo": 1919,
+        "win_pct": 58.86,
+        "qual_pct": 91.86,
+        "injury": 0,
+        "meta": 30
+      },
+      "Bosnia and Herzegovina": {
+        "elo": 1605,
+        "win_pct": 3.4799999999999995,
+        "qual_pct": 19.139999999999997,
+        "injury": 0,
+        "meta": 11
+      },
+      "Qatar": {
+        "elo": 1427,
+        "win_pct": 0.6799999999999999,
+        "qual_pct": 4.52,
+        "injury": 0,
+        "meta": 0
+      }
+    },
+    "C": {
+      "Brazil": {
+        "elo": 1911,
+        "win_pct": 47.160000000000004,
+        "qual_pct": 77.64,
+        "injury": -80,
+        "meta": 7
+      },
+      "Morocco": {
+        "elo": 1856,
+        "win_pct": 32.12,
+        "qual_pct": 66.67999999999999,
+        "injury": 0,
+        "meta": 35
+      },
+      "Haiti": {
+        "elo": 1541,
+        "win_pct": 1.16,
+        "qual_pct": 5.72,
+        "injury": 0,
+        "meta": 9
+      },
+      "Scotland": {
+        "elo": 1791,
+        "win_pct": 19.56,
+        "qual_pct": 49.96,
+        "injury": 0,
+        "meta": 24
+      }
+    },
+    "D": {
+      "United States": {
+        "elo": 1737,
+        "win_pct": 18.5,
+        "qual_pct": 42.120000000000005,
+        "injury": 0,
+        "meta": 16
+      },
+      "Turkey": {
+        "elo": 1902,
+        "win_pct": 42.74,
+        "qual_pct": 68.8,
+        "injury": 0,
+        "meta": 0
+      },
+      "Paraguay": {
+        "elo": 1833,
+        "win_pct": 22.98,
+        "qual_pct": 51.66,
+        "injury": 0,
+        "meta": 0
+      },
+      "Australia": {
+        "elo": 1783,
+        "win_pct": 15.78,
+        "qual_pct": 37.419999999999995,
+        "injury": 0,
+        "meta": 0
+      }
+    },
+    "E": {
+      "Germany": {
+        "elo": 1889,
+        "win_pct": 38.1,
+        "qual_pct": 81.56,
+        "injury": -45,
+        "meta": 11
+      },
+      "Ecuador": {
+        "elo": 1952,
+        "win_pct": 54.92,
+        "qual_pct": 88.66000000000001,
+        "injury": 0,
+        "meta": 19
+      },
+      "Ivory Coast": {
+        "elo": 1689,
+        "win_pct": 6.6000000000000005,
+        "qual_pct": 26.900000000000002,
+        "injury": 0,
+        "meta": 13
+      },
+      "Curacao": {
+        "elo": 1444,
+        "win_pct": 0.38,
+        "qual_pct": 2.88,
+        "injury": 0,
+        "meta": 8
+      }
+    },
+    "F": {
+      "Netherlands": {
+        "elo": 1963,
+        "win_pct": 56.120000000000005,
+        "qual_pct": 84.88,
+        "injury": -25,
+        "meta": 27
+      },
+      "Japan": {
+        "elo": 1882,
+        "win_pct": 32.68,
+        "qual_pct": 71.34,
+        "injury": -50,
+        "meta": 28
+      },
+      "Sweden": {
+        "elo": 1737,
+        "win_pct": 7.9799999999999995,
+        "qual_pct": 29.32,
+        "injury": 0,
+        "meta": 18
+      },
+      "Tunisia": {
+        "elo": 1661,
+        "win_pct": 3.2199999999999998,
+        "qual_pct": 14.46,
+        "injury": 0,
+        "meta": 25
+      }
+    },
+    "G": {
+      "Belgium": {
+        "elo": 1876,
+        "win_pct": 56.00000000000001,
+        "qual_pct": 82.42,
+        "injury": 0,
+        "meta": 10
+      },
+      "Egypt": {
+        "elo": 1716,
+        "win_pct": 15.260000000000002,
+        "qual_pct": 42.18,
+        "injury": 0,
+        "meta": 27
+      },
+      "Iran": {
+        "elo": 1760,
+        "win_pct": 23.880000000000003,
+        "qual_pct": 56.98,
+        "injury": 0,
+        "meta": 0
+      },
+      "New Zealand": {
+        "elo": 1601,
+        "win_pct": 4.859999999999999,
+        "qual_pct": 18.42,
+        "injury": 0,
+        "meta": 16
+      }
+    },
+    "H": {
+      "Spain": {
+        "elo": 2154,
+        "win_pct": 79.94,
+        "qual_pct": 97.66,
+        "injury": -30,
+        "meta": 19
+      },
+      "Uruguay": {
+        "elo": 1904,
+        "win_pct": 18.4,
+        "qual_pct": 85.26,
+        "injury": 0,
+        "meta": 12
+      },
+      "Saudi Arabia": {
+        "elo": 1568,
+        "win_pct": 0.8200000000000001,
+        "qual_pct": 8.559999999999999,
+        "injury": 0,
+        "meta": 0
+      },
+      "Cape Verde": {
+        "elo": 1564,
+        "win_pct": 0.84,
+        "qual_pct": 8.52,
+        "injury": 0,
+        "meta": 15
+      }
+    },
+    "I": {
+      "France": {
+        "elo": 2111,
+        "win_pct": 65.24,
+        "qual_pct": 89.03999999999999,
+        "injury": -10,
+        "meta": 39
+      },
+      "Senegal": {
+        "elo": 1906,
+        "win_pct": 15.260000000000002,
+        "qual_pct": 49.980000000000004,
+        "injury": 0,
+        "meta": 27
+      },
+      "Iraq": {
+        "elo": 1607,
+        "win_pct": 0.64,
+        "qual_pct": 4.08,
+        "injury": 0,
+        "meta": 0
+      },
+      "Norway": {
+        "elo": 1931,
+        "win_pct": 18.86,
+        "qual_pct": 56.89999999999999,
+        "injury": 0,
+        "meta": 19
+      }
+    },
+    "J": {
+      "Argentina": {
+        "elo": 2158,
+        "win_pct": 85.56,
+        "qual_pct": 96.88,
+        "injury": -15,
+        "meta": 60
+      },
+      "Algeria": {
+        "elo": 1757,
+        "win_pct": 3.5000000000000004,
+        "qual_pct": 30.919999999999998,
+        "injury": 0,
+        "meta": 14
+      },
+      "Austria": {
+        "elo": 1843,
+        "win_pct": 9.2,
+        "qual_pct": 55.00000000000001,
+        "injury": 0,
+        "meta": 16
+      },
+      "Jordan": {
+        "elo": 1690,
+        "win_pct": 1.7399999999999998,
+        "qual_pct": 17.2,
+        "injury": 0,
+        "meta": 0
+      }
+    },
+    "K": {
+      "Portugal": {
+        "elo": 2014,
+        "win_pct": 49.04,
+        "qual_pct": 88.2,
+        "injury": 0,
+        "meta": 30
+      },
+      "DR Congo": {
+        "elo": 1668,
+        "win_pct": 1.92,
+        "qual_pct": 8.72,
+        "injury": 0,
+        "meta": 13
+      },
+      "Uzbekistan": {
+        "elo": 1727,
+        "win_pct": 3.4000000000000004,
+        "qual_pct": 16.02,
+        "injury": 0,
+        "meta": 0
+      },
+      "Colombia": {
+        "elo": 2008,
+        "win_pct": 45.64,
+        "qual_pct": 87.06,
+        "injury": 0,
+        "meta": 33
+      }
+    },
+    "L": {
+      "England": {
+        "elo": 1952,
+        "win_pct": 45.94,
+        "qual_pct": 91.02,
+        "injury": -90,
+        "meta": 22
+      },
+      "Croatia": {
+        "elo": 1975,
+        "win_pct": 52.0,
+        "qual_pct": 92.66,
+        "injury": 0,
+        "meta": 45
+      },
+      "Ghana": {
+        "elo": 1509,
+        "win_pct": 0.52,
+        "qual_pct": 4.92,
+        "injury": -20,
+        "meta": 24
+      },
+      "Costa Rica": {
+        "elo": 1613,
+        "win_pct": 1.54,
+        "qual_pct": 11.4,
+        "injury": 0,
+        "meta": 0
+      }
+    }
+  },
+  "n_sims": 5000,
+  "playoffs": {
+    "Iran_vs_Cameroon": "Iran wins",
+    "Tajikistan_vs_Costa_Rica": "Costa Rica wins"
+  }
+}

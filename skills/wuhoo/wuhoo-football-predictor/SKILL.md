@@ -1,7 +1,7 @@
 ---
 name: wuhoo-football-predictor
-description: 足球赛事预测系统 — Elo+Poisson+Monte Carlo v2.3，6层模型栈，支持 2026 世界杯全流程模拟 + 伤病/教练因子 + 中文 Markdown 综合报告
-version: 2.3.0
+description: 足球赛事预测系统 — Elo+Poisson+Monte Carlo v2.4，6层模型栈，支持 2026 世界杯全流程模拟 + 伤病/教练因子 + 中文 Markdown 综合报告
+version: 2.4.0
 dependencies:
   - wuhoo-news-rss
   - pandas
@@ -10,11 +10,37 @@ tags: ["wuhoo"]
 category: wuhoo
 ---
 
-# 足球赛事预测系统 v2.3
+# 足球赛事预测系统 v2.4
 
 ## 概述
 
 基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟的多层次预测系统，支持世界杯、欧洲杯等国际赛事。
+
+### v2.4 更新 (2026-05-26) — 赛前数据大刷新
+
+**伤病数据 v2.0:** 7队→10队, 11→15名球员
+- 🔴 NEW England: Foden+Palmer+TAA 三人缺阵 (-90) — 夺冠概率 2.3%→0.2%
+- 🔴 NEW Japan: Mitoma 因伤落选 (-30), 总 penalty -25→-50
+- 🔴 Germany: Gnabry DOUBTFUL→OUT, 总 -35→-45
+- 🔴 Brazil: Estevao DOUBTFUL→OUT, 总 -60→-80
+- 🟢 Egypt: Salah 确认入队, 移除 penalty
+- 🟡 NEW Argentina: Romero DOUBTFUL (-15)
+- 🟡 NEW Ghana: Kudus DOUBTFUL (-20)
+- 🟡 NEW Canada: Davies DOUBTFUL (-10)
+- 🟡 Spain: Merino DOUBTFUL 新增 (-15), 总 -15→-30
+
+**教练/磨合数据 v2.0:** 20队→36队 (覆盖率 75%)
+- 新增: Norway, Sweden, South Korea, Scotland, Tunisia, Egypt, Ivory Coast, New Zealand, Cape Verde, DR Congo, Bosnia, Haiti, Curacao, Algeria, Austria, Ghana, Canada
+- 更新: England (Foden/Palmer/TAA OUT→稳定性↓), Brazil (Ancelotti+伤病→稳定性↓), Argentina, Germany, Japan
+
+**预测结果 (5,000 sims, May 26):**
+- Argentina 38.1% (↓3.5%), Spain 33.7% (↑1.5%), France 22.0% (↑3.1%)
+- England 0.2% (↓91%) — 三人缺阵堪称毁灭性
+- Colombia 黑马上升至 2.2%
+
+**系统发现:**
+- ⚠️ 7 个测试失败需修复 (冷门参数/ELO范围/host tag逻辑)
+- 报告模板硬编码队数需动态化
 
 ### 预测模型栈 (6 层)
 
@@ -31,12 +57,12 @@ category: wuhoo
 
 **数据管线:**
 - ✅ ELO 采集管线完全重写: fetch_elo.py v2.0 — 多源级联 (international-football.net → eloratings.net → static fallback)
-- ✅ 64 支球队完整覆盖 (48 WC + 16 非参赛队) — 之前 55 队
+- ✅ 64 支球队完整覆盖 (48 WC + 16 非参赛队)
 - ✅ 队名标准化: USA→United States, 全量 TEAM_ALIASES 去重映射
 
 **模型增强:**
-- ✅ 伤病数据集成: injuries.json (7 队 11 名球员, 真实来源 Al Jazeera/BBC)
-- ✅ 教练因子 + 阵容磨合: team_metadata.json (20 队, coach/stability/chemistry)
+- ✅ 伤病数据集成: injuries.json (初始 7 队 11 名球员)
+- ✅ 教练因子 + 阵容磨合: team_metadata.json (初始 20 队)
 - ✅ 锦标赛级形态因子: 每队抽取持久 N(0,60) form boost
 - ✅ 冷门模型增强: 上界 0.18→0.22, 扰动 30%→40%
 
@@ -92,33 +118,32 @@ python3.11 scripts/fetch_elo.py --diff            # 审计变更
 python3.11 scripts/fetch_elo.py --source          # 查看数据源
 ```
 
-## 2026 世界杯预测结果 (v2.3, 2,000 sims, 2026-05-21)
+## 2026 世界杯预测结果 (v2.4, 5,000 sims, 2026-05-26)
 
-> ⚠️ 基于 international-football.net 2026-05-21 数据 + v2.3 6层模型栈 (含伤病/教练/形态因子)
+> ⚠️ 基于 international-football.net 2026-05-24 数据 + v2.4 伤病/元数据刷新 (10队伤员, 36队教练因子)
 
 | 阶段 | 球队 | 概率 |
 |------|------|------|
-| 🏆 冠军 | Argentina | 41.6% |
-| | Spain | 32.2% |
-| | France | 18.9% |
-| | England | 2.3% |
-| | Portugal | 1.9% |
-| | Colombia | 1.2% |
-| | Netherlands | 0.8% |
+| 🏆 冠军 | Argentina | 38.1% |
+| | Spain | 33.7% |
+| | France | 22.0% |
+| | Portugal | 2.3% |
+| | Colombia | 2.2% |
 | | Ecuador | 0.4% |
-| | Brazil | 0.1% |
-| | Croatia | 0.1% |
+| | Croatia | 0.4% |
+| | Netherlands | 0.3% |
+| | England | 0.2% |
+| | Senegal | 0.1% |
 | 🥈 决赛 | France | 63.3% |
 | | Argentina | 52.4% |
 | | Spain | 41.9% |
-| 🏅 四强 | Spain | 85.8% |
-| | Argentina | 85.4% |
-| | France | 75.9% |
-| | Portugal | 36.4% |
-| | Colombia | 30.6% |
-| | Ecuador | 15.2% |
+| 🏅 四强 | Argentina | 90.6% |
+| | Spain | 89.5% |
+| | France | 81.9% |
+| | Colombia | 37.4% |
+| | Portugal | 36.8% |
 
-> v2.3 变更：6层模型栈 → Argentina 超越 Spain。Brazil 因 3 人伤病(-60 ELO)从 13.6%→0.1%。
+> v2.4 关键变化: England Foden+Palmer+TAA 三人 OUT (-90 ELO) → 夺冠率 2.3%→0.2% (↓91%)。Brazil 伤病 -60→-80。Japan Mitoma 落选 -50。Argentina 仍居首但 Romero 伤疑 ↓3.5%。
 
 ### 回测基线
 - WC 2022: 57.8% 准确率 (64场)
@@ -139,9 +164,9 @@ wuhoo-football-predictor/
 │   └── download_data.py        # 历史比赛数据下载
 ├── data/
 │   ├── elo_ratings.json        # 64队 ELO (2100-scale, international-football.net)
-│   ├── team_profiles.json      # 48队中英文元数据
-│   ├── team_metadata.json      # 20队教练/磨合/阵容 (v2.3)
-│   ├── injuries.json           # 伤病数据 (v2.3, 手动维护)
+│   ├── team_profiles.json      # 48队中英文元数据 (嵌套在 'teams' key)
+│   ├── team_metadata.json      # 36队教练/磨合/阵容 (v2.4)
+│   ├── injuries.json           # 10队15名球员伤病数据 (v2.4, 手动维护)
 │   ├── venues.json             # 16球场 venue 数据库
 │   ├── group_venues.json       # 12组小组赛 venue 映射
 │   ├── wc2026_mc_report.json   # MC 模拟 JSON (含 expected_bracket)
@@ -155,10 +180,13 @@ wuhoo-football-predictor/
 ├── tests/
 │   ├── test_football.py        # 18个单元测试
 │   └── test_wc2026_core.py     # 48个核心MC逻辑测试
-└── references/
-    ├── bracket-2026.md          # 官方对阵表、R32分配算法
-    ├── elo-pipeline-status.md   # ELO 管线状态、数据源迁移记录
-    └── group-venue-mapping.md   # 小组赛 venue 映射
+  ├── references/
+│   ├── bracket-2026.md          # 官方对阵表、R32分配算法
+│   ├── elo-pipeline-status.md   # ELO 管线状态、数据源迁移记录
+│   ├── group-venue-mapping.md   # 小组赛 venue 映射
+│   ├── injury-data-sources.md   # 伤病数据源与更新流程
+│   ├── plan-review-checklist.md # 计划审查清单
+│   └── 20260526-wc-data-audit.md # v2.4 数据更新审计 (2026-05-26)
 ```
 
 ## 模型参数 (v2.3)
@@ -174,18 +202,23 @@ wuhoo-football-predictor/
 | HOME_ADV_HOST | 60 | 东道主 ELO 加成 |
 | HOME_ADV_CONMEBOL | 15 | 南美队小组阶段加成 |
 
-## 伤病数据集成 (v2.3)
+## 伤病数据集成 (v2.4)
 
-文件: `data/injuries.json` — 手动维护，定期通过新闻更新
+文件: `data/injuries.json` — 手动维护，定期通过新闻更新。当前: 10 队 15 名球员。
+
+更新流程详见 [references/injury-data-sources.md](references/injury-data-sources.md)
 
 ```json
 {
-  "Brazil": {
-    "total_penalty": -60,
-    "players": [{
-      "name": "Rodrygo", "status": "OUT", "severity": "core",
-      "elo_penalty": -30, "injury": "Torn meniscus + ACL"
-    }]
+  "injuries": {
+    "England": {
+      "total_penalty": -90,
+      "players": [
+        {"name": "Phil Foden", "status": "OUT", "severity": "core", "elo_penalty": -40},
+        {"name": "Cole Palmer", "status": "OUT", "severity": "core", "elo_penalty": -30},
+        {"name": "Trent Alexander-Arnold", "status": "OUT", "severity": "important", "elo_penalty": -20}
+      ]
+    }
   }
 }
 ```
@@ -197,16 +230,18 @@ ELO 扣分体系:
 | DOUBTFUL (可能缺阵) | -20 | -15 | -10 |
 | MINOR (轻伤) | -10 | -5 | -3 |
 
-## 教练因子 + 阵容磨合 (v2.3)
+## 教练因子 + 阵容磨合 (v2.4)
 
-文件: `data/team_metadata.json` — 20 队手动维护
+文件: `data/team_metadata.json` — 36 队手动维护 (覆盖率 75%)
 
 每队计算: `coach(8×WC次数) + result(冠军+25/决赛+15/...) + stability((保留率-0.5)×40) + chemistry((胜率-0.5)×30)`
 
-示例:
-- Argentina +46: Scaloni WC冠军教练 + 稳定阵容 + 高化学反应
-- Spain +21: De la Fuente 首次 WC + 极高化学反应 (Euro 2024 冠军班底)
-- Brazil +12: Junior 首次 WC + 伤病导致阵容不稳定
+示例 (v2.4):
+- Argentina +60: Scaloni WC冠军教练 + 稳定阵容 → 最高调整
+- Croatia +45: Dalic 2次WC经验, 2018亚军/2022四强
+- France +39: Deschamps WC2022亚军 + 阵容稳定
+- England +22: Tuchel 首秀WC, Foden/Palmer/TAA OUT 重创稳定性
+- Brazil +7: Ancelotti 首秀 + 3人伤病 → 严重被削
 
 ## ELO 自动采集管线 (v2.3)
 
@@ -231,6 +266,48 @@ python3.11 scripts/fetch_elo.py --update-static <<'EOF'
 EOF
 ```
 
+## 数据更新验证 (v2.4, 2026-05-26)
+
+### 伤病数据 v2.0 更新流程
+
+真实执行了 7→10 队的大版本更新，验证了以下流程：
+
+1. 多源交叉验证：ESPN Injuries Tracker + BBC Squad Announcements + The Athletic + Yahoo/BBC
+2. 状态变更映射：
+   - DOUBTFUL→OUT：提升 penalty（Gnabry -15→-30, Estevao -10→-30）
+   - DOUBTFUL→FIT：移除 penalty（Salah，确认入埃及大名单）
+   - 新增伤员：通过 squad announcement 反推（Mitoma 落选 = 因伤）
+3. 需手动关注的来源：
+   - ESPN Injuries Tracker: https://www.espn.com/soccer/story/_/id/48572979
+   - BBC Squad Tracker: https://www.bbc.com/sport/football/articles/cvgz43lgn15o
+   - FIFA Official: https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/all-world-cup-squad-announcements
+
+### 教练/磨合数据 v2.0 扩展
+
+从 20→36 队（覆盖率 75%），使用 squad announcement 信息推断教练和阵容稳定性。
+
+### 关键教训：英格兰
+
+Foden + Palmer + Alexander-Arnold 三人 OUT（BBC 确认 "to miss World Cup"）导致 penalty=-90，夺冠率从 2.3% 跌至 0.2%。**此类 squad announcement 中的多名核心缺阵是最需要立即更新的信息。**
+
+## 测试套件状态 (2026-05-26)
+
+7 个测试失败，全部因 v2.3 参数变更但测试断言未跟随更新：
+
+| 测试 | 根因 | 修复 |
+|------|------|------|
+| `test_equal_elo_max_upset` | v2.2→v2.3 冷门上界 0.18→0.22，断言期望 ~0.18 | 更新为 0.22 |
+| `test_moderate_gap` | 同上，公式变更 | 更新期望值 |
+| `test_small_gap` | 同上 | 更新期望值 |
+| `test_negative_elo_diff` | 同上 | 更新期望值 |
+| `test_host_advantage` | USA 小组 tag 输出 "绝对热门" 而非 "东道主"，tag 优先级逻辑错 | 修复 `analyze_group()` tag 逻辑 |
+| `test_elo_adjustments_applied` | Haiti+500 在新冷门+形态模型下赢不了任何模拟 | 降低冷门强度或提高测试调整量 |
+| `test_elo_range_sanity` | Saudi 1568 / Bosnia 1594 < 1600 下限，实际 ELO 有效 | 下限调至 1400 |
+
+## 报告模板问题
+
+`wc2026_predict.py` 报告硬编码了 `v2.3 伤病(7队/11名球员)`，但实际已更新为 10 队/15 球员。模板需改为动态读取而非硬编码。
+
 ## 已知限制
 
 1. **伤病数据手动维护**: injuries.json 需定期通过新闻手动更新，非自动采集
@@ -239,8 +316,11 @@ EOF
 4. **fp_predict.py `--full` 为桩代码**: 仅配置了多赛事框架，缺具体赛事的 Bracket 实现
 5. **第3名分配 fallback**: 当组合不在 FIFA 495 种映射表中时使用最佳可用队替代
 6. **冠军分布仍略集中**: v2.3 Top3 ~93%，真实世界杯有更多冷门
+7. **7 个测试失败** (v2.4 发现): v2.3 参数变更后测试断言未同步更新，需在世界杯前修复
+8. **报告模板硬编码**: 伤病队数/球员数不随数据自动更新
 
 > ✅ 已解决 (v2.3): ELO 半静态管线、无伤病数据、无教练因子、冠军过度集中 — 全部通过 6层模型栈修复。
+> ✅ 已解决 (v2.4): 伤病数据从 7→10 队, 元数据 20→36 队 — 覆盖率大幅提升。
 
 ## 开发陷阱
 
@@ -268,7 +348,18 @@ sentiment_analyzer.py 中的 RSSConnector 默认查找 `../news-rss`，实际目
 ### 队名标准化 (v2.3 新增)
 不同数据源使用不同国家名 (USA vs United States, Korea vs South Korea)。统一使用 `TEAM_ALIASES` 映射 + `_canonical_name()` 函数。新增数据时必须检查别名表。
 
-### 伤病/元数据集成陷阱 (v2.3 新增)
+### execute_code 中 read_file 返回 dict (v2.4 新增)
+
+`hermes_tools.read_file()` 在 `execute_code` 沙箱中返回 **dict** (`{"content": "...", "total_lines": N}`)，不是字符串。直接 `json.loads(read_file(...))` 会报 `TypeError`。
+
+**正确做法**: 在 `execute_code` 中使用 `read_file(path)["content"]` 获取文本内容，或改用 `terminal()` 执行数据扫描脚本。
+
+### 队名别名陷阱 — 扫描脚本 vs 运行时代码 (v2.4 新增)
+
+GROUPS/ALL_TEAMS 使用 ELO 文件的规范名 (Czech Republic, Bosnia and Herzegovina, DR Congo)。用 Wikipedia 名 (Czechia, Bosnia-Herzegovina, Congo DR) 扫描会导致误报"缺失 ELO"。**始终以 `wc2026_predict.py` 的 GROUPS 定义为准**。
+
+### 伤病/元数据集成陷阱 (v2.3)
+
 在 `simulate_one_tournament()` 中，ELO 调整的应用顺序为:
 `ELO + elo_adjustments + injury_adjustments + META_ADJUSTMENTS + tournament_form`
 顺序不影响最终值但影响调试。所有调整在 tournament_form 之前应用，确保形态因子覆盖所有基础调整。

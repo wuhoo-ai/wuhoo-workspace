@@ -36,9 +36,10 @@ from futu import *
 
 ### OpenD 安装位置
 
-- **二进制**: `~/wuhoo-workspace/tools/opend/Futu_OpenD_10.3.6308_Centos7/Futu_OpenD_10.3.6308_Centos7/FutuOpenD`
+- **二进制**: `~/wuhoo-workspace/tools/opend/Futu_OpenD_10.10.151_Centos7/Futu_OpenD_10.10.151_Centos7/FutuOpenD`
 - **启动脚本**: `~/wuhoo-workspace/scripts/start_opend.sh`
 - **日志目录**: `~/wuhoo-workspace/tools/opend/logs/`
+- **当前版本**: 10.10.151（2026-05-28 实测）
 - **监听端口**: `127.0.0.1:11111`（API）、`127.0.0.1:22222`（WebSocket）
 
 ### 命令行启动（推荐）
