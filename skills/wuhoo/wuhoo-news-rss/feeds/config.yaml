@@ -8,59 +8,54 @@
 
 feeds:
   # ========== ⚽ 足球/体育 ==========
-  - name: "ESPN Football"
-    url: "https://www.espn.com/espn/rss/soccer/news"
-    category: "足球"
-    tags: ["足球", "国际", "英文"]
-    status: "✅ 新增"
-
   - name: "BBC Sport Football"
     url: "https://feeds.bbci.co.uk/sport/football/rss.xml"
     category: "足球"
     tags: ["足球", "英超", "英文"]
-    status: "✅ 新增"
+    status: "✅"
 
   - name: "Sky Sports Football"
     url: "https://www.skysports.com/rss/12040"
     category: "足球"
     tags: ["足球", "英超", "转会"]
-    status: "✅ 新增"
+    status: "✅"
 
   - name: "The Guardian Football"
     url: "https://www.theguardian.com/football/rss"
     category: "足球"
     tags: ["足球", "英超", "欧冠"]
-    status: "✅ 新增"
+    status: "✅"
 
-  - name: "Goal.com International"
-    url: "https://www.goal.com/feeds/en/news"
+  - name: "Football Rankings"
+    url: "http://www.football-rankings.info/feeds/posts/default"
+    category: "足球"
+    tags: ["足球", "FIFA排名", "ELO", "世界杯"]
+    status: "✅ 新增 (2026-06-02)"
+
+  - name: "SoccerNews"
+    url: "https://www.soccernews.com/feed"
     category: "足球"
     tags: ["足球", "国际", "转会"]
-    status: "✅ 新增"
+    status: "✅ 新增 (2026-06-02)"
 
-  - name: "FIFA.com News"
-    url: "https://www.fifa.com/news.rss"
+  - name: "World Soccer Talk"
+    url: "https://worldsoccertalk.com/feed"
     category: "足球"
-    tags: ["足球", "世界杯", "国际"]
-    status: "✅ 新增"
+    tags: ["足球", "国际", "英文"]
+    status: "✅ 新增 (2026-06-02)"
 
-  - name: "UEFA News"
-    url: "https://www.uefa.com/insideuefa/news/news.rss"
+  - name: "Football Italia"
+    url: "https://football-italia.net/feed"
     category: "足球"
-    tags: ["足球", "欧洲杯", "欧冠"]
-    status: "✅ 新增"
+    tags: ["足球", "意甲", "欧洲"]
+    status: "✅ 新增 (2026-06-02)"
 
-  - name: "懂球帝"
-    url: "http://127.0.0.1:1200/dongqiudi/news"
-    category: "足球"
-    tags: ["足球", "中超", "中文"]
-    status: "❌ 已禁用 (网站改版)"
-
-  - name: "直播吧"
-    url: "DISABLED"
-    category: "足球"
-    tags: ["足球", "综合", "中文"]
-    status: "❌ 已禁用 (网站改版)"
+  # === 以下源已失效，保留注释供参考 ===
+  # ESPN Football: 403 Forbidden (2026-06-02 验证)
+  # Goal.com International: 404 Not Found (2026-06-02 验证)
+  # FIFA.com News: 不再提供 RSS，返回 HTML (2026-06-02 验证)
+  # UEFA News: 超时/不可达 (2026-06-02 验证)
+  # 懂球帝/直播吧: 网站改版，RSSHub 路由不可用
 
   # ========== 🇨🇳 科技 ==========
   - name: "IT之家"

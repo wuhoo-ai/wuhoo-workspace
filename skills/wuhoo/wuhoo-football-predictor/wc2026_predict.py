@@ -165,12 +165,32 @@ for team in ALL_TEAMS:
         META_ADJUSTMENTS[team] = adj
 
 # ============================================================
-# 1d. News Sentiment (v2.2)
+# 1d. Friendly Match Form (v3.1) — Recent warm-up match results
+# ============================================================
+def _load_friendly_form():
+    """Load friendly match form adjustments.
+    Returns {team: adjustment} dict computed from recent friendly matches."""
+    fpath = os.path.join(os.path.dirname(__file__), 'data', 'friendly_form_adjustments.json')
+    try:
+        with open(fpath) as f:
+            data = json.load(f)
+        return data.get('teams', {})
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+FRIENDLY_FORM = _load_friendly_form()
+
+# ============================================================
+# 1e. News Sentiment (v2.2)
 # ============================================================
 def load_news_sentiment(enable_news=False):
     """Load news sentiment scores and convert to ELO adjustments.
     Returns dict: team_name -> elo_adjustment (int).
     When enable_news=False or data unavailable, returns empty dict (no adjustment).
+
+    v3.2: Removed hard cutoff when news_items is empty. Always runs proxy sentiment
+    strategy even with sparse/no data — returns neutral (zero) adjustments gracefully
+    rather than bailing out. Two-tier window: 14 days → 30 day fallback.
     """
     if not enable_news or not _sentiment_available:
         return {}
@@ -178,20 +198,28 @@ def load_news_sentiment(enable_news=False):
     try:
         connector = RSSConnector()
         if not connector.db_path or not connector.db_path.exists():
-            print("⚠️ News sentiment disabled: news-rss DB not found", file=sys.stderr)
+            print("📰 News sentiment skipped: news-rss DB not found", file=sys.stderr)
             return {}
 
         analyzer = SentimentAnalyzer()
-        # Fetch recent football news for all 48 WC teams
         all_teams_list = list(ALL_TEAMS)
+
+        # Tiered window: start with 14 days, fall back to 30 days if empty
         news_items = connector.fetch_football_news(all_teams_list, days_back=14)
 
         if not news_items:
-            print("⚠️ No recent football news found", file=sys.stderr)
-            return {}
+            # Try wider window before giving up on direct news
+            news_items = connector.fetch_football_news(all_teams_list, days_back=30)
 
-        # Get per-team sentiment
-        sentiment_scores = analyzer.analyze_news_batch(news_items)
+        if news_items:
+            sentiment_scores = analyzer.analyze_news_batch(news_items)
+            n_articles = len(news_items)
+            print(f"📰 RSS sentiment: {n_articles} articles loaded from DB", file=sys.stderr)
+        else:
+            # No articles at all — still attempt proxy strategy with empty scores
+            sentiment_scores = {}
+            print("📰 RSS sentiment: no football articles in DB (30-day window), "
+                  "all teams → neutral", file=sys.stderr)
 
         # Convert sentiment to ELO adjustment (scale: ±50 max)
         elo_adj = {}
@@ -212,12 +240,16 @@ def load_news_sentiment(enable_news=False):
                 teams_with_news += 1
 
         direct_count = teams_with_news - teams_with_proxy
-        print(f"📰 News sentiment loaded: {direct_count} direct + {teams_with_proxy} proxy = {teams_with_news}/{len(ALL_TEAMS)} teams "
-              f"(range: {min(elo_adj.values()) if elo_adj else 0} to {max(elo_adj.values()) if elo_adj else 0} ELO)",
-              file=sys.stderr)
+        if teams_with_news > 0:
+            print(f"📰 News sentiment loaded: {direct_count} direct + {teams_with_proxy} proxy = {teams_with_news}/{len(ALL_TEAMS)} teams "
+                  f"(range: {min(elo_adj.values())} to {max(elo_adj.values())} ELO)",
+                  file=sys.stderr)
+        else:
+            print(f"📰 News sentiment: all 48 teams neutral (no actionable signals)",
+                  file=sys.stderr)
         return elo_adj
     except Exception as e:
-        print(f"⚠️ News sentiment unavailable: {e}", file=sys.stderr)
+        print(f"📰 News sentiment unavailable: {e}", file=sys.stderr)
         return {}
 
 # ============================================================
@@ -468,7 +500,7 @@ def simulate_one_tournament(elo_adjustments=None):
     tournament_form = {t: random.gauss(0, TOURNAMENT_FORM_SIGMA) for t in all_team_names}
 
     elos = {t: ELO.get(t, 1700) + elo_adjustments.get(t, 0) + injury_adjustments.get(t, 0)
-             + META_ADJUSTMENTS.get(t, 0) + tournament_form.get(t, 0)
+             + META_ADJUSTMENTS.get(t, 0) + FRIENDLY_FORM.get(t, 0) + tournament_form.get(t, 0)
             for g in GROUPS.values() for t in g}
 
     # --- Group Stage ---
@@ -1032,7 +1064,7 @@ def generate_report(stats, expected_bracket, elo_adjustments=None):
     exp = expected_bracket
 
     if not exp.get('r32_pairs'):
-        lines.append(f"⚠️ 无法构建最可能路径——数据不完整。请增加模拟次数或检查数据。")
+        lines.append(f"⚠️ 无法构建最可能路径——模拟数据不足。请增加模拟次数或检查数据文件。")
         return '\n'.join(lines)
 
     # R32 bracket
@@ -1249,7 +1281,455 @@ def print_results(stats):
 
 
 # ============================================================
-# 11. Main
+# 11. Single Match Prediction (v3.0)
+# ============================================================
+
+def _load_schedule():
+    """Load WC2026 match schedule."""
+    spath = os.path.join(os.path.dirname(__file__), 'data', 'wc2026_schedule.json')
+    try:
+        with open(spath) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {'matches': []}
+
+SCHEDULE = None
+
+def _get_schedule():
+    global SCHEDULE
+    if SCHEDULE is None:
+        SCHEDULE = _load_schedule()
+    return SCHEDULE
+
+def _find_team_canonical(name, all_teams=None):
+    """Fuzzy match a team name to canonical GROUPS name. Case-insensitive."""
+    if all_teams is None:
+        all_teams = ALL_TEAMS
+    name_lower = name.strip().lower()
+    # Direct match
+    for t in all_teams:
+        if t.lower() == name_lower:
+            return t
+    # Partial match
+    for t in all_teams:
+        if name_lower in t.lower() or t.lower() in name_lower:
+            return t
+    # Common aliases
+    aliases = {
+        'usa': 'United States', 'us': 'United States',
+        'south korea': 'South Korea', 'korea': 'South Korea',
+        'bosnia': 'Bosnia and Herzegovina', 'bih': 'Bosnia and Herzegovina',
+        'czechia': 'Czech Republic', 'czech': 'Czech Republic',
+        'cote d\'ivoire': 'Ivory Coast',
+        'cape verde': 'Cape Verde',
+        'turkiye': 'Turkey',
+        'dr congo': 'DR Congo', 'congo': 'DR Congo',
+        'curacao': 'Curacao', 'curaçao': 'Curacao',
+    }
+    if name_lower in aliases:
+        return aliases[name_lower]
+    return None
+
+def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
+                         manual_adjustments=None, knockout=False):
+    """Predict a single match with full audit trail.
+
+    Args:
+        team_a, team_b: canonical team names
+        venue_name: stadium name (from venues.json) or None to skip venue effects
+        enable_news: if True, load RSS news sentiment
+        manual_adjustments: dict of team->elo_adjustment for manual overrides
+        knockout: if True, resolve draws via probabilistic tiebreaker
+
+    Returns:
+        dict with full audit trail and prediction results
+    """
+    if manual_adjustments is None:
+        manual_adjustments = {}
+
+    audit = {
+        'team_a': team_a,
+        'team_b': team_b,
+        'venue': venue_name,
+        'generated': datetime.now().isoformat(),
+        'layers': {},
+    }
+
+    # --- Layer 1: Base ELO ---
+    elo_a = ELO.get(team_a, 1700)
+    elo_b = ELO.get(team_b, 1700)
+    elo_diff_raw = elo_a - elo_b
+    base_win = 1 / (1 + 10 ** (-elo_diff_raw / 400))
+    audit['layers']['1_elo_base'] = {
+        'team_a_elo': elo_a,
+        'team_b_elo': elo_b,
+        'elo_diff': elo_diff_raw,
+        'base_win_prob': round(base_win * 100, 1),
+        'description': f"{team_a} {elo_a} vs {team_b} {elo_b}, Δ={elo_diff_raw:+d}"
+    }
+
+    effective_a = elo_a
+    effective_b = elo_b
+
+    # --- Layer 2: Injuries ---
+    inj_a = INJURIES.get(team_a, 0)
+    inj_b = INJURIES.get(team_b, 0)
+    inj_details_a = []
+    inj_details_b = []
+
+    # Load full injury details
+    ipath = os.path.join(os.path.dirname(__file__), 'data', 'injuries.json')
+    try:
+        with open(ipath) as f:
+            inj_full = json.load(f).get('injuries', {})
+    except Exception:
+        inj_full = {}
+
+    for team, details_key in [(team_a, 'a'), (team_b, 'b')]:
+        if team in inj_full:
+            for p in inj_full[team].get('players', []):
+                detail = f"  {p['name']} ({p['position']}): {p['status']} — {p['injury']} [{p['elo_penalty']:+d}]"
+                if details_key == 'a':
+                    inj_details_a.append(detail)
+                else:
+                    inj_details_b.append(detail)
+
+    effective_a += inj_a
+    effective_b += inj_b
+    audit['layers']['2_injuries'] = {
+        'team_a_penalty': inj_a,
+        'team_b_penalty': inj_b,
+        'team_a_details': inj_details_a,
+        'team_b_details': inj_details_b,
+        'description': f"{team_a}: {inj_a:+d} | {team_b}: {inj_b:+d}" if inj_a or inj_b else "No injuries"
+    }
+
+    # --- Layer 3: Coach / Roster / Chemistry ---
+    meta_a, breakdown_a = compute_meta_adjustment(team_a)
+    meta_b, breakdown_b = compute_meta_adjustment(team_b)
+    effective_a += meta_a
+    effective_b += meta_b
+    audit['layers']['3_coach_meta'] = {
+        'team_a_adjustment': meta_a,
+        'team_b_adjustment': meta_b,
+        'team_a_breakdown': breakdown_a,
+        'team_b_breakdown': breakdown_b,
+        'description': f"{team_a}: {meta_a:+d} (coach+stability+chemistry) | {team_b}: {meta_b:+d}"
+    }
+
+    # --- Layer 4: Venue Effects ---
+    venue_penalty_a = 0
+    venue_penalty_b = 0
+    venue_details = {}
+    home_adv = 0
+
+    # Host nation home advantage
+    if team_a in ('United States', 'Mexico', 'Canada'):
+        home_adv = 60
+    elif team_a in ('Brazil', 'Argentina', 'Uruguay', 'Colombia', 'Ecuador', 'Paraguay'):
+        home_adv = 15
+
+    if venue_name:
+        venue_penalty_a = get_venue_penalty(team_a, venue_name)
+        venue_penalty_b = get_venue_penalty(team_b, venue_name)
+        if venue_name in VENUES.get('venues', {}):
+            v = VENUES['venues'][venue_name]
+            venue_details = {
+                'city': v.get('city', '?'),
+                'altitude_m': v.get('altitude_m', 0),
+                'temp_c': v.get('temp_c_jun_jul_avg', '?'),
+                'indoor': v.get('indoor', False),
+                'climate_note': v.get('climate_note', ''),
+            }
+
+    effective_a += home_adv - venue_penalty_a
+    effective_b -= venue_penalty_b
+    audit['layers']['4_venue'] = {
+        'home_advantage': home_adv,
+        'team_a_venue_penalty': venue_penalty_a,
+        'team_b_venue_penalty': venue_penalty_b,
+        'venue_details': venue_details,
+        'description': f"Home adv {home_adv:+d}, venue penalties: {team_a} {venue_penalty_a:+d} / {team_b} {venue_penalty_b:+d}"
+    }
+
+    # --- Layer 4.5: Friendly Match Form (v3.1) ---
+    friendly_a = FRIENDLY_FORM.get(team_a, 0)
+    friendly_b = FRIENDLY_FORM.get(team_b, 0)
+    effective_a += friendly_a
+    effective_b += friendly_b
+    audit['layers']['4.5_friendly_form'] = {
+        'team_a_adj': friendly_a,
+        'team_b_adj': friendly_b,
+        'description': f"{team_a}: {friendly_a:+d} (warm-up form) | {team_b}: {friendly_b:+d}" if friendly_a or friendly_b else "No recent friendlies data"
+    }
+
+    # --- Layer 5: News Sentiment (optional) ---
+    news_adj = {}
+    if enable_news:
+        sentiment = load_news_sentiment(True)
+        for t in [team_a, team_b]:
+            if t in sentiment:
+                news_adj[t] = sentiment[t]
+                if t == team_a:
+                    effective_a += sentiment[t]
+                else:
+                    effective_b += sentiment[t]
+    audit['layers']['5_news_sentiment'] = {
+        'enabled': enable_news,
+        'team_a_adj': news_adj.get(team_a, 0),
+        'team_b_adj': news_adj.get(team_b, 0),
+        'description': f"{team_a}: {news_adj.get(team_a, 0):+d} | {team_b}: {news_adj.get(team_b, 0):+d}" if news_adj else "Not enabled"
+    }
+
+    # --- Layer 6: Manual Adjustments ---
+    manual_a = manual_adjustments.get(team_a, 0)
+    manual_b = manual_adjustments.get(team_b, 0)
+    effective_a += manual_a
+    effective_b += manual_b
+    audit['layers']['6_manual'] = {
+        'team_a_adj': manual_a,
+        'team_b_adj': manual_b,
+        'description': f"{team_a}: {manual_a:+d} | {team_b}: {manual_b:+d}" if manual_a or manual_b else "None"
+    }
+
+    # --- Final Effective ELO ---
+    effective_diff = effective_a - effective_b
+    audit['effective_elo'] = {
+        'team_a': {'base': elo_a, 'effective': effective_a, 'adjustments': effective_a - elo_a},
+        'team_b': {'base': elo_b, 'effective': effective_b, 'adjustments': effective_b - elo_b},
+        'diff': effective_diff,
+    }
+
+    # --- Poisson Prediction ---
+    pred = predict_score(effective_a, effective_b, 0)  # home_adv already in effective
+    audit['prediction'] = {
+        'model': 'Poisson (Elo-based lambda)',
+        'team_a_win': round(pred['win'] * 100, 1),
+        'draw': round(pred['draw'] * 100, 1),
+        'team_b_win': round(pred['loss'] * 100, 1),
+        'most_likely_score': f"{pred['score'][0]}-{pred['score'][1]}",
+        'expected_goals_a': round(pred['ga'], 2),
+        'expected_goals_b': round(pred['gb'], 2),
+    }
+
+    # --- KO Tiebreaker (if applicable) ---
+    if knockout and pred['score'][0] == pred['score'][1]:
+        elo_diff_abs = abs(effective_diff)
+        p_higher = 0.5 + min(elo_diff_abs / 800, 0.15)
+        higher_elo_team = team_a if effective_a >= effective_b else team_b
+        audit['prediction']['knockout_note'] = (
+            f"Expected draw in 90 min. KO tiebreaker: {higher_elo_team} "
+            f"has {p_higher*100:.0f}% chance to advance (ELO-based)"
+        )
+
+    # --- Verdict ---
+    win_a = audit['prediction']['team_a_win']
+    draw_p = audit['prediction']['draw']
+    win_b = audit['prediction']['team_b_win']
+
+    if win_a >= 60:
+        verdict = f"{team_a} 胜（高置信度）"
+        confidence = 'high'
+    elif win_a >= 50:
+        verdict = f"{team_a} 胜（中置信度）"
+        confidence = 'medium'
+    elif draw_p >= 35:
+        verdict = "平局（高概率）"
+        confidence = 'medium'
+    elif win_b >= 50:
+        verdict = f"{team_b} 胜（中置信度）"
+        confidence = 'medium'
+    elif win_b >= 60:
+        verdict = f"{team_b} 胜（高置信度）"
+        confidence = 'high'
+    else:
+        verdict = "势均力敌（低置信度）"
+        confidence = 'low'
+
+    audit['verdict'] = {'result': verdict, 'confidence': confidence}
+
+    # --- Reasoning ---
+    reasons = []
+    abs_diff = abs(elo_diff_raw)
+    if abs_diff > 300:
+        reasons.append(f"ELO 绝对优势 {abs_diff} 分，实力差距明显")
+    elif abs_diff > 100:
+        reasons.append(f"ELO 优势 {abs_diff} 分，有明确的实力差距")
+    else:
+        reasons.append(f"ELO 接近（差 {abs_diff} 分），实力相当")
+
+    if inj_a != 0 or inj_b != 0:
+        reasons.append(f"伤病影响：{team_a} {inj_a:+d} / {team_b} {inj_b:+d} ELO")
+
+    if venue_penalty_a != 0 or venue_penalty_b != 0:
+        if venue_name:
+            alt = venue_details.get('altitude_m', 0)
+            if alt > 1000:
+                reasons.append(f"{venue_name} 海拔 {alt}m，非适应球队受显著影响")
+
+    if abs(effective_diff - elo_diff_raw) > 30:
+        reasons.append(f"多层调整后有效 ELO 差 {effective_diff:+d}（原始 {elo_diff_raw:+d}）")
+
+    audit['reasoning'] = reasons
+
+    return audit
+
+
+def print_match_prediction(audit, team_profiles=None):
+    """Print a formatted single match prediction."""
+    if team_profiles is None:
+        team_profiles = TEAM_PROFILES
+
+    ta = audit['team_a']
+    tb = audit['team_b']
+    pa = team_profiles.get(ta, {})
+    pb = team_profiles.get(tb, {})
+    na = pa.get('name_cn', ta)
+    nb = pb.get('name_cn', tb)
+
+    elo_eff = audit['effective_elo']
+    pred = audit['prediction']
+    venue = audit['venue']
+    layers = audit['layers']
+
+    print("═" * 65)
+    print("🏆 WC2026 单场预测 · v3.0")
+    print("═" * 65)
+
+    if venue:
+        vd = layers['4_venue']['venue_details']
+        alt_flag = " ⛰️" if vd.get('altitude_m', 0) > 1000 else ""
+        heat_flag = " 🔥" if vd.get('temp_c', 20) > 30 else ""
+        print(f"🏟️ {venue}{alt_flag}{heat_flag} ({vd.get('city', '?')}, {vd.get('altitude_m', 0)}m)")
+    print(f"⚽ {na} ({ta}) vs {nb} ({tb})")
+    print()
+
+    # ELO comparison table
+    print("─" * 65)
+    print("📊 ELO 基础对比")
+    print("─" * 65)
+    l1 = layers['1_elo_base']
+    print(f"  {ta:<28} {l1['team_a_elo']:>5}")
+    print(f"  {tb:<28} {l1['team_b_elo']:>5}")
+    print(f"  {'ELO 差':<28} {l1['elo_diff']:>+5d}  →  基础胜率 {l1['base_win_prob']}%")
+    print()
+
+    # Injuries
+    print("─" * 65)
+    print("🏥 伤病调整")
+    print("─" * 65)
+    l2 = layers['2_injuries']
+    if l2['team_a_details'] or l2['team_b_details']:
+        for d in l2['team_a_details']:
+            print(d)
+        for d in l2['team_b_details']:
+            print(d)
+        print(f"  伤病调整: {ta} {l2['team_a_penalty']:+d} / {tb} {l2['team_b_penalty']:+d}")
+    else:
+        print("  无伤病")
+    print()
+
+    # Coach/Meta
+    print("─" * 65)
+    print("👔 教练/磨合调整")
+    print("─" * 65)
+    l3 = layers['3_coach_meta']
+    bda = l3.get('team_a_breakdown')
+    bdb = l3.get('team_b_breakdown')
+    if bda:
+        print(f"  {ta}: 教练经验 +{bda['coach']:.0f}, 最佳战绩 +{bda['result']:.0f}, "
+              f"阵容稳定 {bda['stability']:+.0f}, 化学反应 {bda['chemistry']:+.0f} → {l3['team_a_adjustment']:+d}")
+    else:
+        print(f"  {ta}: 无元数据 → 0")
+    if bdb:
+        print(f"  {tb}: 教练经验 +{bdb['coach']:.0f}, 最佳战绩 +{bdb['result']:.0f}, "
+              f"阵容稳定 {bdb['stability']:+.0f}, 化学反应 {bdb['chemistry']:+.0f} → {l3['team_b_adjustment']:+d}")
+    else:
+        print(f"  {tb}: 无元数据 → 0")
+    print()
+
+    # Venue
+    if venue:
+        print("─" * 65)
+        print("🏟️ Venue 影响")
+        print("─" * 65)
+        l4 = layers['4_venue']
+        vd = l4['venue_details']
+        print(f"  {venue} | {vd.get('city', '?')} | {vd.get('altitude_m', 0)}m | "
+              f"{vd.get('temp_c', '?')}°C | {'室内' if vd.get('indoor') else '室外'}")
+        print(f"  主场优势: {l4['home_advantage']:+d} ({ta})" if l4['home_advantage'] else f"  主场优势: 无")
+        print(f"  {ta}: venue 惩罚 {-l4['team_a_venue_penalty']:+d}")
+        print(f"  {tb}: venue 惩罚 {-l4['team_b_venue_penalty']:+d}")
+        print()
+
+    # News
+    l5 = layers['5_news_sentiment']
+    if l5['enabled'] and (l5['team_a_adj'] or l5['team_b_adj']):
+        print("─" * 65)
+        print("📰 新闻情感")
+        print("─" * 65)
+        print(f"  {ta}: {l5['team_a_adj']:+d}")
+        print(f"  {tb}: {l5['team_b_adj']:+d}")
+        print()
+
+    # Manual
+    l6 = layers['6_manual']
+    if l6['team_a_adj'] or l6['team_b_adj']:
+        print("─" * 65)
+        print("✋ 手动调整")
+        print("─" * 65)
+        print(f"  {ta}: {l6['team_a_adj']:+d}")
+        print(f"  {tb}: {l6['team_b_adj']:+d}")
+        print()
+
+    # Effective ELO
+    print("─" * 65)
+    print("🎯 综合 ELO")
+    print("─" * 65)
+    adj_a = elo_eff['team_a']['adjustments']
+    adj_b = elo_eff['team_b']['adjustments']
+    print(f"  {ta}: {elo_eff['team_a']['base']} → {elo_eff['team_a']['effective']} "
+          f"({adj_a:+d} 调整)")
+    print(f"  {tb}: {elo_eff['team_b']['base']} → {elo_eff['team_b']['effective']} "
+          f"({adj_b:+d} 调整)")
+    print(f"  有效 ELO 差: {elo_eff['diff']:+d}")
+    print()
+
+    # Prediction
+    print("─" * 65)
+    print("📈 Poisson 90 分钟预测")
+    print("─" * 65)
+    bar_w = 20
+    win_a_bar = int(pred['team_a_win'] / 100 * bar_w)
+    draw_bar = int(pred['draw'] / 100 * bar_w)
+    win_b_bar = int(pred['team_b_win'] / 100 * bar_w)
+    print(f"  {na} 胜:  {pred['team_a_win']:5.1f}% {'█' * win_a_bar}")
+    print(f"  平局:    {pred['draw']:5.1f}% {'█' * draw_bar}")
+    print(f"  {nb} 胜:  {pred['team_b_win']:5.1f}% {'█' * win_b_bar}")
+    print(f"  最可能比分: {pred['most_likely_score']} "
+          f"(xG: {ta} {pred['expected_goals_a']:.2f} / {tb} {pred['expected_goals_b']:.2f})")
+    if 'knockout_note' in pred:
+        print(f"  ⚠️ {pred['knockout_note']}")
+    print()
+
+    # Verdict
+    print("─" * 65)
+    print("🧠 综合判定")
+    print("─" * 65)
+    v = audit['verdict']
+    print(f"  预测: {v['result']}")
+    print(f"  置信度: {v['confidence']}")
+    print(f"  理由:")
+    for i, r in enumerate(audit['reasoning'], 1):
+        print(f"    {i}. {r}")
+
+    print()
+    print("⚠️ 预测仅供娱乐参考。足球比赛具有高度不确定性。")
+    print("═" * 65)
+
+
+# ============================================================
+# 12. Main
 # ============================================================
 def main():
     mode = sys.argv[1] if len(sys.argv) >= 2 else '--full'
@@ -1259,13 +1739,175 @@ def main():
         if arg == '--sims' and i + 1 < len(sys.argv):
             n_sims = int(sys.argv[i + 1])
 
+    # --- v3.0: Single match prediction modes ---
+    if mode == '--match':
+        # --match "TeamA" "TeamB" [--venue "VenueName"] [--news] [--adj "Team:+N"]
+        team_args = []
+        venue_arg = None
+        manual_adj = {}
+        output_file = None
+        for i, arg in enumerate(sys.argv):
+            if i == 0:
+                continue  # skip script name
+            if arg == '--match':
+                continue
+            elif arg == '--venue' and i + 1 < len(sys.argv):
+                venue_arg = sys.argv[i + 1]
+            elif arg == '--adj' and i + 1 < len(sys.argv):
+                parts = sys.argv[i + 1].split(':')
+                if len(parts) == 2:
+                    team = _find_team_canonical(parts[0])
+                    if team:
+                        manual_adj[team] = int(parts[1])
+            elif arg == '-o' and i + 1 < len(sys.argv):
+                output_file = sys.argv[i + 1]
+            elif arg == '--ko':
+                pass
+            elif arg.startswith('-'):
+                continue
+            else:
+                team_args.append(arg)
+
+        if len(team_args) < 2:
+            print("Usage: python3.11 wc2026_predict.py --match \"TeamA\" \"TeamB\" [--venue name] [--news] [--adj \"Team:+N\"] [--ko]")
+            sys.exit(1)
+
+        team_a = _find_team_canonical(team_args[0])
+        team_b = _find_team_canonical(team_args[1])
+
+        if not team_a:
+            print(f"❌ Unknown team: '{team_args[0]}'. Use canonical name (e.g. 'South Korea', 'United States').")
+            sys.exit(1)
+        if not team_b:
+            print(f"❌ Unknown team: '{team_args[1]}'.")
+            sys.exit(1)
+
+        ko = '--ko' in sys.argv
+        audit = predict_single_match(team_a, team_b, venue_name=venue_arg,
+                                     enable_news=enable_news, manual_adjustments=manual_adj,
+                                     knockout=ko)
+        print_match_prediction(audit)
+
+        # Save JSON if -o specified
+        if output_file:
+            with open(output_file, 'w') as f:
+                json.dump(audit, f, indent=2, ensure_ascii=False, default=str)
+            print(f"💾 JSON audit saved: {output_file}")
+
+        # Save to prediction history
+        _save_prediction_history(audit)
+        return
+
+    elif mode == '--match-id':
+        # --match-id N
+        match_id = None
+        venue_arg = None
+        manual_adj = {}
+        for i, arg in enumerate(sys.argv):
+            if i == 0:
+                continue  # skip script name
+            if arg == '--match-id' and i + 1 < len(sys.argv):
+                match_id = int(sys.argv[i + 1])
+            elif arg == '--venue' and i + 1 < len(sys.argv):
+                venue_arg = sys.argv[i + 1]
+            elif arg == '--adj' and i + 1 < len(sys.argv):
+                parts = sys.argv[i + 1].split(':')
+                if len(parts) == 2:
+                    team = _find_team_canonical(parts[0])
+                    if team:
+                        manual_adj[team] = int(parts[1])
+
+        if not match_id:
+            print("Usage: python3.11 wc2026_predict.py --match-id N")
+            sys.exit(1)
+
+        sched = _get_schedule()
+        match_info = None
+        for m in sched['matches']:
+            if m['match_id'] == match_id:
+                match_info = m
+                break
+
+        if not match_info:
+            print(f"❌ Match #{match_id} not found in schedule.")
+            sys.exit(1)
+
+        team_a = match_info['team_a']
+        team_b = match_info['team_b']
+        venue_name = venue_arg or match_info.get('venue')
+        ko = '--ko' in sys.argv
+
+        # Print match context
+        print(f"📅 {match_info['date_beijing']} {match_info['time_beijing']} CST | "
+              f"Group {match_info['group']} · MD{match_info['matchday']}")
+        print(f"⚽ {match_info['team_a']} vs {match_info['team_b']}")
+        print()
+
+        audit = predict_single_match(team_a, team_b, venue_name=venue_name,
+                                     enable_news=enable_news, manual_adjustments=manual_adj,
+                                     knockout=ko)
+        # Attach schedule info
+        audit['schedule'] = match_info
+        print_match_prediction(audit)
+
+        output_file = None
+        for i, arg in enumerate(sys.argv):
+            if arg == '-o' and i + 1 < len(sys.argv):
+                output_file = sys.argv[i + 1]
+        if output_file:
+            with open(output_file, 'w') as f:
+                json.dump(audit, f, indent=2, ensure_ascii=False, default=str)
+            print(f"💾 JSON audit saved: {output_file}")
+
+        _save_prediction_history(audit)
+        return
+
+    elif mode == '--group':
+        # --group A --matchday 1
+        group = None
+        matchday = None
+        for i, arg in enumerate(sys.argv):
+            if i == 0:
+                continue
+            if arg == '--group' and i + 1 < len(sys.argv):
+                group = sys.argv[i + 1].upper()
+            elif arg == '--matchday' and i + 1 < len(sys.argv):
+                matchday = int(sys.argv[i + 1])
+
+        if not group or not matchday:
+            print("Usage: python3.11 wc2026_predict.py --group A --matchday 1 [--news]")
+            sys.exit(1)
+
+        sched = _get_schedule()
+        matches = [m for m in sched['matches']
+                   if m['group'] == group and m['matchday'] == matchday]
+
+        if not matches:
+            print(f"❌ No matches found for Group {group} MD{matchday}")
+            sys.exit(1)
+
+        print(f"🏆 Group {group} · Matchday {matchday} · {len(matches)} matches")
+        print(f"📅 {matches[0]['date_beijing']}")
+        print()
+
+        for m in matches:
+            audit = predict_single_match(m['team_a'], m['team_b'],
+                                         venue_name=m.get('venue'),
+                                         enable_news=enable_news)
+            audit['schedule'] = m
+            print_match_prediction(audit)
+            _save_prediction_history(audit)
+            print()
+        return
+
+    # --- Original modes ---
     if not validate_data():
         sys.exit(1)
 
     # v2.2: Load news sentiment if --news flag enabled
     elo_adj = load_news_sentiment(enable_news)
 
-    print("🌍 2026 FIFA World Cup — Monte Carlo Prediction System v2.2")
+    print("🌍 2026 FIFA World Cup — Monte Carlo Prediction System v3.0")
     print(f"📅 June 11 – July 19, 2026 | 🏟️ USA 🇺🇸 Canada 🇨🇦 Mexico 🇲🇽")
     print(f"👥 48 teams | 12 groups | Official FIFA Bracket | {n_sims:,} sims")
     if elo_adj:
@@ -1292,7 +1934,7 @@ def main():
         # Save JSON data
         json_data = {
             'generated': datetime.now().isoformat(),
-            'model': 'Elo + Poisson + FIFA Official Bracket v2.1',
+            'model': 'Elo + Poisson + FIFA Official Bracket v3.0',
             'n_sims': n_sims,
             'backtest_accuracy': '57.8% (WC2022), 51.0% (Euro2024)',
             'champion': {k: v for k, v in list(stats['champion'].items())[:10]},
@@ -1333,7 +1975,7 @@ def main():
         # Save JSON
         report_data = {
             'generated': datetime.now().isoformat(),
-            'model': 'Elo + Poisson + FIFA Official Bracket',
+            'model': 'Elo + Poisson + FIFA Official Bracket v3.0',
             'n_sims': n_sims,
             'backtest_accuracy': '57.8% (WC2022), 51.0% (Euro2024)',
             'champion': {k: v for k, v in list(stats['champion'].items())[:10]},
@@ -1346,6 +1988,27 @@ def main():
         with open(json_path, 'w') as f:
             json.dump(report_data, f, indent=2, ensure_ascii=False)
         print(f"\n💾 Full report saved: data/wc2026_mc_report.json")
+
+
+def _save_prediction_history(audit):
+    """Append prediction result to history file."""
+    hist_path = os.path.join(os.path.dirname(__file__), 'data', 'prediction_history.jsonl')
+    record = {
+        'timestamp': audit.get('generated', datetime.now().isoformat()),
+        'team_a': audit['team_a'],
+        'team_b': audit['team_b'],
+        'venue': audit.get('venue'),
+        'schedule': audit.get('schedule', {}),
+        'verdict': audit['verdict']['result'],
+        'confidence': audit['verdict']['confidence'],
+        'prediction': audit['prediction'],
+        'effective_elo': audit['effective_elo'],
+    }
+    try:
+        with open(hist_path, 'a') as f:
+            f.write(json.dumps(record, ensure_ascii=False) + '\n')
+    except Exception:
+        pass
 
 
 if __name__ == '__main__':

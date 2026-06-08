@@ -1,12 +1,17 @@
 {
   "_meta": {
-    "version": "2.0",
-    "last_updated": "2026-05-26",
+    "version": "3.0",
+    "last_updated": "2026-06-02",
     "description": "Team metadata for World Cup 2026 prediction — coach experience, roster stability, chemistry. Manually curated. v2.0: expanded from 20→32 teams based on squad announcements.",
     "scoring": {
       "coach_wc_experience": "Number of World Cups coached (0-5). Each WC adds 8 ELO.",
       "coach_best_result": {
-        "champion": 25, "finalist": 15, "semifinalist": 10, "quarterfinalist": 5, "round16": 2, "none": 0
+        "champion": 25,
+        "finalist": 15,
+        "semifinalist": 10,
+        "quarterfinalist": 5,
+        "round16": 2,
+        "none": 0
       },
       "roster_stability": "Fraction of players retained from last major tournament (0.0-1.0). Formula: (stability - 0.5) × 40",
       "recent_form_consistency": "Win rate in last 10 competitive matches. Formula: (consistency - 0.5) × 30"
@@ -23,43 +28,55 @@
       "NEW: DR Congo, Bosnia and Herzegovina, Haiti, Curacao",
       "NEW: Algeria, Austria, Ghana, Canada",
       "Denmark removed (not in WC 2026)"
+    ],
+    "changes_v3.0": [
+      "12 missing teams added: Australia, Czech Republic, Iran, Iraq, Jordan, Panama, Paraguay, Qatar, Saudi Arabia, South Africa, Turkey, Uzbekistan",
+      "England: stability 0.58→0.52 (White+Branthwaite+Grealish OUT)",
+      "Brazil: stability 0.55→0.52 (Neymar DOUBTFUL added)",
+      "Spain: stability 0.72→0.68 (Fermin OUT, Nico DOUBTFUL added)",
+      "Argentina: stability 0.72→0.68 (Molina DOUBTFUL added)",
+      "Japan: stability 0.72→0.74 (Endo FIT, confirmed in squad)",
+      "Netherlands: stability updated (Timber+de Ligt+Schouten injuries)",
+      "Canada: stability updated (Davies severity upgraded)",
+      "Germany: ter Stegen confirmed OUT (backup GK, no penalty)",
+      "All 48 teams now have metadata coverage"
     ]
   },
   "teams": {
     "Spain": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
-      "roster_stability": 0.72,
+      "roster_stability": 0.68,
       "recent_form_consistency": 0.85,
-      "_comment": "Luis de la Fuente — 1st WC. Euro 2024 champions. Merino DOUBTFUL. Yamal expected fit."
+      "_comment": "De la Fuente — 1st WC. Yamal+Merino+Nico DOUBTFUL, Fermin OUT. Attacking depth crisis."
     },
     "Argentina": {
       "coach_wc_experience": 2,
       "coach_best_result": "champion",
-      "roster_stability": 0.72,
+      "roster_stability": 0.68,
       "recent_form_consistency": 0.85,
-      "_comment": "Scaloni — WC 2022 champion. Romero DOUBTFUL (knee). Provisional squad announced."
+      "_comment": "Scaloni — WC 2022 champion. Romero+Molina DOUBTFUL, Messi thigh overload (expected fit)."
     },
     "France": {
       "coach_wc_experience": 1,
       "coach_best_result": "finalist",
-      "roster_stability": 0.70,
+      "roster_stability": 0.7,
       "recent_form_consistency": 0.78,
       "_comment": "Deschamps — WC 2022 finalist. Mbappe+Dembele lead. Squad confirmed. Ekitike OUT (Achilles)."
     },
     "England": {
       "coach_wc_experience": 1,
       "coach_best_result": "quarterfinalist",
-      "roster_stability": 0.58,
-      "recent_form_consistency": 0.70,
-      "_comment": "Thomas Tuchel — 1st WC. MASSIVE: Foden/Palmer/TAA all OUT. James DOUBTFUL. Squad confirmed. Three key creative players missing."
+      "roster_stability": 0.52,
+      "recent_form_consistency": 0.7,
+      "_comment": "Tuchel — 1st WC. Foden+Palmer+TAA+White+Branthwaite+Grealish OUT. Massive injury crisis."
     },
     "Brazil": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
-      "roster_stability": 0.55,
+      "roster_stability": 0.52,
       "recent_form_consistency": 0.68,
-      "_comment": "Carlo Ancelotti — 1st WC with Brazil. Rodrygo+Militao+Estevao all OUT. Neymar (34) in squad. Severely disrupted."
+      "_comment": "Ancelotti — 1st WC. Rodrygo+Militao+Estevao OUT, Neymar DOUBTFUL. Injury-hit but deep."
     },
     "Portugal": {
       "coach_wc_experience": 1,
@@ -71,7 +88,7 @@
     "Colombia": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
-      "roster_stability": 0.80,
+      "roster_stability": 0.8,
       "recent_form_consistency": 0.88,
       "_comment": "Nestor Lorenzo — excellent form, dark horse. Strong CONMEBOL qualifiers."
     },
@@ -80,14 +97,14 @@
       "coach_best_result": "quarterfinalist",
       "roster_stability": 0.68,
       "recent_form_consistency": 0.72,
-      "_comment": "Ronald Koeman — Xavi Simons OUT (ACL). Reijnders to lead midfield."
+      "_comment": "Koeman — 2nd WC. Simons+Schouten+de Ligt OUT, Timber DOUBTFUL. Defensive crisis."
     },
     "Germany": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.66,
       "recent_form_consistency": 0.65,
-      "_comment": "Julian Nagelsmann — 1st WC. Gnabry OUT. ter Stegen DOUBTFUL. BUT: Neuer (40) returns as #1 GK. Squad confirmed."
+      "_comment": "Nagelsmann — 1st WC. Gnabry OUT, ter Stegen OUT (backup GK, minimal impact). Neuer #1."
     },
     "Morocco": {
       "coach_wc_experience": 1,
@@ -99,9 +116,9 @@
     "Japan": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
-      "roster_stability": 0.72,
-      "recent_form_consistency": 0.80,
-      "_comment": "Hajime Moriyasu — Mitoma OUT (left off squad). Endo/Minamino DOUBTFUL. Squad confirmed. Son-less attack significantly weakened."
+      "roster_stability": 0.74,
+      "recent_form_consistency": 0.8,
+      "_comment": "Moriyasu — 2nd WC. Mitoma OUT (hamstring), Endo FIT. Minamino not selected."
     },
     "United States": {
       "coach_wc_experience": 0,
@@ -121,14 +138,14 @@
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.74,
-      "recent_form_consistency": 0.80,
+      "recent_form_consistency": 0.8,
       "_comment": "Felix Sanchez — strong CONMEBOL qualifiers. Dangerous dark horse."
     },
     "Uruguay": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.66,
-      "recent_form_consistency": 0.70,
+      "recent_form_consistency": 0.7,
       "_comment": "Marcelo Bielsa — 1st WC with Uruguay. Squad transition period."
     },
     "Croatia": {
@@ -148,14 +165,14 @@
     "Mexico": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
-      "roster_stability": 0.70,
+      "roster_stability": 0.7,
       "recent_form_consistency": 0.72,
       "_comment": "Javier Aguirre — host nation (60 ELO bonus). Preliminary squad announced."
     },
     "Switzerland": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
-      "roster_stability": 0.80,
+      "roster_stability": 0.8,
       "recent_form_consistency": 0.78,
       "_comment": "Murat Yakin — Xhaka makes 4th WC. Reliable tournament team. Squad confirmed."
     },
@@ -163,7 +180,7 @@
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.76,
-      "recent_form_consistency": 0.80,
+      "recent_form_consistency": 0.8,
       "_comment": "Stale Solbakken — 1st WC for Norway in 28 years. Haaland+Odegaard headline. Squad confirmed."
     },
     "Sweden": {
@@ -190,7 +207,7 @@
     "Tunisia": {
       "coach_wc_experience": 1,
       "coach_best_result": "round16",
-      "roster_stability": 0.70,
+      "roster_stability": 0.7,
       "recent_form_consistency": 0.72,
       "_comment": "Sabri Lamouchi — Sassi left out. Squad confirmed. Consistent African qualifier."
     },
@@ -205,7 +222,7 @@
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.68,
-      "recent_form_consistency": 0.70,
+      "recent_form_consistency": 0.7,
       "_comment": "Emerse Fae — AFCON 2023 champions. Zaha OMITTED from squad. Squad confirmed."
     },
     "New Zealand": {
@@ -218,7 +235,7 @@
     "Cape Verde": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
-      "roster_stability": 0.70,
+      "roster_stability": 0.7,
       "recent_form_consistency": 0.72,
       "_comment": "Bubista — 1st WC appearance. Shamrock's Lopes in squad. Squad confirmed."
     },
@@ -226,7 +243,7 @@
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.68,
-      "recent_form_consistency": 0.70,
+      "recent_form_consistency": 0.7,
       "_comment": "Sebastien Desabre — Wan-Bissaka+Wissa in squad. Squad confirmed. Dangerous on counter."
     },
     "Bosnia and Herzegovina": {
@@ -247,7 +264,7 @@
       "coach_wc_experience": 0,
       "coach_best_result": "none",
       "roster_stability": 0.62,
-      "recent_form_consistency": 0.60,
+      "recent_form_consistency": 0.6,
       "_comment": "Dean Gorre — Smallest nation at WC. Debut appearance. Squad confirmed."
     },
     "Algeria": {
@@ -274,9 +291,93 @@
     "Canada": {
       "coach_wc_experience": 0,
       "coach_best_result": "none",
-      "roster_stability": 0.74,
+      "roster_stability": 0.6,
       "recent_form_consistency": 0.68,
-      "_comment": "Jesse Marsch — host nation co-host. Davies DOUBTFUL (recurring muscle). Squad TBC."
+      "_comment": "Marsch — 1st WC. Davies DOUBTFUL (hamstring, 'several weeks'). Tournament participation at risk."
+    },
+    "Turkey": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.72,
+      "recent_form_consistency": 0.78,
+      "_comment": "Montella — 1st WC as coach. Euro 2024 quarterfinalist. Guler+Yildiz generation. First WC since 2002. Arda Guler DOUBTFUL (hamstring)."
+    },
+    "Australia": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.68,
+      "recent_form_consistency": 0.65,
+      "_comment": "Popovic — 1st WC. Miller OUT (Achilles). Consecutive WC appearances but squad rebuilding."
+    },
+    "Czech Republic": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.7,
+      "recent_form_consistency": 0.62,
+      "_comment": "Miroslav Koubek — 1st WC. Named 54-man provisional May 12. Soucek+Schick lead."
+    },
+    "Paraguay": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.65,
+      "recent_form_consistency": 0.58,
+      "_comment": "Gustavo Alfaro — 1st WC with Paraguay (coached Ecuador at 2022 WC). Defensive style."
+    },
+    "South Africa": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.55,
+      "recent_form_consistency": 0.52,
+      "_comment": "Hugo Broos — 1st WC (but coached Cameroon at 2017 AFCON). Limited talent pool. ELO 1524."
+    },
+    "Qatar": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "none",
+      "roster_stability": 0.75,
+      "recent_form_consistency": 0.48,
+      "_comment": "Queiroz — 4th WC (Iran 2014/2018/2022). Host 2022 experience. Weakest ELO (1427) among 48 teams."
+    },
+    "Iran": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.7,
+      "recent_form_consistency": 0.72,
+      "_comment": "Amir Ghalenoei — 1st WC as head coach. Taremi+Azmoun lead attack. Consistent AFC qualifier."
+    },
+    "Iraq": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.58,
+      "recent_form_consistency": 0.55,
+      "_comment": "Jesus Casas — 1st WC. Spain-born coach. First WC since 1986. Young squad."
+    },
+    "Saudi Arabia": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.65,
+      "recent_form_consistency": 0.58,
+      "_comment": "Hervé Renard — 2nd WC with Saudi (coached 2022, beat Argentina). Also coached Morocco 2018."
+    },
+    "Jordan": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.6,
+      "recent_form_consistency": 0.5,
+      "_comment": "First-ever World Cup appearance. AFC Asian Cup 2023 runners-up. Massive underdog."
+    },
+    "Uzbekistan": {
+      "coach_wc_experience": 0,
+      "coach_best_result": "none",
+      "roster_stability": 0.62,
+      "recent_form_consistency": 0.6,
+      "_comment": "Srecko Katanec — 1st WC as coach. First-ever World Cup appearance. Shomurodov key player."
+    },
+    "Panama": {
+      "coach_wc_experience": 1,
+      "coach_best_result": "none",
+      "roster_stability": 0.6,
+      "recent_form_consistency": 0.5,
+      "_comment": "Thomas Christiansen — 1st WC as coach. Second WC appearance (debut 2018)."
     }
   }
 }

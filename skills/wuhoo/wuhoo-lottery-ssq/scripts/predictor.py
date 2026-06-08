@@ -485,19 +485,11 @@ def strategy_cold_rebound(stats: dict, config: dict) -> list[dict]:
                 red_selected.sort()
         red_selected = red_selected[:6]
         
-        # 蓝球同理
-        blue_numbers = list(range(1, 17))
-        blue_weights = []
-        for num in blue_numbers:
-            key = str(num).zfill(2)
-            current = blue_omission.get(key, 0)
-            max_om_val = max(blue_omission.values()) if blue_omission else 50
-            ratio = current / max(max_om_val, 1)
-            blue_weights.append(max(0.05, ratio ** 2))
-        
-        total = sum(blue_weights)
-        blue_weights = [w / total for w in blue_weights]
-        blue_selected = random.choices(blue_numbers, weights=blue_weights, k=1)[0]
+        # 蓝球：确定性选最高遗漏的前几个，轮换使用
+        blue_sorted = sorted(blue_omission.items(), key=lambda x: x[1], reverse=True)
+        top_cold_blues = [int(k) for k, v in blue_sorted[:5]]  # 遗漏最高的5个蓝球
+        idx = len(results) % len(top_cold_blues)
+        blue_selected = top_cold_blues[idx]
         
         results.append({
             "red": red_selected,
@@ -537,7 +529,11 @@ def recommend_blue_ball(stats: dict, strategy: str = "weighted_omission") -> lis
         current_omission = blue_omission.get(key, 0)
         
         # 综合评分
-        if strategy == "weighted_omission":
+        if strategy == "cold_blue":
+            # 真正的高遗漏优先：遗漏值越高，评分越高
+            score = (current_omission / 100) * 50 + rate * 0.5
+        elif strategy == "weighted_omission" or strategy == "balanced":
+            # 接近平均遗漏 + 频率加权
             score = rate * 0.5 + (1 - abs(current_omission - blue_avg) / 50) * 50
         elif strategy == "hot":
             score = rate
@@ -672,11 +668,41 @@ def generate_predictions(stats: dict, config: dict | None = None, count: int = 5
         reverse=True
     )
     
-    # 取前 count 注
+    # v3: 策略多样性优先 — 每策略确保至少 1 注代表
     results = []
-    for combo in sorted_combos[:count]:
-        combo["strategies"] = list(combo["strategies"])
-        results.append(combo)
+    used_strategies = set()
+    remaining = []
+    
+    for combo in sorted_combos:
+        combo_strats = set(combo["strategies"])
+        new_strats = combo_strats - used_strategies
+        if new_strats and len(results) < count:
+            results.append({
+                "red": list(combo["red"]),
+                "blue": combo["blue"],
+                "strategies": list(combo_strats),
+                "total_weight": combo["total_weight"],
+                "votes": combo["votes"],
+            })
+            used_strategies.update(combo_strats)
+        else:
+            remaining.append(combo)
+    
+    # 如不足 count，按共识度从剩余中补足
+    seen_keys = {(tuple(r["red"]), r["blue"]) for r in results}
+    for combo in remaining:
+        if len(results) >= count:
+            break
+        key = (tuple(combo["red"]), combo["blue"])
+        if key not in seen_keys:
+            results.append({
+                "red": list(combo["red"]),
+                "blue": combo["blue"],
+                "strategies": list(combo["strategies"]),
+                "total_weight": combo["total_weight"],
+                "votes": combo["votes"],
+            })
+            seen_keys.add(key)
     
     # 如果不足 count 注，补充随机组合
     while len(results) < count:
@@ -693,9 +719,9 @@ def generate_predictions(stats: dict, config: dict | None = None, count: int = 5
     return results
 
 
-def get_blue_recommendations(stats: dict, count: int = 5) -> list[dict]:
+def get_blue_recommendations(stats: dict, count: int = 5, strategy: str = "cold_blue") -> list[dict]:
     """获取蓝球推荐"""
-    recs = recommend_blue_ball(stats)
+    recs = recommend_blue_ball(stats, strategy=strategy)
     return recs[:count]
 
 

@@ -143,6 +143,7 @@ DataAggregator._get_combined_sentiment()
 - **路径硬编码**：调用 fetcher.py 时请使用绝对路径 `/home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/src/fetcher.py`，避免相对路径歧义。
 - **手动简报生成模式**：当 cron 推送失败时，可通过 FTS5 JSON + Python 多查询模式手动生成。详见 [`references/manual-briefing-generation.md`](references/manual-briefing-generation.md)。
 - **微信推送 gateway timeout**：cron delivery 阶段可能出现 `"Timeout context manager should be used inside a task"` 错误（非 session expired）。内容已生成但投递失败。临时方案：保存到本地文件，gateway 恢复后补发。
+- **RSS 源失效诊断**：ESPN(403)、Goal.com(404)、FIFA(不再提供RSS)、UEFA(超时) 已于 2026-06-02 确认失效并替换为 Football Rankings + SoccerNews + World Soccer Talk + Football Italia。源诊断与替换工作流详见 [`references/rss-feed-diagnosis.md`](references/rss-feed-diagnosis.md)。
 
 ## Cron 自动简报
 
@@ -221,6 +222,7 @@ DataAggregator._get_combined_sentiment()
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.7 | 2026-06-02 | 足球 RSS 源大修：4 个失效源替换为 Football Rankings/ SoccerNews/ World Soccer Talk/ Football Italia；新增 RSS 源诊断参考文档 |
 | 1.6 | 2026-05-09 | 恢复 09:30 cron（deliver=local 绕过 Gateway asyncio bug），同时加载 wuhoo-rss-briefing skill |
 | 1.5 | 2026-05-03 | 删除 09:30 cron 微信推送（Gateway asyncio bug），改为手动触发模式；推送格式改用 wuhoo-rss-briefing skill 的 SQLite 直查流程 |
 | 1.4 | 2026-05-02 | Cron push format finalized: 4 categories TOP10, merged multi-source articles [N源], 50-char summaries. WeChat delivery blocked by gateway asyncio timeout bug. |

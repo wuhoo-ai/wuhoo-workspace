@@ -259,7 +259,8 @@ def cmd_predict(args):
     print(format_predictions(predictions, next_issue, next_date))
     
     # 蓝球推荐
-    blue_recs = get_blue_recommendations(stats, count=5)
+    blue_strategy = config.get("blue_ball_strategy", "cold_blue")
+    blue_recs = get_blue_recommendations(stats, count=5, strategy=blue_strategy)
     print(format_blue_recommendations(blue_recs))
     
     # 购买建议
@@ -321,7 +322,8 @@ def cmd_full(args):
     
     print(format_predictions(predictions, next_issue, next_date))
     
-    blue_recs = get_blue_recommendations(stats, count=5)
+    blue_strategy = config.get("blue_ball_strategy", "cold_blue")
+    blue_recs = get_blue_recommendations(stats, count=5, strategy=blue_strategy)
     print(format_blue_recommendations(blue_recs))
     
     if not args.no_advice:

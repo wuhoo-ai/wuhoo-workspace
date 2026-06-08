@@ -10,11 +10,19 @@ tags: ["wuhoo"]
 category: wuhoo
 ---
 
-# 足球赛事预测系统 v2.4
+# 足球赛事预测系统 v3.1
 
 ## 概述
 
-基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟的多层次预测系统，支持世界杯、欧洲杯等国际赛事。
+基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟的多层次预测系统，支持世界杯、欧洲杯等国际赛事。v3.1 新增热身赛近期状态因子。
+
+### v3.1 更新 (2026-06-05) — 热身赛近期状态因子
+
+- ✅ **新增数据采集**: `scripts/fetch_friendlies.py` — 世界杯热身赛采集+状态计算
+- ✅ **新增数据文件**: `data/friendly_matches.json` (原始比赛) + `data/friendly_form_adjustments.json` (计算后调整值)
+- ✅ **第4.5层调整**: 热身赛近期状态因子集成到单场预测和MC全流程模拟
+- ✅ **自动状态计算**: 基于 ELO 期望胜率 vs 实际结果，指数衰减加权（7天半衰期）
+- ✅ **数据新鲜度检查**: `pre_match_refresh.py` 每日检查热身赛数据
 
 ### v2.4 更新 (2026-05-26) — 赛前数据大刷新
 
@@ -50,6 +58,7 @@ category: wuhoo
 | 2 | **Poisson 分布** | 基于预期进球的比分概率 | 基础 |
 | 3 | **伤病扣分** | 真实伤病数据 (injuries.json, 手动维护) | v2.3 |
 | 4 | **教练/磨合因子** | 教练 WC 经验 + 阵容稳定性 + 球队化学反应 (team_metadata.json) | v2.3 |
+| 4.5 | **热身赛状态** | 近期友谊赛结果 vs ELO期望，指数衰减加权 (friendly_form_adjustments.json) | **v3.1** |
 | 5 | **锦标赛形态** | 每队每轮抽取持久 N(0,60) ELO boost, 模拟"状态火热的黑马" | v2.3 |
 | 6 | **比赛级扰动** | 动态冷门上界 22% + 每场 N(0,25) 抖动 + 40% 比分扰动 | v2.3 |
 
@@ -114,7 +123,20 @@ python3.11 fp_predict.py --backtest --tournament worldcup --year 2022
 
 # 更新 ELO 数据
 python3.11 scripts/fetch_elo.py --output=data/elo_ratings.json
-python3.11 scripts/fetch_elo.py --diff            # 审计变更
+python3.11 scripts/fetch_elo.py --diff
+
+# === v3.1: 热身赛数据维护 ===
+# 手动添加一场热身赛结果
+python3.11 scripts/fetch_friendlies.py --add '{"team_a":"France","team_b":"Ivory Coast","score_a":1,"score_b":2,"date":"2026-06-04"}'
+
+# 列出所有已采集的热身赛
+python3.11 scripts/fetch_friendlies.py --list
+
+# 查看待确认结果的比赛
+python3.11 scripts/fetch_friendlies.py --pending
+
+# 重新计算近期状态调整值
+python3.11 scripts/fetch_friendlies.py --compute-form            # 审计变更
 python3.11 scripts/fetch_elo.py --source          # 查看数据源
 ```
 
@@ -160,10 +182,13 @@ wuhoo-football-predictor/
 │   ├── backtest.py             # 回测引擎
 │   ├── fetch_data.py           # 数据采集
 │   ├── fetch_elo.py            # ELO 评分更新脚本 (v2.0, 多源级联)
+│   ├── fetch_friendlies.py     # 热身赛采集+状态计算 (v3.1)
 │   ├── sentiment_analyzer.py   # 新闻情感分析 + RSS 连接器
 │   └── download_data.py        # 历史比赛数据下载
 ├── data/
 │   ├── elo_ratings.json        # 64队 ELO (2100-scale, international-football.net)
+│   ├── friendly_matches.json    # 热身赛原始数据 (v3.1)
+│   ├── friendly_form_adjustments.json # 热身赛状态调整值 (v3.1)
 │   ├── team_profiles.json      # 48队中英文元数据 (嵌套在 'teams' key)
 │   ├── team_metadata.json      # 36队教练/磨合/阵容 (v2.4)
 │   ├── injuries.json           # 10队15名球员伤病数据 (v2.4, 手动维护)
@@ -312,12 +337,19 @@ Foden + Palmer + Alexander-Arnold 三人 OUT（BBC 确认 "to miss World Cup"）
 
 1. **伤病数据手动维护**: injuries.json 需定期通过新闻手动更新，非自动采集
 2. **教练/磨合数据手动维护**: team_metadata.json 需手动更新
-3. **RSS 新闻覆盖不均**: 751 条新闻偏重欧洲豪门，非主流球队情感调整为零
+3. **RSS 新闻覆盖不均**: 751 条新闻偏重欧洲豪门，非主流球队情感调整通过同洲代理策略（confederation proxy）降级，衰减系数 0.5。代理失效时返回中性（0），不影响其他模型层。非"数据不完整"，而是动态数据源的正常特征。
 4. **fp_predict.py `--full` 为桩代码**: 仅配置了多赛事框架，缺具体赛事的 Bracket 实现
 5. **第3名分配 fallback**: 当组合不在 FIFA 495 种映射表中时使用最佳可用队替代
 6. **冠军分布仍略集中**: v2.3 Top3 ~93%，真实世界杯有更多冷门
 7. **7 个测试失败** (v2.4 发现): v2.3 参数变更后测试断言未同步更新，需在世界杯前修复
 8. **报告模板硬编码**: 伤病队数/球员数不随数据自动更新
+
+### v3.1 新增限制
+9. **热身赛数据依赖手动采集**: 没有自动化的RSS/API，依赖 Agent 手动运行 `fetch_friendlies.py --add` 逐场录入
+10. **热身赛权重粗粒度**: 衰减权重统一 0.9/周，不考虑对手实力差异（强弱队热身态度不同）
+11. **热身赛 TBD 积压**: 6.4 当日有 3 场比赛结果待确认（西班牙/墨西哥/捷克）
+
+> ✅ 已解决 (v3.1): 热身赛近期状态因子 — 法国输科特迪瓦 -37 ELO，英格兰输瑞典 -35 已生效。
 
 > ✅ 已解决 (v2.3): ELO 半静态管线、无伤病数据、无教练因子、冠军过度集中 — 全部通过 6层模型栈修复。
 > ✅ 已解决 (v2.4): 伤病数据从 7→10 队, 元数据 20→36 队 — 覆盖率大幅提升。

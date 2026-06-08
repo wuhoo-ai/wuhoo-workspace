@@ -50,8 +50,62 @@ BACKUPS_DIR = DATA_DIR / 'backups'
 VOLATILITY_PERCENTILE = 0.50
 TURNOVER_PERCENTILE = 0.50
 MOMENTUM_5D_PERCENTILE = 0.30
-BETA_PERCENTILE = 0.30
+BETA_PERCENTILE = 0.20  # 前 20%（审查调整：从 0.30→0.15→0.20，平衡严格性与多样性）
+BETA_HARD_FLOOR = 1.0    # Beta 绝对地板：低于 1.0 的防御型股票一律排除
 TOP_N = 10
+# 行业分散约束（2026-06-08 审查添加）
+MAX_PER_INDUSTRY = 3
+INDUSTRY_CACHE_FILE = DATA_DIR / 'stock_industry.csv'
+
+def load_industry_map(pro=None):
+    """加载行业映射，优先使用缓存"""
+    if INDUSTRY_CACHE_FILE.exists():
+        df = pd.read_csv(INDUSTRY_CACHE_FILE)
+        return dict(zip(df['ts_code'], df['industry']))
+    if pro is None:
+        return {}
+    try:
+        basic = pro.stock_basic(fields='ts_code,industry')
+        basic.to_csv(INDUSTRY_CACHE_FILE, index=False)
+        return dict(zip(basic['ts_code'], basic['industry']))
+    except Exception:
+        return {}
+
+def select_stocks_diverse(df, top_n, sort_factor='momentum_10d', ascending=True, industry_map=None, max_per_industry=MAX_PER_INDUSTRY):
+    """行业分散选股：在排序基础上限制单行业集中度"""
+    if industry_map is None or len(df) == 0:
+        return df.head(top_n)
+    
+    df = df.sort_values(sort_factor, ascending=ascending)
+    df = df.copy()
+    df['_industry'] = df['ts_code'].map(industry_map).fillna('未知')
+    
+    selected = []
+    industry_count = {}
+    
+    for _, row in df.iterrows():
+        ind = row['_industry']
+        if industry_count.get(ind, 0) >= max_per_industry:
+            continue
+        selected.append(row)
+        industry_count[ind] = industry_count.get(ind, 0) + 1
+        if len(selected) >= top_n:
+            break
+    
+    if len(selected) < top_n:
+        # 放宽约束：按排序补充（不限行业）
+        selected_codes = {s['ts_code'] for s in selected}
+        for _, row in df.iterrows():
+            if len(selected) >= top_n:
+                break
+            if row['ts_code'] not in selected_codes:
+                selected.append(row)
+                selected_codes.add(row['ts_code'])
+    
+    result = pd.DataFrame(selected)
+    if '_industry' in result.columns:
+        result = result.drop(columns=['_industry'])
+    return result
 
 # 运行时因子配置（通过 --factors-json 加载）
 FACTOR_CONFIG = {}
@@ -819,17 +873,20 @@ def select_stocks(factors_df, has_turnover=True):
     if len(df) == 0:
         return df
 
-    # 4. Beta (越高越好)
-    threshold = df['beta_20d'].quantile(1 - beta_pct)
+    # 4. Beta (越高越好) — 取分位阈值和硬地板的最大值
+    pct_threshold = df['beta_20d'].quantile(1 - beta_pct)
+    threshold = max(pct_threshold, BETA_HARD_FLOOR)
     df = df[df['beta_20d'] >= threshold]
-    print(f"5. 20 日 Beta 值 (≥{threshold:.3f}, 前{beta_pct*100:.0f}%)：{len(df)} 只")
+    print(f"5. 20 日 Beta 值 (≥{threshold:.3f}, 分位阈值={pct_threshold:.3f}, 硬地板={BETA_HARD_FLOOR})：{len(df)} 只")
 
     if len(df) == 0:
         return df
 
-    # 最终排序：按配置的排序因子
+    # 最终排序 + 行业分散：按配置的排序因子
+    industry_map = load_industry_map()
     df = df.sort_values(sort_cfg['factor'], ascending=sort_cfg['ascending'])
-    return df.head(top_n)
+    df = select_stocks_diverse(df, top_n, sort_cfg['factor'], sort_cfg['ascending'], industry_map)
+    return df
 
 
 def select_stocks_us_complete(factors_df):

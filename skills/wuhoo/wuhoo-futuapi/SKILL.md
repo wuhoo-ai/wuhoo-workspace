@@ -86,6 +86,25 @@ bash ~/wuhoo-workspace/scripts/start_opend.sh status
 
 ### 常见问题排查
 
+#### 0. Hermes 升级或 Gateway 重启后 OpenD 被杀死
+
+OpenD 通常作为 gateway 的子进程运行（由 cron job 或用户手动通过 gateway session 启动）。当执行 `hermes update` 或 `hermes gateway restart` 时，gateway 进程会被终止，其所有子进程（包括 OpenD）会一并被杀，且**不会自动重启**。
+
+**检查方法**：
+```bash
+# OpenD 是否在运行？
+ss -tlnp | grep 11111
+# 查看 gateway 子进程
+ps aux | grep FutuOpenD
+```
+
+**恢复方法**：
+```bash
+bash ~/wuhoo-workspace/scripts/start_opend.sh start
+```
+
+**预防**：在 `hermes update` 或 gateway 重启后，始终检查 OpenD 状态。如果 cron job 的 workdir 指向 wuhoo 技能目录且 cron 在 gateway 内执行，升级后 cron 任务本身不受影响，但 OpenD 进程需要手动恢复。
+
 #### 1. OpenD 启动失败，日志显示"登录失败,账号名与密码不匹配"
 
 - **原因**: `~/.hermes/.env` 中 `FUTU_LOGIN_PASSWORD` 的值不正确
