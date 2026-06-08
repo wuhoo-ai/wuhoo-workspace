@@ -37,7 +37,7 @@ from datetime import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'scripts'))
 from prediction_models import PoissonModel
-# v2.2: News sentiment integration
+# v2.2: News sentiment integration (RSS only)
 try:
     from sentiment_analyzer import SentimentAnalyzer, RSSConnector
     _sentiment_available = True
@@ -181,13 +181,12 @@ def _load_friendly_form():
 FRIENDLY_FORM = _load_friendly_form()
 
 # ============================================================
-# 1e. News Sentiment (v2.2)
+# 1e. News Sentiment (v3.2 — RSS single channel)
 # ============================================================
 def load_news_sentiment(enable_news=False):
     """Load news sentiment scores and convert to ELO adjustments.
     Returns dict: team_name -> elo_adjustment (int).
-    When enable_news=False or data unavailable, returns empty dict (no adjustment).
-
+    
     v3.2: Removed hard cutoff when news_items is empty. Always runs proxy sentiment
     strategy even with sparse/no data — returns neutral (zero) adjustments gracefully
     rather than bailing out. Two-tier window: 14 days → 30 day fallback.
@@ -208,7 +207,6 @@ def load_news_sentiment(enable_news=False):
         news_items = connector.fetch_football_news(all_teams_list, days_back=14)
 
         if not news_items:
-            # Try wider window before giving up on direct news
             news_items = connector.fetch_football_news(all_teams_list, days_back=30)
 
         if news_items:
@@ -216,24 +214,20 @@ def load_news_sentiment(enable_news=False):
             n_articles = len(news_items)
             print(f"📰 RSS sentiment: {n_articles} articles loaded from DB", file=sys.stderr)
         else:
-            # No articles at all — still attempt proxy strategy with empty scores
             sentiment_scores = {}
             print("📰 RSS sentiment: no football articles in DB (30-day window), "
                   "all teams → neutral", file=sys.stderr)
 
-        # Convert sentiment to ELO adjustment (scale: ±50 max)
+        # Convert sentiment to ELO adjustment (scale: ±40 max)
         elo_adj = {}
         teams_with_news = 0
         teams_with_proxy = 0
         for team in ALL_TEAMS:
-            # v2.3: Use proxy sentiment for teams without direct news
             proxy_score = analyzer.get_proxy_sentiment(team, sentiment_scores)
             if proxy_score != 0 and team.lower() not in sentiment_scores:
                 sentiment_scores[team.lower()] = proxy_score
                 teams_with_proxy += 1
             impact = analyzer.get_sentiment_impact(team, sentiment_scores)
-            # Scale: impact ranges from -0.15 to +0.05 in analyzer
-            # Map to ELO adjustment: ±40 max
             adj = int(round(impact * 250))  # -0.15*250=-37, 0.05*250=12
             if adj != 0:
                 elo_adj[team] = adj
@@ -241,7 +235,8 @@ def load_news_sentiment(enable_news=False):
 
         direct_count = teams_with_news - teams_with_proxy
         if teams_with_news > 0:
-            print(f"📰 News sentiment loaded: {direct_count} direct + {teams_with_proxy} proxy = {teams_with_news}/{len(ALL_TEAMS)} teams "
+            print(f"📰 News sentiment loaded: {direct_count} direct + {teams_with_proxy} proxy = "
+                  f"{teams_with_news}/{len(ALL_TEAMS)} teams "
                   f"(range: {min(elo_adj.values())} to {max(elo_adj.values())} ELO)",
                   file=sys.stderr)
         else:

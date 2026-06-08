@@ -1,7 +1,7 @@
 ---
 name: wuhoo-football-predictor
-description: 足球赛事预测系统 — Elo+Poisson+Monte Carlo v2.4，6层模型栈，支持 2026 世界杯全流程模拟 + 伤病/教练因子 + 中文 Markdown 综合报告
-version: 2.4.0
+description: WC2026 单场+全赛事预测系统 v4.1 — Elo+Poisson+Monte Carlo，7层模型栈(含热身赛状态因子)，支持 --match 单场审计预测 + --full 全赛事MC + --report 中文报告 + 伤病/教练/venue/新闻情感/手动调整。v4.1 热身赛数据大刷新(46场→47/48队覆盖)
+version: 4.1.0
 dependencies:
   - wuhoo-news-rss
   - pandas
@@ -10,19 +10,39 @@ tags: ["wuhoo"]
 category: wuhoo
 ---
 
-# 足球赛事预测系统 v3.1
+# 足球赛事预测系统 v4.1
 
 ## 概述
 
-基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟的多层次预测系统，支持世界杯、欧洲杯等国际赛事。v3.1 新增热身赛近期状态因子。
+基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟的多层次预测系统，支持世界杯、欧洲杯等国际赛事。
 
-### v3.1 更新 (2026-06-05) — 热身赛近期状态因子
+### v4.1 更新 (2026-06-08) — 热身赛数据大刷新
 
-- ✅ **新增数据采集**: `scripts/fetch_friendlies.py` — 世界杯热身赛采集+状态计算
-- ✅ **新增数据文件**: `data/friendly_matches.json` (原始比赛) + `data/friendly_form_adjustments.json` (计算后调整值)
-- ✅ **第4.5层调整**: 热身赛近期状态因子集成到单场预测和MC全流程模拟
-- ✅ **自动状态计算**: 基于 ELO 期望胜率 vs 实际结果，指数衰减加权（7天半衰期）
-- ✅ **数据新鲜度检查**: `pre_match_refresh.py` 每日检查热身赛数据
+- ✅ **22场新热身赛**: 从 football365/ESPN/BBC 采集，覆盖 Argentina, Portugal, Scotland 等
+- ✅ **47/48队覆盖**: 仅 Uruguay 无公开热身赛数据
+- ✅ **Scotland 从无到 +20**: 4-0 Bolivia, 4-1 Curacao 两场大胜
+- ✅ **Argentina +8**: 2-0 Honduras (Messi轮休, Lautaro+Giuliano进球)
+- ✅ **Portugal +7**: 2-1 Chile (Leao红牌, Bruno进球)
+- ✅ **移除 XHS 双通道**: 小红书采集命中率仅12%，回退至 RSS 单通道。详见 [references/xhs-integration-postmortem.md](references/xhs-integration-postmortem.md)
+- ✅ **46场完整热身赛记录**: fetch_friendlies.py --list 查看全量。采集流程见 [references/friendly-match-refresh-workflow.md](references/friendly-match-refresh-workflow.md)
+
+### v3.0 更新 (2026-06-02) — 比赛日单场预测管线
+
+- ✅ **新增单场预测 CLI**: `wc2026_predict.py --match "A" "B"` 带完整 6 层审计链路
+- ✅ **赛程数据**: `data/wc2026_schedule.json` — 72 场小组赛完整赛程（含北京时间）
+- ✅ **6.1 大名单数据大刷新**: 伤病确认更新（11 队 22 球员），8 个 DOUBTFUL 状态更新
+- ✅ **元数据全覆盖**: team_metadata.json 从 36→48 队（100% 覆盖）
+- ✅ **预测历史**: 自动记录到 `data/prediction_history.jsonl`
+- ✅ **手动调整**: `--adj "Team:+N"` 支持主观微调
+- ✅ **预测前检查**: `scripts/pre_match_refresh.py` 数据新鲜度自动检查
+
+### v2.5 更新 (2026-05-30) — 俱乐部单场预测 + 审计框架
+
+- ✅ 新增俱乐部单场预测能力：欧冠决赛 Arsenal vs PSG 实战验证
+- ✅ 俱乐部 ELO 数据源文档化：elofootball.com / clubelo.com / clubelo.com/UCL
+- ✅ 5层调整框架：伤病/停赛 → 锦标赛背景 → 近期状态 → H2H → 新闻情绪
+- ✅ 审计要求制度化：数据来源清单、调整链路、已知局限性
+- ✅ 参考案例: references/club-prediction-example.md
 
 ### v2.4 更新 (2026-05-26) — 赛前数据大刷新
 
@@ -41,16 +61,7 @@ category: wuhoo
 - 新增: Norway, Sweden, South Korea, Scotland, Tunisia, Egypt, Ivory Coast, New Zealand, Cape Verde, DR Congo, Bosnia, Haiti, Curacao, Algeria, Austria, Ghana, Canada
 - 更新: England (Foden/Palmer/TAA OUT→稳定性↓), Brazil (Ancelotti+伤病→稳定性↓), Argentina, Germany, Japan
 
-**预测结果 (5,000 sims, May 26):**
-- Argentina 38.1% (↓3.5%), Spain 33.7% (↑1.5%), France 22.0% (↑3.1%)
-- England 0.2% (↓91%) — 三人缺阵堪称毁灭性
-- Colombia 黑马上升至 2.2%
-
-**系统发现:**
-- ⚠️ 7 个测试失败需修复 (冷门参数/ELO范围/host tag逻辑)
-- 报告模板硬编码队数需动态化
-
-### 预测模型栈 (6 层)
+### 预测模型栈 (7 层)
 
 | 层 | 模型 | 说明 | 类型 |
 |------|------|------|------|
@@ -58,68 +69,46 @@ category: wuhoo
 | 2 | **Poisson 分布** | 基于预期进球的比分概率 | 基础 |
 | 3 | **伤病扣分** | 真实伤病数据 (injuries.json, 手动维护) | v2.3 |
 | 4 | **教练/磨合因子** | 教练 WC 经验 + 阵容稳定性 + 球队化学反应 (team_metadata.json) | v2.3 |
-| 4.5 | **热身赛状态** | 近期友谊赛结果 vs ELO期望，指数衰减加权 (friendly_form_adjustments.json) | **v3.1** |
+| 4.5 | **热身赛状态** | 近期友谊赛结果 vs ELO期望，指数衰减加权 (friendly_form_adjustments.json) | v3.1 |
 | 5 | **锦标赛形态** | 每队每轮抽取持久 N(0,60) ELO boost, 模拟"状态火热的黑马" | v2.3 |
 | 6 | **比赛级扰动** | 动态冷门上界 22% + 每场 N(0,25) 抖动 + 40% 比分扰动 | v2.3 |
-
-### v2.3 更新 (2026-05-21)
-
-**数据管线:**
-- ✅ ELO 采集管线完全重写: fetch_elo.py v2.0 — 多源级联 (international-football.net → eloratings.net → static fallback)
-- ✅ 64 支球队完整覆盖 (48 WC + 16 非参赛队)
-- ✅ 队名标准化: USA→United States, 全量 TEAM_ALIASES 去重映射
-
-**模型增强:**
-- ✅ 伤病数据集成: injuries.json (初始 7 队 11 名球员)
-- ✅ 教练因子 + 阵容磨合: team_metadata.json (初始 20 队)
-- ✅ 锦标赛级形态因子: 每队抽取持久 N(0,60) form boost
-- ✅ 冷门模型增强: 上界 0.18→0.22, 扰动 30%→40%
-
-**工具链:**
-- ✅ `fetch_elo.py --diff`: 输出相对现有文件的差异审计
-- ✅ `fetch_elo.py --update-static`: Agent 通过 stdin 更新硬编码 fallback
-
-**效果:**
-- 冠军分布: Top3 99.4%→92.7%, 夺冠候选 6→10 队
-- ELO 数据源: clubelo.com(废弃) → international-football.net(活跃)
-
-### v2.2 更新 (2026-05-21)
-- ELO 数据刷新到 2026-05-20 (eloratings.net)
-- 动态冷门模型：ELO 差相关冷门概率 (max 18% for equal teams, min 2%)
-- ELO 比赛级抖动：每场模拟前对 ELO 添加 N(0,35) 高斯噪声
-- 比分扰动增强：20% → 30%
-- `--news` 模式：集成 wuhoo-news-rss 新闻情感分析 → ±40 ELO 调整
-- 修复: 决赛 runner_up 统计、South Africa 缺失 ELO、RSSConnector 路径解析
-
-### v2.1 更新 (2026-05-02)
-- `--report` 模式：生成中文 Markdown 综合报告
-- 新增 `data/team_profiles.json` — 48队结构化元数据
-- `validate_data()` — 启动时校验数据完整性
-- `analyze_group()` — 6条研判规则
-- 高海拔(🏔️)和高温(🔥)球场标记
-
-### v2.0 更新 (2026-05-01)
-- FIFA 官方 R32 对阵表 + Monte Carlo 全流程 10,000 次模拟
-- 12 组分组数据 + 16 球场 Venue 数据库
-- KO 平局概率化、约束感知第3名分配、代码复用
+| 7 | **新闻情感 (RSS)** | RSS 英文媒体情感分析 ±40 ELO | v2.2 |
 
 ## CLI 命令
 
 ```bash
-# 2026 世界杯全流程模拟
+# === v3.0: 比赛日单场预测（核心新增）===
+# 按对阵预测
+python3.11 wc2026_predict.py --match "Argentina" "France"
+
+# 按赛程编号预测
+python3.11 wc2026_predict.py --match-id 1
+
+# 按小组+轮次预测（查赛程自动找对阵）
+python3.11 wc2026_predict.py --group A --matchday 1
+
+# 带 venue、新闻情感、手动调整
+python3.11 wc2026_predict.py --match "Argentina" "France" --venue "MetLife Stadium" --news --adj "Argentina:-10"
+
+# 淘汰赛模式（平局→点球概率打破）
+python3.11 wc2026_predict.py --match "Argentina" "France" --ko
+
+# 输出 JSON 审计文件
+python3.11 wc2026_predict.py --match "Argentina" "France" -o prediction.json
+
+# === 全赛事模拟（保留）===
+# 2026 世界杯全流程 Monte Carlo
 python3.11 wc2026_predict.py --full --sims 5000
 
-# 生成中文综合报告 (Markdown) + --news 集成情感分析
+# 生成中文综合报告
 python3.11 wc2026_predict.py --report --sims 5000 --news
 
 # 仅小组赛
 python3.11 wc2026_predict.py --groups
 
-# 通用预测 CLI
-python3.11 fp_predict.py --predict "Argentina" "France" --tournament worldcup
-
-# 回测
-python3.11 fp_predict.py --backtest --tournament worldcup --year 2022
+# === 数据维护 ===
+# 预测前数据刷新检查
+python3.11 scripts/pre_match_refresh.py
 
 # 更新 ELO 数据
 python3.11 scripts/fetch_elo.py --output=data/elo_ratings.json
@@ -135,10 +124,81 @@ python3.11 scripts/fetch_friendlies.py --list
 # 查看待确认结果的比赛
 python3.11 scripts/fetch_friendlies.py --pending
 
-# 重新计算近期状态调整值
-python3.11 scripts/fetch_friendlies.py --compute-form            # 审计变更
-python3.11 scripts/fetch_elo.py --source          # 查看数据源
+# 重新计算近期状态调整值（采集新数据后必须运行）
+python3.11 scripts/fetch_friendlies.py --compute-form
+
+# 通用预测 CLI (保留，非 WC2026 专用)
+python3.11 fp_predict.py --predict "Argentina" "France" --tournament worldcup
+python3.11 fp_predict.py --backtest --tournament worldcup --year 2022
 ```
+
+## 俱乐部赛事单场预测 (v2.5 新增)
+
+本系统同时支持俱乐部赛事单场预测（如欧冠决赛、联赛焦点战），使用与世界杯相同的模型栈。
+
+## 开发陷阱
+
+### execute_code 中 read_file 返回 dict (v2.4)
+
+`hermes_tools.read_file()` 在 `execute_code` 沙箱中返回 **dict** (`{"content": "...", "total_lines": N}`)，不是字符串。直接 `json.loads(read_file(...))` 会报 `TypeError`。
+
+**正确**: 在 `execute_code` 中使用 `read_file(path)["content"]` 获取文本内容，或改用 `terminal()` 执行数据扫描脚本。
+
+### prediction_models API 陷阱 (v3.0 新增)
+
+**类而非函数**: `prediction_models` 全部通过类暴露 (`PoissonModel`, `EloModel`, `FactorModel`, `EnsembleModel`)，没有 `elo_win_probability()` 等独立函数。不要 `from prediction_models import elo_win_probability`。
+
+**EnsembleModel 返回嵌套结构**: `predict()` 返回 `{'predictions': {'ensemble': {...}, 'poisson': {...}, ...}, 'recommendation': ..., 'expected_goals': {...}}`。访问集成概率用 `result['predictions']['ensemble']['home_win']`，**不是** `result['ensemble']['home_win']`。
+
+**便捷函数**: 使用 `from prediction_models import predict_match` 代替手动构造，参数: `(team_a, team_b, elo_a, elo_b, goals_a, goals_b, is_neutral)`。
+
+```python
+from prediction_models import predict_match
+result = predict_match('Canada', 'Switzerland', elo_a=1829, elo_b=1889,
+                        goals_a=1.3, goals_b=1.5, is_neutral=True)
+probs = result['predictions']['ensemble']  # → {'home_win': 0.327, 'draw': 0.240, 'away_win': 0.433}
+print(result['recommendation'])            # → '客胜 (Switzerland)'
+```
+
+本系统同时支持俱乐部赛事单场预测（如欧冠决赛、联赛焦点战），使用与世界杯相同的模型栈但采用不同的数据源和调整框架。
+
+### 俱乐部 ELO 数据源
+
+| 来源 | URL | 适用范围 | 说明 |
+|------|-----|----------|------|
+| **elofootball.com** | https://elofootball.com | 欧洲俱乐部 | ~2300 scale，更新频率高 |
+| **clubelo.com** | http://clubelo.com | 全球俱乐部 | ~2000 scale，含联赛/欧冠分类 |
+| **clubelo.com/UCL** | http://clubelo.com/UCL | 欧冠专属 | 仅计算欧冠比赛 ELO |
+
+> ⚠️ 俱乐部 ELO 主要针对联赛校准。欧冠决赛需额外调整以反映锦标赛背景。
+
+### 调整框架（俱乐部单场）
+
+在基础 ELO 之上依次应用以下调整（顺序无关但需全部计入）：
+
+| 层级 | 类别 | 调整依据 | 示例 |
+|------|------|----------|------|
+| 1 | **伤病/停赛** | 核心球员 -25~-40, 重要球员 -15~-25, 角色球员 -5~-15 | Partey 停赛 -25 |
+| 2 | **锦标赛背景** | 卫冕冠军 +10~20, 决赛初哥 -5~15 | PSG 卫冕 +15 |
+| 3 | **近期状态** | 基于最后 5-10 场比赛结果 ±10 | 赛季末段下滑 -5 |
+| 4 | **交锋记录 (H2H)** | Factor 模型输入, -0.2~+0.2 | 近期连败 -0.10 |
+| 5 | **新闻情绪** | 可选, 通过 SentimentAnalyzer 计算 | 舆论偏向 -0.10 |
+
+调整原则：
+- 所有调整必须有**可追溯来源**（媒体/官方公告/数据平台）
+- 伤病扣分使用 injuries.json 相同体系（核心-40/重要-25/角色-15）
+- 锦标赛背景调整需保守：冠军级差距通常在 ±20 以内
+- Factor 模型各因子归一化到 [-1, 1] 区间
+
+### 审计要求
+
+单场预测必须输出完整审计链路：
+1. **数据来源清单** — 每个数据点标注来源 URL 和采集日期
+2. **调整计算过程** — 展示 base ELO → 各项调整 → final ELO 完整链路
+3. **模型输入参数** — xG, ELO, factors 全部显式列出
+4. **已知局限性** — 数据缺口、估算假设、未建模因素
+
+详见 [references/club-prediction-example.md](references/club-prediction-example.md) 完整案例。
 
 ## 2026 世界杯预测结果 (v2.4, 5,000 sims, 2026-05-26)
 
@@ -175,7 +235,7 @@ python3.11 scripts/fetch_elo.py --source          # 查看数据源
 
 ```
 wuhoo-football-predictor/
-├── wc2026_predict.py         # 2026世界杯全流程 Monte Carlo (v2.3)
+├── wc2026_predict.py         # 2026世界杯全流程 Monte Carlo (v4.0 双通道)
 ├── fp_predict.py             # 通用预测 CLI
 ├── scripts/
 │   ├── prediction_models.py    # Poisson + Elo + Factor + Ensemble
@@ -183,17 +243,21 @@ wuhoo-football-predictor/
 │   ├── fetch_data.py           # 数据采集
 │   ├── fetch_elo.py            # ELO 评分更新脚本 (v2.0, 多源级联)
 │   ├── fetch_friendlies.py     # 热身赛采集+状态计算 (v3.1)
-│   ├── sentiment_analyzer.py   # 新闻情感分析 + RSS 连接器
-│   └── download_data.py        # 历史比赛数据下载
+│   ├── sentiment_analyzer.py   # 新闻情感分析 v4.0 — 中英文双通道 + RSS连接器
+│   ├── xiaohongshu_collector.py # [DEPRECATED v4.1] 小红书采集，命中率仅12%已弃用
+│   ├── download_data.py        # 历史比赛数据下载
+│   └── pre_match_refresh.py    # v3.0: 预测前数据新鲜度检查
 ├── data/
-│   ├── elo_ratings.json        # 64队 ELO (2100-scale, international-football.net)
-│   ├── friendly_matches.json    # 热身赛原始数据 (v3.1)
-│   ├── friendly_form_adjustments.json # 热身赛状态调整值 (v3.1)
-│   ├── team_profiles.json      # 48队中英文元数据 (嵌套在 'teams' key)
-│   ├── team_metadata.json      # 36队教练/磨合/阵容 (v2.4)
-│   ├── injuries.json           # 10队15名球员伤病数据 (v2.4, 手动维护)
+│   ├── elo_ratings.json        # 64队 ELO (2100-scale, static fallback)
+│   ├── friendly_matches.json    # 46场热身赛原始数据 (v4.1 刷新)
+│   ├── friendly_form_adjustments.json # 47/48队热身赛状态调整值 (v4.1)
+│   ├── team_profiles.json      # 48队中英文元数据
+│   ├── team_metadata.json      # 48/48队教练/磨合/阵容 (100% 覆盖 ✅)
+│   ├── injuries.json           # v3.0: 11队22名球员伤病 (10 DOUBTFUL)
 │   ├── venues.json             # 16球场 venue 数据库
 │   ├── group_venues.json       # 12组小组赛 venue 映射
+│   ├── wc2026_schedule.json    # v3.0: 72场小组赛完整赛程 ✅
+│   ├── prediction_history.jsonl # v3.0: 预测历史记录 ✅
 │   ├── wc2026_mc_report.json   # MC 模拟 JSON (含 expected_bracket)
 │   ├── wc2026_report_*.md      # 综合中文 Markdown 报告
 │   ├── international_full.csv  # 8024场国际比赛 (2018+)
@@ -211,7 +275,13 @@ wuhoo-football-predictor/
 │   ├── group-venue-mapping.md   # 小组赛 venue 映射
 │   ├── injury-data-sources.md   # 伤病数据源与更新流程
 │   ├── plan-review-checklist.md # 计划审查清单
+│   ├── friendly-form-algorithm.md # 热身赛状态因子算法文档 (v3.1)
+│   ├── club-prediction-example.md # 俱乐部单场预测完整案例 (v2.5)
 │   └── 20260526-wc-data-audit.md # v2.4 数据更新审计 (2026-05-26)
+│   ├── friendly-match-pipeline.md # v3.1 热身赛采集管线+网页抓取陷阱
+│   ├── friendly-match-refresh-workflow.md # v4.1 热身赛数据批量刷新工作流
+│   └── xhs-integration-postmortem.md # v4.0→v4.1 XHS集成事后分析
+│   └── xiaohongshu-integration-analysis.md # v3.3 小红书数据整合分析与方案 (2026-06-08)
 ```
 
 ## 模型参数 (v2.3)
@@ -227,201 +297,74 @@ wuhoo-football-predictor/
 | HOME_ADV_HOST | 60 | 东道主 ELO 加成 |
 | HOME_ADV_CONMEBOL | 15 | 南美队小组阶段加成 |
 
-## 伤病数据集成 (v2.4)
+## 常见问题与陷阱
 
-文件: `data/injuries.json` — 手动维护，定期通过新闻更新。当前: 10 队 15 名球员。
+### 新增数据源前先验证质量
 
-更新流程详见 [references/injury-data-sources.md](references/injury-data-sources.md)
+**教训 (v4.0→v4.1)**：在投入代码集成之前，先验证数据源能否产生有效信号。
+- Brave Search API 不支持 `site:` 域名过滤 → XHS采集命中率仅12%
+- 情感信号范围 (-8~+2 ELO) 远小于伤病 (-125~0) 和教练 (+3~+59)
+- 用户决策：快速回退，保留分析器代码以备将来使用
+- 详见 [references/xhs-integration-postmortem.md](references/xhs-integration-postmortem.md)
 
-```json
-{
-  "injuries": {
-    "England": {
-      "total_penalty": -90,
-      "players": [
-        {"name": "Phil Foden", "status": "OUT", "severity": "core", "elo_penalty": -40},
-        {"name": "Cole Palmer", "status": "OUT", "severity": "core", "elo_penalty": -30},
-        {"name": "Trent Alexander-Arnold", "status": "OUT", "severity": "important", "elo_penalty": -20}
-      ]
-    }
-  }
-}
-```
+详见 [references/prediction-audit-walkthrough.md](references/prediction-audit-walkthrough.md) — 完整的单场预测审计走查方法论，包含 6 层模型逐层解释模板。
 
-ELO 扣分体系:
-| 状态 | 核心球员 | 重要球员 | 角色球员 |
-|:---:|:---:|:---:|:---:|
-| OUT (确定缺阵) | -40 | -25 | -15 |
-| DOUBTFUL (可能缺阵) | -20 | -15 | -10 |
-| MINOR (轻伤) | -10 | -5 | -3 |
+### RSS 情感分析 Graceful Degradation (v3.2)
 
-## 教练因子 + 阵容磨合 (v2.4)
+详见 [references/rss-graceful-degradation.md](references/rss-graceful-degradation.md) — 三层 fallback 设计模式、代理策略、反模式警示。核心原则：**宁可返回中性也不返回空，宁可降级也不放弃。**
 
-文件: `data/team_metadata.json` — 36 队手动维护 (覆盖率 75%)
+### --news 模式静默失效
 
-每队计算: `coach(8×WC次数) + result(冠军+25/决赛+15/...) + stability((保留率-0.5)×40) + chemistry((胜率-0.5)×30)`
+**现象**: `--news` 不报错但也不显示任何情感调整。
 
-示例 (v2.4):
-- Argentina +60: Scaloni WC冠军教练 + 稳定阵容 → 最高调整
-- Croatia +45: Dalic 2次WC经验, 2018亚军/2022四强
-- France +39: Deschamps WC2022亚军 + 阵容稳定
-- England +22: Tuchel 首秀WC, Foden/Palmer/TAA OUT 重创稳定性
-- Brazil +7: Ancelotti 首秀 + 3人伤病 → 严重被削
+**根因 (v3.1-)**: `load_news_sentiment()` 硬编码 `days_back=14`。RSS cron job 暂停后，新闻数据库最新文章可能超过 14 天。即使 DB 中有 751 篇足球文章（category='足球'），只要没有 14 天内的，查询就返回空 → `return {}` 跳过所有情感分析。
 
-## ELO 自动采集管线 (v2.3)
+**v3.2 修复**: 移除硬切断 + 两层窗口 fallback:
+1. 先查 14 天窗口
+2. 为空则 fallback 到 30 天窗口
+3. 仍为空 → 走空 `sentiment_scores = {}` 的代理策略路径（全部返回中性 0）
+4. 全程不 `return {}`，始终走完代理策略，确保 graceful degradation
 
-详见 [references/elo-pipeline-status.md](references/elo-pipeline-status.md)
-
-fetch_elo.py v2.0 架构:
-```
-1. HTTP fetch international-football.net (结构化 HTML, curl 可达)
-   ↓ 失败 (429 rate limit)
-2. Merge with existing elo_ratings.json (保留手动策划数据)
-   ↓
-3. STATIC_ELO fallback (64 队, 手动维护, --update-static 更新)
-   ↓
-输出: elo_ratings.json (向后兼容格式)
-```
-
-Agent 更新流程:
+**诊断**:
 ```bash
-# Agent 通过 web_extract 获取最新数据, 然后:
-python3.11 scripts/fetch_elo.py --update-static <<'EOF'
-{"Spain": 2165, "Argentina": 2113, ...}
-EOF
+sqlite3 ~/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/data/news.db \
+  "SELECT MAX(pub_date), COUNT(*) FROM articles WHERE category='足球'"
 ```
+- 最新日期 >30 天 → 全部 48 队返回中性（0 ELO 调整）
+- 最新日期 14-30 天 → fallback 30 天窗口生效
+- 最新日期 <14 天 → 正常直接搜索
 
-## 数据更新验证 (v2.4, 2026-05-26)
+### 大 ELO 差时 Poisson xG 畸高
 
-### 伤病数据 v2.0 更新流程
+**现象**: 当有效 ELO 差 >300 时，Poisson lambda 公式给出极高预期进球（如 Mexico vs SA: xG 13.59 vs 0.20, 预测比分 6-0）。
 
-真实执行了 7→10 队的大版本更新，验证了以下流程：
+**根因**: `predict_score()` 使用 `lambda = 1.45 × 10^(elo_diff/500)`。当 elo_diff=474 时，10^0.948=8.86，lambda=12.86。
 
-1. 多源交叉验证：ESPN Injuries Tracker + BBC Squad Announcements + The Athletic + Yahoo/BBC
-2. 状态变更映射：
-   - DOUBTFUL→OUT：提升 penalty（Gnabry -15→-30, Estevao -10→-30）
-   - DOUBTFUL→FIT：移除 penalty（Salah，确认入埃及大名单）
-   - 新增伤员：通过 squad announcement 反推（Mitoma 落选 = 因伤）
-3. 需手动关注的来源：
-   - ESPN Injuries Tracker: https://www.espn.com/soccer/story/_/id/48572979
-   - BBC Squad Tracker: https://www.bbc.com/sport/football/articles/cvgz43lgn15o
-   - FIFA Official: https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/all-world-cup-squad-announcements
+**缓解**: 
+- **不要**对单场比分预测过于依赖——关注胜/平/负概率方向
+- 未来可考虑添加 lambda 上限或引入"领先降速"因子
 
-### 教练/磨合数据 v2.0 扩展
+### eloratings.net 数据采集 (v3.2 新增)
 
-从 20→36 队（覆盖率 75%），使用 squad announcement 信息推断教练和阵容稳定性。
+**现象**: `curl eloratings.net/2026_World_Cup` 返回空 HTML 骨架（JS 动态渲染），`web_extract` 同样失败。
 
-### 关键教训：英格兰
+**根因**: eloratings.net 使用 SlickGrid + JavaScript 在前端渲染所有数据，静态 HTML 无内容。
 
-Foden + Palmer + Alexander-Arnold 三人 OUT（BBC 确认 "to miss World Cup"）导致 penalty=-90，夺冠率从 2.3% 跌至 0.2%。**此类 squad announcement 中的多名核心缺阵是最需要立即更新的信息。**
-
-## 测试套件状态 (2026-05-26)
-
-7 个测试失败，全部因 v2.3 参数变更但测试断言未跟随更新：
-
-| 测试 | 根因 | 修复 |
-|------|------|------|
-| `test_equal_elo_max_upset` | v2.2→v2.3 冷门上界 0.18→0.22，断言期望 ~0.18 | 更新为 0.22 |
-| `test_moderate_gap` | 同上，公式变更 | 更新期望值 |
-| `test_small_gap` | 同上 | 更新期望值 |
-| `test_negative_elo_diff` | 同上 | 更新期望值 |
-| `test_host_advantage` | USA 小组 tag 输出 "绝对热门" 而非 "东道主"，tag 优先级逻辑错 | 修复 `analyze_group()` tag 逻辑 |
-| `test_elo_adjustments_applied` | Haiti+500 在新冷门+形态模型下赢不了任何模拟 | 降低冷门强度或提高测试调整量 |
-| `test_elo_range_sanity` | Saudi 1568 / Bosnia 1594 < 1600 下限，实际 ELO 有效 | 下限调至 1400 |
-
-## 报告模板问题
-
-`wc2026_predict.py` 报告硬编码了 `v2.3 伤病(7队/11名球员)`，但实际已更新为 10 队/15 球员。模板需改为动态读取而非硬编码。
+**可用方式**:
+- `web_search("eloratings.net Team_Name")` — 搜索 snippet 会包含 ELO 数值（如 "South Africa. 1518"）
+- 用 `cntrl+F` 对照现有 ELO 文件检查差异
+- international-football.net 返回 429 时，search snippet 是备选方案
 
 ## 已知限制
 
-1. **伤病数据手动维护**: injuries.json 需定期通过新闻手动更新，非自动采集
-2. **教练/磨合数据手动维护**: team_metadata.json 需手动更新
-3. **RSS 新闻覆盖不均**: 751 条新闻偏重欧洲豪门，非主流球队情感调整通过同洲代理策略（confederation proxy）降级，衰减系数 0.5。代理失效时返回中性（0），不影响其他模型层。非"数据不完整"，而是动态数据源的正常特征。
-4. **fp_predict.py `--full` 为桩代码**: 仅配置了多赛事框架，缺具体赛事的 Bracket 实现
-5. **第3名分配 fallback**: 当组合不在 FIFA 495 种映射表中时使用最佳可用队替代
-6. **冠军分布仍略集中**: v2.3 Top3 ~93%，真实世界杯有更多冷门
-7. **7 个测试失败** (v2.4 发现): v2.3 参数变更后测试断言未同步更新，需在世界杯前修复
-8. **报告模板硬编码**: 伤病队数/球员数不随数据自动更新
+1. **ELO 数据可能过期**: 最后更新 2026-06-06（static fallback），国际比赛日无更新
+2. **伤病数据手动维护**: 11 队伤员，需赛前逐队确认（Neymar DOUBTFUL 为关键变量）
+3. **RSS 新闻覆盖不均**: 偏重欧洲豪门，非主流球队通过同洲代理策略降级
+4. **fp_predict.py `--full` 为桩代码**: 仅配置了多赛事框架
+5. **7 个测试失败**: v2.3 参数变更后测试断言未同步更新
+6. **Uruguay 无热身赛数据**: 47/48 队覆盖，Uruguay 未安排公开热身赛
+7. **ELO 采集受限**: international-football.net 持续 429 限速，依赖 static fallback
+10. **情感信号占比过弱**: 情感调整范围 (-8~+2 ELO) 远小于伤病 (-125~0) 和教练 (+3~+59)，实际预测中几乎不产生影响。`impact * 250` 换算公式可能需要重新校准
 
-### v3.1 新增限制
-9. **热身赛数据依赖手动采集**: 没有自动化的RSS/API，依赖 Agent 手动运行 `fetch_friendlies.py --add` 逐场录入
-10. **热身赛权重粗粒度**: 衰减权重统一 0.9/周，不考虑对手实力差异（强弱队热身态度不同）
-11. **热身赛 TBD 积压**: 6.4 当日有 3 场比赛结果待确认（西班牙/墨西哥/捷克）
-
-> ✅ 已解决 (v3.1): 热身赛近期状态因子 — 法国输科特迪瓦 -37 ELO，英格兰输瑞典 -35 已生效。
-
-> ✅ 已解决 (v2.3): ELO 半静态管线、无伤病数据、无教练因子、冠军过度集中 — 全部通过 6层模型栈修复。
-> ✅ 已解决 (v2.4): 伤病数据从 7→10 队, 元数据 20→36 队 — 覆盖率大幅提升。
-
-## 开发陷阱
-
-### R32 pair 追踪 Bug
-在 MC 循环中追踪淘汰赛对阵时，必须追踪**完整 pair `(t1, t2)`**，而非单队。
-
-**正确做法**:
-```python
-r32_slot_pair[slot_id][(t1, t2)] += 1  # 追踪完整对阵
-r32_slot_winner[slot_id][winner] += 1  # 分离 winner 追踪
-```
-
-### 决赛 runner_up 缺失 Bug (v2.2 修复)
-`stage_winners['F'] = {1: champion}` 只存了冠军。修复: `{1: champion, 2: runner_up}`。
-
-### 半决赛 SF 计数错误 (v2.2 修复)
-需追踪全部 4 队（2 决赛队 + 2 负方），不仅 winner。验证: C% < F% < SF% 且 SF% < 100%。
-
-### ELO 数据源失效 (v2.3 已修复)
-clubelo.com API 已废弃。v2.3 通过 international-football.net + multi-source cascade + STATIC_ELO fallback 彻底解决。fetch_elo.py v2.0 不再依赖任何单一数据源。
-
-### RSSConnector 路径解析
-sentiment_analyzer.py 中的 RSSConnector 默认查找 `../news-rss`，实际目录为 `wuhoo-news-rss`。在 possible_paths 中增加 `wuhoo-news-rss` 路径。
-
-### 队名标准化 (v2.3 新增)
-不同数据源使用不同国家名 (USA vs United States, Korea vs South Korea)。统一使用 `TEAM_ALIASES` 映射 + `_canonical_name()` 函数。新增数据时必须检查别名表。
-
-### execute_code 中 read_file 返回 dict (v2.4 新增)
-
-`hermes_tools.read_file()` 在 `execute_code` 沙箱中返回 **dict** (`{"content": "...", "total_lines": N}`)，不是字符串。直接 `json.loads(read_file(...))` 会报 `TypeError`。
-
-**正确做法**: 在 `execute_code` 中使用 `read_file(path)["content"]` 获取文本内容，或改用 `terminal()` 执行数据扫描脚本。
-
-### 队名别名陷阱 — 扫描脚本 vs 运行时代码 (v2.4 新增)
-
-GROUPS/ALL_TEAMS 使用 ELO 文件的规范名 (Czech Republic, Bosnia and Herzegovina, DR Congo)。用 Wikipedia 名 (Czechia, Bosnia-Herzegovina, Congo DR) 扫描会导致误报"缺失 ELO"。**始终以 `wc2026_predict.py` 的 GROUPS 定义为准**。
-
-### 伤病/元数据集成陷阱 (v2.3)
-
-在 `simulate_one_tournament()` 中，ELO 调整的应用顺序为:
-`ELO + elo_adjustments + injury_adjustments + META_ADJUSTMENTS + tournament_form`
-顺序不影响最终值但影响调试。所有调整在 tournament_form 之前应用，确保形态因子覆盖所有基础调整。
-
-### 约束分配算法
-从独立 slot 频率构建自洽路径时的贪心约束分配:
-```python
-def constrained_r32_assignment(slot_pairs):
-    candidates = sorted(
-        [(sid, pair, cnt) for sid, counts in slot_pairs.items()
-         for pair, cnt in counts.items()],
-        key=lambda x: -x[2])
-    assigned, used = {}, set()
-    for sid, pair, cnt in candidates:
-        if sid in assigned: continue
-        if pair[0] in used or pair[1] in used: continue
-        assigned[sid] = pair
-        used.update(pair)
-    return assigned
-```
-
-## 新闻情感分析集成
-
-```python
-from scripts.sentiment_analyzer import SentimentAnalyzer, RSSConnector
-
-connector = RSSConnector()
-news = connector.fetch_football_news(['Arsenal', 'Barcelona'], days_back=7)
-
-analyzer = SentimentAnalyzer()
-sentiments = analyzer.analyze_news_batch(news)
-# → {'arsenal': 0.028, 'barcelona': 0.000}
-```
+### v4.0 审计案例
+- [references/20260608-group-c-audit.md](references/20260608-group-c-audit.md) — C组第一轮完整审计 (Brazil vs Morocco, Haiti vs Scotland)，含各层调整链路、XHS质量分析、优化建议

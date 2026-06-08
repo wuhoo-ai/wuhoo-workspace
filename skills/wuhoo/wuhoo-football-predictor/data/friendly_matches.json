@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_update": "2026-06-06T03:08:12+00:00",
+  "last_update": "2026-06-08T07:13:47+00:00",
   "source": "manual curation (FIFA.com, ESPN, worldfootball.net)",
   "description": "2026 World Cup pre-tournament warm-up friendly match results",
   "match_window_days": 21,
@@ -296,6 +296,226 @@
       "score_a": 0,
       "score_b": 0,
       "date": "2026-06-03",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Argentina",
+      "team_b": "Honduras",
+      "score_a": 2,
+      "score_b": 0,
+      "date": "2026-06-07",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Curacao",
+      "team_b": "Aruba",
+      "score_a": 4,
+      "score_b": 0,
+      "date": "2026-06-07",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Portugal",
+      "team_b": "Chile",
+      "score_a": 2,
+      "score_b": 1,
+      "date": "2026-06-06",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Scotland",
+      "team_b": "Bolivia",
+      "score_a": 4,
+      "score_b": 0,
+      "date": "2026-06-06",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Panama",
+      "team_b": "Bosnia and Herzegovina",
+      "score_a": 1,
+      "score_b": 1,
+      "date": "2026-06-06",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Egypt",
+      "score_a": 2,
+      "score_b": 1,
+      "date": "2026-06-06",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Turkey",
+      "team_b": "Venezuela",
+      "score_a": 2,
+      "score_b": 1,
+      "date": "2026-06-06",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "El Salvador",
+      "score_a": 0,
+      "score_b": 0,
+      "date": "2026-06-06",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Paraguay",
+      "team_b": "Nicaragua",
+      "score_a": 4,
+      "score_b": 0,
+      "date": "2026-06-05",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Austria",
+      "team_b": "Tunisia",
+      "score_a": 1,
+      "score_b": 0,
+      "date": "2026-06-01",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Norway",
+      "team_b": "Sweden",
+      "score_a": 3,
+      "score_b": 1,
+      "date": "2026-06-01",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Turkey",
+      "team_b": "North Macedonia",
+      "score_a": 4,
+      "score_b": 0,
+      "date": "2026-06-01",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Poland",
+      "team_b": "Ukraine",
+      "score_a": 0,
+      "score_b": 2,
+      "date": "2026-05-31",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Germany",
+      "team_b": "Finland",
+      "score_a": 4,
+      "score_b": 0,
+      "date": "2026-05-31",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Scotland",
+      "team_b": "Curacao",
+      "score_a": 4,
+      "score_b": 1,
+      "date": "2026-05-30",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Iran",
+      "team_b": "Gambia",
+      "score_a": 3,
+      "score_b": 1,
+      "date": "2026-05-29",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Iraq",
+      "team_b": "Andorra",
+      "score_a": 1,
+      "score_b": 0,
+      "date": "2026-05-29",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "South Africa",
+      "team_b": "Nicaragua",
+      "score_a": 0,
+      "score_b": 0,
+      "date": "2026-05-29",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Bosnia and Herzegovina",
+      "team_b": "North Macedonia",
+      "score_a": 0,
+      "score_b": 0,
+      "date": "2026-05-29",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Egypt",
+      "team_b": "Russia",
+      "score_a": 1,
+      "score_b": 0,
+      "date": "2026-05-28",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Republic of Ireland",
+      "score_a": 0,
+      "score_b": 1,
+      "date": "2026-05-28",
+      "neutral": true,
+      "notes": "",
+      "source": "manual"
+    },
+    {
+      "team_a": "Morocco",
+      "team_b": "Burundi",
+      "score_a": 5,
+      "score_b": 0,
+      "date": "2026-05-26",
       "neutral": true,
       "notes": "",
       "source": "manual"
