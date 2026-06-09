@@ -1,0 +1,39 @@
+{
+  "date_beijing": "2026-06-12",
+  "generated": "2026-06-09T17:43:17.510571",
+  "total_matches": 2,
+  "predictions": [
+    {
+      "match_id": 1,
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "venue": "Estadio Azteca",
+      "group": "A",
+      "matchday": 1,
+      "time_beijing": "03:00",
+      "team_a_win_pct": 100.0,
+      "draw_pct": 0.0,
+      "team_b_win_pct": 0.0,
+      "most_likely_score": "6-0",
+      "verdict": "Mexico 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    },
+    {
+      "match_id": 2,
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "venue": "Estadio Akron",
+      "group": "A",
+      "matchday": 1,
+      "time_beijing": "10:00",
+      "team_a_win_pct": 49.3,
+      "draw_pct": 23.8,
+      "team_b_win_pct": 27.0,
+      "most_likely_score": "1-1",
+      "verdict": "势均力敌（低置信度）",
+      "confidence": "low",
+      "error": null
+    }
+  ]
+}
