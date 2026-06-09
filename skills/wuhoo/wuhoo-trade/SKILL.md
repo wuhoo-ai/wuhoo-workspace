@@ -11,11 +11,15 @@ metadata: { "hermes": { "requires": { "bins": ["python3.11"], "pip": ["pandas", 
 ## 执行入口
 - **交易执行**: `python3.11 skills/wuhoo-trade/workflow_c_multi_market.py --market us --date 2026-04-22`
 - **定期交易**: `python3.11 skills/wuhoo-trade/workflow_e_periodic_trade.py`
-- **风控管理**: `python3.11 skills/wuhoo-trade/risk_manager.py`
+- **风控管理**: `python3.11 skills/wuhoo-trade/risk_manager.py` (单笔风控) + `portfolio_risk.py` (组合风控，已集成到 workflow_c Step 4.5)
 - **持仓审计**: `python3.11 skills/wuhoo-trade/audit_module.py`
 - **组合指标**: `python3.11 skills/wuhoo-trade/portfolio_metrics.py`
 - **每日复盘**: `python3.11 skills/wuhoo-trade/daily_review.py`
 - **美股等权持仓**: `python3.11 skills/wuhoo-trade/us_equal_weight_portfolio.py [show|rebalance|check]`
+- **PnL 追踪**: `python3.11 skills/wuhoo-trade/pnl_tracker.py [snapshot|metrics|full]` — 每日组合净值快照 + 绩效指标
+- **策略回测**: `python3.11 skills/wuhoo-trade/backtest.py --market us --months 12` — Walk-forward 回测
+- **自适应回测**: `python3.11 skills/wuhoo-trade/adaptive_backtest.py --market us --months 12` — 按月判定市场状态 + 策略路由回测
+- **多策略回测**: `python3.11 skills/wuhoo-trade/strategies.py --strategy dual_momentum --market us --months 12` — 4 种新策略统一回测框架
 
 ## 依赖
 - 富途 OpenD 运行在 127.0.0.1:11111
@@ -129,41 +133,148 @@ for r in d['results']:
 - 降级策略：RiskAgent 不可用时使用简化风控（波动率、涨幅、Beta 检查）
 - RRR 计算修正：`潜在收益 / 潜在损失` = `(止盈价-现价) / (现价-止损价)`
 
-## 风控规则差距分析 (2026-04-24)
+## 风控规则差距分析 (2026-04-24 → 2026-06-09 修复)
 
-**risk_rules.yaml 定义 13 条规则，实际仅 5 条生效：**
+**risk_rules.yaml 定义 13 条规则，现已全面覆盖：**
 
-| 规则 | YAML 定义 | risk_agent.py | risk_manager.py | 状态 |
-|------|-----------|--------------|-----------------|------|
-| single_stock_max 20% | ✅ | ✅ | ✅ | 已实现 |
-| single_industry_max 40% | ✅ | ❌ | ❌ | **未实现** |
-| cash_min 10% | ✅ | ❌ | ✅ | risk_manager 实现 |
-| 分层仓位管理 | ✅ | ❌ | ❌ | **未实现** |
-| 动态止损（波动率调整） | ✅ | ❌ | ⚠️ 部分 | **需完善** |
-| RRR min_ratio 2.0 | ✅ | ✅ | ❌ | RiskAgent 实现 |
-| 流动性检查 | ✅ | ✅ | ❌ | RiskAgent 实现 |
-| 事件风险（财报黑名单） | ✅ | ❌ | ❌ | **未实现** |
-| 相关性检查 max_correlation 0.7 | ✅ | ❌ | ❌ | **未实现** |
-| 自动审批条件 | ✅ | ⚠️ 未使用 | ❌ | **未生效** |
-| CONDITIONAL 阻断 | ✅ | ❌ | ❌ | **未阻断** |
-| max_drawdown 15% | ✅ | ❌ | ❌ | **未实现** |
-| volatility high_threshold 0.60 | ✅ | ⚠️ pass当无数据 | ❌ | **形同虚设** |
+| 规则 | 实现位置 | 状态 |
+|------|---------|:--:|
+| single_stock_max 20% | risk_manager.py + portfolio_risk.py | ✅ |
+| single_industry_max 40% | portfolio_risk.py `_check_industry_concentration` | ✅ |
+| cash_min 10% | risk_manager.py + portfolio_risk.py | ✅ |
+| 分层仓位管理 | portfolio_risk.py `_check_position_tiers` | ✅ |
+| 动态止损（波动率调整） | RiskAgent `_get_dynamic_stop_loss_limit` | ✅ |
+| RRR min_ratio 2.0 | RiskAgent + workflow_c debate_quick | ✅ |
+| 流动性检查 | RiskAgent `_check_liquidity` | ✅ |
+| 事件风险（财报黑名单） | portfolio_risk.py `_check_event_risk` | ✅ |
+| 相关性检查 max_correlation 0.7 | portfolio_risk.py `_check_correlation` | ✅ |
+| 自动审批条件 | RiskAgent `_determine_recommendation` | ✅ |
+| CONDITIONAL 阻断 | workflow_c Step 3 (收紧条件) + Step 4.5 (组合阻断) | ✅ |
+| max_drawdown 15% | portfolio_risk.py `_check_max_drawdown` | ✅ |
+| volatility high_threshold 0.60 | RiskAgent `_check_volatility` | ✅ |
 
-**关键发现**：
-1. RiskAgent `_check_volatility()` 无 market_data 时默认 pass，实际调用几乎从不传入 → 波动率检查形同虚设
-2. RiskAgent `_check_concentration()` 依赖 `industry_exposure` 字段，但调用方从未传入 → 集中度检查永远 pass
-3. CONDITIONAL 结果未阻断交易执行路径
-4. 组合级风控（回撤/行业集中度/相关性）完全缺失
+**2026-06-09 集成修复：**
+- workflow_c Step 3: CONDITIONAL 不再静默通过，收紧条件 (conf>0.7 + RRR>2.5) 或转观望
+- workflow_c Step 4.5: 新增 `PortfolioRiskChecker.check_all()` 组合级风控，不通过则阻断交易
+- workflow_c Step 5: 每笔下单前调用 `risk_manager.risk_check()` 做单笔风控
+- DEBATE_PATH / STOCK_PICK_SCRIPT / FACTORS_DIR 路径修复为实际目录
+- `--debate-file` 新参数支持加载 batch_debate.py 产出的外部辩论结果
 
-**计划新增 `portfolio_risk.py`** 模块，实现：
-- `check_portfolio_drawdown()` → 组合级回撤检查（阈值 15%）
-- `check_industry_concentration()` → 行业集中度（阈值 40%）
-- `check_correlation()` → 持仓相关性（阈值 0.7）
-- `check_event_risk()` → 事件风险（财报日检查）
-- `apply_tier_position()` → 分层仓位管理（按 confidence 分配）
-- `enforce_risk_decision()` → 强制 RiskAgent 结果执行（CONDITIONAL 需确认或阻断）
+## 📊 策略回测与绩效追踪（2026-06-09）
 
-## 🐛 港股交易陷阱
+### 策略多元化框架（Phase 2，2026-06-09）
+
+回测发现单一策略（超跌反弹）在三市场表现严重分化后，新增两个核心模块：
+
+#### 趋势动量策略 (trend_momentum.py)
+
+与超跌反弹互补：买涨最多的而非跌最多的。6 因子选股（动量10/20/60日 + 量比 + Beta + 相对强度），按动量10日降序排序。
+
+```bash
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-trade
+python3.11 trend_momentum.py --market us --months 12
+python3.11 trend_momentum.py --market all --months 12
+```
+
+**因子筛选**：momentum_10d > 0（硬性） + momentum_60d > P50 + volume_ratio > 0.8 + beta > max(P20, 1.0)。
+
+#### 市场状态判定 (market_regime.py)
+
+5 维度加权投票系统，自动判断 Bull/Bear/Ranging/Volatile：
+
+| 维度 | 权重 | 指标 |
+|------|:---:|------|
+| MA 位置 | 30% | 价格 vs MA50/MA200，金叉/死叉 |
+| 市场广度 | 25% | 站上 MA50/MA200 的股票占比 |
+| 趋势强度 | 20% | MA50 斜率 + 连续涨跌天数 |
+| 波动率 | 15% | 20日 vs 60日年化波动率比 |
+| 动量广度 | 10% | 正20日动量股票占比 |
+
+```bash
+python3.11 market_regime.py --market us          # 单市场
+python3.11 market_regime.py --market all --save  # 三市场 + 存 JSON
+```
+
+> **🐛 Breadth-Mask 修复 (2026-06-09)**：当市场广度极差（仅有少数大票站上均线）时，MA位置维度容易被拉高产生假阳性——CN实测MA位置+2但广度-2(仅27%站上MA50)，composite被推至BULL区→误启用趋势动量→追高被套-17.77%。修复：`detect_regime()`中当`breadth_score ≤ -1`时composite强制cap到+0.4（最多RANGING，永不到BULL）。详见`references/20260609-all-strategies-comparison.md`。
+
+#### 策略自适应路由
+
+```
+市场状态        →  策略             →  仓位
+BULL_TRENDING   →  trend_momentum   →  100%
+BULL_VOLATILE   →  trend_momentum   →   75%
+RANGING         →  oversold_rebound →   80%
+BEAR_VOLATILE   →  defensive        →   50%
+BEAR_TRENDING   →  cash_only        →    0%
+```
+
+#### 回测扩展 (backtest.py)
+
+新增 `--strategy` 参数支持三种模式：
+
+```bash
+python3.11 backtest.py --market us --strategy contrarian   # 仅超跌反弹
+python3.11 backtest.py --market us --strategy momentum     # 仅趋势动量
+python3.11 backtest.py --market us --strategy both         # 对比两种策略
+```
+
+> 详细回测对比报告见 `references/20260609-strategy-comparison.md`
+
+### PnL 追踪器 (pnl_tracker.py)
+
+每日组合净值快照，产出时序 JSONL 供绩效计算：
+
+```bash
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-trade
+python3.11 pnl_tracker.py snapshot   # 当日快照（连接 OpenD 获取三账户持仓+现金）
+python3.11 pnl_tracker.py metrics    # 计算绩效指标（Sharpe/Max DD/Calmar + Benchmark 对比）
+python3.11 pnl_tracker.py full       # 快照 + 指标
+```
+
+输出：
+- `~/wuhoo-workspace/data/pnl/snapshots.jsonl` — 每日快照（JSONL）
+- `~/wuhoo-workspace/data/pnl/metrics_report.json` — 最新绩效报告
+
+### 策略回测 (backtest.py)
+
+Walk-forward 回测：每月用当时可得的历史数据计算因子 → 按策略选股 → 模拟持有 → 统计表现。
+
+```bash
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-trade
+python3.11 backtest.py --market us --months 12 --top-n 10 --hold-days 20
+python3.11 backtest.py --market all --months 12  # 三市场全量
+```
+
+### 回测核心发现
+
+> 详见 `references/20260609-backtest-results.md`
+
+**同一策略在不同市场表现差异极大**：
+
+| 市场 | 月均收益 | 胜率 | 累计收益 | Sharpe | 最大回撤 | 有效性 |
+|------|:---:|:---:|:---:|:---:|:---:|:---:|
+| US | **+1.50%** | 91.7% | +19.45% | 1.01 | -1.6% | ✅ 强 |
+| HK | +0.10% | 50.0% | +0.50% | 0.03 | -6.8% | ❌ 弱 |
+
+**关键教训**：
+1. 美股超跌反弹策略几乎无回撤 —— 可以安心实盘
+2. 港股 2026 年进入单边下跌后策略系统性接飞刀 —— 需市场状态感知
+3. 单一策略无法跨市场通用 —— 需要策略多样化 + 市场状态路由
+
+**陷阱：HK 数据混合格式**。HK 日线数据存在两种格式：
+- 旧文件（2024-2025）：yfinance 格式，列 `Date, Close`
+- 新文件（2026）：Futu 格式，列 `time_key, close`
+合并处理时必须在 concat 前逐文件统一列名，否则一半数据被 dropna 丢弃。
+
+### 回测数据覆盖
+
+| 市场 | 股票数 | 历史月数 | 数据量 | 基准 |
+|------|:---:|:---:|------|------|
+| US | 505 (S&P 500) | 25 月 | ~284K 行 | SPY |
+| HK | 601 (Top 500+) | 25 月 | ~271K 行 | ^HSI |
+| CN | ~1000 (中证1000) | 25 月 | 大 | 沪深300 |
+
+CN 回测计算量大（1000+ 股票），单次运行需 5-10 分钟。
 
 ### HK 每手数量不是固定 100！
 
@@ -205,27 +316,14 @@ qty = int(target_amount / price / 100) * 100  # 中国石油股份会报"不足1
 
 **待探索**：是否需要特定时间窗口（如港股交易活跃时段）fill 更快？还是纯 Futu 模拟引擎限制？
 
-### 🐛 workflow_c 路径不匹配（2026-05-06 发现）
+### ✅ 路径已修复 (2026-06-09)
 
-`workflow_c_multi_market.py` 硬编码了数据路径，与实际目录不一致：
+`workflow_c_multi_market.py` 三处硬编码路径已修正为实际路径：
+- `STOCK_PICK_SCRIPT` → `~/wuhoo-workspace/skills/wuhoo/wuhoo-stock-pick/stock_pick.py`
+- `FACTORS_DIR` → `~/wuhoo-workspace/data/stock-pick/factors/`
+- `DEBATE_PATH` → `~/wuhoo-workspace/skills/wuhoo/wuhoo-debate/`
 
-```python
-# 脚本中的路径（第71行）
-FACTORS_DIR = Path.home() / '.hermes' / 'data' / 'stock-pick' / 'factors'
-
-# 实际数据路径
-# ~/wuhoo-workspace/data/stock-pick/factors/
-```
-
-**症状**：`--skip-select --skip-debate` 运行时输出 "❌ 无可用选股结果"，即使选股已完成且结果文件存在。
-
-**临时解决**：将结果 CSV 复制到脚本期望的路径：
-```bash
-cp ~/wuhoo-workspace/data/stock-pick/factors/result_cn_YYYYMMDD.csv \
-   ~/.hermes/data/stock-pick/factors/
-```
-
-**长期修复**：修改 `workflow_c_multi_market.py:71` 的 `FACTORS_DIR` 指向实际路径。
+不再需要软链接或手动复制文件。
 
 ### CN 模拟账户可用时的注意事项
 
@@ -394,11 +492,14 @@ ln -sf ~/wuhoo-workspace/data/stock-pick/factors ~/.hermes/data/stock-pick/facto
 cp ~/wuhoo-workspace/data/stock-pick/factors/result_cn_20260430.csv ~/.hermes/data/stock-pick/factors/
 ```
 
-### --skip-debate 无法使用外部辩论结果
+### ✅ --debate-file 已支持外部辩论结果 (2026-06-09)
 
-`workflow_c_multi_market.py --skip-debate` 会完全跳过 Step 3（辩论），导致 Step 4（投资建议）输出空数组（`recommendations: [], count: 0`），Step 5 无任何交易。
-
-**根因**：脚本设计为全链路自执行，不支持加载外部 `batch_debate.py` 产出的 `debate_*.json`。`--skip-debate` 只适用于「只选股不辩论」的简化场景，不适用于「已通过 batch_debate 完成辩论，只需执行交易」的场景。
+新增 `--debate-file <path>` 参数，可加载 batch_debate.py 产出的 `debate_summary.json`：
+```bash
+python3.11 workflow_c_multi_market.py --market hk --skip-debate \
+  --debate-file ~/wuhoo-workspace/data/debate/20260609/deepseek/debate_summary.json
+```
+Trader=SELL 的股票自动排除买入，BUY 的股票进入推荐流程。
 
 **当前 workaround**：在此 gap 修复前，A 股调仓需手动编写交易脚本直接调用 Futu API，基于 `debate_summary.json` 中的 Trader 决策逐只下单。
 
@@ -408,21 +509,12 @@ cp ~/wuhoo-workspace/data/stock-pick/factors/result_cn_20260430.csv ~/.hermes/da
 
 ## 参考文件
 
+- `references/20260609-strategy-comparison.md` — 2026-06-09 策略对比回测报告（趋势动量 vs 超跌反弹 + 市场状态自适应）
+- `references/20260609-all-strategies-comparison.md` — 2026-06-09 全策略回测大排名（Dual Momentum / Bollinger / 小市值反转 / HK大盘动量 + Regime修复记录）
+- `references/20260609-backtest-results.md` — 2026-06-09 三市场 Walk-forward 回测结果（US +19.45% vs HK +0.50%）
 - `references/futu-rebalance-pitfalls.md` — Futu 批量调仓常见陷阱（价格精度、频率限制、限价对齐）
 - `references/20260506-cn-workflow-audit.md` — 2026-05-06 A股全链路审计（数据→选股→辩论→调仓失败）
 - `references/20260513-ahk-rebalance-audit.md` — 2026-05-13 A/HK 双市场调仓审计（卖前买后购买力不足 + 构造函数签名陷阱 + CN 购买力递减重试）
 - `references/20260521-ahk-rebalance-audit.md` — 2026-05-21 A/HK 调仓审计（跳过辩论导致反向交易：长实+安踏买入后辩论看空 + A 股午盘休市卡 SUBMITTED）
 - `scripts/rebalance_us.py` — 美股等权调仓执行脚本模板
-```
-skills/wuhoo-trade/
-  workflow_c_multi_market.py   # 主交易执行流程
-  workflow_e_periodic_trade.py # 定期交易
-  us_equal_weight_portfolio.py # 美股等权策略
-  risk_manager.py              # 风控模块
-  audit_module.py              # 持仓审计
-  portfolio_metrics.py         # 组合指标计算
-  daily_review.py              # 每日复盘
-  approval_manager.py          # 审批管理
-  path_config.py               # 统一路径配置
-  tests/                       # 测试
-```
+```\\nskills/wuhoo-trade/\\n  workflow_c_multi_market.py   # 主交易执行流程\\n  workflow_e_periodic_trade.py # 定期交易\\n  us_equal_weight_portfolio.py # 美股等权策略\\n  pnl_tracker.py               # 每日组合净值快照 + 绩效指标\\n  backtest.py                  # Walk-forward 策略回测（支持 contrarian/momentum/both）\\n  trend_momentum.py            # 趋势动量策略（Phase 2，2026-06-09）\\n  market_regime.py             # 市场状态判定模块（Phase 2，2026-06-09）\\n  risk_manager.py              # 风控模块\\n  audit_module.py              # 持仓审计\\n  portfolio_metrics.py         # 组合指标计算\\n  daily_review.py              # 每日复盘\\n  approval_manager.py          # 审批管理\\n  path_config.py               # 统一路径配置\\n  tests/                       # 测试\\n```

@@ -65,10 +65,10 @@ os.environ['FUTU_PORT'] = '11111'
 os.environ['FUTU_ENV'] = 'SIMULATE'
 
 # 路径常量
-STOCK_PICK_SCRIPT = Path.home() / 'wuhoo-workspace' / 'skills' / 'stock-pick' / 'stock_pick.py'
+STOCK_PICK_SCRIPT = Path.home() / 'wuhoo-workspace' / 'skills' / 'wuhoo' / 'wuhoo-stock-pick' / 'stock_pick.py'
 STOCK_PICK_VENV = None  # 统一使用系统 python3.11
-DEBATE_PATH = SCRIPT_DIR.parent / 'debate'
-FACTORS_DIR = Path.home() / '.hermes' / 'data' / 'stock-pick' / 'factors'
+DEBATE_PATH = Path.home() / 'wuhoo-workspace' / 'skills' / 'wuhoo' / 'wuhoo-debate'
+FACTORS_DIR = Path.home() / 'wuhoo-workspace' / 'data' / 'stock-pick' / 'factors'
 
 # 市场配置
 MARKET_CONFIG = {
@@ -621,9 +621,19 @@ class WorkflowCHandler:
                 else:
                     risk_approval = {"recommendation": "APPROVE", "risk_score": 0.2}
             
-            # 最终动作
-            if risk_approval.get("recommendation") == "REJECT":
+            # 最终动作 — 严格风控
+            risk_rec = risk_approval.get("recommendation", "APPROVE")
+            if risk_rec == "REJECT":
                 final_action = "reject"
+                print(f"    🔴 RiskAgent REJECT → 排除")
+            elif risk_rec == "CONDITIONAL":
+                # CONDITIONAL: 仅当散户风控也通过时才放行
+                if recommendation == "BUY" and confidence > 0.7 and rrr >= 2.5:
+                    final_action = "buy"
+                    print(f"    🟡 RiskAgent CONDITIONAL → 收紧条件后放行 (conf>{0.7}, RRR>{2.5})")
+                else:
+                    final_action = "watch"
+                    print(f"    🟡 RiskAgent CONDITIONAL → 转为观望 (conf={confidence:.0%}, RRR={rrr:.2f})")
             elif recommendation == "BUY" and confidence > 0.6 and rrr >= 2.0:
                 final_action = "buy"
             else:
@@ -889,6 +899,27 @@ class WorkflowCHandler:
 
                 print(f"下单：{name} ({full_code}) BUY {qty} @ {order_price}")
 
+                # ── 单笔风控检查 (risk_manager) ──
+                try:
+                    from risk_manager import risk_check
+                    order_for_risk = {
+                        'code': full_code, 'side': 'buy', 'price': order_price,
+                        'qty': qty, 'amount': order_price * qty,
+                    }
+                    risk_result = risk_check(order_for_risk)
+                    if risk_result.get('approved') == False:
+                        print(f"  🔴 风控拒绝: {risk_result.get('reason', 'unknown')}")
+                        trade_results.append({
+                            "code": code, "name": name,
+                            "status": "rejected_by_risk",
+                            "reason": risk_result.get('reason', ''),
+                        })
+                        continue
+                    elif risk_result.get('warning'):
+                        print(f"  🟡 风控警告: {risk_result.get('warning')}")
+                except ImportError:
+                    pass  # risk_manager 不可用时跳过
+
                 ret, data = trade_ctx.place_order(
                     acc_id=acc_id,
                     code=full_code,
@@ -1037,6 +1068,8 @@ def main():
     parser.add_argument("--skip-select", action="store_true", help="跳过选股")
     parser.add_argument("--skip-analysis", action="store_true", help="跳过分析")
     parser.add_argument("--skip-debate", action="store_true", help="跳过辩论")
+    parser.add_argument("--debate-file", type=str, default=None,
+                        help="加载外部辩论结果JSON (来自 batch_debate.py 的 debate_summary.json)")
     parser.add_argument("--skip-trades", action="store_true", help="跳过交易")
     parser.add_argument("--skip-review", action="store_true", help="跳过复盘")
 
@@ -1102,8 +1135,49 @@ def main():
     if handler.skip_flags['debate']:
         print("\n⏭️  跳过辩论 (--skip-debate)")
         debate = {"success": True, "skipped": True, "debate_results": []}
-        # 将分析结果直接转为辩论结果（用于后续推荐）
-        if analysis.get('analysis_results'):
+
+        # 尝试加载外部辩论结果 (--debate-file)
+        if args.debate_file:
+            debate_path = Path(args.debate_file)
+            if debate_path.exists():
+                print(f"📥 加载外部辩论结果: {debate_path}")
+                try:
+                    with open(debate_path, 'r', encoding='utf-8') as f:
+                        external = json.load(f)
+                    # batch_debate.py 产出的 debate_summary.json 格式:
+                    # {"results": [{"symbol", "bull", "bear", "trader", ...}]}
+                    debate_results = []
+                    for r in external.get('results', []):
+                        trader = r.get('trader', {})
+                        decision = trader.get('decision', 'HOLD')
+                        # Trader=SELL 的股票排除买入
+                        code = r.get('symbol', '')
+                        debate_results.append({
+                            "code": code,
+                            "name": r.get('name', ''),
+                            "recommendation": "BUY" if decision == "BUY" else
+                                            "SELL" if decision == "SELL" else "HOLD",
+                            "confidence": trader.get('confidence', 0.5),
+                            "trader_decision": decision,
+                            "risk_reward_ratio": trader.get('risk_reward_ratio', 0),
+                            "key_disagreement": trader.get('key_disagreement', ''),
+                            "method": "external_batch_debate",
+                        })
+                    debate["debate_results"] = debate_results
+                    debate["method"] = "external"
+                    debate["source_file"] = str(debate_path)
+                    print(f"  加载 {len(debate_results)} 条辩论结果")
+                    # 统计
+                    buys = sum(1 for d in debate_results if d['trader_decision'] == 'BUY')
+                    sells = sum(1 for d in debate_results if d['trader_decision'] == 'SELL')
+                    print(f"  BUY={buys}, SELL={sells} (SELL将在推荐阶段排除)")
+                except Exception as e:
+                    print(f"  ⚠️  加载辩论文件失败: {e}")
+            else:
+                print(f"  ⚠️  辩论文件不存在: {debate_path}")
+
+        # 回退：如果没有外部辩论结果，将分析结果转为辩论结果
+        if not debate.get("debate_results") and analysis.get('analysis_results'):
             debate_results = []
             for a in analysis['analysis_results']:
                 debate_results.append({
@@ -1113,7 +1187,7 @@ def main():
                     "confidence": 0.5,
                 })
             debate["debate_results"] = debate_results
-            debate["method"] = "skipped"
+            debate["method"] = "skipped_from_analysis"
     else:
         debate = handler.step3_debate(stocks)
         if not debate.get('success'):
@@ -1125,6 +1199,66 @@ def main():
         print("⚠️  Step 4 失败")
         handler.save_results()
         return
+
+    # ── Step 4.5: 组合级风控检查 (portfolio_risk) ──
+    if not handler.skip_flags.get('trades'):
+        print("\n" + "=" * 60)
+        print("Step 4.5: 组合级风控检查")
+        print("=" * 60)
+        try:
+            from portfolio_risk import PortfolioRiskChecker
+            risk_checker = PortfolioRiskChecker()
+
+            # 构建持仓快照 (模拟盘当前持仓 + 候选交易)
+            positions = []
+            for rec in recommendations.get('recommendations', []):
+                if rec.get('action') == 'BUY':
+                    positions.append({
+                        'code': rec.get('code', ''),
+                        'name': rec.get('name', ''),
+                        'weight': rec.get('suggested_weight', 0.05),
+                        'sector': rec.get('sector', 'Other'),
+                    })
+
+            total_value = 3_000_000  # ~$3M 组合总权益 (模拟盘)
+            cash_ratio = 0.10  # 10% 现金保留
+
+            risk_report = risk_checker.check_all(
+                positions=positions,
+                total_value=total_value,
+                cash=total_value * cash_ratio,
+                correlation_matrix=None,
+                historical_nav=None,
+                earnings_calendar=None,
+                candidate_trades=[{'code': r['code'], 'side': 'buy', 'amount': r.get('suggested_weight', 0.05) * total_value}
+                                  for r in recommendations.get('recommendations', [])
+                                  if r.get('action') == 'BUY'],
+            )
+
+            print(f"  风控评分: {risk_report.risk_score:.2f} ({'✅ 通过' if risk_report.approved else '⚠️ 需审核'})")
+            for finding in risk_report.findings:
+                icon = {'critical': '🔴', 'warning': '🟡', 'info': '🔵'}.get(finding.severity, '⚪')
+                print(f"  {icon} [{finding.rule_id}] {finding.message}")
+
+            if not risk_report.approved:
+                print("  ⚠️ 组合风控未通过，CONDITIONAL阻断 — 中止交易执行")
+                handler.results["steps"]["step4.5_risk"] = {
+                    "risk_score": risk_report.risk_score,
+                    "approved": False,
+                    "findings": [vars(f) for f in risk_report.findings],
+                }
+                handler.save_results()
+                return
+            else:
+                handler.results["steps"]["step4.5_risk"] = {
+                    "risk_score": risk_report.risk_score,
+                    "approved": True,
+                }
+
+        except ImportError as e:
+            print(f"  ⚠️ portfolio_risk 不可用: {e}，跳过组合风控")
+        except Exception as e:
+            print(f"  ⚠️ 组合风控检查异常: {e}，继续执行")
 
     # Step 5: 交易执行
     trades = handler.step5_execute_trades(recommendations)
