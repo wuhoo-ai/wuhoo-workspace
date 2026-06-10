@@ -686,12 +686,106 @@ def calculate_factors_us_complete(target_date):
     return result_df
 
 
+# ============== 港股因子辅助函数 ==============
+
+def _process_single_hk(df, hk_code, hsi_df, hsi_returns, results):
+    """处理单只港股：从 yfinance DataFrame 提取 5 因子
+
+    因子列表（对应 A 股/US 完整因子口径）：
+    1. residual_vol  — 252 日残差波动率 (vs HSI)，越低越好
+    2. turnover_5d   — 5 日 log 成交量（港股无换手率，用成交量代理）
+    3. momentum_5d   — 5 日价格动量 (TA-Lib ROC)
+    4. beta_20d      — 20 日 Beta (vs HSI)
+    5. momentum_10d  — 10 日价格动量 (排序因子)
+    """
+    close_prices = df['Close'].values
+    volumes = df['Volume'].values
+
+    stock_returns = np.diff(close_prices) / close_prices[:-1]
+    if len(stock_returns) < 252:
+        return
+
+    # 1. 残差波动率 (vs HSI)
+    if hsi_df is not None and hsi_returns is not None and len(hsi_returns) >= 252:
+        min_len = min(len(stock_returns[-252:]), len(hsi_returns[-252:]))
+        stock_ret = stock_returns[-min_len:]
+        hsi_ret = hsi_returns[-min_len:]
+        beta_252 = np.cov(stock_ret, hsi_ret)[0, 1] / np.var(hsi_ret)
+        alpha_252 = np.mean(stock_ret) - beta_252 * np.mean(hsi_ret)
+        residual = stock_ret - (alpha_252 + beta_252 * hsi_ret)
+        residual_vol = np.std(residual) * np.sqrt(252) * 100
+    else:
+        residual_vol = np.std(stock_returns[-252:]) * np.sqrt(252) * 100
+
+    # 2. 换手率代理 (log 成交量)
+    turnover_5d = np.log(volumes[-5:].mean() + 1)
+
+    # 3. 5 日动量
+    momentum_5d = talib.ROC(close_prices, timeperiod=5)[-1]
+    if np.isnan(momentum_5d):
+        return
+
+    # 4. 20 日 Beta (vs HSI)
+    if hsi_df is not None and hsi_returns is not None and len(hsi_returns) >= 20:
+        min_len_20 = min(len(stock_returns[-20:]), len(hsi_returns[-20:]))
+        beta_20d = np.cov(stock_returns[-min_len_20:], hsi_returns[-min_len_20:])[0, 1] / np.var(hsi_returns[-min_len_20:])
+        if np.isnan(beta_20d) or np.isinf(beta_20d):
+            beta_20d = 1.0
+    else:
+        beta_20d = 1.0
+
+    # 5. 10 日动量
+    momentum_10d = talib.ROC(close_prices, timeperiod=10)[-1]
+    if np.isnan(momentum_10d):
+        return
+
+    results.append({
+        'ts_code': hk_code,
+        'residual_vol': residual_vol,
+        'turnover_5d': turnover_5d,
+        'momentum_5d': momentum_5d,
+        'beta_20d': beta_20d,
+        'momentum_10d': momentum_10d
+    })
+
+
+def _add_hk_names(result_df):
+    """添加港股名称（优先 stock_info，回退成分股文件）"""
+    if result_df.empty:
+        return
+    # 优先尝试 stock_info 文件
+    info_file = DATA_DIR / 'stock_info_hk_top500.csv'
+    if info_file.exists():
+        try:
+            info_df = pd.read_csv(info_file)
+            merged = result_df.merge(info_df[['ts_code', 'name']], on='ts_code', how='left')
+            result_df['name'] = merged['name']
+        except Exception:
+            pass
+    # 回退到成分股文件
+    if 'name' not in result_df.columns or result_df['name'].isna().all():
+        members_file = DATA_DIR / 'index_members_hk_top500.csv'
+        if members_file.exists():
+            try:
+                mem_df = pd.read_csv(members_file)
+                mem_df = mem_df.rename(columns={'code': 'ts_code'})
+                merged = result_df.merge(mem_df[['ts_code', 'name']], on='ts_code', how='left')
+                result_df['name'] = merged['name']
+            except Exception:
+                pass
+    if 'name' not in result_df.columns or result_df['name'].isna().all():
+        result_df['name'] = 'N/A'
+    result_df['market'] = 'hk'
+
+
 def calculate_factors_simple(market, target_date):
     """
-    简化因子计算 (仅港股)
-    仅使用：波动率 + 动量
-    
-    注：美股已升级为完整因子，使用 calculate_factors_us_complete()
+    简化因子计算 (港股/美股)
+    - 港股: yfinance + HSI 基准，5 因子（残差波/换手率代理/动量/Beta）
+    - 美股: 委托给 calculate_factors_us_complete
+
+    注：港股因子输出列名与 US/A 股完整因子一致：
+        residual_vol, turnover_5d, momentum_5d, beta_20d, momentum_10d
     """
     from futu import OpenQuoteContext, RET_OK, KLType
 
@@ -700,15 +794,108 @@ def calculate_factors_simple(market, target_date):
         print("  提示：美股请使用完整因子模式 (calculate_factors_us_complete)")
         return calculate_factors_us_complete(target_date)
 
+    # ============ 港股: yfinance + HSI 基准 ============
+    if market == 'hk':
+        import yfinance as yf
+
+        target_dt = parse_date(target_date)
+        target_str = target_dt.strftime('%Y-%m-%d')
+        start_dt = target_dt - timedelta(days=400)
+        start_str = start_dt.strftime('%Y-%m-%d')
+        # yfinance end 参数不包含当日，+1 天
+        end_dt = target_dt + timedelta(days=1)
+        end_str = end_dt.strftime('%Y-%m-%d')
+
+        print(f"\n[数据准备] 计算港股完整因子 (yfinance + HSI 基准)...")
+
+        # 加载成员股
+        members_file = DATA_DIR / MARKET_CONFIG['hk']['members_file']
+        if not members_file.exists():
+            print(f"  错误：成员股文件不存在 {members_file}")
+            return None
+
+        members_df = pd.read_csv(members_file)
+        codes = members_df['code'].tolist() if 'code' in members_df.columns else members_df.iloc[:, 0].tolist()
+        # HK.00700 → 0700.HK (yfinance 格式)
+        yf_codes = [f"{c.replace('HK.', '')[-4:]}.HK" for c in codes]
+        print(f"  成分股数量：{len(codes)}")
+
+        # 获取 HSI 基准数据
+        print("  获取 ^HSI 基准数据...")
+        hsi_df = None
+        hsi_returns = None
+        try:
+            hsi = yf.Ticker("^HSI")
+            hsi_df_raw = hsi.history(start=start_str, end=end_str, interval="1d")
+            if len(hsi_df_raw) < 252:
+                print("  警告：^HSI 数据不足，使用简化模式")
+            else:
+                hsi_df = hsi_df_raw
+                hsi_returns = np.diff(hsi_df['Close'].values) / hsi_df['Close'].values[:-1]
+                print(f"  ^HSI 数据：{len(hsi_df)} 交易日")
+        except Exception as e:
+            print(f"  警告：^HSI 数据获取失败：{e}")
+
+        results = []
+        batch_size = 20
+
+        print("  获取个股数据并计算因子...")
+        for i in range(0, len(yf_codes), batch_size):
+            batch = yf_codes[i:i+batch_size]
+            tickers_str = ' '.join(batch)
+
+            try:
+                data = yf.download(tickers_str, start=start_str, end=end_str,
+                                   group_by='ticker', progress=False, threads=True)
+                if data.empty:
+                    raise Exception("Empty download")
+            except Exception:
+                # Fallback: 单只股票下载
+                for yf_code in batch:
+                    try:
+                        ticker = yf.Ticker(yf_code)
+                        df = ticker.history(start=start_str, end=end_str, interval="1d")
+                        if df is not None and len(df) >= 252:
+                            hk_code = codes[yf_codes.index(yf_code)]
+                            _process_single_hk(df, hk_code, hsi_df, hsi_returns, results)
+                    except Exception:
+                        pass
+                continue
+
+            for yf_code in batch:
+                try:
+                    if len(batch) == 1:
+                        df = data
+                    else:
+                        has_levels = hasattr(data.columns, 'levels')
+                        if has_levels and yf_code not in data.columns.levels[0]:
+                            continue
+                        df = data[yf_code]
+
+                    if df is None or len(df) < 252:
+                        continue
+
+                    hk_code = codes[yf_codes.index(yf_code)]
+                    _process_single_hk(df, hk_code, hsi_df, hsi_returns, results)
+
+                except Exception:
+                    continue
+
+            print(f"    进度：{min(i+batch_size, len(yf_codes))}/{len(yf_codes)} (成功：{len(results)})")
+
+        result_df = pd.DataFrame(results)
+        _add_hk_names(result_df)
+
+        print(f"  有效数据：{len(result_df)} 只股票")
+        return result_df
+
+    # 其他市场：使用 Futu（原逻辑）
     target_dt = parse_date(target_date)
-    # 富途需要 YYYY-MM-DD 格式
     target_str = target_dt.strftime('%Y-%m-%d')
     start_dt = target_dt - timedelta(days=400)
     start_str = start_dt.strftime('%Y-%m-%d')
 
     print(f"\n[数据准备] 计算 {market} 简化因子...")
-
-    # 加载成员股
     members_file = DATA_DIR / MARKET_CONFIG[market]['members_file']
     if not members_file.exists():
         print(f"  错误：成员股文件不存在 {members_file}")
@@ -718,114 +905,50 @@ def calculate_factors_simple(market, target_date):
     codes = members_df['code'].tolist() if 'code' in members_df.columns else members_df.iloc[:, 0].tolist()
     print(f"  成分股数量：{len(codes)}")
 
-    # 连接富途获取历史数据
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-
     results = []
-    batch_size = 30
 
     print("  获取历史 K 线数据并计算因子...")
-    for i in range(0, len(codes), batch_size):
-        batch = codes[i:i+batch_size]
-
+    for i in range(0, len(codes), 30):
+        batch = codes[i:i+30]
         for code in batch:
-            # 确定市场
-            if market == 'hk':
-                stock_code = code if code.startswith('HK.') else f"HK.{code}"
-            else:
-                continue
-
-            # 获取历史 K 线 (富途需要 YYYY-MM-DD 格式)
+            stock_code = code if code.startswith('HK.') else f"HK.{code}"
             try:
                 result = quote_ctx.request_history_kline(
-                    code=stock_code,
-                    start=start_str,
-                    end=target_str,
-                    ktype=KLType.K_DAY
-                )
-
+                    code=stock_code, start=start_str, end=target_str, ktype=KLType.K_DAY)
                 ret, msg, df = result
-                # 富途 API 特殊行为：ret=0 时数据在 msg 中（是 DataFrame），df 为 None
                 if ret == RET_OK and msg is not None and isinstance(msg, pd.DataFrame):
                     kline_df = msg
                 elif ret == RET_OK and df is not None:
                     kline_df = df
                 else:
                     continue
-
                 if kline_df is None or len(kline_df) < 252:
                     continue
-
                 close_prices = kline_df['close'].values
-
-                # 1. 252 日简单波动率 (标准差)
                 returns = np.diff(close_prices) / close_prices[:-1]
                 if len(returns) < 252:
                     continue
-                volatility = np.std(returns[-252:]) * np.sqrt(252) * 100  # 年化波动率 (%)
-
-                # 2. 5 日价格动量 (TA-Lib ROC)
+                volatility = np.std(returns[-252:]) * np.sqrt(252) * 100
                 momentum_5d = talib.ROC(close_prices, timeperiod=5)[-1]
                 if np.isnan(momentum_5d):
                     continue
-
-                # 3. 10 日价格动量 (用于排序)
                 momentum_10d = talib.ROC(close_prices, timeperiod=10)[-1]
                 if np.isnan(momentum_10d):
                     continue
-
                 results.append({
-                    'ts_code': code,
-                    'volatility': volatility,
-                    'momentum_5d': momentum_5d,
-                    'momentum_10d': momentum_10d
+                    'ts_code': code, 'volatility': volatility,
+                    'momentum_5d': momentum_5d, 'momentum_10d': momentum_10d
                 })
-
-            except Exception as e:
+            except Exception:
                 continue
-
-        if (i + batch_size) % 60 == 0:
-            print(f"    进度：{min(i+batch_size, len(codes))}/{len(codes)}")
+        if (i + 30) % 60 == 0:
+            print(f"    进度：{min(i+30, len(codes))}/{len(codes)}")
 
     quote_ctx.close()
-
     result_df = pd.DataFrame(results)
-
-    # 添加股票名称
-    if market in ['hk', 'us']:
-        # 优先尝试 stock_info 文件
-        info_file = DATA_DIR / f'stock_info_{market}_top500.csv'
-        if info_file.exists():
-            try:
-                info_df = pd.read_csv(info_file)
-                result_df = result_df.merge(info_df[['ts_code', 'name']], on='ts_code', how='left')
-            except Exception:
-                pass
-        # 回退到成分股文件（含 name 列）
-        if 'name' not in result_df.columns or result_df['name'].isna().all():
-            members_file = DATA_DIR / MARKET_CONFIG[market]['members_file']
-            if members_file.exists():
-                try:
-                    mem_df = pd.read_csv(members_file)
-                    mem_df = mem_df.rename(columns={'code': 'ts_code'})
-                    result_df = result_df.merge(mem_df[['ts_code', 'name']], on='ts_code', how='left')
-                except Exception:
-                    pass
-    else:
-        # A 股从 stock_names.csv 获取
-        name_file = DATA_DIR / 'stock_names.csv'
-        if name_file.exists():
-            try:
-                names = pd.read_csv(name_file, index_col=0)
-                result_df = result_df.merge(names, left_on='ts_code', right_index=True, how='left')
-            except Exception:
-                pass
-
-    # 添加 metadata 列
-    if 'name' not in result_df.columns or result_df['name'].isna().all():
-        result_df['name'] = 'N/A'
+    _add_hk_names(result_df)
     result_df['market'] = market
-
     print(f"  有效数据：{len(result_df)} 只股票")
     return result_df
 
@@ -999,12 +1122,12 @@ def print_results(result, target_date, has_turnover=True, market="cn", use_compl
             name = row.get('name', 'N/A')
             print(f"{i:<4} {row['ts_code']:<10} {name:<15} {row['momentum_10d']:<10.2f} {row['residual_vol']:<10.4f} {row['turnover_5d']:<12.2f} {row['momentum_5d']:<10.2f} {row['beta_20d']:<10.3f}")
     elif market in ['hk']:
-        # 港股简化因子：波动率 + 动量
-        print(f"{'排名':<4} {'代码':<10} {'名称':<12} {'10 日 ROC%':<12} {'252 波动率%':<12} {'5 日 ROC%':<12}")
+        # 港股完整因子：残差波 + 换手率 + 动量 + Beta
+        print(f"{'排名':<4} {'代码':<10} {'名称':<15} {'10 日 ROC%':<10} {'残差波%':<10} {'5 日量 (log)':<12} {'5 日 ROC%':<10} {'20 日 Beta':<10}")
         print("-" * 100)
         for i, (_, row) in enumerate(result.iterrows(), 1):
             name = row.get('name', 'N/A')
-            print(f"{i:<4} {row['ts_code']:<10} {name:<12} {row['momentum_10d']:<12.2f} {row['volatility']:<12.4f} {row['momentum_5d']:<12.2f}")
+            print(f"{i:<4} {row['ts_code']:<10} {name:<15} {row['momentum_10d']:<10.2f} {row['residual_vol']:<10.4f} {row['turnover_5d']:<12.2f} {row['momentum_5d']:<10.2f} {row['beta_20d']:<10.3f}")
     else:
         # A 股完整因子
         if has_turnover:
@@ -1112,10 +1235,14 @@ def main():
         members_df = pd.read_csv(members_file)
         print(f"  成分股数量：{len(members_df)}")
         
-        # 美股使用完整因子，港股使用简化因子
-        if market == 'us':
-            print("\n[因子计算 (美股完整因子：残差波 + 成交量 + 动量 + Beta)]")
-            factors = calculate_factors_us_complete(target_date)
+        # 美股和港股使用完整因子
+        if market in ('us', 'hk'):
+            if market == 'us':
+                print("\n[因子计算 (美股完整因子：残差波 + 成交量 + 动量 + Beta)]")
+                factors = calculate_factors_us_complete(target_date)
+            else:
+                print("\n[因子计算 (港股完整因子：残差波 + 换手率 + 动量 + Beta)]")
+                factors = calculate_factors_simple(market, target_date)
             
             if factors is None or factors.empty:
                 print("\n错误：因子计算失败")
@@ -1125,19 +1252,6 @@ def main():
             
             result = select_stocks_us_complete(factors)
             print_results(result, target_date, market=market, use_complete_factors=True)
-        else:
-            # 港股使用简化因子
-            print("\n[因子计算 (港股简化：波动率 + 动量)]")
-            factors = calculate_factors_simple(market, target_date)
-            
-            if factors is None or factors.empty:
-                print("\n错误：因子计算失败")
-                sys.exit(1)
-            
-            factors.to_csv(FACTORS_DIR / f"factors_{market}_{target_date.replace('-', '')}.csv", index=False, encoding='utf-8-sig')
-            
-            result = select_stocks_simple(factors, market=market)
-            print_results(result, target_date, market=market)
 
 if __name__ == '__main__':
     main()

@@ -23,8 +23,14 @@ metadata: { "hermes": { "emoji": "📊", "requires": { "env": ["TUSHARE_TOKEN"],
 | 市场 | 代码 | 数据源 | 默认因子 | 排序方式 |
 |------|------|--------|----------|----------|
 | A股 | cn | Tushare Pro | 残差波动率 + 换手率 + 动量 + Beta | 10日动量，越低越好 |
-| 港股 | hk | yfinance (批量) / Futu (实时) | 波动率 + 动量 | 10日动量，越低越好 |
-| 美股 | us | yfinance | 残差波动率 + 成交量 + 动量 + Beta | 10日动量，越低越好 |
+| 港股 | hk | **yfinance + ^HSI 基准** | **残差波动率 + 换手率(Volume) + 动量 + Beta** | 10日动量，越低越好 |
+| 美股 | us | yfinance + SPY 基准 | 残差波动率 + 成交量 + 动量 + Beta | 10日动量，越低越好 |
+
+> **v4.1 (2026-06-08)**: 港股因子全面升级。原 2 因子简版（波动率+动量）仅覆盖 5% 股票且全是银行。现改为 yfinance 批量下载 + ^HSI 基准的 5 因子完整模型（与 A 股/美股同级），覆盖率达 98.4%（492/500）。详见 `references/20260608-hk-factor-upgrade.md`。
+
+> ⚠️ **港股选股已知缺陷**（2026-06-08 诊断）：
+> 1. **数据覆盖率极低**：Futu 实时 K 线拉取 500 只仅 ~25 只有效（5%），其余静默失败。需改用 yfinance 批量替代。
+> 2. **因子偏差 → 银行垄断**：仅用 2 因子（波动率 + 动量），波动率阈值 <25.84 自动过滤所有科技股（美团 35%、比亚迪 37%、中芯 55%），低波动银行（19-25%）天然通过且全部入选。
 
 ## 因子配置方式
 
@@ -474,6 +480,8 @@ head ~/wuhoo-workspace/data/stock-pick/factors/result_{us,hk,cn}_YYYYMMDD.csv
 > ⚠️ **Cron 暂停陷阱**：`hermes cron list` CLI 只显示 active 任务，paused 任务不可见。
 > 如 CLI 返回 "No scheduled jobs"，必须用 `cronjob(action='list')` 查看完整清单。
 > 恢复步骤见 `references/cron-pause-recovery.md`。
+>
+> 🔴 **Cron 调度器静默卡死**（2026-06-10 发现）：ticker 可能无日志静默停止，`hermes cron status` 的 "Next run" 冻结在过去。恢复需 `hermes gateway restart`（会杀 OpenD 子进程）。诊断与恢复详见 `references/cron-scheduler-stall.md`。
 
 ## Cron Job 执行策略
 
