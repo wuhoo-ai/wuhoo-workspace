@@ -8,19 +8,46 @@ metadata: { "hermes": { "requires": { "bins": ["python3.11"] } } }
 
 # wuhoo-debate — 多空辩论分析
 
+## 版本
+
+| 版本 | 日期 | 说明 |
+|------|------|------|
+| **v2.0** | 2026-06-10 | 4角色+统计底座重构（Quant→Advocate Bull→Skeptic Bear→Trader v2） |
+| v1.x | 2026-04~06 | 3角色（Bull/Bear/Trader），已确认存在结构性缺陷 |
+
+## ⚠️ 运维原则
+
+**当辩论结果被市场证伪时（如建议SELL但次日涨停）**：
+1. 先找出框架级根因，不要逐条解释为什么当时判断合理
+2. 直接给出修复方案，跳过互相埋怨/归责阶段
+3. 方案必须可执行——具体角色设计、prompt 修改、代码路径
+4. 用同一个反例验证修复效果
+
+详见 `references/v2-framework-redesign.md` — 拓维信息 002261 涨停错判的完整根因分析和 v2.0 重构方案。
+
 ## 执行入口
+
+**v2.0 (推荐)**:
+- 批量: `python3.11 batch_debate_v2.py --date 20260608 --market cn --workers 2`
+- 单只: 见 `references/v2-single-stock-workflow.md`
+- 输出: `~/wuhoo-workspace/data/debate/{date}/deepseek_v2/`
+
+**v1.x (旧版，仍可用)**:
 - 单只: `python3.11 run_debate.py --symbol 600519.SH --mode full`
 - 批量: `python3.11 batch_debate.py --date 20260430 --workers 4 --market all`
-- 审计报告: `references/audit-20260501.md`
 
 ## 模块结构
-- `agents/` — BullAgent（量化分析师）、BearAgent（风险分析师）、TraderAgent（交易决策）、RiskAgent（风控）
+- `agents/` — QuantAgent (v2统计)、BullAgent（量化分析师）、BearAgent（风险分析师）、TraderAgent + **TraderV2Agent** (v2)、RiskAgent（风控）
+- `prompts/` — bull_analyst.md / bear_analyst.md / trader_decision.md (v1) + **advocate_bull.md / skeptic_bear.md / trader_v2.md / quant_analyst.md** (v2)
+- `scripts/` — **pattern_backtest.py** (v2 统计底座)，相似度匹配历史因子模式
+- `batch_debate.py` (v1) / **`batch_debate_v2.py`** (v2 4-phase管线)
 - `adapters/` — 数据适配器（akshare、Futu K线、RSS、TrendRadar、WebSearch、基本面）
 - `prompts/` — 提示词模板（bull_analyst.md、bear_analyst.md、trader_decision.md、risk_check.md）
 - `protocols/` — 辩论协议（DebateProtocol、DebateRecord）
 - `rules/` — 风控规则（risk_rules.yaml）
 - `batch_debate.py` — 批量辩论脚本（2026-05-01 新增）
 - `references/` — 审计报告、API 配置参考
+- **`references/v2-framework-redesign.md`** — v2.0 重构设计文档（架构、角色对比、使用方式）
 
 ---
 
@@ -66,6 +93,20 @@ BullAgent(
 
 ## 🚨 已知问题与修复
 
+### 🔴 结构性缺陷总结（v1.x 终局审计 — 2026-06-10）
+
+5 个结构性缺陷经多次审计反复确认，prompt 层面修补已触达天花板。完整分析和 v2.0 重构方案见 `references/v2-framework-redesign.md`。
+
+| 缺陷 | 症状 | 状态 |
+|------|------|:---:|
+| Bull 天花板 ≤0.65 | Trader BUY 规则(≥0.70)永不触发 | 🔴 |
+| Bear A股收敛 | 高残差波自动触发 SELL 主导 | 🔴 |
+| Trader 系统性偏空 | Bull上限+Bear下限=输入不对称 | 🔴 |
+| 回声室效应 | 同向数据→三方共振(拓维SELL-SELL-SELL) | 🔴 |
+| 无统计锚定 | 辩论纯定性推理，不查历史胜率 | 🔴 |
+
+**v2.0 核心改变**：4角色+统计底座，Bull 禁止输出 SELL（强制对立），Trader 改用概率+Kelly仓位。详见 `references/v2-framework-redesign.md`。
+
 ### ✅ P0: Bear JSON 截断 — 已根除（2026-05-05 v4）
 **旧**: Bear 25% 失败率（3/12），JSON 在 `key_points` 数组中间被截断
 **根因**: max_tokens 6000 不足（Bear 含 bull_points_refuted 三组数组）+ 无重试
@@ -99,9 +140,10 @@ BullAgent(
 **v3 修复**: prompt 增加「反偏规则表」→ Bull 16/27=BUY (59%), 11/27=HOLD (41%), std=0.104
 **v3.1 观察 (2026-05-22)**: 12 只美股中 9 只 HOLD(0.50)
 **⚠️ v3.2 恶化 (2026-06-08 A股)**: 10 只 A 股中 5/9 精确 HOLD(0.50)，4/9 BUY(0.60-0.62)。Bull 从未输出 >0.62 的置信度，且 5 只完全无区分度的 HOLD(0.50) 是最低信息输出。
-**与 Bear 的不对称**: Bear 最高 SELL 0.82 vs Bull 最高 BUY 0.62，Trader 永远无法触发 "Bull≥0.70+Bear<0.60→BUY" 规则 → 系统性偏 SELL。
+**v3.3 再确认 (2026-06-08 第二批次)**: 10 只 A 股 Bull 范围 [0.45, 0.65]。BUY 最高仅 0.65（昌红科技）。Trader BUY 规则要求 Bull≥0.70 **永远无法触发** — 怡亚通 Bull(0.62)+Bear(0.60) 双 BUY 仍被 Trader 拒为 HOLD。正动量股票(Bull BUY)与负动量股票(Bull HOLD)的置信度差异仅 0.15-0.20，区分度不足。
+**与 Bear 的不对称**: Bear 最高 SELL 0.74 vs Bull 最高 BUY 0.65，Trader 永远无法触发 "Bull≥0.70+Bear<0.60→BUY" 规则 → 系统性偏 HOLD/SELL。
 **根因**: 反偏规则表矫枉过正 + A 股高残差波(>35)触发「高不确定性→HOLD 0.50」场景过多。
-**待修复**: 区分「高残差波但 Beta 匹配」vs「高残差波且低动量」— 前者应仍可 BUY，后者才 HOLD。
+**修复方向**: 区分「高残差波但 Beta 匹配」vs「高残差波且低动量」— 前者应仍可 BUY，后者才 HOLD。或降低 Trader BUY 阈值至 Bull≥0.62。
 
 ### ✅ P0: API 延迟 — 已切换到 DeepSeek（2026-05-01）
 - 旧: bailian qwen3.5-plus ~70s/次
@@ -134,7 +176,7 @@ BullAgent(
 ### 脚本: `batch_debate.py`（2026-05-04 创建）
 ```
 cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-debate
-source ~/.hermes/.env
+export $(grep -v '^#' ~/.hermes/.env | xargs)
 python3.11 batch_debate.py --date 20260504 --workers 3 --market hk
 ```
 
@@ -212,7 +254,62 @@ rm -f debate_summary.json debate_summary.csv
 
 **最佳实践**：选股结果变更后，删除旧 `debate_summary.json` 让 `batch_debate.py` 重新生成。复用个股 JSON 是安全的（因子数据按日期固定），但汇总必须反映当前批次。
 
-**7. ⚠️ Trader 纯文本输出（非 JSON，2026-05-06 发现）**: DeepSeek v4-pro 在 Trader 阶段可能输出原生推理文本而非 JSON：
+**8. ⚠️ `source ~/.hermes/.env` 在 Hermes terminal 中不生效（2026-06-08 发现）**: 
+官方案例 `source ~/.hermes/.env && python3.11 batch_debate.py ...` 在 Hermes `terminal()` 工具中执行时，`source` 的 export 不会传递给子进程 python3.11。`batch_debate.py` 报 `❌ DEEPSEEK_API_KEY 未设置`。
+
+**工作绕过**：
+```bash
+# ✅ 方式一：export + xargs（推荐）
+export $(grep -v '^#' ~/.hermes/.env | xargs) && python3.11 batch_debate.py --date 20260605 --workers 3 --market cn
+
+# ✅ 方式二：env 前缀
+env $(grep -v '^#' ~/.hermes/.env | xargs) python3.11 batch_debate.py --date 20260605 --workers 3 --market cn
+```
+
+**9. 单只辩论失败的手动重跑模式（2026-06-08）**:
+当 `batch_debate.py` 中个别股票辩论失败（JSON 为空或所有 agent 返回 `?`），可手动重跑并保存：
+
+```bash
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-debate
+export $(grep -v '^#' ~/.hermes/.env | xargs)
+rm -f ~/wuhoo-workspace/data/debate/{date}/deepseek/debate_{CODE}.json
+
+# 内联 Python 重跑（约 85s/只）
+python3.11 -c "
+import sys; sys.path.insert(0, '.')
+from agents.bull_agent import BullAgent
+from agents.bear_agent import BearAgent
+from agents.trader_agent import TraderAgent
+import json, os, time
+
+api_key = os.environ['DEEPSEEK_API_KEY']
+api_base = 'https://api.deepseek.com/v1'
+symbol = 'CODE.SZ'
+name = '名称'
+# 从选股 CSV 复制因子数据
+factor_data = {'residual_vol': 37.6, 'turnover_5d': 4.1, 'momentum_5d': 0.8, 'beta_20d': 1.7, 'momentum_10d': -6.1}
+
+bull = BullAgent(model='deepseek-v4-pro', api_base=api_base, api_key=api_key, provider='openai')
+bear = BearAgent(model='deepseek-v4-pro', api_base=api_base, api_key=api_key, provider='openai')
+trader = TraderAgent(model='deepseek-v4-pro', api_base=api_base, api_key=api_key, provider='openai')
+
+start = time.time()
+bull_view = bull.analyze(symbol, factor_data=factor_data, technical_data={}, sentiment_data={}, fundamental_data={'name': name})
+bear_view = bear.analyze(symbol, factor_data=factor_data, technical_data={}, sentiment_data={}, fundamental_data={'name': name}, bull_view=bull_view)
+bull_rebuttal = bull.analyze_with_context(symbol, data={'factor_data': factor_data, 'technical_data': {}, 'sentiment_data': {}, 'fundamental_data': {'name': name}}, bear_view=bear_view)
+trader_decision = trader.make_decision(symbol, bull_view=bull_rebuttal, bear_view=bear_view, consensus_points=[], disagreement_points=[])
+
+result = {'symbol': symbol, 'name': name, 'bull': bull_view, 'bear': bear_view, 'bull_rebuttal': bull_rebuttal, 'trader': trader_decision, 'elapsed_s': round(time.time()-start, 1)}
+out = f'{os.path.expanduser(\"~\")}/wuhoo-workspace/data/debate/{date}/deepseek/debate_{symbol.replace(\".\", \"_\")}.json'
+os.makedirs(os.path.dirname(out), exist_ok=True)
+json.dump(result, open(out, 'w'), ensure_ascii=False, indent=2)
+print(f'Saved in {time.time()-start:.1f}s | Bull={bull_view.get(\"recommendation\")} Bear={bear_view.get(\"recommendation\")} Trader={trader_decision.get(\"decision\")}')
+"
+```
+
+重跑后删除旧 `debate_summary.json` 并重新运行 `batch_debate.py` 以重新生成汇总（会跳过已有个股文件）。
+
+ DeepSeek v4-pro 在 Trader 阶段可能输出原生推理文本而非 JSON：
 ```
 我们被要求基于多空辩论为股票 002077.SZ 做出交易决策。需要根据 JSON 格式输出。
 首先读取双方观点：
@@ -227,13 +324,32 @@ Bull: 推荐 BUY, 置信度 0.60...
 - 降级策略缺失 — `_parse_json_output` 抛出后无 retry，直接失败
 - 建议修复：在 `trader_agent.py:make_decision()` 中添加与 Bear/Bull 相同的 3 次升量重试机制
 
+**11. Trader JSON 失败后的恢复模式（2026-06-09）**:
+当 Trader 阶段因输出自然语言推理文本而 `ValueError` 时，**前 3 轮（Bull/Bear/Rebuttal）的结果仍然有效**。只需单独重试 Trader，传入已保存的 bull_rebuttal 和 bear_view：
+
+```python
+# 从失败脚本的输出中保存 bull_rebuttal 和 bear_view 字典
+# 然后只重试 Trader（~20s），避免重跑 3 轮 LLM（~180s）
+trader_decision = trader.make_decision(
+    symbol,
+    bull_view=bull_rebuttal,       # 已保存的 Bull Rebuttal 结果
+    bear_view=bear_view,           # 已保存的 Bear 结果
+    consensus_points=["共识点1", "共识点2"],
+    disagreement_points=[]
+)
+```
+
+详见 `references/single-stock-debate-workflow.md` Step 3。
+
 ### 批量审计
 - `references/20260608-audit.md` — 2026-06-08 A股辩论审计：Bear 再收敛 (7/9=SELL) + Bull 反向收敛恶化 (5/9=HOLD 0.50)
+- `references/20260608-cn-debate-audit.md` — 2026-06-08 A股辩论审计（第二批次）：10 只完整结果，Bull 天花板 + 怡亚通双BUY被拒 + Bear分布改善
 - `references/audit-20260501.md` — bailian vs deepseek 全量对比（27 只）
 - `references/deepseek-truncation-fix.md` — DeepSeek v4-pro JSON 截断根因+三层防御修复（2026-05-05）
 - `references/deepseek-api.md` — DeepSeek API 集成参考
 - `references/batch-debate-agent-api.md` — Agent API 正确签名速查（新建于 2026-05-04）
 - `references/us-rebalance-workflow.md` — 美股端到端工作流：选股→辩论→等权调仓（2026-05-05）
+- `references/single-stock-debate-workflow.md` — 单只非选股结果股票的手动辩论流程：因子获取→辩论→Trader 恢复（2026-06-09）
 
 ---
 

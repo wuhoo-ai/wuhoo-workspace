@@ -177,7 +177,7 @@ class BaseAgent(ABC):
         # 但 deepseek 内部仍做推理，需更多 max_tokens
         # Bear Agent 输出最大（含 bull_points_refuted 三组数组），需 10000+
         if "deepseek" in (self.api_base or "").lower():
-            max_tokens = max(max_tokens, 10000)  # 至少 10000 tokens
+            max_tokens = max(max_tokens, 16000)  # 至少 16000 tokens (Trader v2 reasoning很长)
 
         response = self._http_post(
             f"{self.api_base}/chat/completions", headers, payload
