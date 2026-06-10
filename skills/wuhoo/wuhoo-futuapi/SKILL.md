@@ -588,6 +588,8 @@ python skills/wuhoo-futuapi/scripts/trade/get_portfolio.py [--market HK] [--trd-
 - `--market`: US, HK, HKCC, CN, SG
 - `--trd-env`: REAL, SIMULATE（默认 SIMULATE）
 
+> ⚠️ **缓存陷阱**（2026-06-08 实锤）：`get_portfolio.py` 输出的持仓数据可能是**缓存脏数据**。单次查询返回 5 只持仓、总市值 52 万，但 `refresh_cache=True` 后显示全零——实为空仓。**所有持仓/资金/订单查询必须带 `refresh_cache=True`**，否则可能基于过时缓存做出错误交易决策（如重复卖出已清仓的股票导致"暂不支持卖空"）。脚本层面应默认 `refresh_cache=True`。
+
 #### 持仓字段映射（与 APP 对齐）
 
 `position_list_query` 返回的字段中，有多组容易混淆的成本/盈亏字段。**必须使用与富途牛牛 APP 一致的字段**，否则盈亏数据会与用户在 APP 上看到的不符，导致信任问题。
@@ -1420,6 +1422,12 @@ quote_ctx.close()
 ```
 
 ## 已知问题
+
+### ⚠️ 持仓查询缓存脏数据（2026-06-08 发现并修复）
+
+`get_portfolio.py` 未传 `refresh_cache=True` 时返回过时缓存。症状：显示有持仓但实际 qty=0。
+
+**修复**：`accinfo_query()` 和 `position_list_query()` 已强制 `refresh_cache=True`。
 
 ### OpenSecTradeContext 构造函数无 env 参数
 

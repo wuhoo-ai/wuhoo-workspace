@@ -55,7 +55,7 @@ def get_portfolio(acc_id=None, market=None, trd_env=None, currency=None, securit
         query_kwargs = dict(trd_env=trd_env, acc_id=acc_id)
         if currency:
             query_kwargs["currency"] = currency
-        ret, acc_data = ctx.accinfo_query(**query_kwargs)
+        ret, acc_data = ctx.accinfo_query(**query_kwargs, refresh_cache=True)
         check_ret(ret, acc_data, ctx, "查询账户资金")
 
         funds = {}
@@ -88,7 +88,7 @@ def get_portfolio(acc_id=None, market=None, trd_env=None, currency=None, securit
             }
 
         # 查询持仓
-        ret, pos_data = ctx.position_list_query(trd_env=trd_env, acc_id=acc_id)
+        ret, pos_data = ctx.position_list_query(trd_env=trd_env, acc_id=acc_id, refresh_cache=True)
         check_ret(ret, pos_data, ctx, "查询持仓")
 
         positions = []
