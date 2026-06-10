@@ -1,0 +1,199 @@
+{
+  "us_bollinger_reversal": {
+    "strategy": "bollinger_reversal",
+    "market": "us",
+    "parameters": {
+      "top_n": 10,
+      "hold_days": 10,
+      "months": 10
+    },
+    "results": {
+      "monthly_avg_return_pct": 0.89,
+      "monthly_win_rate_pct": 60.0,
+      "best_month_pct": 4.83,
+      "worst_month_pct": -3.21,
+      "std_monthly_pct": 2.22,
+      "sharpe_monthly": 0.401,
+      "total_cumulative_return_pct": 9.0
+    },
+    "equity_curve": [
+      99.9,
+      102.33,
+      99.04,
+      99.54,
+      99.99,
+      100.7,
+      100.61,
+      99.96,
+      103.98,
+      109.0
+    ],
+    "monthly_details": [
+      {
+        "ref_date": "2025-06-15",
+        "n_selected": 6,
+        "avg_return": -0.1,
+        "win_rate": 50.0,
+        "returns": {
+          "TMUS": -1.74,
+          "PCG": 1.54,
+          "ADP": 0.76,
+          "CLX": -1.32,
+          "IT": -2.6,
+          "NWS": 2.79
+        }
+      },
+      {
+        "ref_date": "2025-07-15",
+        "n_selected": 10,
+        "avg_return": 2.43,
+        "win_rate": 90.0,
+        "returns": {
+          "WAT": 2.1,
+          "IT": -0.53,
+          "PCG": 5.62,
+          "LH": 1.98,
+          "PG": 4.38,
+          "DGX": 2.44,
+          "AKAM": 5.05,
+          "AJG": 0.89,
+          "WRB": 1.14,
+          "AIZ": 1.22
+        }
+      },
+      {
+        "ref_date": "2025-09-15",
+        "n_selected": 10,
+        "avg_return": -3.21,
+        "win_rate": 10.0,
+        "returns": {
+          "VTRS": 0.0,
+          "FDS": -16.26,
+          "BRO": 1.44,
+          "TSN": -0.28,
+          "EW": -1.95,
+          "CMCSA": -3.07,
+          "ACN": -1.0,
+          "ZTS": -2.49,
+          "ZBH": -0.66,
+          "TAP": -7.8
+        }
+      },
+      {
+        "ref_date": "2025-10-15",
+        "n_selected": 5,
+        "avg_return": 0.5,
+        "win_rate": 60.0,
+        "returns": {
+          "FAST": 1.78,
+          "MOS": -0.47,
+          "LIN": -0.3,
+          "OKE": 1.22,
+          "BKNG": 0.25
+        }
+      },
+      {
+        "ref_date": "2025-11-15",
+        "n_selected": 9,
+        "avg_return": 0.45,
+        "win_rate": 77.8,
+        "returns": {
+          "IRM": -4.45,
+          "SNA": 2.07,
+          "GWW": 0.7,
+          "DLR": 0.83,
+          "CRH": 3.11,
+          "XYZ": 5.04,
+          "V": 1.09,
+          "HD": -5.99,
+          "LOW": 1.67
+        }
+      },
+      {
+        "ref_date": "2026-01-15",
+        "n_selected": 10,
+        "avg_return": 0.71,
+        "win_rate": 50.0,
+        "returns": {
+          "INTU": 1.69,
+          "CRM": -2.35,
+          "BSX": 2.75,
+          "NOW": 1.48,
+          "WDAY": -1.8,
+          "ROP": -1.6,
+          "MSFT": 2.03,
+          "FIS": -4.65,
+          "EQT": 11.22,
+          "HIG": -1.68
+        }
+      },
+      {
+        "ref_date": "2026-02-15",
+        "n_selected": 10,
+        "avg_return": -0.09,
+        "win_rate": 50.0,
+        "returns": {
+          "DASH": 1.43,
+          "CBRE": 2.08,
+          "FOXA": -1.93,
+          "AXP": -6.76,
+          "FOX": -1.45,
+          "GOOGL": 3.14,
+          "JKHY": -1.83,
+          "GOOG": 2.93,
+          "CTSH": -5.74,
+          "DPZ": 7.19
+        }
+      },
+      {
+        "ref_date": "2026-03-15",
+        "n_selected": 10,
+        "avg_return": -0.64,
+        "win_rate": 30.0,
+        "returns": {
+          "ULTA": -0.12,
+          "DG": -7.22,
+          "PODD": 1.08,
+          "TMO": 1.73,
+          "BKR": 13.3,
+          "STLD": -4.38,
+          "RMD": -1.14,
+          "HWM": -1.95,
+          "GE": -4.1,
+          "CAG": -3.56
+        }
+      },
+      {
+        "ref_date": "2026-04-15",
+        "n_selected": 5,
+        "avg_return": 4.02,
+        "win_rate": 100.0,
+        "returns": {
+          "CAG": 2.27,
+          "HSY": 0.11,
+          "DVN": 6.46,
+          "AKAM": 6.42,
+          "VZ": 4.86
+        }
+      },
+      {
+        "ref_date": "2026-05-15",
+        "n_selected": 10,
+        "avg_return": 4.83,
+        "win_rate": 90.0,
+        "returns": {
+          "CBRE": -0.15,
+          "CVNA": 4.44,
+          "SBAC": 1.67,
+          "GPC": 4.5,
+          "MLM": 0.41,
+          "MCO": 5.18,
+          "DOV": 2.2,
+          "OTIS": 2.42,
+          "NRG": 9.87,
+          "VST": 17.81
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "us_dual_momentum": {
+    "strategy": "dual_momentum",
+    "market": "us",
+    "parameters": {
+      "top_n": 10,
+      "hold_days": 20,
+      "months": 12
+    },
+    "results": {
+      "monthly_avg_return_pct": 6.04,
+      "monthly_win_rate_pct": 83.3,
+      "best_month_pct": 16.8,
+      "worst_month_pct": -2.78,
+      "std_monthly_pct": 4.82,
+      "sharpe_monthly": 1.253,
+      "total_cumulative_return_pct": 99.65
+    },
+    "equity_curve": [
+      102.92,
+      110.24,
+      109.0,
+      115.5,
+      122.93,
+      132.39,
+      141.54,
+      156.09,
+      151.75,
+      162.36,
+      189.63,
+      199.65
+    ],
+    "monthly_details": [
+      {
+        "ref_date": "2025-06-15",
+        "n_selected": 10,
+        "avg_return": 2.92,
+        "win_rate": 60.0,
+        "returns": {
+          "PLTR": -4.99,
+          "APP": -7.83,
+          "HOOD": 23.0,
+          "GEV": 5.98,
+          "HWM": 5.51,
+          "VST": 8.6,
+          "AXON": 1.9,
+          "NRG": 2.89,
+          "TSLA": -4.19,
+          "PM": -1.67
+        }
+      },
+      {
+        "ref_date": "2025-07-15",
+        "n_selected": 10,
+        "avg_return": 7.11,
+        "win_rate": 70.0,
+        "returns": {
+          "PLTR": 8.13,
+          "HOOD": 6.86,
+          "APP": 11.91,
+          "GEV": 18.49,
+          "AXON": -0.13,
+          "TPR": 10.13,
+          "RCL": -7.5,
+          "HWM": -1.91,
+          "LITE": 13.24,
+          "VST": 11.86
+        }
+      },
+      {
+        "ref_date": "2025-08-15",
+        "n_selected": 10,
+        "avg_return": -1.12,
+        "win_rate": 40.0,
+        "returns": {
+          "PLTR": -11.33,
+          "APP": 9.81,
+          "HOOD": -11.68,
+          "GEV": -6.79,
+          "AXON": -1.41,
+          "TPR": 2.03,
+          "LITE": 14.41,
+          "VST": -5.84,
+          "DASH": -1.57,
+          "HWM": 1.15
+        }
+      },
+      {
+        "ref_date": "2025-09-15",
+        "n_selected": 10,
+        "avg_return": 5.96,
+        "win_rate": 70.0,
+        "returns": {
+          "APP": 15.11,
+          "PLTR": 1.09,
+          "HOOD": 29.47,
+          "GEV": -5.36,
+          "SATS": 7.2,
+          "LITE": -2.94,
+          "VST": -5.3,
+          "CIEN": 11.44,
+          "TPR": 4.31,
+          "FIX": 4.6
+        }
+      },
+      {
+        "ref_date": "2025-10-15",
+        "n_selected": 10,
+        "avg_return": 6.43,
+        "win_rate": 70.0,
+        "returns": {
+          "APP": 4.95,
+          "HOOD": 9.64,
+          "PLTR": 15.34,
+          "SATS": 0.69,
+          "GEV": -5.59,
+          "CIEN": 12.36,
+          "TPR": -8.88,
+          "LITE": 27.47,
+          "VST": -8.45,
+          "FIX": 16.79
+        }
+      },
+      {
+        "ref_date": "2025-11-15",
+        "n_selected": 10,
+        "avg_return": 7.7,
+        "win_rate": 70.0,
+        "returns": {
+          "HOOD": 15.24,
+          "PLTR": 2.82,
+          "APP": 22.8,
+          "LITE": 25.16,
+          "CIEN": 0.82,
+          "WDC": -4.22,
+          "WBD": 8.05,
+          "MU": -3.22,
+          "SATS": 10.61,
+          "STX": -1.04
+        }
+      },
+      {
+        "ref_date": "2025-12-15",
+        "n_selected": 10,
+        "avg_return": 6.91,
+        "win_rate": 70.0,
+        "returns": {
+          "SATS": 7.94,
+          "LITE": 15.36,
+          "WDC": 9.1,
+          "STX": 0.95,
+          "HOOD": -0.04,
+          "CIEN": 13.82,
+          "PLTR": -8.4,
+          "NEM": 1.53,
+          "MU": 32.86,
+          "WBD": -4.04
+        }
+      },
+      {
+        "ref_date": "2026-01-15",
+        "n_selected": 10,
+        "avg_return": 10.28,
+        "win_rate": 60.0,
+        "returns": {
+          "SATS": -5.67,
+          "WDC": 21.67,
+          "LITE": 23.35,
+          "STX": 35.16,
+          "MU": 30.05,
+          "WBD": -3.4,
+          "LRCX": 9.21,
+          "CIEN": 10.13,
+          "NEM": -1.19,
+          "PLTR": -16.55
+        }
+      },
+      {
+        "ref_date": "2026-02-15",
+        "n_selected": 10,
+        "avg_return": -2.78,
+        "win_rate": 30.0,
+        "returns": {
+          "SNDK": -4.23,
+          "LITE": 8.39,
+          "WDC": -8.78,
+          "MU": -0.68,
+          "STX": -11.68,
+          "SATS": -1.9,
+          "CIEN": -1.0,
+          "FIX": 0.78,
+          "LRCX": -8.76,
+          "TER": 0.02
+        }
+      },
+      {
+        "ref_date": "2026-03-15",
+        "n_selected": 10,
+        "avg_return": 6.99,
+        "win_rate": 80.0,
+        "returns": {
+          "SNDK": -0.29,
+          "LITE": 32.33,
+          "WDC": 3.06,
+          "CIEN": 23.05,
+          "STX": 7.86,
+          "MU": -17.07,
+          "FIX": 0.22,
+          "SATS": 12.55,
+          "COHR": 4.36,
+          "TER": 3.8
+        }
+      },
+      {
+        "ref_date": "2026-04-15",
+        "n_selected": 10,
+        "avg_return": 16.8,
+        "win_rate": 80.0,
+        "returns": {
+          "SNDK": 40.84,
+          "LITE": 18.47,
+          "WDC": 21.19,
+          "CIEN": 13.19,
+          "STX": 42.14,
+          "MU": 26.35,
+          "SATS": -8.41,
+          "COHR": 7.04,
+          "TER": -7.54,
+          "FIX": 14.74
+        }
+      },
+      {
+        "ref_date": "2026-05-15",
+        "n_selected": 10,
+        "avg_return": 5.28,
+        "win_rate": 60.0,
+        "returns": {
+          "SNDK": 12.95,
+          "LITE": -7.05,
+          "WDC": 10.08,
+          "MU": 28.12,
+          "STX": 9.45,
+          "CIEN": 4.98,
+          "SATS": -10.76,
+          "INTC": 11.95,
+          "COHR": -0.59,
+          "FIX": -6.31
+        }
+      }
+    ]
+  }
+}

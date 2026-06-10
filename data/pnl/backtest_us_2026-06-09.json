@@ -1,0 +1,145 @@
+{
+  "us": {
+    "market": "us",
+    "strategy": "low_momentum_contrarian",
+    "parameters": {
+      "top_n": 10,
+      "hold_days": 20,
+      "months_tested": 6,
+      "data_months": 18
+    },
+    "results": {
+      "monthly_avg_return_pct": 1.22,
+      "monthly_win_rate_pct": 100.0,
+      "best_month_pct": 3.82,
+      "worst_month_pct": 0.06,
+      "std_monthly_pct": 1.21,
+      "sharpe_monthly": 1.005,
+      "total_cumulative_return_pct": 7.48
+    },
+    "monthly_details": [
+      {
+        "ref_date": "2025-12-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 0.7,
+        "win_rate": 60.0,
+        "returns": {
+          "APD": 2.97,
+          "ZTS": 4.08,
+          "SHW": -0.19,
+          "ALLE": -1.32,
+          "CBRE": 0.83,
+          "PNR": 0.41,
+          "PTC": -2.84,
+          "PKG": 3.25,
+          "MAR": 1.59,
+          "EXR": -1.75
+        }
+      },
+      {
+        "ref_date": "2026-01-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 0.06,
+        "win_rate": 60.0,
+        "returns": {
+          "BXP": -6.03,
+          "PNR": -1.12,
+          "MLM": 2.09,
+          "EQIX": 1.07,
+          "CARR": 9.12,
+          "CPRT": -3.81,
+          "VMC": 1.4,
+          "XYL": -3.4,
+          "LH": 0.52,
+          "PH": 0.79
+        }
+      },
+      {
+        "ref_date": "2026-02-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 0.9,
+        "win_rate": 30.0,
+        "returns": {
+          "TROW": -1.89,
+          "OMC": 24.7,
+          "STE": -2.81,
+          "BLK": -3.51,
+          "TRMB": 7.36,
+          "MTD": -6.8,
+          "GEN": -0.88,
+          "PTC": 7.3,
+          "GEHC": -5.51,
+          "CRH": -8.95
+        }
+      },
+      {
+        "ref_date": "2026-03-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 0.67,
+        "win_rate": 50.0,
+        "returns": {
+          "PPG": -0.2,
+          "VMC": 5.24,
+          "MTD": 5.11,
+          "MAS": -4.8,
+          "MLM": 2.03,
+          "CARR": -0.25,
+          "BLK": 2.47,
+          "EMR": -1.04,
+          "PH": 1.5,
+          "PNR": -3.34
+        }
+      },
+      {
+        "ref_date": "2026-04-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 1.15,
+        "win_rate": 60.0,
+        "returns": {
+          "TRMB": 2.59,
+          "NDSN": 1.97,
+          "DOV": 2.51,
+          "CARR": 12.94,
+          "GPC": -6.27,
+          "DHR": -12.16,
+          "MAS": 8.42,
+          "SYY": -2.16,
+          "AZO": -1.53,
+          "JCI": 5.24
+        }
+      },
+      {
+        "ref_date": "2026-05-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 3.82,
+        "win_rate": 100.0,
+        "returns": {
+          "HRL": 6.18,
+          "XEL": 3.95,
+          "ES": 4.88,
+          "WY": 8.07,
+          "JPM": 0.49,
+          "ECL": 6.04,
+          "SRE": 0.92,
+          "O": 1.75,
+          "KEY": 2.19,
+          "PNC": 3.74
+        }
+      }
+    ],
+    "equity_curve": [
+      100.7,
+      100.76,
+      101.67,
+      102.35,
+      103.53,
+      107.48
+    ]
+  }
+}
