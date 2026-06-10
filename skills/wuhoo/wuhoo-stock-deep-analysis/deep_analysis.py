@@ -68,6 +68,78 @@ def safe_str(val, default='--') -> str:
     return str(val)
 
 
+# ============================================================
+# Indicators 辅助函数（处理转置格式）
+# ============================================================
+# _get_indicators() 返回转置格式：[{"指标": "ROE", "2022": 18.5, ...}, ...]
+# 即每行是一个指标名，列名是日期。以下函数封装正确的访问模式。
+
+def _get_indicator_dates(indicators: list) -> list:
+    """获取 indicators 的所有日期列（按原顺序，通常最新在前）"""
+    if not indicators or not isinstance(indicators[0], dict):
+        return []
+    return [k for k in indicators[0] if k not in ('指标', '选项')]
+
+
+# 指标名映射（代码中使用的名称 → stock_financial_abstract 实际名称）
+_INDICATOR_NAME_MAP = {
+    '销售毛利率(%)': '毛利率',
+    '加权净资产收益率(%)': '净资产收益率(ROE)',
+    '净资产收益率(%)': '净资产收益率(ROE)',
+    '销售净利率(%)': '销售净利率',
+    '主营业务收入同比增长率(%)': '营业总收入增长率',
+    '资产负债率(%)': '资产负债率',
+    '总资产周转率(次)': '总资产周转率',
+    '应收帐款周转率(次)': '应收账款周转率',
+    '应收账款周转率(次)': '应收账款周转率',
+}
+
+
+def _extract_indicator_value(indicators: list, metric_name: str,
+                              date_key: Optional[str] = None) -> Optional[float]:
+    """从转置格式 indicators 中提取指标值。
+
+    indicators: [{"指标": "ROE", "2022-12-31": 18.5, "2021-12-31": 17.2}, ...]
+    metric_name: 要查找的指标名称（自动映射到 stock_financial_abstract 实际名称）
+    date_key: 指定日期列名；None 则返回最新一期（第一个非元数据列的值）
+    """
+    if not indicators:
+        return None
+    # 先查原始名，再查映射名
+    candidates = [metric_name]
+    if metric_name in _INDICATOR_NAME_MAP:
+        candidates.append(_INDICATOR_NAME_MAP[metric_name])
+    for name in candidates:
+        for item in indicators:
+            if isinstance(item, dict) and item.get('指标') == name:
+                if date_key:
+                    return safe_float(item.get(date_key))
+                for k in item:
+                    if k not in ('指标', '选项') and item[k] is not None:
+                        return safe_float(item[k])
+    return None
+
+
+def _extract_indicator_metric(indicators: list, metric_name: str) -> float:
+    """从转置格式 indicators 中提取指标值，ReportGenerator/FinancialAnalyzer/WorkflowBDeepHandler 共用。
+
+    indicators: [{"指标": "ROE", "2022-12-31": 18.5, ...}, ...]
+    metric_name: 要查找的指标名称（如 "加权净资产收益率(%)"）
+    返回: 最新一期的数值，找不到返回 0.0
+    """
+    if not indicators or not isinstance(indicators, list):
+        return 0.0
+    for item in indicators:
+        if isinstance(item, dict) and item.get('指标') == metric_name:
+            for key in item:
+                if key not in ('指标', '选项') and item[key] is not None:
+                    try:
+                        return float(item[key])
+                    except (ValueError, TypeError):
+                        pass
+    return 0.0
+
+
 class AkshareFetcher:
     """akshare 财务数据获取器（仅 A 股）"""
 
@@ -119,12 +191,17 @@ class AkshareFetcher:
         return result
 
     def _get_basic(self, code: str) -> Dict:
+        result = {"name": "", "industry": "", "area": "",
+                   "market_cap": None, "pe_ttm": None, "pb": None,
+                   "listing_date": "", "raw": {}}
+
+        # 主路径: stock_individual_info_em（最全）
         try:
             df = self.ak.stock_individual_info_em(symbol=code)
             info = {}
             for _, row in df.iterrows():
                 info[row['item']] = row['value']
-            return {
+            result.update({
                 "name": info.get("股票简称", ""),
                 "industry": info.get("行业", ""),
                 "area": info.get("地区", ""),
@@ -133,15 +210,54 @@ class AkshareFetcher:
                 "pb": safe_float(info.get("市净率")),
                 "listing_date": info.get("上市时间", ""),
                 "raw": info
-            }
-        except Exception as e:
-            return {"error": str(e)}
+            })
+            return result
+        except Exception:
+            pass
 
-    def _get_indicators(self, code: str, limit: int = 10) -> List[Dict]:
+        # 降级1: stock_profile_cninfo（名称+行业+上市日期+注册资金）
+        try:
+            df2 = self.ak.stock_profile_cninfo(symbol=code)
+            if df2 is not None and not df2.empty:
+                row = df2.iloc[0].to_dict()
+                result["name"] = str(row.get("公司名称", "") or row.get("A股简称", ""))
+                result["industry"] = str(row.get("所属行业", ""))
+                result["listing_date"] = str(row.get("上市日期", ""))
+                cap_raw = row.get("注册资金")
+                if cap_raw:
+                    cap_val = safe_float(str(cap_raw).replace("万元", "").replace("万", ""))
+                    if cap_val:
+                        result["market_cap"] = cap_val * 1e4  # 万元→元
+        except Exception:
+            pass
+        try:
+            if result["pe_ttm"] and result["pe_ttm"] > 0 and not result["market_cap"]:
+                eps = None
+                for fname in ['stock_financial_abstract', 'stock_profit_sheet_by_report_em']:
+                    try:
+                        df_eps = getattr(self.ak, fname)(symbol=code)
+                        if df_eps is not None and not df_eps.empty:
+                            eps_row = df_eps[df_eps.iloc[:, 0].astype(str).str.contains('每股收益')]
+                            if not eps_row.empty:
+                                eps = safe_float(eps_row.iloc[0, 1])
+                                break
+                    except Exception:
+                        continue
+                if eps and eps > 0:
+                    result["market_cap"] = result["pe_ttm"] * eps * 1e4  # 粗略
+        except Exception:
+            pass
+
+        return result
+
+    def _get_indicators(self, code: str, limit: int = 200) -> List[Dict]:
+        """获取财务指标（返回全部，后续按需查找）"""
         try:
             df = self.ak.stock_financial_abstract(symbol=code)
             if df is not None and not df.empty:
-                records = df.head(limit).to_dict(orient='records')
+                if limit and len(df) > limit:
+                    df = df.head(limit)
+                records = df.to_dict(orient='records')
                 for r in records:
                     for k, v in r.items():
                         # 保留字符串列（"指标"、"选项"），仅转换数值列
@@ -282,6 +398,60 @@ class DebateRunner:
         return self._available
 
     def run(self, symbol: str, name: str, output_dir: Path, akshare_data: Dict = None) -> Dict:
+        # 优先检查 batch_debate 已有结果
+        today = datetime.now().strftime("%Y%m%d")
+        # 统一符号格式: 尝试两种映射 (batch_debate 文件名格式: CODE_EXCH)
+        # A股: futu "SZ.300151" → "SZ_300151" or batch "300151_SZ"
+        # 港股: futu "HK.01398" → "HK_01398" = batch "HK.01398" → "HK_01398"
+        safe_sym = symbol.replace('.', '_')
+        batch_file = Path.home() / "wuhoo-workspace" / "data" / "debate" / today / "deepseek" / f"debate_{safe_sym}.json"
+        # 如果不存在，尝试交换顺序 (Futu EXCH.CODE → batch CODE_EXCH)
+        if not batch_file.exists() and '.' in symbol:
+            parts = symbol.split('.')
+            alt_sym = f"{parts[1]}_{parts[0]}" if len(parts) == 2 else safe_sym
+            alt_file = Path.home() / "wuhoo-workspace" / "data" / "debate" / today / "deepseek" / f"debate_{alt_sym}.json"
+            if alt_file.exists():
+                batch_file = alt_file
+                safe_sym = alt_sym
+        if batch_file.exists():
+            try:
+                with open(batch_file, 'r', encoding='utf-8') as f:
+                    batch = json.load(f)
+
+                bull = batch.get("bull_rebuttal") or batch.get("bull") or {}
+                bear = batch.get("bear") or {}
+                trader = batch.get("trader") or {}
+
+                # batch_debate JSON 格式: bull/bear 是 dict (含 key_points 数组)
+                normalized = {
+                    "bull_view": {
+                        "key_points": bull.get("key_points", []),
+                        "stop_loss": bull.get("stop_loss", 0),
+                        "target_price": bull.get("target_price", 0),
+                        "position_suggestion": bull.get("position_suggestion", 0)
+                    },
+                    "bear_view": {
+                        "key_points": bear.get("key_points", [])
+                    },
+                    "trader_decision": {
+                        "decision": trader.get("decision", "HOLD"),
+                        "confidence": trader.get("confidence", 0.5)
+                    },
+                    "risk_approval": {"approved": True},
+                    "final_action": {
+                        "action": trader.get("decision", "HOLD").lower(),
+                        "reason": trader.get("reasoning", "")
+                    },
+                    "consensus_points": trader.get("consensus_points", []),
+                    "disagreement_points": [trader.get("key_disagreement", "")]
+                        if trader.get("key_disagreement") else []
+                }
+                self._available = True
+                return self._normalize_full_debate(normalized)
+            except Exception:
+                pass
+
+        # 降级: 尝试动态加载完整辩论模块
         try:
             import sys
             debate_dir = Path.home() / "wuhoo-workspace" / "skills" / "debate"
@@ -351,7 +521,7 @@ class DebateRunner:
                     break
 
         # 如果 PE 为空，用市值/净利润估算
-        if not pe and market_cap > 0 and indicators:
+        if not pe and (market_cap or 0) > 0 and indicators:
             for row in indicators:
                 if row.get("指标") == "归母净利润":
                     dates = [k for k in row if k not in ("指标", "选项")]
@@ -470,15 +640,21 @@ class FinancialAnalyzer:
 
         result = {"trend": [], "avg_roe": None, "assessment": ""}
 
-        for item in indicators[:8]:
-            period = item.get('日期') or item.get('end_date') or ''
-            roe = item.get('加权净资产收益率(%)') or item.get('净资产收益率(%)')
-            gross_margin = item.get('销售毛利率(%)')
-            net_margin = item.get('销售净利率(%)')
+        if not indicators or not isinstance(indicators[0], dict):
+            return result
+
+        dates = _get_indicator_dates(indicators)
+
+        for date in dates[:8]:
+            roe = _extract_indicator_value(indicators, '加权净资产收益率(%)', date)
+            if roe is None:
+                roe = _extract_indicator_value(indicators, '净资产收益率(%)', date)
+            gross_margin = _extract_indicator_value(indicators, '销售毛利率(%)', date)
+            net_margin = _extract_indicator_value(indicators, '销售净利率(%)', date)
 
             if roe is not None or gross_margin is not None:
                 result["trend"].append({
-                    "period": period,
+                    "period": date,
                     "roe": roe,
                     "gross_margin": gross_margin,
                     "net_margin": net_margin
@@ -627,16 +803,15 @@ class FinancialAnalyzer:
         result = {"metrics": {}, "alerts": []}
 
         if indicators:
-            latest = indicators[0]
             for key, label in [
                 ('流动比率', 'current_ratio'),
                 ('速动比率', 'quick_ratio'),
                 ('资产负债率(%)', 'debt_ratio'),
                 ('总资产周转率(次)', 'asset_turnover'),
             ]:
-                val = latest.get(key)
+                val = _extract_indicator_value(indicators, key)
                 if val is not None:
-                    result["metrics"][label] = safe_float(val)
+                    result["metrics"][label] = val
 
             # 流动性评估
             cr = result["metrics"].get('current_ratio')
@@ -777,7 +952,11 @@ class DCFValuator:
                 if '指标' in indicators[0]:
                     for item in indicators:
                         if item.get('指标') == metric_name:
-                            # 取第一个非日期列的值（最新一期）
+                            # 优先取年报数据（列名以 '1231' 结尾），否则取最新一期
+                            annual_keys = [k for k in item if k not in ('指标', '选项')
+                                           and str(k).endswith('1231') and item[k]]
+                            if annual_keys:
+                                return float(item[annual_keys[0]])
                             for key in item:
                                 if key not in ('指标', '选项') and item[key]:
                                     return float(item[key])
@@ -1057,10 +1236,9 @@ class ReportGenerator:
         evidence = []
 
         if indicators:
-            latest = indicators[0]
-            gross_margin = latest.get("销售毛利率(%)")
-            roe = latest.get("加权净资产收益率(%)")
-            net_margin = latest.get("销售净利率(%)")
+            gross_margin = _extract_indicator_value(indicators, '销售毛利率(%)')
+            roe = _extract_indicator_value(indicators, '加权净资产收益率(%)')
+            net_margin = _extract_indicator_value(indicators, '销售净利率(%)')
 
             # 品牌护城河
             if gross_margin and gross_margin > 50:
@@ -1074,14 +1252,19 @@ class ReportGenerator:
                 evidence.append(f"🟡 **品牌护城河**：毛利率 {gross_margin:.1f}%，品牌溢价一般")
 
             # 成本优势
-            if gross_margin and indicators[-1].get("销售毛利率(%)"):
-                old_margin = indicators[-1].get("销售毛利率(%)")
-                if gross_margin > old_margin:
+            dates = _get_indicator_dates(indicators)
+            if gross_margin and len(dates) > 1:
+                old_margin = _extract_indicator_value(indicators, '销售毛利率(%)', dates[-1])
+                if old_margin and gross_margin > old_margin:
                     moat_scores["成本优势"] = 3
                     evidence.append(f"✅ **成本优势**：毛利率呈上升趋势，成本控制能力改善")
 
             # ROE 持续性
-            roe_values = [ind.get("加权净资产收益率(%)") for ind in indicators[:5] if ind.get("加权净资产收益率(%)") is not None]
+            roe_values = []
+            for d in dates[:5]:
+                r = _extract_indicator_value(indicators, '加权净资产收益率(%)', d)
+                if r is not None:
+                    roe_values.append(r)
             if roe_values:
                 avg_roe = sum(roe_values) / len(roe_values)
                 above_15 = sum(1 for r in roe_values if r > 15)
@@ -1140,8 +1323,7 @@ class ReportGenerator:
         # 资本配置
         indicators = self.akshare.get("indicators", [])
         if indicators:
-            latest = indicators[0]
-            undistributed = latest.get("每股未分配利润")
+            undistributed = _extract_indicator_metric(indicators, "每股未分配利润")
             if undistributed and undistributed > 2:
                 analysis.append(f"- **未分配利润充裕**：每股未分配利润 {undistributed:.2f} 元，具备分红/回购/再投资空间")
 
@@ -1156,14 +1338,18 @@ class ReportGenerator:
         evidence = []
 
         if indicators:
-            latest = indicators[0]
-            gross_margin = latest.get("销售毛利率(%)")
+            gross_margin = _extract_indicator_value(indicators, '销售毛利率(%)')
             if gross_margin and gross_margin > 50:
                 evidence.append(f"毛利率 {gross_margin:.1f}%，品牌溢价强")
             elif gross_margin and gross_margin > 30:
                 evidence.append(f"毛利率 {gross_margin:.1f}%，有一定品牌溢价")
 
-            roe_values = [ind.get("加权净资产收益率(%)") for ind in indicators[:5] if ind.get("加权净资产收益率(%)") is not None]
+            dates = _get_indicator_dates(indicators)
+            roe_values = []
+            for d in dates[:5]:
+                v = _extract_indicator_value(indicators, '加权净资产收益率(%)', d)
+                if v is not None:
+                    roe_values.append(v)
             if roe_values:
                 avg_roe = sum(roe_values) / len(roe_values)
                 above_15 = sum(1 for r in roe_values if r > 15)
@@ -1181,7 +1367,7 @@ class ReportGenerator:
         growth = None
 
         if indicators:
-            rev_first = indicators[0].get("主营业务收入同比增长率(%)")
+            rev_first = _extract_indicator_value(indicators, '主营业务收入同比增长率(%)')
             if rev_first:
                 growth = rev_first
 
@@ -1352,7 +1538,7 @@ class ReportGenerator:
         if len(income) >= 2 and len(indicators) >= 2:
             rev_current = income[0].get("营业总收入") or 0
             rev_prev = income[1].get("营业总收入") or 0
-            ar_current = indicators[0].get("应收帐款周转率(次)")
+            ar_current = _extract_indicator_value(indicators, '应收帐款周转率(次)')
             if ar_current and ar_current < 2:
                 flags.append(f"🔴 **应收账款周转率偏低 ({ar_current:.1f} 次)**：回款速度慢，可能存在收入确认激进或客户信用问题")
 
@@ -1650,11 +1836,12 @@ class ReportGenerator:
         # ROE
         if indicators:
             avg_roe = None
+            dates = _get_indicator_dates(indicators)
             roe_values = []
-            for ind in indicators[:5]:
-                roe = ind.get("加权净资产收益率(%)")
-                if roe is not None:
-                    roe_values.append(roe)
+            for d in dates[:5]:
+                v = _extract_indicator_value(indicators, '加权净资产收益率(%)', d)
+                if v is not None:
+                    roe_values.append(v)
             if roe_values:
                 avg_roe = sum(roe_values) / len(roe_values)
                 if avg_roe > 15:
@@ -1743,23 +1930,75 @@ class ReportGenerator:
             score -= 1.5
             reasons.append("多空辩论偏向看空")
 
-        # 估值水平
+        # 估值水平（三情景分层扣分）
         if self.dcf.get("available"):
-            mos = self.dcf.get("margin_of_safety")
-            if mos and mos > 30:
-                score += 1.5
-                reasons.append(f"具有充足安全边际 ({mos:.1f}%)")
-            elif mos and mos > 0:
-                score += 0.5
-                reasons.append(f"有一定安全边际 ({mos:.1f}%)")
-            elif mos is not None and mos < -20:
-                score -= 1.5
-                reasons.append(f"当前价格显著高于内在价值 (溢价 {abs(mos):.1f}%)")
+            scenarios = self.dcf.get("scenarios", {})
+            current_price = self.dcf.get("current_price", 0)
+            if scenarios and current_price > 0:
+                # 计算三情景安全边际：正值=低估，负值=高估
+                mos_list = []
+                for name in ['悲观', '中性', '乐观']:
+                    s = scenarios.get(name, {})
+                    iv = s.get('value_per_share', 0)
+                    if iv > 0:
+                        mos = (current_price - iv) / iv * 100  # 正=溢价, 负=折价
+                    else:
+                        mos = None
+                    mos_list.append((name, mos))
 
-        # 盈利质量
+                # 统计几个情景有正安全边际（current_price < iv）
+                positive_count = sum(1 for _, m in mos_list if m is not None and m < 0)
+
+                if positive_count >= 3:
+                    score += 2.0
+                    reasons.append("DCF 三情景均被低估，安全边际充足")
+                elif positive_count >= 2:
+                    score += 1.5
+                    reasons.append(f"DCF 两情景被低估")
+                elif positive_count >= 1:
+                    score += 0.5
+                    reasons.append(f"DCF 仅乐观情景有安全边际")
+
+                # 无正安全边际时，按乐观情景（最宽松）的溢价程度分层
+                if positive_count == 0:
+                    opt_mos = mos_list[-1][1]  # 乐观情景的 mos
+                    if opt_mos is not None:
+                        if opt_mos < 30:  # 溢价 <30%，乐观情景接近合理价
+                            reasons.append(f"DCF 乐观情景溢价仅 {opt_mos:.0f}%，接近合理估值")
+                            # 不扣分
+                        elif opt_mos < 100:  # 溢价 30-100%
+                            score -= 0.5
+                            reasons.append(f"DCF 乐观情景溢价 {opt_mos:.0f}%，温和高估")
+                        else:  # 溢价 >100%，所有情景均严重高估
+                            score -= 1.5
+                            reasons.append(f"DCF 各情景均显著高估 (乐观溢价 {opt_mos:.0f}%)")
+            else:
+                # 降级: 用旧的单一 mos 判断
+                mos = self.dcf.get("margin_of_safety")
+                if mos and mos > 30:
+                    score += 1.5
+                    reasons.append(f"具有充足安全边际 ({mos:.1f}%)")
+                elif mos and mos > 0:
+                    score += 0.5
+                    reasons.append(f"有一定安全边际 ({mos:.1f}%)")
+                elif mos is not None and mos < -20:
+                    score -= 1.5
+                    reasons.append(f"当前价格显著高于内在价值 (溢价 {abs(mos):.1f}%)")
+
+        # 盈利质量（仅取年报 ROE，避免季度数据干扰）
         indicators = self.akshare.get("indicators", [])
         if indicators:
-            avg_roe = sum(ind.get("加权净资产收益率(%)", 0) or 0 for ind in indicators[:5]) / 5
+            dates = _get_indicator_dates(indicators)
+            # 仅取年报列（以 '1231' 结尾），取最近 5 个财年
+            annual_dates = [d for d in dates if str(d).endswith('1231')][:5]
+            if not annual_dates:
+                annual_dates = dates[:5]  # 降级：无年报时用全部
+            roe_vals = []
+            for d in annual_dates:
+                v = _extract_indicator_value(indicators, '加权净资产收益率(%)', d)
+                if v is not None:
+                    roe_vals.append(v)
+            avg_roe = sum(roe_vals) / len(roe_vals) if roe_vals else 0
             if avg_roe > 15:
                 score += 1
                 reasons.append("ROE 持续优秀")
@@ -1879,17 +2118,30 @@ class ReportGenerator:
 class WorkflowBDeepHandler:
     """Workflow B 增强版主处理器"""
 
-    def __init__(self, code: str, name: str = ''):
+    def __init__(self, code: str, name: str = '', market: str = 'auto'):
         self.code = code
         self.name = name
         self.date = datetime.now().strftime("%Y-%m-%d")
 
         # 判断市场
-        # 支持两种格式: US.HD (前缀) 和 HD.US (后缀)
         code_upper = code.upper().strip()
-        self.is_us_stock = code_upper.startswith('US.') or code_upper.endswith('.US')
-        self.is_hk_stock = code_upper.startswith('HK.') or code_upper.endswith('.HK')
-        self.is_a_stock = not self.is_us_stock and not self.is_hk_stock
+        if market in ('cn', 'a', 'A'):
+            self.is_a_stock = True
+            self.is_hk_stock = False
+            self.is_us_stock = False
+        elif market in ('hk', 'HK'):
+            self.is_a_stock = False
+            self.is_hk_stock = True
+            self.is_us_stock = False
+        elif market in ('us', 'US'):
+            self.is_a_stock = False
+            self.is_hk_stock = False
+            self.is_us_stock = True
+        else:
+            # 自动检测: US.HD / HD.US / HK.XXXXX / XXXXX.HK
+            self.is_us_stock = code_upper.startswith('US.') or code_upper.endswith('.US')
+            self.is_hk_stock = code_upper.startswith('HK.') or code_upper.endswith('.HK')
+            self.is_a_stock = not self.is_us_stock and not self.is_hk_stock
         
         # 标准化代码为 Futu 格式 (US.XXX)
         if self.is_us_stock:
@@ -2033,13 +2285,53 @@ class WorkflowBDeepHandler:
                     if pe > 0:
                         shares_outstanding = 1  # 暂时用默认
 
-            # 尝试从价格数据获取
-            price_data = self.factor_data.get("price", {})
-            if price_data and price_data.get("price"):
-                current_price = price_data["price"]
-            elif market_cap > 0:
-                # 无法获取准确价格，用粗略估算
-                current_price = 0
+            # 尝试从 akshare 实时行情获取当前价格
+            try:
+                df_spot = self.ak.stock_bid_ask_em(symbol=self.code)
+                if df_spot is not None and not df_spot.empty:
+                    row = df_spot.iloc[0].to_dict()
+                    bid = safe_float(row.get('买一'))
+                    ask = safe_float(row.get('卖一'))
+                    if bid and bid > 0 and ask and ask > 0:
+                        current_price = (bid + ask) / 2
+            except Exception:
+                pass
+
+            # 降级: 从 Tushare 日线数据取最新收盘价
+            if current_price == 0:
+                try:
+                    import pandas as pd
+                    daily_dir = Path.home() / 'wuhoo-workspace' / 'data' / 'stock-pick' / 'daily_data'
+                    year = datetime.now().strftime('%Y')
+                    month = datetime.now().strftime('%Y%m')
+                    csv_path = daily_dir / year / f'{month}.csv'
+                    if csv_path.exists():
+                        df_daily = pd.read_csv(csv_path, dtype={'ts_code': str})
+                        code_match = None
+                        for fmt in [f'{self.code}.SZ', f'{self.code}.SH', f'{self.code}.BJ']:
+                            subset = df_daily[df_daily['ts_code'] == fmt]
+                            if not subset.empty:
+                                code_match = subset
+                                break
+                        if code_match is not None and not code_match.empty:
+                            latest_row = code_match.sort_values('trade_date', ascending=False).iloc[0]
+                            current_price = safe_float(latest_row.get('close', 0))
+                except Exception:
+                    pass
+
+            # 降级: 从 PE * EPS 反推
+            if current_price == 0 and market_cap and market_cap > 0 and pe and pe > 0:
+                eps_est = None
+                if indicators:
+                    eps_est = _extract_indicator_metric(indicators, '基本每股收益')
+                if eps_est and eps_est > 0:
+                    current_price = pe * eps_est
+
+            # 最后尝试从因子数据获取
+            if current_price == 0:
+                price_data = self.factor_data.get("price", {})
+                if price_data and price_data.get("price"):
+                    current_price = price_data["price"]
 
             # 获取股本数据（优先从 indicators 提取）
             total_shares = None
@@ -2221,12 +2513,15 @@ class WorkflowBDeepHandler:
 
 def main():
     parser = argparse.ArgumentParser(description="Workflow B 增强版 — 单股深度分析")
-    parser.add_argument("--code", type=str, required=True, help="股票代码（如 600519）")
+    parser.add_argument("--code", type=str, required=True, help="股票代码（如 600519 / 01398 / AAPL）")
     parser.add_argument("--name", type=str, default='', help="公司名称（可选）")
+    parser.add_argument("--market", type=str, default='auto',
+                        choices=['auto', 'cn', 'hk', 'us'],
+                        help="市场: auto=自动检测, cn=A股, hk=港股, us=美股")
 
     args = parser.parse_args()
 
-    handler = WorkflowBDeepHandler(code=args.code, name=args.name)
+    handler = WorkflowBDeepHandler(code=args.code, name=args.name, market=args.market)
     handler.run()
 
 
