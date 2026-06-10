@@ -509,9 +509,12 @@ Trader=SELL 的股票自动排除买入，BUY 的股票进入推荐流程。
 
 ## 参考文件
 
-- `references/20260609-strategy-comparison.md` — 2026-06-09 策略对比回测报告（趋势动量 vs 超跌反弹 + 市场状态自适应）
-- `references/20260609-all-strategies-comparison.md` — 2026-06-09 全策略回测大排名（Dual Momentum / Bollinger / 小市值反转 / HK大盘动量 + Regime修复记录）
-- `references/20260609-backtest-results.md` — 2026-06-09 三市场 Walk-forward 回测结果（US +19.45% vs HK +0.50%）
+- `references/20260609-strategy-comparison.md` — 策略对比回测（趋势动量 vs 超跌反弹 + 市场自适应）
+- `references/20260609-all-strategies-comparison.md` — 全策略回测排名（5×US + 4×CN + 3×HK）
+- `references/20260609-regime-breadth-mask-fix.md` — Regime 广度 Mask 修复（CN 误判根因）
+- `references/20260609-backtest-results.md` — 三市场 Walk-forward 回测结果— 全策略回测排名（5×US + 4×CN + 3×HK）
+- `references/20260609-regime-breadth-mask-fix.md` — Regime 广度 Mask 修复（CN 误判根因）
+- `references/20260609-backtest-results.md` — 三市场 Walk-forward 回测结果
 - `references/futu-rebalance-pitfalls.md` — Futu 批量调仓常见陷阱（价格精度、频率限制、限价对齐）
 - `references/20260506-cn-workflow-audit.md` — 2026-05-06 A股全链路审计（数据→选股→辩论→调仓失败）
 - `references/20260513-ahk-rebalance-audit.md` — 2026-05-13 A/HK 双市场调仓审计（卖前买后购买力不足 + 构造函数签名陷阱 + CN 购买力递减重试）
