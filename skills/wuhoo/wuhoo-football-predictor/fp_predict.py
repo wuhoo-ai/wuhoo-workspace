@@ -132,10 +132,10 @@ def _predict_match(team_a: str, team_b: str, tournament: str,
     elo_a = elo_ratings.get(team_a, {}).get('elo', 1500)
     elo_b = elo_ratings.get(team_b, {}).get('elo', 1500)
     
-    # 计算平均进球
+    # 计算平均进球 (v3.3: divisor 200→300, cap to prevent blowouts)
     elo_diff = elo_a - elo_b
-    goals_a = max(0.5, 1.5 + elo_diff / 200)
-    goals_b = max(0.5, 1.5 - elo_diff / 200)
+    goals_a = max(0.4, min(3.0, 1.4 + elo_diff / 300))
+    goals_b = max(0.4, min(3.0, 1.4 - elo_diff / 300))
     
     # 新闻情绪
     analyzer = SentimentAnalyzer()

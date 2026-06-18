@@ -14,6 +14,24 @@ feeds:
     tags: ["足球", "英超", "英文"]
     status: "✅"
 
+  - name: "BBC Sport Football (RSSHub)"
+    url: "http://127.0.0.1:1200/bbc/sport/football"
+    category: "足球"
+    tags: ["足球", "世界杯", "英文", "RSSHub"]
+    status: "✅ 新增 (2026-06-18, WC2026 coverage)"
+
+  - name: "懂球帝早报"
+    url: "http://127.0.0.1:1200/dongqiudi/daily"
+    category: "足球"
+    tags: ["足球", "世界杯", "中文", "RSSHub", "深度"]
+    status: "✅ 新增 (2026-06-18, 168KB WC2026 daily briefing)"
+
+  - name: "Breaking The Lines"
+    url: "https://old.breakingthelines.com/feed/"
+    category: "足球"
+    tags: ["足球", "战术分析", "英文", "深度"]
+    status: "✅ 新增 (2026-06-18, 战术分析)"
+
   - name: "Sky Sports Football"
     url: "https://www.skysports.com/rss/12040"
     category: "足球"
@@ -55,7 +73,8 @@ feeds:
   # Goal.com International: 404 Not Found (2026-06-02 验证)
   # FIFA.com News: 不再提供 RSS，返回 HTML (2026-06-02 验证)
   # UEFA News: 超时/不可达 (2026-06-02 验证)
-  # 懂球帝/直播吧: 网站改版，RSSHub 路由不可用
+  # 直播吧/虎扑: RSSHub 路由 503 (2026-06-18 验证)
+  # 懂球帝 special/news 路由: 503 (2026-06-18 验证, daily 路由可用)
 
   # ========== 🇨🇳 科技 ==========
   - name: "IT之家"

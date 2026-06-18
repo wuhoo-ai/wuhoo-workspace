@@ -1,0 +1,42 @@
+{
+  "generated": "2026-06-13T15:01:06.490239",
+  "n_matches": 4,
+  "matches": [
+    {
+      "date_beijing": "2026-06-14",
+      "time_beijing": "03:00",
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "group": "B",
+      "matchday": 1,
+      "venue": "Levi's Stadium"
+    },
+    {
+      "date_beijing": "2026-06-14",
+      "time_beijing": "06:00",
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "group": "C",
+      "matchday": 1,
+      "venue": "MetLife Stadium"
+    },
+    {
+      "date_beijing": "2026-06-14",
+      "time_beijing": "09:00",
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "group": "C",
+      "matchday": 1,
+      "venue": "Gillette Stadium"
+    },
+    {
+      "date_beijing": "2026-06-14",
+      "time_beijing": "12:00",
+      "team_a": "Australia",
+      "team_b": "Turkey",
+      "group": "D",
+      "matchday": 1,
+      "venue": "BC Place"
+    }
+  ]
+}

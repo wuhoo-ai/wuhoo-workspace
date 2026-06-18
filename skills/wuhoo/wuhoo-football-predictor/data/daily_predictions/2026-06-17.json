@@ -1,0 +1,442 @@
+{
+  "generated": "2026-06-17T15:21:14.881480",
+  "n_matches": 4,
+  "news_enabled": false,
+  "matches": [
+    {
+      "match_id": 21,
+      "schedule": {
+        "date_beijing": "2026-06-18",
+        "time_beijing": "01:00",
+        "group": "K",
+        "matchday": 1,
+        "venue": "NRG Stadium"
+      },
+      "audit": {
+        "team_a": "Portugal",
+        "team_b": "DR Congo",
+        "venue": "NRG Stadium",
+        "generated": "2026-06-17T15:21:14.879633",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1984,
+            "team_b_elo": 1655,
+            "elo_diff": 329,
+            "base_win_prob": 86.9,
+            "description": "Portugal 1984 vs DR Congo 1655, Δ=+329"
+          },
+          "2_injuries": {
+            "team_a_penalty": 0,
+            "team_b_penalty": 0,
+            "team_a_details": [],
+            "team_b_details": [],
+            "description": "No injuries"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 30,
+            "team_b_adjustment": 13,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 10.4,
+              "chemistry": 9.599999999999998
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 5.999999999999998
+            },
+            "description": "Portugal: +30 (coach+stability+chemistry) | DR Congo: +13"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 6,
+            "team_b_venue_penalty": 6,
+            "venue_details": {
+              "city": "Houston",
+              "altitude_m": 13,
+              "temp_c": 34,
+              "indoor": true,
+              "climate_note": "Very hot & humid, indoor (AC)"
+            },
+            "description": "Home adv +0, venue penalties: Portugal +6 / DR Congo +6"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 16,
+            "team_b_adj": 8,
+            "description": "Portugal: +16 (warm-up form) | DR Congo: +8"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1984,
+            "effective": 2024,
+            "adjustments": 40
+          },
+          "team_b": {
+            "base": 1655,
+            "effective": 1670,
+            "adjustments": 15
+          },
+          "diff": 354
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 76.5,
+          "draw": 15.9,
+          "team_b_win": 7.7,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.33,
+          "expected_goals_b": 0.58
+        },
+        "verdict": {
+          "result": "葡萄牙 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 绝对优势 329 分，实力差距明显"
+        ]
+      }
+    },
+    {
+      "match_id": 22,
+      "schedule": {
+        "date_beijing": "2026-06-18",
+        "time_beijing": "04:00",
+        "group": "L",
+        "matchday": 1,
+        "venue": "AT&T Stadium"
+      },
+      "audit": {
+        "team_a": "England",
+        "team_b": "Croatia",
+        "venue": "AT&T Stadium",
+        "generated": "2026-06-17T15:21:14.880152",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2020,
+            "team_b_elo": 1930,
+            "elo_diff": 90,
+            "base_win_prob": 62.7,
+            "description": "England 2020 vs Croatia 1930, Δ=+90"
+          },
+          "2_injuries": {
+            "team_a_penalty": -3,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Tino Livramento (DF): DOUBTFUL — Thigh injury (ended season); Tuchel's first-choice fullback. O'Reilly/Hall/Spence cover [-3]"
+            ],
+            "team_b_details": [],
+            "description": "England: -3 | Croatia: +0"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 20,
+            "team_b_adjustment": 45,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 5,
+              "stability": 0.8000000000000007,
+              "chemistry": 5.999999999999998
+            },
+            "team_b_breakdown": {
+              "coach": 16,
+              "result": 15,
+              "stability": 7.200000000000002,
+              "chemistry": 7.199999999999999
+            },
+            "description": "England: +20 (coach+stability+chemistry) | Croatia: +45"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 7,
+            "team_b_venue_penalty": 7,
+            "venue_details": {
+              "city": "Arlington (Dallas)",
+              "altitude_m": 184,
+              "temp_c": 35,
+              "indoor": true,
+              "climate_note": "Very hot, indoor stadium (AC) — heat penalty reduced"
+            },
+            "description": "Home adv +0, venue penalties: England +7 / Croatia +7"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -35,
+            "team_b_adj": -33,
+            "description": "England: -35 (warm-up form) | Croatia: -33"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2020,
+            "effective": 1995,
+            "adjustments": -25
+          },
+          "team_b": {
+            "base": 1930,
+            "effective": 1935,
+            "adjustments": 5
+          },
+          "diff": 60
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 43.0,
+          "draw": 24.8,
+          "team_b_win": 32.2,
+          "most_likely_score": "1-1",
+          "expected_goals_a": 1.55,
+          "expected_goals_b": 1.31
+        },
+        "verdict": {
+          "result": "势均力敌（低置信度）",
+          "confidence": "low"
+        },
+        "reasoning": [
+          "ELO 接近（差 90 分），实力相当",
+          "伤病影响：England -3 / Croatia +0 ELO"
+        ]
+      }
+    },
+    {
+      "match_id": 23,
+      "schedule": {
+        "date_beijing": "2026-06-18",
+        "time_beijing": "07:00",
+        "group": "L",
+        "matchday": 1,
+        "venue": "Gillette Stadium"
+      },
+      "audit": {
+        "team_a": "Ghana",
+        "team_b": "Panama",
+        "venue": "Gillette Stadium",
+        "generated": "2026-06-17T15:21:14.880640",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1505,
+            "team_b_elo": 1737,
+            "elo_diff": -232,
+            "base_win_prob": 20.8,
+            "description": "Ghana 1505 vs Panama 1737, Δ=-232"
+          },
+          "2_injuries": {
+            "team_a_penalty": -8,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Mohammed Kudus (MF): DOUBTFUL — Hamstring setback after quad injury; major blow. Semenyo/Sulemana/Nuamah options [-8]"
+            ],
+            "team_b_details": [],
+            "description": "Ghana: -8 | Panama: +0"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 24,
+            "team_b_adjustment": 12,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 5,
+              "stability": 6.400000000000001,
+              "chemistry": 4.2
+            },
+            "team_b_breakdown": {
+              "coach": 8,
+              "result": 0,
+              "stability": 3.999999999999999,
+              "chemistry": 0.0
+            },
+            "description": "Ghana: +24 (coach+stability+chemistry) | Panama: +12"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Foxborough (Boston)",
+              "altitude_m": 93,
+              "temp_c": 26,
+              "indoor": false,
+              "climate_note": "Mild summer, open air"
+            },
+            "description": "Home adv +0, venue penalties: Ghana +0 / Panama +0"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 1,
+            "team_b_adj": -17,
+            "description": "Ghana: +1 (warm-up form) | Panama: -17"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1505,
+            "effective": 1522,
+            "adjustments": 17
+          },
+          "team_b": {
+            "base": 1737,
+            "effective": 1732,
+            "adjustments": -5
+          },
+          "diff": -210
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 16.7,
+          "draw": 22.6,
+          "team_b_win": 60.7,
+          "most_likely_score": "0-1",
+          "expected_goals_a": 0.83,
+          "expected_goals_b": 1.82
+        },
+        "verdict": {
+          "result": "巴拿马 胜（中置信度）",
+          "confidence": "medium"
+        },
+        "reasoning": [
+          "ELO 优势 232 分，有明确的实力差距",
+          "伤病影响：Ghana -8 / Panama +0 ELO"
+        ]
+      }
+    },
+    {
+      "match_id": 24,
+      "schedule": {
+        "date_beijing": "2026-06-18",
+        "time_beijing": "10:00",
+        "group": "K",
+        "matchday": 1,
+        "venue": "Hard Rock Stadium"
+      },
+      "audit": {
+        "team_a": "Uzbekistan",
+        "team_b": "Colombia",
+        "venue": "Hard Rock Stadium",
+        "generated": "2026-06-17T15:21:14.880989",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1727,
+            "team_b_elo": 1975,
+            "elo_diff": -248,
+            "base_win_prob": 19.3,
+            "description": "Uzbekistan 1727 vs Colombia 1975, Δ=-248"
+          },
+          "2_injuries": {
+            "team_a_penalty": 0,
+            "team_b_penalty": 0,
+            "team_a_details": [],
+            "team_b_details": [],
+            "description": "No injuries"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 8,
+            "team_b_adjustment": 33,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 4.8,
+              "chemistry": 2.999999999999999
+            },
+            "team_b_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 12.000000000000002,
+              "chemistry": 11.4
+            },
+            "description": "Uzbekistan: +8 (coach+stability+chemistry) | Colombia: +33"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 8,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Miami Gardens",
+              "altitude_m": 2,
+              "temp_c": 32,
+              "indoor": false,
+              "climate_note": "Hot & extremely humid — significant fatigue factor"
+            },
+            "description": "Home adv +0, venue penalties: Uzbekistan +8 / Colombia +0"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -22,
+            "team_b_adj": 8,
+            "description": "Uzbekistan: -22 (warm-up form) | Colombia: +8"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1727,
+            "effective": 1705,
+            "adjustments": -22
+          },
+          "team_b": {
+            "base": 1975,
+            "effective": 2016,
+            "adjustments": 41
+          },
+          "diff": -311
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 9.3,
+          "draw": 17.5,
+          "team_b_win": 73.2,
+          "most_likely_score": "0-2",
+          "expected_goals_a": 0.63,
+          "expected_goals_b": 2.2
+        },
+        "verdict": {
+          "result": "哥伦比亚 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 优势 248 分，有明确的实力差距",
+          "多层调整后有效 ELO 差 -311（原始 -248）"
+        ]
+      }
+    }
+  ]
+}

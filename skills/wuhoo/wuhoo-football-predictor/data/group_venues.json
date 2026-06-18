@@ -5,52 +5,102 @@
   "_update": "v2.2 — group stage venue penalty now applied",
   "groups": {
     "A": {
-      "venues": ["Estadio Azteca", "Estadio Akron", "Estadio Azteca"],
+      "venues": [
+        "Estadio Azteca",
+        "Estadio Akron",
+        "Estadio Azteca"
+      ],
       "note": "Mexico plays MD1+MD3 at Azteca, MD2 at Akron"
     },
     "B": {
-      "venues": ["BMO Field", "BC Place", "BC Place"],
+      "venues": [
+        "BMO Field",
+        "BC Place",
+        "BC Place"
+      ],
       "note": "Canada MD1 Toronto, MD2+MD3 Vancouver"
     },
     "C": {
-      "venues": ["MetLife Stadium", "Lincoln Financial Field", "Hard Rock Stadium"],
+      "venues": [
+        "MetLife Stadium",
+        "Lincoln Financial Field",
+        "Hard Rock Stadium"
+      ],
       "note": "Brazil MD1 NY, MD2 Philadelphia, MD3 Miami"
     },
     "D": {
-      "venues": ["SoFi Stadium", "Lumen Field", "SoFi Stadium"],
+      "venues": [
+        "SoFi Stadium",
+        "Lumen Field",
+        "SoFi Stadium"
+      ],
       "note": "USA MD1+MD3 LA, MD2 Seattle"
     },
     "E": {
-      "venues": ["NRG Stadium", "BMO Field", "MetLife Stadium"],
+      "venues": [
+        "NRG Stadium",
+        "BMO Field",
+        "MetLife Stadium"
+      ],
       "note": "Germany MD1 Houston, MD2 Toronto, MD3 NY"
     },
     "F": {
-      "venues": ["AT&T Stadium", "NRG Stadium", "AT&T Stadium"],
+      "venues": [
+        "AT&T Stadium",
+        "NRG Stadium",
+        "AT&T Stadium"
+      ],
       "note": "Netherlands MD1+MD3 Dallas, MD2 Houston"
     },
     "G": {
-      "venues": ["Lumen Field", "SoFi Stadium", "BC Place"],
+      "venues": [
+        "Lumen Field",
+        "SoFi Stadium",
+        "BC Place"
+      ],
       "note": "Belgium MD1 Seattle, MD2 LA, MD3 Vancouver"
     },
     "H": {
-      "venues": ["Mercedes-Benz Stadium", "Hard Rock Stadium", "Hard Rock Stadium"],
+      "venues": [
+        "Mercedes-Benz Stadium",
+        "Hard Rock Stadium",
+        "Hard Rock Stadium"
+      ],
       "note": "Spain MD1 Atlanta, MD2+MD3 Miami"
     },
     "I": {
-      "venues": ["MetLife Stadium", "Lincoln Financial Field", "Gillette Stadium"],
+      "venues": [
+        "MetLife Stadium",
+        "Lincoln Financial Field",
+        "Gillette Stadium"
+      ],
       "note": "France MD1 NY, MD2 Philadelphia, MD3 Boston"
     },
     "J": {
-      "venues": ["Arrowhead Stadium", "AT&T Stadium", "AT&T Stadium"],
+      "venues": [
+        "Arrowhead Stadium",
+        "AT&T Stadium",
+        "AT&T Stadium"
+      ],
       "note": "Argentina MD1 Kansas City, MD2+MD3 Dallas"
     },
     "K": {
-      "venues": ["NRG Stadium", "NRG Stadium", "Hard Rock Stadium"],
+      "venues": [
+        "NRG Stadium",
+        "NRG Stadium",
+        "Hard Rock Stadium"
+      ],
       "note": "Portugal MD1+MD2 Houston, MD3 Miami"
     },
     "L": {
-      "venues": ["AT&T Stadium", "Gillette Stadium", "MetLife Stadium"],
+      "venues": [
+        "AT&T Stadium",
+        "Gillette Stadium",
+        "MetLife Stadium"
+      ],
       "note": "England MD1 Dallas, MD2 Boston, MD3 NY"
     }
-  }
+  },
+  "updated": "2026-06-13T14:55:09.957516",
+  "note": "Group-venue mapping verified against schedule"
 }

@@ -1,20 +1,27 @@
 {
   "default": {
+    "elo": 0.30,
+    "poisson": 0.25,
+    "factor_model": 0.25,
+    "news_sentiment": 0.05,
+    "unstructured_signals": 0.15
+  },
+  "conservative": {
     "elo": 0.35,
     "poisson": 0.30,
     "factor_model": 0.20,
-    "news_sentiment": 0.15
-  },
-  "conservative": {
-    "elo": 0.40,
-    "poisson": 0.35,
-    "factor_model": 0.15,
-    "news_sentiment": 0.10
+    "news_sentiment": 0.05,
+    "unstructured_signals": 0.10
   },
   "aggressive": {
-    "elo": 0.25,
-    "poisson": 0.25,
+    "elo": 0.20,
+    "poisson": 0.20,
     "factor_model": 0.25,
-    "news_sentiment": 0.25
+    "news_sentiment": 0.05,
+    "unstructured_signals": 0.30
+  },
+  "__v5.0_notes": {
+    "updated": "2026-06-18",
+    "changes": "Added unstructured_signals weight. Reduced news_sentiment from 0.15→0.05 as keyword sentiment is now complemented by LLM signals. Unstructured signals at 0.15 default, 0.30 aggressive."
   }
 }

@@ -393,11 +393,32 @@ SF_PAIRING = [(1, 2), (3, 4)]
 # 4. Match simulation helpers
 # ============================================================
 def predict_score(elo_a, elo_b, home_adv=0):
-    """Poisson-based score prediction"""
+    """Poisson-based score prediction.
+    v3.3: Switched from exponential to linear formula to prevent blowout predictions.
+    Added noise for single-match predictions to avoid overconfidence.
+    """
     elo_diff = elo_a - elo_b + home_adv
-    base = 1.45
-    lam_a = max(0.2, base * 10**(elo_diff / 500))
-    lam_b = max(0.2, base * 10**(-elo_diff / 500))
+    # Linear formula: base ± elo_diff/divisor, clamped to [0.4, 3.0]
+    # This prevents the exponential blowup that gave Spain λ=5.5 vs Cape Verde (actual 0-0)
+    base = 1.4
+    divisor = 300
+    lam_a = max(0.4, min(3.0, base + elo_diff / divisor))
+    lam_b = max(0.4, min(3.0, base - elo_diff / divisor))
+
+    # v3.3: Add small random jitter (±0.15) to avoid deterministic overconfidence
+    # Only for single predictions, not Monte Carlo (MC has its own jitter)
+    import random as _random
+    lam_a += _random.gauss(0, 0.12)
+    lam_b += _random.gauss(0, 0.12)
+    lam_a = max(0.2, lam_a)
+    lam_b = max(0.2, lam_b)
+
+    # v3.3: Group stage regression to mean — pulls extreme predictions toward
+    # the center. Real tournament data shows 50% draws in group stage (vs 25% typical).
+    # 20% regression weight helps the model not be overconfident in blowouts.
+    regression_weight = 0.20
+    lam_a = lam_a * (1 - regression_weight) + base * regression_weight
+    lam_b = lam_b * (1 - regression_weight) + base * regression_weight
 
     scores = {}
     for ga in range(7):
@@ -1458,7 +1479,7 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
         'description': f"{team_a}: {friendly_a:+d} (warm-up form) | {team_b}: {friendly_b:+d}" if friendly_a or friendly_b else "No recent friendlies data"
     }
 
-    # --- Layer 5: News Sentiment (optional) ---
+    # --- Layer 5: News Sentiment (optional, v4.5 keyword-based) ---
     news_adj = {}
     if enable_news:
         sentiment = load_news_sentiment(True)
@@ -1474,6 +1495,45 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
         'team_a_adj': news_adj.get(team_a, 0),
         'team_b_adj': news_adj.get(team_b, 0),
         'description': f"{team_a}: {news_adj.get(team_a, 0):+d} | {team_b}: {news_adj.get(team_b, 0):+d}" if news_adj else "Not enabled"
+    }
+
+    # --- Layer 5.5: Unstructured Signals (v5.0, LLM-based) ---
+    sig_adj = {}
+    try:
+        from scripts.signal_fusion import SignalFusionEngine, compute_tactical_matchup
+        from scripts.unstructured_extractor import UnstructuredExtractor
+        
+        if enable_news:  # Reuse --news flag for v5.0 signals
+            extractor = UnstructuredExtractor()
+            sig_result = extractor.extract_for_teams([team_a, team_b])
+            
+            if sig_result['meta']['total_articles'] > 0:
+                # Get signals from cache or extracted data
+                sigs_a = sig_result['teams'].get(team_a, {}).get('signals', [])
+                sigs_b = sig_result['teams'].get(team_b, {}).get('signals', [])
+                
+                engine = SignalFusionEngine()
+                fusion = engine.compute_matchup_adjustments(sigs_a, sigs_b, elo_a, elo_b)
+                
+                sig_adj[team_a] = fusion['team_a_adjustment']
+                sig_adj[team_b] = fusion['team_b_adjustment']
+                effective_a += fusion['team_a_adjustment']
+                effective_b += fusion['team_b_adjustment']
+                
+                # Add tactical matchup
+                tm_score = compute_tactical_matchup(team_a, team_b)
+                tm_elo = int(tm_score * 30)  # scale to ELO
+                if tm_elo != 0:
+                    sig_adj['tactical_matchup'] = tm_score
+    except Exception as e:
+        pass
+    
+    audit['layers']['5.5_unstructured_signals'] = {
+        'enabled': enable_news and bool(sig_adj),
+        'team_a_adj': sig_adj.get(team_a, 0),
+        'team_b_adj': sig_adj.get(team_b, 0),
+        'tactical_matchup': sig_adj.get('tactical_matchup', 0),
+        'description': f"{team_a}: {sig_adj.get(team_a, 0):+d} | {team_b}: {sig_adj.get(team_b, 0):+d}" if sig_adj else "Not enabled / no signals"
     }
 
     # --- Layer 6: Manual Adjustments ---
@@ -1522,21 +1582,28 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
     draw_p = audit['prediction']['draw']
     win_b = audit['prediction']['team_b_win']
 
-    if win_a >= 60:
-        verdict = f"{team_a} 胜（高置信度）"
+    # Use Chinese team names for verdict
+    cn_a = TEAM_PROFILES.get(team_a, {}).get('name_cn', team_a)
+    cn_b = TEAM_PROFILES.get(team_b, {}).get('name_cn', team_b)
+    # v3.3: Adjusted thresholds — more conservative, draw-aware
+    if win_a >= 70:
+        verdict = f"{cn_a} 胜（高置信度）"
         confidence = 'high'
-    elif win_a >= 50:
-        verdict = f"{team_a} 胜（中置信度）"
+    elif win_a >= 55 and win_a > draw_p:
+        verdict = f"{cn_a} 胜（中置信度）"
         confidence = 'medium'
-    elif draw_p >= 35:
+    elif win_b >= 70:
+        verdict = f"{cn_b} 胜（高置信度）"
+        confidence = 'high'
+    elif win_b >= 55 and win_b > draw_p:
+        verdict = f"{cn_b} 胜（中置信度）"
+        confidence = 'medium'
+    elif draw_p >= 30:
         verdict = "平局（高概率）"
         confidence = 'medium'
-    elif win_b >= 50:
-        verdict = f"{team_b} 胜（中置信度）"
-        confidence = 'medium'
-    elif win_b >= 60:
-        verdict = f"{team_b} 胜（高置信度）"
-        confidence = 'high'
+    elif max(win_a, win_b) < 45 and draw_p >= 25:
+        verdict = "倾向平局"
+        confidence = 'low'
     else:
         verdict = "势均力敌（低置信度）"
         confidence = 'low'
@@ -1702,7 +1769,7 @@ def print_match_prediction(audit, team_profiles=None):
     print(f"  平局:    {pred['draw']:5.1f}% {'█' * draw_bar}")
     print(f"  {nb} 胜:  {pred['team_b_win']:5.1f}% {'█' * win_b_bar}")
     print(f"  最可能比分: {pred['most_likely_score']} "
-          f"(xG: {ta} {pred['expected_goals_a']:.2f} / {tb} {pred['expected_goals_b']:.2f})")
+          f"(xG: {na} {pred['expected_goals_a']:.2f} / {nb} {pred['expected_goals_b']:.2f})")
     if 'knockout_note' in pred:
         print(f"  ⚠️ {pred['knockout_note']}")
     print()

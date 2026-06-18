@@ -519,6 +519,248 @@
       "neutral": true,
       "notes": "",
       "source": "manual"
+    },
+    {
+      "date": "2026-06-06",
+      "team_a": "United States",
+      "team_b": "Germany",
+      "score_a": 1,
+      "score_b": 2,
+      "venue": "Soldier Field, Chicago",
+      "neutral": false,
+      "notes": "Pre-WC sendoff friendly",
+      "source": "ESPN"
+    },
+    {
+      "date": "2026-03-31",
+      "team_a": "United States",
+      "team_b": "Portugal",
+      "score_a": 0,
+      "score_b": 2,
+      "venue": "Atlanta, GA",
+      "neutral": false,
+      "notes": "March friendly window",
+      "source": "ESPN"
+    },
+    {
+      "date": "2026-03-28",
+      "team_a": "United States",
+      "team_b": "Belgium",
+      "score_a": 2,
+      "score_b": 5,
+      "venue": "Atlanta, GA",
+      "neutral": false,
+      "notes": "Heavy defeat to Belgium",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-11-18",
+      "team_a": "United States",
+      "team_b": "Uruguay",
+      "score_a": 5,
+      "score_b": 1,
+      "venue": "Subaru Park, Chester, PA",
+      "neutral": false,
+      "notes": "Dominant win over Uruguay",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-11-15",
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score_a": 2,
+      "score_b": 1,
+      "venue": "Subaru Park, Chester, PA",
+      "neutral": false,
+      "notes": "Narrow win over Paraguay",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-10-14",
+      "team_a": "United States",
+      "team_b": "Australia",
+      "score_a": 2,
+      "score_b": 1,
+      "venue": "USA",
+      "neutral": false,
+      "notes": "Friendly vs Australia",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-10-10",
+      "team_a": "United States",
+      "team_b": "Ecuador",
+      "score_a": 1,
+      "score_b": 1,
+      "venue": "USA",
+      "neutral": false,
+      "notes": "Draw with Ecuador",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-09-09",
+      "team_a": "United States",
+      "team_b": "Japan",
+      "score_a": 2,
+      "score_b": 0,
+      "venue": "USA",
+      "neutral": false,
+      "notes": "Clean sheet vs Japan",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-09-06",
+      "team_a": "United States",
+      "team_b": "South Korea",
+      "score_a": 0,
+      "score_b": 2,
+      "venue": "USA",
+      "neutral": false,
+      "notes": "Loss to South Korea at home",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-06-10",
+      "team_a": "United States",
+      "team_b": "Switzerland",
+      "score_a": 0,
+      "score_b": 4,
+      "venue": "USA",
+      "neutral": false,
+      "notes": "Heavy home defeat to Switzerland",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-06-07",
+      "team_a": "United States",
+      "team_b": "Turkey",
+      "score_a": 1,
+      "score_b": 2,
+      "venue": "USA",
+      "neutral": false,
+      "notes": "Gold Cup warmup loss",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-01-22",
+      "team_a": "United States",
+      "team_b": "Costa Rica",
+      "score_a": 3,
+      "score_b": 0,
+      "venue": "USA",
+      "neutral": false,
+      "notes": "January camp friendly",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-01-18",
+      "team_a": "United States",
+      "team_b": "Venezuela",
+      "score_a": 3,
+      "score_b": 1,
+      "venue": "USA",
+      "neutral": false,
+      "notes": "January camp friendly",
+      "source": "ESPN"
+    },
+    {
+      "date": "2024-10-15",
+      "team_a": "Mexico",
+      "team_b": "United States",
+      "score_a": 2,
+      "score_b": 0,
+      "venue": "Estadio Akron, Guadalajara",
+      "neutral": false,
+      "notes": "Away friendly loss to Mexico",
+      "source": "ESPN"
+    },
+    {
+      "date": "2026-03-31",
+      "team_a": "Morocco",
+      "team_b": "Paraguay",
+      "score_a": 2,
+      "score_b": 1,
+      "venue": "Morocco",
+      "neutral": false,
+      "notes": "Away loss to Morocco",
+      "source": "ESPN"
+    },
+    {
+      "date": "2026-03-27",
+      "team_a": "Greece",
+      "team_b": "Paraguay",
+      "score_a": 0,
+      "score_b": 1,
+      "venue": "Greece",
+      "neutral": false,
+      "notes": "Away win vs Greece",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-11-18",
+      "team_a": "Mexico",
+      "team_b": "Paraguay",
+      "score_a": 1,
+      "score_b": 2,
+      "venue": "Mexico",
+      "neutral": false,
+      "notes": "Away win over Mexico",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-10-14",
+      "team_a": "South Korea",
+      "team_b": "Paraguay",
+      "score_a": 2,
+      "score_b": 0,
+      "venue": "South Korea",
+      "neutral": false,
+      "notes": "Away loss to South Korea",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-10-10",
+      "team_a": "Japan",
+      "team_b": "Paraguay",
+      "score_a": 2,
+      "score_b": 2,
+      "venue": "Japan",
+      "neutral": false,
+      "notes": "Away draw with Japan",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-06-16",
+      "team_a": "Panama",
+      "team_b": "Paraguay",
+      "score_a": 0,
+      "score_b": 1,
+      "venue": "Panama",
+      "neutral": false,
+      "notes": "Away win vs Panama",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-06-11",
+      "team_a": "Chile",
+      "team_b": "Paraguay",
+      "score_a": 3,
+      "score_b": 0,
+      "venue": "Chile",
+      "neutral": false,
+      "notes": "Heavy away loss to Chile",
+      "source": "ESPN"
+    },
+    {
+      "date": "2025-06-07",
+      "team_a": "Peru",
+      "team_b": "Paraguay",
+      "score_a": 0,
+      "score_b": 0,
+      "venue": "Peru",
+      "neutral": false,
+      "notes": "Scoreless draw vs Peru",
+      "source": "ESPN"
     }
   ]
 }

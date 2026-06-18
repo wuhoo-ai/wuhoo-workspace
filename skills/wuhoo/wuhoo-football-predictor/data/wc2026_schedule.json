@@ -8,7 +8,9 @@
     "timezone_beijing": "China Standard Time (UTC+8)",
     "groups_covered": 12,
     "matchdays": 3,
-    "note": "MD3 matches have simultaneous kickoffs. Venue names match data/venues.json and data/group_venues.json."
+    "note": "Results synced from wc2026_results.json",
+    "updated": "2026-06-13T14:54:52.411943",
+    "results_updated": "4 matches have results"
   },
   "matches": [
     {
@@ -22,7 +24,10 @@
       "team_b": "South Africa",
       "venue": "Estadio Azteca",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 0
     },
     {
       "match_id": 2,
@@ -35,7 +40,10 @@
       "team_b": "Czech Republic",
       "venue": "Estadio Akron",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 1
     },
     {
       "match_id": 3,
@@ -48,7 +56,10 @@
       "team_b": "Bosnia and Herzegovina",
       "venue": "BMO Field",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 4,
@@ -61,7 +72,10 @@
       "team_b": "Paraguay",
       "venue": "SoFi Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 4,
+      "score_b": 1
     },
     {
       "match_id": 5,

@@ -1,8 +1,8 @@
 {
   "description": "2026 FIFA World Cup — 48 Team Profiles (estimated data)",
   "source": "FIFA rankings estimated as of early 2026, confederation data from FIFA, historical data from Wikipedia",
-  "generated": "2026-05-02",
-  "note": "FIFA rankings are approximate; ELO ratings from clubelo.com (2026-05-01)",
+  "generated": "2026-06-13",
+  "note": "Profiles refreshed for WC2026. 48/48 teams covered.",
   "teams": {
     "Mexico": {
       "name_cn": "墨西哥",
@@ -441,5 +441,6 @@
       "country": "United States",
       "name_en": "United States"
     }
-  }
+  },
+  "updated": "2026-06-13T14:54:52.411943"
 }

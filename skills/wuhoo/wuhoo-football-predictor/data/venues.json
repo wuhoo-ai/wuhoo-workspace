@@ -11,7 +11,8 @@
       "humidity": "moderate",
       "heat_elo_penalty": 0,
       "climate_note": "High altitude — ~20% less oxygen, significant advantage for acclimated teams",
-      "capacity": 87523
+      "capacity": 87523,
+      "matches_hosted": 3
     },
     "Estadio BBVA": {
       "city": "Monterrey",
@@ -22,7 +23,8 @@
       "humidity": "moderate",
       "heat_elo_penalty": 10,
       "climate_note": "Warm, moderate altitude",
-      "capacity": 53500
+      "capacity": 53500,
+      "matches_hosted": 1
     },
     "Estadio Akron": {
       "city": "Guadalajara",
@@ -33,7 +35,8 @@
       "humidity": "moderate",
       "heat_elo_penalty": 5,
       "climate_note": "High altitude — ~12% less oxygen",
-      "capacity": 48171
+      "capacity": 48171,
+      "matches_hosted": 3
     },
     "AT&T Stadium": {
       "city": "Arlington (Dallas)",
@@ -45,7 +48,8 @@
       "heat_elo_penalty": 20,
       "climate_note": "Very hot, indoor stadium (AC) — heat penalty reduced",
       "indoor": true,
-      "capacity": 80000
+      "capacity": 80000,
+      "matches_hosted": 7
     },
     "Mercedes-Benz Stadium": {
       "city": "Atlanta",
@@ -57,7 +61,8 @@
       "heat_elo_penalty": 15,
       "climate_note": "Hot & humid, indoor stadium (AC) — heat penalty reduced",
       "indoor": true,
-      "capacity": 71000
+      "capacity": 71000,
+      "matches_hosted": 3
     },
     "Gillette Stadium": {
       "city": "Foxborough (Boston)",
@@ -68,7 +73,8 @@
       "humidity": "moderate",
       "heat_elo_penalty": 0,
       "climate_note": "Mild summer, open air",
-      "capacity": 65878
+      "capacity": 65878,
+      "matches_hosted": 6
     },
     "NRG Stadium": {
       "city": "Houston",
@@ -80,7 +86,8 @@
       "heat_elo_penalty": 15,
       "climate_note": "Very hot & humid, indoor (AC)",
       "indoor": true,
-      "capacity": 72220
+      "capacity": 72220,
+      "matches_hosted": 6
     },
     "Arrowhead Stadium": {
       "city": "Kansas City",
@@ -91,7 +98,8 @@
       "humidity": "high",
       "heat_elo_penalty": 10,
       "climate_note": "Hot & humid summer, open air",
-      "capacity": 76416
+      "capacity": 76416,
+      "matches_hosted": 5
     },
     "SoFi Stadium": {
       "city": "Inglewood (Los Angeles)",
@@ -103,7 +111,8 @@
       "heat_elo_penalty": 0,
       "climate_note": "Mild, dry — ideal conditions",
       "indoor": true,
-      "capacity": 70240
+      "capacity": 70240,
+      "matches_hosted": 5
     },
     "Hard Rock Stadium": {
       "city": "Miami Gardens",
@@ -114,7 +123,8 @@
       "humidity": "very high",
       "heat_elo_penalty": 25,
       "climate_note": "Hot & extremely humid — significant fatigue factor",
-      "capacity": 65326
+      "capacity": 65326,
+      "matches_hosted": 7
     },
     "MetLife Stadium": {
       "city": "East Rutherford (New York)",
@@ -125,7 +135,8 @@
       "humidity": "moderate",
       "heat_elo_penalty": 5,
       "climate_note": "Warm summer, moderate humidity — FINAL venue",
-      "capacity": 82500
+      "capacity": 82500,
+      "matches_hosted": 6
     },
     "Lincoln Financial Field": {
       "city": "Philadelphia",
@@ -136,7 +147,8 @@
       "humidity": "moderate",
       "heat_elo_penalty": 5,
       "climate_note": "Warm summer",
-      "capacity": 67594
+      "capacity": 67594,
+      "matches_hosted": 4
     },
     "Levi's Stadium": {
       "city": "Santa Clara (San Francisco)",
@@ -147,7 +159,8 @@
       "humidity": "low",
       "heat_elo_penalty": 0,
       "climate_note": "Mild, dry — ideal conditions",
-      "capacity": 68500
+      "capacity": 68500,
+      "matches_hosted": 2
     },
     "Lumen Field": {
       "city": "Seattle",
@@ -158,7 +171,8 @@
       "humidity": "moderate",
       "heat_elo_penalty": 0,
       "climate_note": "Mild, cool summer — favorable for European teams",
-      "capacity": 68740
+      "capacity": 68740,
+      "matches_hosted": 5
     },
     "BC Place": {
       "city": "Vancouver",
@@ -170,7 +184,8 @@
       "heat_elo_penalty": 0,
       "climate_note": "Cool, mild — favorable for European teams",
       "indoor": true,
-      "capacity": 54500
+      "capacity": 54500,
+      "matches_hosted": 5
     },
     "BMO Field": {
       "city": "Toronto",
@@ -181,19 +196,51 @@
       "humidity": "moderate",
       "heat_elo_penalty": 0,
       "climate_note": "Warm summer, moderate humidity",
-      "capacity": 45000
+      "capacity": 45000,
+      "matches_hosted": 4
     }
   },
   "altitude_scale": {
     "note": "ELO penalty for non-acclimated teams at high altitude",
-    "teams_acclimated": ["Mexico", "Ecuador", "Bolivia", "Colombia", "Peru"],
+    "teams_acclimated": [
+      "Mexico",
+      "Ecuador",
+      "Bolivia",
+      "Colombia",
+      "Peru"
+    ],
     "penalty_per_1000m": 40,
     "recovery_days": 7
   },
   "heat_scale": {
     "note": "ELO penalty for teams from cool climates playing in heat",
-    "teams_heat_resistant": ["Mexico", "Brazil", "Argentina", "Uruguay", "Paraguay", "Colombia", "Ecuador", "Nigeria", "Ghana", "Ivory Coast", "Senegal", "Cameroon", "Egypt", "Morocco", "Tunisia", "Algeria", "Saudi Arabia", "Iran", "Iraq", "Qatar", "Australia", "South Africa"],
+    "teams_heat_resistant": [
+      "Mexico",
+      "Brazil",
+      "Argentina",
+      "Uruguay",
+      "Paraguay",
+      "Colombia",
+      "Ecuador",
+      "Nigeria",
+      "Ghana",
+      "Ivory Coast",
+      "Senegal",
+      "Cameroon",
+      "Egypt",
+      "Morocco",
+      "Tunisia",
+      "Algeria",
+      "Saudi Arabia",
+      "Iran",
+      "Iraq",
+      "Qatar",
+      "Australia",
+      "South Africa"
+    ],
     "threshold_c": 28,
     "penalty_per_5c_above": 10
-  }
+  },
+  "updated": "2026-06-13T14:54:52.411943",
+  "note": "16 venues used in 72-match schedule"
 }

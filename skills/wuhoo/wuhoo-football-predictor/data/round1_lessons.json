@@ -1,0 +1,656 @@
+{
+  "generated": "2026-06-18",
+  "total_matches": 20,
+  "overall_accuracy": 0.3889,
+  "upsets": [
+    {
+      "match_id": 13,
+      "date": "2026-06-16",
+      "match": "西班牙 vs 佛得角",
+      "teams": {
+        "a": "Spain",
+        "b": "Cape Verde"
+      },
+      "score": "0-0",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 2056,
+        "b": 1658,
+        "diff": 398
+      },
+      "is_upset": true,
+      "article_count": 29,
+      "signals": [
+        {
+          "type": "injury",
+          "text": "Is Lamine Yamal playing? Spain vs Cape Verde confirmed lineups for the 2026 World Cup Group H game",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "Emotional full-time scenes as Cape Verde celebrate 0-0 draw against Spain",
+        "The 40-year-old keeper who inspired Cape Verde's historic debut against Spain",
+        "Cape Verde hero Vozinha goes viral after making World Cup history against Spain",
+        "How to watch Spain vs Cape Verde in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "After Cape Verde’s heroics against Spain, more great World Cup underdog stories"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "match_id": 1,
+      "date": "2026-06-12",
+      "match": "墨西哥 vs 南非",
+      "teams": {
+        "a": "Mexico",
+        "b": "South Africa"
+      },
+      "score": "2-0",
+      "outcome": "Mexico WIN",
+      "elo": {
+        "a": 1927,
+        "b": 1455,
+        "diff": 472
+      },
+      "is_upset": false,
+      "article_count": 27,
+      "signals": [
+        {
+          "type": "discipline",
+          "text": "Three red cards shown as Mexico beat South Africa in World Cup opener",
+          "source": "BBC Sport Football"
+        },
+        {
+          "type": "discipline",
+          "text": "South Africa equals unwanted World Cup record in defeat to Mexico with two red cards in opener",
+          "source": "World Soccer Talk"
+        },
+        {
+          "type": "discipline",
+          "text": "THREE red cards as Mexico get World Cup started with win over South Africa",
+          "source": "Sky Sports Football"
+        },
+        {
+          "type": "discipline",
+          "text": "Julian Quiñones and Raul Jimenez power Mexico to a 2-0 victory over South Africa in three red-card 2",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "How to watch Mexico vs South Africa in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Three red cards shown as Mexico beat South Africa in World Cup opener",
+        "Mexico vs South Africa: Confirmed lineups for the 2026 FIFA World Cup opener",
+        "Video: Julian Quinones scores first 2026 World Cup goal for Mexico against South Africa",
+        "South Africa equals unwanted World Cup record in defeat to Mexico with two red cards in opener"
+      ]
+    },
+    {
+      "match_id": 2,
+      "date": "2026-06-12",
+      "match": "韩国 vs 捷克",
+      "teams": {
+        "a": "South Korea",
+        "b": "Czech Republic"
+      },
+      "score": "2-1",
+      "outcome": "South Korea WIN",
+      "elo": {
+        "a": 1904,
+        "b": 1574,
+        "diff": 330
+      },
+      "is_upset": false,
+      "article_count": 8,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "South Korea 2026 World Cup preview: Squad breakdown, key player, and tactical analysis",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "South Korea vs Czech Republic LIVE Updates: Minute-by-minute coverage of the 2026 World Cup Group A game",
+        "2026 World Cup Group A updated standings: Table after South Korea vs Czech Republic match",
+        "Fans on concourses instead of in seats, claims Fifa",
+        "Is Heung-min Son playing? South Korea vs Czech Republic confirmed lineups for the 2026 World Cup game",
+        "South Korea 2026 World Cup preview: Squad breakdown, key player, and tactical analysis"
+      ]
+    },
+    {
+      "match_id": 3,
+      "date": "2026-06-13",
+      "match": "加拿大 vs 波黑",
+      "teams": {
+        "a": "Canada",
+        "b": "Bosnia and Herzegovina"
+      },
+      "score": "1-1",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 1704,
+        "b": 1674,
+        "diff": 30
+      },
+      "is_upset": false,
+      "article_count": 0,
+      "signals": [],
+      "key_headlines": []
+    },
+    {
+      "match_id": 4,
+      "date": "2026-06-13",
+      "match": "美国 vs 巴拉圭",
+      "teams": {
+        "a": "United States",
+        "b": "Paraguay"
+      },
+      "score": "4-1",
+      "outcome": "United States WIN",
+      "elo": {
+        "a": 1969,
+        "b": 1585,
+        "diff": 384
+      },
+      "is_upset": false,
+      "article_count": 18,
+      "signals": [],
+      "key_headlines": [
+        "How to watch USA vs Paraguay in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "World Cup 2026 – USA vs Paraguay – Pulisic and McKennie star for hosts, Sanabria features",
+        "Katy Perry headlines 2026 World Cup opening ceremony in Los Angeles: Full list of artists performing before USA vs Parag",
+        "Pulisic & McKennie link-up for USA vs Paraguay as Bobadilla own-goal puts hosts in front",
+        "Balogun stars in impressive USA win over Paraguay"
+      ]
+    },
+    {
+      "match_id": 5,
+      "date": "2026-06-14",
+      "match": "卡塔尔 vs 瑞士",
+      "teams": {
+        "a": "Qatar",
+        "b": "Switzerland"
+      },
+      "score": "1-1",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 1588,
+        "b": 1728,
+        "diff": -140
+      },
+      "is_upset": false,
+      "article_count": 16,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "Switzerland 2026 World Cup preview: Squad breakdown, key player, and tactical analysis",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "Switzerland stunned by late Qatar equaliser",
+        "Khoukhi heads home late equaliser for Qatar against Switzerland",
+        "Was there an offside in build up to Switzerland penalty?",
+        "How to watch Qatar vs Switzerland in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Muheim’s late own goal gives Qatar dramatic World Cup draw against Switzerland"
+      ]
+    },
+    {
+      "match_id": 6,
+      "date": "2026-06-14",
+      "match": "巴西 vs 摩洛哥",
+      "teams": {
+        "a": "Brazil",
+        "b": "Morocco"
+      },
+      "score": "1-1",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 1920,
+        "b": 1885,
+        "diff": 35
+      },
+      "is_upset": false,
+      "article_count": 22,
+      "signals": [],
+      "key_headlines": [
+        "Brazil forced to settle for Morocco draw despite Vinicius stunner",
+        "Spectacular Vinicius Jr goal earns Brazil draw against Morocco",
+        "How many fans are expected at Brazil vs Morocco at MetLife Stadium in the 2026 World Cup?",
+        "How to watch Brazil vs Morocco in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Saibari's 'clinical' finish gives Morocco lead against Brazil"
+      ]
+    },
+    {
+      "match_id": 7,
+      "date": "2026-06-14",
+      "match": "海地 vs 苏格兰",
+      "teams": {
+        "a": "Haiti",
+        "b": "Scotland"
+      },
+      "score": "0-1",
+      "outcome": "Scotland WIN",
+      "elo": {
+        "a": 1460,
+        "b": 1839,
+        "diff": -379
+      },
+      "is_upset": false,
+      "article_count": 19,
+      "signals": [
+        {
+          "type": "coach_pressure",
+          "text": "Steve Clarke says pressure on Scotland has eased after victory in ‘must-win game’",
+          "source": "The Guardian Football"
+        }
+      ],
+      "key_headlines": [
+        "McGinn gives Scotland the lead against Haiti",
+        "Might Scotland throw midfield curveball at Haiti?",
+        "How to watch Haiti vs Scotland in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Scotland become faithfuls or traitors before World Cup opener against Haiti",
+        "Steve Clarke says pressure on Scotland has eased after victory in ‘must-win game’"
+      ]
+    },
+    {
+      "match_id": 8,
+      "date": "2026-06-14",
+      "match": "澳大利亚 vs 土耳其",
+      "teams": {
+        "a": "Australia",
+        "b": "Turkey"
+      },
+      "score": "2-0",
+      "outcome": "Australia WIN",
+      "elo": {
+        "a": 1981,
+        "b": 1704,
+        "diff": 277
+      },
+      "is_upset": false,
+      "article_count": 8,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "Turkiye 2026 World Cup preview: Squad breakdown, key player, and tactical analysis",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "How to watch Australia vs Turkiye in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Clinical Australia upset Turkey in World Cup opener",
+        "Turkiye 2026 World Cup preview: Squad breakdown, key player, and tactical analysis",
+        "Socceroos stun Turkey as Australia’s youngsters shine in opening World Cup win",
+        "Popovic hails ‘special’ young Australia side after winning World Cup opener"
+      ]
+    },
+    {
+      "match_id": 9,
+      "date": "2026-06-15",
+      "match": "德国 vs 库拉索",
+      "teams": {
+        "a": "Germany",
+        "b": "Curacao"
+      },
+      "score": "7-1",
+      "outcome": "Germany WIN",
+      "elo": {
+        "a": 1953,
+        "b": 1406,
+        "diff": 547
+      },
+      "is_upset": false,
+      "article_count": 21,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "How to watch Germany vs Curaçao in USA: 2026 World Cup, Live Stream, TV & Preview",
+          "source": "World Soccer Talk"
+        },
+        {
+          "type": "tactical",
+          "text": "World Cup Review: Germany Dominates as Curaçao Makes History",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "Germany fire SEVEN past World Cup debutants Curacao",
+        "Havertz scores twice as Germany thrash Curacao",
+        "How to watch Germany vs Curaçao in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Video: Comenencia makes history with Curacao’s first-ever World Cup goal on debut vs Germany",
+        "Fact check: Hitler look-alike at Germany's World Cup match?"
+      ]
+    },
+    {
+      "match_id": 10,
+      "date": "2026-06-15",
+      "match": "荷兰 vs 日本",
+      "teams": {
+        "a": "Netherlands",
+        "b": "Japan"
+      },
+      "score": "2-2",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 1944,
+        "b": 1921,
+        "diff": 23
+      },
+      "is_upset": false,
+      "article_count": 16,
+      "signals": [],
+      "key_headlines": [
+        "Netherlands vs Japan: Confirmed lineups for 2026 World Cup group F game",
+        "Japan come from behind twice to draw with Netherlands",
+        "How to watch Netherlands vs Japan in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Japan level it late to earn draw with the Netherlands",
+        "Daichi Kamada scores dramatic late equalizer as Japan draw 2-2 against Netherlands at 2026 World Cup Group F game"
+      ]
+    },
+    {
+      "match_id": 11,
+      "date": "2026-06-15",
+      "match": "科特迪瓦 vs 厄瓜多尔",
+      "teams": {
+        "a": "Ivory Coast",
+        "b": "Ecuador"
+      },
+      "score": "1-0",
+      "outcome": "Ivory Coast WIN",
+      "elo": {
+        "a": 1859,
+        "b": 1750,
+        "diff": 109
+      },
+      "is_upset": false,
+      "article_count": 0,
+      "signals": [],
+      "key_headlines": []
+    },
+    {
+      "match_id": 12,
+      "date": "2026-06-15",
+      "match": "瑞典 vs 突尼斯",
+      "teams": {
+        "a": "Sweden",
+        "b": "Tunisia"
+      },
+      "score": "5-1",
+      "outcome": "Sweden WIN",
+      "elo": {
+        "a": 1845,
+        "b": 1510,
+        "diff": 335
+      },
+      "is_upset": false,
+      "article_count": 15,
+      "signals": [],
+      "key_headlines": [
+        "How to watch Sweden vs Tunisia in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Gyokeres & Isak score as Sweden put five past Tunisia",
+        "Sweden vs Tunisia team news LIVE!",
+        "Tunisia sack head coach after heavy defeat in World Cup opener",
+        "World Cup 2026: Sweden vs Tunisia Lineups – Atalanta’s Hien and Udinese’s Karlstrom start in Monterrey"
+      ]
+    },
+    {
+      "match_id": 13,
+      "date": "2026-06-16",
+      "match": "西班牙 vs 佛得角",
+      "teams": {
+        "a": "Spain",
+        "b": "Cape Verde"
+      },
+      "score": "0-0",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 2056,
+        "b": 1658,
+        "diff": 398
+      },
+      "is_upset": true,
+      "article_count": 29,
+      "signals": [
+        {
+          "type": "injury",
+          "text": "Is Lamine Yamal playing? Spain vs Cape Verde confirmed lineups for the 2026 World Cup Group H game",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "Emotional full-time scenes as Cape Verde celebrate 0-0 draw against Spain",
+        "The 40-year-old keeper who inspired Cape Verde's historic debut against Spain",
+        "Cape Verde hero Vozinha goes viral after making World Cup history against Spain",
+        "How to watch Spain vs Cape Verde in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "After Cape Verde’s heroics against Spain, more great World Cup underdog stories"
+      ]
+    },
+    {
+      "match_id": 14,
+      "date": "2026-06-16",
+      "match": "比利时 vs 埃及",
+      "teams": {
+        "a": "Belgium",
+        "b": "Egypt"
+      },
+      "score": "1-1",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 1821,
+        "b": 1734,
+        "diff": 87
+      },
+      "is_upset": false,
+      "article_count": 16,
+      "signals": [],
+      "key_headlines": [
+        "How to watch Belgium vs Egypt in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Lukaku makes impact off the bench as Belgium draw with Egypt",
+        "Is Mo Salah playing? Belgium vs Egypt confirmed lineups for the 2026 World Cup Group G game",
+        "Egypt denied first World Cup win in Belgium draw as Lukaku makes instant impact",
+        "'My word!' - Ashour's long-range strikes put Egypt ahead"
+      ]
+    },
+    {
+      "match_id": 15,
+      "date": "2026-06-16",
+      "match": "沙特阿拉伯 vs 乌拉圭",
+      "teams": {
+        "a": "Saudi Arabia",
+        "b": "Uruguay"
+      },
+      "score": "1-1",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 1644,
+        "b": 1816,
+        "diff": -172
+      },
+      "is_upset": false,
+      "article_count": 12,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "How to watch Saudi Arabia vs Uruguay in USA: 2026 World Cup, Live Stream, TV & Preview",
+          "source": "World Soccer Talk"
+        },
+        {
+          "type": "tactical",
+          "text": "Saudi Arabia 2026 World Cup preview: Squad breakdown, key player, and tactical analysis",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "'Huge goal!' - Araujo equalises for Uruguay against Saudi Arabia",
+        "Uruguay equalise late after Saudi Arabia goalkeeper heroics",
+        "Saudi Arabia hold off relentless Uruguay to earn draw",
+        "How to watch Saudi Arabia vs Uruguay in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Are billions flooding into Saudi Pro League helping national team?"
+      ]
+    },
+    {
+      "match_id": 16,
+      "date": "2026-06-16",
+      "match": "伊朗 vs 新西兰",
+      "teams": {
+        "a": "Iran",
+        "b": "New Zealand"
+      },
+      "score": "2-2",
+      "outcome": "DRAW",
+      "elo": {
+        "a": 1715,
+        "b": 1630,
+        "diff": 85
+      },
+      "is_upset": false,
+      "article_count": 16,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "New Zealand 2026 World Cup preview: Squad breakdown, key player, and tactical analysis",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "How to watch Iran vs New Zealand in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Just scores double but New Zealand held by Iran in entertaining game",
+        "Iran vs New Zealand LIVE Updates: Elijah Just opens the score for the All Whites! (0-1)",
+        "Is Tim Payne playing? Iran vs New Zealand confirmed lineups for the 2026 World Cup Group G game",
+        "Just gives New Zealand lead after bright Iran start LIVE!"
+      ]
+    },
+    {
+      "match_id": 17,
+      "date": "2026-06-17",
+      "match": "法国 vs 塞内加尔",
+      "teams": {
+        "a": "France",
+        "b": "Senegal"
+      },
+      "score": "3-1",
+      "outcome": "France WIN",
+      "elo": {
+        "a": 2115,
+        "b": 1846,
+        "diff": 269
+      },
+      "is_upset": false,
+      "article_count": 19,
+      "signals": [],
+      "key_headlines": [
+        "Highlights: Mbappe stars as France beat Senegal",
+        "How to watch France vs Senegal in USA: 2026 World Cup Group Stage, Live Stream, TV & Preview",
+        "Brilliant Mbappe becomes France's top scorer in win over Senegal",
+        "Video: Kylian Mbappe breaks France’s all-time scoring record with a brace vs Senegal at 2026 World Cup",
+        "Kylian Mbappe leads France to 3-1 win over Senegal at 2026 World Cup, breaking Olivier Giroud’s scoring record"
+      ]
+    },
+    {
+      "match_id": 18,
+      "date": "2026-06-17",
+      "match": "伊拉克 vs 挪威",
+      "teams": {
+        "a": "Iraq",
+        "b": "Norway"
+      },
+      "score": "1-3",
+      "outcome": "Norway WIN",
+      "elo": {
+        "a": 1586,
+        "b": 1933,
+        "diff": -347
+      },
+      "is_upset": false,
+      "article_count": 16,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "How to watch Iraq vs Norway in USA: 2026 World Cup, Live Stream, TV & Preview",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "Highlights: Haaland scores twice in Norway win over Iraq",
+        "Haaland stars on World Cup debut as Norway sink Iraq",
+        "How to watch Iraq vs Norway in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Prediction: Iraq vs Norway",
+        "Is Erling Haaland playing? Norway vs Iraq confirmed lineups for the 2026 World Cup Group I match"
+      ]
+    },
+    {
+      "match_id": 19,
+      "date": "2026-06-17",
+      "match": "阿根廷 vs 阿尔及利亚",
+      "teams": {
+        "a": "Argentina",
+        "b": "Algeria"
+      },
+      "score": "3-0",
+      "outcome": "Argentina WIN",
+      "elo": {
+        "a": 2132,
+        "b": 1724,
+        "diff": 408
+      },
+      "is_upset": false,
+      "article_count": 20,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "How to watch Argentina vs Algeria in USA: 2026 Tournament, Live Stream, TV & Preview",
+          "source": "World Soccer Talk"
+        },
+        {
+          "type": "lineup_surprise",
+          "text": "Why isn’t Julian Alvarez starting for Argentina vs Algeria at 2026 World Cup?",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "Why isn’t Riyad Mahrez starting for Algeria vs Argentina at 2026 World Cup?",
+        "How to watch Argentina vs Algeria in USA: 2026 Tournament, Live Stream, TV & Preview",
+        "Messi stands alone in World Cup history after scoring against Algeria, becoming the first player to find the net against",
+        "Argentina vs Algeria LIVE Updates: Messi puts Argentina ahead (1-0) in World Cup Group J game",
+        "Why isn’t Nicolas Tagliafico playing for Argentina vs Algeria at the 2026 World Cup?"
+      ]
+    },
+    {
+      "match_id": 20,
+      "date": "2026-06-17",
+      "match": "奥地利 vs 约旦",
+      "teams": {
+        "a": "Austria",
+        "b": "Jordan"
+      },
+      "score": "3-1",
+      "outcome": "Austria WIN",
+      "elo": {
+        "a": 1869,
+        "b": 1648,
+        "diff": 221
+      },
+      "is_upset": false,
+      "article_count": 9,
+      "signals": [
+        {
+          "type": "tactical",
+          "text": "Austria 2026 World Cup preview: Squad breakdown, key player, and tactical analysis",
+          "source": "World Soccer Talk"
+        },
+        {
+          "type": "tactical",
+          "text": "Jordan 2026 World Cup preview: Squad breakdown, key player, and tactical analysis",
+          "source": "World Soccer Talk"
+        }
+      ],
+      "key_headlines": [
+        "Arnautovic on target as Austria beat spirited Jordan",
+        "How to watch Austria vs Jordan in USA: 2026 World Cup, Live Stream, TV & Preview",
+        "Marko Arnautovic adds gloss to scoreline as Austria see off World Cup debutants Jordan",
+        "Jordan and Uzbekistan ready to crash World Cup party and take on giants",
+        "Austria 2026 World Cup preview: Squad breakdown, key player, and tactical analysis"
+      ]
+    }
+  ]
+}

@@ -1,20 +1,20 @@
 {
-  "last_update": "2026-06-08T06:58:44.272698+00:00",
+  "last_update": "2026-06-13T06:50:28.754711+00:00",
   "source": "static fallback (2026-05-21)",
   "team_count": 64,
   "ratings": {
     "Spain": {
-      "elo": 2165,
+      "elo": 2056,
       "rank": 1,
       "country": "Spain"
     },
     "Argentina": {
-      "elo": 2113,
+      "elo": 2132,
       "rank": 2,
       "country": "Argentina"
     },
     "France": {
-      "elo": 2082,
+      "elo": 2115,
       "rank": 3,
       "country": "France"
     },
@@ -24,7 +24,7 @@
       "country": "England"
     },
     "Brazil": {
-      "elo": 1984,
+      "elo": 1920,
       "rank": 5,
       "country": "Brazil"
     },
@@ -39,12 +39,12 @@
       "country": "Colombia"
     },
     "Netherlands": {
-      "elo": 1961,
+      "elo": 1944,
       "rank": 8,
       "country": "Netherlands"
     },
     "Ecuador": {
-      "elo": 1933,
+      "elo": 1750,
       "rank": 9,
       "country": "Ecuador"
     },
@@ -54,37 +54,37 @@
       "country": "Croatia"
     },
     "Germany": {
-      "elo": 1923,
+      "elo": 1953,
       "rank": 11,
       "country": "Germany"
     },
     "Norway": {
-      "elo": 1912,
+      "elo": 1933,
       "rank": 12,
       "country": "Norway"
     },
     "Japan": {
-      "elo": 1904,
+      "elo": 1921,
       "rank": 13,
       "country": "Japan"
     },
     "Turkey": {
-      "elo": 1902,
+      "elo": 1704,
       "rank": 14,
       "country": "Turkey"
     },
     "Uruguay": {
-      "elo": 1892,
+      "elo": 1816,
       "rank": 15,
       "country": "Uruguay"
     },
     "Switzerland": {
-      "elo": 1889,
+      "elo": 1728,
       "rank": 16,
       "country": "Switzerland"
     },
     "Senegal": {
-      "elo": 1879,
+      "elo": 1846,
       "rank": 17,
       "country": "Senegal"
     },
@@ -94,12 +94,12 @@
       "country": "Denmark"
     },
     "Belgium": {
-      "elo": 1866,
+      "elo": 1821,
       "rank": 19,
       "country": "Belgium"
     },
     "Mexico": {
-      "elo": 1858,
+      "elo": 1927,
       "rank": 20,
       "country": "Mexico"
     },
@@ -109,27 +109,27 @@
       "country": "Italy"
     },
     "Paraguay": {
-      "elo": 1833,
+      "elo": 1585,
       "rank": 22,
       "country": "Paraguay"
     },
     "Austria": {
-      "elo": 1827,
+      "elo": 1869,
       "rank": 23,
       "country": "Austria"
     },
     "Morocco": {
-      "elo": 1821,
+      "elo": 1885,
       "rank": 24,
       "country": "Morocco"
     },
     "Canada": {
-      "elo": 1784,
+      "elo": 1704,
       "rank": 25,
       "country": "Canada"
     },
     "Australia": {
-      "elo": 1783,
+      "elo": 1981,
       "rank": 26,
       "country": "Australia"
     },
@@ -144,17 +144,17 @@
       "country": "Ukraine"
     },
     "Scotland": {
-      "elo": 1767,
+      "elo": 1839,
       "rank": 28,
       "country": "Scotland"
     },
     "Iran": {
-      "elo": 1760,
+      "elo": 1715,
       "rank": 30,
       "country": "Iran"
     },
     "South Korea": {
-      "elo": 1752,
+      "elo": 1904,
       "rank": 31,
       "country": "South Korea"
     },
@@ -169,7 +169,7 @@
       "country": "Greece"
     },
     "Algeria": {
-      "elo": 1743,
+      "elo": 1724,
       "rank": 34,
       "country": "Algeria"
     },
@@ -194,17 +194,17 @@
       "country": "Venezuela"
     },
     "Czech Republic": {
-      "elo": 1726,
+      "elo": 1574,
       "rank": 39,
       "country": "Czech Republic"
     },
     "United States": {
-      "elo": 1721,
+      "elo": 1969,
       "rank": 40,
       "country": "United States"
     },
     "Sweden": {
-      "elo": 1719,
+      "elo": 1845,
       "rank": 41,
       "country": "Sweden"
     },
@@ -239,17 +239,17 @@
       "country": "Ireland"
     },
     "Jordan": {
-      "elo": 1690,
+      "elo": 1648,
       "rank": 48,
       "country": "Jordan"
     },
     "Egypt": {
-      "elo": 1689,
+      "elo": 1734,
       "rank": 49,
       "country": "Egypt"
     },
     "Ivory Coast": {
-      "elo": 1676,
+      "elo": 1859,
       "rank": 50,
       "country": "Ivory Coast"
     },
@@ -259,7 +259,7 @@
       "country": "DR Congo"
     },
     "Tunisia": {
-      "elo": 1636,
+      "elo": 1510,
       "rank": 52,
       "country": "Tunisia"
     },
@@ -274,37 +274,37 @@
       "country": "Costa Rica"
     },
     "Iraq": {
-      "elo": 1607,
+      "elo": 1586,
       "rank": 55,
       "country": "Iraq"
     },
     "Bosnia and Herzegovina": {
-      "elo": 1594,
+      "elo": 1674,
       "rank": 56,
       "country": "Bosnia and Herzegovina"
     },
     "New Zealand": {
-      "elo": 1585,
+      "elo": 1630,
       "rank": 57,
       "country": "New Zealand"
     },
     "Saudi Arabia": {
-      "elo": 1568,
+      "elo": 1644,
       "rank": 58,
       "country": "Saudi Arabia"
     },
     "Cape Verde": {
-      "elo": 1549,
+      "elo": 1658,
       "rank": 59,
       "country": "Cape Verde"
     },
     "Haiti": {
-      "elo": 1532,
+      "elo": 1460,
       "rank": 60,
       "country": "Haiti"
     },
     "South Africa": {
-      "elo": 1524,
+      "elo": 1455,
       "rank": 61,
       "country": "South Africa"
     },
@@ -314,14 +314,1973 @@
       "country": "Ghana"
     },
     "Curacao": {
-      "elo": 1436,
+      "elo": 1406,
       "rank": 63,
       "country": "Curacao"
     },
     "Qatar": {
-      "elo": 1427,
+      "elo": 1588,
       "rank": 64,
       "country": "Qatar"
     }
-  }
+  },
+  "last_updated": "2026-06-18",
+  "update_method": "match_result",
+  "applied_results": [
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1858,
+        "new": 1868,
+        "delta": 10
+      },
+      "elo_b": {
+        "old": 1524,
+        "new": 1514,
+        "delta": -10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1752,
+        "new": 1780,
+        "delta": 28
+      },
+      "elo_b": {
+        "old": 1726,
+        "new": 1698,
+        "delta": -28
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1784,
+        "new": 1769,
+        "delta": -15
+      },
+      "elo_b": {
+        "old": 1594,
+        "new": 1609,
+        "delta": 15
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1721,
+        "new": 1780,
+        "delta": 59
+      },
+      "elo_b": {
+        "old": 1833,
+        "new": 1774,
+        "delta": -59
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1868,
+        "new": 1877,
+        "delta": 9
+      },
+      "elo_b": {
+        "old": 1514,
+        "new": 1505,
+        "delta": -9
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1780,
+        "new": 1803,
+        "delta": 23
+      },
+      "elo_b": {
+        "old": 1698,
+        "new": 1675,
+        "delta": -23
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1769,
+        "new": 1756,
+        "delta": -13
+      },
+      "elo_b": {
+        "old": 1609,
+        "new": 1622,
+        "delta": 13
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1780,
+        "new": 1824,
+        "delta": 44
+      },
+      "elo_b": {
+        "old": 1774,
+        "new": 1730,
+        "delta": -44
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1877,
+        "new": 1885,
+        "delta": 8
+      },
+      "elo_b": {
+        "old": 1505,
+        "new": 1497,
+        "delta": -8
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1803,
+        "new": 1822,
+        "delta": 19
+      },
+      "elo_b": {
+        "old": 1675,
+        "new": 1656,
+        "delta": -19
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1756,
+        "new": 1745,
+        "delta": -11
+      },
+      "elo_b": {
+        "old": 1622,
+        "new": 1633,
+        "delta": 11
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1824,
+        "new": 1857,
+        "delta": 33
+      },
+      "elo_b": {
+        "old": 1730,
+        "new": 1697,
+        "delta": -33
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1885,
+        "new": 1892,
+        "delta": 7
+      },
+      "elo_b": {
+        "old": 1497,
+        "new": 1490,
+        "delta": -7
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1822,
+        "new": 1839,
+        "delta": 17
+      },
+      "elo_b": {
+        "old": 1656,
+        "new": 1639,
+        "delta": -17
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1745,
+        "new": 1736,
+        "delta": -9
+      },
+      "elo_b": {
+        "old": 1633,
+        "new": 1642,
+        "delta": 9
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1857,
+        "new": 1883,
+        "delta": 26
+      },
+      "elo_b": {
+        "old": 1697,
+        "new": 1671,
+        "delta": -26
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1427,
+        "new": 1453,
+        "delta": 26
+      },
+      "elo_b": {
+        "old": 1889,
+        "new": 1863,
+        "delta": -26
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1984,
+        "new": 1971,
+        "delta": -13
+      },
+      "elo_b": {
+        "old": 1821,
+        "new": 1834,
+        "delta": 13
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "score": "0-1",
+      "elo_a": {
+        "old": 1532,
+        "new": 1520,
+        "delta": -12
+      },
+      "elo_b": {
+        "old": 1767,
+        "new": 1779,
+        "delta": 12
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1453,
+        "new": 1478,
+        "delta": 25
+      },
+      "elo_b": {
+        "old": 1863,
+        "new": 1838,
+        "delta": -25
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1971,
+        "new": 1960,
+        "delta": -11
+      },
+      "elo_b": {
+        "old": 1834,
+        "new": 1845,
+        "delta": 11
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "score": "0-1",
+      "elo_a": {
+        "old": 1520,
+        "new": 1509,
+        "delta": -11
+      },
+      "elo_b": {
+        "old": 1779,
+        "new": 1790,
+        "delta": 11
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Australia",
+      "team_b": "Turkey",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1783,
+        "new": 1833,
+        "delta": 50
+      },
+      "elo_b": {
+        "old": 1902,
+        "new": 1852,
+        "delta": -50
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1892,
+        "new": 1899,
+        "delta": 7
+      },
+      "elo_b": {
+        "old": 1490,
+        "new": 1483,
+        "delta": -7
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1839,
+        "new": 1853,
+        "delta": 14
+      },
+      "elo_b": {
+        "old": 1639,
+        "new": 1625,
+        "delta": -14
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1736,
+        "new": 1728,
+        "delta": -8
+      },
+      "elo_b": {
+        "old": 1642,
+        "new": 1650,
+        "delta": 8
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1883,
+        "new": 1904,
+        "delta": 21
+      },
+      "elo_b": {
+        "old": 1671,
+        "new": 1650,
+        "delta": -21
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1478,
+        "new": 1501,
+        "delta": 23
+      },
+      "elo_b": {
+        "old": 1838,
+        "new": 1815,
+        "delta": -23
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1960,
+        "new": 1950,
+        "delta": -10
+      },
+      "elo_b": {
+        "old": 1845,
+        "new": 1855,
+        "delta": 10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "score": "0-1",
+      "elo_a": {
+        "old": 1509,
+        "new": 1499,
+        "delta": -10
+      },
+      "elo_b": {
+        "old": 1790,
+        "new": 1800,
+        "delta": 10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Australia",
+      "team_b": "Turkey",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1833,
+        "new": 1873,
+        "delta": 40
+      },
+      "elo_b": {
+        "old": 1852,
+        "new": 1812,
+        "delta": -40
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1899,
+        "new": 1905,
+        "delta": 6
+      },
+      "elo_b": {
+        "old": 1483,
+        "new": 1477,
+        "delta": -6
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1853,
+        "new": 1866,
+        "delta": 13
+      },
+      "elo_b": {
+        "old": 1625,
+        "new": 1612,
+        "delta": -13
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1728,
+        "new": 1721,
+        "delta": -7
+      },
+      "elo_b": {
+        "old": 1650,
+        "new": 1657,
+        "delta": 7
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1904,
+        "new": 1921,
+        "delta": 17
+      },
+      "elo_b": {
+        "old": 1650,
+        "new": 1633,
+        "delta": -17
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1501,
+        "new": 1523,
+        "delta": 22
+      },
+      "elo_b": {
+        "old": 1815,
+        "new": 1793,
+        "delta": -22
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1950,
+        "new": 1942,
+        "delta": -8
+      },
+      "elo_b": {
+        "old": 1855,
+        "new": 1863,
+        "delta": 8
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "score": "0-1",
+      "elo_a": {
+        "old": 1499,
+        "new": 1490,
+        "delta": -9
+      },
+      "elo_b": {
+        "old": 1800,
+        "new": 1809,
+        "delta": 9
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Australia",
+      "team_b": "Turkey",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1873,
+        "new": 1904,
+        "delta": 31
+      },
+      "elo_b": {
+        "old": 1812,
+        "new": 1781,
+        "delta": -31
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Germany",
+      "team_b": "Curacao",
+      "score": "7-1",
+      "elo_a": {
+        "old": 1923,
+        "new": 1930,
+        "delta": 7
+      },
+      "elo_b": {
+        "old": 1436,
+        "new": 1429,
+        "delta": -7
+      },
+      "k_used": 60,
+      "gd_multiplier": 2.0
+    },
+    {
+      "team_a": "Netherlands",
+      "team_b": "Japan",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1961,
+        "new": 1956,
+        "delta": -5
+      },
+      "elo_b": {
+        "old": 1904,
+        "new": 1909,
+        "delta": 5
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Ivory Coast",
+      "team_b": "Ecuador",
+      "score": "1-0",
+      "elo_a": {
+        "old": 1676,
+        "new": 1725,
+        "delta": 49
+      },
+      "elo_b": {
+        "old": 1933,
+        "new": 1884,
+        "delta": -49
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Sweden",
+      "team_b": "Tunisia",
+      "score": "5-1",
+      "elo_a": {
+        "old": 1719,
+        "new": 1759,
+        "delta": 40
+      },
+      "elo_b": {
+        "old": 1636,
+        "new": 1596,
+        "delta": -40
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.75
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1905,
+        "new": 1911,
+        "delta": 6
+      },
+      "elo_b": {
+        "old": 1477,
+        "new": 1471,
+        "delta": -6
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1866,
+        "new": 1877,
+        "delta": 11
+      },
+      "elo_b": {
+        "old": 1612,
+        "new": 1601,
+        "delta": -11
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1721,
+        "new": 1716,
+        "delta": -5
+      },
+      "elo_b": {
+        "old": 1657,
+        "new": 1662,
+        "delta": 5
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1921,
+        "new": 1935,
+        "delta": 14
+      },
+      "elo_b": {
+        "old": 1633,
+        "new": 1619,
+        "delta": -14
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1523,
+        "new": 1543,
+        "delta": 20
+      },
+      "elo_b": {
+        "old": 1793,
+        "new": 1773,
+        "delta": -20
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1942,
+        "new": 1935,
+        "delta": -7
+      },
+      "elo_b": {
+        "old": 1863,
+        "new": 1870,
+        "delta": 7
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "score": "0-1",
+      "elo_a": {
+        "old": 1490,
+        "new": 1482,
+        "delta": -8
+      },
+      "elo_b": {
+        "old": 1809,
+        "new": 1817,
+        "delta": 8
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Australia",
+      "team_b": "Turkey",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1904,
+        "new": 1929,
+        "delta": 25
+      },
+      "elo_b": {
+        "old": 1781,
+        "new": 1756,
+        "delta": -25
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Germany",
+      "team_b": "Curacao",
+      "score": "7-1",
+      "elo_a": {
+        "old": 1930,
+        "new": 1936,
+        "delta": 6
+      },
+      "elo_b": {
+        "old": 1429,
+        "new": 1423,
+        "delta": -6
+      },
+      "k_used": 60,
+      "gd_multiplier": 2.0
+    },
+    {
+      "team_a": "Netherlands",
+      "team_b": "Japan",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1956,
+        "new": 1952,
+        "delta": -4
+      },
+      "elo_b": {
+        "old": 1909,
+        "new": 1913,
+        "delta": 4
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Ivory Coast",
+      "team_b": "Ecuador",
+      "score": "1-0",
+      "elo_a": {
+        "old": 1725,
+        "new": 1768,
+        "delta": 43
+      },
+      "elo_b": {
+        "old": 1884,
+        "new": 1841,
+        "delta": -43
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Sweden",
+      "team_b": "Tunisia",
+      "score": "5-1",
+      "elo_a": {
+        "old": 1759,
+        "new": 1789,
+        "delta": 30
+      },
+      "elo_b": {
+        "old": 1596,
+        "new": 1566,
+        "delta": -30
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.75
+    },
+    {
+      "team_a": "Spain",
+      "team_b": "Cape Verde",
+      "score": "0-0",
+      "elo_a": {
+        "old": 2165,
+        "new": 2137,
+        "delta": -28
+      },
+      "elo_b": {
+        "old": 1549,
+        "new": 1577,
+        "delta": 28
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Belgium",
+      "team_b": "Egypt",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1866,
+        "new": 1852,
+        "delta": -14
+      },
+      "elo_b": {
+        "old": 1689,
+        "new": 1703,
+        "delta": 14
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Saudi Arabia",
+      "team_b": "Uruguay",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1568,
+        "new": 1590,
+        "delta": 22
+      },
+      "elo_b": {
+        "old": 1892,
+        "new": 1870,
+        "delta": -22
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Iran",
+      "team_b": "New Zealand",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1760,
+        "new": 1746,
+        "delta": -14
+      },
+      "elo_b": {
+        "old": 1585,
+        "new": 1599,
+        "delta": 14
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1911,
+        "new": 1917,
+        "delta": 6
+      },
+      "elo_b": {
+        "old": 1471,
+        "new": 1465,
+        "delta": -6
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1877,
+        "new": 1887,
+        "delta": 10
+      },
+      "elo_b": {
+        "old": 1601,
+        "new": 1591,
+        "delta": -10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1716,
+        "new": 1711,
+        "delta": -5
+      },
+      "elo_b": {
+        "old": 1662,
+        "new": 1667,
+        "delta": 5
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1935,
+        "new": 1948,
+        "delta": 13
+      },
+      "elo_b": {
+        "old": 1619,
+        "new": 1606,
+        "delta": -13
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1543,
+        "new": 1560,
+        "delta": 17
+      },
+      "elo_b": {
+        "old": 1773,
+        "new": 1756,
+        "delta": -17
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1935,
+        "new": 1929,
+        "delta": -6
+      },
+      "elo_b": {
+        "old": 1870,
+        "new": 1876,
+        "delta": 6
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "score": "0-1",
+      "elo_a": {
+        "old": 1482,
+        "new": 1474,
+        "delta": -8
+      },
+      "elo_b": {
+        "old": 1817,
+        "new": 1825,
+        "delta": 8
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Australia",
+      "team_b": "Turkey",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1929,
+        "new": 1949,
+        "delta": 20
+      },
+      "elo_b": {
+        "old": 1756,
+        "new": 1736,
+        "delta": -20
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Germany",
+      "team_b": "Curacao",
+      "score": "7-1",
+      "elo_a": {
+        "old": 1936,
+        "new": 1942,
+        "delta": 6
+      },
+      "elo_b": {
+        "old": 1423,
+        "new": 1417,
+        "delta": -6
+      },
+      "k_used": 60,
+      "gd_multiplier": 2.0
+    },
+    {
+      "team_a": "Netherlands",
+      "team_b": "Japan",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1952,
+        "new": 1949,
+        "delta": -3
+      },
+      "elo_b": {
+        "old": 1913,
+        "new": 1916,
+        "delta": 3
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Ivory Coast",
+      "team_b": "Ecuador",
+      "score": "1-0",
+      "elo_a": {
+        "old": 1768,
+        "new": 1804,
+        "delta": 36
+      },
+      "elo_b": {
+        "old": 1841,
+        "new": 1805,
+        "delta": -36
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Sweden",
+      "team_b": "Tunisia",
+      "score": "5-1",
+      "elo_a": {
+        "old": 1789,
+        "new": 1812,
+        "delta": 23
+      },
+      "elo_b": {
+        "old": 1566,
+        "new": 1543,
+        "delta": -23
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.75
+    },
+    {
+      "team_a": "Spain",
+      "team_b": "Cape Verde",
+      "score": "0-0",
+      "elo_a": {
+        "old": 2137,
+        "new": 2109,
+        "delta": -28
+      },
+      "elo_b": {
+        "old": 1577,
+        "new": 1605,
+        "delta": 28
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Belgium",
+      "team_b": "Egypt",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1852,
+        "new": 1840,
+        "delta": -12
+      },
+      "elo_b": {
+        "old": 1703,
+        "new": 1715,
+        "delta": 12
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Saudi Arabia",
+      "team_b": "Uruguay",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1590,
+        "new": 1610,
+        "delta": 20
+      },
+      "elo_b": {
+        "old": 1870,
+        "new": 1850,
+        "delta": -20
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Iran",
+      "team_b": "New Zealand",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1746,
+        "new": 1734,
+        "delta": -12
+      },
+      "elo_b": {
+        "old": 1599,
+        "new": 1611,
+        "delta": 12
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1917,
+        "new": 1922,
+        "delta": 5
+      },
+      "elo_b": {
+        "old": 1465,
+        "new": 1460,
+        "delta": -5
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1887,
+        "new": 1896,
+        "delta": 9
+      },
+      "elo_b": {
+        "old": 1591,
+        "new": 1582,
+        "delta": -9
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1711,
+        "new": 1707,
+        "delta": -4
+      },
+      "elo_b": {
+        "old": 1667,
+        "new": 1671,
+        "delta": 4
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1948,
+        "new": 1959,
+        "delta": 11
+      },
+      "elo_b": {
+        "old": 1606,
+        "new": 1595,
+        "delta": -11
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1560,
+        "new": 1575,
+        "delta": 15
+      },
+      "elo_b": {
+        "old": 1756,
+        "new": 1741,
+        "delta": -15
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1929,
+        "new": 1924,
+        "delta": -5
+      },
+      "elo_b": {
+        "old": 1876,
+        "new": 1881,
+        "delta": 5
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "score": "0-1",
+      "elo_a": {
+        "old": 1474,
+        "new": 1467,
+        "delta": -7
+      },
+      "elo_b": {
+        "old": 1825,
+        "new": 1832,
+        "delta": 7
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Australia",
+      "team_b": "Turkey",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1949,
+        "new": 1966,
+        "delta": 17
+      },
+      "elo_b": {
+        "old": 1736,
+        "new": 1719,
+        "delta": -17
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Germany",
+      "team_b": "Curacao",
+      "score": "7-1",
+      "elo_a": {
+        "old": 1942,
+        "new": 1948,
+        "delta": 6
+      },
+      "elo_b": {
+        "old": 1417,
+        "new": 1411,
+        "delta": -6
+      },
+      "k_used": 60,
+      "gd_multiplier": 2.0
+    },
+    {
+      "team_a": "Netherlands",
+      "team_b": "Japan",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1949,
+        "new": 1946,
+        "delta": -3
+      },
+      "elo_b": {
+        "old": 1916,
+        "new": 1919,
+        "delta": 3
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Ivory Coast",
+      "team_b": "Ecuador",
+      "score": "1-0",
+      "elo_a": {
+        "old": 1804,
+        "new": 1834,
+        "delta": 30
+      },
+      "elo_b": {
+        "old": 1805,
+        "new": 1775,
+        "delta": -30
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Sweden",
+      "team_b": "Tunisia",
+      "score": "5-1",
+      "elo_a": {
+        "old": 1812,
+        "new": 1830,
+        "delta": 18
+      },
+      "elo_b": {
+        "old": 1543,
+        "new": 1525,
+        "delta": -18
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.75
+    },
+    {
+      "team_a": "Spain",
+      "team_b": "Cape Verde",
+      "score": "0-0",
+      "elo_a": {
+        "old": 2109,
+        "new": 2082,
+        "delta": -27
+      },
+      "elo_b": {
+        "old": 1605,
+        "new": 1632,
+        "delta": 27
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Belgium",
+      "team_b": "Egypt",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1840,
+        "new": 1830,
+        "delta": -10
+      },
+      "elo_b": {
+        "old": 1715,
+        "new": 1725,
+        "delta": 10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Saudi Arabia",
+      "team_b": "Uruguay",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1610,
+        "new": 1628,
+        "delta": 18
+      },
+      "elo_b": {
+        "old": 1850,
+        "new": 1832,
+        "delta": -18
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Iran",
+      "team_b": "New Zealand",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1734,
+        "new": 1724,
+        "delta": -10
+      },
+      "elo_b": {
+        "old": 1611,
+        "new": 1621,
+        "delta": 10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "France",
+      "team_b": "Senegal",
+      "score": "3-1",
+      "elo_a": {
+        "old": 2082,
+        "new": 2100,
+        "delta": 18
+      },
+      "elo_b": {
+        "old": 1879,
+        "new": 1861,
+        "delta": -18
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Iraq",
+      "team_b": "Norway",
+      "score": "1-3",
+      "elo_a": {
+        "old": 1607,
+        "new": 1596,
+        "delta": -11
+      },
+      "elo_b": {
+        "old": 1912,
+        "new": 1923,
+        "delta": 11
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Argentina",
+      "team_b": "Algeria",
+      "score": "3-0",
+      "elo_a": {
+        "old": 2113,
+        "new": 2123,
+        "delta": 10
+      },
+      "elo_b": {
+        "old": 1743,
+        "new": 1733,
+        "delta": -10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Austria",
+      "team_b": "Jordan",
+      "score": "3-1",
+      "elo_a": {
+        "old": 1827,
+        "new": 1850,
+        "delta": 23
+      },
+      "elo_b": {
+        "old": 1690,
+        "new": 1667,
+        "delta": -23
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Mexico",
+      "team_b": "South Africa",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1922,
+        "new": 1927,
+        "delta": 5
+      },
+      "elo_b": {
+        "old": 1460,
+        "new": 1455,
+        "delta": -5
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "South Korea",
+      "team_b": "Czech Republic",
+      "score": "2-1",
+      "elo_a": {
+        "old": 1896,
+        "new": 1904,
+        "delta": 8
+      },
+      "elo_b": {
+        "old": 1582,
+        "new": 1574,
+        "delta": -8
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Canada",
+      "team_b": "Bosnia and Herzegovina",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1707,
+        "new": 1704,
+        "delta": -3
+      },
+      "elo_b": {
+        "old": 1671,
+        "new": 1674,
+        "delta": 3
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "United States",
+      "team_b": "Paraguay",
+      "score": "4-1",
+      "elo_a": {
+        "old": 1959,
+        "new": 1969,
+        "delta": 10
+      },
+      "elo_b": {
+        "old": 1595,
+        "new": 1585,
+        "delta": -10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Qatar",
+      "team_b": "Switzerland",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1575,
+        "new": 1588,
+        "delta": 13
+      },
+      "elo_b": {
+        "old": 1741,
+        "new": 1728,
+        "delta": -13
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Brazil",
+      "team_b": "Morocco",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1924,
+        "new": 1920,
+        "delta": -4
+      },
+      "elo_b": {
+        "old": 1881,
+        "new": 1885,
+        "delta": 4
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Haiti",
+      "team_b": "Scotland",
+      "score": "0-1",
+      "elo_a": {
+        "old": 1467,
+        "new": 1460,
+        "delta": -7
+      },
+      "elo_b": {
+        "old": 1832,
+        "new": 1839,
+        "delta": 7
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Australia",
+      "team_b": "Turkey",
+      "score": "2-0",
+      "elo_a": {
+        "old": 1966,
+        "new": 1981,
+        "delta": 15
+      },
+      "elo_b": {
+        "old": 1719,
+        "new": 1704,
+        "delta": -15
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Germany",
+      "team_b": "Curacao",
+      "score": "7-1",
+      "elo_a": {
+        "old": 1948,
+        "new": 1953,
+        "delta": 5
+      },
+      "elo_b": {
+        "old": 1411,
+        "new": 1406,
+        "delta": -5
+      },
+      "k_used": 60,
+      "gd_multiplier": 2.0
+    },
+    {
+      "team_a": "Netherlands",
+      "team_b": "Japan",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1946,
+        "new": 1944,
+        "delta": -2
+      },
+      "elo_b": {
+        "old": 1919,
+        "new": 1921,
+        "delta": 2
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Ivory Coast",
+      "team_b": "Ecuador",
+      "score": "1-0",
+      "elo_a": {
+        "old": 1834,
+        "new": 1859,
+        "delta": 25
+      },
+      "elo_b": {
+        "old": 1775,
+        "new": 1750,
+        "delta": -25
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Sweden",
+      "team_b": "Tunisia",
+      "score": "5-1",
+      "elo_a": {
+        "old": 1830,
+        "new": 1845,
+        "delta": 15
+      },
+      "elo_b": {
+        "old": 1525,
+        "new": 1510,
+        "delta": -15
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.75
+    },
+    {
+      "team_a": "Spain",
+      "team_b": "Cape Verde",
+      "score": "0-0",
+      "elo_a": {
+        "old": 2082,
+        "new": 2056,
+        "delta": -26
+      },
+      "elo_b": {
+        "old": 1632,
+        "new": 1658,
+        "delta": 26
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Belgium",
+      "team_b": "Egypt",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1830,
+        "new": 1821,
+        "delta": -9
+      },
+      "elo_b": {
+        "old": 1725,
+        "new": 1734,
+        "delta": 9
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Saudi Arabia",
+      "team_b": "Uruguay",
+      "score": "1-1",
+      "elo_a": {
+        "old": 1628,
+        "new": 1644,
+        "delta": 16
+      },
+      "elo_b": {
+        "old": 1832,
+        "new": 1816,
+        "delta": -16
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Iran",
+      "team_b": "New Zealand",
+      "score": "2-2",
+      "elo_a": {
+        "old": 1724,
+        "new": 1715,
+        "delta": -9
+      },
+      "elo_b": {
+        "old": 1621,
+        "new": 1630,
+        "delta": 9
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "France",
+      "team_b": "Senegal",
+      "score": "3-1",
+      "elo_a": {
+        "old": 2100,
+        "new": 2115,
+        "delta": 15
+      },
+      "elo_b": {
+        "old": 1861,
+        "new": 1846,
+        "delta": -15
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Iraq",
+      "team_b": "Norway",
+      "score": "1-3",
+      "elo_a": {
+        "old": 1596,
+        "new": 1586,
+        "delta": -10
+      },
+      "elo_b": {
+        "old": 1923,
+        "new": 1933,
+        "delta": 10
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Argentina",
+      "team_b": "Algeria",
+      "score": "3-0",
+      "elo_a": {
+        "old": 2123,
+        "new": 2132,
+        "delta": 9
+      },
+      "elo_b": {
+        "old": 1733,
+        "new": 1724,
+        "delta": -9
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.5
+    },
+    {
+      "team_a": "Austria",
+      "team_b": "Jordan",
+      "score": "3-1",
+      "elo_a": {
+        "old": 1850,
+        "new": 1869,
+        "delta": 19
+      },
+      "elo_b": {
+        "old": 1667,
+        "new": 1648,
+        "delta": -19
+      },
+      "k_used": 60,
+      "gd_multiplier": 1.25
+    }
+  ]
 }
