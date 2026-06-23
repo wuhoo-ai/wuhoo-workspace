@@ -12,7 +12,8 @@
       "wc_best": "八强 (1970, 1986)",
       "style_tag": "技术细腻、主场气势",
       "summary_cn": "世界杯常客+东道主之一，阿兹特克球场 2200m 海拔是最大武器",
-      "host_nation": true
+      "host_nation": true,
+      "style_category": "balanced"
     },
     "South Africa": {
       "name_cn": "南非",
@@ -21,7 +22,8 @@
       "wc_appearances": 4,
       "wc_best": "小组赛",
       "style_tag": "身体对抗强、经验有限",
-      "summary_cn": "2010 年后重返世界杯，实力在小组中偏弱，目标是突破小组赛"
+      "summary_cn": "2010 年后重返世界杯，实力在小组中偏弱，目标是突破小组赛",
+      "style_category": "physical"
     },
     "South Korea": {
       "name_cn": "韩国",
@@ -30,7 +32,8 @@
       "wc_appearances": 12,
       "wc_best": "四强 (2002)",
       "style_tag": "体能充沛、跑动积极",
-      "summary_cn": "连续第 11 次世界杯，孙兴慜领衔，小组出线是基本目标"
+      "summary_cn": "连续第 11 次世界杯，孙兴慜领衔，小组出线是基本目标",
+      "style_category": "high_press"
     },
     "Czech Republic": {
       "name_cn": "捷克",
@@ -39,7 +42,8 @@
       "wc_appearances": 10,
       "wc_best": "亚军 (1934, 1962)",
       "style_tag": "战术纪律强、反击犀利",
-      "summary_cn": "欧洲中游强队，Schick 是进攻核心，有望争夺小组出线"
+      "summary_cn": "欧洲中游强队，Schick 是进攻核心，有望争夺小组出线",
+      "style_category": "counter"
     },
     "Canada": {
       "name_cn": "加拿大",
@@ -49,7 +53,8 @@
       "wc_best": "小组赛",
       "style_tag": "速度型、年轻阵容",
       "summary_cn": "东道主之一，阵容年轻有冲击力，Davies 是绝对核心，主场加持下有望出线",
-      "host_nation": true
+      "host_nation": true,
+      "style_category": "counter"
     },
     "Switzerland": {
       "name_cn": "瑞士",
@@ -58,7 +63,8 @@
       "wc_appearances": 13,
       "wc_best": "八强 (1954)",
       "style_tag": "防守稳固、战术成熟",
-      "summary_cn": "欧洲劲旅，连续多届大赛稳定出线，防守体系严密，小组头号热门"
+      "summary_cn": "欧洲劲旅，连续多届大赛稳定出线，防守体系严密，小组头号热门",
+      "style_category": "defensive"
     },
     "Bosnia and Herzegovina": {
       "name_cn": "波黑",
@@ -67,7 +73,8 @@
       "wc_appearances": 2,
       "wc_best": "小组赛",
       "style_tag": "技术流、经验不足",
-      "summary_cn": "第二次世界杯之旅，Dzeko 老将压阵，与加拿大争夺出线名额"
+      "summary_cn": "第二次世界杯之旅，Dzeko 老将压阵，与加拿大争夺出线名额",
+      "style_category": "possession"
     },
     "Qatar": {
       "name_cn": "卡塔尔",
@@ -76,7 +83,8 @@
       "wc_appearances": 3,
       "wc_best": "小组赛",
       "style_tag": "亚洲杯冠军、经验薄弱",
-      "summary_cn": "2022 年主办国后再次入围，亚洲杯冠军有一定实力，但世界杯经验仍不足"
+      "summary_cn": "2022 年主办国后再次入围，亚洲杯冠军有一定实力，但世界杯经验仍不足",
+      "style_category": "balanced"
     },
     "Brazil": {
       "name_cn": "巴西",
@@ -85,7 +93,8 @@
       "wc_appearances": 23,
       "wc_best": "冠军 (1958, 1962, 1970, 1994, 2002)",
       "style_tag": "天赋爆表、进攻华丽",
-      "summary_cn": "五冠王永远热门，Vinicius Jr. + Rodrygo 领衔新黄金一代，夺冠三大热门之一"
+      "summary_cn": "五冠王永远热门，Vinicius Jr. + Rodrygo 领衔新黄金一代，夺冠三大热门之一",
+      "style_category": "balanced"
     },
     "Morocco": {
       "name_cn": "摩洛哥",
@@ -94,7 +103,8 @@
       "wc_appearances": 7,
       "wc_best": "四强 (2022)",
       "style_tag": "防守坚韧、反击致命",
-      "summary_cn": "卡塔尔四强奇迹后持续上升，Hakimi 领衔，有望成为黑马"
+      "summary_cn": "卡塔尔四强奇迹后持续上升，Hakimi 领衔，有望成为黑马",
+      "style_category": "defensive"
     },
     "Haiti": {
       "name_cn": "海地",
@@ -103,7 +113,8 @@
       "wc_appearances": 2,
       "wc_best": "小组赛 (1974)",
       "style_tag": "身体条件好、组织松散",
-      "summary_cn": "时隔 52 年重返世界杯，实力为本组最弱，争取 1 分是现实目标"
+      "summary_cn": "时隔 52 年重返世界杯，实力为本组最弱，争取 1 分是现实目标",
+      "style_category": "physical"
     },
     "Scotland": {
       "name_cn": "苏格兰",
@@ -112,7 +123,8 @@
       "wc_appearances": 9,
       "wc_best": "小组赛",
       "style_tag": "硬朗直接、身体对抗",
-      "summary_cn": "欧洲杯常客，Robertson + McTominay 双核，争小组第三是主要目标"
+      "summary_cn": "欧洲杯常客，Robertson + McTominay 双核，争小组第三是主要目标",
+      "style_category": "physical"
     },
     "Turkey": {
       "name_cn": "土耳其",
@@ -121,7 +133,8 @@
       "wc_appearances": 3,
       "wc_best": "季军 (2002)",
       "style_tag": "激情足球、不稳定",
-      "summary_cn": "时隔 24 年重返世界杯，Calhanoglu 核心，上限高但波动大"
+      "summary_cn": "时隔 24 年重返世界杯，Calhanoglu 核心，上限高但波动大",
+      "style_category": "balanced"
     },
     "Paraguay": {
       "name_cn": "巴拉圭",
@@ -130,7 +143,8 @@
       "wc_appearances": 9,
       "wc_best": "八强 (2010)",
       "style_tag": "防守顽强、南美硬度",
-      "summary_cn": "南美区出线常客，防守组织严密，但进攻火力不足"
+      "summary_cn": "南美区出线常客，防守组织严密，但进攻火力不足",
+      "style_category": "physical"
     },
     "Australia": {
       "name_cn": "澳大利亚",
@@ -139,7 +153,8 @@
       "wc_appearances": 7,
       "wc_best": "十六强 (2006, 2022)",
       "style_tag": "身体对抗、定位球威胁",
-      "summary_cn": "2022 年十六强后持续进步，Souttar 防空能力强，小组出线有力竞争者"
+      "summary_cn": "2022 年十六强后持续进步，Souttar 防空能力强，小组出线有力竞争者",
+      "style_category": "physical"
     },
     "Germany": {
       "name_cn": "德国",
@@ -148,7 +163,8 @@
       "wc_appearances": 21,
       "wc_best": "冠军 (1954, 1974, 1990, 2014)",
       "style_tag": "战术体系、大赛经验",
-      "summary_cn": "四冠王重建中，Musiala + Wirtz 新双核，小组头号热门"
+      "summary_cn": "四冠王重建中，Musiala + Wirtz 新双核，小组头号热门",
+      "style_category": "balanced"
     },
     "Ecuador": {
       "name_cn": "厄瓜多尔",
@@ -157,7 +173,8 @@
       "wc_appearances": 5,
       "wc_best": "十六强 (2006)",
       "style_tag": "高原主场、南美韧性",
-      "summary_cn": "Caicedo 领衔新生代，高原主场经验使其在高海拔球场有独特优势"
+      "summary_cn": "Caicedo 领衔新生代，高原主场经验使其在高海拔球场有独特优势",
+      "style_category": "balanced"
     },
     "Ivory Coast": {
       "name_cn": "科特迪瓦",
@@ -166,7 +183,8 @@
       "wc_appearances": 5,
       "wc_best": "小组赛",
       "style_tag": "身体素质、个人能力",
-      "summary_cn": "非洲杯冠军，Haller 是进攻支点，目标小组出线突破历史"
+      "summary_cn": "非洲杯冠军，Haller 是进攻支点，目标小组出线突破历史",
+      "style_category": "physical"
     },
     "Curacao": {
       "name_cn": "库拉索",
@@ -175,7 +193,8 @@
       "wc_appearances": 1,
       "wc_best": "首次参赛",
       "style_tag": "荷兰归化球员、缺乏磨合",
-      "summary_cn": "世界杯新军，多数球员在荷兰联赛效力，经验是最大短板"
+      "summary_cn": "世界杯新军，多数球员在荷兰联赛效力，经验是最大短板",
+      "style_category": "balanced"
     },
     "Netherlands": {
       "name_cn": "荷兰",
@@ -184,7 +203,8 @@
       "wc_appearances": 12,
       "wc_best": "亚军 (1974, 1978, 2010)",
       "style_tag": "全攻全守、技术流畅",
-      "summary_cn": "无冕之王防守稳固，van Dijk + de Jong 中轴线，小组头号热门"
+      "summary_cn": "无冕之王防守稳固，van Dijk + de Jong 中轴线，小组头号热门",
+      "style_category": "possession"
     },
     "Japan": {
       "name_cn": "日本",
@@ -193,7 +213,8 @@
       "wc_appearances": 8,
       "wc_best": "十六强 (2002, 2010, 2018, 2022)",
       "style_tag": "技术精湛、战术执行力强",
-      "summary_cn": "亚洲最强队，Mitoma + Kubo 技术流，目标突破十六强天花板"
+      "summary_cn": "亚洲最强队，Mitoma + Kubo 技术流，目标突破十六强天花板",
+      "style_category": "balanced"
     },
     "Sweden": {
       "name_cn": "瑞典",
@@ -202,7 +223,8 @@
       "wc_appearances": 13,
       "wc_best": "亚军 (1958)",
       "style_tag": "纪律严明、身体对抗强",
-      "summary_cn": "北欧劲旅，Isak + Gyokeres 双前锋，与日本争夺第二"
+      "summary_cn": "北欧劲旅，Isak + Gyokeres 双前锋，与日本争夺第二",
+      "style_category": "physical"
     },
     "Tunisia": {
       "name_cn": "突尼斯",
@@ -211,7 +233,8 @@
       "wc_appearances": 7,
       "wc_best": "小组赛",
       "style_tag": "技术型非洲队、防守反击",
-      "summary_cn": "非洲传统劲旅，Msakni 老将压阵，目标是突破小组赛历史"
+      "summary_cn": "非洲传统劲旅，Msakni 老将压阵，目标是突破小组赛历史",
+      "style_category": "defensive"
     },
     "Belgium": {
       "name_cn": "比利时",
@@ -220,7 +243,8 @@
       "wc_appearances": 15,
       "wc_best": "季军 (2018)",
       "style_tag": "黄金一代末期、天赋仍在",
-      "summary_cn": "De Bruyne + Lukaku 黄金一代最后一舞，小组赛应轻松出线"
+      "summary_cn": "De Bruyne + Lukaku 黄金一代最后一舞，小组赛应轻松出线",
+      "style_category": "balanced"
     },
     "Egypt": {
       "name_cn": "埃及",
@@ -229,7 +253,8 @@
       "wc_appearances": 4,
       "wc_best": "小组赛",
       "style_tag": "Salah 依赖症、防守反击",
-      "summary_cn": "Salah 国家队最后一届世界杯，个人能力是最大武器"
+      "summary_cn": "Salah 国家队最后一届世界杯，个人能力是最大武器",
+      "style_category": "defensive"
     },
     "Iran": {
       "name_cn": "伊朗",
@@ -238,7 +263,8 @@
       "wc_appearances": 7,
       "wc_best": "小组赛",
       "style_tag": "防守铁桶、身体强壮",
-      "summary_cn": "亚洲最强防守体系，Taremi + Azmoun 双箭头，有望首次出线"
+      "summary_cn": "亚洲最强防守体系，Taremi + Azmoun 双箭头，有望首次出线",
+      "style_category": "physical"
     },
     "New Zealand": {
       "name_cn": "新西兰",
@@ -247,7 +273,8 @@
       "wc_appearances": 3,
       "wc_best": "小组赛",
       "style_tag": "大洋洲霸主、经验有限",
-      "summary_cn": "Wood 是唯一五大联赛球员，整体实力为小组最弱"
+      "summary_cn": "Wood 是唯一五大联赛球员，整体实力为小组最弱",
+      "style_category": "balanced"
     },
     "Spain": {
       "name_cn": "西班牙",
@@ -256,7 +283,8 @@
       "wc_appearances": 17,
       "wc_best": "冠军 (2010)",
       "style_tag": "传控足球、年轻天才",
-      "summary_cn": "新黄金一代 Pedri + Gavi + Yamal，传控升级版，四强有力争夺者"
+      "summary_cn": "新黄金一代 Pedri + Gavi + Yamal，传控升级版，四强有力争夺者",
+      "style_category": "possession"
     },
     "Uruguay": {
       "name_cn": "乌拉圭",
@@ -265,7 +293,8 @@
       "wc_appearances": 15,
       "wc_best": "冠军 (1930, 1950)",
       "style_tag": "硬朗防守、反击高效",
-      "summary_cn": "Bielsa 体系下的乌拉圭焕然一新，Valverde + Núñez 新核心，小组第二热门"
+      "summary_cn": "Bielsa 体系下的乌拉圭焕然一新，Valverde + Núñez 新核心，小组第二热门",
+      "style_category": "physical"
     },
     "Saudi Arabia": {
       "name_cn": "沙特阿拉伯",
@@ -274,7 +303,8 @@
       "wc_appearances": 7,
       "wc_best": "十六强 (1994)",
       "style_tag": "技术型、对抗弱",
-      "summary_cn": "2022 年击败阿根廷创造历史，联赛投入巨大但国家队实力提升有限"
+      "summary_cn": "2022 年击败阿根廷创造历史，联赛投入巨大但国家队实力提升有限",
+      "style_category": "physical"
     },
     "Cape Verde": {
       "name_cn": "佛得角",
@@ -283,7 +313,8 @@
       "wc_appearances": 1,
       "wc_best": "首次参赛",
       "style_tag": "非洲杯黑马、经验不足",
-      "summary_cn": "世界杯新军，2023 非洲杯八强证明有战斗力，出线难度大"
+      "summary_cn": "世界杯新军，2023 非洲杯八强证明有战斗力，出线难度大",
+      "style_category": "balanced"
     },
     "France": {
       "name_cn": "法国",
@@ -292,7 +323,8 @@
       "wc_appearances": 17,
       "wc_best": "冠军 (1998, 2018)",
       "style_tag": "天赋溢出、阵容深度恐怖",
-      "summary_cn": "Mbappe 领衔卫冕亚军，阵容厚度世界第一，夺冠最大热门之一"
+      "summary_cn": "Mbappe 领衔卫冕亚军，阵容厚度世界第一，夺冠最大热门之一",
+      "style_category": "balanced"
     },
     "Senegal": {
       "name_cn": "塞内加尔",
@@ -301,7 +333,8 @@
       "wc_appearances": 4,
       "wc_best": "八强 (2002)",
       "style_tag": "速度爆发、非洲最强",
-      "summary_cn": "非洲杯卫冕冠军，Mane 领衔，阵容五大联赛球员众多"
+      "summary_cn": "非洲杯卫冕冠军，Mane 领衔，阵容五大联赛球员众多",
+      "style_category": "counter"
     },
     "Iraq": {
       "name_cn": "伊拉克",
@@ -310,7 +343,8 @@
       "wc_appearances": 2,
       "wc_best": "小组赛",
       "style_tag": "斗志顽强、技术一般",
-      "summary_cn": "时隔 40 年重返世界杯，亚洲杯曾夺冠，世界杯经验严重不足"
+      "summary_cn": "时隔 40 年重返世界杯，亚洲杯曾夺冠，世界杯经验严重不足",
+      "style_category": "physical"
     },
     "Norway": {
       "name_cn": "挪威",
@@ -319,7 +353,8 @@
       "wc_appearances": 5,
       "wc_best": "十六强 (1998)",
       "style_tag": "Haaland 单核、北欧硬度",
-      "summary_cn": "Haaland 首次世界杯，个人能力超强但国家队支持有限"
+      "summary_cn": "Haaland 首次世界杯，个人能力超强但国家队支持有限",
+      "style_category": "physical"
     },
     "Argentina": {
       "name_cn": "阿根廷",
@@ -328,7 +363,8 @@
       "wc_appearances": 19,
       "wc_best": "冠军 (1978, 1986, 2022)",
       "style_tag": "卫冕冠军、团队足球典范",
-      "summary_cn": "Messi 最后一届世界杯，卫冕冠军+ELO第一，夺冠最大热门"
+      "summary_cn": "Messi 最后一届世界杯，卫冕冠军+ELO第一，夺冠最大热门",
+      "style_category": "balanced"
     },
     "Algeria": {
       "name_cn": "阿尔及利亚",
@@ -337,7 +373,8 @@
       "wc_appearances": 6,
       "wc_best": "十六强 (2014)",
       "style_tag": "技术流非洲队、不稳定",
-      "summary_cn": "2014 年曾逼平德国进十六强，Mahrez 老将压阵"
+      "summary_cn": "2014 年曾逼平德国进十六强，Mahrez 老将压阵",
+      "style_category": "possession"
     },
     "Austria": {
       "name_cn": "奥地利",
@@ -346,7 +383,8 @@
       "wc_appearances": 9,
       "wc_best": "季军 (1954)",
       "style_tag": "德式压迫、团队流",
-      "summary_cn": "Rangnick 体系下的高压足球，欧洲杯表现亮眼，小组第二有力争夺者"
+      "summary_cn": "Rangnick 体系下的高压足球，欧洲杯表现亮眼，小组第二有力争夺者",
+      "style_category": "high_press"
     },
     "Jordan": {
       "name_cn": "约旦",
@@ -355,7 +393,8 @@
       "wc_appearances": 1,
       "wc_best": "首次参赛",
       "style_tag": "亚洲杯亚军、防守反击",
-      "summary_cn": "2023 亚洲杯亚军证明有战斗力，但世界杯首秀经验为零"
+      "summary_cn": "2023 亚洲杯亚军证明有战斗力，但世界杯首秀经验为零",
+      "style_category": "defensive"
     },
     "Portugal": {
       "name_cn": "葡萄牙",
@@ -364,7 +403,8 @@
       "wc_appearances": 9,
       "wc_best": "季军 (1966)",
       "style_tag": "巨星云集、攻强守稳",
-      "summary_cn": "Ronaldo 最后一届世界杯，B费 + Leao 新核，目标打破历史最佳"
+      "summary_cn": "Ronaldo 最后一届世界杯，B费 + Leao 新核，目标打破历史最佳",
+      "style_category": "balanced"
     },
     "Colombia": {
       "name_cn": "哥伦比亚",
@@ -373,7 +413,8 @@
       "wc_appearances": 7,
       "wc_best": "八强 (2014)",
       "style_tag": "技术华丽、J罗核心",
-      "summary_cn": "James Rodriguez 最后一舞，Diaz 接班，南美技术流代表"
+      "summary_cn": "James Rodriguez 最后一舞，Diaz 接班，南美技术流代表",
+      "style_category": "balanced"
     },
     "DR Congo": {
       "name_cn": "刚果民主共和国",
@@ -382,7 +423,8 @@
       "wc_appearances": 2,
       "wc_best": "小组赛",
       "style_tag": "身体条件出色、战术松散",
-      "summary_cn": "时隔 52 年重返世界杯，Bakambu 是进攻核心"
+      "summary_cn": "时隔 52 年重返世界杯，Bakambu 是进攻核心",
+      "style_category": "physical"
     },
     "Uzbekistan": {
       "name_cn": "乌兹别克斯坦",
@@ -391,7 +433,8 @@
       "wc_appearances": 1,
       "wc_best": "首次参赛",
       "style_tag": "亚洲新军、技术不错",
-      "summary_cn": "世界杯首秀，Shomurodov 是进攻箭头，目标小组拿分"
+      "summary_cn": "世界杯首秀，Shomurodov 是进攻箭头，目标小组拿分",
+      "style_category": "balanced"
     },
     "England": {
       "name_cn": "英格兰",
@@ -400,7 +443,8 @@
       "wc_appearances": 17,
       "wc_best": "冠军 (1966)",
       "style_tag": "青春风暴、攻击力强",
-      "summary_cn": "Bellingham + Kane + Foden 领衔，连续大赛四强/亚军，争冠热门之一"
+      "summary_cn": "Bellingham + Kane + Foden 领衔，连续大赛四强/亚军，争冠热门之一",
+      "style_category": "balanced"
     },
     "Croatia": {
       "name_cn": "克罗地亚",
@@ -409,7 +453,8 @@
       "wc_appearances": 7,
       "wc_best": "亚军 (2018)",
       "style_tag": "中场大师、大赛经验",
-      "summary_cn": "Modric 最后一届世界杯，Gvardiol 接班人，世界杯战斗力极强"
+      "summary_cn": "Modric 最后一届世界杯，Gvardiol 接班人，世界杯战斗力极强",
+      "style_category": "balanced"
     },
     "Ghana": {
       "name_cn": "加纳",
@@ -418,7 +463,8 @@
       "wc_appearances": 5,
       "wc_best": "八强 (2010)",
       "style_tag": "速度型、非洲黑星",
-      "summary_cn": "Kudus + Partey 领衔，2010 年八强班底精神仍在"
+      "summary_cn": "Kudus + Partey 领衔，2010 年八强班底精神仍在",
+      "style_category": "counter"
     },
     "Panama": {
       "name_cn": "巴拿马",
@@ -427,7 +473,8 @@
       "wc_appearances": 3,
       "wc_best": "小组赛",
       "style_tag": "中北美黑马、硬朗风格",
-      "summary_cn": "第三次世界杯之旅，中北美区竞争提升带来进步"
+      "summary_cn": "第三次世界杯之旅，中北美区竞争提升带来进步",
+      "style_category": "physical"
     },
     "United States": {
       "name_cn": "美国",
@@ -439,8 +486,9 @@
       "summary_cn": "东道主中最有实力的，Pulisic 领军黄金一代，目标至少八强",
       "host_nation": true,
       "country": "United States",
-      "name_en": "United States"
+      "name_en": "United States",
+      "style_category": "counter"
     }
   },
-  "updated": "2026-06-13T14:54:52.411943"
+  "updated": "2026-06-23"
 }

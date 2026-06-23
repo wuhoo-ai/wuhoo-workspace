@@ -1,7 +1,7 @@
 ---
 name: wuhoo-football-predictor
-description: WC2026 单场+全赛事预测系统 v5.0 — Elo+Poisson+Monte Carlo+LLM非结构化信号，8层模型栈，未来N场预测+全中文报告+体彩串关(双策略)+数据保鲜检查+Polymarket交叉验证
-version: 5.0.0
+description: WC2026 单场+全赛事预测系统 v5.2 — Elo+Poisson+Monte Carlo+LLM非结构化信号+客观条件因子(天气/赛程密度)，10层模型栈，未来N场预测+全中文报告+体彩串关(双策略)+数据保鲜检查+Polymarket交叉验证
+version: 5.2.0
 dependencies:
   - wuhoo-news-rss
   - pandas
@@ -10,11 +10,65 @@ tags: ["wuhoo"]
 category: wuhoo
 ---
 
-# 足球赛事预测系统 v5.0
+# 足球赛事预测系统 v5.2
 
 ## 概述
 
-基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟 + **LLM 非结构化信号** 的多层次预测系统。
+基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟 + **LLM 非结构化信号** + **客观条件因子** 的多层次预测系统。
+
+### v5.2.0 更新 (2026-06-23) — 客观条件因子集成
+
+**触发**: France vs Iraq (6/22) 因雷暴中断2小时，暴露当前模型完全忽略天气等客观条件。
+
+- ✅ **Layer 4a — Weather (天气因子)**: 降水(含球队风格因子)+ 风力(露天球场) + 实时温度, 权重 5%
+- ✅ **Layer 4b — Schedule Density (赛程密度)**: 旅途距离 + 休息天数 合并复合因子, 权重 3%
+- ✅ **数据源**: Open-Meteo Forecast API (免费, 无需 key), 三重降级
+- ✅ **`scripts/fetch_weather.py`**: 新建天气采集脚本, WMO code 映射, indoor 豁免
+- ✅ **`data/venues.json`**: 补充 16 场馆 lat/lon 坐标 + pitch_type
+- ✅ **`data/team_profiles.json`**: 新增 48 队 `style_category` 枚举 (possession/physical/counter/defensive/high_press/balanced)
+- ✅ **报告增强**: 终端+Markdown 底部新增「客观条件因子」模块, 实验性标注
+- ✅ **Cron 更新**: 14:30 管线 Step 3.5 天气采集; 15:00 管线 Step 0.5 天气保鲜验证
+- ⚠️ 实验性因子, 低权重 (5%/3%), 仅供附加参考, 不做方向性判断
+
+**触发**: France vs Iraq (6/22 Philadelphia) 因雷暴中断2小时，当前模型完全忽略天气/旅途等客观条件。
+
+**新增 Layer 4a — Weather (天气因子)**:
+- ✅ **降水**: 基于 Open-Meteo 实时预报 + WMO 天气码，4级惩罚 (none/light/moderate/heavy)，含球队风格因子 (possession×1.3 / physical×0.7)
+- ✅ **风力**: 3级 (calm/breezy/windy)，室内球场自动豁免
+- ✅ **实时温度**: 替换 venues.json 静态均温，用比赛日预报温度重新计算 heat_penalty
+- ✅ **数据源**: Open-Meteo Forecast API (免费, 无需 key)，三重降级 (API→静态→0)
+- ✅ **权重**: 基准 5%，rain max ±30 ELO
+
+**新增 Layer 4b — Schedule Density (赛程密度)**:
+- ✅ **旅途疲劳**: Haversine 距离计算，每500km扣5 ELO，上限-20
+- ✅ **休息天数**: 两队休息天数差 × 8 ELO，上限±24
+- ✅ **合并为赛程密度**: net = (travel + rest) / 2，上限±20 ELO
+- ✅ **权重**: 基准 3%
+
+**数据增强**:
+- ✅ `venues.json`: 16场馆补充 lat/lon 坐标 + pitch_type
+- ✅ `team_profiles.json`: 48队新增 `style_category` 枚举字段 (possession/physical/counter/defensive/high_press/balanced)
+- ✅ 新脚本: `scripts/fetch_weather.py` (Open-Meteo 天气采集)
+
+**报告增强**:
+- ✅ 终端 + Markdown 报告底部新增「客观条件因子」模块
+- ✅ 实验性标注: "权重较低 (天气5%/赛程3%)，仅供附加参考"
+
+**Cron 更新**:
+- ✅ `5154715032ec` (14:30): 插入 Step 3.5 fetch_weather
+- ✅ `86912ff0a4aa` (15:00): 新增 Step 0.5 天气保鲜验证
+
+详见: `.hermes/plans/2026-06-23_weather-travel-factors-v5.2.md`
+
+### v5.1.1 更新 (2026-06-22) — 系统健康修复
+
+- ✅ **SKILL.md 去重**: 删除 `~/.hermes/skills/wuhoo/wuhoo-football-predictor/`，只保留 workspace 副本，解决 skill_view ambiguous 错误
+- ✅ **ELO 全量刷新**: 40 场已完赛全部应用到 ELO，`update_elo_from_results.py` 从 6/13 stale → 今日实时
+- ✅ **Schedule 同步修复**: 32 场有结果但未标记 completed → 自动同步脚本，schedule 与 results 一致
+- ✅ **伤病数据刷新**: 6 队新增 + 3 状态更新 (Endo OUT, Ruben Dias DOUBTFUL, Wesley OUT, Bombito OUT, Malagon OUT, Aghehowa OUT; Neymar→OUT, Livramento→OUT)
+- ✅ **Cron 作业清理**: 移除暂停的 `8f9437f71917` (赛前1h提醒)；更新 `5154715032ec` prompt 为 --check→web_search→--manual 标准流程
+- ⚠️ **发现 ELO 静默过期陷阱**: `collect_results.py` 不自动调用 `update_elo_from_results.py`，cron 必须显式链式调用
+- ⚠️ **发现 Schedule 不同步陷阱**: `wc2026_schedule.json` 不会自动从 results 同步状态，需单独维护
 
 ### v5.0 更新 (2026-06-18) — 非结构化数据增强重构
 
@@ -91,20 +145,23 @@ category: wuhoo
 - ✅ **赛程数据**: `data/wc2026_schedule.json` — 72 场小组赛完整赛程（含北京时间）
 - ✅ **预测历史**: 自动记录到 `data/prediction_history.jsonl`
 
-### 预测模型栈 (7 层) — 架构说明
+### 预测模型栈 (9 层) — 架构说明
 
 **关键架构**: 模型采用 **ELO 逐层叠加** 而非集成加权。各层计算 ELO 调整量，直接加到 effective ELO 后输入 Poisson。`configs/weights.json` 仅供 `prediction_models.py` 的 EnsembleModel 路径使用（与主预测管线 `wc2026_predict.py` 不同）。
 
 | 层 | 模型 | ELO 贡献 | 说明 |
 |------|------|------|------|
-| 1 | **ELO 评分** | 1500-2000 (基底) | 64 队 ELO (international-football.net) |
-| 2 | *(Poisson)* | 依赖 effective ELO | 无独立 ELO 调整 |
-| 3 | **伤病扣分** | -100 ~ 0 | injuries.json 真实伤病数据 |
-| 4 | **教练/磨合因子** | -50 ~ +50 | coach + stability + chemistry (静态 metadata) |
+| 1 | **ELO 评分** | 1500-2200 (基底) | 48 队 ELO (比赛结果反推) |
+| 2 | **伤病扣分** | -100 ~ 0 | injuries.json 真实伤病数据 |
+| 3 | **教练/磨合因子** | -50 ~ +50 | coach + stability + chemistry (静态 metadata) |
+| 4 | **场馆效应** | -80 ~ +60 | 海拔 + 静态均温 + 东道主优势 |
+| **4a** | **天气 (v5.2)** | **-45 ~ 0** | 降水(风格加权) + 风力 + 实时温度, 权重5% |
+| **4b** | **赛程密度 (v5.2)** | **-20 ~ +20** | 旅途距离 + 休息天数差 复合, 权重3% |
 | 4.5 | **热身赛状态** | -50 ~ +50 | 友谊赛结果 vs ELO 期望，指数衰减 |
-| 5 | **锦标赛形态** | N(0,60) | 每队一次性抽取持久 boost |
-| 6 | **比赛级扰动** | N(0,25) | 每场独立抖动 + 冷门模型 (max 22%) |
-| 7 | **新闻情感 (RSS)** | **-12 ~ +37 ELO** ⚠️ | keyword 词典 ±40 上限，实际有效贡献 ~2-3% |
+| 4.6 | **锦标赛形态** | N(0,60) | 每队一次性抽取持久 boost |
+| 5 | **新闻情感 (RSS)** | -12 ~ +37 | keyword 词典 ±40 上限 |
+| 5.5 | **非结构化信号** | LLM 因果信号融合 | 战术匹配 + 信号共识度, 降级为 0 |
+| 6 | **手动调整** | 用户指定 | 覆写其他层 |
 
 > **注意**: `weights.json` 的 `default.news_sentiment: 0.15` 与主预测管线无关。主管线通过 `load_news_sentiment()` → `get_sentiment_impact()` → `impact × 250` 转换为 ELO 调整值直接加入 effective_elo。`weights.json` 用于 `prediction_models.EnsembleModel`（v4.0 前遗留，现不启用）。
 
@@ -160,6 +217,16 @@ python3.11 scripts/check_football_freshness.py --json
 ## CLI 命令
 
 ```bash
+# === v5.2: 天气采集 ===
+# 获取明日比赛天气 (Open-Meteo)
+python3.11 scripts/fetch_weather.py --tomorrow
+
+# 指定日期
+python3.11 scripts/fetch_weather.py --date 2026-06-24
+
+# 仅打印不保存
+python3.11 scripts/fetch_weather.py --tomorrow --dry-run
+
 # === v2.0: 未来N场预测（结构化输出）===
 # 直接调用 predict_single_match()，保存完整 audit 到 JSON
 python3.11 scripts/predict_next_n.py --n 4 --news
@@ -276,9 +343,8 @@ python3.11 scripts/check_football_freshness.py --quiet  # 仅问题项（cron用
 
 | Job ID | 名称 | 时间 | 说明 |
 |--------|------|------|------|
-| `5154715032ec` | 数据刷新+结果采集 | 14:30 | ELO+热身赛+RSS |
-| `86912ff0a4aa` | 赛前预测 | 15:00 | 未来4场+串关方案 |
-| `8f9437f71917` | 赛前1h提醒 | paused | |
+| `5154715032ec` | 数据刷新+结果采集 | 14:30 | 保鲜→采集→伤病→ELO→摘要 |
+| `86912ff0a4aa` | 赛前预测 | 15:00 | 未来4场预测+报告PDF+串关 |
 
 交付模式: `deliver=local,origin` (微信+本地双保险)
 
@@ -340,8 +406,8 @@ python3.11 scripts/check_football_freshness.py --quiet  # 仅问题项（cron用
 
 - ❌ `sporttery.cn` / `lottery.gov.cn` — EdgeOne WAF 567
 - ❌ `jc.zhcw.com` API — 接口限流
-- ❌ `500.com` — 403 Forbidden
-- ✅ **合成模型**（71%返奖率 + T=5温度校准）— 当前唯一可行方案
+- ✅ `trade.500.com/jczq` — **web_extract 可抓取**（2026-06-20 验证），含竞彩非让球胜平负赔率
+- ✅ **合成模型**（71%返奖率 + T=5温度校准）— 500.com 抓取失败时的降级方案
 - 🟡 `zgzcw.com` — 仅有让球盘，无胜平负直赔
 
 ### 串关陷阱
@@ -352,7 +418,7 @@ python3.11 scripts/check_football_freshness.py --quiet  # 仅问题项（cron用
 
 ### 竞彩赔率数据源
 
-中国竞彩 (sporttery.cn, lottery.gov.cn, jc.zhcw.com, 500.com) 全部被 WAF 封锁，无公开 API。
+中国竞彩 (sporttery.cn, lottery.gov.cn, jc.zhcw.com) 被 WAF 封锁。500.com (trade.500.com/jczq) 可通过 web_extract 正常抓取竞彩赔率。
 当前使用合成模型（71%返奖率+温度校准），已验证在竞彩真实区间。
 完整实践记录和五个关键陷阱见 [references/jingcai-odds-pitfalls.md](references/jingcai-odds-pitfalls.md)。
 **当前方案**: 合成模型（71% 返奖率），已验证赔率在竞彩真实区间内。
@@ -374,6 +440,73 @@ iLink rate limit 会导致微信推送静默失败。Cron 配置 `deliver=local,
 
 竞彩 29% 抽水导致几乎所有串关 EV 为负（-20%~-47%），这是结构性现实。报告中如实标注红色 EV，并附加风险提示。
 
+### 赛前突发伤病扫描 ⚠️ NEW
+
+现有 RSS 管线无法捕获赛前 24h 的突发球队公告（如 6/20 @BelRedDevils 宣布 Doku 因病缺席）。
+预测生成后、交付用户前，必须对次日所有参赛队伍执行赛前伤病扫描。
+
+**数据源（优先级从高到低）**：
+
+| # | 来源 | 方法 | 频率 |
+|---|------|------|------|
+| 1 | ESPN 伤病追踪器 | `web_extract(\"https://www.espn.com/soccer/story/_/id/48572979/2026-fifa-world-cup-injuries-tracker\")` | 每日 1 次 |
+| 2 | web_search 定向搜索 | `web_search(\"Team_Name World Cup 2026 injury news lineup OUT June XX\")` | 预测前 1-2h |
+| 3 | 球队官方 X/Twitter | `web_search` 间接抓取 | 按需 |
+
+**流程**：
+1. 先抓 ESPN 伤病汇总 → 对照 injuries.json 更新
+2. 对每个预测场次用 web_search 搜索"Team_A injury news World Cup June XX"
+3. 发现新伤病 → 更新 injuries.json → **必须重跑预测**
+4. 在最终报告中标注"⚠️ 赛前伤病扫描已执行"
+
+### 手动录入比分陷阱 ⚠️ (累计 2 次：6/17 Iraq-Norway, 6/23 Norway-Senegal)
+
+**案例 1 — Iraq 1-4 Norway 错录为 1-3**（6/17采集, 6/22纠正）
+**案例 2 — Norway 3-2 Senegal 错录为 3-1**（6/23 cron采集, 同日纠正）
+
+**共性**: 两起都是挪威比赛，score_b 偏差恰好 1 球，ESPN/BBC 赛后数小时内未更新完整比分（仅显示首轮数据），cron 采集时误用不完整数据。
+
+**纠正时验证方法**（当 ESPN/BBC 未更新时）：
+1. `web_search("Norway Senegal World Cup 2026 score")` — 搜索赛后报道
+2. 社交媒体源（Instagram post-match accounts, Facebook news pages, NJ.com 等本地媒体）— 这些通常在终场哨响后 30 分钟内发布准确比分
+3. 多源交叉确认（至少 2 个独立来源）后再写入
+
+**教训**：
+1. 手动录入比分后**必须执行数据完整性审计**（5 维检查）
+2. 用户纠正比分时**无条件信任用户**，立即更新 `wc2026_results.json` + `wc2026_schedule.json` + 重新运行 `update_elo_from_results.py`
+3. 任何时候看到报告中的比分与用户认知不符，**先查原始数据再辩解** — 数据正确性是底线
+4. ⚠️ **cron 采集的比分不是最终真相** — ESPN/BBC 页面可能在赛后数小时仍为赛前状态。新录入比分需对照至少 2 个赛后报道源验证
+
+### web_extract 比分解析陷阱
+
+ESPN 等网站的 Team Stats 区块可能显示**部分进球数**而非全场比分。
+例：6/21 Japan vs Tunisia，ESPN 页面 Team Stats 显示 Japan=2, Tunisia=1，
+但 Facebook 进球直播证实为 4-0。用户纠正比分时**无条件信任用户**，
+并立即更新 wc2026_results.json + 重跑 ELO 更新。
+
+### 数据完整性审计底线
+
+每次修改 wc2026_results.json 后，必须执行底线审计：
+
+```python
+# 1. 遗漏检查: schedule 中 date < today 但不在 results 中的比赛
+# 2. 一致性检查: team_a/team_b/date 与 schedule 是否一致
+# 3. 重复检查: match_id 是否唯一
+# 4. 按日期统计: 赛程场次 vs 已采场次
+```
+
+**审计模板**: 用 execute_code 一次性输出 5 维检查（遗漏/今日/一致性/重复/按日统计）。
+审计通过后再做任何预测或报告生成。
+
+### 报告类型区分
+
+| 类型 | 脚本 | 用途 | 交付物 |
+|------|------|------|--------|
+| 预测报告 | `generate_daily_report.py --date <date>` | 赛前发给用户 | report_<date>.pdf |
+| 赛后简报 | 手动生成（MD+积分榜） | 赛后数据审计 | postmatch_<date>.md |
+
+用户说"pdf发给我"时，确认是预测报告还是赛后简报，不要发错。
+
 ### RSS 情感分析 Graceful Degradation
 
 详见 `references/rss-graceful-degradation.md` — 三层 fallback 设计模式。
@@ -382,7 +515,43 @@ iLink rate limit 会导致微信推送静默失败。Cron 配置 `deliver=local,
 
 使用 `web_search("eloratings.net Team_Name")` 获取 search snippet 中的 ELO 数值。international-football.net 持续 429 限速。
 
-## 每日预测管线 (v4.4)
+## 每日预测管线 (v5.2)
+
+```bash
+cd /home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-football-predictor
+
+# 0. 数据保鲜
+python3.11 scripts/check_football_freshness.py --quiet 2>&1
+
+# 1. 采集历史赛果
+python3.11 scripts/collect_results.py --check 2>&1
+# 有遗漏→web_search→--manual 录入
+
+# 2. 采集今日赛果（检查 schedule 中已过时但未采的比赛）
+python3.11 scripts/collect_results.py --date <today> --manual '[...]' 2>&1
+
+# 3. 赛前伤病扫描
+# 抓 ESPN 伤病追踪器 + web_search 定向搜索明日所有球队
+
+# 3.5. 获取明日天气 (v5.2 NEW)
+python3.11 scripts/fetch_weather.py --tomorrow 2>&1
+# 保存到 data/match_weather.json
+
+# 4. 更新 ELO
+python3.11 scripts/update_elo_from_results.py 2>&1
+
+# 5. 拉取 RSS + 非结构化信号
+python3.11 scripts/unstructured_extractor.py --teams "<tomorrow_teams>" 2>&1
+
+# 6. 预测 (自动包含 v5.2 Layer 4a/4b)
+python3.11 scripts/predict_by_date.py --tomorrow 2>&1
+
+# 7. 生成报告 PDF
+python3.11 scripts/generate_daily_report.py --date <tomorrow> 2>&1
+
+# 8. 数据完整性底线审计
+# 用 execute_code 运行 5 维检查（遗漏/今日/一致性/重复/按日统计）
+```
 
 ```bash
 # 1. 数据刷新管线（每天一次）
@@ -415,10 +584,12 @@ python3.11 scripts/predict_next_n.py --n N --news
 | `wc2026_results.json` | `collect_results.py` | 赛后立即 |
 
 见参考文档：
+- `references/system-health-check.md` — 系统健康检查清单（8 项审计 + 一键脚本）
 - `references/data-freshness-workflow.md` — 数据保鲜刷新工作流、静态文件刷新、predict_next_n 存盘修复
 - `references/injury-format.md` — injuries.json 格式规范与常见错误
 - `references/friendly-data-collection.md` — 热身赛数据采集流程
 - `references/polymarket-cross-validation.md` — Polymarket API 交叉验证
+- `references/objective-factors-analysis.md` — 客观条件因子分析（降水/风力/温度/旅途疲劳/休息天数），含数据验证发现
 
 ## 常见陷阱
 
@@ -428,6 +599,48 @@ python3.11 scripts/predict_next_n.py --n N --news
 4. **ELO 不更新就预测**: 必须先 `update_elo_from_results` 再 `predict_next_n`
 5. **Polymarket 与模型背离**: Davies 伤缺导致 Canada 模型94.7% vs 市场53.5%——市场给伤病定了价
 6. **重复添加热身赛**: 每次新增前检查 `(date, team_a, team_b)` 组合是否已存在（含反转）
+7. **ELO 静默过期**: `collect_results.py` 采集赛果后不会自动调用 `update_elo_from_results.py`。Cron 必须显式链式调用，否则 ELO 永久停留在上次手动更新的时间点（如 6/13→6/22 期间 40 场赛果未反映）
+8. **Schedule 不同步**: `wc2026_schedule.json` 不会自动从 `wc2026_results.json` 同步 `status`/`score_a`/`score_b`。每次采集赛果后需用 execute_code 脚本将 results 同步到 schedule
+9. **injuries.json 静默过期**: 预置伤病数据在开赛后不会自动更新。Matchday 2/3 可能出现新的赛中伤病（如 Jérémy Doku 生病、Wataru Endo 退赛、Ruben Dias 缺阵），必须每天 web_search + ESPN 追踪器扫描
+10. **⚠️ v5.2: style_category 是关键词自动分类，可能有误**: `team_profiles.json` 的 `style_category` 通过中文关键词规则自动生成（如 "技术"+"传控"→possession），存在误分类可能。手动复核 48 队分类结果后再投产
+11. **⚠️ v5.2: Open-Meteo 免费 API 无 SLA**: 天气数据源 Open-Meteo 是免费服务，无可用性保证。已实现三重降级 (API→静态→0)，但极端情况下可能无法获取实时天气
+12. **⚠️ v5.2: 客观条件因子权重很低**: 天气 5%、赛程 3%，设计意图是附加参考而非方向性判断。报告中已标注「实验性因子」，不可基于这些因子做决策
+13. **⚠️ cron 采集赛果不可盲信**: ESPN/BBC 页面在赛后数小时内可能仍显示赛前数据（仅首轮统计）。新采集的比分必须用 `web_search` 找至少 2 个独立赛后报道源（Instagram/Facebook 本地媒体/NJ.com 等）交叉验证。2 次挪威比赛出错（Iraq-Norway 1-4→1-3, Norway-Senegal 3-2→3-1）都是采集时用了未更新的 ESPN/BBC 数据
+
+## 模型-市场分歧分析（v5.1 例行）
+
+每次 15:00 预测报告**必须**包含模型与市场赔率的分歧对比。
+
+### 数据源
+- **模型预测**: `predict_by_date.py` 输出的 team_a_win_pct / draw_pct / team_b_win_pct
+- **市场赔率**: `web_extract(urls=["https://trade.500.com/jczq"])` 提取「非让球胜平负」
+
+### 计算
+```
+市场隐含概率 = (1/赔率) / sum(1/所有赔率)   # 去水
+分歧度 = |模型胜率 - 市场隐含概率|
+```
+
+### 判断标准
+| 分歧度 | 标记 | 含义 |
+|--------|------|------|
+| > 15% | 显著分歧 | 模型与市场方向性差异 |
+| 10-15% | 适度分歧 | 关注后续走势 |
+| < 10% | 一致 | 模型与市场同步 |
+
+### 简报格式
+```
+模型-市场分歧
+| 比赛 | 模型 | 市场 | 分歧 | 提示 |
+|------|------|------|------|------|
+| 德国vs科特迪瓦 | 德37%/平25%/科38% | 德64%/平22%/科14% | 27% | 模型看平，市场碾压 |
+```
+高分歧场次附 1-2 句简短解读。
+
+### 解读原则
+- 只说「模型认为X，市场认为Y，分歧Z%」，不做胜负判断
+- 客观陈述双方依据，让用户自行决策
+- 参考历史案例：2018 德国 0-1 墨西哥（德国@1.44 模型看平）、2022 阿根廷 1-2 沙特（阿根廷@1.18 模型预警）
 
 ## 架构
 
@@ -466,9 +679,9 @@ wuhoo-football-predictor/
 
 ## 已知限制
 
-1. **ELO 数据可能过期**: international-football.net 持续 429，依赖 static fallback
-2. **两份 SKILL.md 副本**: `~/.hermes/skills/` 和 `~/wuhoo-workspace/skills/` 各有副本。`skill_manage` 默认写 `.hermes` 副本，workspace 含实际脚本代码。更新 `.hermes` 后需手动 `cp` 到 workspace。Cron job 加载 skill 时可能因 ambiguous 报 "Skill not found"（prompt 已自含不阻塞执行）
-3. **竞彩赔率为合成**: 无官方 API，71% 返奖率模型为最优替代
-4. **Uruguay 无热身赛数据**: 47/48 队覆盖
-5. **串关 EV 始终为负**: 竞彩 29% 抽水的结构性结果，报告已如实标注
-6. **WeChat iLink 限流**: Cron 推送可能静默失败，`deliver=local,origin` 保底
+1. **ELO 数据源不可靠**: international-football.net 持续 429，依赖 static fallback (2026-05-21)。ELO 更新完全依赖 `update_elo_from_results.py` 从赛果反推
+2. **竞彩赔率为合成**: 无官方 API，71% 返奖率模型为最优替代
+3. **Uruguay 无热身赛数据**: 47/48 队覆盖
+4. **串关 EV 始终为负**: 竞彩 29% 抽水的结构性结果，报告已如实标注
+5. **WeChat iLink 限流**: Cron 推送可能静默失败，`deliver=local,origin` 保底
+6. **非结构化信号需 LLM 回填**: Layer 5.5 依赖 agent 侧调用 LLM 后 merge_llm_response，cron 自动运行无 LLM 支持时优雅降级为 0

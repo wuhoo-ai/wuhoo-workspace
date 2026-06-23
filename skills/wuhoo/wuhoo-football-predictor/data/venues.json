@@ -12,7 +12,12 @@
       "heat_elo_penalty": 0,
       "climate_note": "High altitude — ~20% less oxygen, significant advantage for acclimated teams",
       "capacity": 87523,
-      "matches_hosted": 3
+      "matches_hosted": 3,
+      "coordinates": {
+        "lat": 19.303,
+        "lon": -99.1504
+      },
+      "pitch_type": "natural_grass"
     },
     "Estadio BBVA": {
       "city": "Monterrey",
@@ -24,7 +29,12 @@
       "heat_elo_penalty": 10,
       "climate_note": "Warm, moderate altitude",
       "capacity": 53500,
-      "matches_hosted": 1
+      "matches_hosted": 1,
+      "coordinates": {
+        "lat": 25.669,
+        "lon": -100.244
+      },
+      "pitch_type": "natural_grass"
     },
     "Estadio Akron": {
       "city": "Guadalajara",
@@ -36,7 +46,12 @@
       "heat_elo_penalty": 5,
       "climate_note": "High altitude — ~12% less oxygen",
       "capacity": 48171,
-      "matches_hosted": 3
+      "matches_hosted": 3,
+      "coordinates": {
+        "lat": 20.6819,
+        "lon": -103.4623
+      },
+      "pitch_type": "natural_grass"
     },
     "AT&T Stadium": {
       "city": "Arlington (Dallas)",
@@ -49,7 +64,12 @@
       "climate_note": "Very hot, indoor stadium (AC) — heat penalty reduced",
       "indoor": true,
       "capacity": 80000,
-      "matches_hosted": 7
+      "matches_hosted": 7,
+      "coordinates": {
+        "lat": 32.7473,
+        "lon": -97.0945
+      },
+      "pitch_type": "hybrid"
     },
     "Mercedes-Benz Stadium": {
       "city": "Atlanta",
@@ -62,7 +82,12 @@
       "climate_note": "Hot & humid, indoor stadium (AC) — heat penalty reduced",
       "indoor": true,
       "capacity": 71000,
-      "matches_hosted": 3
+      "matches_hosted": 3,
+      "coordinates": {
+        "lat": 33.7554,
+        "lon": -84.4009
+      },
+      "pitch_type": "hybrid"
     },
     "Gillette Stadium": {
       "city": "Foxborough (Boston)",
@@ -74,7 +99,12 @@
       "heat_elo_penalty": 0,
       "climate_note": "Mild summer, open air",
       "capacity": 65878,
-      "matches_hosted": 6
+      "matches_hosted": 6,
+      "coordinates": {
+        "lat": 42.0909,
+        "lon": -71.2643
+      },
+      "pitch_type": "hybrid"
     },
     "NRG Stadium": {
       "city": "Houston",
@@ -87,7 +117,12 @@
       "climate_note": "Very hot & humid, indoor (AC)",
       "indoor": true,
       "capacity": 72220,
-      "matches_hosted": 6
+      "matches_hosted": 6,
+      "coordinates": {
+        "lat": 29.6847,
+        "lon": -95.4108
+      },
+      "pitch_type": "hybrid"
     },
     "Arrowhead Stadium": {
       "city": "Kansas City",
@@ -99,7 +134,12 @@
       "heat_elo_penalty": 10,
       "climate_note": "Hot & humid summer, open air",
       "capacity": 76416,
-      "matches_hosted": 5
+      "matches_hosted": 5,
+      "coordinates": {
+        "lat": 39.0489,
+        "lon": -94.4839
+      },
+      "pitch_type": "natural_grass"
     },
     "SoFi Stadium": {
       "city": "Inglewood (Los Angeles)",
@@ -112,7 +152,12 @@
       "climate_note": "Mild, dry — ideal conditions",
       "indoor": true,
       "capacity": 70240,
-      "matches_hosted": 5
+      "matches_hosted": 5,
+      "coordinates": {
+        "lat": 33.9535,
+        "lon": -118.339
+      },
+      "pitch_type": "hybrid"
     },
     "Hard Rock Stadium": {
       "city": "Miami Gardens",
@@ -124,7 +169,12 @@
       "heat_elo_penalty": 25,
       "climate_note": "Hot & extremely humid — significant fatigue factor",
       "capacity": 65326,
-      "matches_hosted": 7
+      "matches_hosted": 7,
+      "coordinates": {
+        "lat": 25.958,
+        "lon": -80.2389
+      },
+      "pitch_type": "natural_grass"
     },
     "MetLife Stadium": {
       "city": "East Rutherford (New York)",
@@ -136,7 +186,12 @@
       "heat_elo_penalty": 5,
       "climate_note": "Warm summer, moderate humidity — FINAL venue",
       "capacity": 82500,
-      "matches_hosted": 6
+      "matches_hosted": 6,
+      "coordinates": {
+        "lat": 40.8136,
+        "lon": -74.0744
+      },
+      "pitch_type": "hybrid"
     },
     "Lincoln Financial Field": {
       "city": "Philadelphia",
@@ -148,7 +203,12 @@
       "heat_elo_penalty": 5,
       "climate_note": "Warm summer",
       "capacity": 67594,
-      "matches_hosted": 4
+      "matches_hosted": 4,
+      "coordinates": {
+        "lat": 39.9008,
+        "lon": -75.1675
+      },
+      "pitch_type": "natural_grass"
     },
     "Levi's Stadium": {
       "city": "Santa Clara (San Francisco)",
@@ -160,7 +220,12 @@
       "heat_elo_penalty": 0,
       "climate_note": "Mild, dry — ideal conditions",
       "capacity": 68500,
-      "matches_hosted": 2
+      "matches_hosted": 2,
+      "coordinates": {
+        "lat": 37.4035,
+        "lon": -121.9703
+      },
+      "pitch_type": "natural_grass"
     },
     "Lumen Field": {
       "city": "Seattle",
@@ -172,7 +237,12 @@
       "heat_elo_penalty": 0,
       "climate_note": "Mild, cool summer — favorable for European teams",
       "capacity": 68740,
-      "matches_hosted": 5
+      "matches_hosted": 5,
+      "coordinates": {
+        "lat": 47.5952,
+        "lon": -122.3316
+      },
+      "pitch_type": "hybrid"
     },
     "BC Place": {
       "city": "Vancouver",
@@ -185,7 +255,12 @@
       "climate_note": "Cool, mild — favorable for European teams",
       "indoor": true,
       "capacity": 54500,
-      "matches_hosted": 5
+      "matches_hosted": 5,
+      "coordinates": {
+        "lat": 49.2767,
+        "lon": -123.1121
+      },
+      "pitch_type": "hybrid"
     },
     "BMO Field": {
       "city": "Toronto",
@@ -197,7 +272,12 @@
       "heat_elo_penalty": 0,
       "climate_note": "Warm summer, moderate humidity",
       "capacity": 45000,
-      "matches_hosted": 4
+      "matches_hosted": 4,
+      "coordinates": {
+        "lat": 43.6329,
+        "lon": -79.4186
+      },
+      "pitch_type": "hybrid"
     }
   },
   "altitude_scale": {
@@ -241,6 +321,6 @@
     "threshold_c": 28,
     "penalty_per_5c_above": 10
   },
-  "updated": "2026-06-13T14:54:52.411943",
+  "updated": "2026-06-23",
   "note": "16 venues used in 72-match schedule"
 }

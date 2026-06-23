@@ -87,7 +87,8 @@ def predict_by_date(date_str):
                 m['team_a'], m['team_b'],
                 venue_name=m.get('venue'),
                 enable_news=('--news' in sys.argv),
-                knockout=False
+                knockout=False,
+                match_id=m.get('match_id')
             )
             audit['schedule'] = m
             _save_prediction_history(audit)
@@ -130,16 +131,18 @@ def save_reports(results, date_str):
             lines.append("")
 
     with open(md_path, 'w') as f:
-        f.write('\n'.join(lines))
+        f.write('\n'.join(lines) + '\n'.join(format_objective_factors_md(results)))
     print(f"💾 Markdown: {md_path}")
 
-    # JSON report (serializable summary)
+    # JSON report — two keys for compatibility:
+    # 'predictions' for human/WeChat (flat), 'matches' for generate_daily_report.py (full audit)
     json_path = os.path.join(PREDICTIONS_DIR, f'{date_str}.json')
     json_data = {
         'date_beijing': date_str,
         'generated': datetime.now().isoformat(),
         'total_matches': len(results),
-        'predictions': []
+        'predictions': [],
+        'matches': []
     }
     for r in results:
         entry = {
@@ -161,12 +164,17 @@ def save_reports(results, date_str):
             entry['verdict'] = v['result']
             entry['confidence'] = v['confidence']
             entry['error'] = None
+            # Save full audit for generate_daily_report.py compatibility
+            json_data['matches'].append({
+                'audit': dict(r['audit']),
+                'schedule': r['match']
+            })
         else:
             entry['error'] = r.get('error', 'unknown')
         json_data['predictions'].append(entry)
 
     with open(json_path, 'w') as f:
-        json.dump(json_data, f, indent=2, ensure_ascii=False)
+        json.dump(json_data, f, indent=2, ensure_ascii=False, default=str)
     print(f"💾 JSON: {json_path}")
 
 
@@ -188,6 +196,128 @@ def print_summary(results, date_str):
                   f"→ {r['audit']['verdict']['result']}")
         else:
             print(f"  ❌ {m['team_a']} vs {m['team_b']}: 预测失败")
+    
+    # v5.2: Objective factors summary
+    print_objective_factors(results)
+
+
+def print_objective_factors(results):
+    """Print objective condition factors table (v5.2)."""
+    has_factors = False
+    for r in results:
+        if not r['audit']:
+            continue
+        layers = r['audit'].get('layers', {})
+        wa = layers.get('4a_weather', {})
+        sd = layers.get('4b_schedule_density', {})
+        wd = wa.get('weather_details', {})
+        if wd.get('precip_category', 'none') != 'none' or wa.get('team_a_adj', 0) or wa.get('team_b_adj', 0) or sd.get('team_a_adj', 0) or sd.get('team_b_adj', 0):
+            has_factors = True
+            break
+    
+    if not has_factors:
+        return
+    
+    print(f"\n{'─' * 60}")
+    print(f"🌧️ 客观条件因子 (v5.2 实验性)")
+    print(f"{'─' * 60}")
+    print(f"{'比赛':<28} {'降水':>8} {'风力':>8} {'赛程密度':>10}")
+    
+    for r in results:
+        if not r['audit']:
+            continue
+        m = r['match']
+        layers = r['audit'].get('layers', {})
+        wa = layers.get('4a_weather', {})
+        sd = layers.get('4b_schedule_density', {})
+        wd = wa.get('weather_details', {})
+        
+        cn_a = TEAM_PROFILES.get(m['team_a'], {}).get('name_cn', m['team_a'])
+        cn_b = TEAM_PROFILES.get(m['team_b'], {}).get('name_cn', m['team_b'])
+        
+        precip_cat = wd.get('precip_category', 'none')
+        precip_label = {'none': '无', 'light': '小雨', 'moderate': '中雨', 'heavy': '⚡暴雨'}.get(precip_cat, precip_cat)
+        wind_label = wd.get('wind_category', '?')
+        if wd.get('indoor', False):
+            wind_label = '室内'
+        
+        dens_a = sd.get('team_a_adj', 0)
+        dens_b = sd.get('team_b_adj', 0)
+        dens_label = '均衡' if dens_a == 0 and dens_b == 0 else f"{dens_a:+d}/{dens_b:+d}"
+        
+        match_label = f"{cn_a}vs{cn_b}"
+        print(f"{match_label:<28} {precip_label:>8} {wind_label:>8} {dens_label:>10}")
+    
+    print(f"⚠️ 本模块为实验性因子，权重较低 (天气5%/赛程3%)，仅供参考")
+    print(f"{'─' * 60}")
+
+
+def format_objective_factors_md(results):
+    """Generate markdown section for objective factors (v5.2)."""
+    has_factors = False
+    for r in results:
+        if not r['audit']:
+            continue
+        layers = r['audit'].get('layers', {})
+        wa = layers.get('4a_weather', {})
+        sd = layers.get('4b_schedule_density', {})
+        wd = wa.get('weather_details', {})
+        if wd.get('precip_category', 'none') != 'none' or wa.get('team_a_adj', 0) or wa.get('team_b_adj', 0) or sd.get('team_a_adj', 0) or sd.get('team_b_adj', 0):
+            has_factors = True
+            break
+    
+    if not has_factors:
+        return []
+    
+    lines = [
+        "",
+        "---",
+        "",
+        "## 🌧️ 客观条件因子 (v5.2 实验性)",
+        "",
+        "| 比赛 | 降水 | 温度 | 风力 | 赛程密度 | 备注 |",
+        "|------|------|------|------|----------|------|",
+    ]
+    
+    for r in results:
+        if not r['audit']:
+            continue
+        m = r['match']
+        layers = r['audit'].get('layers', {})
+        wa = layers.get('4a_weather', {})
+        sd = layers.get('4b_schedule_density', {})
+        wd = wa.get('weather_details', {})
+        
+        cn_a = TEAM_PROFILES.get(m['team_a'], {}).get('name_cn', m['team_a'])
+        cn_b = TEAM_PROFILES.get(m['team_b'], {}).get('name_cn', m['team_b'])
+        
+        precip_cat = wd.get('precip_category', 'none')
+        precip_labels = {'none': '无', 'light': '小雨', 'moderate': '中雨', 'heavy': '⚡暴雨'}
+        precip_label = precip_labels.get(precip_cat, precip_cat)
+        
+        temp = wd.get('temp_c', '?')
+        wind_label = wd.get('wind_category', '?')
+        if wd.get('indoor', False):
+            wind_label = '室内'
+        
+        dens_a = sd.get('team_a_adj', 0)
+        dens_b = sd.get('team_b_adj', 0)
+        dens_label = '均衡' if dens_a == 0 and dens_b == 0 else f"{dens_a:+d}/{dens_b:+d}"
+        
+        notes = []
+        if precip_cat == 'heavy':
+            notes.append("技术型队受雨影响更大")
+        if abs(dens_a) >= 10 or abs(dens_b) >= 10:
+            notes.append("赛程不对称")
+        note_str = '; '.join(notes) if notes else '-'
+        
+        lines.append(f"| {cn_a}vs{cn_b} | {precip_label} | {temp}°C | {wind_label} | {dens_label} | {note_str} |")
+    
+    lines.append("")
+    lines.append("> ⚠️ 本模块为实验性因子，权重较低 (天气5%/赛程3%)，仅供附加参考，不做方向性判断。")
+    lines.append("")
+    
+    return lines
 
 
 def main():

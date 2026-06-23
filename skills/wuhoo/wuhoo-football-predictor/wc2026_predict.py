@@ -181,6 +181,243 @@ def _load_friendly_form():
 FRIENDLY_FORM = _load_friendly_form()
 
 # ============================================================
+# 1f. Match Weather (v5.2) — Open-Meteo real-time weather
+# ============================================================
+def _load_match_weather():
+    """Load match weather forecasts. Returns {match_id_str: forecast} dict."""
+    wpath = os.path.join(os.path.dirname(__file__), 'data', 'match_weather.json')
+    try:
+        with open(wpath) as f:
+            data = json.load(f)
+        return data.get('forecasts', {})
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+MATCH_WEATHER = _load_match_weather()
+
+# ============================================================
+# 1g. Schedule Density (v5.2) — Travel fatigue + rest days
+# ============================================================
+def compute_schedule_density(team, match_id, schedule_path=None):
+    """Compute travel fatigue + rest days composite for a team.
+    
+    Returns: (travel_penalty: int, rest_bonus: int, details: dict)
+    All penalties are ELO points. Negative = disadvantage.
+    """
+    import math
+    
+    if schedule_path is None:
+        schedule_path = os.path.join(os.path.dirname(__file__), 'data', 'wc2026_schedule.json')
+    
+    try:
+        with open(schedule_path) as f:
+            schedule = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return 0, 0, {}
+    
+    # Find current match and team's previous match
+    matches = schedule.get('matches', [])
+    curr_match = None
+    prev_match = None
+    
+    for m in matches:
+        if m['match_id'] == match_id:
+            curr_match = m
+            break
+    
+    if not curr_match:
+        return 0, 0, {}
+    
+    curr_date = curr_match.get('date_beijing', '')
+    
+    # Find previous match for this team
+    for m in sorted(matches, key=lambda x: x.get('date_beijing', '')):
+        if m['match_id'] == match_id:
+            continue
+        if m.get('date_beijing', '') >= curr_date:
+            continue
+        if team in (m['team_a'], m['team_b']):
+            prev_match = m  # keep last one (closest to current)
+    
+    # --- Travel penalty ---
+    travel_penalty = 0
+    distance_km = 0
+    
+    if prev_match and curr_match.get('venue'):
+        prev_venue = prev_match.get('venue')
+        curr_venue = curr_match.get('venue')
+        
+        if prev_venue and curr_venue and prev_venue != curr_venue:
+            # Get coordinates
+            venues_dict = VENUES.get('venues', {})
+            pv = venues_dict.get(prev_venue, {}).get('coordinates', {})
+            cv = venues_dict.get(curr_venue, {}).get('coordinates', {})
+            
+            if pv and cv:
+                # Haversine distance
+                lat1, lon1 = math.radians(pv['lat']), math.radians(pv['lon'])
+                lat2, lon2 = math.radians(cv['lat']), math.radians(cv['lon'])
+                dlat = lat2 - lat1
+                dlon = lon2 - lon1
+                a = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
+                c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+                distance_km = 6371 * c
+                
+                # Penalty: -5 per 500km, cap at -20
+                travel_penalty = -min(int(distance_km / 500) * 5, 20)
+    
+    # --- Rest days bonus ---
+    rest_bonus = 0
+    rest_days_team = 4  # default
+    
+    if prev_match:
+        prev_date_str = prev_match.get('date_beijing', '')
+        if prev_date_str and curr_date:
+            try:
+                from datetime import date
+                pd = date.fromisoformat(prev_date_str)
+                cd = date.fromisoformat(curr_date)
+                rest_days_team = (cd - pd).days
+            except (ValueError, TypeError):
+                pass
+    
+    return travel_penalty, rest_bonus, {
+        'prev_match_id': prev_match['match_id'] if prev_match else None,
+        'prev_venue': prev_match.get('venue') if prev_match else None,
+        'curr_venue': curr_match.get('venue'),
+        'distance_km': round(distance_km, 1),
+        'rest_days': rest_days_team,
+    }
+
+# Rain style factor mapping (v5.2)
+RAIN_STYLE_FACTOR = {
+    'possession': 1.3,
+    'physical': 0.7,
+    'counter': 1.0,
+    'defensive': 0.7,
+    'high_press': 1.0,
+    'balanced': 1.0,
+}
+
+def get_rain_penalty(team, precip_category):
+    """Calculate rain penalty with team style factor."""
+    if precip_category == 'none' or not precip_category:
+        return 0
+    
+    base_penalty = {'light': -5, 'moderate': -15, 'heavy': -30}.get(precip_category, 0)
+    if base_penalty == 0:
+        return 0
+    
+    profile = TEAM_PROFILES.get(team, {})
+    style_cat = profile.get('style_category', 'balanced')
+    factor = RAIN_STYLE_FACTOR.get(style_cat, 1.0)
+    
+    return int(base_penalty * factor)
+
+# ============================================================
+# 1e. Tournament Form (v5.1) — Actual World Cup match performance
+# ============================================================
+def compute_tournament_form(team, opponent=None, results_path=None):
+    """Calculate tournament form adjustment based on actual WC2026 results.
+    
+    Factors (weighted by opponent ELO quality):
+    - Win/Loss/Draw result
+    - Goal difference (big wins count more)
+    - Clean sheet bonus
+    - Recency weighting (last match counts more)
+    
+    Returns: (adjustment: int, details: list of str)
+    """
+    if results_path is None:
+        results_path = os.path.join(os.path.dirname(__file__), 'data', 'wc2026_results.json')
+    
+    try:
+        with open(results_path) as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return 0, []
+    
+    matches = data.get('matches', [])
+    team_matches = []
+    for m in matches:
+        if m.get('status') != 'completed':
+            continue
+        ta = m['team_a']
+        tb = m['team_b']
+        if ta == team or tb == team:
+            opp = tb if ta == team else ta
+            gf = m['score_a'] if ta == team else m['score_b']
+            ga = m['score_b'] if ta == team else m['score_a']
+            team_matches.append({
+                'opponent': opp,
+                'gf': gf,
+                'ga': ga,
+                'date': m.get('date_beijing', ''),
+            })
+    
+    if not team_matches:
+        return 0, []
+    
+    # Sort by date, most recent last
+    team_matches.sort(key=lambda x: x['date'])
+    
+    total_adj = 0.0
+    details = []
+    
+    for i, tm in enumerate(team_matches):
+        opp = tm['opponent']
+        gf = tm['gf']
+        ga = tm['ga']
+        gd = gf - ga
+        
+        opp_elo = ELO.get(opp, 1700)
+        # Quality factor: how strong is the opponent relative to average
+        quality_factor = (opp_elo - 1500) / 400  # ranges ~ -0.3 to +1.6
+        
+        # Recency weight: most recent match 1.3x, others 1.0x
+        recency = 1.3 if i == len(team_matches) - 1 else 1.0
+        
+        match_adj = 0.0
+        parts = []
+        
+        if gd > 0:  # WIN
+            # Base: 8 for win + 4 per goal diff
+            base = 8 + gd * 4
+            # Quality modifier: beating strong teams > beating weak teams
+            qmod = 1.0 + quality_factor * 0.4
+            match_adj = base * qmod
+            parts.append(f"W {gf}-{ga}")
+        elif gd == 0:  # DRAW
+            # Draw vs strong: small positive; draw vs weak: small negative
+            match_adj = quality_factor * 6
+            parts.append(f"D {gf}-{ga}")
+        else:  # LOSS
+            # Base: -8 for loss, but offset by goals scored
+            base = -8 + gf * 2  # -8 + 2*goals (scoring 2 in a 2-3 loss is better than 0-3)
+            # Quality modifier inverted: losing to strong teams is expected
+            qmod = 1.0 - quality_factor * 0.3
+            match_adj = base * qmod
+            parts.append(f"L {gf}-{ga}")
+        
+        # Clean sheet bonus (regardless of result)
+        if ga == 0:
+            cs_bonus = 4 if gd > 0 else 2
+            match_adj += cs_bonus
+            parts.append("CS")
+        
+        match_adj *= recency
+        total_adj += match_adj
+        
+        date_short = tm['date'][-5:] if len(tm['date']) >= 10 else tm['date']
+        opp_cn = TEAM_PROFILES.get(opp, {}).get('name_cn', opp)
+        details.append(
+            f"[{date_short}] {'/'.join(parts)} vs {opp_cn} "
+            f"({opp_elo}ELO q={quality_factor:+.2f} r={recency}x) → {match_adj:+.0f}"
+        )
+    
+    return int(round(total_adj)), details
+
+# ============================================================
 # 1e. News Sentiment (v3.2 — RSS single channel)
 # ============================================================
 def load_news_sentiment(enable_news=False):
@@ -1347,7 +1584,7 @@ def _find_team_canonical(name, all_teams=None):
     return None
 
 def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
-                         manual_adjustments=None, knockout=False):
+                         manual_adjustments=None, knockout=False, match_id=None):
     """Predict a single match with full audit trail.
 
     Args:
@@ -1356,6 +1593,7 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
         enable_news: if True, load RSS news sentiment
         manual_adjustments: dict of team->elo_adjustment for manual overrides
         knockout: if True, resolve draws via probabilistic tiebreaker
+        match_id: schedule match_id for weather/density lookup (v5.2)
 
     Returns:
         dict with full audit trail and prediction results
@@ -1468,6 +1706,101 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
         'description': f"Home adv {home_adv:+d}, venue penalties: {team_a} {venue_penalty_a:+d} / {team_b} {venue_penalty_b:+d}"
     }
 
+    # --- Layer 4a: Weather (v5.2) — Rain + Wind + Real-time Temp ---
+    weather_a = 0
+    weather_b = 0
+    weather_details = {}
+    weather_description_parts = []
+    
+    match_key = str(match_id) if match_id else None
+    
+    if match_key and match_key in MATCH_WEATHER:
+        wf = MATCH_WEATHER[match_key]
+        precip_cat = wf.get('precip_category', 'none')
+        
+        # Rain penalty with style factor
+        rain_a = get_rain_penalty(team_a, precip_cat)
+        rain_b = get_rain_penalty(team_b, precip_cat)
+        weather_a += rain_a
+        weather_b += rain_b
+        
+        # Wind penalty (open stadium only, already zeroed in fetch_weather for indoor)
+        wind_penalty = wf.get('wind_penalty', 0)
+        if not wf.get('indoor', False):
+            weather_a += wind_penalty
+            weather_b += wind_penalty
+        
+        # Real-time heat penalty (replaces static avg)
+        heat_actual = wf.get('heat_penalty_actual', 0)
+        temp_avg = wf.get('temp_c_avg', 20)
+        
+        # Heat resistant check
+        heat_resistant = VENUES.get('heat_scale', {}).get('teams_heat_resistant', [])
+        if temp_avg > 28 and team_a not in heat_resistant:
+            weather_a -= heat_actual
+        if temp_avg > 28 and team_b not in heat_resistant:
+            weather_b -= heat_actual
+        
+        weather_details = {
+            'condition': wf.get('condition', '?'),
+            'temp_c': temp_avg,
+            'precip_mm': wf.get('precip_mm', 0),
+            'precip_category': precip_cat,
+            'wind_kph': wf.get('wind_kph', 0),
+            'wind_category': wf.get('wind_category', '?'),
+            'indoor': wf.get('indoor', False),
+        }
+        
+        if rain_a or rain_b:
+            weather_description_parts.append(f"Rain: {team_a} {rain_a:+d}/{team_b} {rain_b:+d}")
+        if wind_penalty and not wf.get('indoor', False):
+            weather_description_parts.append(f"Wind: {wind_penalty:+d}")
+        if heat_actual:
+            weather_description_parts.append(f"Temp: {temp_avg}°C (real-time)")
+
+    effective_a += weather_a
+    effective_b += weather_b
+    audit['layers']['4a_weather'] = {
+        'team_a_adj': weather_a,
+        'team_b_adj': weather_b,
+        'weather_details': weather_details,
+        'description': ' | '.join(weather_description_parts) if weather_description_parts else 'No significant weather impact'
+    }
+
+    # --- Layer 4b: Schedule Density (v5.2) — Travel + Rest ---
+    density_a = 0
+    density_b = 0
+    density_details_a = {}
+    density_details_b = {}
+    
+    if match_key:
+        mid = int(match_key)
+        travel_a, rest_days_a, details_a = compute_schedule_density(team_a, mid)
+        travel_b, rest_days_b, details_b = compute_schedule_density(team_b, mid)
+        
+        # Compute rest bonus: delta × 8, capped at ±24
+        rest_a_bonus = min(max((rest_days_a - rest_days_b) * 8, -24), 24) if rest_days_a and rest_days_b else 0
+        rest_b_bonus = -rest_a_bonus
+        
+        # Net density = (travel + rest) / 2, capped at ±20
+        raw_a = travel_a + rest_a_bonus
+        raw_b = travel_b + rest_b_bonus
+        density_a = max(min(int(raw_a / 2), 20), -20)
+        density_b = max(min(int(raw_b / 2), 20), -20)
+        
+        density_details_a = {**details_a, 'rest_bonus_raw': rest_a_bonus}
+        density_details_b = {**details_b, 'rest_bonus_raw': rest_b_bonus}
+    
+    effective_a += density_a
+    effective_b += density_b
+    audit['layers']['4b_schedule_density'] = {
+        'team_a_adj': density_a,
+        'team_b_adj': density_b,
+        'team_a_details': density_details_a,
+        'team_b_details': density_details_b,
+        'description': f"{team_a}: {density_a:+d} (travel+rest) | {team_b}: {density_b:+d}" if (density_a or density_b) else 'Schedule balanced, no density impact'
+    }
+
     # --- Layer 4.5: Friendly Match Form (v3.1) ---
     friendly_a = FRIENDLY_FORM.get(team_a, 0)
     friendly_b = FRIENDLY_FORM.get(team_b, 0)
@@ -1477,6 +1810,19 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
         'team_a_adj': friendly_a,
         'team_b_adj': friendly_b,
         'description': f"{team_a}: {friendly_a:+d} (warm-up form) | {team_b}: {friendly_b:+d}" if friendly_a or friendly_b else "No recent friendlies data"
+    }
+
+    # --- Layer 4.6: Tournament Form (v5.1) ---
+    tournament_a, details_a = compute_tournament_form(team_a)
+    tournament_b, details_b = compute_tournament_form(team_b)
+    effective_a += tournament_a
+    effective_b += tournament_b
+    audit['layers']['4.6_tournament_form'] = {
+        'team_a_adj': tournament_a,
+        'team_b_adj': tournament_b,
+        'team_a_details': details_a,
+        'team_b_details': details_b,
+        'description': f"{team_a}: {tournament_a:+d} | {team_b}: {tournament_b:+d}" if tournament_a or tournament_b else "No tournament matches yet"
     }
 
     # --- Layer 5: News Sentiment (optional, v4.5 keyword-based) ---
