@@ -1,0 +1,667 @@
+{
+  "date_beijing": "2026-06-23",
+  "generated": "2026-06-22T15:02:31.806174",
+  "total_matches": 4,
+  "predictions": [
+    {
+      "match_id": 41,
+      "team_a": "Argentina",
+      "team_b": "Austria",
+      "venue": "Arrowhead Stadium",
+      "group": "J",
+      "matchday": 2,
+      "time_beijing": "01:00",
+      "team_a_win_pct": 74.2,
+      "draw_pct": 17.3,
+      "team_b_win_pct": 8.5,
+      "most_likely_score": "2-0",
+      "verdict": "阿根廷 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    },
+    {
+      "match_id": 42,
+      "team_a": "France",
+      "team_b": "Iraq",
+      "venue": "MetLife Stadium",
+      "group": "I",
+      "matchday": 2,
+      "time_beijing": "05:00",
+      "team_a_win_pct": 79.3,
+      "draw_pct": 13.6,
+      "team_b_win_pct": 7.1,
+      "most_likely_score": "2-0",
+      "verdict": "法国 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    },
+    {
+      "match_id": 43,
+      "team_a": "Norway",
+      "team_b": "Senegal",
+      "venue": "Lincoln Financial Field",
+      "group": "I",
+      "matchday": 2,
+      "time_beijing": "08:00",
+      "team_a_win_pct": 72.9,
+      "draw_pct": 18.3,
+      "team_b_win_pct": 8.8,
+      "most_likely_score": "2-0",
+      "verdict": "挪威 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    },
+    {
+      "match_id": 44,
+      "team_a": "Jordan",
+      "team_b": "Algeria",
+      "venue": "AT&T Stadium",
+      "group": "J",
+      "matchday": 2,
+      "time_beijing": "11:00",
+      "team_a_win_pct": 17.7,
+      "draw_pct": 22.0,
+      "team_b_win_pct": 60.3,
+      "most_likely_score": "0-1",
+      "verdict": "阿尔及利亚 胜（中置信度）",
+      "confidence": "medium",
+      "error": null
+    }
+  ],
+  "matches": [
+    {
+      "audit": {
+        "team_a": "Argentina",
+        "team_b": "Austria",
+        "venue": "Arrowhead Stadium",
+        "generated": "2026-06-22T15:02:31.802045",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2186,
+            "team_b_elo": 1964,
+            "elo_diff": 222,
+            "base_win_prob": 78.2,
+            "description": "Argentina 2186 vs Austria 1964, Δ=+222"
+          },
+          "2_injuries": {
+            "team_a_penalty": -13,
+            "team_b_penalty": -10,
+            "team_a_details": [
+              "  Cristian Romero (DF): DOUBTFUL — Partially torn MCL (mid-Apr vs Sunderland); started 14 qualifiers [-5]",
+              "  Nahuel Molina (DF): DOUBTFUL — Thigh injury (May vs Celta Vigo); miss 2-3 weeks. Montiel next up [-3]",
+              "  Leonardo Balerdi (DF): OUT — Soleus muscle injury (pre-tournament training); replaced by Marcos Senesi [-5]"
+            ],
+            "team_b_details": [
+              "  Christoph Baumgartner (MF): OUT — Right thigh injury (warmup vs Tunisia); needed surgery. 17 goals for Leipzig last season. Replaced by Ljubicic [-10]"
+            ],
+            "description": "Argentina: -13 | Austria: -10"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 59,
+            "team_b_adjustment": 16,
+            "team_a_breakdown": {
+              "coach": 16,
+              "result": 25,
+              "stability": 7.200000000000002,
+              "chemistry": 10.5
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 8.799999999999999,
+              "chemistry": 7.199999999999999
+            },
+            "description": "Argentina: +59 (coach+stability+chemistry) | Austria: +16"
+          },
+          "4_venue": {
+            "home_advantage": 15,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 6,
+            "venue_details": {
+              "city": "Kansas City",
+              "altitude_m": 277,
+              "temp_c": 31,
+              "indoor": false,
+              "climate_note": "Hot & humid summer, open air"
+            },
+            "description": "Home adv +15, venue penalties: Argentina +0 / Austria +6"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 7,
+            "team_b_adj": 2,
+            "description": "Argentina: +7 (warm-up form) | Austria: +2"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 36,
+            "team_b_adj": 22,
+            "team_a_details": [
+              "[06-17] W 3-0/CS vs 阿尔及利亚 (1670ELO q=+0.42 r=1.3x) → +36"
+            ],
+            "team_b_details": [
+              "[06-17] W 3-1 vs 约旦 (1553ELO q=+0.13 r=1.3x) → +22"
+            ],
+            "description": "Argentina: +36 | Austria: +22"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2186,
+            "effective": 2290,
+            "adjustments": 104
+          },
+          "team_b": {
+            "base": 1964,
+            "effective": 1988,
+            "adjustments": 24
+          },
+          "diff": 302
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 74.2,
+          "draw": 17.3,
+          "team_b_win": 8.5,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.19,
+          "expected_goals_b": 0.58
+        },
+        "verdict": {
+          "result": "阿根廷 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 优势 222 分，有明确的实力差距",
+          "伤病影响：Argentina -13 / Austria -10 ELO",
+          "多层调整后有效 ELO 差 +302（原始 +222）"
+        ],
+        "schedule": {
+          "match_id": 41,
+          "date_et": "2026-06-22",
+          "time_et": "13:00",
+          "date_beijing": "2026-06-23",
+          "time_beijing": "01:00",
+          "group": "J",
+          "team_a": "Argentina",
+          "team_b": "Austria",
+          "venue": "Arrowhead Stadium",
+          "matchday": 2,
+          "simultaneous": false
+        }
+      },
+      "schedule": {
+        "match_id": 41,
+        "date_et": "2026-06-22",
+        "time_et": "13:00",
+        "date_beijing": "2026-06-23",
+        "time_beijing": "01:00",
+        "group": "J",
+        "team_a": "Argentina",
+        "team_b": "Austria",
+        "venue": "Arrowhead Stadium",
+        "matchday": 2,
+        "simultaneous": false
+      }
+    },
+    {
+      "audit": {
+        "team_a": "France",
+        "team_b": "Iraq",
+        "venue": "MetLife Stadium",
+        "generated": "2026-06-22T15:02:31.803936",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2196,
+            "team_b_elo": 1526,
+            "elo_diff": 670,
+            "base_win_prob": 97.9,
+            "description": "France 2196 vs Iraq 1526, Δ=+670"
+          },
+          "2_injuries": {
+            "team_a_penalty": -10,
+            "team_b_penalty": -5,
+            "team_a_details": [
+              "  Hugo Ekitiké (FW): OUT — Ruptured Achilles tendon (Apr vs PSG); out until 2027. Replaced by Mateta [-10]"
+            ],
+            "team_b_details": [
+              "  Ahmed Yahya (FW): OUT — Ruled out of tournament; replaced by Ahmed Hassan Makenzie [-5]"
+            ],
+            "description": "France: -10 | Iraq: -5"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 39,
+            "team_b_adjustment": 5,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 15,
+              "stability": 7.999999999999998,
+              "chemistry": 8.4
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 3.1999999999999984,
+              "chemistry": 1.5000000000000013
+            },
+            "description": "France: +39 (coach+stability+chemistry) | Iraq: +5"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 2,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "East Rutherford (New York)",
+              "altitude_m": 3,
+              "temp_c": 29,
+              "indoor": false,
+              "climate_note": "Warm summer, moderate humidity — FINAL venue"
+            },
+            "description": "Home adv +0, venue penalties: France +2 / Iraq +0"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -36,
+            "team_b_adj": 21,
+            "description": "France: -36 (warm-up form) | Iraq: +21"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 26,
+            "team_b_adj": -5,
+            "team_a_details": [
+              "[06-17] W 3-1 vs 塞内加尔 (1765ELO q=+0.66 r=1.3x) → +26"
+            ],
+            "team_b_details": [
+              "[06-17] L 1-3 vs 挪威 (1993ELO q=+1.23 r=1.3x) → -5"
+            ],
+            "description": "France: +26 | Iraq: -5"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2196,
+            "effective": 2213,
+            "adjustments": 17
+          },
+          "team_b": {
+            "base": 1526,
+            "effective": 1542,
+            "adjustments": 16
+          },
+          "diff": 671
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 79.3,
+          "draw": 13.6,
+          "team_b_win": 7.1,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.67,
+          "expected_goals_b": 0.67
+        },
+        "verdict": {
+          "result": "法国 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 绝对优势 670 分，实力差距明显",
+          "伤病影响：France -10 / Iraq -5 ELO"
+        ],
+        "schedule": {
+          "match_id": 42,
+          "date_et": "2026-06-22",
+          "time_et": "17:00",
+          "date_beijing": "2026-06-23",
+          "time_beijing": "05:00",
+          "group": "I",
+          "team_a": "France",
+          "team_b": "Iraq",
+          "venue": "MetLife Stadium",
+          "matchday": 2,
+          "simultaneous": false
+        }
+      },
+      "schedule": {
+        "match_id": 42,
+        "date_et": "2026-06-22",
+        "time_et": "17:00",
+        "date_beijing": "2026-06-23",
+        "time_beijing": "05:00",
+        "group": "I",
+        "team_a": "France",
+        "team_b": "Iraq",
+        "venue": "MetLife Stadium",
+        "matchday": 2,
+        "simultaneous": false
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Norway",
+        "team_b": "Senegal",
+        "venue": "Lincoln Financial Field",
+        "generated": "2026-06-22T15:02:31.804616",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1993,
+            "team_b_elo": 1765,
+            "elo_diff": 228,
+            "base_win_prob": 78.8,
+            "description": "Norway 1993 vs Senegal 1765, Δ=+228"
+          },
+          "2_injuries": {
+            "team_a_penalty": 0,
+            "team_b_penalty": 0,
+            "team_a_details": [],
+            "team_b_details": [],
+            "description": "No injuries"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 19,
+            "team_b_adjustment": 27,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 10.4,
+              "chemistry": 9.000000000000002
+            },
+            "team_b_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 8.799999999999999,
+              "chemistry": 8.4
+            },
+            "description": "Norway: +19 (coach+stability+chemistry) | Senegal: +27"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 2,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Philadelphia",
+              "altitude_m": 12,
+              "temp_c": 29,
+              "indoor": false,
+              "climate_note": "Warm summer"
+            },
+            "description": "Home adv +0, venue penalties: Norway +2 / Senegal +0"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 15,
+            "team_b_adj": -3,
+            "description": "Norway: +15 (warm-up form) | Senegal: -3"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 21,
+            "team_b_adj": -4,
+            "team_a_details": [
+              "[06-17] W 3-1 vs 伊拉克 (1526ELO q=+0.07 r=1.3x) → +21"
+            ],
+            "team_b_details": [
+              "[06-17] L 1-3 vs 法国 (2196ELO q=+1.74 r=1.3x) → -4"
+            ],
+            "description": "Norway: +21 | Senegal: -4"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1993,
+            "effective": 2046,
+            "adjustments": 53
+          },
+          "team_b": {
+            "base": 1765,
+            "effective": 1785,
+            "adjustments": 20
+          },
+          "diff": 261
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 72.9,
+          "draw": 18.3,
+          "team_b_win": 8.8,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.08,
+          "expected_goals_b": 0.56
+        },
+        "verdict": {
+          "result": "挪威 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 优势 228 分，有明确的实力差距",
+          "多层调整后有效 ELO 差 +261（原始 +228）"
+        ],
+        "schedule": {
+          "match_id": 43,
+          "date_et": "2026-06-22",
+          "time_et": "20:00",
+          "date_beijing": "2026-06-23",
+          "time_beijing": "08:00",
+          "group": "I",
+          "team_a": "Norway",
+          "team_b": "Senegal",
+          "venue": "Lincoln Financial Field",
+          "matchday": 2,
+          "simultaneous": false
+        }
+      },
+      "schedule": {
+        "match_id": 43,
+        "date_et": "2026-06-22",
+        "time_et": "20:00",
+        "date_beijing": "2026-06-23",
+        "time_beijing": "08:00",
+        "group": "I",
+        "team_a": "Norway",
+        "team_b": "Senegal",
+        "venue": "Lincoln Financial Field",
+        "matchday": 2,
+        "simultaneous": false
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Jordan",
+        "team_b": "Algeria",
+        "venue": "AT&T Stadium",
+        "generated": "2026-06-22T15:02:31.805278",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1553,
+            "team_b_elo": 1670,
+            "elo_diff": -117,
+            "base_win_prob": 33.8,
+            "description": "Jordan 1553 vs Algeria 1670, Δ=-117"
+          },
+          "2_injuries": {
+            "team_a_penalty": -18,
+            "team_b_penalty": -10,
+            "team_a_details": [
+              "  Yazan Al Naimat (FW): OUT — Serious injury (pre-tournament); 10 of Jordan's 16 qualifying goals scored by Naimat & Olwan [-10]",
+              "  Ali Olwan (FW): OUT — Serious injury (pre-tournament); one of Jordan's key forwards [-8]"
+            ],
+            "team_b_details": [
+              "  Anthony Mandrea (GK): OUT — Surgery; will miss World Cup [-5]",
+              "  Melvin Mastil (GK): OUT — Surgery; highly likely to miss World Cup [-5]"
+            ],
+            "description": "Jordan: -18 | Algeria: -10"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 4,
+            "team_b_adjustment": 14,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 3.999999999999999,
+              "chemistry": 0.0
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 6.6
+            },
+            "description": "Jordan: +4 (coach+stability+chemistry) | Algeria: +14"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 7,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Arlington (Dallas)",
+              "altitude_m": 184,
+              "temp_c": 35,
+              "indoor": true,
+              "climate_note": "Very hot, indoor stadium (AC) — heat penalty reduced"
+            },
+            "description": "Home adv +0, venue penalties: Jordan +7 / Algeria +0"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -16,
+            "team_b_adj": 37,
+            "description": "Jordan: -16 (warm-up form) | Algeria: +37"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": -5,
+            "team_b_adj": -5,
+            "team_a_details": [
+              "[06-17] L 1-3 vs 奥地利 (1964ELO q=+1.16 r=1.3x) → -5"
+            ],
+            "team_b_details": [
+              "[06-17] L 0-3 vs 阿根廷 (2186ELO q=+1.72 r=1.3x) → -5"
+            ],
+            "description": "Jordan: -5 | Algeria: -5"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1553,
+            "effective": 1511,
+            "adjustments": -42
+          },
+          "team_b": {
+            "base": 1670,
+            "effective": 1706,
+            "adjustments": 36
+          },
+          "diff": -195
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 17.7,
+          "draw": 22.0,
+          "team_b_win": 60.3,
+          "most_likely_score": "0-1",
+          "expected_goals_a": 0.91,
+          "expected_goals_b": 1.89
+        },
+        "verdict": {
+          "result": "阿尔及利亚 胜（中置信度）",
+          "confidence": "medium"
+        },
+        "reasoning": [
+          "ELO 优势 117 分，有明确的实力差距",
+          "伤病影响：Jordan -18 / Algeria -10 ELO",
+          "多层调整后有效 ELO 差 -195（原始 -117）"
+        ],
+        "schedule": {
+          "match_id": 44,
+          "date_et": "2026-06-22",
+          "time_et": "23:00",
+          "date_beijing": "2026-06-23",
+          "time_beijing": "11:00",
+          "group": "J",
+          "team_a": "Jordan",
+          "team_b": "Algeria",
+          "venue": "AT&T Stadium",
+          "matchday": 2,
+          "simultaneous": false
+        }
+      },
+      "schedule": {
+        "match_id": 44,
+        "date_et": "2026-06-22",
+        "time_et": "23:00",
+        "date_beijing": "2026-06-23",
+        "time_beijing": "11:00",
+        "group": "J",
+        "team_a": "Jordan",
+        "team_b": "Algeria",
+        "venue": "AT&T Stadium",
+        "matchday": 2,
+        "simultaneous": false
+      }
+    }
+  ]
+}

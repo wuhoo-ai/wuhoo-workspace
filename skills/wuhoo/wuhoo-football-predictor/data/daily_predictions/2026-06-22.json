@@ -1,0 +1,658 @@
+{
+  "date_beijing": "2026-06-22",
+  "generated": "2026-06-21T16:09:12.238158",
+  "total_matches": 4,
+  "predictions": [
+    {
+      "match_id": 37,
+      "team_a": "Spain",
+      "team_b": "Saudi Arabia",
+      "venue": "Mercedes-Benz Stadium",
+      "group": "H",
+      "matchday": 2,
+      "time_beijing": "00:00",
+      "team_a_win_pct": 64.6,
+      "draw_pct": 20.9,
+      "team_b_win_pct": 14.5,
+      "most_likely_score": "1-0",
+      "verdict": "西班牙 胜（中置信度）",
+      "confidence": "medium",
+      "error": null
+    },
+    {
+      "match_id": 38,
+      "team_a": "Belgium",
+      "team_b": "Iran",
+      "venue": "Lumen Field",
+      "group": "G",
+      "matchday": 2,
+      "time_beijing": "03:00",
+      "team_a_win_pct": 48.2,
+      "draw_pct": 24.3,
+      "team_b_win_pct": 27.5,
+      "most_likely_score": "1-1",
+      "verdict": "势均力敌（低置信度）",
+      "confidence": "low",
+      "error": null
+    },
+    {
+      "match_id": 39,
+      "team_a": "Uruguay",
+      "team_b": "Cape Verde",
+      "venue": "Hard Rock Stadium",
+      "group": "H",
+      "matchday": 2,
+      "time_beijing": "06:00",
+      "team_a_win_pct": 30.7,
+      "draw_pct": 25.9,
+      "team_b_win_pct": 43.4,
+      "most_likely_score": "1-1",
+      "verdict": "倾向平局",
+      "confidence": "low",
+      "error": null
+    },
+    {
+      "match_id": 40,
+      "team_a": "New Zealand",
+      "team_b": "Egypt",
+      "venue": "SoFi Stadium",
+      "group": "G",
+      "matchday": 2,
+      "time_beijing": "09:00",
+      "team_a_win_pct": 20.9,
+      "draw_pct": 23.1,
+      "team_b_win_pct": 55.9,
+      "most_likely_score": "1-1",
+      "verdict": "埃及 胜（中置信度）",
+      "confidence": "medium",
+      "error": null
+    }
+  ],
+  "matches": [
+    {
+      "audit": {
+        "team_a": "Spain",
+        "team_b": "Saudi Arabia",
+        "venue": "Mercedes-Benz Stadium",
+        "generated": "2026-06-21T16:09:12.233163",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1924,
+            "team_b_elo": 1706,
+            "elo_diff": 218,
+            "base_win_prob": 77.8,
+            "description": "Spain 1924 vs Saudi Arabia 1706, Δ=+218"
+          },
+          "2_injuries": {
+            "team_a_penalty": -15,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Fermín López (MF): OUT — Metatarsal fracture (May vs Betis); 13G+17A last season. Misses WC [-8]",
+              "  Mikel Merino (MF): DOUBTFUL — Stress fracture in foot (early Feb); targets return. If not, Fabián Ruiz starts [-5]",
+              "  Lamine Yamal (FW): FIT — Partially torn hamstring (Apr); Luis de la Fuente: 'could be ready to play on June 15'. Likely available for Cape Verde opener [-2]"
+            ],
+            "team_b_details": [],
+            "description": "Spain: -15 | Saudi Arabia: +0"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 18,
+            "team_b_adjustment": 8,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 10.5
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 6.000000000000001,
+              "chemistry": 2.3999999999999986
+            },
+            "description": "Spain: +18 (coach+stability+chemistry) | Saudi Arabia: +8"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 4,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Atlanta",
+              "altitude_m": 302,
+              "temp_c": 32,
+              "indoor": true,
+              "climate_note": "Hot & humid, indoor stadium (AC) — heat penalty reduced"
+            },
+            "description": "Home adv +0, venue penalties: Spain +4 / Saudi Arabia +0"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -13,
+            "team_b_adj": -19,
+            "description": "Spain: -13 (warm-up form) | Saudi Arabia: -19"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 8,
+            "team_b_adj": 5,
+            "team_a_details": [
+              "[06-16] D 0-0/CS vs 佛得角 (1790ELO q=+0.72 r=1.3x) → +8"
+            ],
+            "team_b_details": [
+              "[06-16] D 1-1 vs 乌拉圭 (1754ELO q=+0.64 r=1.3x) → +5"
+            ],
+            "description": "Spain: +8 | Saudi Arabia: +5"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1924,
+            "effective": 1918,
+            "adjustments": -6
+          },
+          "team_b": {
+            "base": 1706,
+            "effective": 1700,
+            "adjustments": -6
+          },
+          "diff": 218
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 64.6,
+          "draw": 20.9,
+          "team_b_win": 14.5,
+          "most_likely_score": "1-0",
+          "expected_goals_a": 1.97,
+          "expected_goals_b": 0.8
+        },
+        "verdict": {
+          "result": "西班牙 胜（中置信度）",
+          "confidence": "medium"
+        },
+        "reasoning": [
+          "ELO 优势 218 分，有明确的实力差距",
+          "伤病影响：Spain -15 / Saudi Arabia +0 ELO"
+        ],
+        "schedule": {
+          "match_id": 37,
+          "date_et": "2026-06-21",
+          "time_et": "12:00",
+          "date_beijing": "2026-06-22",
+          "time_beijing": "00:00",
+          "group": "H",
+          "team_a": "Spain",
+          "team_b": "Saudi Arabia",
+          "venue": "Mercedes-Benz Stadium",
+          "matchday": 2,
+          "simultaneous": false
+        }
+      },
+      "schedule": {
+        "match_id": 37,
+        "date_et": "2026-06-21",
+        "time_et": "12:00",
+        "date_beijing": "2026-06-22",
+        "time_beijing": "00:00",
+        "group": "H",
+        "team_a": "Spain",
+        "team_b": "Saudi Arabia",
+        "venue": "Mercedes-Benz Stadium",
+        "matchday": 2,
+        "simultaneous": false
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Belgium",
+        "team_b": "Iran",
+        "venue": "Lumen Field",
+        "generated": "2026-06-21T16:09:12.235484",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1790,
+            "team_b_elo": 1684,
+            "elo_diff": 106,
+            "base_win_prob": 64.8,
+            "description": "Belgium 1790 vs Iran 1684, Δ=+106"
+          },
+          "2_injuries": {
+            "team_a_penalty": -10,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Jérémy Doku (Winger): OUT — Illness (announced Jun 20 by Belgian FA via Twitter); also potential absence for baby birth (due early July) [-10]"
+            ],
+            "team_b_details": [],
+            "description": "Belgium: -10 | Iran: +0"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 10,
+            "team_b_adjustment": 15,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 4.8,
+              "chemistry": 4.800000000000001
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.999999999999998,
+              "chemistry": 6.6
+            },
+            "description": "Belgium: +10 (coach+stability+chemistry) | Iran: +15"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Seattle",
+              "altitude_m": 38,
+              "temp_c": 22,
+              "indoor": false,
+              "climate_note": "Mild, cool summer — favorable for European teams"
+            },
+            "description": "Home adv +0, venue penalties: Belgium +0 / Iran +0"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 35,
+            "team_b_adj": 26,
+            "description": "Belgium: +35 (warm-up form) | Iran: +26"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 5,
+            "team_b_adj": 3,
+            "team_a_details": [
+              "[06-16] D 1-1 vs 埃及 (1765ELO q=+0.66 r=1.3x) → +5"
+            ],
+            "team_b_details": [
+              "[06-16] D 2-2 vs 新西兰 (1661ELO q=+0.40 r=1.3x) → +3"
+            ],
+            "description": "Belgium: +5 | Iran: +3"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1790,
+            "effective": 1830,
+            "adjustments": 40
+          },
+          "team_b": {
+            "base": 1684,
+            "effective": 1728,
+            "adjustments": 44
+          },
+          "diff": 102
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 48.2,
+          "draw": 24.3,
+          "team_b_win": 27.5,
+          "most_likely_score": "1-1",
+          "expected_goals_a": 1.66,
+          "expected_goals_b": 1.2
+        },
+        "verdict": {
+          "result": "势均力敌（低置信度）",
+          "confidence": "low"
+        },
+        "reasoning": [
+          "ELO 优势 106 分，有明确的实力差距",
+          "伤病影响：Belgium -10 / Iran +0 ELO"
+        ],
+        "schedule": {
+          "match_id": 38,
+          "date_et": "2026-06-21",
+          "time_et": "15:00",
+          "date_beijing": "2026-06-22",
+          "time_beijing": "03:00",
+          "group": "G",
+          "team_a": "Belgium",
+          "team_b": "Iran",
+          "venue": "Lumen Field",
+          "matchday": 2,
+          "simultaneous": false
+        }
+      },
+      "schedule": {
+        "match_id": 38,
+        "date_et": "2026-06-21",
+        "time_et": "15:00",
+        "date_beijing": "2026-06-22",
+        "time_beijing": "03:00",
+        "group": "G",
+        "team_a": "Belgium",
+        "team_b": "Iran",
+        "venue": "Lumen Field",
+        "matchday": 2,
+        "simultaneous": false
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Uruguay",
+        "team_b": "Cape Verde",
+        "venue": "Hard Rock Stadium",
+        "generated": "2026-06-21T16:09:12.236421",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1754,
+            "team_b_elo": 1790,
+            "elo_diff": -36,
+            "base_win_prob": 44.8,
+            "description": "Uruguay 1754 vs Cape Verde 1790, Δ=-36"
+          },
+          "2_injuries": {
+            "team_a_penalty": -5,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  José Giménez (DF): DOUBTFUL — Severe ankle sprain (May vs Celta); extra burden on Araújo and Bueno [-5]"
+            ],
+            "team_b_details": [],
+            "description": "Uruguay: -5 | Cape Verde: +0"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 12,
+            "team_b_adjustment": 15,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 6.400000000000001,
+              "chemistry": 5.999999999999998
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.999999999999998,
+              "chemistry": 6.6
+            },
+            "description": "Uruguay: +12 (coach+stability+chemistry) | Cape Verde: +15"
+          },
+          "4_venue": {
+            "home_advantage": 15,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 8,
+            "venue_details": {
+              "city": "Miami Gardens",
+              "altitude_m": 2,
+              "temp_c": 32,
+              "indoor": false,
+              "climate_note": "Hot & extremely humid — significant fatigue factor"
+            },
+            "description": "Home adv +15, venue penalties: Uruguay +0 / Cape Verde +8"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -14,
+            "team_b_adj": 34,
+            "description": "Uruguay: -14 (warm-up form) | Cape Verde: +34"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 4,
+            "team_b_adj": 11,
+            "team_a_details": [
+              "[06-16] D 1-1 vs 沙特阿拉伯 (1706ELO q=+0.52 r=1.3x) → +4"
+            ],
+            "team_b_details": [
+              "[06-16] D 0-0/CS vs 西班牙 (1924ELO q=+1.06 r=1.3x) → +11"
+            ],
+            "description": "Uruguay: +4 | Cape Verde: +11"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1754,
+            "effective": 1766,
+            "adjustments": 12
+          },
+          "team_b": {
+            "base": 1790,
+            "effective": 1842,
+            "adjustments": 52
+          },
+          "diff": -76
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 30.7,
+          "draw": 25.9,
+          "team_b_win": 43.4,
+          "most_likely_score": "1-1",
+          "expected_goals_a": 1.19,
+          "expected_goals_b": 1.46
+        },
+        "verdict": {
+          "result": "倾向平局",
+          "confidence": "low"
+        },
+        "reasoning": [
+          "ELO 接近（差 36 分），实力相当",
+          "伤病影响：Uruguay -5 / Cape Verde +0 ELO",
+          "多层调整后有效 ELO 差 -76（原始 -36）"
+        ],
+        "schedule": {
+          "match_id": 39,
+          "date_et": "2026-06-21",
+          "time_et": "18:00",
+          "date_beijing": "2026-06-22",
+          "time_beijing": "06:00",
+          "group": "H",
+          "team_a": "Uruguay",
+          "team_b": "Cape Verde",
+          "venue": "Hard Rock Stadium",
+          "matchday": 2,
+          "simultaneous": false
+        }
+      },
+      "schedule": {
+        "match_id": 39,
+        "date_et": "2026-06-21",
+        "time_et": "18:00",
+        "date_beijing": "2026-06-22",
+        "time_beijing": "06:00",
+        "group": "H",
+        "team_a": "Uruguay",
+        "team_b": "Cape Verde",
+        "venue": "Hard Rock Stadium",
+        "matchday": 2,
+        "simultaneous": false
+      }
+    },
+    {
+      "audit": {
+        "team_a": "New Zealand",
+        "team_b": "Egypt",
+        "venue": "SoFi Stadium",
+        "generated": "2026-06-21T16:09:12.237263",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1661,
+            "team_b_elo": 1765,
+            "elo_diff": -104,
+            "base_win_prob": 35.5,
+            "description": "New Zealand 1661 vs Egypt 1765, Δ=-104"
+          },
+          "2_injuries": {
+            "team_a_penalty": 0,
+            "team_b_penalty": 0,
+            "team_a_details": [],
+            "team_b_details": [],
+            "description": "No injuries"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 16,
+            "team_b_adjustment": 27,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 8.799999999999999,
+              "chemistry": 7.199999999999999
+            },
+            "team_b_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 9.6,
+              "chemistry": 7.800000000000001
+            },
+            "description": "New Zealand: +16 (coach+stability+chemistry) | Egypt: +27"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Inglewood (Los Angeles)",
+              "altitude_m": 38,
+              "temp_c": 24,
+              "indoor": true,
+              "climate_note": "Mild, dry — ideal conditions"
+            },
+            "description": "Home adv +0, venue penalties: New Zealand +0 / Egypt +0"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -40,
+            "team_b_adj": 3,
+            "description": "New Zealand: -40 (warm-up form) | Egypt: +3"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 4,
+            "team_b_adj": 6,
+            "team_a_details": [
+              "[06-16] D 2-2 vs 伊朗 (1684ELO q=+0.46 r=1.3x) → +4"
+            ],
+            "team_b_details": [
+              "[06-16] D 1-1 vs 比利时 (1790ELO q=+0.72 r=1.3x) → +6"
+            ],
+            "description": "New Zealand: +4 | Egypt: +6"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1661,
+            "effective": 1641,
+            "adjustments": -20
+          },
+          "team_b": {
+            "base": 1765,
+            "effective": 1801,
+            "adjustments": 36
+          },
+          "diff": -160
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 20.9,
+          "draw": 23.1,
+          "team_b_win": 55.9,
+          "most_likely_score": "1-1",
+          "expected_goals_a": 1.01,
+          "expected_goals_b": 1.8
+        },
+        "verdict": {
+          "result": "埃及 胜（中置信度）",
+          "confidence": "medium"
+        },
+        "reasoning": [
+          "ELO 优势 104 分，有明确的实力差距",
+          "多层调整后有效 ELO 差 -160（原始 -104）"
+        ],
+        "schedule": {
+          "match_id": 40,
+          "date_et": "2026-06-21",
+          "time_et": "21:00",
+          "date_beijing": "2026-06-22",
+          "time_beijing": "09:00",
+          "group": "G",
+          "team_a": "New Zealand",
+          "team_b": "Egypt",
+          "venue": "SoFi Stadium",
+          "matchday": 2,
+          "simultaneous": false
+        }
+      },
+      "schedule": {
+        "match_id": 40,
+        "date_et": "2026-06-21",
+        "time_et": "21:00",
+        "date_beijing": "2026-06-22",
+        "time_beijing": "09:00",
+        "group": "G",
+        "team_a": "New Zealand",
+        "team_b": "Egypt",
+        "venue": "SoFi Stadium",
+        "matchday": 2,
+        "simultaneous": false
+      }
+    }
+  ]
+}
