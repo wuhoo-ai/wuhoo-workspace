@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.11
 """
 WC2026 证据链预测日报 — v3.0
 从 daily_predictions JSON + 外部数据源 生成完整证据链 PDF 报告。
@@ -17,36 +17,100 @@ from wc2026_predict import TEAM_PROFILES
 
 DATA_DIR = PROJECT_DIR / 'data'
 
-# ── Known WC2026 results (updated after each matchday) ──
-KNOWN_RESULTS = {
-    'Czech Republic':   [('6/12', 'vs 韩国', '1-2 负 (Oh补时绝杀)')],
-    'South Africa':      [('6/12', 'vs 墨西哥', '0-2 负 (2红牌)')],
-    'Switzerland':       [('6/14', 'vs 卡塔尔', '1-1 平 (补时遭绝平)')],
-    'Bosnia and Herzegovina': [('6/13', 'vs 加拿大', '1-1 平 (险些绝杀)')],
-    'Canada':            [('6/13', 'vs 波黑', '1-1 平 (Davies缺阵)')],
-    'Qatar':             [('6/14', 'vs 瑞士', '1-1 平 (补时绝平)')],
-    'Mexico':            [('6/12', 'vs 南非', '2-0 胜')],
-    'South Korea':       [('6/12', 'vs 捷克', '2-1 胜 (Oh补时制胜)')],
-}
-
-GROUP_STANDINGS = {
-    'A': [
-        ('墨西哥', 3, 1, 2, 0),
-        ('韩国',   3, 1, 2, 1),
-        ('捷克',   0, 1, 1, 2),
-        ('南非',   0, 1, 0, 2),
-    ],
-    'B': [
-        ('卡塔尔', 1, 1, 1, 1),
-        ('瑞士',   1, 1, 1, 1),
-        ('波黑',   1, 1, 1, 1),
-        ('加拿大', 1, 1, 1, 1),
-    ],
-}
-
+# ── Dynamic loading from wc2026_results.json ──
+def _load_results_and_standings():
+    """Load KNOWN_RESULTS and GROUP_STANDINGS dynamically from results DB."""
+    results_path = DATA_DIR / 'wc2026_results.json'
+    sched_path = DATA_DIR / 'wc2026_schedule.json'
+    
+    known = {}
+    if results_path.exists():
+        with open(results_path) as f:
+            data = json.load(f)
+        for m in data.get('matches', []):
+            if m.get('status') != 'completed':
+                continue
+            ta = m['team_a']
+            tb = m['team_b']
+            sa = m['score_a']
+            sb = m['score_b']
+            date_str = m.get('date_beijing', '')[-5:]  # 'MM-DD'
+            if date_str.startswith('06-'):
+                date_str = date_str[3:] + '/' + date_str[:2]  # 'DD/MM' → '6/12' style
+            # Determine result string
+            if sa > sb:
+                res_a = f'{sa}-{sb} 胜'
+                res_b = f'{sb}-{sa} 负'
+            elif sa < sb:
+                res_a = f'{sa}-{sb} 负'
+                res_b = f'{sb}-{sa} 胜'
+            else:
+                res_a = f'{sa}-{sb} 平'
+                res_b = f'{sb}-{sa} 平'
+            # Add opponent in Chinese if available
+            cn_b = cn(tb)
+            cn_a = cn(ta)
+            known.setdefault(ta, []).append((date_str, f'vs {cn_b}', res_a))
+            known.setdefault(tb, []).append((date_str, f'vs {cn_a}', res_b))
+    
+    # Build group standings
+    # Load group assignments from schedule
+    team_group = {}
+    if sched_path.exists():
+        with open(sched_path) as f:
+            sched = json.load(f)
+        for m in sched.get('matches', []):
+            g = m.get('group', '')
+            if g:
+                team_group[m.get('team_a', '')] = g
+                team_group[m.get('team_b', '')] = g
+    
+    # Calculate standings per group
+    standings = {}
+    if results_path.exists():
+        with open(results_path) as f:
+            data = json.load(f)
+        group_stats = {}
+        for m in data.get('matches', []):
+            if m.get('status') != 'completed':
+                continue
+            ta = m['team_a']
+            tb = m['team_b']
+            sa = m['score_a']
+            sb = m['score_b']
+            g = team_group.get(ta, '?')
+            for t, gf, ga in [(ta, sa, sb), (tb, sb, sa)]:
+                if g not in group_stats:
+                    group_stats[g] = {}
+                if t not in group_stats[g]:
+                    group_stats[g][t] = {'p': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0}
+                st = group_stats[g][t]
+                st['p'] += 1
+                st['gf'] += gf
+                st['ga'] += ga
+                if (t == ta and sa > sb) or (t == tb and sb > sa):
+                    st['w'] += 1
+                elif sa == sb:
+                    st['d'] += 1
+                else:
+                    st['l'] += 1
+        
+        for g, teams in group_stats.items():
+            rows = []
+            for t, s in teams.items():
+                pts = s['w'] * 3 + s['d']
+                rows.append((cn(t), pts, s['p'], s['gf'], s['ga']))
+            # Sort by points, then GD
+            rows.sort(key=lambda x: (-x[1], -(x[3]-x[4])))
+            standings[g] = rows
+    
+    return known, standings
 
 def cn(team_en):
     return TEAM_PROFILES.get(team_en, {}).get('name_cn', team_en)
+
+KNOWN_RESULTS, GROUP_STANDINGS = _load_results_and_standings()
+
 
 def ba(v):
     """Bold-adjusted: +5 or -3 or 0."""
@@ -132,7 +196,7 @@ def nohtml(text):
 
 # ── PDF Generation ──
 
-FONT_PATH = os.path.expanduser('~/.fonts/NotoSansSC-Regular.ttf')
+FONT_PATH = os.path.expanduser('~/.fonts/NotoSansSC-VF.ttf')
 
 def md_to_pdf(md_path, pdf_path):
     import markdown
@@ -154,18 +218,18 @@ def md_to_pdf(md_path, pdf_path):
     css = f"""
     @font-face {{ font-family: 'NotoSansSC'; src: url('{FONT_PATH}') format('truetype'); }}
     body {{ font-family: {font_family}; max-width: 760px; margin: 20px auto;
-           color: #222; font-size: 10.5pt; line-height: 1.5; }}
-    h1 {{ color: #1a5276; font-size: 15pt; border-bottom: 2px solid #2980b9; padding-bottom: 4px; }}
-    h2 {{ color: #2471a3; font-size: 12pt; }}
-    h3 {{ color: #2e86c1; font-size: 10.5pt; }}
-    h4 {{ color: #3498db; font-size: 10pt; }}
-    table {{ border-collapse: collapse; width: 100%; margin: 6px 0; font-size: 9pt; table-layout: fixed; }}
-    th, td {{ border: 1px solid #999; padding: 4px 6px; text-align: center; word-wrap: break-word; overflow: hidden; }}
-    th {{ background: #2980b9; color: white; }}
+           color: #1a1a1a; font-size: 14pt; line-height: 1.6; font-weight: 600; }}
+    h1 {{ color: #1a5276; font-size: 22pt; border-bottom: 3px solid #2980b9; padding-bottom: 6px; font-weight: 900; }}
+    h2 {{ color: #2471a3; font-size: 17pt; font-weight: 900; }}
+    h3 {{ color: #2e86c1; font-size: 14pt; font-weight: 800; }}
+    h4 {{ color: #3498db; font-size: 13pt; font-weight: 800; }}
+    table {{ border-collapse: collapse; width: 100%; margin: 6px 0; font-size: 12pt; table-layout: fixed; }}
+    strong {{ color: #c0392b; font-weight: 900; }}
+    th {{ background: #2980b9; color: white; font-weight: 800; }}
+    td {{ border: 1px solid #999; padding: 5px 8px; text-align: center; word-wrap: break-word; overflow: hidden; font-weight: 500; }}
     tr:nth-child(even) {{ background: #eef5fb; }}
-    strong {{ color: #c0392b; }}
-    code {{ background: #f4f4f4; padding: 1px 3px; font-size: 9pt; }}
-    pre, code {{ font-family: 'NotoSansSC', 'Courier New', monospace; font-size: 9pt; line-height: 1.3; }}
+    code {{ background: #f4f4f4; padding: 1px 3px; font-size: 11pt; }}
+    pre, code {{ font-family: 'NotoSansSC', 'Courier New', monospace; font-size: 11pt; line-height: 1.4; }}
     pre {{ background: #f8f8f8; padding: 8px 12px; border-left: 3px solid #2980b9; white-space: pre; }}
     """
 
@@ -268,6 +332,22 @@ def build_match_section(match_data, idx, injuries_db, rss_articles):
              f"  /  {nb} **{ba(l45.get('team_b_adj',0))}**")
     L.append("")
 
+    # L4.6: Tournament Form (v5.1)
+    l46 = layers.get('4.6_tournament_form', {})
+    ta_adj_46 = l46.get('team_a_adj', 0)
+    tb_adj_46 = l46.get('team_b_adj', 0)
+    ta_details_46 = l46.get('team_a_details', [])
+    tb_details_46 = l46.get('team_b_details', [])
+    L.append("**L4.6  本届比赛表现**  (来源: *wc2026_results.json*  权重0.12)")
+    L.append(f"> {na} **{ba(ta_adj_46)}**  /  {nb} **{ba(tb_adj_46)}**")
+    if ta_details_46:
+        for d in ta_details_46:
+            L.append(f">   {d}")
+    if tb_details_46:
+        for d in tb_details_46:
+            L.append(f">   {d}")
+    L.append("")
+
     # Group context
     group = sched.get('group', '?')
     ra = KNOWN_RESULTS.get(ta, [])
@@ -339,7 +419,7 @@ def build_match_section(match_data, idx, injuries_db, rss_articles):
     L.append(f"              {na:<10s} {nb:<10s}")
     L.append(f"  {'-'*30}")
     L.append(f"  ELO原始      {ea['base']:<5d}     {eb['base']:<5d}")
-    L.append(f"  L1-L5.5调整   {ba(ea['adjustments']):>4s}      {ba(eb['adjustments']):>4s}")
+    L.append(f"  L1-L4.6+L5.5 {ba(ea['adjustments']):>4s}      {ba(eb['adjustments']):>4s}")
     L.append(f"  {'-'*30}")
     L.append(f"  有效ELO       {ea['effective']:<5d}     {eb['effective']:<5d}")
     L.append(f"  有效差                  {eff['diff']:+d}")
@@ -417,9 +497,16 @@ def build_data_sources():
     rss_dir = Path('/home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss')
     feeds_path = rss_dir / 'feeds' / 'config.yaml'
     if feeds_path.exists():
-        import yaml
-        with open(feeds_path) as f:
-            cfg = yaml.safe_load(f)
+        import yaml, re
+        try:
+            with open(feeds_path) as f:
+                cfg = yaml.safe_load(f)
+        except Exception:
+            # YAML contains emoji — strip non-printable chars, retry
+            with open(feeds_path, encoding='utf-8') as f:
+                raw = f.read()
+            raw = re.sub(r'[^\x09\x0A\x0D\x20-\x7E\u4E00-\u9FFF\u3000-\u303F\uFF00-\uFFEF]', '', raw)
+            cfg = yaml.safe_load(raw)
         fb = [f for f in cfg.get('feeds',[]) if '足球' in str(f.get('category',''))]
         L.append("### RSS资讯源")
         L.append("| 名称 | 语言 | 类型 |")

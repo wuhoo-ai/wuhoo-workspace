@@ -1,9 +1,9 @@
 {
-  "last_updated": "2026-06-15T18:00:00+08:00",
-  "source": "ESPN/The Athletic/BBC/Fox Sports",
+  "last_updated": "2026-06-22T15:00:00+08:00",
+  "source": "ESPN/Fox Sports/The Athletic/BBC/everythingedinburgh.com",
   "injuries": {
     "Canada": {
-      "total_penalty": -25,
+      "total_penalty": -30,
       "players": [
         {
           "name": "Alphonso Davies",
@@ -17,6 +17,13 @@
           "position": "MF",
           "status": "OUT",
           "injury": "ACL rupture (Concacaf Champions Cup final)",
+          "elo_penalty": -5
+        },
+        {
+          "name": "Moise Bombito",
+          "position": "DF",
+          "status": "OUT",
+          "injury": "Shin fracture relapse (Jun 2026)",
           "elo_penalty": -5
         }
       ]
@@ -34,7 +41,7 @@
       ]
     },
     "Brazil": {
-      "total_penalty": -30,
+      "total_penalty": -40,
       "players": [
         {
           "name": "Rodrygo",
@@ -60,8 +67,15 @@
         {
           "name": "Neymar",
           "position": "FW",
-          "status": "DOUBTFUL",
-          "injury": "Right calf issue since May 17; Brazil doctor says out up to 3 weeks. Doubtful for opener vs Morocco (Jun 13)",
+          "status": "OUT",
+          "injury": "Right calf issue (since May 17); likely out through group stage (Fox Sports Jun 16)",
+          "elo_penalty": -10
+        },
+        {
+          "name": "Wesley",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Thigh injury in training (Jun 7); 4 days before tournament opener",
           "elo_penalty": -5
         }
       ]
@@ -126,7 +140,7 @@
       ]
     },
     "Japan": {
-      "total_penalty": -25,
+      "total_penalty": -33,
       "players": [
         {
           "name": "Kaoru Mitoma",
@@ -141,6 +155,13 @@
           "status": "OUT",
           "injury": "Torn ACL (Dec); resumed training Mar but not named in final 26",
           "elo_penalty": -10
+        },
+        {
+          "name": "Wataru Endo",
+          "position": "MF",
+          "status": "OUT",
+          "injury": "Ankle injury; withdrew from tournament + retired from national team (Jun 12). Replaced by Shuto Machino",
+          "elo_penalty": -8
         }
       ]
     },
@@ -176,7 +197,7 @@
       ]
     },
     "Spain": {
-      "total_penalty": -15,
+      "total_penalty": -20,
       "players": [
         {
           "name": "Fermín López",
@@ -198,11 +219,18 @@
           "status": "FIT",
           "injury": "Partially torn hamstring (Apr); Luis de la Fuente: 'could be ready to play on June 15'. Likely available for Cape Verde opener",
           "elo_penalty": -2
+        },
+        {
+          "name": "Samu Aghehowa",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "ACL rupture (Feb 10, Porto); long-term absence",
+          "elo_penalty": -5
         }
       ]
     },
     "Argentina": {
-      "total_penalty": -8,
+      "total_penalty": -13,
       "players": [
         {
           "name": "Cristian Romero",
@@ -217,6 +245,13 @@
           "status": "DOUBTFUL",
           "injury": "Thigh injury (May vs Celta Vigo); miss 2-3 weeks. Montiel next up",
           "elo_penalty": -3
+        },
+        {
+          "name": "Leonardo Balerdi",
+          "position": "DF",
+          "status": "OUT",
+          "injury": "Soleus muscle injury (pre-tournament training); replaced by Marcos Senesi",
+          "elo_penalty": -5
         }
       ]
     },
@@ -288,8 +323,8 @@
         {
           "name": "Tino Livramento",
           "position": "DF",
-          "status": "DOUBTFUL",
-          "injury": "Thigh injury (ended season); Tuchel's first-choice fullback. O'Reilly/Hall/Spence cover",
+          "status": "OUT",
+          "injury": "Calf injury (ended season); OUT per Fox Sports Jun 16. Trevoh Chalobah called up",
           "elo_penalty": -3
         }
       ]
@@ -315,6 +350,92 @@
           "status": "DOUBTFUL",
           "injury": "Severe ankle sprain (May vs Celta); extra burden on Araújo and Bueno",
           "elo_penalty": -5
+        }
+      ]
+    },
+    "Belgium": {
+      "total_penalty": -10,
+      "players": [
+        {
+          "name": "Jérémy Doku",
+          "position": "Winger",
+          "status": "OUT",
+          "injury": "Illness (announced Jun 20 by Belgian FA via Twitter); also potential absence for baby birth (due early July)",
+          "elo_penalty": -10
+        }
+      ]
+    },
+    "Portugal": {
+      "total_penalty": -10,
+      "players": [
+        {
+          "name": "Ruben Dias",
+          "position": "DF",
+          "status": "DOUBTFUL",
+          "injury": "Unspecified injury; missed opener vs DR Congo (Jun 16), on bench — possible return during group stage",
+          "elo_penalty": -10
+        }
+      ]
+    },
+    "Mexico": {
+      "total_penalty": -3,
+      "players": [
+        {
+          "name": "Luis Malagon",
+          "position": "GK",
+          "status": "OUT",
+          "injury": "Achilles rupture (Mar 10, 2026)",
+          "elo_penalty": -3
+        }
+      ]
+    },
+    "Iraq": {
+      "total_penalty": -5,
+      "players": [
+        {
+          "name": "Ahmed Yahya",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Ruled out of tournament; replaced by Ahmed Hassan Makenzie",
+          "elo_penalty": -5
+        }
+      ]
+    },
+    "Algeria": {
+      "total_penalty": -10,
+      "players": [
+        {
+          "name": "Anthony Mandrea",
+          "position": "GK",
+          "status": "OUT",
+          "injury": "Surgery; will miss World Cup",
+          "elo_penalty": -5
+        },
+        {
+          "name": "Melvin Mastil",
+          "position": "GK",
+          "status": "OUT",
+          "injury": "Surgery; highly likely to miss World Cup",
+          "elo_penalty": -5
+        }
+      ]
+    },
+    "Jordan": {
+      "total_penalty": -18,
+      "players": [
+        {
+          "name": "Yazan Al Naimat",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Serious injury (pre-tournament); 10 of Jordan's 16 qualifying goals scored by Naimat & Olwan",
+          "elo_penalty": -10
+        },
+        {
+          "name": "Ali Olwan",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Serious injury (pre-tournament); one of Jordan's key forwards",
+          "elo_penalty": -8
         }
       ]
     }

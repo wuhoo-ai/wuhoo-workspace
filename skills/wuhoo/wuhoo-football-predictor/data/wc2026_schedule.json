@@ -8,9 +8,10 @@
     "timezone_beijing": "China Standard Time (UTC+8)",
     "groups_covered": 12,
     "matchdays": 3,
-    "note": "Results synced from wc2026_results.json",
-    "updated": "2026-06-13T14:54:52.411943",
-    "results_updated": "4 matches have results"
+    "note": "Synced from wc2026_results.json at 2026-06-22T14:51:01.155868",
+    "updated": "2026-06-22T14:51:01",
+    "results_updated": "40 matches have results",
+    "matches_completed": 40
   },
   "matches": [
     {
@@ -88,7 +89,10 @@
       "team_b": "Switzerland",
       "venue": "Levi's Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 6,
@@ -101,7 +105,10 @@
       "team_b": "Morocco",
       "venue": "MetLife Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 7,
@@ -114,7 +121,10 @@
       "team_b": "Scotland",
       "venue": "Gillette Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 1
     },
     {
       "match_id": 8,
@@ -127,7 +137,10 @@
       "team_b": "Turkey",
       "venue": "BC Place",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 0
     },
     {
       "match_id": 9,
@@ -140,7 +153,10 @@
       "team_b": "Curacao",
       "venue": "NRG Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 7,
+      "score_b": 1
     },
     {
       "match_id": 10,
@@ -153,7 +169,10 @@
       "team_b": "Japan",
       "venue": "AT&T Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 2
     },
     {
       "match_id": 11,
@@ -166,7 +185,10 @@
       "team_b": "Ecuador",
       "venue": "Lincoln Financial Field",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 0
     },
     {
       "match_id": 12,
@@ -179,7 +201,10 @@
       "team_b": "Tunisia",
       "venue": "Estadio BBVA",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 5,
+      "score_b": 1
     },
     {
       "match_id": 13,
@@ -192,7 +217,10 @@
       "team_b": "Cape Verde",
       "venue": "Mercedes-Benz Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 0
     },
     {
       "match_id": 14,
@@ -205,7 +233,10 @@
       "team_b": "Egypt",
       "venue": "Lumen Field",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 15,
@@ -218,7 +249,10 @@
       "team_b": "Uruguay",
       "venue": "Hard Rock Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 16,
@@ -231,7 +265,10 @@
       "team_b": "New Zealand",
       "venue": "SoFi Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 2
     },
     {
       "match_id": 17,
@@ -244,7 +281,10 @@
       "team_b": "Senegal",
       "venue": "MetLife Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 1
     },
     {
       "match_id": 18,
@@ -257,7 +297,10 @@
       "team_b": "Norway",
       "venue": "Gillette Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 4
     },
     {
       "match_id": 19,
@@ -270,7 +313,10 @@
       "team_b": "Algeria",
       "venue": "Arrowhead Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 0
     },
     {
       "match_id": 20,
@@ -283,7 +329,10 @@
       "team_b": "Jordan",
       "venue": "AT&T Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 1
     },
     {
       "match_id": 21,
@@ -296,7 +345,10 @@
       "team_b": "DR Congo",
       "venue": "NRG Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 22,
@@ -309,7 +361,10 @@
       "team_b": "Croatia",
       "venue": "AT&T Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 4,
+      "score_b": 2
     },
     {
       "match_id": 23,
@@ -322,7 +377,10 @@
       "team_b": "Panama",
       "venue": "Gillette Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 0
     },
     {
       "match_id": 24,
@@ -335,7 +393,10 @@
       "team_b": "Colombia",
       "venue": "Hard Rock Stadium",
       "matchday": 1,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 3
     },
     {
       "match_id": 25,
@@ -348,7 +409,10 @@
       "team_b": "South Africa",
       "venue": "Estadio Akron",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 26,
@@ -361,7 +425,10 @@
       "team_b": "Bosnia and Herzegovina",
       "venue": "BC Place",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 4,
+      "score_b": 1
     },
     {
       "match_id": 27,
@@ -374,7 +441,10 @@
       "team_b": "Qatar",
       "venue": "BMO Field",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 6,
+      "score_b": 0
     },
     {
       "match_id": 28,
@@ -387,7 +457,10 @@
       "team_b": "South Korea",
       "venue": "Estadio Azteca",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 0
     },
     {
       "match_id": 29,
@@ -400,7 +473,10 @@
       "team_b": "Australia",
       "venue": "SoFi Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "score_a": 2,
+      "score_b": 0,
+      "status": "completed"
     },
     {
       "match_id": 30,
@@ -413,7 +489,10 @@
       "team_b": "Morocco",
       "venue": "MetLife Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "score_a": 0,
+      "score_b": 1,
+      "status": "completed"
     },
     {
       "match_id": 31,
@@ -426,7 +505,10 @@
       "team_b": "Haiti",
       "venue": "Lincoln Financial Field",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "score_a": 3,
+      "score_b": 0,
+      "status": "completed"
     },
     {
       "match_id": 32,
@@ -439,7 +521,10 @@
       "team_b": "Paraguay",
       "venue": "Lumen Field",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "score_a": 0,
+      "score_b": 1,
+      "status": "completed"
     },
     {
       "match_id": 33,
@@ -452,7 +537,10 @@
       "team_b": "Sweden",
       "venue": "Arrowhead Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 5,
+      "score_b": 1
     },
     {
       "match_id": 34,
@@ -465,7 +553,10 @@
       "team_b": "Ivory Coast",
       "venue": "NRG Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 1
     },
     {
       "match_id": 35,
@@ -478,7 +569,10 @@
       "team_b": "Curacao",
       "venue": "BMO Field",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 0
     },
     {
       "match_id": 36,
@@ -491,7 +585,10 @@
       "team_b": "Japan",
       "venue": "AT&T Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 4
     },
     {
       "match_id": 37,
@@ -504,7 +601,10 @@
       "team_b": "Saudi Arabia",
       "venue": "Mercedes-Benz Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 4,
+      "score_b": 0
     },
     {
       "match_id": 38,
@@ -517,7 +617,10 @@
       "team_b": "Iran",
       "venue": "Lumen Field",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 0
     },
     {
       "match_id": 39,
@@ -530,7 +633,10 @@
       "team_b": "Cape Verde",
       "venue": "Hard Rock Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 2
     },
     {
       "match_id": 40,
@@ -543,7 +649,10 @@
       "team_b": "Egypt",
       "venue": "SoFi Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 3
     },
     {
       "match_id": 41,
@@ -556,7 +665,10 @@
       "team_b": "Austria",
       "venue": "Arrowhead Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 0
     },
     {
       "match_id": 42,
@@ -569,7 +681,10 @@
       "team_b": "Iraq",
       "venue": "MetLife Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 0
     },
     {
       "match_id": 43,
@@ -582,7 +697,10 @@
       "team_b": "Senegal",
       "venue": "Lincoln Financial Field",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 2
     },
     {
       "match_id": 44,
@@ -595,7 +713,10 @@
       "team_b": "Algeria",
       "venue": "AT&T Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 2
     },
     {
       "match_id": 45,
