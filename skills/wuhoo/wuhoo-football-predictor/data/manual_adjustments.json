@@ -1,0 +1,20 @@
+{
+  "last_updated": "2026-06-23T15:15:00+08:00",
+  "description": "Layer 6 manual ELO adjustments based on verified news/events not captured by other layers",
+  "adjustments": {
+    "Portugal": {
+      "elo_adjustment": -30,
+      "reason": "队内信任裂痕: C罗当场怒斥门将Diogo Costa被直播, 姐姐点赞批B费帖, 极端粉丝出征队友社媒, 名宿菲戈/亨利点名批评C罗拖累进攻, 全队氛围紧张. 来源: 腾讯新闻/Yahoo/BolaVIP/BBC 2026-06-21",
+      "evidence": [
+        "6/18 vs DR Congo 1-1: C罗0射正, 25次触球创个人WC新低",
+        "上半场丢球后当场与门将Costa对峙半分钟, B席B费上前拉开",
+        "C罗姐姐Katia Aveiro暗示队友'神奇忘记如何踢球', 点赞批评B费的帖子",
+        "BBC: '不敢换下的老将正在拖垮葡萄牙进攻'",
+        "菲戈: 'C罗跑动范围缩水, 只会蹲禁区等传球'",
+        "亨利: '太执着于进球, 甚至挡住B费路线'"
+      ],
+      "expires": "2026-06-28",
+      "confidence": "high"
+    }
+  }
+}

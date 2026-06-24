@@ -330,13 +330,20 @@
       ]
     },
     "Ghana": {
-      "total_penalty": -8,
+      "total_penalty": -20,
       "players": [
         {
           "name": "Mohammed Kudus",
           "position": "MF",
-          "status": "DOUBTFUL",
-          "injury": "Hamstring setback after quad injury; major blow. Semenyo/Sulemana/Nuamah options",
+          "status": "OUT",
+          "injury": "Hamstring setback confirmed OUT (Instagram/Ghana FA Jun 1). Major creative loss",
+          "elo_penalty": -12
+        },
+        {
+          "name": "Thomas Partey",
+          "position": "MF",
+          "status": "OUT",
+          "injury": "Denied Canadian visa (outstanding UK charges); unavailable for Panama match (Standard Jun 19)",
           "elo_penalty": -8
         }
       ]
@@ -366,14 +373,14 @@
       ]
     },
     "Portugal": {
-      "total_penalty": -10,
+      "total_penalty": -15,
       "players": [
         {
           "name": "Ruben Dias",
           "position": "DF",
-          "status": "DOUBTFUL",
-          "injury": "Unspecified injury; missed opener vs DR Congo (Jun 16), on bench — possible return during group stage",
-          "elo_penalty": -10
+          "status": "OUT",
+          "injury": "Ruled out vs Uzbekistan (Jun 23 Heavy.com); missed opener vs DR Congo (Jun 16). Key defensive loss",
+          "elo_penalty": -15
         }
       ]
     },

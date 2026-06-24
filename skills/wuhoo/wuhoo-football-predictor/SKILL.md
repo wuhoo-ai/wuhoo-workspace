@@ -1,7 +1,7 @@
 ---
 name: wuhoo-football-predictor
-description: WC2026 单场+全赛事预测系统 v5.2 — Elo+Poisson+Monte Carlo+LLM非结构化信号+客观条件因子(天气/赛程密度)，10层模型栈，未来N场预测+全中文报告+体彩串关(双策略)+数据保鲜检查+Polymarket交叉验证
-version: 5.2.0
+description: WC2026 单场+全赛事预测系统 v5.5 — Elo+Poisson+Monte Carlo+LLM非结构化信号+客观条件因子+出线动机(QMF)+半区路径(BPP)+淘汰赛校准(KBC)+规则推理引擎(InferenceEngine)+Layer 6手动调整，12层模型栈，未来N场预测+全中文报告+体彩串关+数据保鲜检查
+version: 5.5.0
 dependencies:
   - wuhoo-news-rss
   - pandas
@@ -10,11 +10,57 @@ tags: ["wuhoo"]
 category: wuhoo
 ---
 
-# 足球赛事预测系统 v5.2
+# 足球赛事预测系统 v5.3
 
 ## 概述
 
-基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟 + **LLM 非结构化信号** + **客观条件因子** 的多层次预测系统。
+基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟 + **LLM 非结构化信号** + **客观条件因子** + **Layer 6 手动调整** 的多层次预测系统。
+
+### v5.5.0 更新 (2026-06-24) — 规则推理引擎
+
+**触发**: 12层ELO天真加法叠加存在结构性缺陷：无交互效应、无置信度衰减、无饱和约束。需要从"逐步加ELO"进化为"带约束的推理系统"。
+
+- ✅ **新增 `scripts/inference_engine.py`**: 规则驱动的推理引擎。支持条件评估(regex)、模板解析(`{{key}}`)、置信度缩放、交互约束、sigmoid饱和
+- ✅ **新增 `scripts/data_provider.py`**: 统一数据抽象层。动态构建Context dict，支持freshness检查和模板注入
+- ✅ **新增 `scripts/predict_v55.py`**: v5.5推理包装器。零侵入设计——引擎计算ELO delta → 作为manual_adjustments注入现有管线
+- ✅ **新增 `scripts/phase0_rule_learning.py`**: 44场完赛复盘+网格搜索学习最优参数
+- ✅ **新增 `configs/rules_v1.json`**: 16条规则定义(14层+2交互) + 4条交互约束 + sigmoid参数
+- ✅ **规则学习结果**: 基线准确率70.5%(44场), 13/13错误全是漏判平局, 交互系数通过网格搜索标定
+- ✅ **推理路径报告**: `audit['reasoning_path']` 含每条规则的原始值→置信度→交互→最终值全链
+- ✅ **A/B双轨**: `rules_v1.json`(生产) / `rules_v2.json`(实验), `--rules-version v2`切换
+- ✅ **向后兼容**: `use_inference_engine=False`默认关闭, 现有管线零影响
+- ⚠️ **wrapper模式**: 引擎通过predict_v55.py包装调用, 未修改predict_single_match内部
+
+### v5.4.0 更新 (2026-06-24) — 小组赛末轮+淘汰赛策略优化
+
+**触发**: 小组赛MD3即将开始（24场），淘汰赛接踵而至（32场）。球队策略在末轮和淘汰赛发生根本性变化，现有模型未考虑出线动机、半区选择、淘汰赛行为差异。
+
+- ✅ **新增 Layer 2.5 — QMF (出线动机因子)**: 基于积分表自动分类48队，6种动机分类（LOCKED_IN/DRAW_OK/NEED_RESULT/MUST_WIN/PRIDE_ONLY/TOP_SEED），ELO调整 -30~+25
+- ✅ **新增 Layer 2.6 — BPP (半区路径偏好)**: 计算12组×2位置淘汰赛路径难度，头名之争组引入战略调整
+- ✅ **新增 Layer 7 — KBC (淘汰赛行为校准)**: Poisson λ抑制(0.78×)、平局增强(均值回归15%)、弱队加成(ELO差>300→+25)、加时/点球模拟
+- ✅ **新增 `scripts/compute_motivation.py`**: MD3动机自动计算，含第三名出线概率估计
+- ✅ **新增 `scripts/compute_bracket_path.py`**: R32淘汰赛对阵路径难度分析
+- ✅ **新增 `scripts/compute_third_place.py`**: 12组第三名实时排名+出线概率追踪
+- ✅ **新增 `scripts/knockout_calibration.py`**: 基于WC1998-2022 (94场淘汰赛) 历史统计校准
+- ✅ **新增数据文件**: `matchday3_motivation.json`, `bracket_paths.json`, `third_place_standings.json`
+- ✅ **`predict_single_match()` 新增参数**: `matchday`, `motivation_data`
+- ✅ **`predict_by_date.py` 自动加载**: MD3比赛自动激活QMF+BPP
+- ✅ **审计链从7层扩展到12层**: +2.5_motivation, +2.6_bracket_path, +7_knockout_calibration
+- ⚠️ **KBC仅在knockout=True时激活**: 淘汰赛阶段需显式设置
+- ⚠️ **BPP仅在TOP_SEED组激活**: 路径偏好仅影响头名之争
+- ⚠️ **ELO数据存在重复应用问题**: update_elo_from_results.py被多次调用，ELO值方向正确但幅度被放大
+
+### v5.3.0 更新 (2026-06-23) — Layer 6 手动调整集成
+
+**触发**: Portugal 队内公开裂痕（C罗 vs Diogo Costa 当场对峙 + 姐姐攻击队友 + 名宿集体批评）
+——此事件无法被前 5.5 层（伤病/天气/情感/信号）捕获，暴露模型盲区。
+
+- ✅ **新增 `data/manual_adjustments.json`**: 持久化 Layer 6 手动调整，每队含 `elo_adjustment` / `evidence` / `expires`
+- ✅ **`predict_by_date.py` 自动加载**: 无需额外 CLI 参数，预测时自动读取并传入 `predict_single_match(manual_adjustments=...)`
+- ✅ **调整幅度指南**: ±5~±50 ELO 范围，含事件类型→幅度映射
+- ✅ **过期管理**: 每轮比赛后检查 `expires` 字段
+- ✅ **参考文档**: `references/manual-adjustments.md` — 含 Portugal 完整案例 + 创建流程 + 常见错误
+- 📊 **首次使用**: Portugal -30 ELO (vs Uzbekistan, 胜率 69.8%→68.3%)
 
 ### v5.2.0 更新 (2026-06-23) — 客观条件因子集成
 
@@ -153,6 +199,8 @@ category: wuhoo
 |------|------|------|------|
 | 1 | **ELO 评分** | 1500-2200 (基底) | 48 队 ELO (比赛结果反推) |
 | 2 | **伤病扣分** | -100 ~ 0 | injuries.json 真实伤病数据 |
+| **2.5** | **出线动机 (v5.4)** | **-30 ~ +25** | MD3末轮6分类动机因子 |
+| **2.6** | **半区路径 (v5.4)** | **-10 ~ +10** | 淘汰赛路径难度偏好 |
 | 3 | **教练/磨合因子** | -50 ~ +50 | coach + stability + chemistry (静态 metadata) |
 | 4 | **场馆效应** | -80 ~ +60 | 海拔 + 静态均温 + 东道主优势 |
 | **4a** | **天气 (v5.2)** | **-45 ~ 0** | 降水(风格加权) + 风力 + 实时温度, 权重5% |
@@ -162,6 +210,7 @@ category: wuhoo
 | 5 | **新闻情感 (RSS)** | -12 ~ +37 | keyword 词典 ±40 上限 |
 | 5.5 | **非结构化信号** | LLM 因果信号融合 | 战术匹配 + 信号共识度, 降级为 0 |
 | 6 | **手动调整** | 用户指定 | 覆写其他层 |
+| **7** | **淘汰赛校准 (v5.4)** | **Poisson调整** | λ抑制0.78×, 平局增强, 加时/点球 |
 
 > **注意**: `weights.json` 的 `default.news_sentiment: 0.15` 与主预测管线无关。主管线通过 `load_news_sentiment()` → `get_sentiment_impact()` → `impact × 250` 转换为 ELO 调整值直接加入 effective_elo。`weights.json` 用于 `prediction_models.EnsembleModel`（v4.0 前遗留，现不启用）。
 
@@ -217,6 +266,40 @@ python3.11 scripts/check_football_freshness.py --json
 ## CLI 命令
 
 ```bash
+# === v5.5: 规则推理引擎 ===
+# 使用推理引擎预测单场 (wrapper模式)
+python3.11 -c "
+from scripts.predict_v55 import predict_with_engine
+r = predict_with_engine('Brazil', 'Scotland', matchday=3)
+print(r['reasoning_path'])
+"
+
+# 使用推理引擎预测整日比赛
+python3.11 scripts/predict_v55.py  # 独立测试
+
+# 44场复盘规则学习
+python3.11 scripts/phase0_rule_learning.py
+
+# 规则A/B测试
+# rules_v1.json → 生产 | rules_v2.json → 实验
+python3.11 -c "
+from scripts.predict_v55 import predict_with_engine
+r = predict_with_engine('Brazil', 'Scotland', matchday=3, rules_version='v2')
+"
+
+# === v5.4: MD3动机 + 淘汰赛校准 ===
+# 自动计算48队出线动机分类（MD3使用）
+python3.11 scripts/compute_motivation.py --all-groups
+
+# 计算淘汰赛半区路径难度
+python3.11 scripts/compute_bracket_path.py
+
+# 追踪第三名出线排名
+python3.11 scripts/compute_third_place.py
+
+# 测试淘汰赛行为校准
+python3.11 scripts/knockout_calibration.py
+
 # === v5.2: 天气采集 ===
 # 获取明日比赛天气 (Open-Meteo)
 python3.11 scripts/fetch_weather.py --tomorrow
@@ -533,9 +616,18 @@ python3.11 scripts/collect_results.py --date <today> --manual '[...]' 2>&1
 # 3. 赛前伤病扫描
 # 抓 ESPN 伤病追踪器 + web_search 定向搜索明日所有球队
 
-# 3.5. 获取明日天气 (v5.2 NEW)
+# 3.5. 获取明日天气 (v5.2)
 python3.11 scripts/fetch_weather.py --tomorrow 2>&1
 # 保存到 data/match_weather.json
+
+# 3.6. 计算MD3出线动机 (v5.4 — 仅MD3阶段)
+python3.11 scripts/compute_motivation.py --all-groups 2>&1
+
+# 3.7. 计算半区路径难度 (v5.4)
+python3.11 scripts/compute_bracket_path.py 2>&1
+
+# 3.8. 更新第三名出线排名 (v5.4)
+python3.11 scripts/compute_third_place.py 2>&1
 
 # 4. 更新 ELO
 python3.11 scripts/update_elo_from_results.py 2>&1
@@ -590,6 +682,9 @@ python3.11 scripts/predict_next_n.py --n N --news
 - `references/friendly-data-collection.md` — 热身赛数据采集流程
 - `references/polymarket-cross-validation.md` — Polymarket API 交叉验证
 - `references/objective-factors-analysis.md` — 客观条件因子分析（降水/风力/温度/旅途疲劳/休息天数），含数据验证发现
+- `references/manual-adjustments.md` — Layer 6 手动调整创建流程+Portugal案例+常见错误
+- `references/knockout-stage-statistics.md` — WC1998-2022 淘汰赛历史统计 (94场), Poisson校准参数
+- `references/matchday3-motivation-patterns.md` — MD3 出线动机分类框架 (QMF 6类型), 同时开球效应, 48队第3名出线阈值
 
 ## 常见陷阱
 
@@ -605,7 +700,84 @@ python3.11 scripts/predict_next_n.py --n N --news
 10. **⚠️ v5.2: style_category 是关键词自动分类，可能有误**: `team_profiles.json` 的 `style_category` 通过中文关键词规则自动生成（如 "技术"+"传控"→possession），存在误分类可能。手动复核 48 队分类结果后再投产
 11. **⚠️ v5.2: Open-Meteo 免费 API 无 SLA**: 天气数据源 Open-Meteo 是免费服务，无可用性保证。已实现三重降级 (API→静态→0)，但极端情况下可能无法获取实时天气
 12. **⚠️ v5.2: 客观条件因子权重很低**: 天气 5%、赛程 3%，设计意图是附加参考而非方向性判断。报告中已标注「实验性因子」，不可基于这些因子做决策
-13. **⚠️ cron 采集赛果不可盲信**: ESPN/BBC 页面在赛后数小时内可能仍显示赛前数据（仅首轮统计）。新采集的比分必须用 `web_search` 找至少 2 个独立赛后报道源（Instagram/Facebook 本地媒体/NJ.com 等）交叉验证。2 次挪威比赛出错（Iraq-Norway 1-4→1-3, Norway-Senegal 3-2→3-1）都是采集时用了未更新的 ESPN/BBC 数据
+13. **⚠️ v5.2: predict_single_match 必须传入 match_id**: Layer 4a/4b 依赖 `match_id` 查找天气数据和计算赛程密度。调用 `predict_single_match()` 时若未传 `match_id`，天气和密度层会静默跳过（返回0）。`predict_by_date.py` 已修复，但 `wc2026_predict.py --match` 等直接调用模式需自行传入
+14. **⚠️ v5.2: WMO 雷暴码 (85-99) 即使 precip=0mm 也判定为中/大雨**: Open-Meteo 的雷暴预报对应 WMO code 85-99，在 `fetch_weather.py` 中映射为 moderate/heavy rain。即使 `precipitation_sum=0mm`，雷暴预报本身代表了降水风险，模型仍然应用降水惩罚。这是设计行为而非 bug
+15. **⚠️ cron 采集赛果不可盲信**: ESPN/BBC 页面在赛后数小时内可能仍显示赛前数据（仅首轮统计）。新采集的比分必须用 `web_search` 找至少 2 个独立赛后报道源（Instagram/Facebook 本地媒体/NJ.com 等）交叉验证。2 次挪威比赛出错（Iraq-Norway 1-4→1-3, Norway-Senegal 3-2→3-1）都是采集时用了未更新的 ESPN/BBC 数据
+16. **⚠️ v5.4: ELO重复应用导致幅度偏大**: `update_elo_from_results.py` 在cron管线中被多次调用（14:30管线+15:00管线等），同一赛果可能被应用多次，导致ELO值方向正确但绝对值被放大。短期修复：在 `update_elo_from_results.py` 中加入去重检查（对比 `applied_results` 中的match_id）。MD3和淘汰赛开始前建议从 eloratings.net 手动采集基准ELO重新校准
+17. **⚠️ v5.5: 推理引擎是wrapper模式**: `predict_v55.py` 包装 `predict_single_match`，引擎计算ELO delta后作为manual_adjustments注入。不要直接修改 `predict_single_match` 内部来集成引擎——wrapper模式避免了300+行代码的重新缩进
+18. **⚠️ v5.5: 条件评估使用regex而非eval**: `evaluate_condition()` 使用 `re.match` 解析 `team.X == 'VALUE'` 模式，比 `eval()` 更安全。添加新条件模式时需同步更新regex列表
+19. **⚠️ v5.5: 模板解析 `{{key}}` 从context取值**: 规则中的 `base_value: "{{motivation_elo}}"` 会在引擎中解析为 `context['motivation_elo']`。如果context中缺少该key，静默返回0
+20. **⚠️ v5.5: tournament_form使用确定性种子**: `get_tournament_form()` 用 `sum(ord(c)*(i+1))` 做确定性hash，同一球队每次调用返回相同值。不要用 `random.gauss()` 直接调用——那会每次返回不同值
+
+## Layer 6 — 手动调整 (v5.3 2026-06-23)
+
+**数据文件**: `data/manual_adjustments.json`
+
+用于记录模型其他层无法捕获的真实世界事件（队内矛盾、突发丑闻、场外干扰等），以 ELO 调整的形式直接注入 effective ELO。优先级最高——直接覆写其他层的累积结果。
+
+### 文件格式
+
+```json
+{
+  "last_updated": "2026-06-23T15:15:00+08:00",
+  "adjustments": {
+    "Portugal": {
+      "elo_adjustment": -30,
+      "reason": "队内信任裂痕: C罗当场怒斥门将...",
+      "evidence": ["6/18 vs DR Congo 1-1: C罗0射正...", "..."],
+      "expires": "2026-06-28",
+      "confidence": "high"
+    }
+  }
+}
+```
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `elo_adjustment` | int | ✅ | 直接加到 effective ELO。负=惩罚，正=奖励。建议范围 ±50 |
+| `reason` | str | ✅ | 一句话摘要，嵌入报告 |
+| `evidence` | list[str] | ✅ | 每条附带来源（媒体名/日期），用于验证和过期判断 |
+| `expires` | str | 建议 | ISO 日期。过期后该调整应删除或review |
+| `confidence` | str | 建议 | high/medium/low。low 时考虑减小幅度或跳过 |
+
+### 自动加载
+
+`scripts/predict_by_date.py` 调用 `predict_single_match()` 时自动加载 `data/manual_adjustments.json` 并传入 `manual_adjustments` 参数。无需额外 CLI 参数。
+
+```python
+# predict_by_date.py 内部
+manual_adj = _load_manual_adjustments()
+predict_single_match(..., manual_adjustments=manual_adj)
+```
+
+### 手动调用（单场测试）
+
+```bash
+# wc2026_predict.py 支持 --adj "Team:+N"
+python3.11 wc2026_predict.py --match "Portugal" "Uzbekistan" --adj "Portugal:-30"
+```
+
+### 调整幅度指南
+
+| 事件类型 | 建议幅度 | 示例 |
+|----------|----------|------|
+| 明星球员与队友公开冲突 | -20 ~ -40 | Portugal C罗 vs Costa (-30) |
+| 教练下课/队内兵变 | -30 ~ -50 | — |
+| 场外丑闻（队长涉法） | -25 ~ -45 | — |
+| 极端球迷骚扰队友社媒 | -10 ~ -20 | Portugal 粉丝出征 B费/Neves |
+| 飞机延误/旅途事故 | -5 ~ -15 | — |
+| 主力门将赛前生病（非伤病追踪覆盖） | -10 ~ -20 | — |
+
+> ⚠️ **原则**: 调整幅度应保守。Layer 6 设计用途是修正模型盲区，不是表达主观判断。每次添加必须附带至少 2 个独立媒体源的 evidence。
+
+### 过期管理
+
+每轮比赛后检查 `expires` 字段：
+- 已过期的调整 → 删除该条或更新日期
+- 事件已解决（如冲突公开和解）→ 删除
+- 事件持续发酵 → 更新 evidence，考虑调整幅度
+
+详见: `references/manual-adjustments.md`
 
 ## 模型-市场分歧分析（v5.1 例行）
 
@@ -660,12 +832,25 @@ wuhoo-football-predictor/
 │   ├── check_football_freshness.py  # 数据保鲜检查 (v4.5)
 │   ├── pre_match_refresh.py    # 数据新鲜度检查
 │   ├── collect_results.py      # 比赛结果采集
+│   ├── compute_motivation.py     # v5.4: MD3出线动机自动分类
+│   ├── compute_bracket_path.py   # v5.4: 淘汰赛半区路径难度
+│   ├── compute_third_place.py    # v5.4: 第三名出线追踪
+│   ├── inference_engine.py       # v5.5: 规则推理引擎(条件评估+置信度+饱和)
+│   ├── data_provider.py          # v5.5: 动态数据抽象层(Context构建)
+│   ├── predict_v55.py            # v5.5: 推理引擎wrapper(零侵入)
+│   ├── phase0_rule_learning.py   # v5.5: 44场复盘网格搜索
+│   ├── knockout_calibration.py   # v5.4: 淘汰赛行为校准(KBC)
+│   ├── fetch_weather.py          # v5.2: Open-Meteo 天气采集
 │   └── match_reminder.py       # 赛前1h提醒
 ├── data/
 │   ├── elo_ratings.json        # 64队 ELO
 │   ├── friendly_form_adjustments.json # 热身赛状态调整值
-│   ├── team_profiles.json      # 48队中英文元数据(含name_cn)
-│   ├── wc2026_schedule.json    # 72场小组赛完整赛程
+│   ├── match_weather.json      # v5.2: 比赛日天气预报缓存
+│   ├── team_profiles.json      # 48队中英文元数据(含name_cn, style_category)
+│   ├── venues.json             # 16场馆海拔/气候/坐标(含lat/lon)
+│   ├── matchday3_motivation.json # v5.4: MD3动机分类数据
+│   ├── bracket_paths.json        # v5.4: 淘汰赛路径难度
+│   ├── third_place_standings.json # v5.4: 第三名排名
 │   └── prediction_history.jsonl # 预测历史
 ├── references/
 │   ├── rss-graceful-degradation.md
@@ -674,7 +859,8 @@ wuhoo-football-predictor/
 │   └── v3.3-model-fix.md
 └── configs/
     ├── tournaments.json
-    └── weights.json
+    ├── weights.json              # 遗留(未使用)
+    └── rules_v1.json             # v5.5: 规则定义+交互约束+sigmoid参数
 ```
 
 ## 已知限制
@@ -685,3 +871,4 @@ wuhoo-football-predictor/
 4. **串关 EV 始终为负**: 竞彩 29% 抽水的结构性结果，报告已如实标注
 5. **WeChat iLink 限流**: Cron 推送可能静默失败，`deliver=local,origin` 保底
 6. **非结构化信号需 LLM 回填**: Layer 5.5 依赖 agent 侧调用 LLM 后 merge_llm_response，cron 自动运行无 LLM 支持时优雅降级为 0
+7. **MD3/淘汰赛盲区 (v5.4计划)**: 当前模型未考虑出线动机(MD3轮换/生死战)、淘汰赛行为变化(进球-22%/平局+88%)、半区路径偏好。详见 `references/knockout-stage-statistics.md` + `references/matchday3-motivation-patterns.md` + `.hermes/plans/2026-06-24_000000-wc2026-md3-knockout-optimization.md`

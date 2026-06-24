@@ -1,0 +1,162 @@
+{
+  "generated": "2026-06-24T11:35:48.119954+08:00",
+  "standings": [
+    {
+      "rank": 1,
+      "team": "Sweden",
+      "group": "F",
+      "pts": 3,
+      "mp": 2,
+      "gd": 0,
+      "gf": 6,
+      "ga": 6,
+      "advancement_probability": 0.95,
+      "status": "✅ IN"
+    },
+    {
+      "rank": 2,
+      "team": "Scotland",
+      "group": "C",
+      "pts": 3,
+      "mp": 2,
+      "gd": 0,
+      "gf": 1,
+      "ga": 1,
+      "advancement_probability": 0.95,
+      "status": "✅ IN"
+    },
+    {
+      "rank": 3,
+      "team": "Paraguay",
+      "group": "D",
+      "pts": 3,
+      "mp": 2,
+      "gd": -2,
+      "gf": 2,
+      "ga": 4,
+      "advancement_probability": 0.85,
+      "status": "✅ IN"
+    },
+    {
+      "rank": 4,
+      "team": "Algeria",
+      "group": "J",
+      "pts": 3,
+      "mp": 2,
+      "gd": -2,
+      "gf": 2,
+      "ga": 4,
+      "advancement_probability": 0.85,
+      "status": "✅ IN"
+    },
+    {
+      "rank": 5,
+      "team": "Cape Verde",
+      "group": "H",
+      "pts": 2,
+      "mp": 2,
+      "gd": 0,
+      "gf": 2,
+      "ga": 2,
+      "advancement_probability": 0.85,
+      "status": "✅ IN"
+    },
+    {
+      "rank": 6,
+      "team": "Belgium",
+      "group": "G",
+      "pts": 2,
+      "mp": 2,
+      "gd": 0,
+      "gf": 1,
+      "ga": 1,
+      "advancement_probability": 0.85,
+      "status": "✅ IN"
+    },
+    {
+      "rank": 7,
+      "team": "DR Congo",
+      "group": "K",
+      "pts": 1,
+      "mp": 1,
+      "gd": 0,
+      "gf": 1,
+      "ga": 1,
+      "advancement_probability": 0.65,
+      "status": "✅ IN"
+    },
+    {
+      "rank": 8,
+      "team": "Czech Republic",
+      "group": "A",
+      "pts": 1,
+      "mp": 2,
+      "gd": -1,
+      "gf": 2,
+      "ga": 3,
+      "advancement_probability": 0.45,
+      "status": "⚠️ BORDER"
+    },
+    {
+      "rank": 9,
+      "team": "Ecuador",
+      "group": "E",
+      "pts": 1,
+      "mp": 2,
+      "gd": -1,
+      "gf": 0,
+      "ga": 1,
+      "advancement_probability": 0.4,
+      "status": "❌ OUT"
+    },
+    {
+      "rank": 10,
+      "team": "Bosnia and Herzegovina",
+      "group": "B",
+      "pts": 1,
+      "mp": 2,
+      "gd": -3,
+      "gf": 2,
+      "ga": 5,
+      "advancement_probability": 0.4,
+      "status": "❌ OUT"
+    },
+    {
+      "rank": 11,
+      "team": "Panama",
+      "group": "L",
+      "pts": 0,
+      "mp": 1,
+      "gd": -1,
+      "gf": 0,
+      "ga": 1,
+      "advancement_probability": 0.15,
+      "status": "❌ OUT"
+    },
+    {
+      "rank": 12,
+      "team": "Senegal",
+      "group": "I",
+      "pts": 0,
+      "mp": 2,
+      "gd": -3,
+      "gf": 3,
+      "ga": 6,
+      "advancement_probability": 0.15,
+      "status": "❌ OUT"
+    }
+  ],
+  "cut_line": {
+    "eighth_place": {
+      "team": "Czech Republic",
+      "pts": 1,
+      "gd": -1
+    },
+    "current_threshold": "1pts, GD-1"
+  },
+  "notes": [
+    "Top 8 of 12 third-place teams advance to Round of 32",
+    "Advancement probability based on current standings — MD3 results will change this",
+    "3pts + GD0 estimated ~70% advancement probability (Opta data)"
+  ]
+}

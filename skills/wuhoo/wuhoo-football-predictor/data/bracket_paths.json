@@ -1,0 +1,235 @@
+{
+  "generated": "2026-06-24T11:35:19.991039+08:00",
+  "paths": {
+    "A_1": {
+      "r32_opponent_elo": 1708,
+      "path_elo": 1708,
+      "difficulty": "easy",
+      "opponent_description": "第三名球队(C/E/F/H/I)"
+    },
+    "A_2": {
+      "r32_opponent_elo": 1803,
+      "path_elo": 1803,
+      "difficulty": "normal",
+      "opponent_description": "GB-2"
+    },
+    "B_1": {
+      "r32_opponent_elo": 1688,
+      "path_elo": 1688,
+      "difficulty": "easy",
+      "opponent_description": "第三名球队(E/F/G/I/J)"
+    },
+    "B_2": {
+      "r32_opponent_elo": 1815,
+      "path_elo": 1815,
+      "difficulty": "normal",
+      "opponent_description": "GA-2"
+    },
+    "C_1": {
+      "r32_opponent_elo": 2014,
+      "path_elo": 2014,
+      "difficulty": "hard",
+      "opponent_description": "GF-2"
+    },
+    "C_2": {
+      "r32_opponent_elo": 2101,
+      "path_elo": 2101,
+      "difficulty": "hard",
+      "opponent_description": "GF-1"
+    },
+    "D_1": {
+      "r32_opponent_elo": 1646,
+      "path_elo": 1646,
+      "difficulty": "easy",
+      "opponent_description": "第三名球队(B/E/F/I/J)"
+    },
+    "D_2": {
+      "r32_opponent_elo": 1692,
+      "path_elo": 1692,
+      "difficulty": "easy",
+      "opponent_description": "GG-2"
+    },
+    "E_1": {
+      "r32_opponent_elo": 1643,
+      "path_elo": 1643,
+      "difficulty": "easy",
+      "opponent_description": "第三名球队(A/B/C/D/F)"
+    },
+    "E_2": {
+      "r32_opponent_elo": 2045,
+      "path_elo": 2045,
+      "difficulty": "hard",
+      "opponent_description": "GI-2"
+    },
+    "F_1": {
+      "r32_opponent_elo": 2031,
+      "path_elo": 2031,
+      "difficulty": "hard",
+      "opponent_description": "GC-2"
+    },
+    "F_2": {
+      "r32_opponent_elo": 1978,
+      "path_elo": 1978,
+      "difficulty": "hard",
+      "opponent_description": "GC-1"
+    },
+    "G_1": {
+      "r32_opponent_elo": 1638,
+      "path_elo": 1638,
+      "difficulty": "easy",
+      "opponent_description": "第三名球队(A/E/H/I/J)"
+    },
+    "G_2": {
+      "r32_opponent_elo": 1885,
+      "path_elo": 1885,
+      "difficulty": "normal",
+      "opponent_description": "GD-2"
+    },
+    "H_1": {
+      "r32_opponent_elo": 1943,
+      "path_elo": 1943,
+      "difficulty": "hard",
+      "opponent_description": "GJ-2"
+    },
+    "H_2": {
+      "r32_opponent_elo": 2246,
+      "path_elo": 2246,
+      "difficulty": "hard",
+      "opponent_description": "GJ-1"
+    },
+    "I_1": {
+      "r32_opponent_elo": 1761,
+      "path_elo": 1761,
+      "difficulty": "normal",
+      "opponent_description": "第三名球队(C/D/F/G/H)"
+    },
+    "I_2": {
+      "r32_opponent_elo": 1858,
+      "path_elo": 1858,
+      "difficulty": "normal",
+      "opponent_description": "GE-2"
+    },
+    "J_1": {
+      "r32_opponent_elo": 1748,
+      "path_elo": 1748,
+      "difficulty": "easy",
+      "opponent_description": "GH-2"
+    },
+    "J_2": {
+      "r32_opponent_elo": 1969,
+      "path_elo": 1969,
+      "difficulty": "hard",
+      "opponent_description": "GH-1"
+    },
+    "K_1": {
+      "r32_opponent_elo": 1617,
+      "path_elo": 1617,
+      "difficulty": "easy",
+      "opponent_description": "第三名球队(D/E/I/J/L)"
+    },
+    "K_2": {
+      "r32_opponent_elo": 1786,
+      "path_elo": 1786,
+      "difficulty": "normal",
+      "opponent_description": "GL-2"
+    },
+    "L_1": {
+      "r32_opponent_elo": 1709,
+      "path_elo": 1709,
+      "difficulty": "easy",
+      "opponent_description": "第三名球队(E/H/I/J/K)"
+    },
+    "L_2": {
+      "r32_opponent_elo": 1837,
+      "path_elo": 1837,
+      "difficulty": "normal",
+      "opponent_description": "GK-2"
+    }
+  },
+  "pairwise_comparison": {
+    "A": {
+      "path_diff": -95,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 5,
+      "reason_1st": "小组第一路径更优或相当(差95 ELO)",
+      "reason_2nd": "小组第一路径略好(高95 ELO)"
+    },
+    "B": {
+      "path_diff": -127,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 10,
+      "reason_1st": "小组第一路径更优或相当(差127 ELO)",
+      "reason_2nd": "小组第一路径显著更好(高127 ELO)，抢头名动机强"
+    },
+    "C": {
+      "path_diff": -87,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 5,
+      "reason_1st": "小组第一路径更优或相当(差87 ELO)",
+      "reason_2nd": "小组第一路径略好(高87 ELO)"
+    },
+    "D": {
+      "path_diff": -46,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 0,
+      "reason_1st": "小组第一路径更优或相当(差46 ELO)",
+      "reason_2nd": "两条路径相当(差46 ELO)"
+    },
+    "E": {
+      "path_diff": -402,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 10,
+      "reason_1st": "小组第一路径更优或相当(差402 ELO)",
+      "reason_2nd": "小组第一路径显著更好(高402 ELO)，抢头名动机强"
+    },
+    "F": {
+      "path_diff": 53,
+      "adjustment_1st": -5,
+      "adjustment_2nd": 0,
+      "reason_1st": "小组第二条路径略容易(低53 ELO)",
+      "reason_2nd": "两条路径相当(差53 ELO)"
+    },
+    "G": {
+      "path_diff": -247,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 10,
+      "reason_1st": "小组第一路径更优或相当(差247 ELO)",
+      "reason_2nd": "小组第一路径显著更好(高247 ELO)，抢头名动机强"
+    },
+    "H": {
+      "path_diff": -303,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 10,
+      "reason_1st": "小组第一路径更优或相当(差303 ELO)",
+      "reason_2nd": "小组第一路径显著更好(高303 ELO)，抢头名动机强"
+    },
+    "I": {
+      "path_diff": -97,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 5,
+      "reason_1st": "小组第一路径更优或相当(差97 ELO)",
+      "reason_2nd": "小组第一路径略好(高97 ELO)"
+    },
+    "J": {
+      "path_diff": -221,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 10,
+      "reason_1st": "小组第一路径更优或相当(差221 ELO)",
+      "reason_2nd": "小组第一路径显著更好(高221 ELO)，抢头名动机强"
+    },
+    "K": {
+      "path_diff": -169,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 10,
+      "reason_1st": "小组第一路径更优或相当(差169 ELO)",
+      "reason_2nd": "小组第一路径显著更好(高169 ELO)，抢头名动机强"
+    },
+    "L": {
+      "path_diff": -128,
+      "adjustment_1st": 0,
+      "adjustment_2nd": 10,
+      "reason_1st": "小组第一路径更优或相当(差128 ELO)",
+      "reason_2nd": "小组第一路径显著更好(高128 ELO)，抢头名动机强"
+    }
+  }
+}

@@ -34,6 +34,25 @@ from wc2026_predict import (
 DATA_DIR = os.path.join(PROJECT_DIR, 'data')
 PREDICTIONS_DIR = os.path.join(DATA_DIR, 'daily_predictions')
 HISTORY_PATH = os.path.join(DATA_DIR, 'prediction_history.jsonl')
+MANUAL_ADJ_PATH = os.path.join(DATA_DIR, 'manual_adjustments.json')
+
+
+def _load_manual_adjustments():
+    """Load Layer 6 manual ELO adjustments from data/manual_adjustments.json."""
+    if not os.path.exists(MANUAL_ADJ_PATH):
+        return {}
+    try:
+        with open(MANUAL_ADJ_PATH) as f:
+            data = json.load(f)
+        adj = {}
+        for team, info in data.get('adjustments', {}).items():
+            adj[team] = info.get('elo_adjustment', 0)
+        if adj:
+            print(f"📌 手动调整 (Layer 6): {len(adj)} 队 — {', '.join(f'{t}({v:+d})' for t, v in adj.items())}")
+        return adj
+    except Exception as e:
+        print(f"⚠️ 加载手动调整失败: {e}")
+        return {}
 
 
 def format_match_report(match_info, audit):
@@ -79,8 +98,24 @@ def predict_by_date(date_str):
         print(f"✅ {date_str}: 无比赛安排")
         return [], date_str
 
+    manual_adj = _load_manual_adjustments()
+    
+    # Load MD3 motivation data if any match is from MD3
+    matchdays = {m.get('matchday') for m in matches}
+    is_md3 = 3 in matchdays
+    motivation_data = None
+    if is_md3:
+        try:
+            mot_path = os.path.join(os.path.dirname(__file__), 'data', 'matchday3_motivation.json')
+            if os.path.exists(mot_path):
+                with open(mot_path) as f:
+                    motivation_data = json.load(f).get('classifications', {})
+        except Exception:
+            pass
+
     results = []
     for m in matches:
+        matchday_val = m.get('matchday')
         print(f"🔄 预测: {m['team_a']} vs {m['team_b']} (Match #{m['match_id']})...")
         try:
             audit = predict_single_match(
@@ -88,7 +123,10 @@ def predict_by_date(date_str):
                 venue_name=m.get('venue'),
                 enable_news=('--news' in sys.argv),
                 knockout=False,
-                match_id=m.get('match_id')
+                match_id=m.get('match_id'),
+                manual_adjustments=manual_adj,
+                matchday=matchday_val,
+                motivation_data=motivation_data
             )
             audit['schedule'] = m
             _save_prediction_history(audit)

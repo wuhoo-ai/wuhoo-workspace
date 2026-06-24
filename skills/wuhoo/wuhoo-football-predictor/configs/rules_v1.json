@@ -1,0 +1,321 @@
+{
+  "version": "1.0",
+  "generated": "2026-06-24T12:11:47.401428+08:00",
+  "description": "v5.5 Rule-based inference engine configuration",
+  "confidence_factors": {
+    "high": 1.0,
+    "medium": 0.7,
+    "low": 0.4
+  },
+  "freshness_decay": {
+    "0h": 1.0,
+    "6h": 0.9,
+    "12h": 0.7,
+    "24h": 0.5,
+    "72h": 0.3
+  },
+  "saturation": {
+    "function": "sigmoid",
+    "midpoint": 40,
+    "steepness": 0.08,
+    "max_output": 50
+  },
+  "interactions": [
+    {
+      "id": "INT_001",
+      "name": "MUST_WIN dampened by third-place viability",
+      "when": [
+        "MUST_WIN",
+        "THIRD_PLACE_VIABLE"
+      ],
+      "effect": "multiply",
+      "coefficient": 0.6,
+      "target": "MUST_WIN",
+      "reason": "第三名出线概率>70%时降低必胜动机"
+    },
+    {
+      "id": "INT_002",
+      "name": "LOCKED_IN penalty vs MUST_WIN opponent",
+      "when": [
+        "LOCKED_IN",
+        "OPPONENT_MUST_WIN"
+      ],
+      "effect": "subtract",
+      "coefficient": 15,
+      "target": "LOCKED_IN",
+      "reason": "已出线队面对背水一战的对手进一步降低动力"
+    },
+    {
+      "id": "INT_003",
+      "name": "MUST_WIN amplified by home advantage",
+      "when": [
+        "MUST_WIN",
+        "HOME_ADVANTAGE"
+      ],
+      "effect": "multiply",
+      "coefficient": 1.15,
+      "target": "MUST_WIN",
+      "reason": "背水一战+主场共振效应"
+    },
+    {
+      "id": "INT_004",
+      "name": "Heavy injuries dampen positive motivation",
+      "when": [
+        "INJURY_HEAVY",
+        "MUST_WIN"
+      ],
+      "effect": "multiply",
+      "coefficient": 0.75,
+      "target": "MUST_WIN",
+      "reason": "伤病满营时必胜信念受实力制约"
+    }
+  ],
+  "rules": [
+    {
+      "id": "INJ_001",
+      "name": "伤病扣分",
+      "priority": 20,
+      "description": "基于 injuries.json 的伤病ELO扣分",
+      "activation": {
+        "condition": "team.injury_penalty != 0",
+        "confidence": "high",
+        "evidence": "injuries.json — ESPN/BBC伤病追踪"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{injury_penalty}}"
+      }
+    },
+    {
+      "id": "MOT_001",
+      "name": "出线动机 — LOCKED_IN",
+      "priority": 15,
+      "description": "已锁定出线，大概率轮换主力（-30 ELO）",
+      "activation": {
+        "condition": "team.classification == 'LOCKED_IN'",
+        "confidence": "{{motivation_confidence}}",
+        "evidence": "QMF自动分类 — 基于积分表+剩余赛程"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{motivation_elo}}"
+      }
+    },
+    {
+      "id": "MOT_002",
+      "name": "出线动机 — MUST_WIN",
+      "priority": 15,
+      "description": "必须赢球，背水一战（+20 ELO）",
+      "activation": {
+        "condition": "team.classification == 'MUST_WIN'",
+        "confidence": "{{motivation_confidence}}",
+        "evidence": "QMF自动分类 — 落后出线区，必须赢球"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{motivation_elo}}"
+      }
+    },
+    {
+      "id": "MOT_003",
+      "name": "出线动机 — TOP_SEED",
+      "priority": 15,
+      "description": "争夺小组第一，为淘汰赛有利位置（+8 ELO）",
+      "activation": {
+        "condition": "team.classification == 'TOP_SEED'",
+        "confidence": "{{motivation_confidence}}",
+        "evidence": "QMF自动分类 — 头名之争"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{motivation_elo}}"
+      }
+    },
+    {
+      "id": "MOT_004",
+      "name": "出线动机 — NEED_RESULT",
+      "priority": 15,
+      "description": "需要至少1分（+10 ELO）",
+      "activation": {
+        "condition": "team.classification == 'NEED_RESULT'",
+        "confidence": "{{motivation_confidence}}",
+        "evidence": "QMF自动分类"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{motivation_elo}}"
+      }
+    },
+    {
+      "id": "MOT_005",
+      "name": "出线动机 — DRAW_OK",
+      "priority": 15,
+      "description": "打平即出线，保守策略（-5 ELO）",
+      "activation": {
+        "condition": "team.classification == 'DRAW_OK'",
+        "confidence": "{{motivation_confidence}}",
+        "evidence": "QMF自动分类"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{motivation_elo}}"
+      }
+    },
+    {
+      "id": "MOT_006",
+      "name": "出线动机 — PRIDE_ONLY",
+      "priority": 15,
+      "description": "已淘汰，为荣誉而战（-5 ELO）",
+      "activation": {
+        "condition": "team.classification == 'PRIDE_ONLY'",
+        "confidence": "{{motivation_confidence}}",
+        "evidence": "QMF自动分类 — 已提前淘汰"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{motivation_elo}}"
+      }
+    },
+    {
+      "id": "BPP_001",
+      "name": "半区路径偏好",
+      "priority": 12,
+      "description": "淘汰赛路径差异 > 100 ELO 时产生战略动机",
+      "activation": {
+        "condition": "team.classification == 'TOP_SEED' AND team.bpp_significant == True",
+        "confidence": "medium",
+        "evidence": "BPP分析 — R32对阵路径ELO对比"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{bpp_adjustment}}"
+      }
+    },
+    {
+      "id": "COA_001",
+      "name": "教练/磨合因子",
+      "priority": 30,
+      "description": "coach + stability + chemistry",
+      "activation": {
+        "condition": "",
+        "confidence": "medium",
+        "evidence": "team_metadata.json — 静态元数据"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{coach_meta_adjustment}}"
+      }
+    },
+    {
+      "id": "VEN_001",
+      "name": "场馆效应",
+      "priority": 25,
+      "description": "海拔/气温/东道主优势",
+      "activation": {
+        "condition": "",
+        "confidence": "high",
+        "evidence": "venues.json — 16场馆数据"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{venue_adjustment}}"
+      }
+    },
+    {
+      "id": "WEA_001",
+      "name": "天气因子",
+      "priority": 22,
+      "description": "降水/风力/实时温度",
+      "activation": {
+        "condition": "",
+        "confidence": "medium",
+        "evidence": "Open-Meteo API — 比赛日预报"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{weather_adjustment}}"
+      }
+    },
+    {
+      "id": "DEN_001",
+      "name": "赛程密度",
+      "priority": 22,
+      "description": "旅途距离+休息天数复合因子",
+      "activation": {
+        "condition": "",
+        "confidence": "medium",
+        "evidence": "Haversine距离+休息天数计算"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{density_adjustment}}"
+      }
+    },
+    {
+      "id": "FRM_001",
+      "name": "热身赛状态",
+      "priority": 18,
+      "description": "友谊赛结果 vs ELO期望",
+      "activation": {
+        "condition": "",
+        "confidence": "low",
+        "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{friendly_form}}"
+      }
+    },
+    {
+      "id": "TFM_001",
+      "name": "锦标赛形态",
+      "priority": 18,
+      "description": "每队一次性随机boost N(0,60)",
+      "activation": {
+        "condition": "",
+        "confidence": "low",
+        "evidence": "随机抽样的锦标赛形态波动"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{tournament_form}}"
+      }
+    },
+    {
+      "id": "MAN_001",
+      "name": "手动调整",
+      "priority": 100,
+      "description": "Layer 6 手动覆写（最高优先级）",
+      "activation": {
+        "condition": "",
+        "confidence": "high",
+        "evidence": "manual_adjustments.json"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{manual_adjustment}}"
+      }
+    },
+    {
+      "id": "MOT_005B",
+      "name": "必胜动机 — 第三名缓冲覆写",
+      "priority": 5,
+      "description": "若第三名出线概率>70%，MUST_WIN 降级效果",
+      "activation": {
+        "condition": "team.classification == 'MUST_WIN' AND team.third_place_viable == True",
+        "confidence": "medium",
+        "evidence": "第三名排名追踪 — 3pts+GD0~70%概率晋级"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": -10
+      }
+    }
+  ],
+  "__meta": {
+    "learned_from": "44 completed matches",
+    "method": "expert-guided grid search + error pattern analysis",
+    "note": "Parameters are initial estimates. Full grid search requires interaction implementation first (Phase 1). Refine after MD3 data.",
+    "generated": "2026-06-24T12:11:47.401428+08:00"
+  }
+}

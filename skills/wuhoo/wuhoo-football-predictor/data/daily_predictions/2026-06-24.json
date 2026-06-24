@@ -1,6 +1,6 @@
 {
   "date_beijing": "2026-06-24",
-  "generated": "2026-06-23T14:35:02.264916",
+  "generated": "2026-06-23T15:42:19.727724",
   "total_matches": 4,
   "predictions": [
     {
@@ -11,12 +11,12 @@
       "group": "K",
       "matchday": 2,
       "time_beijing": "01:00",
-      "team_a_win_pct": 72.1,
-      "draw_pct": 18.2,
-      "team_b_win_pct": 9.7,
+      "team_a_win_pct": 68.3,
+      "draw_pct": 19.6,
+      "team_b_win_pct": 12.1,
       "most_likely_score": "2-0",
-      "verdict": "葡萄牙 胜（高置信度）",
-      "confidence": "high",
+      "verdict": "葡萄牙 胜（中置信度）",
+      "confidence": "medium",
       "error": null
     },
     {
@@ -27,9 +27,9 @@
       "group": "L",
       "matchday": 2,
       "time_beijing": "04:00",
-      "team_a_win_pct": 75.4,
-      "draw_pct": 16.0,
-      "team_b_win_pct": 8.6,
+      "team_a_win_pct": 75.6,
+      "draw_pct": 15.8,
+      "team_b_win_pct": 8.5,
       "most_likely_score": "2-0",
       "verdict": "英格兰 胜（高置信度）",
       "confidence": "high",
@@ -43,9 +43,9 @@
       "group": "L",
       "matchday": 2,
       "time_beijing": "07:00",
-      "team_a_win_pct": 9.2,
-      "draw_pct": 18.3,
-      "team_b_win_pct": 72.6,
+      "team_a_win_pct": 9.1,
+      "draw_pct": 18.1,
+      "team_b_win_pct": 72.8,
       "most_likely_score": "0-2",
       "verdict": "克罗地亚 胜（高置信度）",
       "confidence": "high",
@@ -59,7 +59,7 @@
       "group": "K",
       "matchday": 2,
       "time_beijing": "10:00",
-      "team_a_win_pct": 77.0,
+      "team_a_win_pct": 77.1,
       "draw_pct": 15.6,
       "team_b_win_pct": 7.4,
       "most_likely_score": "2-0",
@@ -74,23 +74,23 @@
         "team_a": "Portugal",
         "team_b": "Uzbekistan",
         "venue": "NRG Stadium",
-        "generated": "2026-06-23T14:35:02.256907",
+        "generated": "2026-06-23T15:42:13.832517",
         "layers": {
           "1_elo_base": {
-            "team_a_elo": 1845,
-            "team_b_elo": 1628,
-            "elo_diff": 217,
-            "base_win_prob": 77.7,
-            "description": "Portugal 1845 vs Uzbekistan 1628, Δ=+217"
+            "team_a_elo": 1837,
+            "team_b_elo": 1618,
+            "elo_diff": 219,
+            "base_win_prob": 77.9,
+            "description": "Portugal 1837 vs Uzbekistan 1618, Δ=+219"
           },
           "2_injuries": {
-            "team_a_penalty": -10,
+            "team_a_penalty": -15,
             "team_b_penalty": 0,
             "team_a_details": [
-              "  Ruben Dias (DF): DOUBTFUL — Unspecified injury; missed opener vs DR Congo (Jun 16), on bench — possible return during group stage [-10]"
+              "  Ruben Dias (DF): OUT — Ruled out vs Uzbekistan (Jun 23 Heavy.com); missed opener vs DR Congo (Jun 16). Key defensive loss [-15]"
             ],
             "team_b_details": [],
-            "description": "Portugal: -10 | Uzbekistan: +0"
+            "description": "Portugal: -15 | Uzbekistan: +0"
           },
           "3_coach_meta": {
             "team_a_adjustment": 30,
@@ -166,62 +166,61 @@
             "team_a_adj": 6,
             "team_b_adj": -4,
             "team_a_details": [
-              "[06-18] D 1-1 vs 刚果民主共和国 (1794ELO q=+0.73 r=1.3x) → +6"
+              "[06-18] D 1-1 vs 刚果民主共和国 (1802ELO q=+0.76 r=1.3x) → +6"
             ],
             "team_b_details": [
-              "[06-18] L 1-3 vs 哥伦比亚 (2074ELO q=+1.44 r=1.3x) → -4"
+              "[06-18] L 1-3 vs 哥伦比亚 (2084ELO q=+1.46 r=1.3x) → -4"
             ],
             "description": "Portugal: +6 | Uzbekistan: -4"
           },
           "5_news_sentiment": {
-            "enabled": false,
-            "team_a_adj": 0,
-            "team_b_adj": 0,
-            "description": "Not enabled"
+            "enabled": true,
+            "team_a_adj": 2,
+            "team_b_adj": 2,
+            "description": "Portugal: +2 | Uzbekistan: +2"
           },
           "5.5_unstructured_signals": {
-            "enabled": false,
+            "enabled": true,
             "team_a_adj": 0,
             "team_b_adj": 0,
-            "tactical_matchup": 0,
-            "description": "Not enabled / no signals"
+            "tactical_matchup": -0.12,
+            "description": "Portugal: +0 | Uzbekistan: +0"
           },
           "6_manual": {
-            "team_a_adj": 0,
+            "team_a_adj": -30,
             "team_b_adj": 0,
-            "description": "None"
+            "description": "Portugal: -30 | Uzbekistan: +0"
           }
         },
         "effective_elo": {
           "team_a": {
-            "base": 1845,
-            "effective": 1871,
-            "adjustments": 26
+            "base": 1837,
+            "effective": 1830,
+            "adjustments": -7
           },
           "team_b": {
-            "base": 1628,
-            "effective": 1589,
-            "adjustments": -39
+            "base": 1618,
+            "effective": 1581,
+            "adjustments": -37
           },
-          "diff": 282
+          "diff": 249
         },
         "prediction": {
           "model": "Poisson (Elo-based lambda)",
-          "team_a_win": 72.1,
-          "draw": 18.2,
-          "team_b_win": 9.7,
+          "team_a_win": 68.3,
+          "draw": 19.6,
+          "team_b_win": 12.1,
           "most_likely_score": "2-0",
-          "expected_goals_a": 2.14,
-          "expected_goals_b": 0.63
+          "expected_goals_a": 2.05,
+          "expected_goals_b": 0.72
         },
         "verdict": {
-          "result": "葡萄牙 胜（高置信度）",
-          "confidence": "high"
+          "result": "葡萄牙 胜（中置信度）",
+          "confidence": "medium"
         },
         "reasoning": [
-          "ELO 优势 217 分，有明确的实力差距",
-          "伤病影响：Portugal -10 / Uzbekistan +0 ELO",
-          "多层调整后有效 ELO 差 +282（原始 +217）"
+          "ELO 优势 219 分，有明确的实力差距",
+          "伤病影响：Portugal -15 / Uzbekistan +0 ELO"
         ],
         "schedule": {
           "match_id": 45,
@@ -256,25 +255,26 @@
         "team_a": "England",
         "team_b": "Ghana",
         "venue": "Gillette Stadium",
-        "generated": "2026-06-23T14:35:02.260416",
+        "generated": "2026-06-23T15:42:15.315595",
         "layers": {
           "1_elo_base": {
-            "team_a_elo": 2176,
-            "team_b_elo": 1768,
-            "elo_diff": 408,
-            "base_win_prob": 91.3,
-            "description": "England 2176 vs Ghana 1768, Δ=+408"
+            "team_a_elo": 2189,
+            "team_b_elo": 1786,
+            "elo_diff": 403,
+            "base_win_prob": 91.1,
+            "description": "England 2189 vs Ghana 1786, Δ=+403"
           },
           "2_injuries": {
             "team_a_penalty": -3,
-            "team_b_penalty": -8,
+            "team_b_penalty": -20,
             "team_a_details": [
               "  Tino Livramento (DF): OUT — Calf injury (ended season); OUT per Fox Sports Jun 16. Trevoh Chalobah called up [-3]"
             ],
             "team_b_details": [
-              "  Mohammed Kudus (MF): DOUBTFUL — Hamstring setback after quad injury; major blow. Semenyo/Sulemana/Nuamah options [-8]"
+              "  Mohammed Kudus (MF): OUT — Hamstring setback confirmed OUT (Instagram/Ghana FA Jun 1). Major creative loss [-12]",
+              "  Thomas Partey (MF): OUT — Denied Canadian visa (outstanding UK charges); unavailable for Panama match (Standard Jun 19) [-8]"
             ],
-            "description": "England: -3 | Ghana: -8"
+            "description": "England: -3 | Ghana: -20"
           },
           "3_coach_meta": {
             "team_a_adjustment": 20,
@@ -350,25 +350,25 @@
             "team_a_adj": 26,
             "team_b_adj": 20,
             "team_a_details": [
-              "[06-18] W 4-2 vs 克罗地亚 (1774ELO q=+0.69 r=1.3x) → +26"
+              "[06-18] W 4-2 vs 克罗地亚 (1761ELO q=+0.65 r=1.3x) → +26"
             ],
             "team_b_details": [
-              "[06-18] W 1-0/CS vs 巴拿马 (1474ELO q=-0.07 r=1.3x) → +20"
+              "[06-18] W 1-0/CS vs 巴拿马 (1456ELO q=-0.11 r=1.3x) → +20"
             ],
             "description": "England: +26 | Ghana: +20"
           },
           "5_news_sentiment": {
-            "enabled": false,
-            "team_a_adj": 0,
-            "team_b_adj": 0,
-            "description": "Not enabled"
+            "enabled": true,
+            "team_a_adj": 2,
+            "team_b_adj": 2,
+            "description": "England: +2 | Ghana: +2"
           },
           "5.5_unstructured_signals": {
-            "enabled": false,
+            "enabled": true,
             "team_a_adj": 0,
             "team_b_adj": 0,
-            "tactical_matchup": 0,
-            "description": "Not enabled / no signals"
+            "tactical_matchup": -0.18,
+            "description": "England: +0 | Ghana: +0"
           },
           "6_manual": {
             "team_a_adj": 0,
@@ -378,24 +378,24 @@
         },
         "effective_elo": {
           "team_a": {
-            "base": 2176,
-            "effective": 2166,
-            "adjustments": -10
+            "base": 2189,
+            "effective": 2181,
+            "adjustments": -8
           },
           "team_b": {
-            "base": 1768,
-            "effective": 1792,
-            "adjustments": 24
+            "base": 1786,
+            "effective": 1800,
+            "adjustments": 14
           },
-          "diff": 374
+          "diff": 381
         },
         "prediction": {
           "model": "Poisson (Elo-based lambda)",
-          "team_a_win": 75.4,
-          "draw": 16.0,
-          "team_b_win": 8.6,
+          "team_a_win": 75.6,
+          "draw": 15.8,
+          "team_b_win": 8.5,
           "most_likely_score": "2-0",
-          "expected_goals_a": 2.39,
+          "expected_goals_a": 2.41,
           "expected_goals_b": 0.67
         },
         "verdict": {
@@ -403,9 +403,8 @@
           "confidence": "high"
         },
         "reasoning": [
-          "ELO 绝对优势 408 分，实力差距明显",
-          "伤病影响：England -3 / Ghana -8 ELO",
-          "多层调整后有效 ELO 差 +374（原始 +408）"
+          "ELO 绝对优势 403 分，实力差距明显",
+          "伤病影响：England -3 / Ghana -20 ELO"
         ],
         "schedule": {
           "match_id": 46,
@@ -440,14 +439,14 @@
         "team_a": "Panama",
         "team_b": "Croatia",
         "venue": "BC Place",
-        "generated": "2026-06-23T14:35:02.262147",
+        "generated": "2026-06-23T15:42:16.743610",
         "layers": {
           "1_elo_base": {
-            "team_a_elo": 1474,
-            "team_b_elo": 1774,
-            "elo_diff": -300,
-            "base_win_prob": 15.1,
-            "description": "Panama 1474 vs Croatia 1774, Δ=-300"
+            "team_a_elo": 1456,
+            "team_b_elo": 1761,
+            "elo_diff": -305,
+            "base_win_prob": 14.7,
+            "description": "Panama 1456 vs Croatia 1761, Δ=-305"
           },
           "2_injuries": {
             "team_a_penalty": 0,
@@ -530,25 +529,25 @@
             "team_a_adj": -8,
             "team_b_adj": -3,
             "team_a_details": [
-              "[06-18] L 0-1 vs 加纳 (1768ELO q=+0.67 r=1.3x) → -8"
+              "[06-18] L 0-1 vs 加纳 (1786ELO q=+0.71 r=1.3x) → -8"
             ],
             "team_b_details": [
-              "[06-18] L 2-4 vs 英格兰 (2176ELO q=+1.69 r=1.3x) → -3"
+              "[06-18] L 2-4 vs 英格兰 (2189ELO q=+1.72 r=1.3x) → -3"
             ],
             "description": "Panama: -8 | Croatia: -3"
           },
           "5_news_sentiment": {
-            "enabled": false,
-            "team_a_adj": 0,
-            "team_b_adj": 0,
-            "description": "Not enabled"
+            "enabled": true,
+            "team_a_adj": 2,
+            "team_b_adj": 2,
+            "description": "Panama: +2 | Croatia: +2"
           },
           "5.5_unstructured_signals": {
-            "enabled": false,
+            "enabled": true,
             "team_a_adj": 0,
             "team_b_adj": 0,
-            "tactical_matchup": 0,
-            "description": "Not enabled / no signals"
+            "tactical_matchup": -0.08,
+            "description": "Panama: +0 | Croatia: +0"
           },
           "6_manual": {
             "team_a_adj": 0,
@@ -558,32 +557,32 @@
         },
         "effective_elo": {
           "team_a": {
-            "base": 1474,
-            "effective": 1460,
-            "adjustments": -14
+            "base": 1456,
+            "effective": 1444,
+            "adjustments": -12
           },
           "team_b": {
-            "base": 1774,
-            "effective": 1777,
-            "adjustments": 3
+            "base": 1761,
+            "effective": 1766,
+            "adjustments": 5
           },
-          "diff": -317
+          "diff": -322
         },
         "prediction": {
           "model": "Poisson (Elo-based lambda)",
-          "team_a_win": 9.2,
-          "draw": 18.3,
-          "team_b_win": 72.6,
+          "team_a_win": 9.1,
+          "draw": 18.1,
+          "team_b_win": 72.8,
           "most_likely_score": "0-2",
           "expected_goals_a": 0.59,
-          "expected_goals_b": 2.1
+          "expected_goals_b": 2.11
         },
         "verdict": {
           "result": "克罗地亚 胜（高置信度）",
           "confidence": "high"
         },
         "reasoning": [
-          "ELO 优势 300 分，有明确的实力差距"
+          "ELO 绝对优势 305 分，实力差距明显"
         ],
         "schedule": {
           "match_id": 47,
@@ -618,14 +617,14 @@
         "team_a": "Colombia",
         "team_b": "DR Congo",
         "venue": "Hard Rock Stadium",
-        "generated": "2026-06-23T14:35:02.263462",
+        "generated": "2026-06-23T15:42:18.169801",
         "layers": {
           "1_elo_base": {
-            "team_a_elo": 2074,
-            "team_b_elo": 1794,
-            "elo_diff": 280,
-            "base_win_prob": 83.4,
-            "description": "Colombia 2074 vs DR Congo 1794, Δ=+280"
+            "team_a_elo": 2084,
+            "team_b_elo": 1802,
+            "elo_diff": 282,
+            "base_win_prob": 83.5,
+            "description": "Colombia 2084 vs DR Congo 1802, Δ=+282"
           },
           "2_injuries": {
             "team_a_penalty": 0,
@@ -708,25 +707,25 @@
             "team_a_adj": 23,
             "team_b_adj": 7,
             "team_a_details": [
-              "[06-18] W 3-1 vs 乌兹别克斯坦 (1628ELO q=+0.32 r=1.3x) → +23"
+              "[06-18] W 3-1 vs 乌兹别克斯坦 (1618ELO q=+0.29 r=1.3x) → +23"
             ],
             "team_b_details": [
-              "[06-18] D 1-1 vs 葡萄牙 (1845ELO q=+0.86 r=1.3x) → +7"
+              "[06-18] D 1-1 vs 葡萄牙 (1837ELO q=+0.84 r=1.3x) → +7"
             ],
             "description": "Colombia: +23 | DR Congo: +7"
           },
           "5_news_sentiment": {
-            "enabled": false,
-            "team_a_adj": 0,
-            "team_b_adj": 0,
-            "description": "Not enabled"
+            "enabled": true,
+            "team_a_adj": 2,
+            "team_b_adj": 2,
+            "description": "Colombia: +2 | DR Congo: +2"
           },
           "5.5_unstructured_signals": {
-            "enabled": false,
+            "enabled": true,
             "team_a_adj": 0,
             "team_b_adj": 0,
             "tactical_matchup": 0,
-            "description": "Not enabled / no signals"
+            "description": "Colombia: +0 | DR Congo: +0"
           },
           "6_manual": {
             "team_a_adj": 0,
@@ -736,24 +735,24 @@
         },
         "effective_elo": {
           "team_a": {
-            "base": 2074,
-            "effective": 2129,
-            "adjustments": 55
+            "base": 2084,
+            "effective": 2141,
+            "adjustments": 57
           },
           "team_b": {
-            "base": 1794,
-            "effective": 1784,
-            "adjustments": -10
+            "base": 1802,
+            "effective": 1794,
+            "adjustments": -8
           },
-          "diff": 345
+          "diff": 347
         },
         "prediction": {
           "model": "Poisson (Elo-based lambda)",
-          "team_a_win": 77.0,
+          "team_a_win": 77.1,
           "draw": 15.6,
           "team_b_win": 7.4,
           "most_likely_score": "2-0",
-          "expected_goals_a": 2.35,
+          "expected_goals_a": 2.36,
           "expected_goals_b": 0.57
         },
         "verdict": {
@@ -761,8 +760,8 @@
           "confidence": "high"
         },
         "reasoning": [
-          "ELO 优势 280 分，有明确的实力差距",
-          "多层调整后有效 ELO 差 +345（原始 +280）"
+          "ELO 优势 282 分，有明确的实力差距",
+          "多层调整后有效 ELO 差 +347（原始 +282）"
         ],
         "schedule": {
           "match_id": 48,

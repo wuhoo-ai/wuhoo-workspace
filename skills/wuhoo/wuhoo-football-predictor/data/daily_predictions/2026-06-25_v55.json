@@ -1,0 +1,1925 @@
+{
+  "date": "2026-06-25",
+  "engine": "v5.5",
+  "rules_version": "v1",
+  "generated": "2026-06-24T12:17:49.613528",
+  "matches": [
+    {
+      "team_a": "Switzerland",
+      "team_b": "Canada",
+      "verdict": {
+        "result": "倾向平局",
+        "confidence": "low"
+      },
+      "prediction": {
+        "model": "Poisson (Elo-based lambda)",
+        "team_a_win": 41.9,
+        "draw": 25.3,
+        "team_b_win": 32.8,
+        "most_likely_score": "1-1",
+        "expected_goals_a": 1.48,
+        "expected_goals_b": 1.28
+      },
+      "effective_elo": {
+        "team_a": {
+          "base": 1803,
+          "effective": 1907,
+          "adjustments": 104
+        },
+        "team_b": {
+          "base": 1826,
+          "effective": 1870,
+          "adjustments": 44
+        },
+        "diff": 37,
+        "engine_delta_a": 18,
+        "engine_delta_b": 14
+      },
+      "inference_trace": {
+        "team_a": {
+          "delta": 18,
+          "raw_sum": 34.6,
+          "saturated": true,
+          "trace": [
+            {
+              "rule_id": "BPP_001",
+              "rule_name": "半区路径偏好",
+              "priority": 12,
+              "condition": "team.classification == 'TOP_SEED' AND team.bpp_significant == True",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "BPP分析 — R32对阵路径ELO对比"
+            },
+            {
+              "rule_id": "MOT_003",
+              "rule_name": "出线动机 — TOP_SEED",
+              "priority": 15,
+              "condition": "team.classification == 'TOP_SEED'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 8,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 8.0,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.512,
+                  "reason": "正面累计饱和: 34.6→17.7"
+                }
+              ],
+              "final_value": 4.1,
+              "evidence": "QMF自动分类 — 头名之争"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 14,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 5.6,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.512,
+                  "reason": "正面累计饱和: 34.6→17.7"
+                }
+              ],
+              "final_value": 2.9,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 30,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 21.0,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.512,
+                  "reason": "正面累计饱和: 34.6→17.7"
+                }
+              ],
+              "final_value": 10.8,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        },
+        "team_b": {
+          "delta": 14,
+          "raw_sum": 14.3,
+          "saturated": false,
+          "trace": [
+            {
+              "rule_id": "BPP_001",
+              "rule_name": "半区路径偏好",
+              "priority": 12,
+              "condition": "team.classification == 'TOP_SEED' AND team.bpp_significant == True",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "BPP分析 — R32对阵路径ELO对比"
+            },
+            {
+              "rule_id": "MOT_003",
+              "rule_name": "出线动机 — TOP_SEED",
+              "priority": 15,
+              "condition": "team.classification == 'TOP_SEED'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 8,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 8.0,
+              "interactions_applied": [],
+              "final_value": 8.0,
+              "evidence": "QMF自动分类 — 头名之争"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 9,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 6.3,
+              "interactions_applied": [],
+              "final_value": 6.3,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        }
+      },
+      "reasoning_path": "\nSwitzerland (+18 ELO):\n  📋 半区路径偏好(+0, conf=medium×0.7) → +0.0\n     └ 证据: BPP分析 — R32对阵路径ELO对比\n  📋 出线动机 — TOP_SEED(+8, conf=high×1.0) → +8.0\n     ⚡ 饱和: ×0.512 → +4.1\n     └ 证据: QMF自动分类 — 头名之争\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+14, conf=low×0.4) → +5.6\n     ⚡ 饱和: ×0.512 → +2.9\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+30, conf=medium×0.7) → +21.0\n     ⚡ 饱和: ×0.512 → +10.8\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ⚡ 饱和: 正面累计=35 → sigmoid → +18\n  ────────────────────────────────────────\n  净调整: +18 ELO\n\nCanada (+14 ELO):\n  📋 半区路径偏好(+0, conf=medium×0.7) → +0.0\n     └ 证据: BPP分析 — R32对阵路径ELO对比\n  📋 出线动机 — TOP_SEED(+8, conf=high×1.0) → +8.0\n     └ 证据: QMF自动分类 — 头名之争\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+0, conf=low×0.4) → +0.0\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+9, conf=medium×0.7) → +6.3\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +14 ELO",
+      "schedule": {
+        "match_id": 49,
+        "date_et": "2026-06-24",
+        "time_et": "15:00",
+        "date_beijing": "2026-06-25",
+        "time_beijing": "03:00",
+        "group": "B",
+        "team_a": "Switzerland",
+        "team_b": "Canada",
+        "venue": "BC Place",
+        "matchday": 3,
+        "simultaneous": true
+      }
+    },
+    {
+      "team_a": "Bosnia and Herzegovina",
+      "team_b": "Qatar",
+      "verdict": {
+        "result": "倾向平局",
+        "confidence": "low"
+      },
+      "prediction": {
+        "model": "Poisson (Elo-based lambda)",
+        "team_a_win": 40.5,
+        "draw": 25.0,
+        "team_b_win": 34.5,
+        "most_likely_score": "1-1",
+        "expected_goals_a": 1.5,
+        "expected_goals_b": 1.36
+      },
+      "effective_elo": {
+        "team_a": {
+          "base": 1554,
+          "effective": 1569,
+          "adjustments": 15
+        },
+        "team_b": {
+          "base": 1511,
+          "effective": 1529,
+          "adjustments": 18
+        },
+        "diff": 40,
+        "engine_delta_a": 13,
+        "engine_delta_b": 15
+      },
+      "inference_trace": {
+        "team_a": {
+          "delta": 13,
+          "raw_sum": 12.9,
+          "saturated": false,
+          "trace": [
+            {
+              "rule_id": "MOT_002",
+              "rule_name": "出线动机 — MUST_WIN",
+              "priority": 15,
+              "condition": "team.classification == 'MUST_WIN'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 20,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 20.0,
+              "interactions_applied": [],
+              "final_value": 20.0,
+              "evidence": "QMF自动分类 — 落后出线区，必须赢球"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -37,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": -14.8,
+              "interactions_applied": [],
+              "final_value": -14.8,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 11,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 7.7,
+              "interactions_applied": [],
+              "final_value": 7.7,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        },
+        "team_b": {
+          "delta": 15,
+          "raw_sum": 31.9,
+          "saturated": true,
+          "trace": [
+            {
+              "rule_id": "MOT_002",
+              "rule_name": "出线动机 — MUST_WIN",
+              "priority": 15,
+              "condition": "team.classification == 'MUST_WIN'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 20,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 20.0,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.477,
+                  "reason": "正面累计饱和: 31.9→15.2"
+                }
+              ],
+              "final_value": 9.5,
+              "evidence": "QMF自动分类 — 落后出线区，必须赢球"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 17,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 11.9,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.477,
+                  "reason": "正面累计饱和: 31.9→15.2"
+                }
+              ],
+              "final_value": 5.7,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        }
+      },
+      "reasoning_path": "\nBosnia and Herzegovina (+13 ELO):\n  📋 出线动机 — MUST_WIN(+20, conf=high×1.0) → +20.0\n     └ 证据: QMF自动分类 — 落后出线区，必须赢球\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-37, conf=low×0.4) → -14.8\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+11, conf=medium×0.7) → +7.7\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +13 ELO\n\nQatar (+15 ELO):\n  📋 出线动机 — MUST_WIN(+20, conf=high×1.0) → +20.0\n     ⚡ 饱和: ×0.477 → +9.5\n     └ 证据: QMF自动分类 — 落后出线区，必须赢球\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+0, conf=low×0.4) → +0.0\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+17, conf=medium×0.7) → +11.9\n     ⚡ 饱和: ×0.477 → +5.7\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ⚡ 饱和: 正面累计=32 → sigmoid → +15\n  ────────────────────────────────────────\n  净调整: +15 ELO",
+      "schedule": {
+        "match_id": 50,
+        "date_et": "2026-06-24",
+        "time_et": "15:00",
+        "date_beijing": "2026-06-25",
+        "time_beijing": "03:00",
+        "group": "B",
+        "team_a": "Bosnia and Herzegovina",
+        "team_b": "Qatar",
+        "venue": "Levi's Stadium",
+        "matchday": 3,
+        "simultaneous": true
+      }
+    },
+    {
+      "team_a": "Scotland",
+      "team_b": "Brazil",
+      "verdict": {
+        "result": "巴西 胜（中置信度）",
+        "confidence": "medium"
+      },
+      "prediction": {
+        "model": "Poisson (Elo-based lambda)",
+        "team_a_win": 17.0,
+        "draw": 22.7,
+        "team_b_win": 60.3,
+        "most_likely_score": "0-1",
+        "expected_goals_a": 0.84,
+        "expected_goals_b": 1.81
+      },
+      "effective_elo": {
+        "team_a": {
+          "base": 1748,
+          "effective": 1803,
+          "adjustments": 55
+        },
+        "team_b": {
+          "base": 1978,
+          "effective": 2010,
+          "adjustments": 32
+        },
+        "diff": -207,
+        "engine_delta_a": 15,
+        "engine_delta_b": 19
+      },
+      "inference_trace": {
+        "team_a": {
+          "delta": 15,
+          "raw_sum": 31.8,
+          "saturated": true,
+          "trace": [
+            {
+              "rule_id": "MOT_005B",
+              "rule_name": "必胜动机 — 第三名缓冲覆写",
+              "priority": 5,
+              "condition": "team.classification == 'MUST_WIN' AND team.third_place_viable == True",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -10,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": -7.0,
+              "interactions_applied": [],
+              "final_value": -7.0,
+              "evidence": "第三名排名追踪 — 3pts+GD0~70%概率晋级"
+            },
+            {
+              "rule_id": "MOT_002",
+              "rule_name": "出线动机 — MUST_WIN",
+              "priority": 15,
+              "condition": "team.classification == 'MUST_WIN'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 20,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 20.0,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.563,
+                  "reason": "正面累计饱和: 38.8→21.8"
+                }
+              ],
+              "final_value": 11.3,
+              "evidence": "QMF自动分类 — 落后出线区，必须赢球"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 5,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 2.0,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.563,
+                  "reason": "正面累计饱和: 38.8→21.8"
+                }
+              ],
+              "final_value": 1.1,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 24,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 16.8,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.563,
+                  "reason": "正面累计饱和: 38.8→21.8"
+                }
+              ],
+              "final_value": 9.5,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        },
+        "team_b": {
+          "delta": 19,
+          "raw_sum": 19.4,
+          "saturated": false,
+          "trace": [
+            {
+              "rule_id": "MOT_003",
+              "rule_name": "出线动机 — TOP_SEED",
+              "priority": 15,
+              "condition": "team.classification == 'TOP_SEED'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 8,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 8.0,
+              "interactions_applied": [],
+              "final_value": 8.0,
+              "evidence": "QMF自动分类 — 头名之争"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 18,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 7.2,
+              "interactions_applied": [],
+              "final_value": 7.2,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 6,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 4.2,
+              "interactions_applied": [],
+              "final_value": 4.2,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        }
+      },
+      "reasoning_path": "\nScotland (+15 ELO):\n  📋 必胜动机 — 第三名缓冲覆写(-10, conf=medium×0.7) → -7.0\n     └ 证据: 第三名排名追踪 — 3pts+GD0~70%概率晋级\n  📋 出线动机 — MUST_WIN(+20, conf=high×1.0) → +20.0\n     ⚡ 饱和: ×0.563 → +11.3\n     └ 证据: QMF自动分类 — 落后出线区，必须赢球\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+5, conf=low×0.4) → +2.0\n     ⚡ 饱和: ×0.563 → +1.1\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+24, conf=medium×0.7) → +16.8\n     ⚡ 饱和: ×0.563 → +9.5\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ⚡ 饱和: 正面累计=39 → sigmoid → +15\n  ────────────────────────────────────────\n  净调整: +15 ELO\n\nBrazil (+19 ELO):\n  📋 出线动机 — TOP_SEED(+8, conf=high×1.0) → +8.0\n     └ 证据: QMF自动分类 — 头名之争\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+18, conf=low×0.4) → +7.2\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+6, conf=medium×0.7) → +4.2\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +19 ELO",
+      "schedule": {
+        "match_id": 51,
+        "date_et": "2026-06-24",
+        "time_et": "18:00",
+        "date_beijing": "2026-06-25",
+        "time_beijing": "06:00",
+        "group": "C",
+        "team_a": "Scotland",
+        "team_b": "Brazil",
+        "venue": "MetLife Stadium",
+        "matchday": 3,
+        "simultaneous": true
+      }
+    },
+    {
+      "team_a": "Morocco",
+      "team_b": "Haiti",
+      "verdict": {
+        "result": "摩洛哥 胜（高置信度）",
+        "confidence": "high"
+      },
+      "prediction": {
+        "model": "Poisson (Elo-based lambda)",
+        "team_a_win": 81.8,
+        "draw": 12.5,
+        "team_b_win": 5.6,
+        "most_likely_score": "2-0",
+        "expected_goals_a": 2.71,
+        "expected_goals_b": 0.57
+      },
+      "effective_elo": {
+        "team_a": {
+          "base": 2031,
+          "effective": 2102,
+          "adjustments": 71
+        },
+        "team_b": {
+          "base": 1347,
+          "effective": 1372,
+          "adjustments": 25
+        },
+        "diff": 730,
+        "engine_delta_a": 10,
+        "engine_delta_b": -9
+      },
+      "inference_trace": {
+        "team_a": {
+          "delta": 10,
+          "raw_sum": 26.5,
+          "saturated": true,
+          "trace": [
+            {
+              "rule_id": "MOT_003",
+              "rule_name": "出线动机 — TOP_SEED",
+              "priority": 15,
+              "condition": "team.classification == 'TOP_SEED'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 8,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 8.0,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.485,
+                  "reason": "正面累计饱和: 32.5→15.8"
+                }
+              ],
+              "final_value": 3.9,
+              "evidence": "QMF自动分类 — 头名之争"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -15,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": -6.0,
+              "interactions_applied": [],
+              "final_value": -6.0,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 35,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 24.5,
+              "interactions_applied": [
+                {
+                  "type": "saturation",
+                  "scale": 0.485,
+                  "reason": "正面累计饱和: 32.5→15.8"
+                }
+              ],
+              "final_value": 11.9,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        },
+        "team_b": {
+          "delta": -9,
+          "raw_sum": -9.1,
+          "saturated": false,
+          "trace": [
+            {
+              "rule_id": "MOT_006",
+              "rule_name": "出线动机 — PRIDE_ONLY",
+              "priority": 15,
+              "condition": "team.classification == 'PRIDE_ONLY'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -5,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": -5.0,
+              "interactions_applied": [],
+              "final_value": -5.0,
+              "evidence": "QMF自动分类 — 已提前淘汰"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -26,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": -10.4,
+              "interactions_applied": [],
+              "final_value": -10.4,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 9,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 6.3,
+              "interactions_applied": [],
+              "final_value": 6.3,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        }
+      },
+      "reasoning_path": "\nMorocco (+10 ELO):\n  📋 出线动机 — TOP_SEED(+8, conf=high×1.0) → +8.0\n     ⚡ 饱和: ×0.485 → +3.9\n     └ 证据: QMF自动分类 — 头名之争\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-15, conf=low×0.4) → -6.0\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+35, conf=medium×0.7) → +24.5\n     ⚡ 饱和: ×0.485 → +11.9\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ⚡ 饱和: 正面累计=32 → sigmoid → +10\n  ────────────────────────────────────────\n  净调整: +10 ELO\n\nHaiti (-9 ELO):\n  📋 出线动机 — PRIDE_ONLY(-5, conf=high×1.0) → -5.0\n     └ 证据: QMF自动分类 — 已提前淘汰\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-26, conf=low×0.4) → -10.4\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+9, conf=medium×0.7) → +6.3\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: -9 ELO",
+      "schedule": {
+        "match_id": 52,
+        "date_et": "2026-06-24",
+        "time_et": "18:00",
+        "date_beijing": "2026-06-25",
+        "time_beijing": "06:00",
+        "group": "C",
+        "team_a": "Morocco",
+        "team_b": "Haiti",
+        "venue": "Lincoln Financial Field",
+        "matchday": 3,
+        "simultaneous": true
+      }
+    },
+    {
+      "team_a": "Czech Republic",
+      "team_b": "Mexico",
+      "verdict": {
+        "result": "墨西哥 胜（高置信度）",
+        "confidence": "high"
+      },
+      "prediction": {
+        "model": "Poisson (Elo-based lambda)",
+        "team_a_win": 5.8,
+        "draw": 12.7,
+        "team_b_win": 81.5,
+        "most_likely_score": "0-2",
+        "expected_goals_a": 0.58,
+        "expected_goals_b": 2.69
+      },
+      "effective_elo": {
+        "team_a": {
+          "base": 1446,
+          "effective": 1471,
+          "adjustments": 25
+        },
+        "team_b": {
+          "base": 2144,
+          "effective": 2217,
+          "adjustments": 73
+        },
+        "diff": -746,
+        "engine_delta_a": 25,
+        "engine_delta_b": 14
+      },
+      "inference_trace": {
+        "team_a": {
+          "delta": 25,
+          "raw_sum": 24.8,
+          "saturated": false,
+          "trace": [
+            {
+              "rule_id": "MOT_002",
+              "rule_name": "出线动机 — MUST_WIN",
+              "priority": 15,
+              "condition": "team.classification == 'MUST_WIN'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 20,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 20.0,
+              "interactions_applied": [],
+              "final_value": 20.0,
+              "evidence": "QMF自动分类 — 落后出线区，必须赢球"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -9,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": -3.6,
+              "interactions_applied": [],
+              "final_value": -3.6,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 12,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 8.4,
+              "interactions_applied": [],
+              "final_value": 8.4,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        },
+        "team_b": {
+          "delta": 14,
+          "raw_sum": 14.5,
+          "saturated": false,
+          "trace": [
+            {
+              "rule_id": "MOT_003",
+              "rule_name": "出线动机 — TOP_SEED",
+              "priority": 15,
+              "condition": "team.classification == 'TOP_SEED'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 8,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 8.0,
+              "interactions_applied": [],
+              "final_value": 8.0,
+              "evidence": "QMF自动分类 — 头名之争"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -10,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": -4.0,
+              "interactions_applied": [],
+              "final_value": -4.0,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 15,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 10.5,
+              "interactions_applied": [],
+              "final_value": 10.5,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        }
+      },
+      "reasoning_path": "\nCzech Republic (+25 ELO):\n  📋 出线动机 — MUST_WIN(+20, conf=high×1.0) → +20.0\n     └ 证据: QMF自动分类 — 落后出线区，必须赢球\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-9, conf=low×0.4) → -3.6\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+12, conf=medium×0.7) → +8.4\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +25 ELO\n\nMexico (+14 ELO):\n  📋 出线动机 — TOP_SEED(+8, conf=high×1.0) → +8.0\n     └ 证据: QMF自动分类 — 头名之争\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-10, conf=low×0.4) → -4.0\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+15, conf=medium×0.7) → +10.5\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +14 ELO",
+      "schedule": {
+        "match_id": 53,
+        "date_et": "2026-06-24",
+        "time_et": "21:00",
+        "date_beijing": "2026-06-25",
+        "time_beijing": "09:00",
+        "group": "A",
+        "team_a": "Czech Republic",
+        "team_b": "Mexico",
+        "venue": "Estadio Akron",
+        "matchday": 3,
+        "simultaneous": true
+      }
+    },
+    {
+      "team_a": "South Africa",
+      "team_b": "South Korea",
+      "verdict": {
+        "result": "韩国 胜（高置信度）",
+        "confidence": "high"
+      },
+      "prediction": {
+        "model": "Poisson (Elo-based lambda)",
+        "team_a_win": 6.7,
+        "draw": 13.7,
+        "team_b_win": 79.6,
+        "most_likely_score": "0-2",
+        "expected_goals_a": 0.62,
+        "expected_goals_b": 2.62
+      },
+      "effective_elo": {
+        "team_a": {
+          "base": 1455,
+          "effective": 1415,
+          "adjustments": -40
+        },
+        "team_b": {
+          "base": 1815,
+          "effective": 1829,
+          "adjustments": 14
+        },
+        "diff": -414,
+        "engine_delta_a": 21,
+        "engine_delta_b": 24
+      },
+      "inference_trace": {
+        "team_a": {
+          "delta": 21,
+          "raw_sum": 21.3,
+          "saturated": false,
+          "trace": [
+            {
+              "rule_id": "MOT_002",
+              "rule_name": "出线动机 — MUST_WIN",
+              "priority": 15,
+              "condition": "team.classification == 'MUST_WIN'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 20,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 20.0,
+              "interactions_applied": [],
+              "final_value": 20.0,
+              "evidence": "QMF自动分类 — 落后出线区，必须赢球"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -2,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": -0.8,
+              "interactions_applied": [],
+              "final_value": -0.8,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 3,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 2.1,
+              "interactions_applied": [],
+              "final_value": 2.1,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        },
+        "team_b": {
+          "delta": 24,
+          "raw_sum": 23.5,
+          "saturated": false,
+          "trace": [
+            {
+              "rule_id": "MOT_005",
+              "rule_name": "出线动机 — DRAW_OK",
+              "priority": 15,
+              "condition": "team.classification == 'DRAW_OK'",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": -5,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": -5.0,
+              "interactions_applied": [],
+              "final_value": -5.0,
+              "evidence": "QMF自动分类"
+            },
+            {
+              "rule_id": "FRM_001",
+              "rule_name": "热身赛状态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+            },
+            {
+              "rule_id": "TFM_001",
+              "rule_name": "锦标赛形态",
+              "priority": 18,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 17,
+              "confidence": "low",
+              "confidence_factor": 0.4,
+              "preliminary_value": 6.8,
+              "interactions_applied": [],
+              "final_value": 6.8,
+              "evidence": "随机抽样的锦标赛形态波动"
+            },
+            {
+              "rule_id": "WEA_001",
+              "rule_name": "天气因子",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Open-Meteo API — 比赛日预报"
+            },
+            {
+              "rule_id": "DEN_001",
+              "rule_name": "赛程密度",
+              "priority": 22,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "Haversine距离+休息天数计算"
+            },
+            {
+              "rule_id": "VEN_001",
+              "rule_name": "场馆效应",
+              "priority": 25,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "venues.json — 16场馆数据"
+            },
+            {
+              "rule_id": "COA_001",
+              "rule_name": "教练/磨合因子",
+              "priority": 30,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 31,
+              "confidence": "medium",
+              "confidence_factor": 0.7,
+              "preliminary_value": 21.7,
+              "interactions_applied": [],
+              "final_value": 21.7,
+              "evidence": "team_metadata.json — 静态元数据"
+            },
+            {
+              "rule_id": "MAN_001",
+              "rule_name": "手动调整",
+              "priority": 100,
+              "condition": "",
+              "evaluated": true,
+              "action_type": "elo_adjust",
+              "base_value": 0,
+              "confidence": "high",
+              "confidence_factor": 1.0,
+              "preliminary_value": 0.0,
+              "interactions_applied": [],
+              "final_value": 0.0,
+              "evidence": "manual_adjustments.json"
+            }
+          ]
+        }
+      },
+      "reasoning_path": "\nSouth Africa (+21 ELO):\n  📋 出线动机 — MUST_WIN(+20, conf=high×1.0) → +20.0\n     └ 证据: QMF自动分类 — 落后出线区，必须赢球\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-2, conf=low×0.4) → -0.8\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+3, conf=medium×0.7) → +2.1\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +21 ELO\n\nSouth Korea (+24 ELO):\n  📋 出线动机 — DRAW_OK(-5, conf=high×1.0) → -5.0\n     └ 证据: QMF自动分类\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+17, conf=low×0.4) → +6.8\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+31, conf=medium×0.7) → +21.7\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +24 ELO",
+      "schedule": {
+        "match_id": 54,
+        "date_et": "2026-06-24",
+        "time_et": "21:00",
+        "date_beijing": "2026-06-25",
+        "time_beijing": "09:00",
+        "group": "A",
+        "team_a": "South Africa",
+        "team_b": "South Korea",
+        "venue": "Estadio Azteca",
+        "matchday": 3,
+        "simultaneous": true
+      }
+    }
+  ]
+}

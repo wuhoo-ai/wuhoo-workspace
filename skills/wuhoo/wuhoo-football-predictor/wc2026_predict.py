@@ -1584,7 +1584,8 @@ def _find_team_canonical(name, all_teams=None):
     return None
 
 def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
-                         manual_adjustments=None, knockout=False, match_id=None):
+                         manual_adjustments=None, knockout=False, match_id=None,
+                         matchday=None, motivation_data=None):
     """Predict a single match with full audit trail.
 
     Args:
