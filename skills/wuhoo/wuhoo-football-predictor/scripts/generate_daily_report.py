@@ -250,6 +250,9 @@ def build_match_section(match_data, idx, injuries_db, rss_articles):
     pred = audit['prediction']
     verdict = audit['verdict']
     eff = audit['effective_elo']
+    reasoning_path = audit.get('reasoning_path', '')
+    inference_trace = audit.get('inference_trace', {})
+    is_engine = audit.get('inference_engine', False)
     reasoning = audit.get('reasoning', [])
 
     ta = audit['team_a']
@@ -423,8 +426,23 @@ def build_match_section(match_data, idx, injuries_db, rss_articles):
     L.append(f"  {'-'*30}")
     L.append(f"  有效ELO       {ea['effective']:<5d}     {eb['effective']:<5d}")
     L.append(f"  有效差                  {eff['diff']:+d}")
+    # v5.5 engine deltas
+    engine_da = eff.get('engine_delta_a', 0)
+    engine_db = eff.get('engine_delta_b', 0)
+    if engine_da or engine_db:
+        L.append(f"  🧠引擎增量              {engine_da:+d}       {engine_db:+d}")
     L.append("```")
     L.append("")
+    
+    # QMF motivation badge
+    l25 = layers.get('2.5_motivation', {})
+    if l25.get('team_a_classification') or l25.get('team_b_classification'):
+        cls_a = l25.get('team_a_classification', '-')
+        cls_b = l25.get('team_b_classification', '-')
+        adj_a = l25.get('team_a_adjustment', 0)
+        adj_b = l25.get('team_b_adjustment', 0)
+        L.append(f"**🎯 MD3动机**: {na} `{cls_a}`({adj_a:+d}) | {nb} `{cls_b}`({adj_b:+d})")
+        L.append("")
 
     # Prediction
     conf = {'high':'[HIGH]','medium':'[MED]','low':'[LOW]'}.get(verdict['confidence'],'[?]')
@@ -441,6 +459,20 @@ def build_match_section(match_data, idx, injuries_db, rss_articles):
     L.append("")
 
     # Reasoning with Chinese RSS insight
+    if is_engine and reasoning_path:
+        L.append("#### [v5.5 推理路径]")
+        for line in reasoning_path.split('\n')[:30]:  # Limit to 30 lines
+            stripped = line.strip()
+            if stripped:
+                # Indent trace lines for readability
+                if stripped.startswith('📋') or stripped.startswith('├') or stripped.startswith('└') or stripped.startswith('⚡'):
+                    L.append(f"  {stripped}")
+                elif stripped.startswith('─') or stripped.startswith('净调整'):
+                    L.append(f"  {stripped}")
+                else:
+                    L.append(stripped)
+        L.append("")
+    
     if reasoning:
         L.append("#### [推理逻辑]")
         for i, r in enumerate(reasoning, 1):
