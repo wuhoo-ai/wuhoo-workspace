@@ -151,11 +151,39 @@ def main():
     os.makedirs(pred_dir, exist_ok=True)
 
     predictions_data = {
+        'date_beijing': today_str,
         'generated': datetime.now().isoformat(),
-        'n_matches': len(matches),
+        'total_matches': len(matches),
         'news_enabled': enable_news,
-        'matches': all_audits,
+        'predictions': [],
+        'matches': all_audits,  # raw audit for debugging
     }
+    
+    # Build flattened predictions with scoreline_probs
+    for audit_entry in all_audits:
+        audit = audit_entry.get('audit', {})
+        sched = audit_entry.get('schedule', {})
+        pred = audit.get('prediction', {})
+        flat = {
+            'match_id': audit_entry.get('match_id', '?'),
+            'team_a': audit.get('team_a', '?'),
+            'team_b': audit.get('team_b', '?'),
+            'venue': audit.get('venue', ''),
+            'group': sched.get('group', None),
+            'matchday': sched.get('matchday', None),
+            'time_beijing': sched.get('time_beijing', ''),
+            'team_a_win_pct': pred.get('team_a_win', 0),
+            'draw_pct': pred.get('draw', 0),
+            'team_b_win_pct': pred.get('team_b_win', 0),
+            'most_likely_score': pred.get('most_likely_score', '?'),
+            'expected_goals_a': pred.get('expected_goals_a', 0),
+            'expected_goals_b': pred.get('expected_goals_b', 0),
+            'scoreline_probs': pred.get('scoreline_probs', []),  # v5.7: Poisson score distribution
+            'verdict': audit.get('verdict', {}).get('result', '?') if isinstance(audit.get('verdict'), dict) else str(audit.get('verdict', '?')),
+            'confidence': audit.get('verdict', {}).get('confidence', 'low') if isinstance(audit.get('verdict'), dict) else 'low',
+            'error': audit_entry.get('error', None),
+        }
+        predictions_data['predictions'].append(flat)
 
     pred_path = os.path.join(pred_dir, f'{today_str}.json')
     with open(pred_path, 'w') as f:

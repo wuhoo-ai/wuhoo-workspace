@@ -1,0 +1,698 @@
+{
+  "France": {
+    "formation": "4-2-3-1 / 4-3-3",
+    "coach": "Didier Deschamps (执教第14年)",
+    "style_summary": "攻守平衡的锦标赛型球队，强调战术纪律和快速转换。防守时紧凑的4-4-2 block，进攻时通过Mbappé和Dembélé的边路爆发力+Olise的中路创造力撕裂防线。",
+    "attacking": "快速纵向推进，两翼齐飞+中路渗透。Mbappé左路内切、Dembélé右路下底传中，Olise/Cherki担任10号位串联。进攻转换速度极快，3-4脚传球从后场到射门。",
+    "defensive": "4-4-2中位防守block，Tchouaméni扫荡中路。边后卫不过度前压，保持防线完整性。定位球防守纪律严明。",
+    "strengths": [
+      "转换进攻世界顶级",
+      "Mbappé单点爆破能力",
+      "大赛经验丰富(连续两届决赛)",
+      "防守组织纪律性强",
+      "板凳深度极深"
+    ],
+    "weaknesses": [
+      "阵地战破密集能力一般",
+      "中场创造力过度依赖Olise",
+      "边后卫助攻后空档",
+      "偶尔过度保守"
+    ],
+    "key_players": [
+      "Kylian Mbappé (FW)",
+      "Michael Olise (AM)",
+      "Aurélien Tchouaméni (DM)",
+      "Ousmane Dembélé (RW)",
+      "William Saliba (CB)"
+    ],
+    "set_pieces": "定位球威胁中等，Mbappé主罚任意球，角球依靠Saliba/Konaté空中优势。",
+    "transitions": "由守转攻世界顶级—Tchouaméni抢断→直塞Mbappé/Dembélé→3秒内形成射门。由攻转守纪律严明，前场就地反抢，中后场快速回位。",
+    "tournament_form_note": "小组赛3场全胜(3-1葡萄牙/3-0伊拉克/4-1新西兰)，xG=2.67/场，攻防两端统治级表现。"
+  },
+  "Sweden": {
+    "formation": "4-4-2 / 4-2-3-1",
+    "coach": "Janne Andersson",
+    "style_summary": "北欧传统身体对抗+直接进攻风格，依赖双前锋的空中优势和身体对抗。不是控球型球队，通过长传和定位球制造威胁。",
+    "attacking": "直接高效，边路传中+长传找双前锋头顶。Gyökeres负责抢点和做球，Isak回撤串联。边前卫冲击力强，主打身体对抗。",
+    "defensive": "紧凑的4-4-2两条防线，压缩中路空间，允许对手边路传中但限制中路渗透。身体对抗强硬，空中防守有优势。",
+    "strengths": [
+      "双前锋身体素质顶级",
+      "定位球进攻威胁大",
+      "防守组织纪律性强",
+      "北欧式硬朗风格难以对付"
+    ],
+    "weaknesses": [
+      "中场创造力不足",
+      "阵地战破门手段单一",
+      "后防核心Hien重伤缺阵⚠️",
+      "对技术型球队容易被控制节奏"
+    ],
+    "key_players": [
+      "Viktor Gyökeres (FW)",
+      "Alexander Isak (FW)",
+      "Dejan Kulusevski (RW)",
+      "Isak Hien (CB) ⚠️重伤缺阵"
+    ],
+    "set_pieces": "头号武器—Gyökeres和Hien(缺阵)是主要空中威胁。角球/任意球传中制造混乱。Hien缺阵后空中威胁减弱。",
+    "transitions": "由守转攻以长传为主，直接找前锋头顶，不经过中场过渡。由攻转守回防速度偏慢，边后卫助攻后空档大。",
+    "tournament_form_note": "小组赛1胜1平1负，从堪萨斯城飞1747km到纽约，旅途消耗大。"
+  },
+  "Norway": {
+    "formation": "4-3-3 灵活切换 3-5-2",
+    "coach": "Ståle Solbakken",
+    "style_summary": "以Erling Haaland为绝对核心的北欧力量型球队。实战中常切换为3-5-2，让Haaland和Sørloth双塔接近球门。左路Nusa突破、右路Ryerson前插助攻，中场Ødegaard组织创造。",
+    "attacking": "两翼驱动—Nusa左路内切突破、Ryerson右路前插传中。Ødegaard负责最后一传，双前锋Haaland+Sørloth禁区终结。快速边路推进→传中/倒三角是主要进攻模式。",
+    "defensive": "后场4-3-3转3-5-2防守，中场人数优势。Ostigard和Ajer组成高大中卫搭档，防空能力出色。边翼卫回撤形成5后卫防线。",
+    "strengths": [
+      "Haaland禁区终结能力(S级)",
+      "双前锋空中+地面全覆盖",
+      "Ødegaard创造力(传球成功率87%)",
+      "边翼卫助攻能力强",
+      "定位球空中威胁"
+    ],
+    "weaknesses": [
+      "防线转身速度慢",
+      "中场覆盖面积大但缺乏速度",
+      "Haaland被锁死时没有B计划",
+      "大赛经验不足(28年未参赛)"
+    ],
+    "key_players": [
+      "Erling Haaland (FW)",
+      "Martin Ødegaard (AM)",
+      "Antonio Nusa (LW)",
+      "Julian Ryerson (RB)",
+      "Alexander Sørloth (FW)"
+    ],
+    "set_pieces": "巨大威胁—Haaland+Sørloth+Ostigard三高塔，角球/任意球传中是主要得分手段之一。Ødegaard精准的左脚传中。",
+    "transitions": "由守转攻依靠Nusa边路推进+Ødegaard快速出球。由攻转守Solbakken要求前场3人就地反抢，但Haaland防守参与度有限。",
+    "tournament_form_note": "小组赛表现稳健，防守端连续零封弱队。26年来首次世界杯正赛。"
+  },
+  "Ivory Coast": {
+    "formation": "4-3-3",
+    "coach": "Emerse Faé",
+    "style_summary": "非洲力量型足球代表—身体对抗+速度爆发+个人能力。4-3-3阵型以Sangaré为防守支点，两翼Adingra/Diakité依靠速度和盘带撕破防线，Haller禁区抢点。",
+    "attacking": "边路驱动—Adingra左路速度突破、Diakité右路内切。中场Kessié前插禁区增加抢点人数。快速反击是最有效武器。",
+    "defensive": "Sangaré单后腰防守覆盖面大，身体对抗强硬。定位球防守有时注意力不集中。",
+    "strengths": [
+      "身体对抗优势明显",
+      "边路速度爆发力顶级",
+      "快速反击威胁大",
+      "非洲杯冠军经验"
+    ],
+    "weaknesses": [
+      "战术纪律性不足",
+      "阵地战组织能力弱",
+      "防线容易犯错",
+      "过度依赖个人能力"
+    ],
+    "key_players": [
+      "Sébastien Haller (FW)",
+      "Franck Kessié (CM)",
+      "Ibrahim Sangaré (DM)",
+      "Simon Adingra (LW)"
+    ],
+    "set_pieces": "Haller是主要空中目标，Kessié远射能力强。角球/任意球传中是破密集的重要补充手段。",
+    "transitions": "由守转攻依靠边路速度快速推进。由攻转守回防积极性尚可但阵型散乱，Sangaré常需1v2补位。",
+    "tournament_form_note": "小组赛表现中规中矩，依靠身体对抗拿分。对阵技术型球队容易失控。"
+  },
+  "Mexico": {
+    "formation": "4-3-3 灵活切换 3-2-5",
+    "coach": "Javier Aguirre (三度执教)",
+    "style_summary": "东道主球队，战术灵活多变。控球时切换3-2-5前场超载，无球时5-3-2/5-4-1低位防守。依靠边路1v1和定位球得分，Jiménez空中威胁巨大。",
+    "attacking": "多变战术—3-2-5前场5人超载+边锋1v1突破传中；4-2-1-3后场出球快速直接，Jiménez空中支点。远射+定位球+反击综合打法。",
+    "defensive": "5-3-2/5-4-1双模式低位防守，压缩中路，限制对手中路渗透。定位球防守纪律严明。",
+    "strengths": [
+      "战术灵活性极强(阵型多变)",
+      "Jiménez空中支点+终结",
+      "定位球进攻(金杯赛5球)",
+      "主场优势(墨西哥城海拔2240m)",
+      "Aguirre执教经验丰富"
+    ],
+    "weaknesses": [
+      "面对控球型强队被动",
+      "防守转换时被反击打穿",
+      "中场控制力不足",
+      "边后卫回防慢"
+    ],
+    "key_players": [
+      "Raúl Jiménez (FW)",
+      "Edson Álvarez (DM)",
+      "Santiago Giménez (FW)",
+      "Johan Vásquez (CB)"
+    ],
+    "set_pieces": "核心武器—金杯赛定位球进5球(赛事第一)。Jiménez空中终结+Álvarez远射。每场比赛定位球是战术重点。",
+    "transitions": "前场高位压迫凶狠，抢断后快速反击。但被断球后回防阵型松散，容易被反击惩罚。",
+    "tournament_form_note": "小组赛大胜积累大量正面ELO(+67)，但对手偏弱，淘汰赛检验真实水平。主场作战士气加成。"
+  },
+  "Ecuador": {
+    "formation": "4-2-3-1 / 4-3-3",
+    "coach": "Sebastián Beccacece",
+    "style_summary": "南美最有运动能力的球队之一，高位压迫+快速转换是核心打法。Caicedo中场全覆盖+Paéz创造力+Valencia经验加持，高原主场(基多2850m)培养出的强悍体能。",
+    "attacking": "Paéz担任10号位创造核心，两翼依靠速度突破。Valencia前锋支点+跑位，反击速度极快。中场Caicedo后插上远射。",
+    "defensive": "高位压迫+密集防守，Caicedo中场拦截覆盖面极大。Hincapié+Pacho中卫搭档兼具速度和身体。",
+    "strengths": [
+      "高位压迫强度大",
+      "Caicedo中场统治力(S级)",
+      "Paéz创造力(18岁天才)",
+      "体能优势(南美高原出身)",
+      "防守反击高效"
+    ],
+    "weaknesses": [
+      "缺乏世界杯淘汰赛经验",
+      "阵地战破门手段有限",
+      "Valencia年龄偏大(37岁)",
+      "右后卫攻击力弱",
+      "面对顶级强队被动"
+    ],
+    "key_players": [
+      "Moisés Caicedo (DM)",
+      "Kendry Páez (AM)",
+      "Enner Valencia (FW)",
+      "Piero Hincapié (CB)",
+      "Willian Pacho (CB)"
+    ],
+    "set_pieces": "Caicedo远射+Valencia头球，定位球有一定威胁但非主要武器。",
+    "transitions": "由守转攻速度极快，Caicedo抢断→直塞Paéz→Valencia形成反击。高位压迫断球后直接转换进攻。由攻转守反抢积极。",
+    "tournament_form_note": "小组赛表现超出预期，从高原到平原适应后体能储备有优势。"
+  },
+  "Belgium": {
+    "formation": "3-4-2-1 / 4-2-3-1 (灵活切换)",
+    "coach": "Rudi Garcia (2025年1月上任, 执教900+场俱乐部比赛)",
+    "style_summary": "高位压迫+快速转换的高节奏进攻型球队。Garcia赋予球队战术灵活性——对强队用3-4-2-1三中卫保防守，对弱队用4-2-3-1双核驱动。从2018-2023长期霸占FIFA排名第一的'黄金一代'过渡到新老结合阵容。",
+    "attacking": "De Bruyne担任前场组织核心，两翼Doku(左路内切爆破)和Trossard/Lukebakio提供宽度。Lukaku禁区支点+终结。进攻转换极快，3-4脚传球从后场到射门。预选赛场均3.63球，Doku(5球)和De Bruyne(6球)是主要得分点。",
+    "defensive": "3-4-2-1阵型中退防为5-4-1block，依赖Onana中场扫荡。4-2-3-1时Tielemans+Onana双后腰屏障。边后卫助攻后空档是明显弱点——预选赛对阵威尔士两场丢5球暴露防守转换问题。",
+    "strengths": [
+      "De Bruyne世界级传球视野和创造力",
+      "Doku边路一对一爆破能力(S级)",
+      "Lukaku禁区终结+支点作用",
+      "Courtois世界顶级门将",
+      "进攻转换速度极快",
+      "战术体系灵活多变(两套阵型)"
+    ],
+    "weaknesses": [
+      "防线年龄偏大, 转身速度慢",
+      "防守转换时边路空档大",
+      "De Bruyne 2025年末大腿重伤后状态不确定",
+      "黄金一代老去, 更新换代中",
+      "对阵低block球队阵地战破门手段有限"
+    ],
+    "key_players": [
+      "Kevin De Bruyne (AM, Napoli)",
+      "Romelu Lukaku (FW, Napoli)",
+      "Jeremy Doku (LW, Man City)",
+      "Thibaut Courtois (GK, Real Madrid)",
+      "Amadou Onana (DM, Aston Villa)",
+      "Youri Tielemans (CM, Aston Villa)"
+    ],
+    "set_pieces": "De Bruyne主罚任意球/角球精度顶级。Lukaku和Onana空中威胁大。定位球是破密集防守的重要武器。Courtois防空范围覆盖整个禁区。",
+    "transitions": "由守转攻世界顶级——Onana/Tielemans抢断→直塞De Bruyne→分边Doku或找Lukaku→3秒内形成射门。由攻转守纪律性不足——边后卫前压后回追慢，双后腰补位覆盖不够。",
+    "tournament_form_note": "小组赛表现稳健，预选赛不败(5胜3平)。首战对阵埃及检验防守成色。"
+  },
+  "Senegal": {
+    "formation": "4-3-3 (高位压迫) / 4-2-3-1",
+    "coach": "Pape Thiaw",
+    "style_summary": "紧凑防守+快速反击的非洲劲旅。以中场双Gueye的破坏力为基础，Mane左路内切驱动进攻。无球时难以被中路穿透，抢断后转换极快。2025非洲杯冠军(后因决赛争议被剥夺)，有过硬的锦标赛经验。",
+    "attacking": "Mane从左路内切制造威胁，Ndiaye/Mbaye在右路类似角色，边后卫提供宽度。双Gueye中场抢断后快速直塞，Koulibaly经常长传找前锋身后。非洲杯61.1%控球率(第2)，创造24次绝佳机会(第2)。",
+    "defensive": "高位压迫或中位block，双Gueye中场拦截—Idrissa Gueye破坏节奏，Pape Gueye覆盖+远射。后卫线纪律严明，Koulibaly领导人。定位球防守有时注意力不集中。",
+    "strengths": [
+      "中场双Gueye破坏力(A+级)",
+      "Mane左路内切射门+造点",
+      "防守组织紧凑难以被中路穿透",
+      "抢断后转换速度快",
+      "非洲杯冠军经验(2025)",
+      "Koulibaly长传发动进攻"
+    ],
+    "weaknesses": [
+      "被给予球权时需要主动进攻，不适应",
+      "后场过度控球时被高压逼抢断球",
+      "右路创造力不如左路(Mane)",
+      "先进球后被追平的心理韧性",
+      "对欧洲技术型强队胜率低"
+    ],
+    "key_players": [
+      "Sadio Mane (LW, Al Nassr)",
+      "Idrissa Gueye (DM, Everton)",
+      "Pape Gueye (CM, Villarreal)",
+      "Kalidou Koulibaly (CB, Al Hilal)",
+      "Edouard Mendy (GK, Al Ahli)"
+    ],
+    "set_pieces": "Koulibaly空中优势明显，Mane主罚点球(19罚16中/近9罚全中)。角球/任意球传中是破密集的重要补充。Pape Gueye有远射能力(AFCON决赛制胜球)。",
+    "transitions": "由守转攻依靠Gueye抢断→快速直塞找Mane/Ndiaye边路突破。Koulibaly长传精准，经常直接找前锋身后。由攻转守反抢积极，但高位压迫被破解时后场空间大。",
+    "tournament_form_note": "小组赛从死亡之组(法国/挪威/伊拉克)出线。AFCON冠军+世界杯R16经验。"
+  },
+  "USA": {
+    "formation": "3-4-3 (控球) / 4-4-2 (防守) / 4-2-3-1",
+    "coach": "Mauricio Pochettino",
+    "style_summary": "Pochettino打造的战术猛兽——控球时3-2-5前场超载，无球时4-4-2高位压迫。追求高强度+快节奏+垂直进攻。对阵巴拉圭4-1展现了Poch体系的全部潜力：半空间跑位、后卫带球推进、锋线多点开花。东道主身份加持。",
+    "attacking": "控球时3-2-5结构—Robinson/Dest两翼齐飞、Pulisic左路内切、Tillman/Balogun禁区终结。强调半空间跑动和快速传切。McKennie后插上禁区增加抢点人数。前场压迫断球后直接转换进攻。",
+    "defensive": "无球时4-4-1-1或4-4-2，Adams单后腰扫荡，McKennie覆盖。高位防线+造越位，但面对速度型前锋有被反击惩罚的风险。Tim Ream年龄偏大(38岁)是防线隐患。",
+    "strengths": [
+      "Pochettino战术体系灵活多变",
+      "Pulisic创造力和关键传球",
+      "Dest右路进攻输出(15次助攻)",
+      "McKennie中场强度+后插上",
+      "前场压迫强度大",
+      "东道主主场优势"
+    ],
+    "weaknesses": [
+      "防线转身速度(Tim Ream 38岁)",
+      "定位球防守注意力不集中",
+      "面对顶级速度型前锋被反击",
+      "Pulisic依赖度高(伤缺时进攻下降)",
+      "中场控制力不如欧洲顶级球队"
+    ],
+    "key_players": [
+      "Christian Pulisic (LW, AC Milan)",
+      "Sergino Dest (RB/RW, PSV)",
+      "Weston McKennie (CM, Juventus)",
+      "Antonee Robinson (LB, Fulham)",
+      "Tyler Adams (DM, Bournemouth)",
+      "Folarin Balogun (FW, Monaco)"
+    ],
+    "set_pieces": "Pulisic主罚任意球/角球，Robinson左路传中精准。McKennie和Balogun空中威胁中等。定位球非主要得分手段但偶有建树。",
+    "transitions": "前场压迫断球后快速纵向推进，强调直接进攻。Dest/Robinson边路推进速度极快。由攻转守压力大时Adams和McKennie快速回补，但高位防线一旦被穿透难以补救。",
+    "tournament_form_note": "小组赛3场全胜(含4-1巴拉圭/2-0澳大利亚)。创造连续两场对手乌龙球的世界杯纪录。"
+  },
+  "Bosnia and Herzegovina": {
+    "formation": "4-4-2",
+    "coach": "Sergej Barbarez",
+    "style_summary": "传统巴尔干4-4-2——紧凑的low-block防守+边路快速反击。无球时压缩中路空间限制对手渗透，有球时依靠边路速度+Edin Dzeko支点作用。FIFA分析称赞其防守紧凑性和封堵纪律。",
+    "attacking": "双前锋体系—Dzeko支点做球+第二前锋穿插跑位。两翼依靠边前卫速度和传中能力。进攻模式直接: 边路传中→Dzeko空中接力，或后场长传找前锋。预选赛场均4.6角球/5.3射正。",
+    "defensive": "标志性4-4-2两条防线压缩中路，允许对手边路传中但限制中路渗透。封堵和拦截纪律严明(FIFA技术组专门分析)。身体对抗强硬，空中防守有优势。限制加拿大仅1球的防守表现获FIFA技术组认可。",
+    "strengths": [
+      "防守组织紧凑，low-block纪律性强",
+      "Dzeko经验+空中威慑力",
+      "边路速度+传中质量",
+      "封堵/拦截纪律(FIFA技术组认可)",
+      "身体对抗能力强"
+    ],
+    "weaknesses": [
+      "中场创造力有限",
+      "阵地战破门手段单一",
+      "被持续压制时防线消耗大",
+      "落后时缺乏B计划",
+      "Dzeko年龄偏大(40岁)体能有限",
+      "对高位压迫球队出球困难"
+    ],
+    "key_players": [
+      "Edin Dzeko (FW, Fenerbahce)",
+      "Rade Krunic (CM, Fenerbahce)",
+      "Amar Dedic (RB, RB Salzburg)"
+    ],
+    "set_pieces": "Dzeko是定位球主要空中威胁。角球/任意球传中是重要得分手段。防守定位球纪律性好。",
+    "transitions": "由守转攻依靠边路速度快速推进+长传找Dzeko。由攻转守快速回位形成4-4-2block，边前卫回防纪律好。",
+    "tournament_form_note": "小组赛1-1平加拿大，展现了优秀的防守组织和韧性。历史上首次世界杯淘汰赛阶段。"
+  },
+  "England": {
+    "formation": "4-2-3-1",
+    "coach": "Thomas Tuchel",
+    "style_summary": "Tuchel打造的垂直进攻体系——强调直接性+速度+力量。抛弃传统的控球主导打法，追求快速纵向推进和高强度压迫。4-2大胜克罗地亚展示了新英格兰的战术面貌——Kane终结、Bellingham创造力、Saka/Rashford边路撕裂。",
+    "attacking": "Rice+Anderson双后腰提供防守基础，Bellingham担任10号位创造核心。Saka右路内切射门+Rashford/Gordon左路速度突破，Kane禁区终结(61球/赛季)。强调快速垂直传球，减少横传回传。反击效率极高。",
+    "defensive": "4-2-3-1高位压迫，Rice+Anderson覆盖中场。防线由Stones+Guehi搭档。Tuchel要求前场球员就地反抢，不给对手从容出球的时间。定位球防守是传统强项。",
+    "strengths": [
+      "Kane世界级终结能力(61球/赛季)",
+      "Bellingham创造力+前插得分",
+      "Saka右路S级进攻输出",
+      "Rice+Anderson中场屏障",
+      "Tuchel淘汰赛战术大师",
+      "板凳深度极深"
+    ],
+    "weaknesses": [
+      "Foden/Palmer/TAA被排除阵容(争议)",
+      "高位防线被反击时空间大",
+      "大赛心理魔咒(1966年后无冠)",
+      "对技术型控球强队被动",
+      "Guehi大赛经验有限"
+    ],
+    "key_players": [
+      "Harry Kane (FW, Bayern Munich)",
+      "Jude Bellingham (AM, Real Madrid)",
+      "Bukayo Saka (RW, Arsenal)",
+      "Declan Rice (DM, Arsenal)",
+      "John Stones (CB, Man City)"
+    ],
+    "set_pieces": "Kane头球终结+点球专家。Saka/Bellingham角球传中精准，Stones/Guehi空中威胁。定位球攻防两端都是优势项。",
+    "transitions": "由守转攻强调快速纵向——Rice抢断→直塞Bellingham→分边Saka或找Kane。反击速度极快。由攻转守前场就地反抢，Tuchel的高位压迫纪律要求严格。",
+    "tournament_form_note": "小组赛首战4-2大胜克罗地亚，进攻火力全开。Tuchel明确表示目标是冠军。"
+  },
+  "DR Congo": {
+    "formation": "4-3-3 / 5-3-2 (对强队)",
+    "coach": "Sebastien Desabre (法籍, 第11份非洲执教工作)",
+    "style_summary": "非洲足球的惊喜之师——52年来首次世界杯正赛。以防守纪律+快速反击为核心。预选赛13场8场零封，Desabre注入战术纪律让曾经脆弱的球队变得难以被击败。对强队切换5-3-2收缩防守，对同级别球队用4-3-3主动进攻。BBC描述为'little by little, grow the bananas'的耐心建设。",
+    "attacking": "主要依赖Bakambu的速度打身后反击，Wissa突破制造混乱。边路推进后传中或倒三角。进攻方式直接不复杂，依靠身体素质和速度。",
+    "defensive": "Desabre的最大遗产——8场零封(13场预选赛)。Mbemba领导防线，球队纪律性和组织性极佳。对葡萄牙/哥伦比亚切换5-3-2收缩防守限制空间。密集防守难以被穿透。",
+    "strengths": [
+      "防守纪律性顶级(13场8零封)",
+      "Bakambu反击速度威胁",
+      "Mbemba领导力和经验",
+      "战术纪律严明(Desabre体系)",
+      "心理韧性(52年等待后出线)",
+      "diaspora球员欧洲经验"
+    ],
+    "weaknesses": [
+      "缺乏对阵顶级强队的经验(对塞内加尔/摩洛哥战绩差)",
+      "7名常规首发在俱乐部出场时间有限",
+      "阵地战创造力不足",
+      "进攻手段单一(过度依赖反击)",
+      "板凳深度不足"
+    ],
+    "key_players": [
+      "Chancel Mbemba (CB, 队长)",
+      "Cedric Bakambu (FW, 35岁)",
+      "Yoane Wissa (FW, Brentford)",
+      "Noah Sadiki (MF, Sunderland, 21岁新星)",
+      "Lionel Mpasi (GK)"
+    ],
+    "set_pieces": "Mbemba空中威胁+Bakambu抢点。定位球是破门的重要手段。防守定位球纪律良好。",
+    "transitions": "由守转攻依靠Bakambu/Wissa速度快速反击。Sadiki(21岁)后场带球推进能力突出。由攻转守快速回位形成密集block，不给对手转换机会。",
+    "tournament_form_note": "小组赛从葡萄牙/哥伦比亚/乌兹别克斯坦所在小组出线。52年来首支进入淘汰赛的DRC球队。"
+  },
+  "Portugal": {
+    "formation": "4-3-3 / 3-4-3 (灵活切换)",
+    "coach": "Roberto Martínez (2023年上任)",
+    "style_summary": "从务实防守转向扩张性控球打法。Martínez将比利时黄金一代的经验带到葡萄牙——高位防线+内收边卫+半空间人数过载。2025欧国联冠军证明了这套体系的竞争力。",
+    "attacking": "控球主导(67.2%控球率, 91.3%传球成功率)。Bruno Fernandes和Bernardo Silva轮流在半空间接球策应，Vitinha+João Neves组成双后腰出球枢纽。Cristiano Ronaldo(41岁/第6届)仍是禁区终结者，Rafael Leão左路爆破提供另一种进攻维度。",
+    "defensive": "高位压迫+反抢。Vitinha/João Neves双后腰覆盖面积大，但高位防线面对精英级反击时存在漏洞——DR Congo的快速反击曾多次制造威胁。Rúben Dias是防线指挥官。",
+    "strengths": [
+      "中场创造力世界顶级(Bruno/ Bernardo/ Vitinha)",
+      "阵容深度48队前三",
+      "定位球威胁(C罗头球+Bruno传球)",
+      "战术灵活性(4-3-3↔3-4-3)"
+    ],
+    "weaknesses": [
+      "高位防线被快速反击打穿",
+      "过度依赖41岁C罗的终结能力",
+      "对DR Congo的1-1平局暴露攻坚能力不足",
+      "淘汰赛心理素质(上届止步八强)"
+    ],
+    "key_players": [
+      "Bruno Fernandes (MF, 组织核心, 21助/赛季)",
+      "Cristiano Ronaldo (FW, 队长, 第6届世界杯)",
+      "Rúben Dias (DF, 防线指挥官)",
+      "Vitinha (MF, 出球枢纽)"
+    ],
+    "set_pieces": "定位球威胁大。C罗头球+Bruno精准传中+ Rúben Dias禁区抢点。预选赛定位球进球占比高。",
+    "transitions": "由守转攻依赖Bruno Fernandes的一脚出球和Rafael Leão的速度。由攻转守时双后腰回收速度快，但边卫内收留下的边路空档可被利用。",
+    "tournament_form_note": "小组赛: 1-1 DR Congo → 5-0 Uzbekistan → 0-0 Colombia。2胜1平小组第二出线。进攻端5球大胜显现火力，但对阵强防守球队(Colombia/DRC)破门困难。"
+  },
+  "Croatia": {
+    "formation": "4-2-3-1 / 4-3-3",
+    "coach": "Zlatko Dalić (2017年上任, 连任最久主帅)",
+    "style_summary": "教科书级大赛球队——务实、紧凑、抗压。预选赛仅失4球、5场零封。中场的抗逼抢出球能力是核心竞争力。连续两届世界杯杀入四强(2018亚军/2022季军)证明大赛基因。",
+    "attacking": "由Modrić深度回撤接球启动进攻。Ante Budimir支点中锋做墙，Kramarić/Perišić利用空间后插上。不追求高控球率，高效转换才是核心——预选赛26球仅失4球。",
+    "defensive": "极其紧凑的4-4-2中低位防守block。Gvardiol是新时代防线领袖，Stanišić/Šutalo搭档中路。预选赛仅失4球——欧洲区最佳防守记录之一。",
+    "strengths": [
+      "大赛经验和心理素质(2018亚军/2022季军)",
+      "Modrić抗逼抢出球能力世界顶级",
+      "防守组织严密(预选赛5场零封)",
+      "Dalić管理大牌球星的能力"
+    ],
+    "weaknesses": [
+      "核心球员老龄化(Modrić 40岁/Perišić 37岁)",
+      "缺少顶级射手(Budimir非世界级终结者)",
+      "面对年轻体能型球队时体力劣势",
+      "小组赛被英格兰4-2击败暴露防守漏洞"
+    ],
+    "key_players": [
+      "Luka Modrić (MF, 队长, 40岁, 组织核心)",
+      "Joško Gvardiol (DF, 防线领袖)",
+      "Mateo Kovačić (MF, 推进器)",
+      "Ante Budimir (FW, 支点中锋)"
+    ],
+    "set_pieces": "Perišić传中+ Gvardiol头球是主要定位球得分手段。Modrić的外脚背任意球仍然精准。",
+    "transitions": "由守转攻依赖Modrić一脚出球找到边路空档。由攻转守时双后腰快速回位，整体阵型紧凑不散。",
+    "tournament_form_note": "小组赛: 2-4 England → 1-0 Panama → 2-1 Ghana。2胜1负小组第二出线。防线被英格兰打穿(丢4球)是警讯，但随后两场展现韧性。"
+  },
+  "Spain": {
+    "formation": "4-3-3 / 4-2-3-1 (流畅切换)",
+    "coach": "Luis de la Fuente (2023年上任, 2024欧洲杯冠军)",
+    "style_summary": "进化版传控——从'为控球而控球'转向'用控球创造垂直威胁'。维持70%+控球率的同时，进攻节奏明显加快。Rodri是攻防转换的绝对枢纽。2024欧洲杯冠军+预选赛不败证明了这套体系的成熟度。",
+    "attacking": "短传渗透+半空间冲击。Lamine Yamal(18岁)右路内切左脚射门是核心武器，Nico Williams左路速度爆破提供另一种选择。Pedri/Gavi在中路轮转接应。预选赛21球仅失2球，统治力惊人。",
+    "defensive": "Rodri+Zubimendi双保险保护防线。高位防线+立即反抢是标准配置。Cubarsí/Laporte搭档中卫。但面对快速纵向反击时(VAR/速度型前锋)偶有漏洞。",
+    "strengths": [
+      "控球统治力(70%+场均控球)",
+      "Lamine Yamal单点爆破能力",
+      "中场深度世界第一(Rodri/Pedri/Gavi/Olmo)",
+      "大赛冠军基因(2024欧洲杯)"
+    ],
+    "weaknesses": [
+      "防守转换时边卫身后空档",
+      "面对极端低位防守时破门效率不足(0-0 Cape Verde)",
+      "过度依赖18岁Yamal的创造力",
+      "中锋位置缺少世界级终结者"
+    ],
+    "key_players": [
+      "Lamine Yamal (FW, 18岁, 16球11助/赛季)",
+      "Rodri (MF, 队长, 防守枢纽)",
+      "Pedri (MF, 创造力源泉)",
+      "Nico Williams (FW, 左路爆破)"
+    ],
+    "set_pieces": "定位球不是主要得分手段。Rodri身高优势在角球时有威胁，但更多依赖运动战进球。",
+    "transitions": "由守转攻时Rodri第一脚出球决定节奏。由攻转守时前场6秒反抢规则严格执行。丢球后整体阵型立即收缩。",
+    "tournament_form_note": "小组赛: 0-0 Cape Verde → 4-0 Saudi Arabia → 1-0 Uruguay。2胜1平小组第一。Cape Verde的0-0暴露破大巴难题，但随后两场零封并进5球。"
+  },
+  "Austria": {
+    "formation": "4-2-2-2 (Rangnick标志性阵型)",
+    "coach": "Ralf Rangnick (67岁, 德国'高位压迫教父')",
+    "style_summary": "Rangnick式极致压迫足球——'球在哪里，我们就在哪里制造人数过载。冲刺压迫对手，封锁传球路线，逼迫失误和球权转换。拿到球后，回传和横传不是我们的首选——我们要向前。' 28年来首次世界杯正赛，理念鲜明。",
+    "attacking": "直接向前——不追求控球率，追求垂直纵深。Sabitzer在双前锋身后游走，Laimer从边卫/中场位置插上。Paul Wanner(选择奥地利而非德国)是新一代6号位出球点。",
+    "defensive": "高位压迫+反抢是防守第一道防线。Seiwald是中场防守粘合剂——封堵空间、赢得二点球、维持压迫结构。后防线Lienhart指挥，整体阵型紧凑。但Baumgartner伤缺削弱了前场压迫强度。",
+    "strengths": [
+      "Rangnick的战术体系高度成熟(3年+磨合)",
+      "体能和压迫强度48队前5",
+      "Laimer的全面性(可踢4个位置)",
+      "团队凝聚力('真正的家人')"
+    ],
+    "weaknesses": [
+      "战术被对手熟悉(Lucescu:'对手知道他们怎么踢')",
+      "Baumgartner伤缺是巨大损失",
+      "世界杯经验不足(28年来首次)",
+      "面对顶级传控球队时压迫可能被绕开"
+    ],
+    "key_players": [
+      "Konrad Laimer (MF/DF, Bayern Munich, 全能战士)",
+      "Marcel Sabitzer (FW/MF, 进攻核心)",
+      "Nicolas Seiwald (MF, 防守粘合剂)",
+      "Paul Wanner (MF, 未来之星, 选择奥地利)"
+    ],
+    "set_pieces": "不是主要得分手段。Rangnick体系更注重运动战中的压迫转换得分。",
+    "transitions": "由守转攻是核心得分手段——3秒内完成抢断→向前传递→射门。由攻转守时立即反抢(5秒规则)，不给对手喘息机会。",
+    "tournament_form_note": "小组赛: 1-3 Argentina → 3-3 Algeria → 2-1 Jordan。1胜1平1负小组第三出线(最优第三名)。对阿根廷展现韧性，对阿尔及利亚3-3进球大战，末轮击败约旦保送出线。"
+  },
+  "Switzerland": {
+    "formation": "4-3-3 / 4-2-3-1 (紧凑防守+快速反击)",
+    "coach": "Murat Yakin (2021年上任)",
+    "style_summary": "瑞士足球的DNA——战术纪律、防守稳固、高效反击。Yakin执教前57场20场零封。预选赛仅失2球、8名不同球员进球——没有超级球星但整体性极强。连续三届大赛进入淘汰赛。",
+    "attacking": "不依赖单一射手——预选赛8人进球。Xhaka(69次准确传球/90分钟)掌控节奏，Dan Ndoye/Rubén Vargas边路速度反击。Embolo是身体对抗最强的支点。场均5.33次射正——持续施压。",
+    "defensive": "紧凑的防守block，封锁中路空间。Akanji(Inter Milan)是防线核心，Elvedi搭档中卫。预选赛仅失2球——与西班牙并列欧洲最佳防守。Kobel是世界级门将。",
+    "strengths": [
+      "防守组织顶级(预选赛仅失2球)",
+      "Xhaka中场领导力和传球控制",
+      "多点开花(8人进球)难以针对性防守",
+      "大赛经验丰富(连续3届淘汰赛)"
+    ],
+    "weaknesses": [
+      "缺少世界级射手(Embolo不稳定)",
+      "Shaqiri/Sommer退役后领袖真空期",
+      "面对超强个人能力时防线可能被打穿",
+      "控球率低时难以改变比赛节奏"
+    ],
+    "key_players": [
+      "Granit Xhaka (MF, 队长, 组织核心)",
+      "Manuel Akanji (DF, 防线领袖)",
+      "Gregor Kobel (GK, 世界级门将)",
+      "Breel Embolo (FW, 支点前锋)"
+    ],
+    "set_pieces": "定位球是重要得分手段。Xhaka精准传中+ Akanji/Elvedi头球威胁。预选赛定位球进球占比可观。",
+    "transitions": "由守转攻时Xhaka长传找边路速度点(Ndoye/Vargas)。由攻转守时整体阵型快速回收，中场线紧密保护防线。",
+    "tournament_form_note": "小组赛: 4-1 Bosnia → 1-1 Canada → 2-1 Canada(末轮关键战)。2胜1平小组第一出线。小组赛统治力明显，末轮击败东道主加拿大锁定头名。"
+  },
+  "Algeria": {
+    "formation": "4-2-3-1 / 4-3-3",
+    "coach": "Vladimir Petković (2024年上任, 前瑞士主帅)",
+    "style_summary": "高能量、高强度——Petković要求每位球员付出极限体能。4-2-3-1阵型以双后腰为防守支点，Mahrez右路内切组织，Amoura顶在最前面。预选赛24球(非洲区最高)展现了强大火力，但侵略性姿态也留下反击隐患。12年来首次世界杯。",
+    "attacking": "Mahrez(113场38球)右路内切左脚传球/射门是核心进攻模式。Amoura(预选赛10球/非洲区射手王)的速度和跑位是完美补充。Aouar/Chaïbi提供中路创造力。边后卫高频插上提供宽度。",
+    "defensive": "双后腰Boudaoui/Chaïbi负责破坏和覆盖。Aït-Nouri(MCI)是防线出球点。高位防线+压迫打法在非洲区效果好，但面对阿根廷时被Messi打穿——过渡阶段空档是致命弱点。",
+    "strengths": [
+      "非洲区最强火力(预选赛24球)",
+      "Mahrez的世界级个人能力",
+      "Amoura速度型前锋(预选赛10球)",
+      "Petković的战术灵活性(执教瑞士7年)"
+    ],
+    "weaknesses": [
+      "高位压迫后的过渡阶段空档",
+      "面对顶级球队(阿根廷)防守崩盘",
+      "12年世界杯空白期缺乏大赛经验",
+      "Mahrez 35岁体能持续性存疑"
+    ],
+    "key_players": [
+      "Riyad Mahrez (FW, 队长, 113场38球)",
+      "Mohamed Amoura (FW, 预选赛金靴10球)",
+      "Rayan Aït-Nouri (DF, Manchester City)",
+      "Houssem Aouar (MF, 创造力来源)"
+    ],
+    "set_pieces": "定位球威胁中等。Mahrez的直接任意球是最大武器，Bensebaini头球也能制造混乱。",
+    "transitions": "由守转攻时Mahrez的第一触球和视野是关键。由攻转守时双后腰回收速度决定防守质量——面对快速反击时经常来不及回位。",
+    "tournament_form_note": "小组赛: 0-3 Argentina → 3-3 Austria → 2-1 Jordan。1胜1平1负小组第二出线。对阿根廷完败暴露实力差距，但对奥地利3-3展现韧性，末轮击败约旦确保晋级。"
+  },
+  "Argentina": {
+    "formation": "4-4-2 / 4-2-3-1",
+    "coach": "Lionel Scaloni (2018年上任，世界杯冠军教头)",
+    "style_summary": "卫冕冠军，攻守平衡的锦标赛型球队。7连胜仅失1球，阵容深度惊人——轮换多名主力不影响表现。",
+    "attacking": "低位组织进攻时频繁换位制造传球角度；也常用直接长传找前锋后立刻冲击防线身后空间，快速转移进攻方向。",
+    "defensive": "防守记录极佳（7场仅失1球），Otamendi+Lisandro Martínez中卫组合稳固，门将轮换仍零封。",
+    "strengths": [
+      "阵容深度顶级（轮换Messi/Enzo/Mac Allister仍赢球）",
+      "防守固若金汤",
+      "战术灵活（4-4-2↔4-2-3-1无缝切换）",
+      "Messi即使不首发也是精神领袖"
+    ],
+    "weaknesses": [
+      "Messi 39岁体力有限，淘汰赛连续作战存疑",
+      "高位防线偶尔暴露空间"
+    ],
+    "key_players": [
+      "Lionel Messi (FW) 队长/核心",
+      "Julián Álvarez (FW)",
+      "Enzo Fernández (MF)",
+      "Cristian Romero (DF)"
+    ],
+    "set_pieces": "定位球威胁中等，Otamendi头球是主要武器",
+    "transitions": "由守转攻世界顶级——快速纵向传递+前插跑动组合拳",
+    "tournament_form_note": "小组赛表现出色，7连胜势头正盛。R32首战佛得角，实力差距明显。"
+  },
+  "Colombia": {
+    "formation": "4-2-3-1 / 4-3-3",
+    "coach": "Néstor Lorenzo (2022年上任，曾助教Pékerman 16年)",
+    "style_summary": "高强度压迫+快速纵向转换，身体对抗凶悍。James Rodríguez创造力+ Luis Díaz爆破力是双引擎。28场不败纪录展现韧性。",
+    "attacking": "James Rodríguez支配节奏，两翼Luis Díaz和Luis Suárez利用速度冲击。反击极强——抢断后快速配合撕开防线。",
+    "defensive": "高位干扰对手组织，双后腰(Lerma+Ríos)为助攻型边后卫提供保护。但对欧洲顶级球队偶有漏洞。",
+    "strengths": [
+      "Luis Díaz单兵爆破能力（26球19助）",
+      "James传球创造力（世预赛7助）",
+      "反击效率极高",
+      "28场不败的心理韧性"
+    ],
+    "weaknesses": [
+      "防守对阵欧洲强队暴露不足",
+      "过于依赖Díaz的过渡推进"
+    ],
+    "key_players": [
+      "Luis Díaz (FW) Bayern Munich",
+      "James Rodríguez (MF) 队长",
+      "Jefferson Lerma (MF)",
+      "Davinson Sánchez (DF)"
+    ],
+    "set_pieces": "定位球进攻中等，Yerry Mina头球是空中威胁",
+    "transitions": "由守转攻极具威胁——Díaz的速度+James的传球让对手防线难以招架",
+    "tournament_form_note": "小组赛K组第二出线（仅次于葡萄牙）。R32对阵加纳，纸面实力占优。"
+  },
+  "Ghana": {
+    "formation": "4-2-3-1",
+    "coach": "Carlos Queiroz (葡萄牙籍，经验丰富的战术大师)",
+    "style_summary": "防守稳健+机会主义前场。Thomas Partey领衔的中场兼具硬度和组织，前场依赖Semenyo和Jordan Ayew的个人能力。",
+    "attacking": "快速反击为主，Semenyo和I.Williams两翼速度是主要武器。定位球和远射也是得分手段。",
+    "defensive": "防守纪律严明，Partey在中场屏障作用明显。边后卫G.Mensah和A.Seidu防守优先。",
+    "strengths": [
+      "Thomas Partey中场统治力",
+      "防守组织严密",
+      "反击速度快",
+      "Queiroz大赛经验丰富"
+    ],
+    "weaknesses": [
+      "缺乏稳定射手",
+      "阵地战创造力不足",
+      "Kudus缺阵影响进攻深度"
+    ],
+    "key_players": [
+      "Thomas Partey (MF) 阿森纳",
+      "Antoine Semenyo (FW)",
+      "Jordan Ayew (FW)",
+      "Alexander Djiku (DF)"
+    ],
+    "set_pieces": "定位球是重要得分手段，Djiku头球有威胁",
+    "transitions": "抢断后快速通过Partey→Semenyo路线发动反击",
+    "tournament_form_note": "小组赛艰难出线。R32对阵哥伦比亚，实力处于下风。"
+  },
+  "Australia": {
+    "formation": "3-4-2-1",
+    "coach": "Tony Popovic (2024年9月上任，前国脚中卫)",
+    "style_summary": "纪律严明的结构化防守+快速转换。Popovic以高强度体能要求和防守组织著称，翼卫超载是核心进攻手段。",
+    "attacking": "翼卫(Bos)前插制造宽度优势，中场Irvine负责抢断和前插。依赖Irankunda的速度和技术打破僵局。",
+    "defensive": "预选赛场均失0.44球（但xGA=1.13暗示有隐患）。Souttar+Burgess中卫组合身高优势明显。",
+    "strengths": [
+      "防守组织严密",
+      "翼卫体系宽度利用好",
+      "Irankunda个人能力",
+      "Popovic战术纪律"
+    ],
+    "weaknesses": [
+      "攻击线转化率低",
+      "中场创造力有限",
+      "xGA数据暗示防守有漏洞"
+    ],
+    "key_players": [
+      "Nestory Irankunda (FW) Watford",
+      "Jackson Irvine (MF)",
+      "Harry Souttar (DF)",
+      "Mathew Ryan (GK) 队长"
+    ],
+    "set_pieces": "Souttar身高198cm，定位球头球是重要得分手段",
+    "transitions": "抢断后快速利用翼卫宽度+ Irankunda速度反击",
+    "tournament_form_note": "小组赛D组第二出线。R32对阵埃及，实力接近的五五开局面。"
+  },
+  "Egypt": {
+    "formation": "4-2-3-1 / 3-4-1-2",
+    "coach": "Hossam Hassan (2024年2月上任，埃及历史最佳射手)",
+    "style_summary": "非洲最佳防守（预选赛场均失0.2球）+快速转换。Salah+Marmoush双星是进攻核心，全队战术纪律极强。",
+    "attacking": "快速转换中寻找Salah和Marmoush。Salah从右路内切自由游弋，占据半空间和防线身后。双后腰专注抢断→快速出球。",
+    "defensive": "紧凑4-2-3-1阵型，逼迫对手走边路，保护中路。预选赛10场仅失2球。",
+    "strengths": [
+      "防守铁壁（10场失2球）",
+      "Salah+Marmoush顶级攻击组合",
+      "战术纪律极强",
+      "Hassan的激情领导力"
+    ],
+    "weaknesses": [
+      "过度依赖Salah个人能力",
+      "Salah已34岁速度下降",
+      "中场创造力不足"
+    ],
+    "key_players": [
+      "Mohamed Salah (FW) 队长 Liverpool",
+      "Omar Marmoush (FW) Man City",
+      "Trézéguet (FW)",
+      "Mohamed Abdelmonem (DF) Nice"
+    ],
+    "set_pieces": "定位球威胁中等，Abdelmonem头球是主要武器",
+    "transitions": "由守转攻极具威胁——Salah+Marmoush的速度让任何防线忌惮",
+    "tournament_form_note": "小组赛G组不败出线（含1-1平比利时）。R32对阵澳大利亚，防守型对决。"
+  },
+  "Cape Verde": {
+    "formation": "4-2-3-1 / 4-3-3",
+    "coach": "Bubista (本土教练，打造防守反击体系)",
+    "style_summary": "紧凑防守+快速反击。控球率通常低于对手，但防守组织和反击执行力出色。阵型在4-2-3-1和4-3-3间灵活切换。",
+    "attacking": "反击为主要得分手段，利用边路速度冲击对手防线身后。Ryan Mendes是进攻核心。",
+    "defensive": "紧凑4后卫防线，双后腰保护中路。防守纪律性高，擅长压缩空间限制对手。",
+    "strengths": [
+      "防守组织严密",
+      "反击效率高",
+      "团队协作精神强",
+      "不被看好的黑马心态"
+    ],
+    "weaknesses": [
+      "控球能力有限",
+      "面对高压容易失误",
+      "缺乏顶级联赛经验球员",
+      "板凳深度不足"
+    ],
+    "key_players": [
+      "Ryan Mendes (FW) 队长",
+      "Vozinha (GK)",
+      "Bebé (FW)"
+    ],
+    "set_pieces": "定位球是少有的阵地战得分机会",
+    "transitions": "抢断后快速通过边路发动反击",
+    "tournament_form_note": "历史上首次晋级淘汰赛，已创造历史。R32对阵卫冕冠军阿根廷，胜算极低。"
+  }
+}

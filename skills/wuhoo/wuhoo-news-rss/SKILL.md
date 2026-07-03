@@ -36,8 +36,8 @@ RSSHub (--network host, 端口 1200)    Python 采集引擎 (python3.11)
 └──────────────────────────┘         │ 检索接口                     │
        ↕ 外网直连                     └─────────────────────────────┘
                                               ↕
-                                     Cron Job (每日 09:30, deliver=local)
-                                     自动拉取 + 生成热点简报（local 日志，非微信推送）
+                                     Cron Job (每日 09:30, deliver=origin)
+                                     自动拉取 + 生成热点简报（微信推送）
 ```
 
 ## 使用方式
@@ -137,25 +137,56 @@ DataAggregator._get_combined_sentiment()
 - `pyyaml` - 配置解析
 - RSSHub (Podman, `--network host`, 端口 1200)
 
+## 热点评分体系 (v2.0, 2026-07-03)
+
+三层加权评分系统，替代了旧的单一关键词匹配：
+
+### 第 1 层：Feed 源基础权重 (1-10)
+每个 RSS 源根据信息质量和信号密度预设基础分（`feed_weights` in `feeds/config.yaml`）：
+- **10 分**: Financial Times（顶级财经源）
+- **9 分**: Seeking Alpha, 华尔街见闻, 华尔街见闻热门, 路透社国际, OpenAI Blog, Google DeepMind, Anthropic Blog, Stratechery
+- **8 分**: NYT Business, BBC Business, 第一财经, 格隆汇, TechCrunch, The Verge, 美联社, HuggingFace Blog, Google AI Blog
+- **7 分**: IT之家, 36氪, 虎嗅, Ars Technica, BBC World, 卫报国际, BBC 中文, 纽约时报中文, 日经中文网
+- **0 分**: 足球源（在投资简报中自动排除）
+- 未配置源默认 3 分
+
+详细架构、pitfall 和调试方法见 [`references/hot-score-architecture-v2.md`](references/hot-score-architecture-v2.md)。常见陷阱（`\b`中文失效、短关键词污染、INSERT遗漏评分字段）见 [`references/rss-hot-score-pitfalls.md`](references/rss-hot-score-pitfalls.md)。
+
+### 第 2 层：关键词增强 (每个 +3 分)
+`EXPANDED_KEYWORDS` 包含 200+ 个关键词覆盖：量化/交易、AI/大模型、半导体/芯片、电商/跨境、市场/宏观、公司/财报、科技/产业、A股/港股/美股个股、行业热点。使用 `\b` 词边界正则匹配避免子串误匹配（如 `PE` 不会匹配到 "Ramos" 中的 "pe"）。
+
+### 第 3 层：模糊多源覆盖 (每个额外源 +8 分)
+`_fuzzy_normalize()` 对标题去前缀（IT之家消息/36氪获悉）和标点归一化后取前 40 字符作为指纹，`Counter` 统计同事件多源覆盖度。
+
+### 评分示例
+- 格隆汇文章"Crypto billionaire Justin Sun sues..."：base=8 + keywords(crypto+NVIDIA+Bitcoin...共10个×3=30) + 多源覆盖=0 → **38 分**
+- FT 文章"Tesla boosts spending..."：base=10 + keywords=0 → **10 分**
+- BBC Sport 足球文章：base=0 → **0 分**（投资简报中自动过滤）
+
+### ⚠️ 关键陷阱：`insert_article` 必须包含评分字段
+旧版 `insert_article` SQL 中缺少 `hot_score`, `is_alert`, `alert_keywords` 列，导致尽管 `calc_hot_score` 正确计算了分数，但数据库始终存储默认值 0。修复时需确保 INSERT 语句包含这三列。
+
 ## 已知问题 / 注意事项
 
-- **`--top` 返回 hot_score=0.0**：当前热点评分系统未启用，`--top N` 按最近拉取时间排序而非实际热度。对于主题简报等需要按主题筛选的场景，应使用 `--fts` 全文搜索组合关键词查询来获取更精准的结果。
+- **RSSHub 路由大面积 503** (2026-07-03)：`seekingalpha`, `stcn`, `reddit`, `cls/telegraph` 等多个路由返回 503。Seeking Alpha 使用原生 `feed.xml` 绕过。需定期更新 RSSHub 版本或排查特定路由。
+- **路透社国际 / B站排行榜 RSSHub 路由**：返回 HTML 而非 XML（`text/html is not an XML media type`）。B站排行榜周期性失效。
+- **词边界匹配**：使用 `\b` regex 避免子串误匹配，但中文关键词的 `\b` 行为可能不完全理想。中文文本中 `\b` 依赖 Unicode 词边界，CJK 字符间无词边界。
 - **路径硬编码**：调用 fetcher.py 时请使用绝对路径 `/home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/src/fetcher.py`，避免相对路径歧义。
 - **手动简报生成模式**：当 cron 推送失败时，可通过 FTS5 JSON + Python 多查询模式手动生成。详见 [`references/manual-briefing-generation.md`](references/manual-briefing-generation.md)。
 - **微信推送 gateway timeout**：cron delivery 阶段可能出现 `"Timeout context manager should be used inside a task"` 错误（非 session expired）。内容已生成但投递失败。临时方案：保存到本地文件，gateway 恢复后补发。
-- **RSS 源失效诊断**：ESPN(403)、Goal.com(404)、FIFA(不再提供RSS)、UEFA(超时) 已于 2026-06-02 确认失效并替换为 Football Rankings + SoccerNews + World Soccer Talk + Football Italia。源诊断与替换工作流详见 [`references/rss-feed-diagnosis.md`](references/rss-feed-diagnosis.md)。
-- **RSS 源验证方法**：系统性地测试新 RSS/RSSHub 路由可用性的标准流程 (批量 HTTP 测试 + Debug Info 分析 + 内容抽样)，详见 [`references/rss-source-verification.md`](references/rss-source-verification.md)。
-- **RSSHub 小红书路由限制**：仅 `/xiaohongshu/user` 路由可用（需 `XIAOHONGSHU_COOKIE`），无搜索/热榜/话题路由。关键词采集需使用 Python 替代方案 (XHS-Downloader)。详见 [`references/rsshub-xiaohongshu-limitations.md`](references/rsshub-xiaohongshu-limitations.md)。
+- **RSS 源失效诊断**：源诊断与替换工作流详见 [`references/rss-feed-diagnosis.md`](references/rss-feed-diagnosis.md)。
+- **RSS 源验证方法**：系统性地测试新 RSS/RSSHub 路由可用性的标准流程，详见 [`references/rss-source-verification.md`](references/rss-source-verification.md)。
+- **RSSHub 小红书路由限制**：仅 `/xiaohongshu/user` 路由可用，详见 [`references/rsshub-xiaohongshu-limitations.md`](references/rsshub-xiaohongshu-limitations.md)。
 
 ## Cron 自动简报
 
-> **2026-05-09 更新**：09:30 cron 已恢复，使用 **`deliver=local`** 绕过 Gateway asyncio timeout bug。简报保存到 cron 日志而非微信推送，需要时手动查看或转发。
+> **2026-07-03 更新**：09:30 cron 已恢复为 **`deliver=origin`**（微信推送）。hot_score 系统已全面修复，现在按真实热度排序。cron 配置详见 cronjob list。新增 7 个高质量源（Stratechery/Seeking Alpha/DeepMind/CoinDesk 等），移除 11 个死亡源。
 
 ### Cron 配置
 
 - **Schedule**: `30 9 * * *`（每日 09:30）
 - **Skills**: `wuhoo-news-rss`, `wuhoo-rss-briefing`
-- **Delivery**: `local`（⚠️ 不使用 WeChat/auto，避免 asyncio `Timeout context manager` bug）
+- **Delivery**: `origin`（微信推送）
 - **流程**: fetch → SQLite 直查 → 噪音过滤 → 四类 TOP 5 输出
 
 ### 手动触发（备用）
@@ -224,11 +255,12 @@ DataAggregator._get_combined_sentiment()
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
-| 1.8 | 2026-06-18 | 足球源 7→10：新增 懂球帝早报 (RSSHub, 中文), BBC Sport Football RSSHub 路由, Breaking The Lines (战术分析)；失效路由标注更新 (虎扑/直播吧/fifa/espn 503)；新增 RSS 源验证方法参考文档 |
-| 1.7 | 2026-06-02 | 足球 RSS 源大修：4 个失效源替换为 Football Rankings/ SoccerNews/ World Soccer Talk/ Football Italia；新增 RSS 源诊断参考文档 |
+| 2.0 | 2026-07-03 | **热点评分系统大修**：三层评分 (Feed权重 + 200关键词增强 + 模糊多源覆盖)；修复 `insert_article` 缺少 hot_score 列的严重 bug；修复 RSSNewsAdapter DB 路径 (skills/news-rss → skills/wuhoo/wuhoo-news-rss)；源清理：移除 11 个死亡源 (酷壳/cnbang/澎湃/品玩等)，合并 4 组冗余源；新增 7 个高质量源 (Stratechery/Seeking Alpha/Google DeepMind/CoinDesk/Meta/集思录/Google AI Blog)；关键词匹配增加 `\b` 词边界；RSSHub 路由大面积 503 标注 |
+| 1.8 | 2026-06-18 | 足球源 7→10：新增 懂球帝早报, BBC Sport Football RSSHub 路由, Breaking The Lines；失效路由标注更新 |
+| 1.7 | 2026-06-02 | 足球 RSS 源大修：4 个失效源替换为 Football Rankings/SoccerNews/World Soccer Talk/Football Italia |
 | 1.6 | 2026-05-09 | 恢复 09:30 cron（deliver=local 绕过 Gateway asyncio bug），同时加载 wuhoo-rss-briefing skill |
-| 1.5 | 2026-05-03 | 删除 09:30 cron 微信推送（Gateway asyncio bug），改为手动触发模式；推送格式改用 wuhoo-rss-briefing skill 的 SQLite 直查流程 |
-| 1.4 | 2026-05-02 | Cron push format finalized: 4 categories TOP10, merged multi-source articles [N源], 50-char summaries. WeChat delivery blocked by gateway asyncio timeout bug. |
-| 1.2 | 2026-05-01 | 修复路径错误，添加热点评分说明，新增主题简报生成流程与脚本 |
-| 1.1 | 2026-04-13 | RSSHub 切换为 host 网络模式 + Python 版本检查 + 修复不可用路由 |
-| 1.0 | 2026-04-13 | 初始版本：RSSHub + 原生 RSS 采集，SQLite 存储，FTS5 搜索 |
+| 1.5 | 2026-05-03 | 删除 09:30 cron 微信推送，改为手动触发模式 |
+| 1.4 | 2026-05-02 | Cron push format finalized |
+| 1.2 | 2026-05-01 | 修复路径错误，添加热点评分说明 |
+| 1.1 | 2026-04-13 | RSSHub host 网络模式 + Python 版本检查 |
+| 1.0 | 2026-04-13 | 初始版本 |

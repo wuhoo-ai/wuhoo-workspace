@@ -104,14 +104,25 @@ def predict_by_date(date_str):
     matchdays = {m.get('matchday') for m in matches}
     is_md3 = 3 in matchdays
     motivation_data = None
+    bracket_data = None
     if is_md3:
         try:
-            mot_path = os.path.join(os.path.dirname(__file__), 'data', 'matchday3_motivation.json')
+            mot_path = os.path.join(PROJECT_DIR, 'data', 'matchday3_motivation.json')
             if os.path.exists(mot_path):
                 with open(mot_path) as f:
                     motivation_data = json.load(f).get('classifications', {})
-        except Exception:
-            pass
+                if motivation_data:
+                    print(f"   📋 加载MD3出线动机数据: {len(motivation_data)}队")
+        except Exception as e:
+            print(f"   ⚠️ 加载MD3动机数据失败: {e}")
+        try:
+            bp_path = os.path.join(PROJECT_DIR, 'data', 'bracket_paths.json')
+            if os.path.exists(bp_path):
+                with open(bp_path) as f:
+                    bracket_data = json.load(f)
+                print(f"   🗺️ 加载半区路径数据")
+        except Exception as e:
+            print(f"   ⚠️ 加载半区路径数据失败: {e}")
 
     results = []
     for m in matches:
@@ -126,7 +137,8 @@ def predict_by_date(date_str):
                 match_id=m.get('match_id'),
                 manual_adjustments=manual_adj,
                 matchday=matchday_val,
-                motivation_data=motivation_data
+                motivation_data=motivation_data,
+                bracket_data=bracket_data
             )
             audit['schedule'] = m
             _save_prediction_history(audit)
@@ -199,6 +211,9 @@ def save_reports(results, date_str):
             entry['draw_pct'] = p['draw']
             entry['team_b_win_pct'] = p['team_b_win']
             entry['most_likely_score'] = p['most_likely_score']
+            entry['expected_goals_a'] = p.get('expected_goals_a', 0)
+            entry['expected_goals_b'] = p.get('expected_goals_b', 0)
+            entry['scoreline_probs'] = p.get('scoreline_probs', [])
             entry['verdict'] = v['result']
             entry['confidence'] = v['confidence']
             entry['error'] = None
