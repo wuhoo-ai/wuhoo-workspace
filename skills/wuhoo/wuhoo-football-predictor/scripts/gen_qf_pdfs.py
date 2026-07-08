@@ -165,7 +165,7 @@ def get_weather_for_match(team_a, team_b, venue_name=''):
 def get_rss_articles(team_a, team_b):
     """Fetch recent RSS articles"""
     db_path = '/home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/data/news.db'
-    EXCLUDED = {'SoccerNews', 'World Soccer Talk', 'Football Rankings'}
+    EXCLUDED = {'SoccerNews', 'Football Rankings'}
     try:
         db = sqlite3.connect(db_path)
         results = []

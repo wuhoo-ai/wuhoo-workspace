@@ -343,7 +343,7 @@ def _fetch_rss_articles(team_a, team_b):
     """Fetch recent RSS articles mentioning either team"""
     import sqlite3
     db_path = '/home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/data/news.db'
-    EXCLUDED = {'SoccerNews', 'World Soccer Talk', 'Football Rankings'}
+    EXCLUDED = {'SoccerNews', 'Football Rankings'}
     try:
         db = sqlite3.connect(db_path)
         placeholders = ','.join('?' * len(EXCLUDED))

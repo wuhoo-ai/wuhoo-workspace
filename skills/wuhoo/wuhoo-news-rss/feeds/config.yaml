@@ -66,6 +66,16 @@ feeds:
   - 意甲
   - 欧洲
   status: ✅ 新增 (2026-06-02)
+- name: The Telegraph Football
+  url: https://www.telegraph.co.uk/football/rss.xml
+  category: 足球
+  tags:
+  - 足球
+  - 世界杯
+  - 英超
+  - 英文
+  - 深度
+  status: ✅ 新增 (2026-07-08, 120篇 WC2026深度报道+独家爆料)
 - name: IT之家
   url: https://www.ithome.com/rss/
   category: 科技
