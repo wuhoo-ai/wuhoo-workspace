@@ -1,7 +1,7 @@
 {
   "_meta": {
     "version": "3.0",
-    "last_updated": "2026-06-02",
+    "last_updated": "2026-06-28",
     "description": "Team metadata for World Cup 2026 prediction — coach experience, roster stability, chemistry. Manually curated. v2.0: expanded from 20→32 teams based on squad announcements.",
     "scoring": {
       "coach_wc_experience": "Number of World Cups coached (0-5). Each WC adds 8 ELO.",

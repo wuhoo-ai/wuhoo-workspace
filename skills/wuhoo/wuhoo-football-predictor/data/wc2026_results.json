@@ -10,7 +10,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-12T12:41:25.555677"
+      "collected_at": "2026-06-12T12:41:25.555677",
+      "date": "2026-06-29",
+      "score": "2-0",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 2,
@@ -22,7 +25,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-12T12:41:25.555711"
+      "collected_at": "2026-06-12T12:41:25.555711",
+      "date": "2026-06-29",
+      "score": "2-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 3,
@@ -34,7 +40,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "yahoo_sports",
-      "collected_at": "2026-06-13T14:32:51.920371"
+      "collected_at": "2026-06-13T14:32:51.920371",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 4,
@@ -46,7 +55,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "sporting_news",
-      "collected_at": "2026-06-13T14:32:51.920413"
+      "collected_at": "2026-06-13T14:32:51.920413",
+      "date": "2026-06-29",
+      "score": "4-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 5,
@@ -58,7 +70,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-14T14:33:36.089593"
+      "collected_at": "2026-06-14T14:33:36.089593",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 6,
@@ -70,7 +85,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-14T14:33:36.089642"
+      "collected_at": "2026-06-14T14:33:36.089642",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 7,
@@ -82,7 +100,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-14T14:33:36.089659"
+      "collected_at": "2026-06-14T14:33:36.089659",
+      "date": "2026-06-29",
+      "score": "0-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 8,
@@ -93,7 +114,10 @@
       "score_b": 0,
       "stage": "group_stage",
       "status": "completed",
-      "source": "manual"
+      "source": "manual",
+      "date": "2026-06-29",
+      "score": "2-0",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 9,
@@ -105,7 +129,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-16T14:46:02.166924"
+      "collected_at": "2026-06-16T14:46:02.166924",
+      "date": "2026-06-29",
+      "score": "7-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 10,
@@ -117,7 +144,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-16T14:46:02.167017"
+      "collected_at": "2026-06-16T14:46:02.167017",
+      "date": "2026-06-29",
+      "score": "2-2",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 11,
@@ -129,7 +159,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-16T14:46:02.167039"
+      "collected_at": "2026-06-16T14:46:02.167039",
+      "date": "2026-06-29",
+      "score": "1-0",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 12,
@@ -141,7 +174,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-16T14:46:02.167057"
+      "collected_at": "2026-06-16T14:46:02.167057",
+      "date": "2026-06-29",
+      "score": "5-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 13,
@@ -153,7 +189,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-16T16:07:00.759072"
+      "collected_at": "2026-06-16T16:07:00.759072",
+      "date": "2026-06-29",
+      "score": "0-0",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 14,
@@ -165,7 +204,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-16T16:07:00.759092"
+      "collected_at": "2026-06-16T16:07:00.759092",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 15,
@@ -177,7 +219,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-16T16:07:00.759094"
+      "collected_at": "2026-06-16T16:07:00.759094",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 16,
@@ -189,7 +234,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-16T16:07:00.759096"
+      "collected_at": "2026-06-16T16:07:00.759096",
+      "date": "2026-06-29",
+      "score": "2-2",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 17,
@@ -201,7 +249,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-17T15:21:04.681045"
+      "collected_at": "2026-06-17T15:21:04.681045",
+      "date": "2026-06-29",
+      "score": "3-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 18,
@@ -213,7 +264,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual (corrected from 1-3 per user + FIFA verification)",
-      "collected_at": "2026-06-17T15:21:04.681088"
+      "collected_at": "2026-06-17T15:21:04.681088",
+      "date": "2026-06-29",
+      "score": "1-4",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 19,
@@ -225,7 +279,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-17T15:21:04.681107"
+      "collected_at": "2026-06-17T15:21:04.681107",
+      "date": "2026-06-29",
+      "score": "3-0",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 20,
@@ -237,7 +294,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-17T15:21:04.681131"
+      "collected_at": "2026-06-17T15:21:04.681131",
+      "date": "2026-06-29",
+      "score": "3-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 21,
@@ -249,7 +309,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-19T14:31:19.156496"
+      "collected_at": "2026-06-19T14:31:19.156496",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 22,
@@ -261,7 +324,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-19T14:31:19.156533"
+      "collected_at": "2026-06-19T14:31:19.156533",
+      "date": "2026-06-29",
+      "score": "4-2",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 23,
@@ -273,7 +339,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-19T14:31:19.156554"
+      "collected_at": "2026-06-19T14:31:19.156554",
+      "date": "2026-06-29",
+      "score": "1-0",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 24,
@@ -285,19 +354,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-19T14:31:19.156572"
-    },
-    {
-      "match_id": 28,
-      "date_beijing": "2026-06-19",
-      "team_a": "Mexico",
-      "team_b": "South Korea",
-      "score_a": 1,
-      "score_b": 0,
-      "stage": "group_stage",
-      "status": "completed",
-      "source": "manual",
-      "collected_at": "2026-06-19T14:38:54.914288"
+      "collected_at": "2026-06-19T14:31:19.156572",
+      "date": "2026-06-29",
+      "score": "1-3",
+      "round": "GROUP_MD1"
     },
     {
       "match_id": 25,
@@ -309,7 +369,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-19T14:39:22.242615"
+      "collected_at": "2026-06-19T14:39:22.242615",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 26,
@@ -321,7 +384,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-19T14:39:22.242660"
+      "collected_at": "2026-06-19T14:39:22.242660",
+      "date": "2026-06-29",
+      "score": "4-1",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 27,
@@ -333,7 +399,25 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-19T14:39:22.242680"
+      "collected_at": "2026-06-19T14:39:22.242680",
+      "date": "2026-06-29",
+      "score": "6-0",
+      "round": "GROUP_MD2"
+    },
+    {
+      "match_id": 28,
+      "date_beijing": "2026-06-19",
+      "team_a": "Mexico",
+      "team_b": "South Korea",
+      "score_a": 1,
+      "score_b": 0,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-19T14:38:54.914288",
+      "date": "2026-06-29",
+      "score": "1-0",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 29,
@@ -345,7 +429,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-20T14:38:28.503720"
+      "collected_at": "2026-06-20T14:38:28.503720",
+      "date": "2026-06-29",
+      "score": "2-0",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 30,
@@ -357,7 +444,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-20T14:38:28.503773"
+      "collected_at": "2026-06-20T14:38:28.503773",
+      "date": "2026-06-29",
+      "score": "0-1",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 31,
@@ -369,7 +459,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-20T14:38:28.503790"
+      "collected_at": "2026-06-20T14:38:28.503790",
+      "date": "2026-06-29",
+      "score": "3-0",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 32,
@@ -381,7 +474,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-20T14:38:28.503809"
+      "collected_at": "2026-06-20T14:38:28.503809",
+      "date": "2026-06-29",
+      "score": "0-1",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 33,
@@ -393,7 +489,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-21T14:31:15.521552"
+      "collected_at": "2026-06-21T14:31:15.521552",
+      "date": "2026-06-29",
+      "score": "5-1",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 34,
@@ -405,7 +504,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-21T14:31:15.521594"
+      "collected_at": "2026-06-21T14:31:15.521594",
+      "date": "2026-06-29",
+      "score": "2-1",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 35,
@@ -417,7 +519,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-21T14:31:15.521614"
+      "collected_at": "2026-06-21T14:31:15.521614",
+      "date": "2026-06-29",
+      "score": "0-0",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 36,
@@ -429,7 +534,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-21T14:55:32.937476"
+      "collected_at": "2026-06-21T14:55:32.937476",
+      "date": "2026-06-29",
+      "score": "0-4",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 37,
@@ -441,7 +549,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-22T14:31:56.939554"
+      "collected_at": "2026-06-22T14:31:56.939554",
+      "date": "2026-06-29",
+      "score": "4-0",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 38,
@@ -453,7 +564,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-22T14:31:56.939595"
+      "collected_at": "2026-06-22T14:31:56.939595",
+      "date": "2026-06-29",
+      "score": "0-0",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 39,
@@ -465,7 +579,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-22T14:31:56.939609"
+      "collected_at": "2026-06-22T14:31:56.939609",
+      "date": "2026-06-29",
+      "score": "2-2",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 40,
@@ -477,7 +594,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-22T14:31:56.939637"
+      "collected_at": "2026-06-22T14:31:56.939637",
+      "date": "2026-06-29",
+      "score": "1-3",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 41,
@@ -489,7 +609,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-23T14:31:40.376687"
+      "collected_at": "2026-06-23T14:31:40.376687",
+      "date": "2026-06-29",
+      "score": "2-0",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 42,
@@ -501,7 +624,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-23T14:31:40.376733"
+      "collected_at": "2026-06-23T14:31:40.376733",
+      "date": "2026-06-29",
+      "score": "3-0",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 43,
@@ -513,7 +639,10 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual (corrected from 3-1 per web verification: NJ.com/SABC/Instagram confirm 3-2)",
-      "collected_at": "2026-06-23T14:31:40.376754"
+      "collected_at": "2026-06-23T14:31:40.376754",
+      "date": "2026-06-29",
+      "score": "3-2",
+      "round": "GROUP_MD2"
     },
     {
       "match_id": 44,
@@ -525,7 +654,833 @@
       "stage": "group_stage",
       "status": "completed",
       "source": "manual",
-      "collected_at": "2026-06-23T14:31:40.376774"
+      "collected_at": "2026-06-23T14:31:40.376774",
+      "date": "2026-06-29",
+      "score": "1-2",
+      "round": "GROUP_MD2"
+    },
+    {
+      "match_id": 45,
+      "date_beijing": "2026-06-24",
+      "team_a": "Portugal",
+      "team_b": "Uzbekistan",
+      "score_a": 5,
+      "score_b": 0,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-24T14:35:31.980477",
+      "date": "2026-06-29",
+      "score": "5-0",
+      "round": "GROUP_MD2"
+    },
+    {
+      "match_id": 46,
+      "date_beijing": "2026-06-24",
+      "team_a": "England",
+      "team_b": "Ghana",
+      "score_a": 0,
+      "score_b": 0,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-24T14:35:31.980512",
+      "date": "2026-06-29",
+      "score": "0-0",
+      "round": "GROUP_MD2"
+    },
+    {
+      "match_id": 47,
+      "date_beijing": "2026-06-24",
+      "team_a": "Panama",
+      "team_b": "Croatia",
+      "score_a": 0,
+      "score_b": 1,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-24T14:35:31.980527",
+      "date": "2026-06-29",
+      "score": "0-1",
+      "round": "GROUP_MD2"
+    },
+    {
+      "match_id": 48,
+      "date_beijing": "2026-06-24",
+      "team_a": "Colombia",
+      "team_b": "DR Congo",
+      "score_a": 1,
+      "score_b": 0,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-24T14:35:31.980538",
+      "date": "2026-06-29",
+      "score": "1-0",
+      "round": "GROUP_MD2"
+    },
+    {
+      "match_id": 49,
+      "date_beijing": "2026-06-25",
+      "team_a": "Switzerland",
+      "team_b": "Canada",
+      "score_a": 2,
+      "score_b": 1,
+      "group": "B",
+      "matchday": 3,
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "2-1",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 50,
+      "date_beijing": "2026-06-25",
+      "team_a": "Bosnia and Herzegovina",
+      "team_b": "Qatar",
+      "score_a": 3,
+      "score_b": 1,
+      "group": "B",
+      "matchday": 3,
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "3-1",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 51,
+      "date_beijing": "2026-06-25",
+      "team_a": "Scotland",
+      "team_b": "Brazil",
+      "score_a": 0,
+      "score_b": 3,
+      "group": "C",
+      "matchday": 3,
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "0-3",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 52,
+      "date_beijing": "2026-06-25",
+      "team_a": "Morocco",
+      "team_b": "Haiti",
+      "score_a": 4,
+      "score_b": 2,
+      "group": "C",
+      "matchday": 3,
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "4-2",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 53,
+      "date_beijing": "2026-06-25",
+      "team_a": "Czech Republic",
+      "team_b": "Mexico",
+      "score_a": 0,
+      "score_b": 3,
+      "group": "A",
+      "matchday": 3,
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "0-3",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 54,
+      "date_beijing": "2026-06-25",
+      "team_a": "South Africa",
+      "team_b": "South Korea",
+      "score_a": 1,
+      "score_b": 0,
+      "group": "A",
+      "matchday": 3,
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "1-0",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 55,
+      "date_beijing": "2026-06-26",
+      "team_a": "Ecuador",
+      "team_b": "Germany",
+      "score_a": 2,
+      "score_b": 1,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-26T14:36:02.998419",
+      "date": "2026-06-29",
+      "score": "2-1",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 56,
+      "date_beijing": "2026-06-26",
+      "team_a": "Curacao",
+      "team_b": "Ivory Coast",
+      "score_a": 0,
+      "score_b": 2,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-26T14:36:02.998457",
+      "date": "2026-06-29",
+      "score": "0-2",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 57,
+      "date_beijing": "2026-06-26",
+      "team_a": "Japan",
+      "team_b": "Sweden",
+      "score_a": 1,
+      "score_b": 1,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-26T14:36:02.998482",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 58,
+      "date_beijing": "2026-06-26",
+      "team_a": "Tunisia",
+      "team_b": "Netherlands",
+      "score_a": 1,
+      "score_b": 3,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-26T14:36:02.998503",
+      "date": "2026-06-29",
+      "score": "1-3",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 59,
+      "date_beijing": "2026-06-26",
+      "team_a": "Turkey",
+      "team_b": "United States",
+      "score_a": 3,
+      "score_b": 2,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-26T14:36:02.998526",
+      "date": "2026-06-29",
+      "score": "3-2",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 60,
+      "date_beijing": "2026-06-26",
+      "team_a": "Paraguay",
+      "team_b": "Australia",
+      "score_a": 0,
+      "score_b": 0,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-26T14:36:02.998543",
+      "date": "2026-06-29",
+      "score": "0-0",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 61,
+      "date_beijing": "2026-06-27",
+      "team_a": "Norway",
+      "team_b": "France",
+      "score_a": 1,
+      "score_b": 4,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-27T14:32:35.969281",
+      "date": "2026-06-29",
+      "score": "1-4",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 62,
+      "date_beijing": "2026-06-27",
+      "team_a": "Senegal",
+      "team_b": "Iraq",
+      "score_a": 5,
+      "score_b": 0,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-27T14:32:35.969336",
+      "date": "2026-06-29",
+      "score": "5-0",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 63,
+      "date_beijing": "2026-06-27",
+      "team_a": "Cape Verde",
+      "team_b": "Saudi Arabia",
+      "score_a": 0,
+      "score_b": 0,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-27T14:32:35.969354",
+      "date": "2026-06-29",
+      "score": "0-0",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 64,
+      "date_beijing": "2026-06-27",
+      "team_a": "Uruguay",
+      "team_b": "Spain",
+      "score_a": 0,
+      "score_b": 1,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-27T14:32:35.969378",
+      "date": "2026-06-29",
+      "score": "0-1",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 65,
+      "date_beijing": "2026-06-27",
+      "team_a": "Egypt",
+      "team_b": "Iran",
+      "score_a": 1,
+      "score_b": 1,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-27T14:32:35.969395",
+      "date": "2026-06-29",
+      "score": "1-1",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 66,
+      "date_beijing": "2026-06-27",
+      "team_a": "New Zealand",
+      "team_b": "Belgium",
+      "score_a": 1,
+      "score_b": 5,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-27T14:32:35.969413",
+      "date": "2026-06-29",
+      "score": "1-5",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 67,
+      "date_beijing": "2026-06-28",
+      "group": "J",
+      "team_a": "Argentina",
+      "team_b": "Jordan",
+      "score_a": 3,
+      "score_b": 1,
+      "stage": "group",
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "3-1",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 68,
+      "date_beijing": "2026-06-28",
+      "group": "J",
+      "team_a": "Austria",
+      "team_b": "Algeria",
+      "score_a": 3,
+      "score_b": 3,
+      "stage": "group",
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "3-3",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 69,
+      "date_beijing": "2026-06-28",
+      "group": "K",
+      "team_a": "Portugal",
+      "team_b": "Colombia",
+      "score_a": 0,
+      "score_b": 0,
+      "stage": "group",
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "0-0",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 70,
+      "date_beijing": "2026-06-28",
+      "group": "K",
+      "team_a": "Uzbekistan",
+      "team_b": "DR Congo",
+      "score_a": 1,
+      "score_b": 3,
+      "stage": "group",
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "1-3",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 71,
+      "date_beijing": "2026-06-28",
+      "group": "L",
+      "team_a": "England",
+      "team_b": "Panama",
+      "score_a": 2,
+      "score_b": 0,
+      "stage": "group",
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "2-0",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 72,
+      "date_beijing": "2026-06-28",
+      "group": "L",
+      "team_a": "Croatia",
+      "team_b": "Ghana",
+      "score_a": 2,
+      "score_b": 1,
+      "stage": "group",
+      "status": "completed",
+      "date": "2026-06-29",
+      "score": "2-1",
+      "round": "GROUP_MD3"
+    },
+    {
+      "match_id": 73,
+      "date_beijing": "2026-06-29",
+      "team_a": "South Africa",
+      "team_b": "Canada",
+      "score_a": 0,
+      "score_b": 1,
+      "stage": "group_stage",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-06-29T14:34:48.748811",
+      "date": "2026-06-29",
+      "winner": "Canada",
+      "score": "0-1",
+      "round": "R32"
+    },
+    {
+      "match_id": 74,
+      "date": "2026-06-30",
+      "team_a": "Germany",
+      "team_b": "Paraguay",
+      "score_a": 1,
+      "score_b": 1,
+      "penalties_a": 3,
+      "penalties_b": 4,
+      "stage": "R32",
+      "status": "completed",
+      "winner": "Paraguay",
+      "note": "Paraguay wins 4-3 on penalties. 90min 1-1: Enciso 57, Havertz 54.",
+      "date_beijing": "2026-06-30",
+      "penalties": "3-4",
+      "score": "1-1",
+      "round": "R32"
+    },
+    {
+      "match_id": 75,
+      "date": "2026-06-30",
+      "team_a": "Netherlands",
+      "team_b": "Morocco",
+      "score_a": 1,
+      "score_b": 1,
+      "stage": "R32",
+      "status": "completed",
+      "winner": "Morocco",
+      "note": "Morocco wins on penalties. 90min 1-1.",
+      "date_beijing": "2026-06-30",
+      "penalties": "PK",
+      "score": "1-1",
+      "round": "R32"
+    },
+    {
+      "match_id": 76,
+      "date": "2026-06-30",
+      "team_a": "Brazil",
+      "team_b": "Japan",
+      "score_a": 2,
+      "score_b": 1,
+      "stage": "R32",
+      "status": "completed",
+      "winner": "Brazil",
+      "note": "Sano 28 for Japan, Casemiro 65, Martinelli 90+6 winner.",
+      "date_beijing": "2026-06-30",
+      "score": "2-1",
+      "round": "R32"
+    },
+    {
+      "match_id": 77,
+      "team_a": "France",
+      "team_b": "Sweden",
+      "score_a": 3,
+      "score_b": 0,
+      "date": "2026-07-01",
+      "status": "completed",
+      "round": "R32",
+      "stage": "knockout",
+      "penalties": null,
+      "winner": "France",
+      "date_beijing": "2026-07-01",
+      "score": "3-0"
+    },
+    {
+      "match_id": 78,
+      "team_a": "Ivory Coast",
+      "team_b": "Norway",
+      "score_a": 1,
+      "score_b": 2,
+      "date": "2026-07-01",
+      "status": "completed",
+      "round": "R32",
+      "stage": "knockout",
+      "penalties": null,
+      "winner": "Norway",
+      "date_beijing": "2026-07-01",
+      "score": "1-2"
+    },
+    {
+      "match_id": 79,
+      "team_a": "Mexico",
+      "team_b": "Ecuador",
+      "score_a": 2,
+      "score_b": 0,
+      "date": "2026-07-01",
+      "status": "completed",
+      "round": "R32",
+      "stage": "knockout",
+      "penalties": null,
+      "winner": "Mexico",
+      "date_beijing": "2026-07-01",
+      "score": "2-0"
+    },
+    {
+      "match_id": 80,
+      "date": "2026-07-02",
+      "team_a": "England",
+      "team_b": "DR Congo",
+      "score_a": 2,
+      "score_b": 1,
+      "stage": "R32",
+      "status": "completed",
+      "notes": "Kane 75' 86'; Cipenga 7'",
+      "winner": "England",
+      "date_beijing": "2026-07-02",
+      "score": "2-1",
+      "round": "R32"
+    },
+    {
+      "match_id": 81,
+      "date": "2026-07-02",
+      "team_a": "United States",
+      "team_b": "Bosnia and Herzegovina",
+      "score_a": 2,
+      "score_b": 0,
+      "stage": "R32",
+      "status": "completed",
+      "notes": "Balogun goal",
+      "winner": "United States",
+      "date_beijing": "2026-07-02",
+      "score": "2-0",
+      "round": "R32"
+    },
+    {
+      "match_id": 82,
+      "date": "2026-07-02",
+      "team_a": "Belgium",
+      "team_b": "Senegal",
+      "score_a": 3,
+      "score_b": 2,
+      "stage": "R32",
+      "status": "completed",
+      "notes": "AET (2-2 FT). Tielemans 125' pen, Lukaku; Diarra, Sarr. Comeback from 0-2 down.",
+      "winner": "Belgium",
+      "date_beijing": "2026-07-02",
+      "score": "3-2",
+      "round": "R32"
+    },
+    {
+      "match_id": 83,
+      "date": "2026-07-03",
+      "team_a": "Portugal",
+      "team_b": "Croatia",
+      "score_a": 2,
+      "score_b": 1,
+      "stage": "R32",
+      "status": "completed",
+      "goals": [
+        {
+          "scorer": "Cristiano Ronaldo",
+          "team": "Portugal",
+          "minute": 68,
+          "type": "penalty"
+        },
+        {
+          "scorer": "Goncalo Ramos",
+          "team": "Portugal",
+          "minute": 90,
+          "type": "normal"
+        }
+      ],
+      "winner": "Portugal",
+      "date_beijing": "2026-07-03",
+      "score": "2-1",
+      "round": "R32"
+    },
+    {
+      "match_id": 84,
+      "date": "2026-07-03",
+      "team_a": "Spain",
+      "team_b": "Austria",
+      "score_a": 3,
+      "score_b": 0,
+      "stage": "R32",
+      "status": "completed",
+      "goals": [
+        {
+          "scorer": "Mikel Oyarzabal",
+          "team": "Spain",
+          "minute": 36,
+          "type": "normal"
+        },
+        {
+          "scorer": "Pedro Porro",
+          "team": "Spain",
+          "minute": 66,
+          "type": "normal"
+        },
+        {
+          "scorer": "Mikel Oyarzabal",
+          "team": "Spain",
+          "minute": 89,
+          "type": "normal"
+        }
+      ],
+      "winner": "Spain",
+      "date_beijing": "2026-07-03",
+      "score": "3-0",
+      "round": "R32"
+    },
+    {
+      "match_id": 85,
+      "date": "2026-07-03",
+      "team_a": "Switzerland",
+      "team_b": "Algeria",
+      "score_a": 2,
+      "score_b": 0,
+      "stage": "R32",
+      "status": "completed",
+      "goals": [
+        {
+          "scorer": "Breel Embolo",
+          "team": "Switzerland",
+          "minute": 10,
+          "type": "normal"
+        },
+        {
+          "scorer": "Dan Ndoye",
+          "team": "Switzerland",
+          "minute": 46,
+          "type": "normal"
+        }
+      ],
+      "winner": "Switzerland",
+      "date_beijing": "2026-07-03",
+      "score": "2-0",
+      "round": "R32"
+    },
+    {
+      "match_id": 86,
+      "date": "2026-07-04",
+      "team_a": "Argentina",
+      "team_b": "Cape Verde",
+      "score_a": 3,
+      "score_b": 2,
+      "status": "completed",
+      "winner": "Argentina",
+      "round": "R32",
+      "aet": true,
+      "date_beijing": "2026-07-04",
+      "score": "3-2"
+    },
+    {
+      "match_id": 87,
+      "date": "2026-07-04",
+      "team_a": "Colombia",
+      "team_b": "Ghana",
+      "score_a": 1,
+      "score_b": 0,
+      "status": "completed",
+      "winner": "Colombia",
+      "round": "R32",
+      "date_beijing": "2026-07-04",
+      "score": "1-0"
+    },
+    {
+      "match_id": 88,
+      "date": "2026-07-04",
+      "team_a": "Australia",
+      "team_b": "Egypt",
+      "score_a": 1,
+      "score_b": 1,
+      "status": "completed",
+      "winner": "Egypt",
+      "penalties": "2-4",
+      "round": "R32",
+      "aet": true,
+      "date_beijing": "2026-07-04",
+      "score": "1-1"
+    },
+    {
+      "match_id": 90,
+      "date_beijing": "2026-07-04",
+      "date": "2026-07-04",
+      "team_a": "Canada",
+      "team_b": "Morocco",
+      "score_a": 0,
+      "score_b": 3,
+      "stage": "round_of_16",
+      "round": "R16",
+      "status": "completed",
+      "winner": "Morocco",
+      "source": "manual",
+      "collected_at": "2026-07-05T15:05:31",
+      "score": "0-2"
+    },
+    {
+      "match_id": 89,
+      "date_beijing": "2026-07-04",
+      "date": "2026-07-04",
+      "team_a": "Paraguay",
+      "team_b": "France",
+      "score_a": 0,
+      "score_b": 1,
+      "stage": "round_of_16",
+      "round": "R16",
+      "status": "completed",
+      "winner": "France",
+      "source": "manual",
+      "collected_at": "2026-07-05T15:05:31",
+      "score": "0-3"
+    },
+    {
+      "match_id": 91,
+      "date_beijing": "2026-07-06",
+      "team_a": "Brazil",
+      "team_b": "Norway",
+      "score_a": 1,
+      "score_b": 2,
+      "stage": "Round of 16",
+      "status": "completed",
+      "source": "manual",
+      "collected_at": "2026-07-06T14:33:12.606540",
+      "round": "R16",
+      "winner": "Norway",
+      "score": "1-2"
+    },
+    {
+      "match_id": 92,
+      "date_beijing": "2026-07-06",
+      "team_a": "Mexico",
+      "team_b": "England",
+      "score_a": 2,
+      "score_b": 3,
+      "status": "completed",
+      "winner": "England",
+      "round": "R16",
+      "stage": "Round of 16",
+      "venue": "Estadio Azteca",
+      "venue_city": "Mexico City",
+      "score": "1-3"
+    },
+    {
+      "match_id": "M93",
+      "team_a": "Portugal",
+      "team_b": "Spain",
+      "score": "0-1",
+      "round": "R16",
+      "winner": "Spain",
+      "status": "completed",
+      "date_beijing": "2026-07-07",
+      "venue": "AT&T Stadium, Arlington",
+      "stage": "Round of 16",
+      "score_a": 0,
+      "score_b": 1
+    },
+    {
+      "match_id": "M94",
+      "team_a": "United States",
+      "team_b": "Belgium",
+      "score": "1-4",
+      "round": "R16",
+      "winner": "Belgium",
+      "status": "completed",
+      "date_beijing": "2026-07-07",
+      "venue": "Lumen Field, Seattle",
+      "stage": "Round of 16",
+      "score_a": 1,
+      "score_b": 4
+    },
+    {
+      "match_id": "M95",
+      "team_a": "Argentina",
+      "team_b": "Egypt",
+      "score": "3-2",
+      "round": "R16",
+      "winner": "Argentina",
+      "status": "completed",
+      "date_beijing": "2026-07-08",
+      "venue": "Mercedes-Benz Stadium, Atlanta",
+      "stage": "Round of 16",
+      "score_a": 3,
+      "score_b": 2
+    },
+    {
+      "match_id": "M96",
+      "team_a": "Switzerland",
+      "team_b": "Colombia",
+      "score": "0-0",
+      "round": "R16",
+      "winner": "Switzerland",
+      "status": "completed",
+      "date_beijing": "2026-07-08",
+      "venue": "BC Place, Vancouver",
+      "stage": "Round of 16",
+      "penalties": "4-2",
+      "score_a": 0,
+      "score_b": 0
     }
-  ]
+  ],
+  "_meta": {
+    "results_updated": "54 matches have results",
+    "matches_completed": 54,
+    "updated": "2026-06-25T14:35:00"
+  },
+  "last_updated": "2026-07-03T14:40:32.393062",
+  "updated": "2026-07-04T14:30:00+08:00",
+  "last_repaired": "2026-07-08T10:55:55.786957",
+  "repair_note": "P0.1: scores synced from schedule + knockout_schedule, rounds classified"
 }

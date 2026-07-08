@@ -27,7 +27,8 @@ from scripts.inference_engine import InferenceEngine
 
 def predict_with_engine(team_a, team_b, venue_name=None, enable_news=False,
                         manual_adjustments=None, knockout=False, match_id=None,
-                        matchday=None, rules_version="v1"):
+                        matchday=None, rules_version="v1",
+                        motivation_data=None, bracket_data=None):
     """
     Predict a single match using the v5.5 rule inference engine.
     
@@ -37,6 +38,8 @@ def predict_with_engine(team_a, team_b, venue_name=None, enable_news=False,
     Args:
         Same as predict_single_match, plus:
         rules_version: "v1" or "v2" for A/B testing
+        motivation_data: dict for MD3 QMF (v5.4)
+        bracket_data: dict for MD3 BPP (v5.4)
     
     Returns:
         dict with full audit trail including inference trace
@@ -51,7 +54,8 @@ def predict_with_engine(team_a, team_b, venue_name=None, enable_news=False,
         return predict_single_match(
             team_a, team_b, venue_name=venue_name, enable_news=enable_news,
             manual_adjustments=manual_adjustments, knockout=knockout,
-            match_id=match_id, matchday=matchday
+            match_id=match_id, matchday=matchday,
+            motivation_data=motivation_data, bracket_data=bracket_data
         )
     
     # Initialize engine
@@ -109,7 +113,9 @@ def predict_with_engine(team_a, team_b, venue_name=None, enable_news=False,
         manual_adjustments=engine_adjustments,
         knockout=knockout,
         match_id=match_id,
-        matchday=matchday
+        matchday=matchday,
+        motivation_data=motivation_data,
+        bracket_data=bracket_data
     )
     
     # Inject engine trace into result

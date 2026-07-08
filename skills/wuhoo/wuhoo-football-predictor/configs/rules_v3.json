@@ -1,0 +1,67 @@
+{
+  "version": "3.0",
+  "generated": "2026-07-08",
+  "description": "WC2026 淘汰赛增强规则 — 在 v1 基础上新增 6 条淘汰赛专用规则 + Phase Awareness",
+  "phase": "knockout",
+  
+  "confidence_factors": {
+    "high": 1.0,
+    "medium": 0.7,
+    "low": 0.4
+  },
+  
+  "freshness_decay": {
+    "enabled": true,
+    "half_life_days": 14,
+    "min_factor": 0.5
+  },
+  
+  "saturation": {
+    "midpoint": 40,
+    "steepness": 0.08,
+    "max_output": 50
+  },
+  
+  "interactions": [
+    {"id": "INT_001", "name": "MUST_WIN dampened by third-place viability", "when": ["MUST_WIN", "THIRD_PLACE_VIABLE"], "effect": "multiply", "coefficient": 0.6, "target": "MUST_WIN", "reason": "第三名出线概率>70%时降低必胜动机", "phase": "group"},
+    {"id": "INT_002", "name": "LOCKED_IN penalty vs MUST_WIN opponent", "when": ["LOCKED_IN", "OPPONENT_MUST_WIN"], "effect": "subtract", "coefficient": 15, "target": "LOCKED_IN", "reason": "已出线队面对背水一战的对手进一步降低动力", "phase": "group"},
+    {"id": "INT_003", "name": "MUST_WIN amplified by home advantage", "when": ["MUST_WIN", "HOME_ADVANTAGE"], "effect": "multiply", "coefficient": 1.15, "target": "MUST_WIN", "reason": "背水一战+主场共振效应", "phase": "group"},
+    {"id": "INT_004", "name": "Heavy injuries dampen positive motivation", "when": ["INJURY_HEAVY", "MUST_WIN"], "effect": "multiply", "coefficient": 0.75, "target": "MUST_WIN", "reason": "伤病满营时必胜信念受实力制约", "phase": "group"},
+    {"id": "INT_005", "name": "Momentum cascade: win streak + high confidence", "when": ["WIN_STREAK", "HIGH_CONFIDENCE"], "effect": "multiply", "coefficient": 1.2, "target": "WIN_STREAK", "reason": "连胜+高自信共振效应", "phase": "knockout"},
+    {"id": "INT_006", "name": "Fatigue dampens momentum", "when": ["FATIGUE", "MOMENTUM"], "effect": "multiply", "coefficient": 0.7, "target": "MOMENTUM", "reason": "加时赛后疲劳削弱势头", "phase": "knockout"}
+  ],
+  
+  "rules": [
+    {"id": "INJ_001", "priority": 20, "category": "injury", "description": "基于 injuries.json 的伤病ELO扣分", "activation": {"condition": "INJURY_PENALTY", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": "{{injury_penalty}}"}, "phase": "all"},
+    {"id": "COA_001", "priority": 30, "category": "coach", "description": "coach + stability + chemistry", "activation": {"condition": "true", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": "{{coach_chemistry}}"}},
+    {"id": "VEN_001", "priority": 25, "category": "venue", "description": "海拔/气温/东道主优势", "activation": {"condition": "true", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": "{{venue_impact}}"}},
+    {"id": "WEA_001", "priority": 22, "category": "weather", "description": "降水/风力/实时温度", "activation": {"condition": "true", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": "{{weather_impact}}"}},
+    {"id": "DEN_001", "priority": 22, "category": "density", "description": "旅途距离+休息天数复合因子", "activation": {"condition": "true", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": "{{density_impact}}"}},
+    {"id": "FRM_001", "priority": 18, "category": "form", "description": "友谊赛结果 vs ELO期望", "activation": {"condition": "true", "confidence": "low"}, "action": {"type": "elo_adjust", "base_value": "{{friendly_form}}"}},
+    {"id": "TFM_001", "priority": 18, "category": "tournament_form", "description": "每队一次性随机boost N(0,60)", "activation": {"condition": "true", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": "{{tournament_form}}"}},
+    {"id": "MAN_001", "priority": 100, "category": "manual", "description": "Layer 6 手动覆写（最高优先级）", "activation": {"condition": "MANUAL_ADJUSTMENT", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": "{{manual_adjustment}}"}},
+    {"id": "REC_001", "priority": 17, "category": "recent", "description": "小组赛7+分且赛前ELO排名>15 → 近期状态优异 +20 ELO", "activation": {"condition": "RECENT_FORM_ELITE", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": 20}},
+    {"id": "CHM_001", "priority": 13, "category": "chemistry", "description": "小组赛后团队磨合度提升, 按小组赛积分计算", "activation": {"condition": "true", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": "{{chemistry_boost}}"}},
+    
+    {"id": "KO_DEF_001", "priority": 16, "category": "knockout_defense", "description": "防守型/防反球队在淘汰赛阶段加成 +12 ELO", "activation": {"condition": "DEFENSIVE_STYLE", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": 12}, "phase": "knockout"},
+    {"id": "KO_POS_001", "priority": 14, "category": "knockout_possession", "description": "传控型球队在淘汰赛高压逼抢下效率略降 -5 ELO", "activation": {"condition": "POSSESSION_STYLE", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": -5}, "phase": "knockout"},
+    {"id": "KO_GD_001", "priority": 16, "category": "knockout_goal_diff", "description": "小组赛净胜球>5的球队进入淘汰赛势头加成 +15 ELO", "activation": {"condition": "HIGH_GOAL_DIFF", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": 15}, "phase": "knockout"},
+    
+    {"id": "KO_MOMENTUM_001", "priority": 17, "category": "knockout_momentum", "description": "近2场淘汰赛全胜（连胜势头）加成 +12 ELO", "activation": {"condition": "WIN_STREAK_2", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": 12}, "phase": "knockout"},
+    {"id": "KO_FATIGUE_001", "priority": 15, "category": "knockout_fatigue", "description": "上轮加时赛球队休息不足惩罚 -15 ELO", "activation": {"condition": "PREV_AET", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": -15}, "phase": "knockout"},
+    {"id": "KO_WEAK_001", "priority": 16, "category": "knockout_underdog", "description": "弱队(ELO差>200)淘汰赛冷门加成 +25 ELO (史上冷门率更高)", "activation": {"condition": "UNDERDOG_LARGE", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": 25}, "phase": "knockout"},
+    {"id": "KO_CLEAN_001", "priority": 15, "category": "knockout_clean_sheet", "description": "上轮零封对手 → 防守信心加成 +8 ELO", "activation": {"condition": "PREV_CLEAN_SHEET", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": 8}, "phase": "knockout"},
+    {"id": "KO_BIGWIN_001", "priority": 14, "category": "knockout_big_win", "description": "上轮净胜≥3球 → 统治力加成 +10 ELO", "activation": {"condition": "PREV_BIG_WIN", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": 10}, "phase": "knockout"},
+    
+    {"id": "ELO_TRAJECTORY_001", "priority": 19, "category": "elo_trend", "description": "Elo动态轨迹因子: 稳步上升+15, 持续下滑-15", "activation": {"condition": "true", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": "{{trajectory_adjustment}}"}},
+    
+    {"id": "MOT_001", "priority": 15, "category": "motivation", "description": "已锁定出线，大概率轮换主力（-30 ELO）", "activation": {"condition": "LOCKED_IN", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": -30}, "phase": "group"},
+    {"id": "MOT_002", "priority": 15, "category": "motivation", "description": "必须赢球，背水一战（+20 ELO）", "activation": {"condition": "MUST_WIN", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": 20}, "phase": "group"},
+    {"id": "MOT_003", "priority": 15, "category": "motivation", "description": "争夺小组第一，为淘汰赛有利位置（+8 ELO）", "activation": {"condition": "TOP_SEED", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": 8}, "phase": "group"},
+    {"id": "MOT_004", "priority": 15, "category": "motivation", "description": "需要至少1分（+10 ELO）", "activation": {"condition": "NEED_RESULT", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": 10}, "phase": "group"},
+    {"id": "MOT_005", "priority": 15, "category": "motivation", "description": "打平即出线，保守策略（-5 ELO）", "activation": {"condition": "DRAW_OK", "confidence": "high"}, "action": {"type": "elo_adjust", "base_value": -5}, "phase": "group"},
+    {"id": "MOT_006", "priority": 15, "category": "motivation", "description": "已淘汰，为荣誉而战（-5 ELO）", "activation": {"condition": "PRIDE_ONLY", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": -5}, "phase": "group"},
+    {"id": "MOT_005B", "priority": 5, "category": "motivation", "description": "若第三名出线概率>70%，MUST_WIN 降级效果", "activation": {"condition": "THIRD_PLACE_VIABLE", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": -12}, "phase": "group"},
+    {"id": "BPP_001", "priority": 12, "category": "bracket_path", "description": "淘汰赛路径差异 > 100 ELO 时产生战略动机", "activation": {"condition": "BRACKET_PATH_DIFF", "confidence": "medium"}, "action": {"type": "elo_adjust", "base_value": "{{bracket_path_elo}}"}, "phase": "group"}
+  ]
+}

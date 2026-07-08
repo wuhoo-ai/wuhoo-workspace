@@ -1,51 +1,51 @@
 {
-  "generated": "2026-06-24T11:33:51.981293+08:00",
+  "generated": "2026-06-27T14:32:57.948864+08:00",
   "teams": 48,
   "classifications": {
     "Mexico": {
-      "classification": "TOP_SEED",
-      "elo_adjustment": 8,
-      "reason": "已锁定出线，但仍需确保小组第一",
+      "classification": "LOCKED_IN",
+      "elo_adjustment": -30,
+      "reason": "已锁定A第一，大概率轮换主力",
       "confidence": "high",
-      "points": 6,
+      "points": 9,
       "group_position": 1,
       "group": "A",
-      "mp": 2,
-      "gd": 3,
+      "mp": 3,
+      "gd": 6,
       "scenarios": [
-        "争头名"
+        "已出线"
       ]
     },
-    "South Korea": {
+    "South Africa": {
       "classification": "DRAW_OK",
       "elo_adjustment": -5,
-      "reason": "打平即确保前二出线(领先第三2分)",
-      "confidence": "high",
-      "points": 3,
+      "reason": "积分优势，打平大概率出线",
+      "confidence": "medium",
+      "points": 4,
       "group_position": 2,
       "group": "A",
-      "mp": 2,
-      "gd": 0,
+      "mp": 3,
+      "gd": -1,
       "scenarios": [
         "打平即出线"
       ]
     },
-    "Czech Republic": {
+    "South Korea": {
       "classification": "MUST_WIN",
       "elo_adjustment": 20,
-      "reason": "必须赢球争夺出线权(落后第二2分)",
+      "reason": "必须赢球争夺出线权(落后第二1分)",
       "confidence": "high",
-      "points": 1,
+      "points": 3,
       "group_position": 3,
       "group": "A",
-      "mp": 2,
+      "mp": 3,
       "gd": -1,
       "scenarios": [
         "必须赢球",
-        "第三名晋级概率~0%"
+        "第三名晋级概率~55%"
       ]
     },
-    "South Africa": {
+    "Czech Republic": {
       "classification": "MUST_WIN",
       "elo_adjustment": 20,
       "reason": "必须赢球且依赖其他结果",
@@ -53,53 +53,53 @@
       "points": 1,
       "group_position": 4,
       "group": "A",
-      "mp": 2,
-      "gd": -2,
+      "mp": 3,
+      "gd": -4,
       "scenarios": [
         "必须赢球"
-      ]
-    },
-    "Canada": {
-      "classification": "TOP_SEED",
-      "elo_adjustment": 8,
-      "reason": "争夺小组第一(领先第二仅0分)",
-      "confidence": "high",
-      "points": 4,
-      "group_position": 1,
-      "group": "B",
-      "mp": 2,
-      "gd": 6,
-      "scenarios": [
-        "争头名"
       ]
     },
     "Switzerland": {
       "classification": "TOP_SEED",
       "elo_adjustment": 8,
-      "reason": "争夺小组第一(落后第一0分)",
+      "reason": "已锁定出线，但仍需确保小组第一",
       "confidence": "high",
+      "points": 7,
+      "group_position": 1,
+      "group": "B",
+      "mp": 3,
+      "gd": 4,
+      "scenarios": [
+        "争头名"
+      ]
+    },
+    "Canada": {
+      "classification": "DRAW_OK",
+      "elo_adjustment": -5,
+      "reason": "积分优势，打平大概率出线",
+      "confidence": "medium",
       "points": 4,
       "group_position": 2,
       "group": "B",
-      "mp": 2,
-      "gd": 3,
+      "mp": 3,
+      "gd": 5,
       "scenarios": [
-        "争头名"
+        "打平即出线"
       ]
     },
     "Bosnia and Herzegovina": {
       "classification": "MUST_WIN",
       "elo_adjustment": 20,
-      "reason": "必须赢球争夺出线权(落后第二3分)",
+      "reason": "必须赢球争夺出线权(落后第二0分)",
       "confidence": "high",
-      "points": 1,
+      "points": 4,
       "group_position": 3,
       "group": "B",
-      "mp": 2,
-      "gd": -3,
+      "mp": 3,
+      "gd": -1,
       "scenarios": [
         "必须赢球",
-        "第三名晋级概率~0%"
+        "第三名晋级概率~55%"
       ]
     },
     "Qatar": {
@@ -110,8 +110,8 @@
       "points": 1,
       "group_position": 4,
       "group": "B",
-      "mp": 2,
-      "gd": -6,
+      "mp": 3,
+      "gd": -8,
       "scenarios": [
         "必须赢球"
       ]
@@ -119,93 +119,94 @@
     "Brazil": {
       "classification": "TOP_SEED",
       "elo_adjustment": 8,
-      "reason": "争夺小组第一(领先第二仅0分)",
+      "reason": "已锁定出线，但仍需确保小组第一",
       "confidence": "high",
-      "points": 4,
+      "points": 7,
       "group_position": 1,
       "group": "C",
-      "mp": 2,
-      "gd": 3,
+      "mp": 3,
+      "gd": 6,
       "scenarios": [
         "争头名"
       ]
     },
     "Morocco": {
-      "classification": "TOP_SEED",
-      "elo_adjustment": 8,
-      "reason": "争夺小组第一(落后第一0分)",
+      "classification": "LOCKED_IN",
+      "elo_adjustment": -30,
+      "reason": "已锁定小组前二，确保出线",
       "confidence": "high",
-      "points": 4,
+      "points": 7,
       "group_position": 2,
       "group": "C",
-      "mp": 2,
-      "gd": 1,
+      "mp": 3,
+      "gd": 3,
       "scenarios": [
-        "争头名"
+        "已出线"
       ]
     },
     "Scotland": {
-      "classification": "MUST_WIN",
-      "elo_adjustment": 20,
-      "reason": "必须赢球争夺出线权(落后第二1分)",
+      "classification": "NEED_RESULT",
+      "elo_adjustment": 10,
+      "reason": "第三名晋级概率~40%，需要至少1分",
       "confidence": "high",
       "points": 3,
       "group_position": 3,
       "group": "C",
-      "mp": 2,
-      "gd": 0,
+      "mp": 3,
+      "gd": -3,
       "scenarios": [
-        "必须赢球",
-        "第三名晋级概率~70%"
+        "第三名晋级概率~40%"
       ]
     },
     "Haiti": {
       "classification": "PRIDE_ONLY",
       "elo_adjustment": -5,
-      "reason": "已提前淘汰(落后第二4分)",
+      "reason": "已提前淘汰(落后第二7分)",
       "confidence": "high",
       "points": 0,
       "group_position": 4,
       "group": "C",
-      "mp": 2,
-      "gd": -4,
+      "mp": 3,
+      "gd": -6,
       "scenarios": []
     },
     "United States": {
-      "classification": "LOCKED_IN",
-      "elo_adjustment": -30,
-      "reason": "基本锁定D第一(GD优势)，可能轮换",
+      "classification": "TOP_SEED",
+      "elo_adjustment": 8,
+      "reason": "已锁定出线，但仍需确保小组第一",
       "confidence": "high",
       "points": 6,
       "group_position": 1,
       "group": "D",
-      "mp": 2,
-      "gd": 5,
+      "mp": 3,
+      "gd": 4,
       "scenarios": [
-        "已出线"
+        "争头名"
       ]
     },
     "Australia": {
-      "classification": "NEED_RESULT",
-      "elo_adjustment": 10,
-      "reason": "需要至少1分确保出线机会",
-      "confidence": "medium",
-      "points": 3,
+      "classification": "TOP_SEED",
+      "elo_adjustment": 8,
+      "reason": "争夺小组第一(落后第一2分)",
+      "confidence": "high",
+      "points": 4,
       "group_position": 2,
       "group": "D",
-      "mp": 2,
+      "mp": 3,
       "gd": 0,
-      "scenarios": []
+      "scenarios": [
+        "争头名"
+      ]
     },
     "Paraguay": {
       "classification": "MUST_WIN",
       "elo_adjustment": 20,
       "reason": "必须赢球争夺出线权(落后第二0分)",
       "confidence": "high",
-      "points": 3,
+      "points": 4,
       "group_position": 3,
       "group": "D",
-      "mp": 2,
+      "mp": 3,
       "gd": -2,
       "scenarios": [
         "必须赢球",
@@ -213,45 +214,43 @@
       ]
     },
     "Turkey": {
-      "classification": "MUST_WIN",
-      "elo_adjustment": 20,
-      "reason": "必须赢球且依赖其他结果",
-      "confidence": "high",
-      "points": 0,
+      "classification": "NEED_RESULT",
+      "elo_adjustment": 10,
+      "reason": "需要至少1分确保出线机会",
+      "confidence": "medium",
+      "points": 3,
       "group_position": 4,
       "group": "D",
-      "mp": 2,
-      "gd": -3,
-      "scenarios": [
-        "必须赢球"
-      ]
+      "mp": 3,
+      "gd": -2,
+      "scenarios": []
     },
     "Germany": {
-      "classification": "LOCKED_IN",
-      "elo_adjustment": -30,
-      "reason": "基本锁定E第一(GD优势)，可能轮换",
+      "classification": "TOP_SEED",
+      "elo_adjustment": 8,
+      "reason": "已锁定出线，但仍需确保小组第一",
       "confidence": "high",
       "points": 6,
       "group_position": 1,
       "group": "E",
-      "mp": 2,
-      "gd": 7,
+      "mp": 3,
+      "gd": 6,
       "scenarios": [
-        "已出线"
+        "争头名"
       ]
     },
     "Ivory Coast": {
-      "classification": "DRAW_OK",
-      "elo_adjustment": -5,
-      "reason": "打平即确保前二出线(领先第三2分)",
+      "classification": "TOP_SEED",
+      "elo_adjustment": 8,
+      "reason": "争夺小组第一(落后第一0分)",
       "confidence": "high",
-      "points": 3,
+      "points": 6,
       "group_position": 2,
       "group": "E",
-      "mp": 2,
-      "gd": 0,
+      "mp": 3,
+      "gd": 2,
       "scenarios": [
-        "打平即出线"
+        "争头名"
       ]
     },
     "Ecuador": {
@@ -259,40 +258,38 @@
       "elo_adjustment": 20,
       "reason": "必须赢球争夺出线权(落后第二2分)",
       "confidence": "high",
-      "points": 1,
+      "points": 4,
       "group_position": 3,
       "group": "E",
-      "mp": 2,
-      "gd": -1,
+      "mp": 3,
+      "gd": 0,
       "scenarios": [
         "必须赢球",
-        "第三名晋级概率~0%"
+        "第三名晋级概率~70%"
       ]
     },
     "Curacao": {
-      "classification": "MUST_WIN",
-      "elo_adjustment": 20,
-      "reason": "必须赢球且依赖其他结果",
+      "classification": "PRIDE_ONLY",
+      "elo_adjustment": -5,
+      "reason": "已提前淘汰(落后第二5分)",
       "confidence": "high",
       "points": 1,
       "group_position": 4,
       "group": "E",
-      "mp": 2,
-      "gd": -6,
-      "scenarios": [
-        "必须赢球"
-      ]
+      "mp": 3,
+      "gd": -8,
+      "scenarios": []
     },
     "Netherlands": {
       "classification": "TOP_SEED",
       "elo_adjustment": 8,
-      "reason": "争夺小组第一(领先第二仅0分)",
+      "reason": "已锁定出线，但仍需确保小组第一",
       "confidence": "high",
-      "points": 4,
+      "points": 7,
       "group_position": 1,
       "group": "F",
-      "mp": 2,
-      "gd": 4,
+      "mp": 3,
+      "gd": 6,
       "scenarios": [
         "争头名"
       ]
@@ -300,12 +297,12 @@
     "Japan": {
       "classification": "TOP_SEED",
       "elo_adjustment": 8,
-      "reason": "争夺小组第一(落后第一0分)",
+      "reason": "争夺小组第一(落后第一2分)",
       "confidence": "high",
-      "points": 4,
+      "points": 5,
       "group_position": 2,
       "group": "F",
-      "mp": 2,
+      "mp": 3,
       "gd": 4,
       "scenarios": [
         "争头名"
@@ -316,10 +313,10 @@
       "elo_adjustment": 20,
       "reason": "必须赢球争夺出线权(落后第二1分)",
       "confidence": "high",
-      "points": 3,
+      "points": 4,
       "group_position": 3,
       "group": "F",
-      "mp": 2,
+      "mp": 3,
       "gd": 0,
       "scenarios": [
         "必须赢球",
@@ -329,13 +326,13 @@
     "Tunisia": {
       "classification": "PRIDE_ONLY",
       "elo_adjustment": -5,
-      "reason": "已提前淘汰(落后第二4分)",
+      "reason": "已提前淘汰(落后第二5分)",
       "confidence": "high",
       "points": 0,
       "group_position": 4,
       "group": "F",
-      "mp": 2,
-      "gd": -8,
+      "mp": 3,
+      "gd": -10,
       "scenarios": []
     },
     "Egypt": {
@@ -563,119 +560,123 @@
       ]
     },
     "Colombia": {
-      "classification": "NEED_RESULT",
-      "elo_adjustment": 10,
-      "reason": "需要至少1分确保出线机会",
-      "confidence": "medium",
-      "points": 3,
+      "classification": "TOP_SEED",
+      "elo_adjustment": 8,
+      "reason": "已锁定出线，但仍需确保小组第一",
+      "confidence": "high",
+      "points": 6,
       "group_position": 1,
       "group": "K",
-      "mp": 1,
-      "gd": 2,
-      "scenarios": []
+      "mp": 2,
+      "gd": 3,
+      "scenarios": [
+        "争头名"
+      ]
     },
     "Portugal": {
-      "classification": "MUST_WIN",
-      "elo_adjustment": 20,
-      "reason": "积分落后，必须赢球",
-      "confidence": "medium",
-      "points": 1,
+      "classification": "TOP_SEED",
+      "elo_adjustment": 8,
+      "reason": "争夺小组第一(落后第一2分)",
+      "confidence": "high",
+      "points": 4,
       "group_position": 2,
       "group": "K",
-      "mp": 1,
-      "gd": 0,
+      "mp": 2,
+      "gd": 5,
       "scenarios": [
-        "必须赢球"
+        "争头名"
       ]
     },
     "DR Congo": {
       "classification": "MUST_WIN",
       "elo_adjustment": 20,
-      "reason": "第三名晋级概率~0%，必须赢球",
-      "confidence": "medium",
+      "reason": "必须赢球争夺出线权(落后第二3分)",
+      "confidence": "high",
       "points": 1,
       "group_position": 3,
       "group": "K",
-      "mp": 1,
-      "gd": 0,
+      "mp": 2,
+      "gd": -1,
       "scenarios": [
-        "必须赢球"
+        "必须赢球",
+        "第三名晋级概率~0%"
       ]
     },
     "Uzbekistan": {
-      "classification": "MUST_WIN",
-      "elo_adjustment": 20,
-      "reason": "必须赢球且依赖其他结果",
-      "confidence": "medium",
+      "classification": "PRIDE_ONLY",
+      "elo_adjustment": -5,
+      "reason": "已提前淘汰(落后第二4分)",
+      "confidence": "high",
       "points": 0,
       "group_position": 4,
       "group": "K",
-      "mp": 1,
-      "gd": -2,
-      "scenarios": [
-        "必须赢球"
-      ]
+      "mp": 2,
+      "gd": -7,
+      "scenarios": []
     },
     "England": {
-      "classification": "NEED_RESULT",
-      "elo_adjustment": 10,
-      "reason": "需要至少1分确保出线机会",
-      "confidence": "medium",
-      "points": 3,
+      "classification": "TOP_SEED",
+      "elo_adjustment": 8,
+      "reason": "争夺小组第一(领先第二仅0分)",
+      "confidence": "high",
+      "points": 4,
       "group_position": 1,
       "group": "L",
-      "mp": 1,
+      "mp": 2,
       "gd": 2,
-      "scenarios": []
+      "scenarios": [
+        "争头名"
+      ]
     },
     "Ghana": {
-      "classification": "NEED_RESULT",
-      "elo_adjustment": 10,
-      "reason": "需要至少1分确保出线机会",
-      "confidence": "medium",
-      "points": 3,
+      "classification": "TOP_SEED",
+      "elo_adjustment": 8,
+      "reason": "争夺小组第一(落后第一0分)",
+      "confidence": "high",
+      "points": 4,
       "group_position": 2,
       "group": "L",
-      "mp": 1,
+      "mp": 2,
       "gd": 1,
-      "scenarios": []
-    },
-    "Panama": {
-      "classification": "MUST_WIN",
-      "elo_adjustment": 20,
-      "reason": "第三名晋级概率~0%，必须赢球",
-      "confidence": "medium",
-      "points": 0,
-      "group_position": 3,
-      "group": "L",
-      "mp": 1,
-      "gd": -1,
       "scenarios": [
-        "必须赢球"
+        "争头名"
       ]
     },
     "Croatia": {
       "classification": "MUST_WIN",
       "elo_adjustment": 20,
-      "reason": "必须赢球且依赖其他结果",
-      "confidence": "medium",
+      "reason": "必须赢球争夺出线权(落后第二1分)",
+      "confidence": "high",
+      "points": 3,
+      "group_position": 3,
+      "group": "L",
+      "mp": 2,
+      "gd": -1,
+      "scenarios": [
+        "必须赢球",
+        "第三名晋级概率~55%"
+      ]
+    },
+    "Panama": {
+      "classification": "PRIDE_ONLY",
+      "elo_adjustment": -5,
+      "reason": "已提前淘汰(落后第二4分)",
+      "confidence": "high",
       "points": 0,
       "group_position": 4,
       "group": "L",
-      "mp": 1,
+      "mp": 2,
       "gd": -2,
-      "scenarios": [
-        "必须赢球"
-      ]
+      "scenarios": []
     }
   },
   "classification_summary": {
-    "TOP_SEED": 12,
-    "DRAW_OK": 2,
-    "MUST_WIN": 22,
-    "PRIDE_ONLY": 3,
     "LOCKED_IN": 4,
-    "NEED_RESULT": 5
+    "DRAW_OK": 2,
+    "MUST_WIN": 16,
+    "TOP_SEED": 17,
+    "NEED_RESULT": 3,
+    "PRIDE_ONLY": 6
   },
   "notes": [
     "Classification key: LOCKED_IN=已锁定出线, DRAW_OK=打平即出线, NEED_RESULT=需要拿分, MUST_WIN=必须赢球, PRIDE_ONLY=已淘汰, TOP_SEED=争头名",

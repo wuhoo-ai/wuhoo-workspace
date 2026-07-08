@@ -21,6 +21,30 @@ import json
 import os
 import math
 
+# === Round-Specific Lambda Suppression ===
+# v5.6: Different suppression levels for different knockout rounds
+# R32: Strongest suppression (bigger skill gaps, underdogs park the bus)
+# Late rounds: More open play as teams fight for glory
+ROUND_LAMBDA_SUPPRESSION = {
+    'R32': 0.75,   # More conservative
+    'R16': 0.78,   # Standard knockout
+    'QF':  0.82,   # More open
+    'SF':  0.85,   # Even more open
+    'F':   0.88,   # Final - most open
+    '3rd': 0.85,   # Third-place match - relaxed
+}
+
+# === Style-Based Knockout Adjustments ===
+# Defensive/counter teams get bonus in knockout; possession teams slightly penalized
+STYLE_KNOCKOUT_BONUS = {
+    'defensive': 10,
+    'counter': 10,
+    'physical': 3,
+    'high_press': -3,
+    'possession': -5,
+    'balanced': 0,
+}
+
 # === Historical Statistics (WC1998-2022) ===
 # Source: 94 knockout matches across 7 World Cups
 GROUP_STAGE_GOALS = 2.67   # Average goals per match (group stage)
@@ -37,14 +61,14 @@ MEAN_REVERSION = 0.15      # Pull lambdas 15% toward mean
 UNDERDOG_BONUS = {
     100: 5,     # diff > 100: +5 ELO
     200: 15,    # diff > 200: +15 ELO  
-    300: 25,    # diff > 300: +25 ELO
+    300: 30,    # diff > 300: +30 ELO (v5.6: increased from 25)
 }
 
 # Favorite suppression: strong teams play more conservatively in knockout
 FAVORITE_SUPPRESSION = {
     100: 0,     # diff > 100: lambda × 0.95
     200: 0.90,  # diff > 200: lambda × 0.90
-    300: 0.85,  # diff > 300: lambda × 0.85
+    300: 0.82,  # diff > 300: lambda × 0.82 (v5.6: decreased from 0.85)
 }
 
 # Knockout advancement probabilities

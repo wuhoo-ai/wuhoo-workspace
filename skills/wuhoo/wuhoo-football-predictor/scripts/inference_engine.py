@@ -293,7 +293,7 @@ class InferenceEngine:
                 # Check if any trace entry has this condition type in its rule
                 found = False
                 for t in trace:
-                    if cond in t.get("rule_name", "") or cond in t.get("rule_id", ""):
+                    if cond in t.get("rule_name", "") or cond in t.get("rule_id", "") or cond in t.get("condition", ""):
                         found = True
                         break
                 # Also check context

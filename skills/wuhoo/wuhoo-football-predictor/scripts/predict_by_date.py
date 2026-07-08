@@ -31,6 +31,13 @@ from wc2026_predict import (
     TEAM_PROFILES
 )
 
+# v5.5: Import inference engine wrapper
+try:
+    from scripts.predict_v55 import predict_with_engine
+    USE_INFERENCE_ENGINE = True
+except ImportError:
+    USE_INFERENCE_ENGINE = False
+
 DATA_DIR = os.path.join(PROJECT_DIR, 'data')
 PREDICTIONS_DIR = os.path.join(DATA_DIR, 'daily_predictions')
 HISTORY_PATH = os.path.join(DATA_DIR, 'prediction_history.jsonl')
@@ -93,7 +100,24 @@ def predict_by_date(date_str):
     """Predict all matches on a given Beijing date."""
     sched = _get_schedule()
     matches = [m for m in sched['matches'] if m['date_beijing'] == date_str]
-
+    
+    # Also check knockout_schedule.json for knockout matches on this date
+    ko_path = os.path.join(DATA_DIR, 'knockout_schedule.json')
+    if os.path.exists(ko_path):
+        with open(ko_path) as f:
+            ko = json.load(f)
+        for stage_name, stage_data in ko.get('stages', {}).items():
+            for m in stage_data.get('matches', []):
+                if m.get('date_beijing') == date_str and m.get('team_a') and m.get('team_b'):
+                    if m.get('status') != 'completed':
+                        # Add round info
+                        m_copy = dict(m)
+                        m_copy['round'] = stage_name
+                        matches.append(m_copy)
+    
+    # Filter out matches with null teams (from group stage schedule remnants)
+    matches = [m for m in matches if m.get('team_a') and m.get('team_b')]
+    
     if not matches:
         print(f"✅ {date_str}: 无比赛安排")
         return [], date_str
@@ -129,17 +153,32 @@ def predict_by_date(date_str):
         matchday_val = m.get('matchday')
         print(f"🔄 预测: {m['team_a']} vs {m['team_b']} (Match #{m['match_id']})...")
         try:
-            audit = predict_single_match(
-                m['team_a'], m['team_b'],
-                venue_name=m.get('venue'),
-                enable_news=('--news' in sys.argv),
-                knockout=False,
-                match_id=m.get('match_id'),
-                manual_adjustments=manual_adj,
-                matchday=matchday_val,
-                motivation_data=motivation_data,
-                bracket_data=bracket_data
-            )
+            # v5.5: Use inference engine wrapper when available
+            if USE_INFERENCE_ENGINE:
+                audit = predict_with_engine(
+                    m['team_a'], m['team_b'],
+                    venue_name=m.get('venue'),
+                    enable_news=('--news' in sys.argv),
+                    knockout=m.get('round', '').startswith('R') if m.get('round') else False,
+                    match_id=m.get('match_id'),
+                    manual_adjustments=manual_adj,
+                    matchday=matchday_val,
+                    motivation_data=motivation_data,
+                    bracket_data=bracket_data,
+                    rules_version="v1"
+                )
+            else:
+                audit = predict_single_match(
+                    m['team_a'], m['team_b'],
+                    venue_name=m.get('venue'),
+                    enable_news=('--news' in sys.argv),
+                    knockout=m.get('round', '').startswith('R') if m.get('round') else False,
+                    match_id=m.get('match_id'),
+                    manual_adjustments=manual_adj,
+                    matchday=matchday_val,
+                    motivation_data=motivation_data,
+                    bracket_data=bracket_data
+                )
             audit['schedule'] = m
             _save_prediction_history(audit)
             results.append({'match': m, 'audit': audit})

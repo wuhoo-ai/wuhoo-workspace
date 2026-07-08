@@ -1,7 +1,7 @@
 ---
 name: wuhoo-football-predictor
 description: WC2026 单场+全赛事预测系统 v5.6 — Elo+Poisson+Monte Carlo+LLM非结构化信号+客观条件因子+出线动机(QMF)+半区路径(BPP)+淘汰赛校准(KBC)+规则推理引擎(InferenceEngine)+Layer 6手动调整+全量推演(BracketSimulator)，12层模型栈，未来N场预测+全中文报告+体彩串关+数据保鲜检查
-version: 5.8.1
+version: 5.9.1
 dependencies:
   - wuhoo-news-rss
   - pandas
@@ -27,7 +27,24 @@ category: wuhoo
 - ✅ **FIFA官方对阵覆盖**: 用户明确指示淘汰赛对阵以FIFA官方为准。seed_knockout约束算法仅用于验证和降级，最终对阵始终用FIFA官方数据覆盖
 - ✅ **最终推演**: France 41.8%, Argentina 38.3%, Mexico 8.0%（基于非对称ELO+λ上限+官方对阵）
 
-### v5.8.1 更新 (2026-07-03) — 战术模块实现 + 比分概率修复
+### v5.9 更新 (2026-07-04) — R16 全面升级 + Cron 合并 + 递归推演
+
+**触发**: R32 全部完赛，16 强产生。Cron 从 3 个合并为 1 个 14:30，新增递归单场推演替代 bracket_simulator，v5.5 推理引擎默认启用。
+
+**新增/变更**:
+- ✅ **Cron 合并**: 删除 `5154715032ec`(14:30) / `86912ff0a4aa`(15:00) / `0b1749fba510`(15:30)，新建 `c1e357b05736`(14:30 统一执行全部管线)
+- ✅ **递归推演**: `scripts/bracket_recursive.py` 替代 `bracket_simulator.py`。每场用完整 12 层栈（含 v5.5 推理引擎）预测，5000 次 Monte Carlo 递归推进。输出 `bracket_recursive_results.json`
+- ✅ **v5.5 默认启用**: `predict_by_date.py` 默认调用 `predict_with_engine()`（v5.5 wrapper），不再需要手动开启。失败时自动降级到 `predict_single_match()`
+- ✅ **ELO 去重保护**: `update_elo_from_results.py` 改用 `(team_a, team_b, score)` 三元组去重，解决 2211→91 的 ELO 重复应用问题
+- ✅ **knockout_schedule 自动读取**: `predict_by_date.py` 现在同时读取 `wc2026_schedule.json` 和 `knockout_schedule.json`，淘汰赛对阵自动纳入预测
+- ✅ **战术数据扩展**: `team_tactics.json` 从 24→29 队，R16 全部 16 队覆盖（新增 Paraguay/Canada/Morocco/Brazil/USA）
+- ✅ **规则学习全量**: phase0_rule_learning 应从所有已完成比赛（88 场）学习，非仅 44 场小组赛
+- ✅ **推送顺序**: 单场 PDF 优先 → 推演报告 PDF（按场次拆分，<100KB）
+
+**关键陷阱**:
+- ⚠️ **predict_by_date 旧 schedule 有 null 队名残留**: 小组赛 schedule 中的 TBD 比赛会混入结果。修复：从 knockout_schedule.json 读取后过滤 `team_a/team_b` 为 null 的匹配
+- ⚠️ **bracket_recursive QF/SF/F 无队名**: 初始 team_a/team_b 为 null，需在 Monte Carlo 循环中从上一轮胜者动态解析（`source: "W89 vs W90"` → 查 `winners[89]`/`winners[90]`）
+- ⚠️ **低 sims 统计噪声大**: <100 次 Monte Carlo 冠军概率可能有 10-20% 波动。默认 5000 sims 已消除此问题，概率稳定在 ±2% 以内。减少 sims 仅用于快速验证
 
 **触发**: 用户发现 PDF 报告始终缺少球队风格战术分析，且 daily_predictions JSON 缺少比分概率分布。
 
@@ -135,7 +152,7 @@ v5.8.0 在 SKILL.md 中记录了战术功能，但实际代码中 `_add_tactical
 - ✅ **推理路径渲染**: `generate_daily_report.py` — 上限80行全量trace（从30行扩展），新增规则明细表格（优先级/原始值/置信度/交互修正/最终值），引擎增量行显示在有效ELO汇总中
 - ✅ **单场PDF生成器**: `generate_single_match_pdf.py` — ReportLab直出，无emoji乱码，按场次拆分，每份50KB左右，含完整12层数据源标注+RSS报道+推理路径
 - ✅ **A/B双轨**: `rules_v1.json`(生产) / `rules_v2.json`(实验), `--rules-version v2`切换
-- ✅ **向后兼容**: `use_inference_engine=False`默认关闭, 现有管线零影响
+- ✅ **向后兼容**: `use_inference_engine=True` 默认启用（v5.9 起），`predict_by_date.py` 自动调用 `predict_with_engine()`。失败时降级到 `predict_single_match()`
 - ⚠️ **wrapper模式**: 引擎通过predict_v55.py包装调用, 未修改predict_single_match内部
 
 ### v5.5.0 更新 (2026-06-24) — 规则推理引擎重构
@@ -429,20 +446,23 @@ python3.11 scripts/check_football_freshness.py --json
 ## CLI 命令
 
 ```bash
-# === v5.6: 淘汰赛全量推演 (NEW) ===
+# === v5.9: 递归单场推演 (NEW — 替代 bracket_simulator) ===
+# 递归推演：每场完整12层预测 + 10次Monte Carlo递归
+python3.11 scripts/bracket_recursive.py                    # 5000 sims (默认，稳定概率)
+python3.11 scripts/bracket_recursive.py --sims 100         # 快速验证
+python3.11 scripts/bracket_recursive.py --sims 10000       # 超高精度
+python3.11 scripts/bracket_recursive.py --from-round R16   # 从R16开始
+# 输出: data/bracket_recursive_results.json (含每场详细预测 + 冠军/晋级概率)
+#      data/reports/bracket_recursive_YYYYMMDD_HHMM.md
+
+# 推演报告
+python3.11 scripts/generate_bracket_report.py --from-json data/bracket_recursive_results.json
+# 输出: data/reports/bracket_report_YYYY-MM-DD.md
+
+# === v5.6: 淘汰赛全量推演 (DEPRECATED — 用 bracket_recursive 替代) ===
 # 种子排位（从小组赛结果计算R32对阵）
 python3.11 scripts/seed_knockout.py
 python3.11 scripts/seed_knockout.py --dry-run
-
-# 全量Monte Carlo推演（ELO+Poisson+KBC分轮次校准）
-python3.11 scripts/bracket_simulator.py                    # 5000 sims
-python3.11 scripts/bracket_simulator.py --sims 1000        # 自定义
-python3.11 scripts/bracket_simulator.py --from-round R16   # 从R16开始
-
-# 推演报告
-python3.11 scripts/generate_bracket_report.py              # 运行推演+报告
-python3.11 scripts/generate_bracket_report.py --from-json data/bracket_simulation_results.json  # 从已有结果
-# 输出: data/reports/bracket_report_YYYY-MM-DD.md
 
 # === v5.5: 规则推理引擎 ===
 # 使用推理引擎预测单场 (wrapper模式)
@@ -590,37 +610,28 @@ v2.0: 枚举所有主/平/客组合 → 笛卡尔积 → EV×概率加权 → To
 
 按 `score = EV × (概率^0.3)` 加权分配 100 元预算到 Top 4-6 个组合，最低 2 元/注。
 
-## Cron 配置 (2026-06-11, updated 2026-06-13)
+## Cron 配置 (v5.9 — 2026-07-04 合并)
 
-### 数据保鲜检查 (v4.5) — 第0步必做
+### 统一 Cron Job（14:30 每日执行）
 
-14:30 cron 管线首先执行保鲜检查，确认所有数据源在有效期内。
+单个 Cron Job 执行全部管线：`c1e357b05736`，14:30 每日触发，`deliver=local,origin`。
 
-```bash
-cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-football-predictor
-python3.11 scripts/check_football_freshness.py          # 完整报告
-python3.11 scripts/check_football_freshness.py --quiet  # 仅问题项（cron用）
-```
+**管线程步骤**:
+1. 数据保鲜检查（check_football_freshness.py --quiet）
+2. 采集赛果（**回溯前 2 天** — 不只用 collect_results.py --check 查当天，还要检查 schedule 中 date < today 且不在 results 中的比赛 → web_search → --manual）
+3. 更新 ELO（update_elo_from_results.py，带去重保护）
+4. 同步 schedule + knockout_schedule（赛果 + 对阵填充）
+5. 伤病扫描（ESPN + web_search 定向搜索）
+6. 天气采集（fetch_weather.py --tomorrow）
+7. 明日预测（predict_by_date.py --tomorrow --news，v5.5 引擎默认启用）
+8. 生成单场 PDF（generate_single_match_pdf.py --date tomorrow --all）
+9. 递归推演（bracket_recursive.py --sims 5000）
+10. 推演报告（generate_bracket_report.py --from-json）
+11. 串关建议（lottery_parlay.py）
+12. 数据完整性审计
+13. 推送（单场 PDF → 推演报告 PDF → 摘要）
 
-**保鲜阈值**:
-| 类别 | 文件 | 警告/严重 |
-|------|------|-----------|
-| 核心实时 | ELO、赛果、伤停、预测准确率 | 1-3d / 3-7d |
-| 赛程相关 | 赛程表、热身赛 | 3-5d / 7-10d |
-| 球队元数据 | 球队档案、元数据 | 7d / 14d |
-| 基础设施 | 场馆、小组映射 | 14d / 30d |
-
-**预检脚本**: `scripts/pre_match_refresh.py` 是保鲜检查增强版（含 ELO + 伤病 + 热身赛交叉验证）。exit code 2 = 有警告（非致命），不应阻断后续步骤。
-
-**赛果 JSON 陷阱**: `wc2026_results.json` 使用 `matches` 键（非 `results`）。检查数量用 `len(data['matches'])`。
-
-| Job ID | 名称 | 时间 | 说明 |
-|--------|------|------|------|
-| `5154715032ec` | 数据刷新+结果采集 | 14:30 | 保鲜→采集→伤病→ELO→摘要 |
-| `86912ff0a4aa` | 赛前单场预测 | 15:00 | 次日比赛预测+PDF+推送 |
-| `0b1749fba510` | 全量淘汰赛推演 | 15:30 | seed→simulate(2000)→report MD |
-
-交付模式: `deliver=local,origin` (微信+本地双保险)
+**推送顺序（用户指定）**: 先各单场 PDF → 推演报告 PDF（按场次拆分确保 <100KB）→ 每日摘要
 
 ### ⚠️ 例行工作（Daily Pipeline）
 
@@ -862,6 +873,22 @@ python3.11 scripts/predict_next_n.py --n N --news
 32. **⚠️ v5.6: MD3 ELO非对称降权 — 赢球不降**: 锁定球队轮换赢球保持 K=60，平/输才降 K=30。对称降权（赢也降）被用户否定："轮换都能大胜，上主力岂不是更厉害？"详见 `references/elo-md3-asymmetric-dampening.md`。
 34. **⚠️ v5.7: 比分概率输出规则**: Top 3 或概率 >10%。标注胜负方 `2-0 (阿根廷胜)`。保留累计概率列。仅 90 分钟结果。`predict_score()` 返回的 `scores` 字段包含完整 49 种比分概率，`predict_single_match` 自动提取。
 35. **⚠️ v5.8: 战术模块静默失败 — SKILL.md 声称已实现但代码是空壳**: `_add_tactical_section()` 在 PDF 生成器中只有 `return` 一行，`team_tactics.json` 未覆盖当天比赛球队。PDF 正常生成但不含战术内容，无任何报错。验证：检查 PDF 含 `[风格战术] 球队战术对比` 表格 + 确认 `team_tactics.json` 覆盖所有出赛队伍。
+
+36. **⚠️ v5.8.1: PDF 阵型/教练表格排版错误 — 中文文本溢出列宽无法阅读**: 阵型和教练信息放在 ReportLab 窄表格（col_widths=[50, 110, 110]）中，中文队名和长文本（如 "4-2-3-1 / 4-3-3 (灵活切换)"）超出列宽导致排版崩溃。**修复: 移除表格，改为段落式排版** — 阵型+教练放在段落首行（`阵型: ... | 主帅: ...`），其余战术信息保持段落格式。修改位置: `generate_single_match_pdf.py` 的 `_add_tactical_section()`。
+
+37. **⚠️ v5.8.1: 淘汰赛赛果录入数据完整性底线 — 必须检查 date_beijing/penalties/aet/round 字段**: 手动录入 R32 淘汰赛赛果时容易遗漏关键字段。**每次录入后必须检查**：
+   - `date_beijing`：与 `date` 字段一致（北京时间），缺失会导致历史比赛数据显示空白
+   - `penalties`：PK 决胜的比赛必须有（如 `"3-4"` 或 `"PK"`）
+   - `aet`：加时赛的比赛必须设为 `true`
+   - `round`：淘汰赛比赛必须有（`"R32"`/`"R16"`/`"QF"` 等）
+   - `winner`：淘汰赛必须显式标注胜者（即使能从比分推断）
+   验证命令见 `references/data-quality-checklist.md`
+
+38. **⚠️ v5.8.1: ELO applied_results 必须去重**: `update_elo_from_results.py` 在 cron 管线中被多次调用时，同一赛果可能被重复应用。已修复为按 `(team_a, team_b, score)` 三元组去重（同时检查正反序）。cron agent 调用时必须确保 `update_elo_from_results.py` 在 `collect_results` 之后、`predict_by_date` 之前执行。
+
+39. **⚠️ v5.8.1: predict_by_date.py 不读取 knockout_schedule.json**: 原脚本只从 `wc2026_schedule.json` (小组赛赛程) 读取比赛。淘汰赛阶段需要同时读取 `knockout_schedule.json`。已修复: `predict_by_date()` 函数中增加 knockout schedule 查找逻辑，自动识别 `round` 字段并设置 `knockout=True`。
+
+40. **✅ v5.8.1: v5.5 推理引擎默认启用**: `predict_by_date.py` 现在默认使用 `predict_with_engine()`（v5.5 wrapper），`bracket_recursive.py` 同样。`use_inference_engine` 不再需要手动传入。降级: 如 `predict_v55` 导入失败则回退 `predict_single_match`。
 34. **⚠️ v5.7: Poisson λ 溢出**: `bracket_simulator.py` 用指数公式 λ=1.45×10^(diff/500)，极端 ELO 差时 λ 可达 24.85 → 概率求和截断 → 强队被低估。**修复: λ 上限 4.0**（`wc2026_predict.py` 已用线性公式+上限 3.0，不受影响）。
 
 ## 数据源维护
@@ -886,6 +913,8 @@ python3.11 scripts/predict_next_n.py --n N --news
 - `references/knockout-stage-statistics.md` — WC1998-2022 淘汰赛历史统计 (94场), Poisson校准参数
 - `references/matchday3-motivation-patterns.md` — MD3 出线动机分类框架 (QMF 6类型), 同时开球效应, 48队第3名出线阈值
 - `references/v55-inference-merge.md` — v5.5推理数据合并到标准JSON的脚本和流程（报告PDF含推理路径的前提）
+- `references/missed-results-recovery.md` — v5.9.1: 遗漏赛果诊断+恢复工作流（回溯采集→手动录入→ELO更新→重跑推演），含 2026-07-05 真实恢复案例
+- `references/cron-pipeline-v5.9.1.md` — v5.9.1 cron 管线关键更新：5000 sims、completed match 预种子、赛果回溯、knockout_schedule 同步、iLink 限流防御
 
 ## 常见陷阱
 
@@ -911,6 +940,8 @@ python3.11 scripts/predict_next_n.py --n N --news
 28. **⚠️ v5.6: 淘汰赛对阵必须以FIFA官方为准**: seed_knockout 约束算法产出合法但可能与FIFA公告不同。**用户明确指示**"淘汰赛名单和赛程要以官方为准"——任何时候优先FIFA官方对阵，不依赖约束算法输出。算法用于快速验证和降级方案。
 
 29. **⚠️ v5.6: MD3 ELO非对称降权 — 平局也降权**: 锁定队平局时实际得分 ≈ 预期，但用户逻辑是"轮换阵容结果不反映真实实力"，K仍降为30。不要因为 Δ≈0 就认为应该保留 K=60。见 `references/md3-locked-elo-dampening.md`。
+
+30. **⚠️ v5.8.1: 淘汰赛数据录入后必须执行质量审计**: 手动录入 R32+ 赛果后易遗漏 `date_beijing`、`penalties`、`aet`、`round`、`winner` 等字段。**每次录入后必须执行一键全检**。检查清单和验证命令见 `references/data-quality-checklist.md`。
 17. **⚠️ v5.5: 推理引擎是wrapper模式**: `predict_v55.py` 包装 `predict_single_match`，引擎计算ELO delta后作为manual_adjustments注入。不要直接修改 `predict_single_match` 内部来集成引擎——wrapper模式避免了300+行代码的重新缩进
 21. **⚠️ v5.5: 微信PDF文件大小限制 ~100KB**: 通过MEDIA标签或hermes send发送PDF时，超过约100KB会导致CDN上传HTTP 500。单场报告按场次切分(每场50-60KB)，总报告需分part(如part1/part2各<100KB)。`generate_single_match_pdf.py --all` 自动生成按场次切分的报告。
 22. **⚠️ xhtml2pdf字体乱码**: emoji字符(🧠📋⚡)在xhtml2pdf生成的PDF中会显示为乱码。使用reportlab方案(`generate_single_match_pdf.py`)替代，所有emoji替换为文字标签([规则]/[修正]等)。
@@ -931,6 +962,38 @@ python3.11 scripts/predict_next_n.py --n N --news
    **最佳实践**: 用 `generate_single_match_pdf.py` 按场次生成单场PDF，每份~50KB远低于阈值，无需拆分即可直接发送。
 
 25. **⚠️ RSS近3天窗口对弱队覆盖不足 — 用5天+搜摘要**: `generate_daily_report.py` 的RSS查询用3天窗口且只搜标题（`title LIKE`），对小球队（如瑞士/加拿大）几乎无高质量源覆盖——仅SoccerNews有报道且该源被排除列表过滤。`generate_single_match_pdf.py` 已修复为**5天窗口 + 同时搜title和summary**（`title LIKE ? OR summary LIKE ?`），覆盖率从0→7篇。但摘要搜索会引入噪音（如球员转会新闻），可接受——有噪音优于无数据。日后所有RSS查询统一用5天+title+summary。
+
+36. **⚠️ v5.9: predict_by_date 需同时读取两个 schedule**: 淘汰赛对阵在 `knockout_schedule.json` 而非 `wc2026_schedule.json`。`predict_by_date.py` 必须同时检查两个文件，否则预测输出 `None vs None`。同时需过滤 group stage schedule 中 team_a/team_b 为 null 的残留记录。
+
+37. **⚠️ v5.9: bracket_recursive 递归推演需动态解析对阵**: QF/SF/F 比赛的 team_a/team_b 初始为 null，必须通过 source 字段（如 `"W89 vs W90"`）在 Monte Carlo 循环中从上一轮胜者动态解析。Phase 1 仅预测 R16 已知对阵，Phase 2 在每轮 sim 中为 QF+ 实时预测。
+
+38. **⚠️ v5.9: ELO 去重必须用 score 做 key**: `update_elo_from_results.py` 旧去重用 `(team_a, team_b, date)` 但 applied_results 无 date 字段 → 去重失效。修复：改用 `(team_a, team_b, score)` 三元组 + 双向检查。
+
+39. **⚠️ v5.9: 低 sims 冠军概率有统计噪声**: <100 次 Monte Carlo 对 16 支球队的冠军概率估计有显著随机波动。**v5.9.1 起默认 5000 sims**，概率稳定在 ±2% 以内。推送报告中标注 `n_sims=5000`。
+
+40. **⚠️ v5.9: 规则学习应从全量比赛学习**: `phase0_rule_learning.py` 最初从 44 场小组赛学习。淘汰赛阶段应重新运行，从所有已完成比赛（88 场含 R32）学习。用户明确指示「规则应该从截止目前所有比赛中学习确定」。
+
+41. **⚠️ v5.9: generate_single_match_pdf tournament form 格式字符串错误导致历史数据静默缺失**: 原代码 `f'{adj:+d}'` 将 team-level ELO 调整值 `adj` 用 detail 字符串 `d` 做格式说明符，Python 抛出 ValueError → 表格为空 → 用户看到空的历史比赛数据。**修复**: 改为段落式输出：`'{tc} (调整 {adj:+d} ELO):'  + 逐条 details[:4]`。此 Bug 不影响 JSON 数据（数据正确），仅影响 PDF 渲染。验证：检查 PDF 中 `[L4.6] 本届比赛表现` 模块是否有 4 条比赛详情而非空表。
+
+42. **⚠️ v5.9: 微信 PDF 批量发送 — 每 30 秒发 1 个**: 用户明确指令「批量发送 PDF 操作一律每 30s 发 1 个」。连续快速发送会触发 WeChat CDN rate limit 或 iLink 限流。使用 MEDIA: 标签发送，每条 MEDIA 之间至少间隔 30 秒。
+
+43. **⚠️ v5.9: bracket_recursive 淘汰赛推演必须追踪败者（losers）**: 季军赛 source 为 `"L101 vs L102"`（SF 败者），而非 `"W101 vs W102"`（SF 胜者/决赛）。必须同时维护 `winners` 和 `losers` 两个 dict，否则 M103（季军赛）对阵会与 M104（决赛）相同。修复：`loser = tb if winner == ta else ta; losers[mid] = loser`。
+
+44. **⚠️ v5.9: advancement 追踪容易在 patch 中丢失**: `bracket_recursive.py` 中 `advancement[winner][stage] += 1` 是关键行，patch 操作时容易误删。每次修改后必须验证 `bracket_recursive_results.json` 中 `advancement_probs` 非空。验证命令：`python3.11 -c "import json; r=json.load(open('data/bracket_recursive_results.json')); print(len(r.get('advancement_probs',{})))"` — 输出应 >0。
+
+45. **⚠️ v5.9: MEDIA 标签中文文件名可能静默失败**: 微信 CDN 对包含中文的 PDF 文件路径偶尔失败且无报错（用户收到空消息）。**建议**: 长中文路径的 PDF 复制到 `/tmp/` 下用简短 ASCII 名发送（如 `/tmp/br.pdf`）。所有 PDF >100KB 必须先 pymupdf 压缩再发送。
+
+46. **⚠️ v5.9: 后台进程 notify_on_complete 日志会推送给用户**: `terminal(background=True, notify_on_complete=True)` 会将进程 stdout/stderr 作为消息推送给用户。避免在 cron 外使用 notify_on_complete，或提前用 `grep -v` 过滤敏感/冗余输出。此 session 中 bracket_recursive.py 的 200+ 行 RSS 日志被推送给用户。
+
+47. **⚠️ v5.9.1: collect_results.py --check 仅检查当日 → 前一天赛果漏采不会被追溯**: `collect_results.py --check` 只检查 `date_beijing == today` 的比赛。若前一天的比赛因任何原因未被采集（cron 漏跑、iLink 限流、ESPN 未更新），第二天 14:30 cron 不会自动回溯 → bracket_recursive 基于过期 ELO 运行 → 推演报告与真实结果不符。**2026-07-05 真实案例**: 7/4 的 2 场 R16（Canada 0-3 Morocco, Paraguay 0-1 France）未被录入 wc2026_results.json，导致推演报告中的 Canada/Morocco/Paraguay 仍被当作未比赛队伍预测。**修复**: cron 第 2 步采集赛果时**回溯前 2 天** schedule，检查是否有 date < today 但不在 results 中的比赛。恢复流程见 `references/missed-results-recovery.md`。
+
+48. **⚠️ v5.9.1: bracket_recursive 已完成比赛未注入 winners/losers → champion_probs 为空**: 当 knockout_schedule.json 中某场比赛 `status=completed` 时，`get_match_order()` 正确将其排除出 `remaining_matches`，但 Monte Carlo 循环中 `winners[mid]` 从未被设置 → QF 的 `"W89 vs W90"` source 解析时找不到 France/Morocco → 后续轮次全部断裂 → champion_probs 为空 dict。**根因**: 已完成比赛从 simulation 中移除后，其 winner 信息也应注入 sim 循环以支撑后续轮次的 source 解析。**修复 (3 处改动)**:
+   - Phase 1b 前新增 `ko_completed_matches` 字典加载 completed matches 的 winner/stage
+   - Phase 1b 的 `mlp_winners/mlp_losers` 用 completed matches 预种子（使"Most likely path"包含已完成比赛晋级者）
+   - Phase 2 每个 sim 开始时用 `ko_completed_matches` 预种子 `winners/losers` 并跟踪 `advancement`
+   **验证**: `bracket_recursive_results.json` 的 `champion_probs` 非空 + `advancement_probs` 包含已完成比赛的胜者（如 France R16=5000, Morocco R16=5000）。
+
+49. **⚠️ v5.9.1: match_details 的 None 值 vs .get() 默认值陷阱**: `match_details[mid]["prediction"]` 对 pending 比赛（QF+ 的 None vs None）显式存储 `{"team_a_win_pct": None, ...}`。Python 的 `dict.get("team_a_win_pct", 50)` 在 key 存在但值为 None 时返回 None（不是 50）→ `sample_winner()` 中 `None/100.0` → TypeError。**修复**: 全部改用 `dict.get("key") or DEFAULT` 模式（`or` 对 None 和缺失都生效）。涉及位置: `sample_winner()` 的 `p.get("team_a_win") or 33`、Monte Carlo 循环的 `md.get("prediction", {}).get("team_a_win_pct") or 50`。
 
 ## Layer 6 — 手动调整 (v5.3 2026-06-23)
 
@@ -1063,6 +1126,8 @@ wuhoo-football-predictor/
 │   ├── data_provider.py          # v5.5: 动态数据抽象层(Context构建)
 │   ├── predict_v55.py            # v5.5: 推理引擎wrapper(零侵入)
 │   ├── phase0_rule_learning.py   # v5.5: 44场复盘网格搜索
+│   ├── bracket_recursive.py     # v5.9: 递归单场预测推演(替代bracket_simulator)
+│   ├── generate_bracket_pdf.py   # v5.9: 推演报告PDF生成器
 │   ├── knockout_calibration.py   # v5.4: 淘汰赛行为校准(KBC)
 │   ├── fetch_weather.py          # v5.2: Open-Meteo 天气采集
 │   └── match_reminder.py       # 赛前1h提醒
@@ -1096,7 +1161,8 @@ wuhoo-football-predictor/
 4. **WeChat iLink 限流**: Cron 推送可能静默失败，`deliver=local,origin` 保底
 5. **非结构化信号需 LLM 回填**: Layer 5.5 依赖 agent 侧调用 LLM 后 merge_llm_response，cron 自动运行无 LLM 支持时优雅降级为 0
 6. **KBC R32参数为外推**: 48队制首次，R32无历史数据。参数通过R16→Final历史数据外推，标注为实验性
-7. **全量推演使用ELO+Poisson近似，不包含12层完整栈**: bracket_simulator为速度优化，内部计算Poisson概率+KBC分轮次校准，但不包含伤病/天气/动机/推理引擎等层。单场预测使用完整12层栈
+7. ~~**全量推演使用ELO+Poisson近似，不包含12层完整栈**~~: **已修复 (v5.9)**。`bracket_recursive.py` 替代了旧的 `bracket_simulator.py`，每场比赛使用完整 12 层预测栈（含 v5.5 推理引擎）。QF/SF/F 比赛在 Monte Carlo 循环中动态解析对阵后实时预测。
+8. **bracket_recursive 统计噪声**: <100 次 Monte Carlo 仅有方向性参考价值。**v5.9.1 起默认 5000 sims**，概率稳定在 ±2%，推送时标注 n_sims=5000。
 
 30. **⚠️ v5.4: ELO重复应用导致幅度偏大**: `update_elo_from_results.py` 在cron管线中被多次调用，同一赛果可能被应用多次。短期修复：在 `update_elo_from_results.py` 中加入去重检查。MD3和淘汰赛前建议从 eloratings.net 手动采集基准ELO重新校准: 5000次×32场比赛若逐场调用 predict_single_match 需数小时。推演引擎内部计算 Poisson 概率（含KBC分轮次λ抑制+均值回归），然后 random 采样判定胜负。这保持了与主管线一致的数学基础，同时保证 Monte Carlo 速度。
 

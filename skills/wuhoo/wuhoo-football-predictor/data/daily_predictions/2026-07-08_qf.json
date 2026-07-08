@@ -1,0 +1,347 @@
+{
+  "generated": "2026-07-08",
+  "model": "v5.10",
+  "stage": "Quarter-finals",
+  "predictions": [
+    {
+      "team_a": "France",
+      "team_b": "Morocco",
+      "ensemble": {
+        "team_a_win": 71,
+        "draw": 22,
+        "team_b_win": 7
+      },
+      "poisson": {
+        "team_a_win": 77,
+        "draw": 16,
+        "team_b_win": 8
+      },
+      "logit": {
+        "team_a_win": 66,
+        "draw": 28,
+        "team_b_win": 6
+      },
+      "expected_goals": {
+        "a": 1.83,
+        "b": 0.45
+      },
+      "top_scorelines": [
+        [
+          "1-0",
+          18.7
+        ],
+        [
+          "2-0",
+          17.1
+        ],
+        [
+          "3-0",
+          10.4
+        ]
+      ],
+      "trajectory": {
+        "France": {
+          "current_elo": 2530,
+          "trend_elo": [
+            2517,
+            2517,
+            2527,
+            2529,
+            2530
+          ],
+          "deltas": [
+            0,
+            10,
+            2,
+            1
+          ],
+          "delta_avg": 3.2,
+          "delta_trend": 1,
+          "volatility": 4.0,
+          "adjustment": 0,
+          "classification": "方向不明",
+          "confidence_discount": 1.0,
+          "n_matches": 5
+        },
+        "Morocco": {
+          "current_elo": 2186,
+          "trend_elo": [
+            2175,
+            2177,
+            2177,
+            2175,
+            2186
+          ],
+          "deltas": [
+            2,
+            0,
+            -2,
+            11
+          ],
+          "delta_avg": 2.8,
+          "delta_trend": 11,
+          "volatility": 5.0,
+          "adjustment": 0,
+          "classification": "方向不明",
+          "confidence_discount": 1.0,
+          "n_matches": 5
+        }
+      }
+    },
+    {
+      "team_a": "Spain",
+      "team_b": "Belgium",
+      "ensemble": {
+        "team_a_win": 56,
+        "draw": 27,
+        "team_b_win": 18
+      },
+      "poisson": {
+        "team_a_win": 50,
+        "draw": 24,
+        "team_b_win": 26
+      },
+      "logit": {
+        "team_a_win": 61,
+        "draw": 30,
+        "team_b_win": 9
+      },
+      "expected_goals": {
+        "a": 1.33,
+        "b": 0.9
+      },
+      "top_scorelines": [
+        [
+          "1-0",
+          14.3
+        ],
+        [
+          "1-1",
+          12.9
+        ],
+        [
+          "0-0",
+          10.7
+        ]
+      ],
+      "trajectory": {
+        "Spain": {
+          "current_elo": 2092,
+          "trend_elo": [
+            2022,
+            2034,
+            2041,
+            2063,
+            2092
+          ],
+          "deltas": [
+            12,
+            7,
+            22,
+            29
+          ],
+          "delta_avg": 17.5,
+          "delta_trend": 29,
+          "volatility": 8.6,
+          "adjustment": 15,
+          "classification": "稳步上升",
+          "confidence_discount": 1.0,
+          "n_matches": 5
+        },
+        "Belgium": {
+          "current_elo": 1950,
+          "trend_elo": [
+            1881,
+            1868,
+            1878,
+            1894,
+            1950
+          ],
+          "deltas": [
+            -13,
+            10,
+            16,
+            56
+          ],
+          "delta_avg": 17.2,
+          "delta_trend": 56,
+          "volatility": 24.9,
+          "adjustment": 8,
+          "classification": "波动上升",
+          "confidence_discount": 1.0,
+          "n_matches": 5
+        }
+      }
+    },
+    {
+      "team_a": "Norway",
+      "team_b": "England",
+      "ensemble": {
+        "team_a_win": 50,
+        "draw": 29,
+        "team_b_win": 22
+      },
+      "poisson": {
+        "team_a_win": 48,
+        "draw": 25,
+        "team_b_win": 27
+      },
+      "logit": {
+        "team_a_win": 52,
+        "draw": 32,
+        "team_b_win": 16
+      },
+      "expected_goals": {
+        "a": 1.11,
+        "b": 0.79
+      },
+      "top_scorelines": [
+        [
+          "1-0",
+          16.6
+        ],
+        [
+          "0-0",
+          14.9
+        ],
+        [
+          "1-1",
+          13.1
+        ]
+      ],
+      "trajectory": {
+        "Norway": {
+          "current_elo": 2203,
+          "trend_elo": [
+            2011,
+            2161,
+            2156,
+            2167,
+            2203
+          ],
+          "deltas": [
+            150,
+            -5,
+            11,
+            36
+          ],
+          "delta_avg": 48.0,
+          "delta_trend": 36,
+          "volatility": 60.7,
+          "adjustment": 8,
+          "classification": "波动上升",
+          "confidence_discount": 0.85,
+          "n_matches": 5
+        },
+        "England": {
+          "current_elo": 2191,
+          "trend_elo": [
+            2158,
+            2137,
+            2137,
+            2148,
+            2191
+          ],
+          "deltas": [
+            -21,
+            0,
+            11,
+            43
+          ],
+          "delta_avg": 8.2,
+          "delta_trend": 43,
+          "volatility": 23.1,
+          "adjustment": 8,
+          "classification": "波动上升",
+          "confidence_discount": 1.0,
+          "n_matches": 5
+        }
+      }
+    },
+    {
+      "team_a": "Argentina",
+      "team_b": "Switzerland",
+      "ensemble": {
+        "team_a_win": 73,
+        "draw": 21,
+        "team_b_win": 6
+      },
+      "poisson": {
+        "team_a_win": 81,
+        "draw": 13,
+        "team_b_win": 6
+      },
+      "logit": {
+        "team_a_win": 66,
+        "draw": 28,
+        "team_b_win": 6
+      },
+      "expected_goals": {
+        "a": 2.04,
+        "b": 0.44
+      },
+      "top_scorelines": [
+        [
+          "2-0",
+          17.3
+        ],
+        [
+          "1-0",
+          17.0
+        ],
+        [
+          "3-0",
+          11.8
+        ]
+      ],
+      "trajectory": {
+        "Argentina": {
+          "current_elo": 2455,
+          "trend_elo": [
+            2450,
+            2452,
+            2452,
+            2453,
+            2455
+          ],
+          "deltas": [
+            2,
+            0,
+            1,
+            2
+          ],
+          "delta_avg": 1.2,
+          "delta_trend": 2,
+          "volatility": 0.8,
+          "adjustment": 0,
+          "classification": "方向不明",
+          "confidence_discount": 1.0,
+          "n_matches": 5
+        },
+        "Switzerland": {
+          "current_elo": 2036,
+          "trend_elo": [
+            1969,
+            1984,
+            2001,
+            2021,
+            2036
+          ],
+          "deltas": [
+            15,
+            17,
+            20,
+            15
+          ],
+          "delta_avg": 16.8,
+          "delta_trend": 15,
+          "volatility": 2.0,
+          "adjustment": 15,
+          "classification": "稳步上升",
+          "confidence_discount": 1.0,
+          "n_matches": 5
+        }
+      }
+    }
+  ]
+}

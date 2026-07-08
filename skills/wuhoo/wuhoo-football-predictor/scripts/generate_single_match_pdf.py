@@ -234,13 +234,13 @@ def build_match_pdf(match_data, idx, output_path):
     # ── Tournament form ──
     l46 = layers.get('4.6_tournament_form', {})
     story.append(P('[L4.6] 本届比赛表现 — 数据源: wc2026_results.json (权重0.12)', 'h3'))
-    rows = []
     for tc, adj, details in [(na, l46.get('team_a_adj',0), l46.get('team_a_details',[])),
                                (nb, l46.get('team_b_adj',0), l46.get('team_b_details',[]))]:
-        for d in details[:3]:
-            rows.append([tc, f'{adj:+d}', d])
-    if rows:
-        story.append(make_table(['球队', 'ELO调整', '比赛详情'], rows))
+        story.append(P('{} (调整 {:+d} ELO):'.format(tc, adj), 'body'))
+        for d in details[:4]:
+            story.append(P('  ' + str(d), 'source'))
+        if not details:
+            story.append(P('  (无比赛数据)', 'source'))
 
     # ── RSS ──
     l5 = layers.get('5_news_sentiment', {})
@@ -382,17 +382,16 @@ def _add_tactical_section(story, ta, tb, na, nb):
 
     story.append(P('[风格战术] 球队对比 — 数据源: team_tactics.json', 'h2'))
 
-    # Narrow table for formation + coach only
-    rows = [['', na, nb]]
-    rows.append(['阵型', tac_a.get('formation', '?'), tac_b.get('formation', '?')])
-    rows.append(['主教练', tac_a.get('coach', '?'), tac_b.get('coach', '?')])
-    story.append(make_table(['', na, nb], rows, col_widths=[50, 110, 110]))
-
-    # Paragraph blocks per team — avoids wide-table overflow
+    # Paragraph blocks per team — avoids table overflow
     for tc, tac in [(na, tac_a), (nb, tac_b)]:
         if not tac:
             continue
         parts = []
+        # Key info line: formation + coach
+        fm = tac.get('formation', '')
+        co = tac.get('coach', '')
+        if fm or co:
+            parts.append(f"阵型: {fm}  |  主帅: {co}")
         if tac.get('style_summary'):
             parts.append(tac['style_summary'])
         if tac.get('attacking'):

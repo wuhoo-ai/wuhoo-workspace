@@ -1,0 +1,179 @@
+{
+  "generated": "2026-07-03T15:30:49.855595",
+  "winners": {
+    "A": "Mexico",
+    "B": "Switzerland",
+    "C": "Brazil",
+    "D": "United States",
+    "E": "Germany",
+    "F": "Netherlands",
+    "G": "Belgium",
+    "H": "Spain",
+    "I": "France",
+    "J": "Argentina",
+    "K": "Colombia",
+    "L": "England"
+  },
+  "runners_up": {
+    "A": "South Africa",
+    "B": "Canada",
+    "C": "Morocco",
+    "D": "Australia",
+    "E": "Ivory Coast",
+    "F": "Japan",
+    "G": "Egypt",
+    "H": "Cape Verde",
+    "I": "Norway",
+    "J": "Austria",
+    "K": "Portugal",
+    "L": "Croatia"
+  },
+  "advancing_thirds": [
+    {
+      "team": "DR Congo",
+      "group": "K",
+      "pts": 4,
+      "gd": 1
+    },
+    {
+      "team": "Ecuador",
+      "group": "E",
+      "pts": 4,
+      "gd": 0
+    },
+    {
+      "team": "Sweden",
+      "group": "F",
+      "pts": 4,
+      "gd": 0
+    },
+    {
+      "team": "Ghana",
+      "group": "L",
+      "pts": 4,
+      "gd": 0
+    },
+    {
+      "team": "Bosnia and Herzegovina",
+      "group": "B",
+      "pts": 4,
+      "gd": -1
+    },
+    {
+      "team": "Paraguay",
+      "group": "D",
+      "pts": 4,
+      "gd": -2
+    },
+    {
+      "team": "Algeria",
+      "group": "J",
+      "pts": 4,
+      "gd": -2
+    },
+    {
+      "team": "Senegal",
+      "group": "I",
+      "pts": 3,
+      "gd": 2
+    }
+  ],
+  "seedings": {
+    "1": {
+      "team_a": "South Africa",
+      "team_b": "Canada",
+      "slot_a": "A2",
+      "slot_b": "B2"
+    },
+    "2": {
+      "team_a": "Brazil",
+      "team_b": "Japan",
+      "slot_a": "C1",
+      "slot_b": "F2"
+    },
+    "4": {
+      "team_a": "Netherlands",
+      "team_b": "Morocco",
+      "slot_a": "F1",
+      "slot_b": "C2"
+    },
+    "5": {
+      "team_a": "Ivory Coast",
+      "team_b": "Norway",
+      "slot_a": "E2",
+      "slot_b": "I2"
+    },
+    "11": {
+      "team_a": "Spain",
+      "team_b": "Austria",
+      "slot_a": "H1",
+      "slot_b": "J2"
+    },
+    "12": {
+      "team_a": "Portugal",
+      "team_b": "Croatia",
+      "slot_a": "K2",
+      "slot_b": "L2"
+    },
+    "14": {
+      "team_a": "Australia",
+      "team_b": "Egypt",
+      "slot_a": "D2",
+      "slot_b": "G2"
+    },
+    "15": {
+      "team_a": "Argentina",
+      "team_b": "Cape Verde",
+      "slot_a": "J1",
+      "slot_b": "H2"
+    },
+    "3": {
+      "team_a": "Germany",
+      "team_b": "Sweden",
+      "slot_a": "E1",
+      "slot_b": "3rd(A,B,C,D,F)"
+    },
+    "6": {
+      "team_a": "France",
+      "team_b": "Paraguay",
+      "slot_a": "I1",
+      "slot_b": "3rd(C,D,F,G,H)"
+    },
+    "7": {
+      "team_a": "Mexico",
+      "team_b": "Ecuador",
+      "slot_a": "A1",
+      "slot_b": "3rd(C,E,F,H,I)"
+    },
+    "8": {
+      "team_a": "England",
+      "team_b": "DR Congo",
+      "slot_a": "L1",
+      "slot_b": "3rd(E,H,I,J,K)"
+    },
+    "9": {
+      "team_a": "Belgium",
+      "team_b": "Algeria",
+      "slot_a": "G1",
+      "slot_b": "3rd(A,E,H,I,J)"
+    },
+    "10": {
+      "team_a": "United States",
+      "team_b": "Bosnia and Herzegovina",
+      "slot_a": "D1",
+      "slot_b": "3rd(B,E,F,I,J)"
+    },
+    "13": {
+      "team_a": "Switzerland",
+      "team_b": "Senegal",
+      "slot_a": "B1",
+      "slot_b": "3rd(E,F,G,I,J)"
+    },
+    "16": {
+      "team_a": "Colombia",
+      "team_b": "Ghana",
+      "slot_a": "K1",
+      "slot_b": "3rd(D,E,I,J,L)"
+    }
+  }
+}

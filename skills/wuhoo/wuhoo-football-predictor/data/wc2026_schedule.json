@@ -9,9 +9,9 @@
     "groups_covered": 12,
     "matchdays": 3,
     "note": "Synced from wc2026_results.json at 2026-06-22T14:51:01.155868",
-    "updated": "2026-06-22T14:51:01",
-    "results_updated": "40 matches have results",
-    "matches_completed": 40
+    "updated": "2026-06-25T14:35:00",
+    "results_updated": "0 matches synced",
+    "matches_completed": 72
   },
   "matches": [
     {
@@ -729,7 +729,10 @@
       "team_b": "Uzbekistan",
       "venue": "NRG Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 5,
+      "score_b": 0
     },
     {
       "match_id": 46,
@@ -742,7 +745,10 @@
       "team_b": "Ghana",
       "venue": "Gillette Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 0
     },
     {
       "match_id": 47,
@@ -755,7 +761,10 @@
       "team_b": "Croatia",
       "venue": "BC Place",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 1
     },
     {
       "match_id": 48,
@@ -768,7 +777,10 @@
       "team_b": "DR Congo",
       "venue": "Hard Rock Stadium",
       "matchday": 2,
-      "simultaneous": false
+      "simultaneous": false,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 0
     },
     {
       "match_id": 49,
@@ -781,7 +793,10 @@
       "team_b": "Canada",
       "venue": "BC Place",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 1
     },
     {
       "match_id": 50,
@@ -794,7 +809,10 @@
       "team_b": "Qatar",
       "venue": "Levi's Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 1
     },
     {
       "match_id": 51,
@@ -807,7 +825,10 @@
       "team_b": "Brazil",
       "venue": "MetLife Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 3
     },
     {
       "match_id": 52,
@@ -820,7 +841,10 @@
       "team_b": "Haiti",
       "venue": "Lincoln Financial Field",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 4,
+      "score_b": 2
     },
     {
       "match_id": 53,
@@ -833,7 +857,10 @@
       "team_b": "Mexico",
       "venue": "Estadio Akron",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 3
     },
     {
       "match_id": 54,
@@ -846,7 +873,10 @@
       "team_b": "South Korea",
       "venue": "Estadio Azteca",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 0
     },
     {
       "match_id": 55,
@@ -859,7 +889,10 @@
       "team_b": "Germany",
       "venue": "NRG Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 1
     },
     {
       "match_id": 56,
@@ -872,7 +905,10 @@
       "team_b": "Ivory Coast",
       "venue": "BMO Field",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 2
     },
     {
       "match_id": 57,
@@ -885,7 +921,10 @@
       "team_b": "Sweden",
       "venue": "Arrowhead Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 58,
@@ -898,7 +937,10 @@
       "team_b": "Netherlands",
       "venue": "AT&T Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 3
     },
     {
       "match_id": 59,
@@ -911,7 +953,10 @@
       "team_b": "United States",
       "venue": "Hard Rock Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 2
     },
     {
       "match_id": 60,
@@ -924,7 +969,10 @@
       "team_b": "Australia",
       "venue": "Lumen Field",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 0
     },
     {
       "match_id": 61,
@@ -937,7 +985,10 @@
       "team_b": "France",
       "venue": "MetLife Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 4
     },
     {
       "match_id": 62,
@@ -950,7 +1001,10 @@
       "team_b": "Iraq",
       "venue": "Gillette Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 5,
+      "score_b": 0
     },
     {
       "match_id": 63,
@@ -963,7 +1017,10 @@
       "team_b": "Saudi Arabia",
       "venue": "Mercedes-Benz Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 0
     },
     {
       "match_id": 64,
@@ -976,7 +1033,10 @@
       "team_b": "Spain",
       "venue": "Hard Rock Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 1
     },
     {
       "match_id": 65,
@@ -989,7 +1049,10 @@
       "team_b": "Iran",
       "venue": "Lumen Field",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1
     },
     {
       "match_id": 66,
@@ -1002,7 +1065,10 @@
       "team_b": "Belgium",
       "venue": "SoFi Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 5
     },
     {
       "match_id": 67,
@@ -1015,7 +1081,10 @@
       "team_b": "Jordan",
       "venue": "Arrowhead Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 1
     },
     {
       "match_id": 68,
@@ -1028,7 +1097,10 @@
       "team_b": "Algeria",
       "venue": "AT&T Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 3
     },
     {
       "match_id": 69,
@@ -1041,7 +1113,10 @@
       "team_b": "Colombia",
       "venue": "NRG Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 0
     },
     {
       "match_id": 70,
@@ -1054,7 +1129,10 @@
       "team_b": "DR Congo",
       "venue": "Hard Rock Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 3
     },
     {
       "match_id": 71,
@@ -1067,7 +1145,10 @@
       "team_b": "Panama",
       "venue": "Gillette Stadium",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 0
     },
     {
       "match_id": 72,
@@ -1080,7 +1161,444 @@
       "team_b": "Ghana",
       "venue": "BC Place",
       "matchday": 3,
-      "simultaneous": true
+      "simultaneous": true,
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 1
+    },
+    {
+      "match_id": 73,
+      "team_a": "South Africa",
+      "team_b": "Canada",
+      "date": "2026-06-29",
+      "time_cn": "TBD",
+      "status": "completed",
+      "score_a": 0,
+      "score_b": 1,
+      "stage": "R32",
+      "venue": "SoFi Stadium",
+      "date_beijing": "2026-06-29",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 74,
+      "team_a": "Germany",
+      "team_b": "Paraguay",
+      "date": "2026-06-30",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "Gillette Stadium",
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1,
+      "date_beijing": "2026-06-30",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 75,
+      "team_a": "Netherlands",
+      "team_b": "Morocco",
+      "date": "2026-06-30",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "Estadio Monterrey",
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 1,
+      "date_beijing": "2026-06-30",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 76,
+      "team_a": "Brazil",
+      "team_b": "Japan",
+      "date": "2026-06-30",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "NRG Stadium",
+      "status": "completed",
+      "score_a": 2,
+      "score_b": 1,
+      "date_beijing": "2026-06-30",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 77,
+      "team_a": "France",
+      "team_b": "Sweden",
+      "date": "2026-07-01",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "MetLife Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-01",
+      "time_beijing": "TBD",
+      "score_a": 3,
+      "score_b": 0,
+      "winner": "France"
+    },
+    {
+      "match_id": 78,
+      "team_a": "Ivory Coast",
+      "team_b": "Norway",
+      "date": "2026-07-01",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "AT&T Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-01",
+      "time_beijing": "TBD",
+      "score_a": 1,
+      "score_b": 2,
+      "winner": "Norway"
+    },
+    {
+      "match_id": 79,
+      "team_a": "Mexico",
+      "team_b": "Ecuador",
+      "date": "2026-07-01",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "Estadio Azteca",
+      "status": "completed",
+      "date_beijing": "2026-07-01",
+      "time_beijing": "TBD",
+      "score_a": 2,
+      "score_b": 0,
+      "winner": "Mexico"
+    },
+    {
+      "match_id": 80,
+      "team_a": "England",
+      "team_b": "DR Congo",
+      "date": "2026-07-02",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "Mercedes-Benz Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-02",
+      "time_beijing": "TBD",
+      "score_a": 2,
+      "score_b": 1
+    },
+    {
+      "match_id": 81,
+      "team_a": "United States",
+      "team_b": "Bosnia and Herzegovina",
+      "date": "2026-07-02",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "San Francisco Bay Area Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-02",
+      "time_beijing": "TBD",
+      "score_a": 2,
+      "score_b": 0
+    },
+    {
+      "match_id": 82,
+      "team_a": "Belgium",
+      "team_b": "Senegal",
+      "date": "2026-07-02",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "Lumen Field",
+      "status": "completed",
+      "date_beijing": "2026-07-02",
+      "time_beijing": "TBD",
+      "score_a": 3,
+      "score_b": 2
+    },
+    {
+      "match_id": 83,
+      "team_a": "Portugal",
+      "team_b": "Croatia",
+      "date": "2026-07-03",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "BMO Field",
+      "status": "completed",
+      "date_beijing": "2026-07-03",
+      "time_beijing": "TBD",
+      "score_a": 2,
+      "score_b": 1
+    },
+    {
+      "match_id": 84,
+      "team_a": "Spain",
+      "team_b": "Austria",
+      "date": "2026-07-03",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "SoFi Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-03",
+      "time_beijing": "TBD",
+      "score_a": 3,
+      "score_b": 0
+    },
+    {
+      "match_id": 85,
+      "team_a": "Switzerland",
+      "team_b": "Algeria",
+      "date": "2026-07-03",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "BC Place Vancouver",
+      "status": "completed",
+      "date_beijing": "2026-07-03",
+      "time_beijing": "TBD",
+      "score_a": 2,
+      "score_b": 0
+    },
+    {
+      "match_id": 86,
+      "team_a": "Argentina",
+      "team_b": "Cape Verde",
+      "date": "2026-07-04",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "Hard Rock Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-04",
+      "time_beijing": "TBD",
+      "score_a": 3,
+      "score_b": 2,
+      "winner": "Argentina"
+    },
+    {
+      "match_id": 87,
+      "team_a": "Colombia",
+      "team_b": "Ghana",
+      "date": "2026-07-04",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "Arrowhead Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-04",
+      "time_beijing": "TBD",
+      "score_a": 1,
+      "score_b": 0,
+      "winner": "Colombia"
+    },
+    {
+      "match_id": 88,
+      "team_a": "Australia",
+      "team_b": "Egypt",
+      "date": "2026-07-04",
+      "time_cn": "TBD",
+      "stage": "R32",
+      "venue": "AT&T Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-04",
+      "time_beijing": "TBD",
+      "score_a": 1,
+      "score_b": 1,
+      "winner": "Egypt"
+    },
+    {
+      "match_id": 89,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-05",
+      "time_cn": "TBD",
+      "stage": "R16",
+      "venue": "Lincoln Financial Field",
+      "status": "completed",
+      "date_beijing": "2026-07-05",
+      "time_beijing": "TBD",
+      "score_a": 0,
+      "score_b": 3,
+      "winner": "Morocco"
+    },
+    {
+      "match_id": 90,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-05",
+      "time_cn": "TBD",
+      "stage": "R16",
+      "venue": "NRG Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-05",
+      "time_beijing": "TBD",
+      "score_a": 0,
+      "score_b": 1,
+      "winner": "France"
+    },
+    {
+      "match_id": 91,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-06",
+      "time_cn": "TBD",
+      "stage": "R16",
+      "venue": "MetLife Stadium",
+      "status": "completed",
+      "date_beijing": "2026-07-06",
+      "time_beijing": "TBD",
+      "score_a": 1,
+      "score_b": 2
+    },
+    {
+      "match_id": 92,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-06",
+      "time_cn": "TBD",
+      "stage": "R16",
+      "venue": "Estadio Azteca",
+      "status": "completed",
+      "date_beijing": "2026-07-06",
+      "time_beijing": "TBD",
+      "score_a": 2,
+      "score_b": 3
+    },
+    {
+      "match_id": 93,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-07",
+      "time_cn": "TBD",
+      "stage": "R16",
+      "venue": "AT&T Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-07",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 94,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-07",
+      "time_cn": "TBD",
+      "stage": "R16",
+      "venue": "Lumen Field",
+      "status": "scheduled",
+      "date_beijing": "2026-07-07",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 95,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-08",
+      "time_cn": "TBD",
+      "stage": "R16",
+      "venue": "Mercedes-Benz Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-08",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 96,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-08",
+      "time_cn": "TBD",
+      "stage": "R16",
+      "venue": "BC Place Vancouver",
+      "status": "scheduled",
+      "date_beijing": "2026-07-08",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 97,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-10",
+      "time_cn": "TBD",
+      "stage": "QF",
+      "venue": "Gillette Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-10",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 98,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-11",
+      "time_cn": "TBD",
+      "stage": "QF",
+      "venue": "SoFi Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-11",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 99,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-12",
+      "time_cn": "TBD",
+      "stage": "QF",
+      "venue": "Hard Rock Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-12",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 100,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-12",
+      "time_cn": "TBD",
+      "stage": "QF",
+      "venue": "Arrowhead Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-12",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 101,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-15",
+      "time_cn": "TBD",
+      "stage": "SF",
+      "venue": "AT&T Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-15",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 102,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-16",
+      "time_cn": "TBD",
+      "stage": "SF",
+      "venue": "Mercedes-Benz Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-16",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 104,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-20",
+      "time_cn": "TBD",
+      "stage": "F",
+      "venue": "MetLife Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-20",
+      "time_beijing": "TBD"
+    },
+    {
+      "match_id": 103,
+      "team_a": null,
+      "team_b": null,
+      "date": "2026-07-19",
+      "time_cn": "TBD",
+      "stage": "3rd",
+      "venue": "Hard Rock Stadium",
+      "status": "scheduled",
+      "date_beijing": "2026-07-19",
+      "time_beijing": "TBD"
     }
-  ]
+  ],
+  "updated": "2026-07-02T14:35:00+08:00",
+  "last_synced": "2026-07-03T14:40:32.395260"
 }

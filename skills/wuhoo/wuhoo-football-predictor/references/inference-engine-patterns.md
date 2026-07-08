@@ -83,3 +83,36 @@ Two-stage scaling applied to every rule:
 2. Freshness: `<6h=1.0, 6-12h=0.9, 12-24h=0.7, 24-72h=0.5, >72h=0.3`
 
 `adjusted_value = base_value × conf_factor` then interactions may further modify.
+
+## Pitfalls (v5.5 Implementation)
+
+### 1. Git checkout wipes unsaved changes
+**Symptom**: Used `git checkout wc2026_predict.py` to revert a corrupted patch. This reverted ALL v5.4 changes (QMF/BPP/KBC) that had been added earlier but not committed.
+**Lesson**: Commit intermediate work BEFORE attempting complex file edits. `git stash` is safer than `git checkout` for temporary reverts.
+
+### 2. Patch tool escaping corrupts files
+**Symptom**: `patch` tool in mode='replace' with `\\n` sequences in old_string/new_string inserted literal backslash-n characters instead of newlines. File became syntactically broken.
+**Lesson**: For multi-line insertions or complex edits, use `execute_code` with Python string manipulation instead of the `patch` tool. The `patch` tool is reliable for single-line replacements only.
+
+### 3. Python 3.6 f-string backslash limitation
+**Symptom**: `f"... {evaluate_condition(\"team.classification == 'MUST_WIN'\", ctx)}"` caused SyntaxError — f-strings in Python 3.6 cannot contain backslashes.
+**Fix**: Extract complex expressions to variables, use `.format()` for strings with quotes:
+```python
+# WRONG (Python 3.6):
+print(f"Result: {func(\"arg\")}")
+# RIGHT:
+val = func("arg")
+print("Result: {}".format(val))
+```
+
+### 4. Sigmoid midpoint too low
+**Symptom**: Saturation triggered at `positive_sum > 30` (midpoint 40 × 0.75), causing even modest adjustments (+13.6 ELO) to get compressed by ×0.512. This was because the saturation condition checked `positive_sum > midpoint * 0.75` but then applied the scale to ALL positive entries regardless.
+**Fix**: Recalibrate midpoint to 50-60 and ensure saturation only fires when `positive_sum` genuinely exceeds the threshold by a meaningful margin (> midpoint × 1.0, not 0.75).
+
+### 5. Tournament form randomness
+**Symptom**: `random.gauss(0, 60)` produced wildly different values per call (-71 in one run, +18 in another for the same team). Non-reproducible predictions.
+**Fix**: Hash team name for deterministic seed. Also reduced stddev from 60 to 30 to prevent extreme values dominating.
+
+### 6. wrapper vs inline integration tradeoff
+**Decision**: Used wrapper pattern (predict_v55.py) over inline modification of predict_single_match. 
+**Tradeoff**: Wrapper is safer (zero risk of breaking existing pipeline) but creates two code paths. If engine becomes the primary path, consolidate into predict_single_match. For now, wrapper is correct for a new feature under validation.

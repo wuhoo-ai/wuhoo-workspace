@@ -671,6 +671,7 @@ def predict_score(elo_a, elo_b, home_adv=0):
     return {
         'score': best, 'ga': lam_a, 'gb': lam_b,
         'win': w / t, 'draw': d / t, 'loss': l / t,
+        'scores': scores,  # v5.7: full 7x7 scoreline probability matrix
     }
 
 def get_venue_penalty(team, venue_name):
@@ -1585,7 +1586,7 @@ def _find_team_canonical(name, all_teams=None):
 
 def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
                          manual_adjustments=None, knockout=False, match_id=None,
-                         matchday=None, motivation_data=None):
+                         matchday=None, motivation_data=None, bracket_data=None):
     """Predict a single match with full audit trail.
 
     Args:
@@ -1595,6 +1596,9 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
         manual_adjustments: dict of team->elo_adjustment for manual overrides
         knockout: if True, resolve draws via probabilistic tiebreaker
         match_id: schedule match_id for weather/density lookup (v5.2)
+        matchday: matchday number (1-3) for QMF/BPP activation (v5.4)
+        motivation_data: dict of team->{classification, elo_adjustment, reason} for MD3 QMF (v5.4)
+        bracket_data: dict of bracket path comparisons for MD3 BPP (v5.4)
 
     Returns:
         dict with full audit trail and prediction results
@@ -1657,6 +1661,73 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
         'team_a_details': inj_details_a,
         'team_b_details': inj_details_b,
         'description': f"{team_a}: {inj_a:+d} | {team_b}: {inj_b:+d}" if inj_a or inj_b else "No injuries"
+    }
+
+    # --- Layer 2.5: QMF — Matchday 3 出线动机因子 (v5.4) ---
+    motivation_a = 0
+    motivation_b = 0
+    motivation_reason_a = ''
+    motivation_reason_b = ''
+    if motivation_data and matchday == 3:
+        mot_a = motivation_data.get(team_a, {})
+        mot_b = motivation_data.get(team_b, {})
+        if mot_a:
+            motivation_a = mot_a.get('elo_adjustment', 0)
+            motivation_reason_a = f"{mot_a.get('classification','?')}: {mot_a.get('reason','')}"
+        if mot_b:
+            motivation_b = mot_b.get('elo_adjustment', 0)
+            motivation_reason_b = f"{mot_b.get('classification','?')}: {mot_b.get('reason','')}"
+        effective_a += motivation_a
+        effective_b += motivation_b
+    audit['layers']['2.5_motivation'] = {
+        'team_a_adjustment': motivation_a,
+        'team_b_adjustment': motivation_b,
+        'team_a_reason': motivation_reason_a,
+        'team_b_reason': motivation_reason_b,
+        'description': f"{team_a}: {motivation_a:+d} ELO ({motivation_reason_a}) | {team_b}: {motivation_b:+d} ELO ({motivation_reason_b})" if (motivation_a or motivation_b) else "无出线动机数据（非MD3或数据缺失）"
+    }
+
+    # --- Layer 2.6: BPP — 半区路径偏好 (v5.4) ---
+    bpp_a = 0
+    bpp_b = 0
+    bpp_reason_a = ''
+    bpp_reason_b = ''
+    if bracket_data and matchday == 3:
+        # Determine group from schedule
+        group = None
+        # Look up group for this match from schedule
+        sched = _get_schedule()
+        for sm in sched.get('matches', []):
+            if sm.get('match_id') == match_id:
+                group = sm.get('group')
+                break
+        if group:
+            pw = bracket_data.get('pairwise_comparison', {}).get(group, {})
+            # Only apply BPP for TOP_SEED teams (争头名)
+            mot_a = motivation_data.get(team_a, {}) if motivation_data else {}
+            mot_b = motivation_data.get(team_b, {}) if motivation_data else {}
+            if mot_a.get('classification') == 'TOP_SEED':
+                if mot_a.get('group_position') == 1:
+                    bpp_a = pw.get('adjustment_1st', 0)
+                    bpp_reason_a = pw.get('reason_1st', '')
+                else:
+                    bpp_a = pw.get('adjustment_2nd', 0)
+                    bpp_reason_a = pw.get('reason_2nd', '')
+            if mot_b.get('classification') == 'TOP_SEED':
+                if mot_b.get('group_position') == 1:
+                    bpp_b = pw.get('adjustment_1st', 0)
+                    bpp_reason_b = pw.get('reason_1st', '')
+                else:
+                    bpp_b = pw.get('adjustment_2nd', 0)
+                    bpp_reason_b = pw.get('reason_2nd', '')
+            effective_a += bpp_a
+            effective_b += bpp_b
+    audit['layers']['2.6_bracket_path'] = {
+        'team_a_adjustment': bpp_a,
+        'team_b_adjustment': bpp_b,
+        'team_a_reason': bpp_reason_a,
+        'team_b_reason': bpp_reason_b,
+        'description': f"{team_a}: {bpp_a:+d} ELO ({bpp_reason_a}) | {team_b}: {bpp_b:+d} ELO ({bpp_reason_b})" if (bpp_a or bpp_b) else "无半区路径数据（非MD3或非TOP_SEED组）"
     }
 
     # --- Layer 3: Coach / Roster / Chemistry ---
@@ -1914,6 +1985,23 @@ def predict_single_match(team_a, team_b, venue_name=None, enable_news=False,
         'expected_goals_b': round(pred['gb'], 2),
     }
 
+    # v5.7: Scoreline probability distribution (Top 3)
+    all_scores = pred.get('scores', {})
+    if all_scores:
+        sorted_scores = sorted(all_scores.items(), key=lambda x: -x[1])
+        top_scorelines = []
+        cum = 0.0
+        for (ga, gb), prob in sorted_scores[:3]:
+            cum += prob
+            pct = round(prob * 100, 1)
+            top_scorelines.append({
+                'score': f"{ga}-{gb}",
+                'prob': round(prob, 4),
+                'prob_pct': pct,
+                'cumulative': round(cum, 4)
+            })
+        audit['prediction']['scoreline_probs'] = top_scorelines
+
     # --- KO Tiebreaker (if applicable) ---
     if knockout and pred['score'][0] == pred['score'][1]:
         elo_diff_abs = abs(effective_diff)
@@ -2117,6 +2205,13 @@ def print_match_prediction(audit, team_profiles=None):
     print(f"  {nb} 胜:  {pred['team_b_win']:5.1f}% {'█' * win_b_bar}")
     print(f"  最可能比分: {pred['most_likely_score']} "
           f"(xG: {na} {pred['expected_goals_a']:.2f} / {nb} {pred['expected_goals_b']:.2f})")
+    # v5.7: Scoreline probability distribution
+    sp = pred.get('scoreline_probs', [])
+    if sp:
+        for s in sp:
+            ga, gb = map(int, s['score'].split('-'))
+            result = f'{na}胜' if ga > gb else f'{nb}胜' if gb > ga else '平局'
+            print(f"    {s['score']} ({result}) {s['prob_pct']:.1f}%")
     if 'knockout_note' in pred:
         print(f"  ⚠️ {pred['knockout_note']}")
     print()

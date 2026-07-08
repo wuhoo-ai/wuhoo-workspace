@@ -1,16 +1,16 @@
 {
-  "last_updated": "2026-06-22T15:00:00+08:00",
+  "last_updated": "2026-07-07T14:34:54.488592",
   "source": "ESPN/Fox Sports/The Athletic/BBC/everythingedinburgh.com",
   "injuries": {
     "Canada": {
-      "total_penalty": -30,
+      "total_penalty": -25,
       "players": [
         {
           "name": "Alphonso Davies",
           "position": "LB/LW",
-          "status": "DOUBTFUL",
-          "injury": "Hamstring strain (recurring, since May 6); ran laps pre-Uzbekistan but not cleared",
-          "elo_penalty": -20
+          "status": "AVAILABLE",
+          "injury": "Hamstring strain (returned Jun 18 vs Qatar, available for knockout)",
+          "elo_penalty": 0
         },
         {
           "name": "Marcelo Flores",
@@ -25,6 +25,13 @@
           "status": "OUT",
           "injury": "Shin fracture relapse (Jun 2026)",
           "elo_penalty": -5
+        },
+        {
+          "name": "Ismaël Koné",
+          "position": "CM",
+          "status": "OUT",
+          "injury": "Fractured fibula and tibia (Jun 18 vs Qatar); surgery; out for rest of World Cup",
+          "elo_penalty": -15
         }
       ]
     },
@@ -41,7 +48,7 @@
       ]
     },
     "Brazil": {
-      "total_penalty": -40,
+      "total_penalty": -65,
       "players": [
         {
           "name": "Rodrygo",
@@ -67,9 +74,9 @@
         {
           "name": "Neymar",
           "position": "FW",
-          "status": "OUT",
-          "injury": "Right calf issue (since May 17); likely out through group stage (Fox Sports Jun 16)",
-          "elo_penalty": -10
+          "status": "AVAILABLE",
+          "injury": "Right calf issue (resolved); returned to full training for knockout stage (CGTN Jun 28)",
+          "elo_penalty": 0
         },
         {
           "name": "Wesley",
@@ -77,11 +84,25 @@
           "status": "OUT",
           "injury": "Thigh injury in training (Jun 7); 4 days before tournament opener",
           "elo_penalty": -5
+        },
+        {
+          "name": "Raphinha",
+          "position": "FW",
+          "status": "DOUBTFUL",
+          "injury": "Hamstring/thigh injury (vs Haiti, MD2); missed final training session Jun 28; expected to miss R32 vs Japan (USAToday/Standard/CGTN Jun 28-29)",
+          "elo_penalty": -20
+        },
+        {
+          "name": "Lucas Paqueta",
+          "position": "CM",
+          "status": "OUT",
+          "injury": "Muscle injury back of left thigh (vs Japan R32, Jun 30); CBF confirms OUT for R16 vs Norway; may miss rest of tournament (CBF/AFP/Sportstar Jul 2-3)",
+          "elo_penalty": -15
         }
       ]
     },
     "Germany": {
-      "total_penalty": -20,
+      "total_penalty": -45,
       "players": [
         {
           "name": "Serge Gnabry",
@@ -103,6 +124,14 @@
           "status": "OUT",
           "injury": "Torn thigh muscle; Baumann is No.1",
           "elo_penalty": -5
+        },
+        {
+          "name": "Nico Schlotterbeck",
+          "position": "CB",
+          "status": "OUT",
+          "injury": "Medial ankle ligament injury (vs Ivory Coast, MD2)",
+          "elo_penalty": -25,
+          "source": "BBC/The Athletic/SI, 2026-06-22"
         }
       ]
     },
@@ -197,7 +226,7 @@
       ]
     },
     "Spain": {
-      "total_penalty": -20,
+      "total_penalty": -35,
       "players": [
         {
           "name": "Fermín López",
@@ -225,6 +254,20 @@
           "position": "FW",
           "status": "OUT",
           "injury": "ACL rupture (Feb 10, Porto); long-term absence",
+          "elo_penalty": -5
+        },
+        {
+          "name": "Yeremy Pino",
+          "position": "FW",
+          "status": "DOUBTFUL",
+          "injury": "Collar bone fracture (sustained vs Uruguay, June 26). De la Fuente: could miss rest of World Cup. World Soccer Talk: possible return for knockout stage",
+          "elo_penalty": -10
+        },
+        {
+          "name": "Nico Williams",
+          "position": "FW",
+          "status": "QUESTIONABLE",
+          "injury": "Muscular problem (re-aggravated vs Uruguay, June 26). Fighting to overcome; could return for knockout stage per World Soccer Talk",
           "elo_penalty": -5
         }
       ]
@@ -318,13 +361,34 @@
       ]
     },
     "England": {
-      "total_penalty": -3,
+      "total_penalty": -19,
       "players": [
         {
           "name": "Tino Livramento",
           "position": "DF",
           "status": "OUT",
           "injury": "Calf injury (ended season); OUT per Fox Sports Jun 16. Trevoh Chalobah called up",
+          "elo_penalty": -3
+        },
+        {
+          "name": "Reece James",
+          "position": "RB",
+          "status": "DOUBTFUL",
+          "injury": "Hamstring injury; missed R32 vs DR Congo. Tuchel hopeful for R16 return (Sky Sports/Metro Jul 2)",
+          "elo_penalty": -8
+        },
+        {
+          "name": "Jarell Quansah",
+          "position": "RB/CB",
+          "status": "DOUBTFUL",
+          "injury": "Injury; missed R32 vs DR Congo (Sky Sports Jul 1)",
+          "elo_penalty": -5
+        },
+        {
+          "name": "Bukayo Saka",
+          "position": "RW",
+          "status": "QUESTIONABLE",
+          "injury": "Nursed throughout tournament; started only 1 of 4 matches (Metro Jul 2)",
           "elo_penalty": -3
         }
       ]
@@ -443,6 +507,64 @@
           "status": "OUT",
           "injury": "Serious injury (pre-tournament); one of Jordan's key forwards",
           "elo_penalty": -8
+        }
+      ]
+    },
+    "Sweden": {
+      "total_penalty": -25,
+      "players": [
+        {
+          "name": "Isak Hien",
+          "position": "DF",
+          "status": "OUT",
+          "injury": "Serious left hamstring injury (vs Japan Jun 25); ruled out for tournament, left camp (Swedish FA/L'Equipe Jun 29)",
+          "elo_penalty": -25
+        }
+      ]
+    },
+    "Ivory Coast": {
+      "total_penalty": -15,
+      "players": [
+        {
+          "name": "Wilfried Singo",
+          "position": "DF",
+          "status": "OUT",
+          "injury": "Hamstring injury; ruled out of R32 vs Norway (Yahoo Sports Jun 30)",
+          "elo_penalty": -15
+        }
+      ]
+    },
+    "Colombia": {
+      "total_penalty": -25,
+      "players": [
+        {
+          "name": "Jhon Córdoba",
+          "position": "FW",
+          "status": "OUT",
+          "injury": "Adductor tear (4 weeks)",
+          "elo_penalty": -25,
+          "source": "MARCA/Bolavip, 2026-07-05"
+        }
+      ]
+    },
+    "Egypt": {
+      "total_penalty": -20,
+      "players": [
+        {
+          "name": "Ahmed Fattouh",
+          "position": "DF",
+          "status": "DOUBTFUL",
+          "injury": "Hamstring tear",
+          "elo_penalty": -12,
+          "source": "FIFA.com, 2026-07-03"
+        },
+        {
+          "name": "Mohamed Abdelmonem",
+          "position": "DF",
+          "status": "QUESTIONABLE",
+          "injury": "Severe ankle bruising",
+          "elo_penalty": -8,
+          "source": "FIFA.com, 2026-07-03"
         }
       ]
     }

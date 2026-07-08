@@ -1,0 +1,780 @@
+{
+  "date_beijing": "2026-07-04",
+  "generated": "2026-07-03T15:24:12.773699",
+  "total_matches": 3,
+  "predictions": [
+    {
+      "match_id": 86,
+      "team_a": "Argentina",
+      "team_b": "Cape Verde",
+      "venue": "Hard Rock Stadium",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 81.1,
+      "draw_pct": 13.0,
+      "team_b_win_pct": 5.9,
+      "most_likely_score": "2-0",
+      "expected_goals_a": 2.67,
+      "expected_goals_b": 0.58,
+      "scoreline_probs": [
+        {
+          "score": "2-0",
+          "prob": 0.1379,
+          "prob_pct": 13.8,
+          "cumulative": 0.1379
+        },
+        {
+          "score": "3-0",
+          "prob": 0.1225,
+          "prob_pct": 12.3,
+          "cumulative": 0.2604
+        },
+        {
+          "score": "1-0",
+          "prob": 0.1034,
+          "prob_pct": 10.3,
+          "cumulative": 0.3638
+        }
+      ],
+      "verdict": "阿根廷 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    },
+    {
+      "match_id": 87,
+      "team_a": "Colombia",
+      "team_b": "Ghana",
+      "venue": "Arrowhead Stadium",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 77.9,
+      "draw_pct": 14.5,
+      "team_b_win_pct": 7.6,
+      "most_likely_score": "2-0",
+      "expected_goals_a": 2.56,
+      "expected_goals_b": 0.67,
+      "scoreline_probs": [
+        {
+          "score": "2-0",
+          "prob": 0.1299,
+          "prob_pct": 13.0,
+          "cumulative": 0.1299
+        },
+        {
+          "score": "3-0",
+          "prob": 0.111,
+          "prob_pct": 11.1,
+          "cumulative": 0.2408
+        },
+        {
+          "score": "1-0",
+          "prob": 0.1014,
+          "prob_pct": 10.1,
+          "cumulative": 0.3422
+        }
+      ],
+      "verdict": "哥伦比亚 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    },
+    {
+      "match_id": 88,
+      "team_a": "Australia",
+      "team_b": "Egypt",
+      "venue": "AT&T Stadium",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 34.4,
+      "draw_pct": 26.1,
+      "team_b_win_pct": 39.5,
+      "most_likely_score": "1-1",
+      "expected_goals_a": 1.27,
+      "expected_goals_b": 1.38,
+      "scoreline_probs": [
+        {
+          "score": "1-1",
+          "prob": 0.124,
+          "prob_pct": 12.4,
+          "cumulative": 0.124
+        },
+        {
+          "score": "0-1",
+          "prob": 0.0978,
+          "prob_pct": 9.8,
+          "cumulative": 0.2218
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0901,
+          "prob_pct": 9.0,
+          "cumulative": 0.3119
+        }
+      ],
+      "verdict": "倾向平局",
+      "confidence": "low",
+      "error": null
+    }
+  ],
+  "matches": [
+    {
+      "audit": {
+        "team_a": "Argentina",
+        "team_b": "Cape Verde",
+        "venue": "Hard Rock Stadium",
+        "generated": "2026-07-03T15:24:12.765789",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2452,
+            "team_b_elo": 1775,
+            "elo_diff": 677,
+            "base_win_prob": 98.0,
+            "description": "Argentina 2452 vs Cape Verde 1775, Δ=+677"
+          },
+          "2_injuries": {
+            "team_a_penalty": -13,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Cristian Romero (DF): DOUBTFUL — Partially torn MCL (mid-Apr vs Sunderland); started 14 qualifiers [-5]",
+              "  Nahuel Molina (DF): DOUBTFUL — Thigh injury (May vs Celta Vigo); miss 2-3 weeks. Montiel next up [-3]",
+              "  Leonardo Balerdi (DF): OUT — Soleus muscle injury (pre-tournament training); replaced by Marcos Senesi [-5]"
+            ],
+            "team_b_details": [],
+            "description": "Argentina: -13 | Cape Verde: +0"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 59,
+            "team_b_adjustment": 15,
+            "team_a_breakdown": {
+              "coach": 16,
+              "result": 25,
+              "stability": 7.200000000000002,
+              "chemistry": 10.5
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.999999999999998,
+              "chemistry": 6.6
+            },
+            "description": "Argentina: +59 (coach+stability+chemistry) | Cape Verde: +15"
+          },
+          "4_venue": {
+            "home_advantage": 15,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 8,
+            "venue_details": {
+              "city": "Miami Gardens",
+              "altitude_m": 2,
+              "temp_c": 32,
+              "indoor": false,
+              "climate_note": "Hot & extremely humid — significant fatigue factor"
+            },
+            "description": "Home adv +15, venue penalties: Argentina +0 / Cape Verde +8"
+          },
+          "4a_weather": {
+            "team_a_adj": -23,
+            "team_b_adj": -25,
+            "weather_details": {
+              "condition": "thunderstorm",
+              "temp_c": 29.1,
+              "precip_mm": 1.4,
+              "precip_category": "moderate",
+              "wind_kph": 16.7,
+              "wind_category": "breezy",
+              "indoor": false
+            },
+            "description": "Rain: Argentina -15/Cape Verde -15 | Wind: -8 | Temp: 29.1°C (real-time)"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": -7,
+            "team_b_adj": -2,
+            "team_a_details": {
+              "prev_match_id": 67,
+              "prev_venue": "Arrowhead Stadium",
+              "curr_venue": "Hard Rock Stadium",
+              "distance_km": 1970.7,
+              "rest_days": 6,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 63,
+              "prev_venue": "Mercedes-Benz Stadium",
+              "curr_venue": "Hard Rock Stadium",
+              "distance_km": 955.2,
+              "rest_days": 7,
+              "rest_bonus_raw": 0
+            },
+            "description": "Argentina: -7 (travel+rest) | Cape Verde: -2"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 7,
+            "team_b_adj": 32,
+            "description": "Argentina: +7 (warm-up form) | Cape Verde: +32"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 71,
+            "team_b_adj": 19,
+            "team_a_details": [
+              "[06-17] W 3-0/CS vs 阿尔及利亚 (1806ELO q=+0.77 r=1.0x) → +30",
+              "[06-23] W 2-0/CS vs 奥地利 (1820ELO q=+0.80 r=1.0x) → +25",
+              "[06-28] W 3-1 vs 约旦 (1253ELO q=-0.62 r=1.3x) → +16"
+            ],
+            "team_b_details": [
+              "[06-16] D 0-0/CS vs 西班牙 (2063ELO q=+1.41 r=1.0x) → +10",
+              "[06-22] D 2-2 vs 乌拉圭 (1688ELO q=+0.47 r=1.0x) → +3",
+              "[06-27] D 0-0/CS vs 沙特阿拉伯 (1670ELO q=+0.42 r=1.3x) → +6"
+            ],
+            "description": "Argentina: +71 | Cape Verde: +19"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2452,
+            "effective": 2561,
+            "adjustments": 109
+          },
+          "team_b": {
+            "base": 1775,
+            "effective": 1806,
+            "adjustments": 31
+          },
+          "diff": 755
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 81.1,
+          "draw": 13.0,
+          "team_b_win": 5.9,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.67,
+          "expected_goals_b": 0.58,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.1379,
+              "prob_pct": 13.8,
+              "cumulative": 0.1379
+            },
+            {
+              "score": "3-0",
+              "prob": 0.1225,
+              "prob_pct": 12.3,
+              "cumulative": 0.2604
+            },
+            {
+              "score": "1-0",
+              "prob": 0.1034,
+              "prob_pct": 10.3,
+              "cumulative": 0.3638
+            }
+          ]
+        },
+        "verdict": {
+          "result": "阿根廷 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 绝对优势 677 分，实力差距明显",
+          "伤病影响：Argentina -13 / Cape Verde +0 ELO",
+          "多层调整后有效 ELO 差 +755（原始 +677）"
+        ],
+        "schedule": {
+          "match_id": 86,
+          "team_a": "Argentina",
+          "team_b": "Cape Verde",
+          "date": "2026-07-04",
+          "time_cn": "TBD",
+          "stage": "R32",
+          "venue": "Hard Rock Stadium",
+          "status": "scheduled",
+          "date_beijing": "2026-07-04",
+          "time_beijing": "TBD"
+        }
+      },
+      "schedule": {
+        "match_id": 86,
+        "team_a": "Argentina",
+        "team_b": "Cape Verde",
+        "date": "2026-07-04",
+        "time_cn": "TBD",
+        "stage": "R32",
+        "venue": "Hard Rock Stadium",
+        "status": "scheduled",
+        "date_beijing": "2026-07-04",
+        "time_beijing": "TBD"
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Colombia",
+        "team_b": "Ghana",
+        "venue": "Arrowhead Stadium",
+        "generated": "2026-07-03T15:24:12.769403",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2204,
+            "team_b_elo": 1851,
+            "elo_diff": 353,
+            "base_win_prob": 88.4,
+            "description": "Colombia 2204 vs Ghana 1851, Δ=+353"
+          },
+          "2_injuries": {
+            "team_a_penalty": 0,
+            "team_b_penalty": -20,
+            "team_a_details": [],
+            "team_b_details": [
+              "  Mohammed Kudus (MF): OUT — Hamstring setback confirmed OUT (Instagram/Ghana FA Jun 1). Major creative loss [-12]",
+              "  Thomas Partey (MF): OUT — Denied Canadian visa (outstanding UK charges); unavailable for Panama match (Standard Jun 19) [-8]"
+            ],
+            "description": "Colombia: +0 | Ghana: -20"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 33,
+            "team_b_adjustment": 24,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 12.000000000000002,
+              "chemistry": 11.4
+            },
+            "team_b_breakdown": {
+              "coach": 8,
+              "result": 5,
+              "stability": 6.400000000000001,
+              "chemistry": 4.2
+            },
+            "description": "Colombia: +33 (coach+stability+chemistry) | Ghana: +24"
+          },
+          "4_venue": {
+            "home_advantage": 15,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Kansas City",
+              "altitude_m": 277,
+              "temp_c": 31,
+              "indoor": false,
+              "climate_note": "Hot & humid summer, open air"
+            },
+            "description": "Home adv +15, venue penalties: Colombia +0 / Ghana +0"
+          },
+          "4a_weather": {
+            "team_a_adj": -23,
+            "team_b_adj": -23,
+            "weather_details": {
+              "condition": "moderate_rain",
+              "temp_c": 25.1,
+              "precip_mm": 5.9,
+              "precip_category": "moderate",
+              "wind_kph": 27.4,
+              "wind_category": "breezy",
+              "indoor": false
+            },
+            "description": "Rain: Colombia -15/Ghana -15 | Wind: -8"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": -5,
+            "team_b_adj": -10,
+            "team_a_details": {
+              "prev_match_id": 69,
+              "prev_venue": "NRG Stadium",
+              "curr_venue": "Arrowhead Stadium",
+              "distance_km": 1044.7,
+              "rest_days": 6,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 72,
+              "prev_venue": "BC Place",
+              "curr_venue": "Arrowhead Stadium",
+              "distance_km": 2530.2,
+              "rest_days": 6,
+              "rest_bonus_raw": 0
+            },
+            "description": "Colombia: -5 (travel+rest) | Ghana: -10"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 7,
+            "team_b_adj": -4,
+            "description": "Colombia: +7 (warm-up form) | Ghana: -4"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 47,
+            "team_b_adj": 20,
+            "team_a_details": [
+              "[06-18] W 3-1 vs 乌兹别克斯坦 (1313ELO q=-0.47 r=1.0x) → +13",
+              "[06-24] W 1-0/CS vs 刚果民主共和国 (1859ELO q=+0.90 r=1.0x) → +20",
+              "[06-28] D 0-0/CS vs 葡萄牙 (2052ELO q=+1.38 r=1.3x) → +13"
+            ],
+            "team_b_details": [
+              "[06-18] W 1-0/CS vs 巴拿马 (1264ELO q=-0.59 r=1.0x) → +13",
+              "[06-24] D 0-0/CS vs 英格兰 (2148ELO q=+1.62 r=1.0x) → +12",
+              "[06-28] L 1-2 vs 克罗地亚 (1939ELO q=+1.10 r=1.3x) → -5"
+            ],
+            "description": "Colombia: +47 | Ghana: +20"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2204,
+            "effective": 2278,
+            "adjustments": 74
+          },
+          "team_b": {
+            "base": 1851,
+            "effective": 1838,
+            "adjustments": -13
+          },
+          "diff": 440
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 77.9,
+          "draw": 14.5,
+          "team_b_win": 7.6,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.56,
+          "expected_goals_b": 0.67,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.1299,
+              "prob_pct": 13.0,
+              "cumulative": 0.1299
+            },
+            {
+              "score": "3-0",
+              "prob": 0.111,
+              "prob_pct": 11.1,
+              "cumulative": 0.2408
+            },
+            {
+              "score": "1-0",
+              "prob": 0.1014,
+              "prob_pct": 10.1,
+              "cumulative": 0.3422
+            }
+          ]
+        },
+        "verdict": {
+          "result": "哥伦比亚 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 绝对优势 353 分，实力差距明显",
+          "伤病影响：Colombia +0 / Ghana -20 ELO",
+          "多层调整后有效 ELO 差 +440（原始 +353）"
+        ],
+        "schedule": {
+          "match_id": 87,
+          "team_a": "Colombia",
+          "team_b": "Ghana",
+          "date": "2026-07-04",
+          "time_cn": "TBD",
+          "stage": "R32",
+          "venue": "Arrowhead Stadium",
+          "status": "scheduled",
+          "date_beijing": "2026-07-04",
+          "time_beijing": "TBD"
+        }
+      },
+      "schedule": {
+        "match_id": 87,
+        "team_a": "Colombia",
+        "team_b": "Ghana",
+        "date": "2026-07-04",
+        "time_cn": "TBD",
+        "stage": "R32",
+        "venue": "Arrowhead Stadium",
+        "status": "scheduled",
+        "date_beijing": "2026-07-04",
+        "time_beijing": "TBD"
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Australia",
+        "team_b": "Egypt",
+        "venue": "AT&T Stadium",
+        "generated": "2026-07-03T15:24:12.771655",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1827,
+            "team_b_elo": 1843,
+            "elo_diff": -16,
+            "base_win_prob": 47.7,
+            "description": "Australia 1827 vs Egypt 1843, Δ=-16"
+          },
+          "2_injuries": {
+            "team_a_penalty": -8,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Lewis Miller (DF): OUT — Torn Achilles tendon (Feb); started every qualifier. Italiano likely starter [-5]",
+              "  Aiden O'Neill (MF): DOUBTFUL — Ankle injury (May vs D.C. United) [-3]"
+            ],
+            "team_b_details": [],
+            "description": "Australia: -8 | Egypt: +0"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 12,
+            "team_b_adjustment": 27,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 4.500000000000001
+            },
+            "team_b_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 9.6,
+              "chemistry": 7.800000000000001
+            },
+            "description": "Australia: +12 (coach+stability+chemistry) | Egypt: +27"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Arlington (Dallas)",
+              "altitude_m": 184,
+              "temp_c": 35,
+              "indoor": true,
+              "climate_note": "Very hot, indoor stadium (AC) — heat penalty reduced"
+            },
+            "description": "Home adv +0, venue penalties: Australia +0 / Egypt +0"
+          },
+          "4a_weather": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "weather_details": {
+              "condition": "overcast",
+              "temp_c": 32.4,
+              "precip_mm": 0.0,
+              "precip_category": "none",
+              "wind_kph": 26.0,
+              "wind_category": "indoor",
+              "indoor": true
+            },
+            "description": "Temp: 32.4°C (real-time)"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": -10,
+            "team_b_adj": -10,
+            "team_a_details": {
+              "prev_match_id": 60,
+              "prev_venue": "Lumen Field",
+              "curr_venue": "AT&T Stadium",
+              "distance_km": 2685.4,
+              "rest_days": 8,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 65,
+              "prev_venue": "Lumen Field",
+              "curr_venue": "AT&T Stadium",
+              "distance_km": 2685.4,
+              "rest_days": 7,
+              "rest_bonus_raw": 0
+            },
+            "description": "Australia: -10 (travel+rest) | Egypt: -10"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -7,
+            "team_b_adj": 1,
+            "description": "Australia: -7 (warm-up form) | Egypt: +1"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 28,
+            "team_b_adj": 26,
+            "team_a_details": [
+              "[06-14] W 2-0/CS vs 土耳其 (1728ELO q=+0.57 r=1.0x) → +24",
+              "[06-20] L 0-2 vs 美国 (1983ELO q=+1.21 r=1.0x) → -5",
+              "[06-26] D 0-0/CS vs 巴拉圭 (1840ELO q=+0.85 r=1.3x) → +9"
+            ],
+            "team_b_details": [
+              "[06-16] D 1-1 vs 比利时 (1894ELO q=+0.98 r=1.0x) → +6",
+              "[06-22] W 3-1 vs 新西兰 (1468ELO q=-0.08 r=1.0x) → +15",
+              "[06-27] D 1-1 vs 伊朗 (1749ELO q=+0.62 r=1.3x) → +5"
+            ],
+            "description": "Australia: +28 | Egypt: +26"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1827,
+            "effective": 1842,
+            "adjustments": 15
+          },
+          "team_b": {
+            "base": 1843,
+            "effective": 1887,
+            "adjustments": 44
+          },
+          "diff": -45
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 34.4,
+          "draw": 26.1,
+          "team_b_win": 39.5,
+          "most_likely_score": "1-1",
+          "expected_goals_a": 1.27,
+          "expected_goals_b": 1.38,
+          "scoreline_probs": [
+            {
+              "score": "1-1",
+              "prob": 0.124,
+              "prob_pct": 12.4,
+              "cumulative": 0.124
+            },
+            {
+              "score": "0-1",
+              "prob": 0.0978,
+              "prob_pct": 9.8,
+              "cumulative": 0.2218
+            },
+            {
+              "score": "1-0",
+              "prob": 0.0901,
+              "prob_pct": 9.0,
+              "cumulative": 0.3119
+            }
+          ]
+        },
+        "verdict": {
+          "result": "倾向平局",
+          "confidence": "low"
+        },
+        "reasoning": [
+          "ELO 接近（差 16 分），实力相当",
+          "伤病影响：Australia -8 / Egypt +0 ELO"
+        ],
+        "schedule": {
+          "match_id": 88,
+          "team_a": "Australia",
+          "team_b": "Egypt",
+          "date": "2026-07-04",
+          "time_cn": "TBD",
+          "stage": "R32",
+          "venue": "AT&T Stadium",
+          "status": "scheduled",
+          "date_beijing": "2026-07-04",
+          "time_beijing": "TBD"
+        }
+      },
+      "schedule": {
+        "match_id": 88,
+        "team_a": "Australia",
+        "team_b": "Egypt",
+        "date": "2026-07-04",
+        "time_cn": "TBD",
+        "stage": "R32",
+        "venue": "AT&T Stadium",
+        "status": "scheduled",
+        "date_beijing": "2026-07-04",
+        "time_beijing": "TBD"
+      }
+    }
+  ]
+}

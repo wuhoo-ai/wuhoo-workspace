@@ -1,0 +1,706 @@
+{
+  "date_beijing": "2026-07-02",
+  "generated": "2026-07-01T15:10:11.249529",
+  "total_matches": 3,
+  "predictions": [
+    {
+      "match_id": 80,
+      "team_a": "England",
+      "team_b": "DR Congo",
+      "venue": "Mercedes-Benz Stadium",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 66.3,
+      "draw_pct": 20.3,
+      "team_b_win_pct": 13.4,
+      "most_likely_score": "2-0",
+      "verdict": "英格兰 胜（中置信度）",
+      "confidence": "medium",
+      "error": null
+    },
+    {
+      "match_id": 81,
+      "team_a": "United States",
+      "team_b": "Bosnia and Herzegovina",
+      "venue": "San Francisco Bay Area Stadium",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 73.6,
+      "draw_pct": 17.0,
+      "team_b_win_pct": 9.4,
+      "most_likely_score": "2-0",
+      "verdict": "美国 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    },
+    {
+      "match_id": 82,
+      "team_a": "Belgium",
+      "team_b": "Senegal",
+      "venue": "Lumen Field",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 58.4,
+      "draw_pct": 23.2,
+      "team_b_win_pct": 18.3,
+      "most_likely_score": "1-0",
+      "verdict": "比利时 胜（中置信度）",
+      "confidence": "medium",
+      "error": null
+    }
+  ],
+  "matches": [
+    {
+      "audit": {
+        "team_a": "England",
+        "team_b": "DR Congo",
+        "venue": "Mercedes-Benz Stadium",
+        "generated": "2026-07-01T15:10:11.242415",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2110,
+            "team_b_elo": 1866,
+            "elo_diff": 244,
+            "base_win_prob": 80.3,
+            "description": "England 2110 vs DR Congo 1866, Δ=+244"
+          },
+          "2_injuries": {
+            "team_a_penalty": -3,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Tino Livramento (DF): OUT — Calf injury (ended season); OUT per Fox Sports Jun 16. Trevoh Chalobah called up [-3]"
+            ],
+            "team_b_details": [],
+            "description": "England: -3 | DR Congo: +0"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 20,
+            "team_b_adjustment": 13,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 5,
+              "stability": 0.8000000000000007,
+              "chemistry": 5.999999999999998
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 5.999999999999998
+            },
+            "description": "England: +20 (coach+stability+chemistry) | DR Congo: +13"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 4,
+            "team_b_venue_penalty": 4,
+            "venue_details": {
+              "city": "Atlanta",
+              "altitude_m": 302,
+              "temp_c": 32,
+              "indoor": true,
+              "climate_note": "Hot & humid, indoor stadium (AC) — heat penalty reduced"
+            },
+            "description": "Home adv +0, venue penalties: England +4 / DR Congo +4"
+          },
+          "4a_weather": {
+            "team_a_adj": -18,
+            "team_b_adj": -13,
+            "weather_details": {
+              "condition": "thunderstorm",
+              "temp_c": 31.5,
+              "precip_mm": 0.0,
+              "precip_category": "moderate",
+              "wind_kph": 16.4,
+              "wind_category": "indoor",
+              "indoor": true
+            },
+            "description": "Rain: England -15/DR Congo -10 | Temp: 31.5°C (real-time)"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": -5,
+            "team_b_adj": -2,
+            "team_a_details": {
+              "prev_match_id": 71,
+              "prev_venue": "Gillette Stadium",
+              "curr_venue": "Mercedes-Benz Stadium",
+              "distance_km": 1475.8,
+              "rest_days": 4,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 70,
+              "prev_venue": "Hard Rock Stadium",
+              "curr_venue": "Mercedes-Benz Stadium",
+              "distance_km": 955.2,
+              "rest_days": 4,
+              "rest_bonus_raw": 0
+            },
+            "description": "England: -5 (travel+rest) | DR Congo: -2"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -35,
+            "team_b_adj": 4,
+            "description": "England: -35 (warm-up form) | DR Congo: +4"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 52,
+            "team_b_adj": 21,
+            "team_a_details": [
+              "[06-18] W 4-2 vs 克罗地亚 (1933ELO q=+1.08 r=1.0x) → +23",
+              "[06-24] D 0-0/CS vs 加纳 (1869ELO q=+0.92 r=1.0x) → +8",
+              "[06-28] W 2-0/CS vs 巴拿马 (1280ELO q=-0.55 r=1.3x) → +21"
+            ],
+            "team_b_details": [
+              "[06-18] D 1-1 vs 葡萄牙 (2001ELO q=+1.25 r=1.0x) → +8",
+              "[06-24] L 0-1 vs 哥伦比亚 (2203ELO q=+1.76 r=1.0x) → -4",
+              "[06-28] W 3-1 vs 乌兹别克斯坦 (1335ELO q=-0.41 r=1.3x) → +17"
+            ],
+            "description": "England: +52 | DR Congo: +21"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2110,
+            "effective": 2117,
+            "adjustments": 7
+          },
+          "team_b": {
+            "base": 1866,
+            "effective": 1885,
+            "adjustments": 19
+          },
+          "diff": 232
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 66.3,
+          "draw": 20.3,
+          "team_b_win": 13.4,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.0,
+          "expected_goals_b": 0.76,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.126,
+              "prob_pct": 12.6,
+              "cumulative": 0.126
+            },
+            {
+              "score": "1-0",
+              "prob": 0.1257,
+              "prob_pct": 12.6,
+              "cumulative": 0.2517
+            },
+            {
+              "score": "2-1",
+              "prob": 0.0963,
+              "prob_pct": 9.6,
+              "cumulative": 0.348
+            }
+          ]
+        },
+        "verdict": {
+          "result": "英格兰 胜（中置信度）",
+          "confidence": "medium"
+        },
+        "reasoning": [
+          "ELO 优势 244 分，有明确的实力差距",
+          "伤病影响：England -3 / DR Congo +0 ELO"
+        ],
+        "schedule": {
+          "match_id": 80,
+          "team_a": "England",
+          "team_b": "DR Congo",
+          "date": "2026-07-02",
+          "time_cn": "TBD",
+          "stage": "R32",
+          "venue": "Mercedes-Benz Stadium",
+          "status": "scheduled",
+          "date_beijing": "2026-07-02",
+          "time_beijing": "TBD"
+        }
+      },
+      "schedule": {
+        "match_id": 80,
+        "team_a": "England",
+        "team_b": "DR Congo",
+        "date": "2026-07-02",
+        "time_cn": "TBD",
+        "stage": "R32",
+        "venue": "Mercedes-Benz Stadium",
+        "status": "scheduled",
+        "date_beijing": "2026-07-02",
+        "time_beijing": "TBD"
+      }
+    },
+    {
+      "audit": {
+        "team_a": "United States",
+        "team_b": "Bosnia and Herzegovina",
+        "venue": "San Francisco Bay Area Stadium",
+        "generated": "2026-07-01T15:10:11.245632",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1944,
+            "team_b_elo": 1686,
+            "elo_diff": 258,
+            "base_win_prob": 81.5,
+            "description": "United States 1944 vs Bosnia and Herzegovina 1686, Δ=+258"
+          },
+          "2_injuries": {
+            "team_a_penalty": -8,
+            "team_b_penalty": -5,
+            "team_a_details": [
+              "  Johnny Cardoso (MF): OUT — High-grade right ankle sprain (surgery); replaced by Zendejas [-5]",
+              "  Patrick Agyemang (FW): OUT — Torn Achilles tendon (Apr vs Stoke) [-3]"
+            ],
+            "team_b_details": [
+              "  Edin Dzeko (FW): DOUBTFUL — Calf strain [-5]"
+            ],
+            "description": "United States: -8 | Bosnia and Herzegovina: -5"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 16,
+            "team_b_adjustment": 11,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 11.200000000000001,
+              "chemistry": 4.500000000000001
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 6.400000000000001,
+              "chemistry": 4.2
+            },
+            "description": "United States: +16 (coach+stability+chemistry) | Bosnia and Herzegovina: +11"
+          },
+          "4_venue": {
+            "home_advantage": 60,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {},
+            "description": "Home adv +60, venue penalties: United States +0 / Bosnia and Herzegovina +0"
+          },
+          "4a_weather": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "weather_details": {
+              "condition": "static_average",
+              "temp_c": 20,
+              "precip_mm": 0,
+              "precip_category": "none",
+              "wind_kph": 0,
+              "wind_category": "unknown",
+              "indoor": false
+            },
+            "description": "No significant weather impact"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "team_a_details": {
+              "prev_match_id": 59,
+              "prev_venue": "Hard Rock Stadium",
+              "curr_venue": "San Francisco Bay Area Stadium",
+              "distance_km": 0,
+              "rest_days": 6,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 50,
+              "prev_venue": "Levi's Stadium",
+              "curr_venue": "San Francisco Bay Area Stadium",
+              "distance_km": 0,
+              "rest_days": 7,
+              "rest_bonus_raw": 0
+            },
+            "description": "Schedule balanced, no density impact"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -14,
+            "team_b_adj": 2,
+            "description": "United States: -14 (warm-up form) | Bosnia and Herzegovina: +2"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 47,
+            "team_b_adj": 19,
+            "team_a_details": [
+              "[06-13] W 4-1 vs 巴拉圭 (1821ELO q=+0.80 r=1.0x) → +26",
+              "[06-20] W 2-0/CS vs 澳大利亚 (1812ELO q=+0.78 r=1.0x) → +25",
+              "[06-26] L 2-3 vs 土耳其 (1710ELO q=+0.53 r=1.3x) → -4"
+            ],
+            "team_b_details": [
+              "[06-13] D 1-1 vs 加拿大 (1809ELO q=+0.77 r=1.0x) → +5",
+              "[06-19] L 1-4 vs 瑞士 (1980ELO q=+1.20 r=1.0x) → -4",
+              "[06-25] W 3-1 vs 卡塔尔 (1382ELO q=-0.29 r=1.3x) → +18"
+            ],
+            "description": "United States: +47 | Bosnia and Herzegovina: +19"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1944,
+            "effective": 2045,
+            "adjustments": 101
+          },
+          "team_b": {
+            "base": 1686,
+            "effective": 1713,
+            "adjustments": 27
+          },
+          "diff": 332
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 73.6,
+          "draw": 17.0,
+          "team_b_win": 9.4,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.27,
+          "expected_goals_b": 0.67,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.1365,
+              "prob_pct": 13.6,
+              "cumulative": 0.1365
+            },
+            {
+              "score": "1-0",
+              "prob": 0.12,
+              "prob_pct": 12.0,
+              "cumulative": 0.2565
+            },
+            {
+              "score": "3-0",
+              "prob": 0.1035,
+              "prob_pct": 10.3,
+              "cumulative": 0.36
+            }
+          ]
+        },
+        "verdict": {
+          "result": "美国 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 优势 258 分，有明确的实力差距",
+          "伤病影响：United States -8 / Bosnia and Herzegovina -5 ELO",
+          "多层调整后有效 ELO 差 +332（原始 +258）"
+        ],
+        "schedule": {
+          "match_id": 81,
+          "team_a": "United States",
+          "team_b": "Bosnia and Herzegovina",
+          "date": "2026-07-02",
+          "time_cn": "TBD",
+          "stage": "R32",
+          "venue": "San Francisco Bay Area Stadium",
+          "status": "scheduled",
+          "date_beijing": "2026-07-02",
+          "time_beijing": "TBD"
+        }
+      },
+      "schedule": {
+        "match_id": 81,
+        "team_a": "United States",
+        "team_b": "Bosnia and Herzegovina",
+        "date": "2026-07-02",
+        "time_cn": "TBD",
+        "stage": "R32",
+        "venue": "San Francisco Bay Area Stadium",
+        "status": "scheduled",
+        "date_beijing": "2026-07-02",
+        "time_beijing": "TBD"
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Belgium",
+        "team_b": "Senegal",
+        "venue": "Lumen Field",
+        "generated": "2026-07-01T15:10:11.247650",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1850,
+            "team_b_elo": 1732,
+            "elo_diff": 118,
+            "base_win_prob": 66.4,
+            "description": "Belgium 1850 vs Senegal 1732, Δ=+118"
+          },
+          "2_injuries": {
+            "team_a_penalty": -10,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Jérémy Doku (Winger): OUT — Illness (announced Jun 20 by Belgian FA via Twitter); also potential absence for baby birth (due early July) [-10]"
+            ],
+            "team_b_details": [],
+            "description": "Belgium: -10 | Senegal: +0"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 10,
+            "team_b_adjustment": 27,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 4.8,
+              "chemistry": 4.800000000000001
+            },
+            "team_b_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 8.799999999999999,
+              "chemistry": 8.4
+            },
+            "description": "Belgium: +10 (coach+stability+chemistry) | Senegal: +27"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Seattle",
+              "altitude_m": 38,
+              "temp_c": 22,
+              "indoor": false,
+              "climate_note": "Mild, cool summer — favorable for European teams"
+            },
+            "description": "Home adv +0, venue penalties: Belgium +0 / Senegal +0"
+          },
+          "4a_weather": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "weather_details": {
+              "condition": "overcast",
+              "temp_c": 17.1,
+              "precip_mm": 0.0,
+              "precip_category": "none",
+              "wind_kph": 14.9,
+              "wind_category": "calm",
+              "indoor": false
+            },
+            "description": "No significant weather impact"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": -7,
+            "team_b_adj": -10,
+            "team_a_details": {
+              "prev_match_id": 66,
+              "prev_venue": "SoFi Stadium",
+              "curr_venue": "Lumen Field",
+              "distance_km": 1553.1,
+              "rest_days": 5,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 62,
+              "prev_venue": "Gillette Stadium",
+              "curr_venue": "Lumen Field",
+              "distance_km": 3998.5,
+              "rest_days": 5,
+              "rest_bonus_raw": 0
+            },
+            "description": "Belgium: -7 (travel+rest) | Senegal: -10"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 34,
+            "team_b_adj": -3,
+            "description": "Belgium: +34 (warm-up form) | Senegal: -3"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 41,
+            "team_b_adj": 29,
+            "team_a_details": [
+              "[06-16] D 1-1 vs 埃及 (1839ELO q=+0.85 r=1.0x) → +5",
+              "[06-22] D 0-0/CS vs 伊朗 (1743ELO q=+0.61 r=1.0x) → +6",
+              "[06-27] W 5-1 vs 新西兰 (1468ELO q=-0.08 r=1.3x) → +30"
+            ],
+            "team_b_details": [
+              "[06-17] L 1-3 vs 法国 (2476ELO q=+2.44 r=1.0x) → -2",
+              "[06-23] L 2-3 vs 挪威 (2118ELO q=+1.54 r=1.0x) → -2",
+              "[06-27] W 5-0/CS vs 伊拉克 (1250ELO q=-0.62 r=1.3x) → +32"
+            ],
+            "description": "Belgium: +41 | Senegal: +29"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1850,
+            "effective": 1918,
+            "adjustments": 68
+          },
+          "team_b": {
+            "base": 1732,
+            "effective": 1775,
+            "adjustments": 43
+          },
+          "diff": 143
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 58.4,
+          "draw": 23.2,
+          "team_b_win": 18.3,
+          "most_likely_score": "1-0",
+          "expected_goals_a": 1.77,
+          "expected_goals_b": 0.87,
+          "scoreline_probs": [
+            {
+              "score": "1-0",
+              "prob": 0.1257,
+              "prob_pct": 12.6,
+              "cumulative": 0.1257
+            },
+            {
+              "score": "2-0",
+              "prob": 0.1112,
+              "prob_pct": 11.1,
+              "cumulative": 0.237
+            },
+            {
+              "score": "1-1",
+              "prob": 0.11,
+              "prob_pct": 11.0,
+              "cumulative": 0.347
+            }
+          ]
+        },
+        "verdict": {
+          "result": "比利时 胜（中置信度）",
+          "confidence": "medium"
+        },
+        "reasoning": [
+          "ELO 优势 118 分，有明确的实力差距",
+          "伤病影响：Belgium -10 / Senegal +0 ELO"
+        ],
+        "schedule": {
+          "match_id": 82,
+          "team_a": "Belgium",
+          "team_b": "Senegal",
+          "date": "2026-07-02",
+          "time_cn": "TBD",
+          "stage": "R32",
+          "venue": "Lumen Field",
+          "status": "scheduled",
+          "date_beijing": "2026-07-02",
+          "time_beijing": "TBD"
+        }
+      },
+      "schedule": {
+        "match_id": 82,
+        "team_a": "Belgium",
+        "team_b": "Senegal",
+        "date": "2026-07-02",
+        "time_cn": "TBD",
+        "stage": "R32",
+        "venue": "Lumen Field",
+        "status": "scheduled",
+        "date_beijing": "2026-07-02",
+        "time_beijing": "TBD"
+      }
+    }
+  ]
+}

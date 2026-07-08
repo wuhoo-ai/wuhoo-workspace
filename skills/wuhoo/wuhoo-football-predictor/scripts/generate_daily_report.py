@@ -383,6 +383,22 @@ def build_match_section(match_data, idx, injuries_db, rss_articles):
         L.append("```")
     L.append("")
 
+    # L2.5: QMF 出线动机因子 (v5.4)
+    l25 = layers.get('2.5_motivation', {})
+    if l25 and (l25.get('team_a_adjustment', 0) or l25.get('team_b_adjustment', 0)):
+        L.append(f"**L2.5  出线动机 (QMF)**  (来源: *matchday3_motivation.json*  v5.4)")
+        L.append(f"> {na} **{ba(l25.get('team_a_adjustment',0))}** ELO — {l25.get('team_a_reason','无数据')}")
+        L.append(f"> {nb} **{ba(l25.get('team_b_adjustment',0))}** ELO — {l25.get('team_b_reason','无数据')}")
+        L.append("")
+
+    # L2.6: BPP 半区路径偏好 (v5.4)
+    l26 = layers.get('2.6_bracket_path', {})
+    if l26 and (l26.get('team_a_adjustment', 0) or l26.get('team_b_adjustment', 0)):
+        L.append(f"**L2.6  半区路径偏好 (BPP)**  (来源: *bracket_paths.json*  v5.4)")
+        L.append(f"> {na} **{ba(l26.get('team_a_adjustment',0))}** ELO — {l26.get('team_a_reason','无数据')}")
+        L.append(f"> {nb} **{ba(l26.get('team_b_adjustment',0))}** ELO — {l26.get('team_b_reason','无数据')}")
+        L.append("")
+
     # L5: RSS + snippets (with Chinese translation)
     l5 = layers.get('5_news_sentiment', {})
     L.append(f"**L5  RSS新闻情感**  (来源: *news.db*  权重0.05)")
@@ -422,7 +438,7 @@ def build_match_section(match_data, idx, injuries_db, rss_articles):
     L.append(f"              {na:<10s} {nb:<10s}")
     L.append(f"  {'-'*30}")
     L.append(f"  ELO原始      {ea['base']:<5d}     {eb['base']:<5d}")
-    L.append(f"  L1-L4.6+L5.5 {ba(ea['adjustments']):>4s}      {ba(eb['adjustments']):>4s}")
+    L.append(f"  L1-L4.6+L5.5+L2.5+L2.6 {ba(ea['adjustments']):>4s}      {ba(eb['adjustments']):>4s}")
     L.append(f"  {'-'*30}")
     L.append(f"  有效ELO       {ea['effective']:<5d}     {eb['effective']:<5d}")
     L.append(f"  有效差                  {eff['diff']:+d}")

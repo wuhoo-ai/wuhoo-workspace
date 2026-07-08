@@ -694,5 +694,133 @@
     "set_pieces": "定位球是少有的阵地战得分机会",
     "transitions": "抢断后快速通过边路发动反击",
     "tournament_form_note": "历史上首次晋级淘汰赛，已创造历史。R32对阵卫冕冠军阿根廷，胜算极低。"
+  },
+  "Brazil": {
+    "formation": "4-3-3（Ancelotti体系，Casemiro单后腰）",
+    "coach": "Carlo Ancelotti（执教第1年）",
+    "style_summary": "攻守平衡的南美技术流。Casemiro单后腰解放Paqueta+Guimaraes双8号，前场Vinicius/Rodrygo/Neymar自由换位。对阵强队切换4-4-2加强中场。",
+    "attacking": "前场三叉戟自由换位+边卫高位套上。Paqueta中路插上制造局部人数优势，Vinicius左路1v1爆破是破局核心。",
+    "defensive": "Casemiro单后腰扫荡，两中卫前后站位联防。高位逼抢时前场3+中场2形成5人压迫网，落位后4-4-2中位防守。",
+    "strengths": [
+      "前场个人能力世界顶级",
+      "攻守转换速度极快",
+      "板凳深度足（Endrick/Martinelli等）"
+    ],
+    "weaknesses": [
+      "Casemiro年龄偏大覆盖下降",
+      "Neymar状态起伏大",
+      "密集防守破局手段有限"
+    ],
+    "key_players": [
+      "Vinicius Jr (FW)",
+      "Neymar (FW)",
+      "Casemiro (DM)",
+      "Rodrygo (FW)"
+    ],
+    "set_pieces": "定位球威胁中等，Militao头球是主要得分点。角球防守偶有漏洞。",
+    "transitions": "由守转攻世界顶级。Vinicius/Rodrygo速度+Paqueta直塞，3-5秒完成推进。",
+    "tournament_form_note": "小组赛2胜1平，R32 2-1胜日本。进攻端场均2球，防守端偶有松懈。"
+  },
+  "Paraguay": {
+    "formation": "4-4-2/5-3-2（防守时切换五后卫）",
+    "coach": "Guillermo Barros Schelotto（执教第3年）",
+    "style_summary": "防守反击型南美铁血。Garra精神贯穿全队，极其有组织的紧凑防守block，主动让出控球权引诱对手前压后快速反击。",
+    "attacking": "反击依赖边锋速度+中锋支点。长传找Almiron/Alvarez冲刺空间，不追求控球率（~35%）。高效但手段单一。",
+    "defensive": "4-4-2紧凑防守block，两条线间距极小。中场回撤形成双层防线，迫使对手传中。中卫头球能力强。",
+    "strengths": [
+      "防守组织严密",
+      "定位球进攻威胁大",
+      "Garra心理韧性极强"
+    ],
+    "weaknesses": [
+      "控球进攻能力极弱",
+      "落后缺乏B计划",
+      "过度依赖定位球"
+    ],
+    "key_players": [
+      "Miguel Almiron (MF)",
+      "Julio Enciso (FW)",
+      "Gustavo Gomez (DF)"
+    ],
+    "set_pieces": "定位球是核心武器。Gomez头球攻门率高，角球战术丰富。对德国PK战4-3胜。",
+    "transitions": "得球后2-3脚传递找前场速度点，转换速度极快（成功率中等）。",
+    "tournament_form_note": "小组赛1胜1平1负，R32 1-1(PK 4-3)爆冷淘汰德国。防守场均丢1球。"
+  },
+  "Canada": {
+    "formation": "4-4-2/3-5-2（Marsch高压体系）",
+    "coach": "Jesse Marsch（执教第1年）",
+    "style_summary": "高位压迫+快速纵向推进。Marsch的Red Bull体系移植国家队，高节奏高强度，追求在对手半场快速夺回球权。攻强守弱。",
+    "attacking": "David+Kone双箭头，边锋内切制造中路空间。偏好直传打身后而非阵地战控球。Buchanan右路传中是主要输送。",
+    "defensive": "高位防线+全场压迫，4-4-2菱形中场。压迫失败时身后空间大，被强队反击打穿的致命弱点。",
+    "strengths": [
+      "高强度压迫能力",
+      "David/Kone速度威胁",
+      "团队精神力强"
+    ],
+    "weaknesses": [
+      "高压体系体能消耗大",
+      "防守身后空间致命",
+      "阵地战创造力不足"
+    ],
+    "key_players": [
+      "Jonathan David (FW)",
+      "Alphonso Davies (LB/FW)",
+      "Tajon Buchanan (RW)"
+    ],
+    "set_pieces": "定位球防守有隐患。Davies回归后空中对抗能力改善。",
+    "transitions": "高压得球后直接纵向传递，3-4秒形成射门机会。是球队最危险的时刻。",
+    "tournament_form_note": "小组赛1胜1平1负，R32 1-0胜南非。Davies伤愈回归大幅提升左路攻击力。"
+  },
+  "Morocco": {
+    "formation": "4-2-3-1/4-3-3（灵活切换）",
+    "coach": "Walid Regragui（执教第4年，2022世界杯四强功勋教练）",
+    "style_summary": "防守反击+组织纪律。延续2022世界杯四强体系，双后腰提供防守屏障，Hakimi右路是进攻发动机。善于限制对手后打出致命反击。",
+    "attacking": "Hakimi右路叠加+Ziyech内切传中是标准模式。En-Nesyri头球争顶率极高，长传反击第一点。不追求控球，效率优先。",
+    "defensive": "双后腰Amrabat+Ounahi纵深保护，中卫Saiss+Aguerd经验丰富。整体防守纪律性极强，退防速度一致。",
+    "strengths": [
+      "防守纪律世界顶级",
+      "Hakimi右路世界级",
+      "杯赛经验丰富（2022四强班底）"
+    ],
+    "weaknesses": [
+      "主动控球创造力不足",
+      "过度依赖右路Hakimi",
+      "Ziyech状态不稳定"
+    ],
+    "key_players": [
+      "Achraf Hakimi (RB)",
+      "Hakim Ziyech (RW)",
+      "Sofyan Amrabat (DM)",
+      "Youssef En-Nesyri (ST)"
+    ],
+    "set_pieces": "En-Nesyri头球+Saiss插上是定位球主要威胁。防守定位球纪律性强。",
+    "transitions": "抢断后Hakimi极速前插+Ziyech直塞是招牌反击。将对手压迫失误转化为进攻的核心机制。",
+    "tournament_form_note": "小组赛2胜1平（含平巴西），R32 1-1(PK)淘汰荷兰。防守仅丢2球，本届最强防守之一。"
+  },
+  "United States": {
+    "formation": "4-3-3（Pochettino执教后战术升级）",
+    "coach": "Mauricio Pochettino（执教第1年）",
+    "style_summary": "高位压迫+边路驱动。Pochettino体系下的美国队侵略性大幅提升，Pulisic左路核心+Balogun终结，中场三人组提供压迫和推进。年轻且体能充沛。",
+    "attacking": "Pulisic内切+左后卫套上是主要模式。Balogun禁区内终结+Weah右路下底。追求快速纵向穿透而非横传控制。",
+    "defensive": "4-3-3高位防线，中场三人形成第一道压迫线。Pochettino式高位逼抢要求全队同步前压，偶有被反越位打穿风险。",
+    "strengths": [
+      "前场压迫能力世界级",
+      "Pulisic个人突破能力",
+      "全队跑动距离前列"
+    ],
+    "weaknesses": [
+      "高压体系对强队易被打穿",
+      "控球缺乏耐心",
+      "中卫缺乏淘汰赛经验"
+    ],
+    "key_players": [
+      "Christian Pulisic (LW)",
+      "Folarin Balogun (ST)",
+      "Weston McKennie (CM)",
+      "Tim Weah (RW)"
+    ],
+    "set_pieces": "定位球威胁中等，McKennie头球是主要得分点。防守定位球偶有混乱。",
+    "transitions": "由守转攻极快，三箭头Pulisic+Balogun+Weah速度惊人。但被反击时回防速度不够，中卫身后是隐患。",
+    "tournament_form_note": "小组赛2胜1负（负土耳其），R32 2-0胜波黑。进攻场均2球+，防守对强队待检验。"
   }
 }

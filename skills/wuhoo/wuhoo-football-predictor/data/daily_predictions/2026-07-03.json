@@ -1,0 +1,672 @@
+{
+  "date_beijing": "2026-07-03",
+  "generated": "2026-07-03T15:23:22.925951",
+  "total_matches": 3,
+  "news_enabled": false,
+  "predictions": [
+    {
+      "match_id": 83,
+      "team_a": "Portugal",
+      "team_b": "Croatia",
+      "venue": "BMO Field",
+      "group": "?",
+      "matchday": "?",
+      "time_beijing": "TBD",
+      "team_a_win_pct": 58.9,
+      "draw_pct": 22.6,
+      "team_b_win_pct": 18.6,
+      "most_likely_score": "1-0",
+      "expected_goals_a": 1.84,
+      "expected_goals_b": 0.92,
+      "scoreline_probs": [
+        {
+          "score": "1-0",
+          "prob": 0.1157,
+          "prob_pct": 11.6,
+          "cumulative": 0.1157
+        },
+        {
+          "score": "1-1",
+          "prob": 0.1069,
+          "prob_pct": 10.7,
+          "cumulative": 0.2226
+        },
+        {
+          "score": "2-0",
+          "prob": 0.1067,
+          "prob_pct": 10.7,
+          "cumulative": 0.3293
+        }
+      ],
+      "verdict": "葡萄牙 胜（中置信度）",
+      "confidence": "medium",
+      "error": null
+    },
+    {
+      "match_id": 84,
+      "team_a": "Spain",
+      "team_b": "Austria",
+      "venue": "SoFi Stadium",
+      "group": "?",
+      "matchday": "?",
+      "time_beijing": "TBD",
+      "team_a_win_pct": 70.6,
+      "draw_pct": 18.5,
+      "team_b_win_pct": 10.9,
+      "most_likely_score": "2-0",
+      "expected_goals_a": 2.15,
+      "expected_goals_b": 0.7,
+      "scoreline_probs": [
+        {
+          "score": "2-0",
+          "prob": 0.133,
+          "prob_pct": 13.3,
+          "cumulative": 0.133
+        },
+        {
+          "score": "1-0",
+          "prob": 0.1236,
+          "prob_pct": 12.4,
+          "cumulative": 0.2567
+        },
+        {
+          "score": "3-0",
+          "prob": 0.0954,
+          "prob_pct": 9.5,
+          "cumulative": 0.3521
+        }
+      ],
+      "verdict": "西班牙 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    },
+    {
+      "match_id": 85,
+      "team_a": "Switzerland",
+      "team_b": "Algeria",
+      "venue": "BC Place Vancouver",
+      "group": "?",
+      "matchday": "?",
+      "time_beijing": "TBD",
+      "team_a_win_pct": 76.4,
+      "draw_pct": 16.7,
+      "team_b_win_pct": 6.8,
+      "most_likely_score": "2-0",
+      "expected_goals_a": 2.17,
+      "expected_goals_b": 0.48,
+      "scoreline_probs": [
+        {
+          "score": "2-0",
+          "prob": 0.1668,
+          "prob_pct": 16.7,
+          "cumulative": 0.1668
+        },
+        {
+          "score": "1-0",
+          "prob": 0.154,
+          "prob_pct": 15.4,
+          "cumulative": 0.3208
+        },
+        {
+          "score": "3-0",
+          "prob": 0.1204,
+          "prob_pct": 12.0,
+          "cumulative": 0.4412
+        }
+      ],
+      "verdict": "瑞士 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    }
+  ],
+  "matches": [
+    {
+      "match_id": 83,
+      "schedule": {
+        "date_beijing": "2026-07-03",
+        "time_beijing": "TBD",
+        "group": "?",
+        "matchday": "?",
+        "venue": "BMO Field"
+      },
+      "audit": {
+        "team_a": "Portugal",
+        "team_b": "Croatia",
+        "venue": "BMO Field",
+        "generated": "2026-07-03T15:23:22.921226",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2052,
+            "team_b_elo": 1939,
+            "elo_diff": 113,
+            "base_win_prob": 65.7,
+            "description": "Portugal 2052 vs Croatia 1939, Δ=+113"
+          },
+          "2_injuries": {
+            "team_a_penalty": -15,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Ruben Dias (DF): OUT — Ruled out vs Uzbekistan (Jun 23 Heavy.com); missed opener vs DR Congo (Jun 16). Key defensive loss [-15]"
+            ],
+            "team_b_details": [],
+            "description": "Portugal: -15 | Croatia: +0"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 30,
+            "team_b_adjustment": 45,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 10.4,
+              "chemistry": 9.599999999999998
+            },
+            "team_b_breakdown": {
+              "coach": 16,
+              "result": 15,
+              "stability": 7.200000000000002,
+              "chemistry": 7.199999999999999
+            },
+            "description": "Portugal: +30 (coach+stability+chemistry) | Croatia: +45"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Toronto",
+              "altitude_m": 76,
+              "temp_c": 25,
+              "indoor": false,
+              "climate_note": "Warm summer, moderate humidity"
+            },
+            "description": "Home adv +0, venue penalties: Portugal +0 / Croatia +0"
+          },
+          "4a_weather": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "weather_details": {},
+            "description": "No significant weather impact"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "team_a_details": {},
+            "team_b_details": {},
+            "description": "Schedule balanced, no density impact"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 23,
+            "team_b_adj": -29,
+            "description": "Portugal: +23 (warm-up form) | Croatia: -29"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 66,
+            "team_b_adj": 29,
+            "team_a_details": [
+              "[] W 2-1 vs 克罗地亚 (1939ELO q=+1.10 r=1.0x) → +17",
+              "[06-18] D 1-1 vs 刚果民主共和国 (1859ELO q=+0.90 r=1.0x) → +5",
+              "[06-24] W 5-0/CS vs 乌兹别克斯坦 (1313ELO q=-0.47 r=1.0x) → +27",
+              "[06-28] D 0-0/CS vs 哥伦比亚 (2204ELO q=+1.76 r=1.3x) → +16"
+            ],
+            "team_b_details": [
+              "[] L 1-2 vs 葡萄牙 (2052ELO q=+1.38 r=1.0x) → -4",
+              "[06-18] L 2-4 vs 英格兰 (2148ELO q=+1.62 r=1.0x) → -2",
+              "[06-24] W 1-0/CS vs 巴拿马 (1264ELO q=-0.59 r=1.0x) → +13",
+              "[06-28] W 2-1 vs 加纳 (1851ELO q=+0.88 r=1.3x) → +21"
+            ],
+            "description": "Portugal: +66 | Croatia: +29"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2052,
+            "effective": 2156,
+            "adjustments": 104
+          },
+          "team_b": {
+            "base": 1939,
+            "effective": 1984,
+            "adjustments": 45
+          },
+          "diff": 172
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 58.9,
+          "draw": 22.6,
+          "team_b_win": 18.6,
+          "most_likely_score": "1-0",
+          "expected_goals_a": 1.84,
+          "expected_goals_b": 0.92,
+          "scoreline_probs": [
+            {
+              "score": "1-0",
+              "prob": 0.1157,
+              "prob_pct": 11.6,
+              "cumulative": 0.1157
+            },
+            {
+              "score": "1-1",
+              "prob": 0.1069,
+              "prob_pct": 10.7,
+              "cumulative": 0.2226
+            },
+            {
+              "score": "2-0",
+              "prob": 0.1067,
+              "prob_pct": 10.7,
+              "cumulative": 0.3293
+            }
+          ]
+        },
+        "verdict": {
+          "result": "葡萄牙 胜（中置信度）",
+          "confidence": "medium"
+        },
+        "reasoning": [
+          "ELO 优势 113 分，有明确的实力差距",
+          "伤病影响：Portugal -15 / Croatia +0 ELO",
+          "多层调整后有效 ELO 差 +172（原始 +113）"
+        ]
+      }
+    },
+    {
+      "match_id": 84,
+      "schedule": {
+        "date_beijing": "2026-07-03",
+        "time_beijing": "TBD",
+        "group": "?",
+        "matchday": "?",
+        "venue": "SoFi Stadium"
+      },
+      "audit": {
+        "team_a": "Spain",
+        "team_b": "Austria",
+        "venue": "SoFi Stadium",
+        "generated": "2026-07-03T15:23:22.923319",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2063,
+            "team_b_elo": 1820,
+            "elo_diff": 243,
+            "base_win_prob": 80.2,
+            "description": "Spain 2063 vs Austria 1820, Δ=+243"
+          },
+          "2_injuries": {
+            "team_a_penalty": -35,
+            "team_b_penalty": -10,
+            "team_a_details": [
+              "  Fermín López (MF): OUT — Metatarsal fracture (May vs Betis); 13G+17A last season. Misses WC [-8]",
+              "  Mikel Merino (MF): DOUBTFUL — Stress fracture in foot (early Feb); targets return. If not, Fabián Ruiz starts [-5]",
+              "  Lamine Yamal (FW): FIT — Partially torn hamstring (Apr); Luis de la Fuente: 'could be ready to play on June 15'. Likely available for Cape Verde opener [-2]",
+              "  Samu Aghehowa (FW): OUT — ACL rupture (Feb 10, Porto); long-term absence [-5]",
+              "  Yeremy Pino (FW): DOUBTFUL — Collar bone fracture (sustained vs Uruguay, June 26). De la Fuente: could miss rest of World Cup. World Soccer Talk: possible return for knockout stage [-10]",
+              "  Nico Williams (FW): QUESTIONABLE — Muscular problem (re-aggravated vs Uruguay, June 26). Fighting to overcome; could return for knockout stage per World Soccer Talk [-5]"
+            ],
+            "team_b_details": [
+              "  Christoph Baumgartner (MF): OUT — Right thigh injury (warmup vs Tunisia); needed surgery. 17 goals for Leipzig last season. Replaced by Ljubicic [-10]"
+            ],
+            "description": "Spain: -35 | Austria: -10"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 18,
+            "team_b_adjustment": 16,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 10.5
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 8.799999999999999,
+              "chemistry": 7.199999999999999
+            },
+            "description": "Spain: +18 (coach+stability+chemistry) | Austria: +16"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Inglewood (Los Angeles)",
+              "altitude_m": 38,
+              "temp_c": 24,
+              "indoor": true,
+              "climate_note": "Mild, dry — ideal conditions"
+            },
+            "description": "Home adv +0, venue penalties: Spain +0 / Austria +0"
+          },
+          "4a_weather": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "weather_details": {},
+            "description": "No significant weather impact"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "team_a_details": {},
+            "team_b_details": {},
+            "description": "Schedule balanced, no density impact"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -13,
+            "team_b_adj": 2,
+            "description": "Spain: -13 (warm-up form) | Austria: +2"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 92,
+            "team_b_adj": 11,
+            "team_a_details": [
+              "[] W 3-0/CS vs 奥地利 (1820ELO q=+0.80 r=1.0x) → +30",
+              "[06-16] D 0-0/CS vs 佛得角 (1775ELO q=+0.69 r=1.0x) → +6",
+              "[06-22] W 4-0/CS vs 沙特阿拉伯 (1670ELO q=+0.42 r=1.0x) → +32",
+              "[06-27] W 1-0/CS vs 乌拉圭 (1688ELO q=+0.47 r=1.3x) → +24"
+            ],
+            "team_b_details": [
+              "[] L 0-3 vs 西班牙 (2063ELO q=+1.41 r=1.0x) → -5",
+              "[06-17] W 3-1 vs 约旦 (1253ELO q=-0.62 r=1.0x) → +12",
+              "[06-23] L 0-2 vs 阿根廷 (2452ELO q=+2.38 r=1.0x) → -2",
+              "[06-28] D 3-3 vs 阿尔及利亚 (1806ELO q=+0.77 r=1.3x) → +6"
+            ],
+            "description": "Spain: +92 | Austria: +11"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2063,
+            "effective": 2125,
+            "adjustments": 62
+          },
+          "team_b": {
+            "base": 1820,
+            "effective": 1839,
+            "adjustments": 19
+          },
+          "diff": 286
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 70.6,
+          "draw": 18.5,
+          "team_b_win": 10.9,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.15,
+          "expected_goals_b": 0.7,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.133,
+              "prob_pct": 13.3,
+              "cumulative": 0.133
+            },
+            {
+              "score": "1-0",
+              "prob": 0.1236,
+              "prob_pct": 12.4,
+              "cumulative": 0.2567
+            },
+            {
+              "score": "3-0",
+              "prob": 0.0954,
+              "prob_pct": 9.5,
+              "cumulative": 0.3521
+            }
+          ]
+        },
+        "verdict": {
+          "result": "西班牙 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 优势 243 分，有明确的实力差距",
+          "伤病影响：Spain -35 / Austria -10 ELO",
+          "多层调整后有效 ELO 差 +286（原始 +243）"
+        ]
+      }
+    },
+    {
+      "match_id": 85,
+      "schedule": {
+        "date_beijing": "2026-07-03",
+        "time_beijing": "TBD",
+        "group": "?",
+        "matchday": "?",
+        "venue": "BC Place Vancouver"
+      },
+      "audit": {
+        "team_a": "Switzerland",
+        "team_b": "Algeria",
+        "venue": "BC Place Vancouver",
+        "generated": "2026-07-03T15:23:22.924620",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2021,
+            "team_b_elo": 1806,
+            "elo_diff": 215,
+            "base_win_prob": 77.5,
+            "description": "Switzerland 2021 vs Algeria 1806, Δ=+215"
+          },
+          "2_injuries": {
+            "team_a_penalty": 0,
+            "team_b_penalty": -10,
+            "team_a_details": [],
+            "team_b_details": [
+              "  Anthony Mandrea (GK): OUT — Surgery; will miss World Cup [-5]",
+              "  Melvin Mastil (GK): OUT — Surgery; highly likely to miss World Cup [-5]"
+            ],
+            "description": "Switzerland: +0 | Algeria: -10"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 30,
+            "team_b_adjustment": 14,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 12.000000000000002,
+              "chemistry": 8.4
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 6.6
+            },
+            "description": "Switzerland: +30 (coach+stability+chemistry) | Algeria: +14"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {},
+            "description": "Home adv +0, venue penalties: Switzerland +0 / Algeria +0"
+          },
+          "4a_weather": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "weather_details": {},
+            "description": "No significant weather impact"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "team_a_details": {},
+            "team_b_details": {},
+            "description": "Schedule balanced, no density impact"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 28,
+            "team_b_adj": 37,
+            "description": "Switzerland: +28 (warm-up form) | Algeria: +37"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 68,
+            "team_b_adj": 8,
+            "team_a_details": [
+              "[] W 2-0/CS vs 阿尔及利亚 (1806ELO q=+0.77 r=1.0x) → +25",
+              "[06-14] D 1-1 vs 卡塔尔 (1398ELO q=-0.26 r=1.0x) → -2",
+              "[06-19] W 4-1 vs 波黑 (1677ELO q=+0.44 r=1.0x) → +24",
+              "[06-25] W 2-1 vs 加拿大 (1829ELO q=+0.82 r=1.3x) → +21"
+            ],
+            "team_b_details": [
+              "[] L 0-2 vs 瑞士 (2021ELO q=+1.30 r=1.0x) → -5",
+              "[06-17] L 0-3 vs 阿根廷 (2452ELO q=+2.38 r=1.0x) → -2",
+              "[06-23] W 2-1 vs 约旦 (1253ELO q=-0.62 r=1.0x) → +9",
+              "[06-28] D 3-3 vs 奥地利 (1820ELO q=+0.80 r=1.3x) → +6"
+            ],
+            "description": "Switzerland: +68 | Algeria: +8"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2021,
+            "effective": 2147,
+            "adjustments": 126
+          },
+          "team_b": {
+            "base": 1806,
+            "effective": 1855,
+            "adjustments": 49
+          },
+          "diff": 292
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 76.4,
+          "draw": 16.7,
+          "team_b_win": 6.8,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.17,
+          "expected_goals_b": 0.48,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.1668,
+              "prob_pct": 16.7,
+              "cumulative": 0.1668
+            },
+            {
+              "score": "1-0",
+              "prob": 0.154,
+              "prob_pct": 15.4,
+              "cumulative": 0.3208
+            },
+            {
+              "score": "3-0",
+              "prob": 0.1204,
+              "prob_pct": 12.0,
+              "cumulative": 0.4412
+            }
+          ]
+        },
+        "verdict": {
+          "result": "瑞士 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 优势 215 分，有明确的实力差距",
+          "伤病影响：Switzerland +0 / Algeria -10 ELO",
+          "多层调整后有效 ELO 差 +292（原始 +215）"
+        ]
+      }
+    }
+  ]
+}

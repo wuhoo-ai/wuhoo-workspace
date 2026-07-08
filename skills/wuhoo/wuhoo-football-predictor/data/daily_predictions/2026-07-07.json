@@ -1,0 +1,1006 @@
+{
+  "date_beijing": "2026-07-07",
+  "generated": "2026-07-06T14:34:06.786030",
+  "total_matches": 2,
+  "predictions": [
+    {
+      "match_id": 93,
+      "team_a": "Portugal",
+      "team_b": "Spain",
+      "venue": "AT&T Stadium",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 41.1,
+      "draw_pct": 25.4,
+      "team_b_win_pct": 33.5,
+      "most_likely_score": "1-1",
+      "expected_goals_a": 1.47,
+      "expected_goals_b": 1.3,
+      "scoreline_probs": [
+        {
+          "score": "1-1",
+          "prob": 0.1198,
+          "prob_pct": 12.0,
+          "cumulative": 0.1198
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0921,
+          "prob_pct": 9.2,
+          "cumulative": 0.2119
+        },
+        {
+          "score": "2-1",
+          "prob": 0.088,
+          "prob_pct": 8.8,
+          "cumulative": 0.2998
+        }
+      ],
+      "verdict": "倾向平局",
+      "confidence": "low",
+      "error": null
+    },
+    {
+      "match_id": 94,
+      "team_a": "United States",
+      "team_b": "Belgium",
+      "venue": "Lumen Field",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 48.8,
+      "draw_pct": 24.2,
+      "team_b_win_pct": 27.0,
+      "most_likely_score": "1-1",
+      "expected_goals_a": 1.67,
+      "expected_goals_b": 1.18,
+      "scoreline_probs": [
+        {
+          "score": "1-1",
+          "prob": 0.1137,
+          "prob_pct": 11.4,
+          "cumulative": 0.1137
+        },
+        {
+          "score": "1-0",
+          "prob": 0.0962,
+          "prob_pct": 9.6,
+          "cumulative": 0.21
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0952,
+          "prob_pct": 9.5,
+          "cumulative": 0.3052
+        }
+      ],
+      "verdict": "势均力敌（低置信度）",
+      "confidence": "low",
+      "error": null
+    }
+  ],
+  "matches": [
+    {
+      "audit": {
+        "team_a": "Portugal",
+        "team_b": "Spain",
+        "venue": "AT&T Stadium",
+        "generated": "2026-07-06T14:34:00.401785",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2052,
+            "team_b_elo": 2063,
+            "elo_diff": -11,
+            "base_win_prob": 48.4,
+            "description": "Portugal 2052 vs Spain 2063, Δ=-11"
+          },
+          "2_injuries": {
+            "team_a_penalty": -15,
+            "team_b_penalty": -35,
+            "team_a_details": [
+              "  Ruben Dias (DF): OUT — Ruled out vs Uzbekistan (Jun 23 Heavy.com); missed opener vs DR Congo (Jun 16). Key defensive loss [-15]"
+            ],
+            "team_b_details": [
+              "  Fermín López (MF): OUT — Metatarsal fracture (May vs Betis); 13G+17A last season. Misses WC [-8]",
+              "  Mikel Merino (MF): DOUBTFUL — Stress fracture in foot (early Feb); targets return. If not, Fabián Ruiz starts [-5]",
+              "  Lamine Yamal (FW): FIT — Partially torn hamstring (Apr); Luis de la Fuente: 'could be ready to play on June 15'. Likely available for Cape Verde opener [-2]",
+              "  Samu Aghehowa (FW): OUT — ACL rupture (Feb 10, Porto); long-term absence [-5]",
+              "  Yeremy Pino (FW): DOUBTFUL — Collar bone fracture (sustained vs Uruguay, June 26). De la Fuente: could miss rest of World Cup. World Soccer Talk: possible return for knockout stage [-10]",
+              "  Nico Williams (FW): QUESTIONABLE — Muscular problem (re-aggravated vs Uruguay, June 26). Fighting to overcome; could return for knockout stage per World Soccer Talk [-5]"
+            ],
+            "description": "Portugal: -15 | Spain: -35"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 30,
+            "team_b_adjustment": 18,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 2,
+              "stability": 10.4,
+              "chemistry": 9.599999999999998
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 10.5
+            },
+            "description": "Portugal: +30 (coach+stability+chemistry) | Spain: +18"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 7,
+            "team_b_venue_penalty": 7,
+            "venue_details": {
+              "city": "Arlington (Dallas)",
+              "altitude_m": 184,
+              "temp_c": 35,
+              "indoor": true,
+              "climate_note": "Very hot, indoor stadium (AC) — heat penalty reduced"
+            },
+            "description": "Home adv +0, venue penalties: Portugal +7 / Spain +7"
+          },
+          "4a_weather": {
+            "team_a_adj": -7,
+            "team_b_adj": -8,
+            "weather_details": {
+              "condition": "light_drizzle",
+              "temp_c": 30.4,
+              "precip_mm": 0.4,
+              "precip_category": "light",
+              "wind_kph": 27.9,
+              "wind_category": "indoor",
+              "indoor": true
+            },
+            "description": "Rain: Portugal -5/Spain -6 | Temp: 30.4°C (real-time)"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": -7,
+            "team_b_adj": -7,
+            "team_a_details": {
+              "prev_match_id": 83,
+              "prev_venue": "BMO Field",
+              "curr_venue": "AT&T Stadium",
+              "distance_km": 1955.4,
+              "rest_days": 4,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 84,
+              "prev_venue": "SoFi Stadium",
+              "curr_venue": "AT&T Stadium",
+              "distance_km": 1974.3,
+              "rest_days": 4,
+              "rest_bonus_raw": 0
+            },
+            "description": "Portugal: -7 (travel+rest) | Spain: -7"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 23,
+            "team_b_adj": -13,
+            "description": "Portugal: +23 (warm-up form) | Spain: -13"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 67,
+            "team_b_adj": 96,
+            "team_a_details": [
+              "[06-18] D 1-1 vs 刚果民主共和国 (1859ELO q=+0.90 r=1.0x) → +5",
+              "[06-24] W 5-0/CS vs 乌兹别克斯坦 (1313ELO q=-0.47 r=1.0x) → +27",
+              "[06-28] D 0-0/CS vs 哥伦比亚 (2211ELO q=+1.78 r=1.0x) → +13",
+              "[07-03] W 2-1 vs 克罗地亚 (1939ELO q=+1.10 r=1.3x) → +22"
+            ],
+            "team_b_details": [
+              "[06-16] D 0-0/CS vs 佛得角 (1774ELO q=+0.69 r=1.0x) → +6",
+              "[06-22] W 4-0/CS vs 沙特阿拉伯 (1670ELO q=+0.42 r=1.0x) → +32",
+              "[06-27] W 1-0/CS vs 乌拉圭 (1688ELO q=+0.47 r=1.0x) → +18",
+              "[07-03] W 3-0/CS vs 奥地利 (1820ELO q=+0.80 r=1.3x) → +40"
+            ],
+            "description": "Portugal: +67 | Spain: +96"
+          },
+          "5_news_sentiment": {
+            "enabled": true,
+            "team_a_adj": 2,
+            "team_b_adj": 2,
+            "description": "Portugal: +2 | Spain: +2"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": true,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0.04,
+            "description": "Portugal: +0 | Spain: +0"
+          },
+          "6_manual": {
+            "team_a_adj": 20,
+            "team_b_adj": 18,
+            "description": "Portugal: +20 | Spain: +18"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2052,
+            "effective": 2158,
+            "adjustments": 106
+          },
+          "team_b": {
+            "base": 2063,
+            "effective": 2127,
+            "adjustments": 64
+          },
+          "diff": 31,
+          "engine_delta_a": 20,
+          "engine_delta_b": 18
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 41.1,
+          "draw": 25.4,
+          "team_b_win": 33.5,
+          "most_likely_score": "1-1",
+          "expected_goals_a": 1.47,
+          "expected_goals_b": 1.3,
+          "scoreline_probs": [
+            {
+              "score": "1-1",
+              "prob": 0.1198,
+              "prob_pct": 12.0,
+              "cumulative": 0.1198
+            },
+            {
+              "score": "1-0",
+              "prob": 0.0921,
+              "prob_pct": 9.2,
+              "cumulative": 0.2119
+            },
+            {
+              "score": "2-1",
+              "prob": 0.088,
+              "prob_pct": 8.8,
+              "cumulative": 0.2998
+            }
+          ],
+          "knockout_note": "Expected draw in 90 min. KO tiebreaker: Portugal has 54% chance to advance (ELO-based)"
+        },
+        "verdict": {
+          "result": "倾向平局",
+          "confidence": "low"
+        },
+        "reasoning": [
+          "ELO 接近（差 11 分），实力相当",
+          "伤病影响：Portugal -15 / Spain -35 ELO",
+          "多层调整后有效 ELO 差 +31（原始 -11）"
+        ],
+        "inference_engine": true,
+        "inference_engine_version": "v1",
+        "inference_trace": {
+          "team_a": {
+            "delta": 20,
+            "raw_sum": 37.0,
+            "saturated": true,
+            "trace": [
+              {
+                "rule_id": "FRM_001",
+                "rule_name": "热身赛状态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+              },
+              {
+                "rule_id": "TFM_001",
+                "rule_name": "锦标赛形态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 40,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 16.0,
+                "interactions_applied": [
+                  {
+                    "type": "saturation",
+                    "scale": 0.542,
+                    "reason": "正面累计饱和: 37.0→20.1"
+                  }
+                ],
+                "final_value": 8.7,
+                "evidence": "随机抽样的锦标赛形态波动"
+              },
+              {
+                "rule_id": "WEA_001",
+                "rule_name": "天气因子",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Open-Meteo API — 比赛日预报"
+              },
+              {
+                "rule_id": "DEN_001",
+                "rule_name": "赛程密度",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Haversine距离+休息天数计算"
+              },
+              {
+                "rule_id": "VEN_001",
+                "rule_name": "场馆效应",
+                "priority": 25,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "venues.json — 16场馆数据"
+              },
+              {
+                "rule_id": "COA_001",
+                "rule_name": "教练/磨合因子",
+                "priority": 30,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 30,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 21.0,
+                "interactions_applied": [
+                  {
+                    "type": "saturation",
+                    "scale": 0.542,
+                    "reason": "正面累计饱和: 37.0→20.1"
+                  }
+                ],
+                "final_value": 11.4,
+                "evidence": "team_metadata.json — 静态元数据"
+              },
+              {
+                "rule_id": "MAN_001",
+                "rule_name": "手动调整",
+                "priority": 100,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "manual_adjustments.json"
+              }
+            ]
+          },
+          "team_b": {
+            "delta": 18,
+            "raw_sum": 17.8,
+            "saturated": false,
+            "trace": [
+              {
+                "rule_id": "FRM_001",
+                "rule_name": "热身赛状态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+              },
+              {
+                "rule_id": "TFM_001",
+                "rule_name": "锦标赛形态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 13,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 5.2,
+                "interactions_applied": [],
+                "final_value": 5.2,
+                "evidence": "随机抽样的锦标赛形态波动"
+              },
+              {
+                "rule_id": "WEA_001",
+                "rule_name": "天气因子",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Open-Meteo API — 比赛日预报"
+              },
+              {
+                "rule_id": "DEN_001",
+                "rule_name": "赛程密度",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Haversine距离+休息天数计算"
+              },
+              {
+                "rule_id": "VEN_001",
+                "rule_name": "场馆效应",
+                "priority": 25,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "venues.json — 16场馆数据"
+              },
+              {
+                "rule_id": "COA_001",
+                "rule_name": "教练/磨合因子",
+                "priority": 30,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 18,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 12.6,
+                "interactions_applied": [],
+                "final_value": 12.6,
+                "evidence": "team_metadata.json — 静态元数据"
+              },
+              {
+                "rule_id": "MAN_001",
+                "rule_name": "手动调整",
+                "priority": 100,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "manual_adjustments.json"
+              }
+            ]
+          }
+        },
+        "reasoning_path": "\nPortugal (+20 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+40, conf=low×0.4) → +16.0\n     ⚡ 饱和: ×0.542 → +8.7\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+30, conf=medium×0.7) → +21.0\n     ⚡ 饱和: ×0.542 → +11.4\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ⚡ 饱和: 正面累计=37 → sigmoid → +20\n  ────────────────────────────────────────\n  净调整: +20 ELO\n\nSpain (+18 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+13, conf=low×0.4) → +5.2\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+18, conf=medium×0.7) → +12.6\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +18 ELO",
+        "schedule": {
+          "match_id": 93,
+          "date_beijing": "2026-07-07",
+          "time_beijing": "TBD",
+          "team_a": "Portugal",
+          "team_b": "Spain",
+          "venue": "AT&T Stadium",
+          "venue_city": "Dallas",
+          "source": "W83 vs W84",
+          "round": "R16"
+        }
+      },
+      "schedule": {
+        "match_id": 93,
+        "date_beijing": "2026-07-07",
+        "time_beijing": "TBD",
+        "team_a": "Portugal",
+        "team_b": "Spain",
+        "venue": "AT&T Stadium",
+        "venue_city": "Dallas",
+        "source": "W83 vs W84",
+        "round": "R16"
+      }
+    },
+    {
+      "audit": {
+        "team_a": "United States",
+        "team_b": "Belgium",
+        "venue": "Lumen Field",
+        "generated": "2026-07-06T14:34:04.928093",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1983,
+            "team_b_elo": 1894,
+            "elo_diff": 89,
+            "base_win_prob": 62.5,
+            "description": "United States 1983 vs Belgium 1894, Δ=+89"
+          },
+          "2_injuries": {
+            "team_a_penalty": -8,
+            "team_b_penalty": -10,
+            "team_a_details": [
+              "  Johnny Cardoso (MF): OUT — High-grade right ankle sprain (surgery); replaced by Zendejas [-5]",
+              "  Patrick Agyemang (FW): OUT — Torn Achilles tendon (Apr vs Stoke) [-3]"
+            ],
+            "team_b_details": [
+              "  Jérémy Doku (Winger): OUT — Illness (announced Jun 20 by Belgian FA via Twitter); also potential absence for baby birth (due early July) [-10]"
+            ],
+            "description": "United States: -8 | Belgium: -10"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 16,
+            "team_b_adjustment": 10,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 11.200000000000001,
+              "chemistry": 4.500000000000001
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 4.8,
+              "chemistry": 4.800000000000001
+            },
+            "description": "United States: +16 (coach+stability+chemistry) | Belgium: +10"
+          },
+          "4_venue": {
+            "home_advantage": 60,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Seattle",
+              "altitude_m": 38,
+              "temp_c": 22,
+              "indoor": false,
+              "climate_note": "Mild, cool summer — favorable for European teams"
+            },
+            "description": "Home adv +60, venue penalties: United States +0 / Belgium +0"
+          },
+          "4a_weather": {
+            "team_a_adj": -8,
+            "team_b_adj": -8,
+            "weather_details": {
+              "condition": "overcast",
+              "temp_c": 19.8,
+              "precip_mm": 0.0,
+              "precip_category": "none",
+              "wind_kph": 16.3,
+              "wind_category": "breezy",
+              "indoor": false
+            },
+            "description": "Wind: -8"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "team_a_details": {
+              "prev_match_id": 81,
+              "prev_venue": "San Francisco Bay Area Stadium",
+              "curr_venue": "Lumen Field",
+              "distance_km": 0,
+              "rest_days": 5,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 82,
+              "prev_venue": "Lumen Field",
+              "curr_venue": "Lumen Field",
+              "distance_km": 0,
+              "rest_days": 5,
+              "rest_bonus_raw": 0
+            },
+            "description": "Schedule balanced, no density impact"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -14,
+            "team_b_adj": 34,
+            "description": "United States: -14 (warm-up form) | Belgium: +34"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 78,
+            "team_b_adj": 53,
+            "team_a_details": [
+              "[06-13] W 4-1 vs 巴拉圭 (1839ELO q=+0.85 r=1.0x) → +27",
+              "[06-20] W 2-0/CS vs 澳大利亚 (1828ELO q=+0.82 r=1.0x) → +25",
+              "[06-26] L 2-3 vs 土耳其 (1728ELO q=+0.57 r=1.0x) → -3",
+              "[07-02] W 2-0/CS vs 波黑 (1677ELO q=+0.44 r=1.3x) → +30"
+            ],
+            "team_b_details": [
+              "[06-16] D 1-1 vs 埃及 (1842ELO q=+0.85 r=1.0x) → +5",
+              "[06-22] D 0-0/CS vs 伊朗 (1749ELO q=+0.62 r=1.0x) → +6",
+              "[06-27] W 5-1 vs 新西兰 (1468ELO q=-0.08 r=1.0x) → +23",
+              "[07-02] W 3-2 vs 塞内加尔 (1683ELO q=+0.46 r=1.3x) → +18"
+            ],
+            "description": "United States: +78 | Belgium: +53"
+          },
+          "5_news_sentiment": {
+            "enabled": true,
+            "team_a_adj": -8,
+            "team_b_adj": -8,
+            "description": "United States: -8 | Belgium: -8"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": true,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0.08,
+            "description": "United States: +0 | Belgium: +0"
+          },
+          "6_manual": {
+            "team_a_adj": -10,
+            "team_b_adj": 17,
+            "description": "United States: -10 | Belgium: +17"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1983,
+            "effective": 2089,
+            "adjustments": 106
+          },
+          "team_b": {
+            "base": 1894,
+            "effective": 1982,
+            "adjustments": 88
+          },
+          "diff": 107,
+          "engine_delta_a": -10,
+          "engine_delta_b": 17
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 48.8,
+          "draw": 24.2,
+          "team_b_win": 27.0,
+          "most_likely_score": "1-1",
+          "expected_goals_a": 1.67,
+          "expected_goals_b": 1.18,
+          "scoreline_probs": [
+            {
+              "score": "1-1",
+              "prob": 0.1137,
+              "prob_pct": 11.4,
+              "cumulative": 0.1137
+            },
+            {
+              "score": "1-0",
+              "prob": 0.0962,
+              "prob_pct": 9.6,
+              "cumulative": 0.21
+            },
+            {
+              "score": "2-1",
+              "prob": 0.0952,
+              "prob_pct": 9.5,
+              "cumulative": 0.3052
+            }
+          ],
+          "knockout_note": "Expected draw in 90 min. KO tiebreaker: United States has 63% chance to advance (ELO-based)"
+        },
+        "verdict": {
+          "result": "势均力敌（低置信度）",
+          "confidence": "low"
+        },
+        "reasoning": [
+          "ELO 接近（差 89 分），实力相当",
+          "伤病影响：United States -8 / Belgium -10 ELO"
+        ],
+        "inference_engine": true,
+        "inference_engine_version": "v1",
+        "inference_trace": {
+          "team_a": {
+            "delta": -10,
+            "raw_sum": -9.6,
+            "saturated": false,
+            "trace": [
+              {
+                "rule_id": "FRM_001",
+                "rule_name": "热身赛状态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+              },
+              {
+                "rule_id": "TFM_001",
+                "rule_name": "锦标赛形态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": -52,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": -20.8,
+                "interactions_applied": [],
+                "final_value": -20.8,
+                "evidence": "随机抽样的锦标赛形态波动"
+              },
+              {
+                "rule_id": "WEA_001",
+                "rule_name": "天气因子",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Open-Meteo API — 比赛日预报"
+              },
+              {
+                "rule_id": "DEN_001",
+                "rule_name": "赛程密度",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Haversine距离+休息天数计算"
+              },
+              {
+                "rule_id": "VEN_001",
+                "rule_name": "场馆效应",
+                "priority": 25,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "venues.json — 16场馆数据"
+              },
+              {
+                "rule_id": "COA_001",
+                "rule_name": "教练/磨合因子",
+                "priority": 30,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 16,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 11.2,
+                "interactions_applied": [],
+                "final_value": 11.2,
+                "evidence": "team_metadata.json — 静态元数据"
+              },
+              {
+                "rule_id": "MAN_001",
+                "rule_name": "手动调整",
+                "priority": 100,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "manual_adjustments.json"
+              }
+            ]
+          },
+          "team_b": {
+            "delta": 17,
+            "raw_sum": 17.0,
+            "saturated": false,
+            "trace": [
+              {
+                "rule_id": "FRM_001",
+                "rule_name": "热身赛状态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+              },
+              {
+                "rule_id": "TFM_001",
+                "rule_name": "锦标赛形态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 25,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 10.0,
+                "interactions_applied": [],
+                "final_value": 10.0,
+                "evidence": "随机抽样的锦标赛形态波动"
+              },
+              {
+                "rule_id": "WEA_001",
+                "rule_name": "天气因子",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Open-Meteo API — 比赛日预报"
+              },
+              {
+                "rule_id": "DEN_001",
+                "rule_name": "赛程密度",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Haversine距离+休息天数计算"
+              },
+              {
+                "rule_id": "VEN_001",
+                "rule_name": "场馆效应",
+                "priority": 25,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "venues.json — 16场馆数据"
+              },
+              {
+                "rule_id": "COA_001",
+                "rule_name": "教练/磨合因子",
+                "priority": 30,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 10,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 7.0,
+                "interactions_applied": [],
+                "final_value": 7.0,
+                "evidence": "team_metadata.json — 静态元数据"
+              },
+              {
+                "rule_id": "MAN_001",
+                "rule_name": "手动调整",
+                "priority": 100,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "manual_adjustments.json"
+              }
+            ]
+          }
+        },
+        "reasoning_path": "\nUnited States (-10 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-52, conf=low×0.4) → -20.8\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+16, conf=medium×0.7) → +11.2\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: -10 ELO\n\nBelgium (+17 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+25, conf=low×0.4) → +10.0\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+10, conf=medium×0.7) → +7.0\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +17 ELO",
+        "schedule": {
+          "match_id": 94,
+          "date_beijing": "2026-07-07",
+          "time_beijing": "TBD",
+          "team_a": "United States",
+          "team_b": "Belgium",
+          "venue": "Lumen Field",
+          "venue_city": "Seattle",
+          "source": "W81 vs W82",
+          "round": "R16"
+        }
+      },
+      "schedule": {
+        "match_id": 94,
+        "date_beijing": "2026-07-07",
+        "time_beijing": "TBD",
+        "team_a": "United States",
+        "team_b": "Belgium",
+        "venue": "Lumen Field",
+        "venue_city": "Seattle",
+        "source": "W81 vs W82",
+        "round": "R16"
+      }
+    }
+  ]
+}

@@ -1,0 +1,571 @@
+{
+  "date": "2026-07-01",
+  "generated": "2026-06-30T15:01:54.939883",
+  "matches": [
+    {
+      "audit": {
+        "team_a": "France",
+        "team_b": "Sweden",
+        "venue": null,
+        "generated": "2026-06-30T15:01:54.933965",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2450,
+            "team_b_elo": 1843,
+            "elo_diff": 607,
+            "base_win_prob": 97.1,
+            "description": "France 2450 vs Sweden 1843, Δ=+607"
+          },
+          "2_injuries": {
+            "team_a_penalty": -10,
+            "team_b_penalty": -25,
+            "team_a_details": [
+              "  Hugo Ekitiké (FW): OUT — Ruptured Achilles tendon (Apr vs PSG); out until 2027. Replaced by Mateta [-10]"
+            ],
+            "team_b_details": [
+              "  Isak Hien (DF): OUT — Serious left hamstring injury (vs Japan Jun 25); ruled out for tournament, left camp (Swedish FA/L'Equipe Jun 29) [-25]"
+            ],
+            "description": "France: -10 | Sweden: -25"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 39,
+            "team_b_adjustment": 18,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 15,
+              "stability": 7.999999999999998,
+              "chemistry": 8.4
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 9.6,
+              "chemistry": 8.4
+            },
+            "description": "France: +39 (coach+stability+chemistry) | Sweden: +18"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {},
+            "description": "Home adv +0, venue penalties: France +0 / Sweden +0"
+          },
+          "4a_weather": {
+            "team_a_adj": -28,
+            "team_b_adj": -23,
+            "weather_details": {
+              "condition": "thunderstorm",
+              "temp_c": 30.5,
+              "precip_mm": 4.7,
+              "precip_category": "moderate",
+              "wind_kph": 16.6,
+              "wind_category": "breezy",
+              "indoor": false
+            },
+            "description": "Rain: France -15/Sweden -10 | Wind: -8 | Temp: 30.5°C (real-time)"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": 0,
+            "team_b_adj": -7,
+            "team_a_details": {
+              "prev_match_id": 61,
+              "prev_venue": "MetLife Stadium",
+              "curr_venue": "MetLife Stadium",
+              "distance_km": 0,
+              "rest_days": 4,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 57,
+              "prev_venue": "Arrowhead Stadium",
+              "curr_venue": "MetLife Stadium",
+              "distance_km": 1747.3,
+              "rest_days": 5,
+              "rest_bonus_raw": 0
+            },
+            "description": "France: +0 (travel+rest) | Sweden: -7"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -36,
+            "team_b_adj": 10,
+            "description": "France: -36 (warm-up form) | Sweden: +10"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 80,
+            "team_b_adj": 23,
+            "team_a_details": [
+              "[06-17] W 3-1 vs 塞内加尔 (1731ELO q=+0.58 r=1.0x) → +20",
+              "[06-23] W 3-0/CS vs 伊拉克 (1268ELO q=-0.58 r=1.0x) → +19",
+              "[06-27] W 4-1 vs 挪威 (2083ELO q=+1.46 r=1.3x) → +41"
+            ],
+            "team_b_details": [
+              "[06-15] W 5-1 vs 突尼斯 (1214ELO q=-0.71 r=1.0x) → +17",
+              "[06-21] L 1-5 vs 荷兰 (2164ELO q=+1.66 r=1.0x) → -3",
+              "[06-26] D 1-1 vs 日本 (1978ELO q=+1.20 r=1.3x) → +9"
+            ],
+            "description": "France: +80 | Sweden: +23"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2450,
+            "effective": 2495,
+            "adjustments": 45
+          },
+          "team_b": {
+            "base": 1843,
+            "effective": 1839,
+            "adjustments": -4
+          },
+          "diff": 656
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 81.1,
+          "draw": 13.0,
+          "team_b_win": 5.9,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.67,
+          "expected_goals_b": 0.58,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.1379,
+              "prob_pct": 13.8,
+              "cumulative": 0.1379
+            },
+            {
+              "score": "3-0",
+              "prob": 0.1225,
+              "prob_pct": 12.3,
+              "cumulative": 0.2604
+            },
+            {
+              "score": "1-0",
+              "prob": 0.1034,
+              "prob_pct": 10.3,
+              "cumulative": 0.3638
+            }
+          ]
+        },
+        "verdict": {
+          "result": "法国 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 绝对优势 607 分，实力差距明显",
+          "伤病影响：France -10 / Sweden -25 ELO",
+          "多层调整后有效 ELO 差 +656（原始 +607）"
+        ]
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Ivory Coast",
+        "team_b": "Norway",
+        "venue": null,
+        "generated": "2026-06-30T15:01:54.937534",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 1909,
+            "team_b_elo": 2083,
+            "elo_diff": -174,
+            "base_win_prob": 26.9,
+            "description": "Ivory Coast 1909 vs Norway 2083, Δ=-174"
+          },
+          "2_injuries": {
+            "team_a_penalty": -15,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Wilfried Singo (DF): OUT — Hamstring injury; ruled out of R32 vs Norway (Yahoo Sports Jun 30) [-15]"
+            ],
+            "team_b_details": [],
+            "description": "Ivory Coast: -15 | Norway: +0"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 13,
+            "team_b_adjustment": 19,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 5.999999999999998
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 10.4,
+              "chemistry": 9.000000000000002
+            },
+            "description": "Ivory Coast: +13 (coach+stability+chemistry) | Norway: +19"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {},
+            "description": "Home adv +0, venue penalties: Ivory Coast +0 / Norway +0"
+          },
+          "4a_weather": {
+            "team_a_adj": 0,
+            "team_b_adj": -2,
+            "weather_details": {
+              "condition": "clear",
+              "temp_c": 30.7,
+              "precip_mm": 0.0,
+              "precip_category": "none",
+              "wind_kph": 19.8,
+              "wind_category": "indoor",
+              "indoor": true
+            },
+            "description": "Temp: 30.7°C (real-time)"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": -7,
+            "team_b_adj": -10,
+            "team_a_details": {
+              "prev_match_id": 56,
+              "prev_venue": "BMO Field",
+              "curr_venue": "AT&T Stadium",
+              "distance_km": 1955.4,
+              "rest_days": 5,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 61,
+              "prev_venue": "MetLife Stadium",
+              "curr_venue": "AT&T Stadium",
+              "distance_km": 2229.0,
+              "rest_days": 4,
+              "rest_bonus_raw": 0
+            },
+            "description": "Ivory Coast: -7 (travel+rest) | Norway: -10"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 36,
+            "team_b_adj": 15,
+            "description": "Ivory Coast: +36 (warm-up form) | Norway: +15"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 42,
+            "team_b_adj": 28,
+            "team_a_details": [
+              "[06-15] W 1-0/CS vs 厄瓜多尔 (1802ELO q=+0.76 r=1.0x) → +20",
+              "[06-21] L 1-2 vs 德国 (1999ELO q=+1.25 r=1.0x) → -4",
+              "[06-26] W 2-0/CS vs 库拉索 (1505ELO q=+0.01 r=1.3x) → +26"
+            ],
+            "team_b_details": [
+              "[06-17] W 4-1 vs 伊拉克 (1268ELO q=-0.58 r=1.0x) → +15",
+              "[06-23] W 3-2 vs 塞内加尔 (1731ELO q=+0.58 r=1.0x) → +15",
+              "[06-27] L 1-4 vs 法国 (2450ELO q=+2.38 r=1.3x) → -2"
+            ],
+            "description": "Ivory Coast: +42 | Norway: +28"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 1909,
+            "effective": 1978,
+            "adjustments": 69
+          },
+          "team_b": {
+            "base": 2083,
+            "effective": 2133,
+            "adjustments": 50
+          },
+          "diff": -155
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 19.3,
+          "draw": 22.3,
+          "team_b_win": 58.4,
+          "most_likely_score": "0-1",
+          "expected_goals_a": 0.98,
+          "expected_goals_b": 1.88,
+          "scoreline_probs": [
+            {
+              "score": "0-1",
+              "prob": 0.1081,
+              "prob_pct": 10.8,
+              "cumulative": 0.1081
+            },
+            {
+              "score": "1-1",
+              "prob": 0.1055,
+              "prob_pct": 10.5,
+              "cumulative": 0.2135
+            },
+            {
+              "score": "0-2",
+              "prob": 0.1016,
+              "prob_pct": 10.2,
+              "cumulative": 0.3151
+            }
+          ]
+        },
+        "verdict": {
+          "result": "挪威 胜（中置信度）",
+          "confidence": "medium"
+        },
+        "reasoning": [
+          "ELO 优势 174 分，有明确的实力差距",
+          "伤病影响：Ivory Coast -15 / Norway +0 ELO"
+        ]
+      }
+    },
+    {
+      "audit": {
+        "team_a": "Mexico",
+        "team_b": "Ecuador",
+        "venue": null,
+        "generated": "2026-06-30T15:01:54.939883",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2262,
+            "team_b_elo": 1802,
+            "elo_diff": 460,
+            "base_win_prob": 93.4,
+            "description": "Mexico 2262 vs Ecuador 1802, Δ=+460"
+          },
+          "2_injuries": {
+            "team_a_penalty": -3,
+            "team_b_penalty": 0,
+            "team_a_details": [
+              "  Luis Malagon (GK): OUT — Achilles rupture (Mar 10, 2026) [-3]"
+            ],
+            "team_b_details": [],
+            "description": "Mexico: -3 | Ecuador: +0"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 15,
+            "team_b_adjustment": 19,
+            "team_a_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.999999999999998,
+              "chemistry": 6.6
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 9.6,
+              "chemistry": 9.000000000000002
+            },
+            "description": "Mexico: +15 (coach+stability+chemistry) | Ecuador: +19"
+          },
+          "4_venue": {
+            "home_advantage": 60,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {},
+            "description": "Home adv +60, venue penalties: Mexico +0 / Ecuador +0"
+          },
+          "4a_weather": {
+            "team_a_adj": -15,
+            "team_b_adj": -15,
+            "weather_details": {
+              "condition": "thunderstorm",
+              "temp_c": 17.6,
+              "precip_mm": 7.6,
+              "precip_category": "moderate",
+              "wind_kph": 7.7,
+              "wind_category": "calm",
+              "indoor": false
+            },
+            "description": "Rain: Mexico -15/Ecuador -15"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": 0,
+            "team_b_adj": -5,
+            "team_a_details": {
+              "prev_match_id": 53,
+              "prev_venue": "Estadio Akron",
+              "curr_venue": "Estadio Azteca",
+              "distance_km": 475.9,
+              "rest_days": 6,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 55,
+              "prev_venue": "NRG Stadium",
+              "curr_venue": "Estadio Azteca",
+              "distance_km": 1214.6,
+              "rest_days": 5,
+              "rest_bonus_raw": 0
+            },
+            "description": "Mexico: +0 (travel+rest) | Ecuador: -5"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": 2,
+            "team_b_adj": 18,
+            "description": "Mexico: +2 (warm-up form) | Ecuador: +18"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 67,
+            "team_b_adj": 20,
+            "team_a_details": [
+              "[06-12] W 2-0/CS vs 南非 (1624ELO q=+0.31 r=1.0x) → +22",
+              "[06-19] W 1-0/CS vs 韩国 (1522ELO q=+0.06 r=1.0x) → +16",
+              "[06-25] W 3-0/CS vs 捷克 (1407ELO q=-0.23 r=1.3x) → +29"
+            ],
+            "team_b_details": [
+              "[06-15] L 0-1 vs 科特迪瓦 (1909ELO q=+1.02 r=1.0x) → -6",
+              "[06-21] D 0-0/CS vs 库拉索 (1505ELO q=+0.01 r=1.0x) → +2",
+              "[06-26] W 2-1 vs 德国 (1999ELO q=+1.25 r=1.3x) → +23"
+            ],
+            "description": "Mexico: +67 | Ecuador: +20"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "None"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2262,
+            "effective": 2388,
+            "adjustments": 126
+          },
+          "team_b": {
+            "base": 1802,
+            "effective": 1839,
+            "adjustments": 37
+          },
+          "diff": 549
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 83.8,
+          "draw": 11.8,
+          "team_b_win": 4.4,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.67,
+          "expected_goals_b": 0.46,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.1565,
+              "prob_pct": 15.7,
+              "cumulative": 0.1565
+            },
+            {
+              "score": "3-0",
+              "prob": 0.1392,
+              "prob_pct": 13.9,
+              "cumulative": 0.2957
+            },
+            {
+              "score": "1-0",
+              "prob": 0.1173,
+              "prob_pct": 11.7,
+              "cumulative": 0.413
+            }
+          ]
+        },
+        "verdict": {
+          "result": "墨西哥 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 绝对优势 460 分，实力差距明显",
+          "伤病影响：Mexico -3 / Ecuador +0 ELO",
+          "多层调整后有效 ELO 差 +549（原始 +460）"
+        ]
+      }
+    }
+  ]
+}

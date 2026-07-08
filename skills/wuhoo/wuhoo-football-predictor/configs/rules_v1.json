@@ -310,12 +310,88 @@
         "type": "elo_adjust",
         "base_value": -10
       }
+    },
+    {
+      "id": "KO_001",
+      "name": "淘汰赛防守型球队加成",
+      "priority": 15,
+      "description": "防守型/防反球队在淘汰赛阶段加成 +10 ELO",
+      "activation": {
+        "condition": "match.is_knockout AND team.style_category IN ['defensive', 'counter']",
+        "confidence": "medium",
+        "evidence": "淘汰赛历史数据: 弱队防反策略成功率提升33%, 参考WC1998-2022 94场淘汰赛"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": 10
+      }
+    },
+    {
+      "id": "KO_002",
+      "name": "淘汰赛传控型球队微调",
+      "priority": 14,
+      "description": "传控型球队在淘汰赛高压逼抢下效率略降 -5 ELO",
+      "activation": {
+        "condition": "match.is_knockout AND team.style_category == 'possession'",
+        "confidence": "low",
+        "evidence": "基于逻辑推断: 淘汰赛保守氛围+高压逼抢不利于传控发挥"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": -5
+      }
+    },
+    {
+      "id": "KO_003",
+      "name": "小组赛势头加成",
+      "priority": 16,
+      "description": "小组赛净胜球>5的球队进入淘汰赛势头加成 +15 ELO",
+      "activation": {
+        "condition": "team.group_goal_diff > 5 AND match.is_knockout",
+        "confidence": "medium",
+        "evidence": "小组赛表现优异通常延续到淘汰赛初期"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": 15
+      }
+    },
+    {
+      "id": "REC_001",
+      "name": "小组赛超预期表现",
+      "priority": 17,
+      "description": "小组赛7+分且赛前ELO排名>15 → 近期状态优异 +20 ELO",
+      "activation": {
+        "condition": "team.group_pts >= 7 AND team.pre_tournament_elo_rank > 15",
+        "confidence": "high",
+        "evidence": "小组赛高分+赛前不被看好 = 典型的黑马信号"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": 20
+      }
+    },
+    {
+      "id": "CHM_001",
+      "name": "团队磨合加成",
+      "priority": 13,
+      "description": "小组赛后团队磨合度提升, 按小组赛积分计算",
+      "activation": {
+        "condition": "team.chemistry_bonus > 0",
+        "confidence": "medium",
+        "evidence": "小组赛3场后球队默契应有提升, 积分越高磨合越好"
+      },
+      "action": {
+        "type": "elo_adjust",
+        "base_value": "{{chemistry_bonus}}"
+      }
     }
   ],
   "__meta": {
     "learned_from": "44 completed matches",
     "method": "expert-guided grid search + error pattern analysis",
-    "note": "Parameters are initial estimates. Full grid search requires interaction implementation first (Phase 1). Refine after MD3 data.",
-    "generated": "2026-06-24T12:11:47.401428+08:00"
+    "note": "v5.6 added 5 knockout+recent performance+chemistry rules. Parameters are initial estimates. Refine after knockout data.",
+    "generated": "2026-06-24T12:11:47.401428+08:00",
+    "updated": "2026-06-28T00:00:00+08:00"
   }
 }
