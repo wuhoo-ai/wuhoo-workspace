@@ -27,6 +27,33 @@ category: wuhoo
 - ✅ **FIFA官方对阵覆盖**: 用户明确指示淘汰赛对阵以FIFA官方为准。seed_knockout约束算法仅用于验证和降级，最终对阵始终用FIFA官方数据覆盖
 - ✅ **最终推演**: France 41.8%, Argentina 38.3%, Mexico 8.0%（基于非对称ELO+λ上限+官方对阵）
 
+### v5.10.1 更新 (2026-07-08) — QF单场PDF完整版 + 推演报告增强
+
+**触发**: 用户要求QF预测报告包含教练/阵容/技战术/伤病/场地/天气/旅途/本届表现/新闻等全部信息用于决策。
+
+**新增/变更**:
+- ✅ **gen_qf_pdfs.py 完全重写** (v5.10→v5.10.1): 从1页裸预测→3页10模块完整分析
+  - [风格战术] 两队战术对比（阵型/主帅/进攻/防守/转换/定位球/优势/短板/核心球员）
+  - [伤病报告] 球员伤停明细 + ELO扣分合计
+  - [教练/磨合] FIFA排名/教练/阵容稳定/团队化学/风格
+  - [场地/天气/旅途] venue+Open-Meteo天气+近两场旅途
+  - [本届比赛表现] 每场比分+胜负记录+总得失球
+  - [新闻/RSS] 近5日相关报道（RSSHub+BBC+懂球帝+卫报）
+  - [ELO实力+轨迹] ELO汇总+动态轨迹因子
+  - [预测模型] Ensemble/Poisson/Logit三模型对比
+  - [比分概率] **Top 5** Poisson全矩阵(0-5×0-4=30组合排序)
+  - [判定] 综合预测+置信度+数据源清单
+- ✅ **gen_bracket_pdf.py 增强**: 冠军概率+晋级路径矩阵+QF详情+暗马预警+方法论
+- ✅ **日期自动解析**: knockout_schedule → bracket_recursive_results 双重降级，解决QF赛程日期为"?"问题
+- ✅ **比分从Top 3 → Top 5**: Poisson独立计算全矩阵，不依赖JSON中仅有的3条
+- ✅ **RSS HTML清理**: nohtml()预处理，防止ReportLab Paragraph解析崩溃
+
+**陷阱**:
+- ⚠️ **knockout_schedule QF team_a/team_b为null**: QF对阵尚未写入schedule，需从bracket_recursive_results.json取日期
+- ⚠️ **match_weather QF forecast team_a/team_b为None**: 天气按venue匹配而非team
+- ⚠️ **RSS summary含HTML标签**: 需nohtml()清理后再入Paragraph，否则ReportLab报unclosed tags
+- ⚠️ **v5.10 JSON仅含3条scoreline**: 需从expected_goals独立计算Poisson全矩阵
+
 ### v5.9 更新 (2026-07-04) — R16 全面升级 + Cron 合并 + 递归推演
 
 **触发**: R32 全部完赛，16 强产生。Cron 从 3 个合并为 1 个 14:30，新增递归单场推演替代 bracket_simulator，v5.5 推理引擎默认启用。
