@@ -138,7 +138,7 @@ def get_tournament_matches(team):
                 outcome = 'W' if sb > sa else ('D' if sa == sb else 'L')
                 score_str = f"{sb}-{sa}"
             matches.append({
-                'date': m.get('date', '?')[:10],
+                'date': (m.get('date_beijing') or m.get('date', '?'))[:10],
                 'round': m.get('round', '?'),
                 'opponent': opp,
                 'score': score_str,
@@ -289,19 +289,28 @@ def generate_match_report(team_a, team_b, prediction, outpath):
     if not has_inj: story.append(P('两队均无重大伤病报告', 'body'))
 
     # ═══════════════════════════════════════
-    # SECTION 3: 教练/团队磨合
+    # SECTION 3: 教练/团队 — 来源: team_tactics.json + team_profiles.json
     # ═══════════════════════════════════════
     story.append(HR())
-    story.append(P('[教练/磨合] — 数据源: team_profiles.json', 'h2'))
+    story.append(P('[教练/阵容] — 数据源: team_tactics.json + team_profiles.json', 'h2'))
     coach_rows = []
     for te, tc in [(team_a, ca), (team_b, cb)]:
-        p = TEAM_PROFILES.get(te, {})
-        fifa = p.get('fifa_rank_est', '?'); coach = p.get('coach', p.get('coach_info', '?'))
-        stability = p.get('stability', '?'); chemistry = p.get('chemistry', '?')
-        style = p.get('style', p.get('style_category', '?'))
-        coach_rows.append([tc, f'#{fifa}', str(coach)[:40], str(stability), str(chemistry), str(style)])
-    story.append(T(['球队','FIFA','教练','阵容稳定','团队化学','风格'], coach_rows,
-                    [70, 40, 120, 60, 60, 80]))
+        prof = TEAM_PROFILES.get(te, {})
+        tac = TACTICS.get(te, {})
+        fifa = prof.get('fifa_rank_est', '?')
+        # Coach: tactics > profiles
+        coach = tac.get('coach', '') or prof.get('coach', '') or prof.get('coach_info', '')
+        if not coach: coach = '?'
+        # Formation from tactics
+        fm = tac.get('formation', '')
+        # WC history from profiles
+        wc_app = prof.get('wc_appearances', '?')
+        wc_best = prof.get('wc_best', '?')
+        style = prof.get('style_category', '') or prof.get('style', '')
+        if not style: style = '?'
+        coach_rows.append([tc, f'#{fifa}', str(coach)[:50], str(fm)[:20], str(wc_best)[:25], str(style)])
+    story.append(T(['球队','FIFA','主帅','常用阵型','世界杯最佳','风格'], coach_rows,
+                    [70, 35, 150, 70, 85, 70]))
 
     # ═══════════════════════════════════════
     # SECTION 4: 场地/天气/旅途疲劳
@@ -317,24 +326,40 @@ def generate_match_report(team_a, team_b, prediction, outpath):
 
     # Weather
     wx = get_weather_for_match(team_a, team_b, venue_name)
-    if wx:
-        cond = wx.get('condition', '?'); temp = wx.get('temp_c', '?')
-        prec = wx.get('precip_mm', 0); wind = wx.get('wind_kph', 0)
+    if wx and wx.get('temp_c') is not None and wx.get('temp_c') != '?':
+        cond = wx.get('condition', wx.get('cond', '?')); temp = wx.get('temp_c', wx.get('temp_c_avg', '?'))
+        prec = wx.get('precip_mm', wx.get('precip', 0)); wind = wx.get('wind_kph', 0)
         wx_parts = [f"天气: {cond}", f"气温: {temp}°C"]
         if not indoor:
             if prec > 0: wx_parts.append(f"降水量: {prec}mm")
             if wind > 0: wx_parts.append(f"风力: {wind}km/h")
         story.append(P(' · '.join(wx_parts), 'body'))
     else:
-        story.append(P('天气数据暂缺', 'body'))
+        days_to = 0
+        try:
+            from datetime import datetime, timedelta
+            md = match_info.get('date', '')[:10] if match_info else ''
+            if md:
+                dt = datetime.strptime(md, '%Y-%m-%d')
+                days_to = (dt - datetime.now()).days
+        except: pass
+        note = f'赛前{days_to}天更新' if days_to > 0 else '赛前更新'
+        story.append(P(f'天气数据: {note} (Open-Meteo预报范围外)', 'body'))
 
-    # Schedule fatigue
+    # Schedule fatigue with rest days
     for te, tc in [(team_a, ca), (team_b, cb)]:
         matches = get_tournament_matches(te)
         if len(matches) >= 2:
             last_two = matches[-2:]
-            story.append(P(f'{tc}: 近两场 {last_two[0]["date"]} vs {cn(last_two[0]["opponent"])} {last_two[0]["score"]} → {last_two[1]["date"]} vs {cn(last_two[1]["opponent"])} {last_two[1]["score"]}', 'source'))
-    story.append(P('注: QF阶段旅途影响较小(淘汰赛固定城市)', 'source'))
+            # Calculate rest days
+            try:
+                from datetime import datetime
+                d1 = datetime.strptime(last_two[0]['date'], '%Y-%m-%d')
+                d2 = datetime.strptime(last_two[1]['date'], '%Y-%m-%d')
+                rest = (d2 - d1).days
+                story.append(P(f'{tc}: 近两场 (间隔{rest}天) {last_two[0]["date"]} vs {cn(last_two[0]["opponent"])} {last_two[0]["score"]} → {last_two[1]["date"]} vs {cn(last_two[1]["opponent"])} {last_two[1]["score"]}', 'source'))
+            except:
+                story.append(P(f'{tc}: 近两场 {last_two[0]["date"]} vs {cn(last_two[0]["opponent"])} {last_two[0]["score"]} → {last_two[1]["date"]} vs {cn(last_two[1]["opponent"])} {last_two[1]["score"]}', 'source'))
 
     # ═══════════════════════════════════════
     # SECTION 5: 本届比赛表现
