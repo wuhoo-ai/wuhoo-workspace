@@ -487,6 +487,57 @@ def generate_match_report(team_a, team_b, prediction, outpath):
 # ── Main ──
 if __name__ == '__main__':
     d = json.load(open(os.path.join(DATA, "daily_predictions/2026-07-08_qf.json")))
+    
+    # Merge fresher v5.5 daily predictions if available
+    v55_updates = {}
+    import re
+    daily_files = sorted(
+        [f for f in os.listdir(os.path.join(DATA, 'daily_predictions')) 
+         if f.endswith('.json') and not f.startswith('2026-07-08')],
+        reverse=True  # newest first
+    )
+    for fname in daily_files:
+        try:
+            dd = json.load(open(os.path.join(DATA, 'daily_predictions', fname)))
+            for m in dd.get('matches', []):
+                a = m.get('audit', m)
+                ta = a.get('team_a', ''); tb = a.get('team_b', '')
+                pred = a.get('prediction', {})
+                if ta and tb and pred:
+                    key = (ta, tb)
+                    if key not in v55_updates:  # only take first (newest)
+                        v55_updates[key] = {
+                            'team_a_win': pred.get('team_a_win', 0),
+                            'draw': pred.get('draw', 0),
+                            'team_b_win': pred.get('team_b_win', 0),
+                            'xg_a': pred.get('expected_goals_a', 0),
+                            'xg_b': pred.get('expected_goals_b', 0),
+                            'source': fname,
+                        }
+        except: pass
+    
+    # Apply updates
+    for p in d['predictions']:
+        ta, tb = p['team_a'], p['team_b']
+        key = (ta, tb)
+        if key in v55_updates:
+            upd = v55_updates[key]
+            # Update ensemble with fresher numbers (keep v5.10 structure)
+            ens = p['ensemble']
+            if isinstance(ens, str): ens = eval(ens)
+            ens['team_a_win'] = upd['team_a_win']
+            ens['draw'] = upd['draw']
+            ens['team_b_win'] = upd['team_b_win']
+            p['ensemble'] = ens
+            # Update xG
+            xg = p['expected_goals']
+            if isinstance(xg, str): xg = eval(xg)
+            xg['a'] = upd['xg_a']; xg['b'] = upd['xg_b']
+            p['expected_goals'] = xg
+            src = upd.get('source', '?')
+            msg = '  Updated {} vs {}: {}%/{}%/{}% (from {})'.format(ta, tb, upd['team_a_win'], upd['draw'], upd['team_b_win'], src)
+            print(msg)
+    
     for p in d['predictions']:
         ta, tb = p['team_a'], p['team_b']
         out = os.path.join(OUT, f"QF_{ta}_vs_{tb}.pdf")
