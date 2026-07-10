@@ -159,15 +159,21 @@ def build_match_pdf(match_data, idx, output_path):
 
     # ── Coach ──
     l3 = layers.get('3_coach_meta', {})
-    story.append(P('[L3] 教练/团队磨合 — 数据源: team_profiles.json', 'h3'))
-    rows = [
-        ['教练经验', f'{_fs(l3,"team_a_breakdown","coach")}', f'{_fs(l3,"team_b_breakdown","coach")}', '世界杯执教场次'],
-        ['历史战绩', f'{_fs(l3,"team_a_breakdown","result")}', f'{_fs(l3,"team_b_breakdown","result")}', '队史最佳成绩'],
-        ['阵容稳定', f'{_fs(l3,"team_a_breakdown","stability")}', f'{_fs(l3,"team_b_breakdown","stability")}', '核心保留率'],
-        ['团队化学', f'{_fs(l3,"team_a_breakdown","chemistry")}', f'{_fs(l3,"team_b_breakdown","chemistry")}', '合练默契度'],
-        ['合计', f'{ba(l3.get("team_a_adjustment",0))}', f'{ba(l3.get("team_b_adjustment",0))}', ''],
-    ]
-    story.append(make_table(['维度', na, nb, '说明'], rows))
+    story.append(P('[L3] 教练/阵容 — 数据源: team_tactics.json + team_profiles.json', 'h3'))
+    
+    # Coach info with real names from tactics DB
+    coach_rows = []
+    for te, tc in [(ta, na), (tb, nb)]:
+        prof = TEAM_PROFILES.get(te, {})
+        tac = TACTICS_DB.get(te, {})
+        coach_name = tac.get('coach', '') or prof.get('coach', '') or '?'
+        fm = tac.get('formation', '')
+        wc_best = prof.get('wc_best', '?')
+        # ELO adjustment from layers
+        adj = int(l3.get('team_a_adjustment' if te == ta else 'team_b_adjustment', 0))
+        coach_rows.append([tc, str(coach_name)[:40], str(fm)[:20], str(wc_best)[:20], f'{adj:+d}'])
+    story.append(make_table(['球队', '主帅', '常用阵型', '世界杯最佳', 'ELO调整'], coach_rows,
+                            [60, 130, 80, 85, 60]))
 
     # ── Venue + Weather + Schedule ──
     l4 = layers.get('4_venue', {})
