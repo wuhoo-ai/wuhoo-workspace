@@ -161,19 +161,17 @@ def build_match_pdf(match_data, idx, output_path):
     l3 = layers.get('3_coach_meta', {})
     story.append(P('[L3] 教练/阵容 — 数据源: team_tactics.json + team_profiles.json', 'h3'))
     
-    # Coach info with real names from tactics DB
-    coach_rows = []
     for te, tc in [(ta, na), (tb, nb)]:
         prof = TEAM_PROFILES.get(te, {})
         tac = TACTICS_DB.get(te, {})
         coach_name = tac.get('coach', '') or prof.get('coach', '') or '?'
-        fm = tac.get('formation', '')
+        fm = tac.get('formation', '') or '?'
         wc_best = prof.get('wc_best', '?')
-        # ELO adjustment from layers
         adj = int(l3.get('team_a_adjustment' if te == ta else 'team_b_adjustment', 0))
-        coach_rows.append([tc, str(coach_name)[:40], str(fm)[:20], str(wc_best)[:20], f'{adj:+d}'])
-    story.append(make_table(['球队', '主帅', '常用阵型', '世界杯最佳', 'ELO调整'], coach_rows,
-                            [60, 130, 80, 85, 60]))
+        story.append(P(
+            '{} | 主帅: {} | 常用阵型: {} | 世界杯最佳: {} | ELO调整: {:+d}'.format(
+                tc, coach_name, fm, wc_best, adj),
+            'body'))
 
     # ── Venue + Weather + Schedule ──
     l4 = layers.get('4_venue', {})

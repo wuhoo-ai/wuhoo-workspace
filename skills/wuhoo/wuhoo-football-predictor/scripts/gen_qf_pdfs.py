@@ -1,7 +1,9 @@
 #!/usr/bin/env python3.11
 """
 v5.10.1 QF单场PDF生成器 — 完整版
-结构: 战术对比 → 伤病 → 教练/磨合 → 场地/天气/旅途 → 本届表现 → 新闻情感 → ELO分解 → 模型预测 → 比分分布 → ELO轨迹
+结构: 战术对比 → L1 ELO → L2 伤病 → L3 教练 → L4 场地/天气/旅途
+       → L4a 天气因子 → L4b 赛程密度 → L4.5 热身赛 → L4.6 本届表现
+       → L5 新闻情感 → 有效ELO汇总 → 3模型预测 → 比分分布 → ELO轨迹 → 推理引擎 → 判定
 """
 import json, os, sys, sqlite3, math, re
 from datetime import datetime
@@ -39,7 +41,7 @@ STY = {
     'title':  S('t', fontSize=18, textColor=B, spaceAfter=10, leading=24),
     'h2':     S('h2', fontSize=13, textColor=B, spaceAfter=6, spaceBefore=10, leading=20),
     'h3':     S('h3', fontSize=11, textColor=B, spaceAfter=4, spaceBefore=8, leading=18),
-    'body':   S('body', fontSize=10, leading=15, spaceAfter=2),
+    'body':   S('body', fontSize=9, leading=14, spaceAfter=2),
     'small':  S('small', fontSize=8, textColor=G, leading=11, spaceAfter=1),
     'source': S('source', fontSize=7, textColor=G, leading=9, spaceAfter=2),
     'verdict': S('verdict', fontSize=12, textColor=R, spaceAfter=6, spaceBefore=6, leading=20),
@@ -61,6 +63,11 @@ def T(headers, rows, widths=None):
 
 def HR():
     return HRFlowable(width="100%", thickness=1, color=B)
+
+def ba(v):
+    if isinstance(v, float): v = round(v, 1)
+    if v == 0: return '0'
+    return f'+{v}' if v > 0 else str(v)
 
 # ── Data loaders ──
 TEAM_CN = {
@@ -124,8 +131,23 @@ if os.path.exists(kp):
     for m in json.load(open(kp)).get('matches', []):
         KO_SCHEDULE[m['match_id']] = m
 
+# Load daily layers for enrichment
+DAILY_LAYERS = {}  # (team_a, team_b) → audit
+daily_dir = os.path.join(DATA, 'daily_predictions')
+import glob as _glob
+for fpath in sorted(_glob.glob(os.path.join(daily_dir, '2026-07-*.json')), reverse=True):
+    try:
+        dd = json.load(open(fpath))
+    except: continue
+    for m in dd.get('matches', []):
+        audit = m.get('audit', {})
+        ta, tb = audit.get('team_a', ''), audit.get('team_b', '')
+        if not ta or not tb: continue
+        key = (ta, tb) if ta < tb else (tb, ta)
+        if key not in DAILY_LAYERS:
+            DAILY_LAYERS[key] = audit
+
 def get_tournament_matches(team):
-    """Get all tournament matches for a team"""
     matches = []
     for m in RESULTS:
         if m.get('team_a') == team or m.get('team_b') == team:
@@ -149,12 +171,10 @@ def get_tournament_matches(team):
     return matches
 
 def get_weather_for_match(team_a, team_b, venue_name=''):
-    """Find weather for this match — by venue name since QF team_a/team_b may be None"""
     fc = WEATHER.get('forecasts', {})
     if isinstance(fc, dict):
         for mid, f in fc.items():
             if isinstance(f, dict):
-                # Match by venue (QF weather data may not have team names filled)
                 if venue_name and f.get('venue') == venue_name:
                     return f
                 if (f.get('team_a') == team_a and f.get('team_b') == team_b) or \
@@ -163,7 +183,6 @@ def get_weather_for_match(team_a, team_b, venue_name=''):
     return {}
 
 def get_rss_articles(team_a, team_b):
-    """Fetch recent RSS articles"""
     db_path = '/home/admin/wuhoo-workspace/skills/wuhoo/wuhoo-news-rss/data/news.db'
     EXCLUDED = {'SoccerNews', 'Football Rankings'}
     try:
@@ -193,37 +212,38 @@ def nohtml(t): return re.sub(r'<[^>]+>', '', t or '').strip()
 
 # ── Main generator ──
 def generate_match_report(team_a, team_b, prediction, outpath):
-    doc = SimpleDocTemplate(outpath, pagesize=A4, leftMargin=16*mm, rightMargin=16*mm,
-                             topMargin=12*mm, bottomMargin=12*mm,
+    doc = SimpleDocTemplate(outpath, pagesize=A4, leftMargin=12*mm, rightMargin=12*mm,
+                             topMargin=10*mm, bottomMargin=10*mm,
                              title=f'WC2026 QF {cn(team_a)} vs {cn(team_b)}')
     story = []
     ca, cb = cn(team_a), cn(team_b)
 
     # Parse prediction data
-    ens = prediction['ensemble']; poi = prediction['poisson']; log = prediction['logit']
-    xg = prediction['expected_goals']; scores = prediction['top_scorelines']
-    traj = prediction.get('trajectory', {})
-    # Parse string dicts if needed
     for k in ['ensemble','poisson','logit','expected_goals','trajectory']:
         v = prediction.get(k)
         if isinstance(v, str): prediction[k] = eval(v)
     ens = prediction['ensemble']; poi = prediction['poisson']; log = prediction['logit']
     xg = prediction['expected_goals']; traj = prediction.get('trajectory', {})
 
+    # ── Load daily layers for enrichment ──
+    daily_key = (team_a, team_b) if team_a < team_b else (team_b, team_a)
+    daily = DAILY_LAYERS.get(daily_key, {})
+    layers = daily.get('layers', {})
+    reasoning_path = daily.get('reasoning_path', '')
+    is_engine = daily.get('inference_engine', False)
+
     # ── TITLE ──
     story.append(P(f"{ca} vs {cb} — 世界杯2026 四分之一决赛预测", 'title'))
     story.append(P(f"{team_a} vs {team_b} · Quarter-finals · v5.10.1 完整分析", 'small'))
 
-    # Find match details from knockout schedule OR bracket_recursive_results
+    # Find match details
     match_info = None
     for mid, m in KO_SCHEDULE.items():
         if m.get('team_a') == team_a and m.get('team_b') == team_b:
             match_info = m; break
         if m.get('team_b') == team_a and m.get('team_a') == team_b:
             match_info = m; break
-
     if not match_info:
-        # Try bracket_recursive_results
         try:
             br = json.load(open(os.path.join(DATA, 'bracket_recursive_results.json')))
             for mid, m in br.get('match_details', {}).items():
@@ -254,25 +274,49 @@ def generate_match_report(team_a, team_b, prediction, outpath):
 
     for tc, tac in [(ca, TACTICS.get(team_a, {})), (cb, TACTICS.get(team_b, {}))]:
         if not tac: continue
-        story.append(P(f'【{tc}】', 'h3'))
         fm = tac.get('formation', ''); co = tac.get('coach', '')
-        if fm or co: story.append(P(f"阵型: {fm}  |  主帅: {co}", 'body'))
-        if tac.get('style_summary'): story.append(P(tac['style_summary'], 'body'))
-        if tac.get('attacking'): story.append(P(f"进攻: {tac['attacking']}", 'body'))
-        if tac.get('defensive'): story.append(P(f"防守: {tac['defensive']}", 'body'))
-        if tac.get('transitions'): story.append(P(f"转换: {tac['transitions']}", 'body'))
-        if tac.get('set_pieces'): story.append(P(f"定位球: {tac['set_pieces']}", 'body'))
         strengths = tac.get('strengths', []); weaknesses = tac.get('weaknesses', [])
-        if strengths: story.append(P(f"优势: {'; '.join(strengths)}", 'body'))
-        if weaknesses: story.append(P(f"短板: {'; '.join(weaknesses)}", 'body'))
-        if tac.get('key_players'): story.append(P(f"核心球员: {', '.join(tac['key_players'])}", 'body'))
-        story.append(Spacer(1, 3))
+        parts = []
+        if fm or co: parts.append(f"阵型: {fm}  |  主帅: {co}")
+        if tac.get('style_summary'): parts.append(tac['style_summary'][:100])
+        if strengths: parts.append(f"优势: {'; '.join(strengths[:2])}")
+        if weaknesses: parts.append(f"短板: {'; '.join(weaknesses[:2])}")
+        if tac.get('key_players'): parts.append(f"核心: {', '.join(tac['key_players'][:3])}")
+        story.append(P(f'【{tc}】 ' + ' | '.join(parts), 'body'))
 
     # ═══════════════════════════════════════
-    # SECTION 2: 伤病报告
+    # [L1] ELO 基础实力
+    # ═══════════════════════════════════════
+    l1 = layers.get('1_elo_base', {})
+    story.append(HR())
+    story.append(P('[L1] ELO 基础实力 — 数据源: elo_ratings.json', 'h2'))
+    elo_a = ELO.get(team_a, 1500); elo_b = ELO.get(team_b, 1500)
+    diff = elo_a - elo_b
+    prof_a = TEAM_PROFILES.get(team_a, {}); prof_b = TEAM_PROFILES.get(team_b, {})
+    story.append(P(f"{ca} FIFA#{prof_a.get('fifa_rank_est','?')} ELO={elo_a} · "
+                   f"{cb} FIFA#{prof_b.get('fifa_rank_est','?')} ELO={elo_b} · "
+                   f"基础差 {diff:+d}, 胜率 {l1.get('base_win_prob', '?')}%", 'body'))
+
+    # ELO trajectory
+    if traj:
+        story.append(P('[ELO动态轨迹] Layer 1.5', 'h3'))
+        traj_rows = []
+        for te, tc in [(team_a, ca), (team_b, cb)]:
+            tr = traj.get(te, {})
+            traj_rows.append([tc,
+                tr.get('classification', '?'),
+                f"{tr.get('delta_avg', 0):+.1f}",
+                f"σ={tr.get('volatility', 0):.1f}",
+                f"±{tr.get('adjustment', 0):+d} ELO"])
+        story.append(T(['球队','轨迹分类','ΔElo均值','波动性','调整值'], traj_rows,
+                        [80, 90, 70, 70, 70]))
+        story.append(P("稳步上升=趋势强+波动低→+15 | 持续下滑→-15 | 波动大→不加分", 'source'))
+
+    # ═══════════════════════════════════════
+    # [L2] 伤病报告
     # ═══════════════════════════════════════
     story.append(HR())
-    story.append(P('[伤病报告] — 数据源: injuries.json (ESPN/BBC/Fox Sports)', 'h2'))
+    story.append(P('[L2] 伤病影响 — 数据源: injuries.json (ESPN/BBC/Fox Sports)', 'h2'))
     has_inj = False
     for te, tc in [(team_a, ca), (team_b, cb)]:
         if te in INJURIES:
@@ -288,35 +332,39 @@ def generate_match_report(team_a, team_b, prediction, outpath):
                 has_inj = True
     if not has_inj: story.append(P('两队均无重大伤病报告', 'body'))
 
+    # ── L2.5 Motivation (QMF) ──
+    l25 = layers.get('2.5_motivation', {})
+    if l25.get('team_a_classification') or l25.get('team_b_classification'):
+        story.append(P('[L2.5] 出线动机 (QMF) — 数据源: compute_motivation.py', 'h3'))
+        cls_a = l25.get('team_a_classification', '-'); adj_a = l25.get('team_a_adjustment', 0)
+        cls_b = l25.get('team_b_classification', '-'); adj_b = l25.get('team_b_adjustment', 0)
+        story.append(P(f"{ca}: {cls_a} (ELO {adj_a:+d})  |  {cb}: {cls_b} (ELO {adj_b:+d})", 'body'))
+
     # ═══════════════════════════════════════
-    # SECTION 3: 教练/团队 — 来源: team_tactics.json + team_profiles.json
+    # [L3] 教练/阵容 — 文字版（避免CJK表格重叠）
     # ═══════════════════════════════════════
+    l3 = layers.get('3_coach_meta', {})
     story.append(HR())
-    story.append(P('[教练/阵容] — 数据源: team_tactics.json + team_profiles.json', 'h2'))
-    coach_rows = []
+    story.append(P('[L3] 教练/阵容 — 数据源: team_tactics.json + team_profiles.json', 'h2'))
     for te, tc in [(team_a, ca), (team_b, cb)]:
         prof = TEAM_PROFILES.get(te, {})
         tac = TACTICS.get(te, {})
         fifa = prof.get('fifa_rank_est', '?')
-        # Coach: tactics > profiles
         coach = tac.get('coach', '') or prof.get('coach', '') or prof.get('coach_info', '')
         if not coach: coach = '?'
-        # Formation from tactics
-        fm = tac.get('formation', '')
-        # WC history from profiles
-        wc_app = prof.get('wc_appearances', '?')
+        fm = tac.get('formation', '') or '?'
         wc_best = prof.get('wc_best', '?')
-        style = prof.get('style_category', '') or prof.get('style', '')
-        if not style: style = '?'
-        coach_rows.append([tc, f'#{fifa}', str(coach)[:50], str(fm)[:20], str(wc_best)[:25], str(style)])
-    story.append(T(['球队','FIFA','主帅','常用阵型','世界杯最佳','风格'], coach_rows,
-                    [70, 35, 150, 70, 85, 70]))
+        style = prof.get('style_category', '') or prof.get('style', '') or '?'
+        adj = int(l3.get('team_a_adjustment' if te == team_a else 'team_b_adjustment', 0))
+        story.append(P(
+            f'{tc} | FIFA #{fifa} | 主帅: {coach} | 阵型: {fm} | 世界杯最佳: {wc_best} | 风格: {style} | ELO: {adj:+d}',
+            'body'))
 
     # ═══════════════════════════════════════
-    # SECTION 4: 场地/天气/旅途疲劳
+    # [L4] 场地/天气/旅途疲劳
     # ═══════════════════════════════════════
     story.append(HR())
-    story.append(P('[场地/天气/旅途] — 数据源: venues.json + Open-Meteo', 'h2'))
+    story.append(P('[L4] 场地/天气/赛程 — 数据源: venues.json + Open-Meteo', 'h2'))
 
     venue_name = match_info.get('venue', '?') if match_info else '?'
     venue_data = VENUES.get(venue_name, {})
@@ -337,7 +385,7 @@ def generate_match_report(team_a, team_b, prediction, outpath):
     else:
         days_to = 0
         try:
-            from datetime import datetime, timedelta
+            from datetime import timedelta
             md = match_info.get('date', '')[:10] if match_info else ''
             if md:
                 dt = datetime.strptime(md, '%Y-%m-%d')
@@ -346,14 +394,30 @@ def generate_match_report(team_a, team_b, prediction, outpath):
         note = f'赛前{days_to}天更新' if days_to > 0 else '赛前更新'
         story.append(P(f'天气数据: {note} (Open-Meteo预报范围外)', 'body'))
 
-    # Schedule fatigue with rest days
+    # ── L4a Weather Factor ──
+    l4a = layers.get('4a_weather', {})
+    if l4a:
+        story.append(P('[L4a] 天气因子 — 数据源: fetch_weather.py (Open-Meteo API)', 'h3'))
+        wd = l4a.get('weather_details', {})
+        adj_a = l4a.get('team_a_adj', 0); adj_b = l4a.get('team_b_adj', 0)
+        story.append(P(f"ELO调整: {ca} {ba(adj_a)} · {cb} {ba(adj_b)}", 'body'))
+
+    # ── L4b Schedule Density ──
+    l4b = layers.get('4b_schedule_density', {})
+    if l4b:
+        story.append(P('[L4b] 赛程密度 — 数据源: 赛程表 + Haversine距离', 'h3'))
+        sd_a = l4b.get('team_a_details', {}); sd_b = l4b.get('team_b_details', {})
+        adj_a = l4b.get('team_a_adj', 0); adj_b = l4b.get('team_b_adj', 0)
+        story.append(P(f"ELO调整: {ca} {ba(adj_a)} · {cb} {ba(adj_b)} | "
+                       f"休息: 各{sd_a.get('rest_days','?')}天 | "
+                       f"旅途: {ca} {sd_a.get('distance_km',0):.0f}km / {cb} {sd_b.get('distance_km',0):.0f}km", 'body'))
+
+    # Schedule fatigue with rest days (original logic)
     for te, tc in [(team_a, ca), (team_b, cb)]:
         matches = get_tournament_matches(te)
         if len(matches) >= 2:
             last_two = matches[-2:]
-            # Calculate rest days
             try:
-                from datetime import datetime
                 d1 = datetime.strptime(last_two[0]['date'], '%Y-%m-%d')
                 d2 = datetime.strptime(last_two[1]['date'], '%Y-%m-%d')
                 rest = (d2 - d1).days
@@ -361,11 +425,17 @@ def generate_match_report(team_a, team_b, prediction, outpath):
             except:
                 story.append(P(f'{tc}: 近两场 {last_two[0]["date"]} vs {cn(last_two[0]["opponent"])} {last_two[0]["score"]} → {last_two[1]["date"]} vs {cn(last_two[1]["opponent"])} {last_two[1]["score"]}', 'source'))
 
+    # ── L4.5 Friendly Form ──
+    l45 = layers.get('4.5_friendly_form', {})
+    if l45:
+        story.append(P('[L4.5] 热身赛状态 — 数据源: friendly_form_adjustments.json', 'h3'))
+        story.append(P(f"{ca}: {ba(l45.get('team_a_adj',0))} ELO · {cb}: {ba(l45.get('team_b_adj',0))} ELO", 'body'))
+
     # ═══════════════════════════════════════
-    # SECTION 5: 本届比赛表现
+    # [L4.6] 本届比赛表现
     # ═══════════════════════════════════════
     story.append(HR())
-    story.append(P('[本届比赛表现] — 数据源: wc2026_results.json', 'h2'))
+    story.append(P('[L4.6] 本届比赛表现 — 数据源: wc2026_results.json', 'h2'))
 
     for te, tc in [(team_a, ca), (team_b, cb)]:
         matches = get_tournament_matches(te)
@@ -375,62 +445,53 @@ def generate_match_report(team_a, team_b, prediction, outpath):
         losses = sum(1 for m in matches if m['outcome'] == 'L')
         gf = sum(int(m['score'].split('-')[0]) for m in matches)
         ga = sum(int(m['score'].split('-')[1]) for m in matches)
-        story.append(P(f'{tc}: {wins}胜{draws}平{losses}负 · 进{gf}失{ga} · 净胜{gf-ga:+d}', 'body'))
-
-        match_rows = []
+        # Build compact match summary line
+        match_parts = []
         for m in matches:
-            outcome_icon = {'W': '✓', 'D': '=', 'L': '✗'}.get(m['outcome'], '?')
-            extra = ''
-            if m.get('penalties'): extra = f' (PK{m["penalties"]})'
-            elif m.get('aet'): extra = ' (加时)'
-            match_rows.append([m['date'], m['round'], f"{cn(m['opponent'])}", m['score']+extra, outcome_icon])
-        story.append(T(['日期','阶段','对手','比分','结果'], match_rows, [70, 65, 80, 65, 35]))
+            icon = {'W': '✓', 'D': '=', 'L': '✗'}.get(m['outcome'], '?')
+            match_parts.append(f"{m['date']} {icon} vs {cn(m['opponent'])} {m['score']}")
+        story.append(P(f'{tc}: {wins}胜{draws}平{losses}负 · 进{gf}失{ga} · 净胜{gf-ga:+d}', 'body'))
+        story.append(P('  ' + '  |  '.join(match_parts), 'small'))
         story.append(Spacer(1, 3))
 
     # ═══════════════════════════════════════
-    # SECTION 6: 新闻/情感分析
+    # [L5] 新闻/情感分析
     # ═══════════════════════════════════════
     story.append(HR())
-    story.append(P('[新闻/RSS报道] — 数据源: news.db (RSSHub+BBC+懂球帝+卫报)', 'h2'))
+    story.append(P('[L5] 新闻情感 — 数据源: news.db (RSSHub+BBC+懂球帝+卫报+天空体育)', 'h2'))
     articles = get_rss_articles(team_a, team_b)
     if articles:
-        for art in articles:
+        story.append(P(f'近5日相关报道 {len(articles)} 篇:', 'body'))
+        for art in articles[:3]:
             title = nohtml(art.get('title', '')); feed = art.get('feed', '')
-            summary = nohtml(art.get('summary', ''))[:80]
-            story.append(P(f"[{feed}] {title[:100]}", 'source'))
-            if summary: story.append(P(f"  {summary}", 'source'))
+            story.append(P(f"[{feed}] {title[:80]}", 'source'))
     else:
         story.append(P('(近5日无相关报道)', 'source'))
 
     # ═══════════════════════════════════════
-    # SECTION 7: ELO 汇总
+    # 有效ELO汇总
     # ═══════════════════════════════════════
-    story.append(HR())
-    story.append(P('[ELO实力] — 数据源: elo_ratings.json', 'h2'))
-    elo_a = ELO.get(team_a, 1500); elo_b = ELO.get(team_b, 1500)
-    diff = elo_a - elo_b
-    story.append(P(f'{ca} ELO {elo_a} · {cb} ELO {elo_b} · 原始差 {diff:+d}', 'body'))
-
-    # ELO trajectory
-    if traj:
-        story.append(P('[ELO动态轨迹] Layer 1.5', 'h3'))
-        traj_rows = []
-        for te, tc in [(team_a, ca), (team_b, cb)]:
-            tr = traj.get(te, {})
-            traj_rows.append([tc,
-                tr.get('classification', '?'),
-                f"{tr.get('delta_avg', 0):+.1f}",
-                f"σ={tr.get('volatility', 0):.1f}",
-                f"±{tr.get('adjustment', 0):+d} ELO"])
-        story.append(T(['球队','轨迹分类','ΔElo均值','波动性','调整值'], traj_rows,
-                        [80, 90, 70, 70, 70]))
-        story.append(P("稳步上升=趋势强+波动低→+15 | 持续下滑→-15 | 波动大→不加分", 'source'))
+    if daily.get('effective_elo'):
+        eff = daily['effective_elo']
+        story.append(HR())
+        story.append(P('有效ELO汇总', 'h2'))
+        ea = eff['team_a']; eb = eff['team_b']
+        rows = [
+            ['ELO原始', str(ea['base']), str(eb['base'])],
+            ['各层累计调整', f'{ba(ea["adjustments"])}', f'{ba(eb["adjustments"])}'],
+        ]
+        engine_da = eff.get('engine_delta_a', 0); engine_db = eff.get('engine_delta_b', 0)
+        if engine_da or engine_db:
+            rows.append(['推理引擎增量', f'{engine_da:+d}', f'{engine_db:+d}'])
+        rows.append(['有效ELO', str(ea['effective']), str(eb['effective'])])
+        story.append(T(['', ca, cb], rows, [100, 80, 80]))
+        story.append(P(f'有效ELO差: {eff["diff"]:+d}', 'body'))
 
     # ═══════════════════════════════════════
-    # SECTION 8: 预测模型
+    # SECTION 8: 预测模型 (3 models)
     # ═══════════════════════════════════════
     story.append(HR())
-    story.append(P('[预测模型] 胜平负概率', 'h2'))
+    story.append(P('[预测模型] 胜平负概率 · 3模型对比', 'h2'))
     story.append(T(
         ['模型', f'{ca}胜', '平局', f'{cb}胜'],
         [
@@ -444,13 +505,11 @@ def generate_match_report(team_a, team_b, prediction, outpath):
     story.append(P(f"校准后预期进球: {ca} {xg['a']} - {xg['b']} {cb}", 'body'))
 
     # ═══════════════════════════════════════
-    # SECTION 9: 比分概率分布 (Top 5 — Poisson计算补充)
+    # SECTION 9: 比分概率分布 (Top 5)
     # ═══════════════════════════════════════
     story.append(Spacer(1, 6))
     story.append(P('[比分概率分布] Top 5 · 90分钟·淘汰赛λ=0.78校准', 'h2'))
 
-    # Compute full Poisson matrix for top 5
-    import math
     la, lb = float(xg['a']), float(xg['b'])
     all_scores = []
     for ga in range(0, 6):
@@ -470,6 +529,19 @@ def generate_match_report(team_a, team_b, prediction, outpath):
     story.append(T(['比分','概率','累计',''], score_rows, [80, 80, 80, 80]))
 
     # ═══════════════════════════════════════
+    # v5.5 推理引擎路径
+    # ═══════════════════════════════════════
+    if is_engine and reasoning_path:
+        story.append(HR())
+        story.append(P('v5.5 推理引擎路径', 'h2'))
+        for line in reasoning_path.split('\n')[:25]:  # capped at 25 lines
+            stripped = line.strip()
+            if not stripped: continue
+            clean = stripped.replace('\U0001f4cb', '[规则] ').replace('\u26a1', '[修正] ').replace('\u2514', '  ->').replace('\u251c', '  |')
+            is_header = not (clean.startswith('  ') or clean.startswith('[规则]') or clean.startswith('[修正]'))
+            story.append(P(clean, 'body' if is_header else 'small'))
+
+    # ═══════════════════════════════════════
     # SECTION 10: 判定
     # ═══════════════════════════════════════
     story.append(Spacer(1, 8))
@@ -487,14 +559,13 @@ def generate_match_report(team_a, team_b, prediction, outpath):
 # ── Main ──
 if __name__ == '__main__':
     d = json.load(open(os.path.join(DATA, "daily_predictions/2026-07-08_qf.json")))
-    
+
     # Merge fresher v5.5 daily predictions if available
     v55_updates = {}
-    import re
     daily_files = sorted(
-        [f for f in os.listdir(os.path.join(DATA, 'daily_predictions')) 
+        [f for f in os.listdir(os.path.join(DATA, 'daily_predictions'))
          if f.endswith('.json') and not f.startswith('2026-07-08')],
-        reverse=True  # newest first
+        reverse=True
     )
     for fname in daily_files:
         try:
@@ -505,7 +576,7 @@ if __name__ == '__main__':
                 pred = a.get('prediction', {})
                 if ta and tb and pred:
                     key = (ta, tb)
-                    if key not in v55_updates:  # only take first (newest)
+                    if key not in v55_updates:
                         v55_updates[key] = {
                             'team_a_win': pred.get('team_a_win', 0),
                             'draw': pred.get('draw', 0),
@@ -515,29 +586,24 @@ if __name__ == '__main__':
                             'source': fname,
                         }
         except: pass
-    
-    # Apply updates
+
     for p in d['predictions']:
         ta, tb = p['team_a'], p['team_b']
         key = (ta, tb)
         if key in v55_updates:
             upd = v55_updates[key]
-            # Update ensemble with fresher numbers (keep v5.10 structure)
             ens = p['ensemble']
             if isinstance(ens, str): ens = eval(ens)
             ens['team_a_win'] = upd['team_a_win']
             ens['draw'] = upd['draw']
             ens['team_b_win'] = upd['team_b_win']
             p['ensemble'] = ens
-            # Update xG
             xg = p['expected_goals']
             if isinstance(xg, str): xg = eval(xg)
             xg['a'] = upd['xg_a']; xg['b'] = upd['xg_b']
             p['expected_goals'] = xg
-            src = upd.get('source', '?')
-            msg = '  Updated {} vs {}: {}%/{}%/{}% (from {})'.format(ta, tb, upd['team_a_win'], upd['draw'], upd['team_b_win'], src)
-            print(msg)
-    
+            print(f'  Updated {ta} vs {tb}: {upd["team_a_win"]}%/{upd["draw"]}%/{upd["team_b_win"]}% (from {upd["source"]})')
+
     for p in d['predictions']:
         ta, tb = p['team_a'], p['team_b']
         out = os.path.join(OUT, f"QF_{ta}_vs_{tb}.pdf")
