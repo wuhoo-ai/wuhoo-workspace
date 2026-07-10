@@ -1472,6 +1472,32 @@
       "penalties": "4-2",
       "score_a": 0,
       "score_b": 0
+    },
+    {
+      "team_a": "France",
+      "team_b": "Morocco",
+      "score_a": 2,
+      "score_b": 0,
+      "date": "2026-07-10",
+      "date_beijing": "2026-07-10",
+      "round": "QF",
+      "group": "QF",
+      "matchday": "QF",
+      "venue": "Gillette Stadium",
+      "status": "completed",
+      "winner": "France",
+      "goals": [
+        {
+          "player": "Kylian Mbappé",
+          "minute": 60
+        },
+        {
+          "player": "Ousmane Dembélé",
+          "minute": 66
+        }
+      ],
+      "note": "Mbappé missed penalty; Olise played, no yellow card",
+      "match_id": 97
     }
   ],
   "_meta": {

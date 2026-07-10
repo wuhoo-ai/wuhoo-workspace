@@ -14,7 +14,7 @@
       "country": "Argentina"
     },
     "France": {
-      "elo": 2530,
+      "elo": 2539,
       "rank": 3,
       "country": "France"
     },
@@ -119,7 +119,7 @@
       "country": "Austria"
     },
     "Morocco": {
-      "elo": 2186,
+      "elo": 2177,
       "rank": 24,
       "country": "Morocco"
     },
@@ -324,7 +324,7 @@
       "country": "Qatar"
     }
   },
-  "last_updated": "2026-07-08",
+  "last_updated": "2026-07-10",
   "update_method": "match_result_v56",
   "applied_results": [
     {
@@ -2112,6 +2112,24 @@
       "k_a": 60,
       "k_b": 60,
       "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "France",
+      "team_b": "Morocco",
+      "score": "2-0",
+      "elo_a": {
+        "old": 2530,
+        "new": 2539,
+        "delta": 9
+      },
+      "elo_b": {
+        "old": 2186,
+        "new": 2177,
+        "delta": -9
+      },
+      "k_a": 60,
+      "k_b": 60,
+      "gd_multiplier": 1.25
     }
   ]
 }
