@@ -4,7 +4,7 @@
   "team_count": 64,
   "ratings": {
     "Spain": {
-      "elo": 2092,
+      "elo": 2110,
       "rank": 1,
       "country": "Spain"
     },
@@ -94,7 +94,7 @@
       "country": "Denmark"
     },
     "Belgium": {
-      "elo": 1950,
+      "elo": 1932,
       "rank": 19,
       "country": "Belgium"
     },
@@ -324,7 +324,7 @@
       "country": "Qatar"
     }
   },
-  "last_updated": "2026-07-10",
+  "last_updated": "2026-07-11",
   "update_method": "match_result_v56",
   "applied_results": [
     {
@@ -2130,6 +2130,24 @@
       "k_a": 60,
       "k_b": 60,
       "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "Spain",
+      "team_b": "Belgium",
+      "score": "2-1",
+      "elo_a": {
+        "old": 2092,
+        "new": 2110,
+        "delta": 18
+      },
+      "elo_b": {
+        "old": 1950,
+        "new": 1932,
+        "delta": -18
+      },
+      "k_a": 60,
+      "k_b": 60,
+      "gd_multiplier": 1.0
     }
   ]
 }

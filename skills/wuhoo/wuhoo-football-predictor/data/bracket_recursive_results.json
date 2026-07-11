@@ -1,167 +1,51 @@
 {
   "n_sims": 5000,
-  "generated": "2026-07-10T14:33:18.514616",
-  "total_remaining_matches": 8,
+  "generated": "2026-07-11T15:24:56.185495",
+  "total_remaining_matches": 6,
   "match_details": {
-    "97": {
-      "match_id": 97,
-      "round": "QF",
-      "date": "2026-07-10",
-      "team_a": "France",
-      "team_b": "Morocco",
-      "venue": "Gillette Stadium",
-      "prediction": {
-        "team_a_win_pct": 71,
-        "draw_pct": 22,
-        "team_b_win_pct": 7,
-        "expected_goals_a": 2.31,
-        "expected_goals_b": 0.58
-      },
-      "effective_elo": {
-        "team_a": {
-          "base": 2530,
-          "effective": 2653,
-          "adjustments": 123
-        },
-        "team_b": {
-          "base": 2186,
-          "effective": 2305,
-          "adjustments": 119
-        },
-        "diff": 348
-      },
-      "scoreline_probs": [
-        {
-          "score": "1-0",
-          "prob_pct": 18.9
-        },
-        {
-          "score": "2-0",
-          "prob_pct": 17.0
-        },
-        {
-          "score": "0-0",
-          "prob_pct": 10.5
-        },
-        {
-          "score": "3-0",
-          "prob_pct": 10.2
-        },
-        {
-          "score": "1-1",
-          "prob_pct": 8.6
-        }
-      ],
-      "reasoning_path": "\nFrance (+0 ELO):\n  ────────────────────────────────────────\n  净调整: +0 ELO\n\nMorocco (+0 ELO):\n  ────────────────────────────────────────\n  净调整: +0 ELO",
-      "most_likely": "2-0",
-      "verdict": {
-        "result": "法国 胜（高置信度）",
-        "confidence": "high"
-      },
-      "status": "completed",
-      "score_a": 2,
-      "score_b": 0,
-      "winner": "France"
-    },
-    "98": {
-      "match_id": 98,
-      "round": "QF",
-      "date": "2026-07-11",
-      "team_a": "Spain",
-      "team_b": "Belgium",
-      "venue": "SoFi Stadium",
-      "prediction": {
-        "team_a_win_pct": 56,
-        "draw_pct": 27,
-        "team_b_win_pct": 17,
-        "expected_goals_a": 1.73,
-        "expected_goals_b": 1.13
-      },
-      "effective_elo": {
-        "team_a": {
-          "base": 2092,
-          "effective": 2180,
-          "adjustments": 88
-        },
-        "team_b": {
-          "base": 1950,
-          "effective": 2054,
-          "adjustments": 104
-        },
-        "diff": 126
-      },
-      "scoreline_probs": [
-        {
-          "score": "1-0",
-          "prob_pct": 14.5
-        },
-        {
-          "score": "1-1",
-          "prob_pct": 12.8
-        },
-        {
-          "score": "0-0",
-          "prob_pct": 10.7
-        },
-        {
-          "score": "2-0",
-          "prob_pct": 9.8
-        },
-        {
-          "score": "0-1",
-          "prob_pct": 9.5
-        }
-      ],
-      "reasoning_path": "\nSpain (+0 ELO):\n  ────────────────────────────────────────\n  净调整: +0 ELO\n\nBelgium (+0 ELO):\n  ────────────────────────────────────────\n  净调整: +0 ELO",
-      "most_likely": "1-1",
-      "verdict": {
-        "result": "势均力敌（低置信度）",
-        "confidence": "low"
-      }
-    },
     "99": {
       "match_id": 99,
       "round": "QF",
-      "date": "2026-07-12",
+      "date": "2026-07-11",
       "team_a": "Norway",
       "team_b": "England",
       "venue": "Hard Rock Stadium",
       "prediction": {
-        "team_a_win_pct": 47,
-        "draw_pct": 29,
-        "team_b_win_pct": 24,
-        "expected_goals_a": 1.51,
-        "expected_goals_b": 1.14
+        "team_a_win_pct": 50,
+        "draw_pct": 28,
+        "team_b_win_pct": 22,
+        "expected_goals_a": 1.58,
+        "expected_goals_b": 1.19
       },
       "effective_elo": {
         "team_a": {
           "base": 2203,
-          "effective": 2292,
-          "adjustments": 89
+          "effective": 2280,
+          "adjustments": 77
         },
         "team_b": {
           "base": 2191,
-          "effective": 2247,
-          "adjustments": 56
+          "effective": 2209,
+          "adjustments": 18
         },
-        "diff": 45
+        "diff": 71
       },
       "scoreline_probs": [
         {
           "score": "1-0",
-          "prob_pct": 16.2
+          "prob_pct": 15.5
         },
         {
           "score": "0-0",
-          "prob_pct": 14.9
+          "prob_pct": 13.7
         },
         {
           "score": "1-1",
-          "prob_pct": 13.2
+          "prob_pct": 13.3
         },
         {
           "score": "0-1",
-          "prob_pct": 12.2
+          "prob_pct": 11.7
         },
         {
           "score": "2-0",
@@ -178,50 +62,50 @@
     "100": {
       "match_id": 100,
       "round": "QF",
-      "date": "2026-07-12",
+      "date": "2026-07-11",
       "team_a": "Argentina",
       "team_b": "Switzerland",
       "venue": "Arrowhead Stadium",
       "prediction": {
-        "team_a_win_pct": 73,
+        "team_a_win_pct": 72,
         "draw_pct": 21,
         "team_b_win_pct": 6,
-        "expected_goals_a": 2.62,
-        "expected_goals_b": 0.57
+        "expected_goals_a": 2.63,
+        "expected_goals_b": 0.67
       },
       "effective_elo": {
         "team_a": {
           "base": 2455,
-          "effective": 2621,
-          "adjustments": 166
+          "effective": 2613,
+          "adjustments": 158
         },
         "team_b": {
           "base": 2036,
-          "effective": 2175,
-          "adjustments": 139
+          "effective": 2147,
+          "adjustments": 111
         },
-        "diff": 446
+        "diff": 466
       },
       "scoreline_probs": [
         {
           "score": "2-0",
-          "prob_pct": 17.3
+          "prob_pct": 16.0
         },
         {
           "score": "1-0",
-          "prob_pct": 17.0
+          "prob_pct": 15.6
         },
         {
           "score": "3-0",
-          "prob_pct": 11.8
-        },
-        {
-          "score": "0-0",
-          "prob_pct": 8.3
+          "prob_pct": 11.0
         },
         {
           "score": "2-1",
-          "prob_pct": 7.7
+          "prob_pct": 8.4
+        },
+        {
+          "score": "1-1",
+          "prob_pct": 8.2
         }
       ],
       "reasoning_path": "\nArgentina (+0 ELO):\n  ────────────────────────────────────────\n  净调整: +0 ELO\n\nSwitzerland (+0 ELO):\n  ────────────────────────────────────────\n  净调整: +0 ELO",
@@ -237,47 +121,47 @@
       "date": "2026-07-15",
       "team_a": "France",
       "team_b": "Spain",
-      "venue": "AT&T Stadium",
+      "venue": "",
       "prediction": {
-        "team_a_win_pct": 73,
-        "draw_pct": 21,
-        "team_b_win_pct": 6,
-        "expected_goals_a": 2.63,
-        "expected_goals_b": 0.61
+        "team_a_win_pct": 75,
+        "draw_pct": 20,
+        "team_b_win_pct": 5,
+        "expected_goals_a": 2.65,
+        "expected_goals_b": 0.46
       },
       "effective_elo": {
         "team_a": {
-          "base": 2530,
-          "effective": 2643,
-          "adjustments": 113
+          "base": 2539,
+          "effective": 2686,
+          "adjustments": 147
         },
         "team_b": {
-          "base": 2092,
-          "effective": 2173,
-          "adjustments": 81
+          "base": 2110,
+          "effective": 2211,
+          "adjustments": 101
         },
-        "diff": 470
+        "diff": 475
       },
       "scoreline_probs": [
         {
           "score": "2-0",
-          "prob_pct": 16.8
+          "prob_pct": 18.9
         },
         {
           "score": "1-0",
-          "prob_pct": 16.4
+          "prob_pct": 18.3
         },
         {
           "score": "3-0",
-          "prob_pct": 11.5
+          "prob_pct": 13.0
         },
         {
           "score": "0-0",
-          "prob_pct": 8.0
+          "prob_pct": 8.8
         },
         {
           "score": "2-1",
-          "prob_pct": 8.0
+          "prob_pct": 6.8
         }
       ],
       "most_likely": "2-0",
@@ -290,16 +174,16 @@
     "102": {
       "match_id": 102,
       "round": "SF",
-      "date": "2026-07-16",
+      "date": "2026-07-15",
       "team_a": "Norway",
       "team_b": "Argentina",
-      "venue": "Mercedes-Benz Stadium",
+      "venue": "",
       "prediction": {
-        "team_a_win_pct": 7,
-        "draw_pct": 22,
-        "team_b_win_pct": 71,
-        "expected_goals_a": 0.62,
-        "expected_goals_b": 2.36
+        "team_a_win_pct": 8,
+        "draw_pct": 23,
+        "team_b_win_pct": 69,
+        "expected_goals_a": 0.63,
+        "expected_goals_b": 2.22
       },
       "effective_elo": {
         "team_a": {
@@ -317,23 +201,23 @@
       "scoreline_probs": [
         {
           "score": "0-1",
-          "prob_pct": 18.0
+          "prob_pct": 18.8
         },
         {
           "score": "0-2",
-          "prob_pct": 16.6
-        },
-        {
-          "score": "0-3",
-          "prob_pct": 10.2
+          "prob_pct": 16.2
         },
         {
           "score": "0-0",
-          "prob_pct": 9.8
+          "prob_pct": 10.8
+        },
+        {
+          "score": "0-3",
+          "prob_pct": 9.4
         },
         {
           "score": "1-1",
-          "prob_pct": 8.7
+          "prob_pct": 9.2
         }
       ],
       "most_likely": "0-2",
@@ -349,47 +233,47 @@
       "date": "2026-07-19",
       "team_a": "Spain",
       "team_b": "Norway",
-      "venue": "Hard Rock Stadium",
+      "venue": "",
       "prediction": {
-        "team_a_win_pct": 17,
-        "draw_pct": 27,
-        "team_b_win_pct": 56,
-        "expected_goals_a": 1.14,
-        "expected_goals_b": 1.74
+        "team_a_win_pct": 20,
+        "draw_pct": 28,
+        "team_b_win_pct": 53,
+        "expected_goals_a": 1.16,
+        "expected_goals_b": 1.64
       },
       "effective_elo": {
         "team_a": {
-          "base": 2092,
-          "effective": 2170,
-          "adjustments": 78
+          "base": 2110,
+          "effective": 2208,
+          "adjustments": 98
         },
         "team_b": {
           "base": 2203,
           "effective": 2292,
           "adjustments": 89
         },
-        "diff": -122
+        "diff": -84
       },
       "scoreline_probs": [
         {
           "score": "0-1",
-          "prob_pct": 14.4
-        },
-        {
-          "score": "1-1",
-          "prob_pct": 12.8
+          "prob_pct": 15.8
         },
         {
           "score": "0-0",
-          "prob_pct": 10.6
+          "prob_pct": 13.4
         },
         {
-          "score": "0-2",
-          "prob_pct": 9.7
+          "score": "1-1",
+          "prob_pct": 13.1
         },
         {
           "score": "1-0",
-          "prob_pct": 9.4
+          "prob_pct": 11.2
+        },
+        {
+          "score": "0-2",
+          "prob_pct": 9.3
         }
       ],
       "most_likely": "1-1",
@@ -405,160 +289,106 @@
       "date": "2026-07-20",
       "team_a": "France",
       "team_b": "Argentina",
-      "venue": "MetLife Stadium",
+      "venue": "",
       "prediction": {
-        "team_a_win_pct": 46,
-        "draw_pct": 29,
-        "team_b_win_pct": 25,
-        "expected_goals_a": 1.45,
-        "expected_goals_b": 1.18
+        "team_a_win_pct": 52,
+        "draw_pct": 27,
+        "team_b_win_pct": 20,
+        "expected_goals_a": 1.66,
+        "expected_goals_b": 1.27
       },
       "effective_elo": {
         "team_a": {
-          "base": 2530,
-          "effective": 2653,
-          "adjustments": 123
+          "base": 2539,
+          "effective": 2696,
+          "adjustments": 157
         },
         "team_b": {
           "base": 2455,
           "effective": 2606,
           "adjustments": 151
         },
-        "diff": 47
+        "diff": 90
       },
       "scoreline_probs": [
         {
           "score": "1-0",
-          "prob_pct": 15.8
-        },
-        {
-          "score": "0-0",
-          "prob_pct": 15.1
+          "prob_pct": 14.5
         },
         {
           "score": "1-1",
           "prob_pct": 13.3
         },
         {
+          "score": "0-0",
+          "prob_pct": 12.2
+        },
+        {
           "score": "0-1",
-          "prob_pct": 12.8
+          "prob_pct": 11.1
         },
         {
           "score": "2-0",
-          "prob_pct": 8.2
+          "prob_pct": 8.7
         }
       ],
       "most_likely": "1-1",
       "verdict": {
-        "result": "倾向平局",
+        "result": "势均力敌（低置信度）",
         "confidence": "low"
       },
       "pending": false
     }
   },
   "advancement_probs": {
-    "Canada": {
-      "R32": 100.0
-    },
-    "Paraguay": {
-      "R32": 100.0
-    },
-    "Morocco": {
-      "R32": 100.0,
-      "R16": 100.0,
-      "QF": 8.76,
-      "SF": 8.02,
-      "F": 5.319999999999999,
-      "3rd": 0.16
-    },
-    "Brazil": {
-      "R32": 100.0
-    },
     "France": {
-      "R32": 100.0,
-      "R16": 100.0,
-      "QF": 91.24,
-      "SF": 83.89999999999999,
-      "F": 55.96,
-      "3rd": 1.8399999999999999
-    },
-    "Norway": {
-      "R32": 100.0,
-      "R16": 100.0,
-      "QF": 65.58,
-      "3rd": 46.32,
-      "SF": 5.62,
-      "F": 1.94
-    },
-    "Mexico": {
-      "R32": 100.0
-    },
-    "England": {
-      "R32": 100.0,
-      "R16": 100.0,
-      "QF": 34.42,
-      "3rd": 24.68,
-      "SF": 2.8000000000000003,
-      "F": 0.96
-    },
-    "United States": {
-      "R32": 100.0
-    },
-    "Belgium": {
-      "R32": 100.0,
-      "R16": 100.0,
-      "QF": 24.2,
-      "3rd": 5.0,
-      "SF": 1.9800000000000002,
-      "F": 1.4200000000000002
-    },
-    "Portugal": {
-      "R32": 100.0
+      "QF": 100.0,
+      "SF": 93.44,
+      "F": 67.84,
+      "3rd": 1.58
     },
     "Spain": {
-      "R32": 100.0,
-      "R16": 100.0,
-      "QF": 75.8,
-      "3rd": 15.64,
-      "SF": 6.1,
-      "F": 3.6799999999999997
+      "QF": 100.0,
+      "3rd": 26.02,
+      "SF": 6.5600000000000005,
+      "F": 4.84
     },
-    "Switzerland": {
-      "R32": 100.0,
-      "R16": 100.0,
-      "QF": 7.5200000000000005,
-      "SF": 7.02,
-      "3rd": 0.42,
-      "F": 2.3
+    "Norway": {
+      "QF": 68.60000000000001,
+      "3rd": 44.6,
+      "SF": 6.460000000000001,
+      "F": 2.08
     },
     "Argentina": {
-      "R32": 100.0,
-      "R16": 100.0,
-      "QF": 92.47999999999999,
-      "SF": 84.56,
-      "F": 28.42,
-      "3rd": 5.94
+      "QF": 92.92,
+      "SF": 83.62,
+      "3rd": 6.68,
+      "F": 22.400000000000002
     },
-    "Colombia": {
-      "R32": 100.0
+    "England": {
+      "QF": 31.4,
+      "3rd": 20.68,
+      "SF": 3.44,
+      "F": 0.88
     },
-    "Egypt": {
-      "R32": 100.0
+    "Switzerland": {
+      "QF": 7.08,
+      "SF": 6.4799999999999995,
+      "F": 1.96,
+      "3rd": 0.44
     }
   },
   "champion_probs": {
-    "France": 55.96,
-    "Argentina": 28.42,
-    "Morocco": 5.319999999999999,
-    "Spain": 3.6799999999999997,
-    "Switzerland": 2.3,
-    "Norway": 1.94,
-    "Belgium": 1.4200000000000002,
-    "England": 0.96
+    "France": 67.84,
+    "Argentina": 22.400000000000002,
+    "Spain": 4.84,
+    "Norway": 2.08,
+    "Switzerland": 1.96,
+    "England": 0.88
   },
   "top_bracket_paths": [
     {
-      "count": 914,
+      "count": 1379,
       "path": {
         "3rd": {
           "103": "Norway"
@@ -568,8 +398,6 @@
         },
         "QF": {
           "100": "Argentina",
-          "97": "France",
-          "98": "Spain",
           "99": "Norway"
         },
         "R16": {},
@@ -580,7 +408,7 @@
       }
     },
     {
-      "count": 475,
+      "count": 662,
       "path": {
         "3rd": {
           "103": "England"
@@ -590,8 +418,6 @@
         },
         "QF": {
           "100": "Argentina",
-          "97": "France",
-          "98": "Spain",
           "99": "England"
         },
         "R16": {},
@@ -602,18 +428,16 @@
       }
     },
     {
-      "count": 446,
+      "count": 559,
       "path": {
         "3rd": {
-          "103": "Norway"
+          "103": "Spain"
         },
         "F": {
-          "104": "Argentina"
+          "104": "France"
         },
         "QF": {
           "100": "Argentina",
-          "97": "France",
-          "98": "Spain",
           "99": "Norway"
         },
         "R16": {},

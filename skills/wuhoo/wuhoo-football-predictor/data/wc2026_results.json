@@ -1498,6 +1498,35 @@
       ],
       "note": "Mbappé missed penalty; Olise played, no yellow card",
       "match_id": 97
+    },
+    {
+      "match_id": "M98",
+      "team_a": "Spain",
+      "team_b": "Belgium",
+      "score_a": 2,
+      "score_b": 1,
+      "status": "completed",
+      "winner": "Spain",
+      "round": "QF",
+      "date": "2026-07-10",
+      "date_beijing": "2026-07-11",
+      "aet": false,
+      "penalties": null,
+      "source": "ESPN/FIFA/Standard.co.uk"
+    },
+    {
+      "match_id": 98,
+      "team_a": "Spain",
+      "team_b": "Belgium",
+      "score_a": 2,
+      "score_b": 1,
+      "date": "2026-07-10",
+      "date_beijing": "2026-07-11",
+      "round": "QF",
+      "status": "completed",
+      "winner": "Spain",
+      "penalties": null,
+      "aet": false
     }
   ],
   "_meta": {
@@ -1506,7 +1535,7 @@
     "updated": "2026-06-25T14:35:00"
   },
   "last_updated": "2026-07-03T14:40:32.393062",
-  "updated": "2026-07-04T14:30:00+08:00",
+  "updated": "2026-07-11T15:25:00+08:00",
   "last_repaired": "2026-07-08T10:55:55.786957",
   "repair_note": "P0.1: scores synced from schedule + knockout_schedule, rounds classified"
 }
