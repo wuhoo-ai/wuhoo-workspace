@@ -412,18 +412,26 @@ def generate_match_report(team_a, team_b, prediction, outpath):
                        f"休息: 各{sd_a.get('rest_days','?')}天 | "
                        f"旅途: {ca} {sd_a.get('distance_km',0):.0f}km / {cb} {sd_b.get('distance_km',0):.0f}km", 'body'))
 
-    # Schedule fatigue with rest days (original logic)
+    # Rest days: last match → this upcoming match
+    match_date = None
+    if match_info:
+        try:
+            md = match_info.get('date', '')[:10]
+            match_date = datetime.strptime(md, '%Y-%m-%d') if md else None
+        except: pass
+
     for te, tc in [(team_a, ca), (team_b, cb)]:
         matches = get_tournament_matches(te)
-        if len(matches) >= 2:
-            last_two = matches[-2:]
+        if not matches: continue
+        last = matches[-1]
+        if match_date:
             try:
-                d1 = datetime.strptime(last_two[0]['date'], '%Y-%m-%d')
-                d2 = datetime.strptime(last_two[1]['date'], '%Y-%m-%d')
-                rest = (d2 - d1).days
-                story.append(P(f'{tc}: 近两场 (间隔{rest}天) {last_two[0]["date"]} vs {cn(last_two[0]["opponent"])} {last_two[0]["score"]} → {last_two[1]["date"]} vs {cn(last_two[1]["opponent"])} {last_two[1]["score"]}', 'source'))
-            except:
-                story.append(P(f'{tc}: 近两场 {last_two[0]["date"]} vs {cn(last_two[0]["opponent"])} {last_two[0]["score"]} → {last_two[1]["date"]} vs {cn(last_two[1]["opponent"])} {last_two[1]["score"]}', 'source'))
+                ld = datetime.strptime(last['date'][:10], '%Y-%m-%d')
+                rest = (match_date - ld).days
+                story.append(P(f"{tc}: 上一场 {last['date'][:10]} vs {cn(last['opponent'])} {last['score']} -> 本场间隔 {rest} 天", 'source'))
+                continue
+            except: pass
+        story.append(P(f"{tc}: 上一场 {last['date'][:10]} vs {cn(last['opponent'])} {last['score']}", 'source'))
 
     # ── L4.5 Friendly Form ──
     l45 = layers.get('4.5_friendly_form', {})
