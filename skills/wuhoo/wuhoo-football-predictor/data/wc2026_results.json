@@ -1527,6 +1527,28 @@
       "winner": "Spain",
       "penalties": null,
       "aet": false
+    },
+    {
+      "match_id": 99,
+      "team_a": "Norway",
+      "team_b": "England",
+      "score_a": 1,
+      "score_b": 2,
+      "round": "QF",
+      "date_beijing": "2026-07-12",
+      "status": "completed",
+      "aet": true
+    },
+    {
+      "match_id": 100,
+      "team_a": "Argentina",
+      "team_b": "Switzerland",
+      "score_a": 3,
+      "score_b": 1,
+      "round": "QF",
+      "date_beijing": "2026-07-12",
+      "status": "completed",
+      "aet": true
     }
   ],
   "_meta": {

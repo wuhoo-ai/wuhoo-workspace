@@ -57,7 +57,12 @@
       "verdict": {
         "result": "势均力敌（低置信度）",
         "confidence": "low"
-      }
+      },
+      "status": "completed",
+      "score_a": 1,
+      "score_b": 2,
+      "winner": "England",
+      "aet": true
     },
     "100": {
       "match_id": 100,
@@ -113,7 +118,12 @@
       "verdict": {
         "result": "阿根廷 胜（高置信度）",
         "confidence": "high"
-      }
+      },
+      "status": "completed",
+      "score_a": 3,
+      "score_b": 1,
+      "winner": "Argentina",
+      "aet": true
     },
     "101": {
       "match_id": 101,

@@ -226,7 +226,7 @@
       ]
     },
     "Spain": {
-      "total_penalty": -35,
+      "total_penalty": -38,
       "players": [
         {
           "name": "Fermín López",
@@ -266,9 +266,9 @@
         {
           "name": "Nico Williams",
           "position": "FW",
-          "status": "QUESTIONABLE",
-          "injury": "Muscular problem (re-aggravated vs Uruguay, June 26). Fighting to overcome; could return for knockout stage per World Soccer Talk",
-          "elo_penalty": -5
+          "status": "DOUBTFUL",
+          "injury": "Right adductor injury (vs Uruguay Jun 26). Has not appeared in either knockout match. 'One of the worst days of my life' (ESPN Jul 9). Serious doubt for rest of tournament",
+          "elo_penalty": -8
         }
       ]
     },
@@ -361,7 +361,7 @@
       ]
     },
     "England": {
-      "total_penalty": -19,
+      "total_penalty": -33,
       "players": [
         {
           "name": "Tino Livramento",
@@ -380,9 +380,23 @@
         {
           "name": "Jarell Quansah",
           "position": "RB/CB",
+          "status": "OUT",
+          "injury": "SUSPENDED: Red card vs Mexico (R16); 2-match ban (FIFA disciplinary Jul 9). Misses QF vs Norway + potential SF",
+          "elo_penalty": -8
+        },
+        {
+          "name": "Marc Guehi",
+          "position": "CB",
           "status": "DOUBTFUL",
-          "injury": "Injury; missed R32 vs DR Congo (Sky Sports Jul 1)",
-          "elo_penalty": -5
+          "injury": "Hamstring strain (vs Mexico R16); did not train final session in Kansas City. Serious doubt for QF vs Norway (Sky Sports Jul 9)",
+          "elo_penalty": -8
+        },
+        {
+          "name": "Jordan Henderson",
+          "position": "MF",
+          "status": "OUT",
+          "injury": "Arm fracture (fell off advertising hoarding during post-match celebrations vs Mexico); surgery completed. Out for tournament (ESPN Jul 9)",
+          "elo_penalty": -3
         },
         {
           "name": "Bukayo Saka",
@@ -425,7 +439,7 @@
       ]
     },
     "Belgium": {
-      "total_penalty": -10,
+      "total_penalty": -30,
       "players": [
         {
           "name": "Jérémy Doku",
@@ -433,6 +447,22 @@
           "status": "OUT",
           "injury": "Illness (announced Jun 20 by Belgian FA via Twitter); also potential absence for baby birth (due early July)",
           "elo_penalty": -10
+        },
+        {
+          "name": "Amadou Onana",
+          "position": "MF",
+          "status": "OUT",
+          "injury": "ACL rupture",
+          "elo_penalty": -15,
+          "source": "ESPN July 2026"
+        },
+        {
+          "name": "Romelu Lukaku",
+          "position": "FW",
+          "status": "DOUBTFUL",
+          "injury": "Match fitness (bench only vs Spain)",
+          "elo_penalty": -5,
+          "source": "Football-Italia July 2026"
         }
       ]
     },
@@ -565,6 +595,19 @@
           "injury": "Severe ankle bruising",
           "elo_penalty": -8,
           "source": "FIFA.com, 2026-07-03"
+        }
+      ]
+    },
+    "Switzerland": {
+      "total_penalty": -20,
+      "players": [
+        {
+          "name": "Johan Manzambi",
+          "position": "MF",
+          "status": "OUT",
+          "injury": "Knee injury (non-contact, training)",
+          "elo_penalty": -20,
+          "source": "CNA/Yahoo Sports/Blick July 2026"
         }
       ]
     }

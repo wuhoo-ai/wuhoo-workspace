@@ -1,455 +1,111 @@
 {
-  "version": "1.0",
-  "generated": "2026-06-28",
-  "source": "FIFA official knockout stage match schedule (fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/knockout-stage-match-schedule-bracket)",
-  "description": "WC2026 knockout stage complete schedule — R32 (16 matches), R16 (8), QF (4), SF (2), Bronze, Final. 32 matches total.",
-  "total_knockout_matches": 32,
+  "updated": "2026-07-11",
   "stages": {
-    "R32": {
-      "name": "Round of 32",
-      "match_count": 16,
-      "matches": [
-        {
-          "match_id": 73,
-          "date_beijing": "2026-06-29",
-          "time_beijing": "TBD",
-          "team_a": "South Africa",
-          "team_b": "Canada",
-          "venue": "SoFi Stadium",
-          "venue_city": "Los Angeles",
-          "slot": 1,
-          "status": "completed",
-          "score_a": 0,
-          "score_b": 1,
-          "winner": "Canada"
-        },
-        {
-          "match_id": 74,
-          "date_beijing": "2026-06-30",
-          "time_beijing": "TBD",
-          "team_a": "Germany",
-          "team_b": "Paraguay",
-          "venue": "Gillette Stadium",
-          "venue_city": "Boston",
-          "slot": 3,
-          "score_a": 1,
-          "score_b": 1,
-          "status": "completed",
-          "winner": "Paraguay",
-          "penalties": "3-4"
-        },
-        {
-          "match_id": 75,
-          "date_beijing": "2026-06-30",
-          "time_beijing": "TBD",
-          "team_a": "Netherlands",
-          "team_b": "Morocco",
-          "venue": "Estadio Monterrey",
-          "venue_city": "Monterrey",
-          "slot": 4,
-          "score_a": 1,
-          "score_b": 1,
-          "status": "completed",
-          "winner": "Morocco",
-          "penalties": "PK"
-        },
-        {
-          "match_id": 76,
-          "date_beijing": "2026-06-30",
-          "time_beijing": "TBD",
-          "team_a": "Brazil",
-          "team_b": "Japan",
-          "venue": "NRG Stadium",
-          "venue_city": "Houston",
-          "slot": 2,
-          "score_a": 2,
-          "score_b": 1,
-          "status": "completed",
-          "winner": "Brazil"
-        },
-        {
-          "match_id": 77,
-          "date_beijing": "2026-07-01",
-          "time_beijing": "TBD",
-          "team_a": "France",
-          "team_b": "Sweden",
-          "venue": "MetLife Stadium",
-          "venue_city": "New York",
-          "slot": 6,
-          "status": "completed",
-          "score_a": 3,
-          "score_b": 0,
-          "winner": "France"
-        },
-        {
-          "match_id": 78,
-          "date_beijing": "2026-07-01",
-          "time_beijing": "TBD",
-          "team_a": "Ivory Coast",
-          "team_b": "Norway",
-          "venue": "AT&T Stadium",
-          "venue_city": "Dallas",
-          "slot": 5,
-          "status": "completed",
-          "score_a": 1,
-          "score_b": 2,
-          "winner": "Norway"
-        },
-        {
-          "match_id": 79,
-          "date_beijing": "2026-07-01",
-          "time_beijing": "TBD",
-          "team_a": "Mexico",
-          "team_b": "Ecuador",
-          "venue": "Estadio Azteca",
-          "venue_city": "Mexico City",
-          "slot": 7,
-          "status": "completed",
-          "score_a": 2,
-          "score_b": 0,
-          "winner": "Mexico"
-        },
-        {
-          "match_id": 80,
-          "date_beijing": "2026-07-02",
-          "time_beijing": "TBD",
-          "team_a": "England",
-          "team_b": "DR Congo",
-          "venue": "Mercedes-Benz Stadium",
-          "venue_city": "Atlanta",
-          "slot": 8,
-          "status": "completed",
-          "score_a": 2,
-          "score_b": 1,
-          "winner": "England"
-        },
-        {
-          "match_id": 81,
-          "date_beijing": "2026-07-02",
-          "time_beijing": "TBD",
-          "team_a": "United States",
-          "team_b": "Bosnia and Herzegovina",
-          "venue": "San Francisco Bay Area Stadium",
-          "venue_city": "San Francisco",
-          "slot": 10,
-          "status": "completed",
-          "score_a": 2,
-          "score_b": 0,
-          "winner": "United States"
-        },
-        {
-          "match_id": 82,
-          "date_beijing": "2026-07-02",
-          "time_beijing": "TBD",
-          "team_a": "Belgium",
-          "team_b": "Senegal",
-          "venue": "Lumen Field",
-          "venue_city": "Seattle",
-          "slot": 9,
-          "status": "completed",
-          "score_a": 3,
-          "score_b": 2,
-          "winner": "Belgium"
-        },
-        {
-          "match_id": 83,
-          "date_beijing": "2026-07-03",
-          "time_beijing": "TBD",
-          "team_a": "Portugal",
-          "team_b": "Croatia",
-          "venue": "BMO Field",
-          "venue_city": "Toronto",
-          "slot": 12,
-          "status": "completed",
-          "score_a": 2,
-          "score_b": 1,
-          "winner": "Portugal"
-        },
-        {
-          "match_id": 84,
-          "date_beijing": "2026-07-03",
-          "time_beijing": "TBD",
-          "team_a": "Spain",
-          "team_b": "Austria",
-          "venue": "SoFi Stadium",
-          "venue_city": "Los Angeles",
-          "slot": 11,
-          "status": "completed",
-          "score_a": 3,
-          "score_b": 0,
-          "winner": "Spain"
-        },
-        {
-          "match_id": 85,
-          "date_beijing": "2026-07-03",
-          "time_beijing": "TBD",
-          "team_a": "Switzerland",
-          "team_b": "Algeria",
-          "venue": "BC Place Vancouver",
-          "venue_city": "Vancouver",
-          "slot": 13,
-          "status": "completed",
-          "score_a": 2,
-          "score_b": 0,
-          "winner": "Switzerland"
-        },
-        {
-          "match_id": 86,
-          "date_beijing": "2026-07-04",
-          "time_beijing": "TBD",
-          "team_a": "Argentina",
-          "team_b": "Cape Verde",
-          "venue": "Hard Rock Stadium",
-          "venue_city": "Miami",
-          "slot": 15,
-          "status": "completed",
-          "score_a": 3,
-          "score_b": 2,
-          "winner": "Argentina",
-          "aet": true
-        },
-        {
-          "match_id": 87,
-          "date_beijing": "2026-07-04",
-          "time_beijing": "TBD",
-          "team_a": "Colombia",
-          "team_b": "Ghana",
-          "venue": "Arrowhead Stadium",
-          "venue_city": "Kansas City",
-          "slot": 16,
-          "status": "completed",
-          "score_a": 1,
-          "score_b": 0,
-          "winner": "Colombia"
-        },
-        {
-          "match_id": 88,
-          "date_beijing": "2026-07-04",
-          "time_beijing": "TBD",
-          "team_a": "Australia",
-          "team_b": "Egypt",
-          "venue": "AT&T Stadium",
-          "venue_city": "Dallas",
-          "slot": 14,
-          "status": "completed",
-          "score_a": 1,
-          "score_b": 1,
-          "winner": "Egypt",
-          "penalties": "2-4",
-          "aet": true
-        }
-      ]
-    },
-    "R16": {
-      "name": "Round of 16",
-      "match_count": 8,
-      "matches": [
-        {
-          "match_id": 89,
-          "date_beijing": "2026-07-05",
-          "time_beijing": "TBD",
-          "team_a": "Paraguay",
-          "team_b": "France",
-          "venue": "Lincoln Financial Field",
-          "venue_city": "Philadelphia",
-          "source": "W74 vs W77",
-          "status": "completed",
-          "score_a": 0,
-          "score_b": 1,
-          "winner": "France"
-        },
-        {
-          "match_id": 90,
-          "date_beijing": "2026-07-05",
-          "time_beijing": "TBD",
-          "team_a": "Canada",
-          "team_b": "Morocco",
-          "venue": "NRG Stadium",
-          "venue_city": "Houston",
-          "source": "W73 vs W75",
-          "status": "completed",
-          "score_a": 0,
-          "score_b": 3,
-          "winner": "Morocco"
-        },
-        {
-          "match_id": 91,
-          "date_beijing": "2026-07-06",
-          "time_beijing": "TBD",
-          "team_a": "Brazil",
-          "team_b": "Norway",
-          "venue": "MetLife Stadium",
-          "venue_city": "New York",
-          "source": "W76 vs W78",
-          "status": "completed",
-          "score_a": 1,
-          "score_b": 2,
-          "winner": "Norway"
-        },
-        {
-          "match_id": 92,
-          "date_beijing": "2026-07-06",
-          "time_beijing": "TBD",
-          "team_a": "Mexico",
-          "team_b": "England",
-          "venue": "Estadio Azteca",
-          "venue_city": "Mexico City",
-          "source": "W79 vs W80",
-          "status": "completed",
-          "score_a": 2,
-          "score_b": 3,
-          "winner": "England"
-        },
-        {
-          "match_id": 93,
-          "date_beijing": "2026-07-07",
-          "time_beijing": "TBD",
-          "team_a": "Portugal",
-          "team_b": "Spain",
-          "venue": "AT&T Stadium",
-          "venue_city": "Dallas",
-          "source": "W83 vs W84"
-        },
-        {
-          "match_id": 94,
-          "date_beijing": "2026-07-07",
-          "time_beijing": "TBD",
-          "team_a": "United States",
-          "team_b": "Belgium",
-          "venue": "Lumen Field",
-          "venue_city": "Seattle",
-          "source": "W81 vs W82"
-        },
-        {
-          "match_id": 95,
-          "date_beijing": "2026-07-08",
-          "time_beijing": "TBD",
-          "team_a": "Argentina",
-          "team_b": "Egypt",
-          "venue": "Mercedes-Benz Stadium",
-          "venue_city": "Atlanta",
-          "source": "W86 vs W88"
-        },
-        {
-          "match_id": 96,
-          "date_beijing": "2026-07-08",
-          "time_beijing": "TBD",
-          "team_a": "Switzerland",
-          "team_b": "Colombia",
-          "venue": "BC Place Vancouver",
-          "venue_city": "Vancouver",
-          "source": "W85 vs W87"
-        }
-      ]
-    },
     "QF": {
-      "name": "Quarter-Finals",
-      "match_count": 4,
       "matches": [
         {
           "match_id": 97,
-          "date_beijing": "2026-07-10",
-          "time_beijing": "TBD",
           "team_a": "France",
           "team_b": "Morocco",
-          "venue": "Gillette Stadium",
-          "venue_city": "Boston",
-          "source": "W89 vs W90"
+          "date": "2026-07-10",
+          "date_beijing": "2026-07-11",
+          "round": "QF",
+          "status": "completed",
+          "winner": "France",
+          "score_a": 2,
+          "score_b": 0
         },
         {
           "match_id": 98,
-          "date_beijing": "2026-07-11",
-          "time_beijing": "TBD",
           "team_a": "Spain",
           "team_b": "Belgium",
-          "venue": "SoFi Stadium",
-          "venue_city": "Los Angeles",
-          "source": "W93 vs W94"
+          "date": "2026-07-10",
+          "date_beijing": "2026-07-11",
+          "round": "QF",
+          "status": "completed",
+          "winner": "Spain",
+          "score_a": 2,
+          "score_b": 1
         },
         {
           "match_id": 99,
-          "date_beijing": "2026-07-12",
-          "time_beijing": "TBD",
           "team_a": "Norway",
           "team_b": "England",
+          "date": "2026-07-11",
+          "date_beijing": "2026-07-11",
+          "round": "QF",
+          "status": "scheduled",
           "venue": "Hard Rock Stadium",
-          "venue_city": "Miami",
-          "source": "W91 vs W92"
+          "city": "Miami"
         },
         {
           "match_id": 100,
-          "date_beijing": "2026-07-12",
-          "time_beijing": "TBD",
           "team_a": "Argentina",
           "team_b": "Switzerland",
+          "date": "2026-07-11",
+          "date_beijing": "2026-07-11",
+          "round": "QF",
+          "status": "scheduled",
           "venue": "Arrowhead Stadium",
-          "venue_city": "Kansas City",
-          "source": "W95 vs W96"
+          "city": "Kansas City"
         }
       ]
     },
     "SF": {
-      "name": "Semi-Finals",
-      "match_count": 2,
       "matches": [
         {
           "match_id": 101,
+          "team_a": "France",
+          "team_b": "Spain",
+          "source": "W97 vs W98 (France 2-0 Morocco, Spain 2-1 Belgium)",
+          "date": "2026-07-14",
           "date_beijing": "2026-07-15",
-          "time_beijing": "TBD",
-          "team_a": null,
-          "team_b": null,
+          "round": "SF",
+          "status": "scheduled",
           "venue": "AT&T Stadium",
-          "venue_city": "Dallas",
-          "source": "W97 vs W98"
+          "venue_city": "Arlington"
         },
         {
           "match_id": 102,
+          "team_a": "England",
+          "team_b": "Argentina",
+          "source": "W99 vs W100 (England 2-1 Norway AET, Argentina 3-1 Switzerland AET)",
+          "date": "2026-07-15",
           "date_beijing": "2026-07-16",
-          "time_beijing": "TBD",
-          "team_a": null,
-          "team_b": null,
+          "round": "SF",
+          "status": "scheduled",
           "venue": "Mercedes-Benz Stadium",
-          "venue_city": "Atlanta",
-          "source": "W99 vs W100"
-        }
-      ]
-    },
-    "F": {
-      "name": "Final",
-      "match_count": 1,
-      "matches": [
-        {
-          "match_id": 104,
-          "date_beijing": "2026-07-20",
-          "time_beijing": "TBD",
-          "team_a": null,
-          "team_b": null,
-          "venue": "MetLife Stadium",
-          "venue_city": "New York",
-          "source": "W101 vs W102"
+          "venue_city": "Atlanta"
         }
       ]
     },
     "3rd": {
-      "name": "Bronze Final",
-      "match_count": 1,
       "matches": [
         {
           "match_id": 103,
-          "date_beijing": "2026-07-19",
-          "time_beijing": "TBD",
           "team_a": null,
           "team_b": null,
-          "venue": "Hard Rock Stadium",
-          "venue_city": "Miami",
-          "source": "L101 vs L102"
+          "source": "L101 vs L102",
+          "date": "2026-07-18",
+          "date_beijing": "2026-07-19",
+          "round": "3rd",
+          "status": "scheduled"
+        }
+      ]
+    },
+    "F": {
+      "matches": [
+        {
+          "match_id": 104,
+          "team_a": null,
+          "team_b": null,
+          "source": "W101 vs W102",
+          "date": "2026-07-19",
+          "date_beijing": "2026-07-20",
+          "round": "F",
+          "status": "scheduled"
         }
       ]
     }
-  },
-  "_seeded": true,
-  "_seeded_at": "2026-06-28T14:30:48.905138",
-  "_source": "FIFA official (re-applied)",
-  "_note": "R32 complete, R16 filled",
-  "updated": "2026-07-08T10:58:13.502925"
+  }
 }

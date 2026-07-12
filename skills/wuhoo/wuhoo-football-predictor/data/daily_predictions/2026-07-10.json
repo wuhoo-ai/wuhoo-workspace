@@ -1,0 +1,500 @@
+{
+  "date_beijing": "2026-07-10",
+  "generated": "2026-07-09T14:33:51.976219",
+  "total_matches": 1,
+  "predictions": [
+    {
+      "match_id": 97,
+      "team_a": "France",
+      "team_b": "Morocco",
+      "venue": "Gillette Stadium",
+      "group": null,
+      "matchday": null,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 76.5,
+      "draw_pct": 15.9,
+      "team_b_win_pct": 7.7,
+      "most_likely_score": "2-0",
+      "expected_goals_a": 2.33,
+      "expected_goals_b": 0.58,
+      "scoreline_probs": [
+        {
+          "score": "2-0",
+          "prob": 0.1474,
+          "prob_pct": 14.7,
+          "cumulative": 0.1474
+        },
+        {
+          "score": "1-0",
+          "prob": 0.1265,
+          "prob_pct": 12.6,
+          "cumulative": 0.2739
+        },
+        {
+          "score": "3-0",
+          "prob": 0.1145,
+          "prob_pct": 11.4,
+          "cumulative": 0.3883
+        }
+      ],
+      "verdict": "法国 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    }
+  ],
+  "matches": [
+    {
+      "audit": {
+        "team_a": "France",
+        "team_b": "Morocco",
+        "venue": "Gillette Stadium",
+        "generated": "2026-07-09T14:33:50.090150",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2530,
+            "team_b_elo": 2186,
+            "elo_diff": 344,
+            "base_win_prob": 87.9,
+            "description": "France 2530 vs Morocco 2186, Δ=+344"
+          },
+          "2_injuries": {
+            "team_a_penalty": -10,
+            "team_b_penalty": -18,
+            "team_a_details": [
+              "  Hugo Ekitiké (FW): OUT — Ruptured Achilles tendon (Apr vs PSG); out until 2027. Replaced by Mateta [-10]"
+            ],
+            "team_b_details": [
+              "  Abde Ezzalzouli (FW): OUT — Right knee injury (warmup vs Norway); potential breakout star. Replaced by Sbai [-10]",
+              "  Nayef Aguerd (DF): OUT — Injured pre-tournament; cornerstone of 2022 semifinal run. Replaced by Saadane [-8]"
+            ],
+            "description": "France: -10 | Morocco: -18"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 39,
+            "team_b_adjustment": 35,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 15,
+              "stability": 7.999999999999998,
+              "chemistry": 8.4
+            },
+            "team_b_breakdown": {
+              "coach": 8,
+              "result": 10,
+              "stability": 10.0,
+              "chemistry": 6.6
+            },
+            "description": "France: +39 (coach+stability+chemistry) | Morocco: +35"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 0,
+            "team_b_venue_penalty": 0,
+            "venue_details": {
+              "city": "Foxborough (Boston)",
+              "altitude_m": 93,
+              "temp_c": 26,
+              "indoor": false,
+              "climate_note": "Mild summer, open air"
+            },
+            "description": "Home adv +0, venue penalties: France +0 / Morocco +0"
+          },
+          "4a_weather": {
+            "team_a_adj": -5,
+            "team_b_adj": -3,
+            "weather_details": {
+              "condition": "light_drizzle",
+              "temp_c": 25.5,
+              "precip_mm": 1.0,
+              "precip_category": "light",
+              "wind_kph": 14.8,
+              "wind_category": "calm",
+              "indoor": false
+            },
+            "description": "Rain: France -5/Morocco -3"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "team_a_details": {
+              "prev_match_id": 77,
+              "prev_venue": "MetLife Stadium",
+              "curr_venue": "Gillette Stadium",
+              "distance_km": 273.9,
+              "rest_days": 9,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 75,
+              "prev_venue": "Estadio Monterrey",
+              "curr_venue": "Gillette Stadium",
+              "distance_km": 0,
+              "rest_days": 10,
+              "rest_bonus_raw": 0
+            },
+            "description": "Schedule balanced, no density impact"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -36,
+            "team_b_adj": 12,
+            "description": "France: -36 (warm-up form) | Morocco: +12"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 128,
+            "team_b_adj": 88,
+            "team_a_details": [
+              "[06-17] W 3-1 vs 塞内加尔 (1683ELO q=+0.46 r=1.0x) → +19",
+              "[06-23] W 3-0/CS vs 伊拉克 (1219ELO q=-0.70 r=1.0x) → +18",
+              "[06-27] W 4-1 vs 挪威 (2203ELO q=+1.76 r=1.0x) → +34",
+              "[07-01] W 3-0/CS vs 瑞典 (1828ELO q=+0.82 r=1.0x) → +31",
+              "[07-04] W 1-0/CS vs 巴拉圭 (1839ELO q=+0.85 r=1.3x) → +26"
+            ],
+            "team_b_details": [
+              "[06-14] D 1-1 vs 巴西 (2197ELO q=+1.74 r=1.0x) → +10",
+              "[06-20] W 1-0/CS vs 苏格兰 (1614ELO q=+0.28 r=1.0x) → +17",
+              "[06-25] W 4-2 vs 海地 (1178ELO q=-0.81 r=1.0x) → +11",
+              "[06-30] D 1-1 vs 荷兰 (2160ELO q=+1.65 r=1.0x) → +10",
+              "[07-04] W 3-0/CS vs 加拿大 (1818ELO q=+0.80 r=1.3x) → +39"
+            ],
+            "description": "France: +128 | Morocco: +88"
+          },
+          "5_news_sentiment": {
+            "enabled": true,
+            "team_a_adj": 2,
+            "team_b_adj": -8,
+            "description": "France: +2 | Morocco: -8"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": true,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": -0.26,
+            "description": "France: +0 | Morocco: +0"
+          },
+          "6_manual": {
+            "team_a_adj": 16,
+            "team_b_adj": 18,
+            "description": "France: +16 | Morocco: +18"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2530,
+            "effective": 2664,
+            "adjustments": 134
+          },
+          "team_b": {
+            "base": 2186,
+            "effective": 2310,
+            "adjustments": 124
+          },
+          "diff": 354,
+          "engine_delta_a": 16,
+          "engine_delta_b": 18
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 76.5,
+          "draw": 15.9,
+          "team_b_win": 7.7,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.33,
+          "expected_goals_b": 0.58,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.1474,
+              "prob_pct": 14.7,
+              "cumulative": 0.1474
+            },
+            {
+              "score": "1-0",
+              "prob": 0.1265,
+              "prob_pct": 12.6,
+              "cumulative": 0.2739
+            },
+            {
+              "score": "3-0",
+              "prob": 0.1145,
+              "prob_pct": 11.4,
+              "cumulative": 0.3883
+            }
+          ]
+        },
+        "verdict": {
+          "result": "法国 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 绝对优势 344 分，实力差距明显",
+          "伤病影响：France -10 / Morocco -18 ELO"
+        ],
+        "inference_engine": true,
+        "inference_engine_version": "v1",
+        "inference_trace": {
+          "team_a": {
+            "delta": 16,
+            "raw_sum": 15.7,
+            "saturated": false,
+            "trace": [
+              {
+                "rule_id": "FRM_001",
+                "rule_name": "热身赛状态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+              },
+              {
+                "rule_id": "TFM_001",
+                "rule_name": "锦标赛形态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": -29,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": -11.6,
+                "interactions_applied": [],
+                "final_value": -11.6,
+                "evidence": "随机抽样的锦标赛形态波动"
+              },
+              {
+                "rule_id": "WEA_001",
+                "rule_name": "天气因子",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Open-Meteo API — 比赛日预报"
+              },
+              {
+                "rule_id": "DEN_001",
+                "rule_name": "赛程密度",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Haversine距离+休息天数计算"
+              },
+              {
+                "rule_id": "VEN_001",
+                "rule_name": "场馆效应",
+                "priority": 25,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "venues.json — 16场馆数据"
+              },
+              {
+                "rule_id": "COA_001",
+                "rule_name": "教练/磨合因子",
+                "priority": 30,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 39,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 27.3,
+                "interactions_applied": [],
+                "final_value": 27.3,
+                "evidence": "team_metadata.json — 静态元数据"
+              },
+              {
+                "rule_id": "MAN_001",
+                "rule_name": "手动调整",
+                "priority": 100,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "manual_adjustments.json"
+              }
+            ]
+          },
+          "team_b": {
+            "delta": 18,
+            "raw_sum": 18.5,
+            "saturated": false,
+            "trace": [
+              {
+                "rule_id": "FRM_001",
+                "rule_name": "热身赛状态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+              },
+              {
+                "rule_id": "TFM_001",
+                "rule_name": "锦标赛形态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": -15,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": -6.0,
+                "interactions_applied": [],
+                "final_value": -6.0,
+                "evidence": "随机抽样的锦标赛形态波动"
+              },
+              {
+                "rule_id": "WEA_001",
+                "rule_name": "天气因子",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Open-Meteo API — 比赛日预报"
+              },
+              {
+                "rule_id": "DEN_001",
+                "rule_name": "赛程密度",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Haversine距离+休息天数计算"
+              },
+              {
+                "rule_id": "VEN_001",
+                "rule_name": "场馆效应",
+                "priority": 25,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "venues.json — 16场馆数据"
+              },
+              {
+                "rule_id": "COA_001",
+                "rule_name": "教练/磨合因子",
+                "priority": 30,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 35,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 24.5,
+                "interactions_applied": [],
+                "final_value": 24.5,
+                "evidence": "team_metadata.json — 静态元数据"
+              },
+              {
+                "rule_id": "MAN_001",
+                "rule_name": "手动调整",
+                "priority": 100,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "manual_adjustments.json"
+              }
+            ]
+          }
+        },
+        "reasoning_path": "\nFrance (+16 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-29, conf=low×0.4) → -11.6\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+39, conf=medium×0.7) → +27.3\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +16 ELO\n\nMorocco (+18 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-15, conf=low×0.4) → -6.0\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+35, conf=medium×0.7) → +24.5\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +18 ELO",
+        "schedule": {
+          "match_id": 97,
+          "date_beijing": "2026-07-10",
+          "time_beijing": "TBD",
+          "team_a": "France",
+          "team_b": "Morocco",
+          "venue": "Gillette Stadium",
+          "venue_city": "Boston",
+          "source": "W89 vs W90",
+          "round": "QF"
+        }
+      },
+      "schedule": {
+        "match_id": 97,
+        "date_beijing": "2026-07-10",
+        "time_beijing": "TBD",
+        "team_a": "France",
+        "team_b": "Morocco",
+        "venue": "Gillette Stadium",
+        "venue_city": "Boston",
+        "source": "W89 vs W90",
+        "round": "QF"
+      }
+    }
+  ]
+}

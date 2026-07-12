@@ -1,7 +1,7 @@
 {
-  "total_predictions": 75,
-  "correct_outcomes": 43,
-  "accuracy": 0.5733,
-  "brier_score": 0.6208,
-  "updated": "2026-07-06T14:33:12.622041"
+  "total_predictions": 81,
+  "correct_outcomes": 44,
+  "accuracy": 0.5432,
+  "brier_score": 0.6318,
+  "updated": "2026-07-09T14:32:58.829432"
 }

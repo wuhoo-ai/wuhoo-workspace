@@ -9,7 +9,7 @@
       "country": "Spain"
     },
     "Argentina": {
-      "elo": 2455,
+      "elo": 2461,
       "rank": 2,
       "country": "Argentina"
     },
@@ -19,7 +19,7 @@
       "country": "France"
     },
     "England": {
-      "elo": 2191,
+      "elo": 2222,
       "rank": 4,
       "country": "England"
     },
@@ -59,7 +59,7 @@
       "country": "Germany"
     },
     "Norway": {
-      "elo": 2203,
+      "elo": 2172,
       "rank": 12,
       "country": "Norway"
     },
@@ -79,7 +79,7 @@
       "country": "Uruguay"
     },
     "Switzerland": {
-      "elo": 2036,
+      "elo": 2030,
       "rank": 16,
       "country": "Switzerland"
     },
@@ -324,7 +324,7 @@
       "country": "Qatar"
     }
   },
-  "last_updated": "2026-07-11",
+  "last_updated": "2026-07-12",
   "update_method": "match_result_v56",
   "applied_results": [
     {
@@ -2148,6 +2148,42 @@
       "k_a": 60,
       "k_b": 60,
       "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Norway",
+      "team_b": "England",
+      "score": "1-2",
+      "elo_a": {
+        "old": 2203,
+        "new": 2172,
+        "delta": -31
+      },
+      "elo_b": {
+        "old": 2191,
+        "new": 2222,
+        "delta": 31
+      },
+      "k_a": 60,
+      "k_b": 60,
+      "gd_multiplier": 1.0
+    },
+    {
+      "team_a": "Argentina",
+      "team_b": "Switzerland",
+      "score": "3-1",
+      "elo_a": {
+        "old": 2455,
+        "new": 2461,
+        "delta": 6
+      },
+      "elo_b": {
+        "old": 2036,
+        "new": 2030,
+        "delta": -6
+      },
+      "k_a": 60,
+      "k_b": 60,
+      "gd_multiplier": 1.25
     }
   ]
 }

@@ -1,0 +1,502 @@
+{
+  "date_beijing": "2026-07-15",
+  "generated": "2026-07-12T12:43:42.138544",
+  "total_matches": 1,
+  "predictions": [
+    {
+      "match_id": 101,
+      "team_a": "France",
+      "team_b": "Spain",
+      "venue": "AT&T Stadium",
+      "group": null,
+      "matchday": null,
+      "time_beijing": null,
+      "team_a_win_pct": 80.5,
+      "draw_pct": 13.3,
+      "team_b_win_pct": 6.2,
+      "most_likely_score": "2-0",
+      "expected_goals_a": 2.62,
+      "expected_goals_b": 0.58,
+      "scoreline_probs": [
+        {
+          "score": "2-0",
+          "prob": 0.1395,
+          "prob_pct": 13.9,
+          "cumulative": 0.1395
+        },
+        {
+          "score": "3-0",
+          "prob": 0.1217,
+          "prob_pct": 12.2,
+          "cumulative": 0.2612
+        },
+        {
+          "score": "1-0",
+          "prob": 0.1066,
+          "prob_pct": 10.7,
+          "cumulative": 0.3678
+        }
+      ],
+      "verdict": "法国 胜（高置信度）",
+      "confidence": "high",
+      "error": null
+    }
+  ],
+  "matches": [
+    {
+      "audit": {
+        "team_a": "France",
+        "team_b": "Spain",
+        "venue": "AT&T Stadium",
+        "generated": "2026-07-12T12:43:42.134823",
+        "layers": {
+          "1_elo_base": {
+            "team_a_elo": 2539,
+            "team_b_elo": 2110,
+            "elo_diff": 429,
+            "base_win_prob": 92.2,
+            "description": "France 2539 vs Spain 2110, Δ=+429"
+          },
+          "2_injuries": {
+            "team_a_penalty": -10,
+            "team_b_penalty": -38,
+            "team_a_details": [
+              "  Hugo Ekitiké (FW): OUT — Ruptured Achilles tendon (Apr vs PSG); out until 2027. Replaced by Mateta [-10]"
+            ],
+            "team_b_details": [
+              "  Fermín López (MF): OUT — Metatarsal fracture (May vs Betis); 13G+17A last season. Misses WC [-8]",
+              "  Mikel Merino (MF): DOUBTFUL — Stress fracture in foot (early Feb); targets return. If not, Fabián Ruiz starts [-5]",
+              "  Lamine Yamal (FW): FIT — Partially torn hamstring (Apr); Luis de la Fuente: 'could be ready to play on June 15'. Likely available for Cape Verde opener [-2]",
+              "  Samu Aghehowa (FW): OUT — ACL rupture (Feb 10, Porto); long-term absence [-5]",
+              "  Yeremy Pino (FW): DOUBTFUL — Collar bone fracture (sustained vs Uruguay, June 26). De la Fuente: could miss rest of World Cup. World Soccer Talk: possible return for knockout stage [-10]",
+              "  Nico Williams (FW): DOUBTFUL — Right adductor injury (vs Uruguay Jun 26). Has not appeared in either knockout match. 'One of the worst days of my life' (ESPN Jul 9). Serious doubt for rest of tournament [-8]"
+            ],
+            "description": "France: -10 | Spain: -38"
+          },
+          "2.5_motivation": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无出线动机数据（非MD3或数据缺失）"
+          },
+          "2.6_bracket_path": {
+            "team_a_adjustment": 0,
+            "team_b_adjustment": 0,
+            "team_a_reason": "",
+            "team_b_reason": "",
+            "description": "无半区路径数据（非MD3或非TOP_SEED组）"
+          },
+          "3_coach_meta": {
+            "team_a_adjustment": 39,
+            "team_b_adjustment": 18,
+            "team_a_breakdown": {
+              "coach": 8,
+              "result": 15,
+              "stability": 7.999999999999998,
+              "chemistry": 8.4
+            },
+            "team_b_breakdown": {
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 10.5
+            },
+            "description": "France: +39 (coach+stability+chemistry) | Spain: +18"
+          },
+          "4_venue": {
+            "home_advantage": 0,
+            "team_a_venue_penalty": 7,
+            "team_b_venue_penalty": 7,
+            "venue_details": {
+              "city": "Arlington (Dallas)",
+              "altitude_m": 184,
+              "temp_c": 35,
+              "indoor": true,
+              "climate_note": "Very hot, indoor stadium (AC) — heat penalty reduced"
+            },
+            "description": "Home adv +0, venue penalties: France +7 / Spain +7"
+          },
+          "4a_weather": {
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "weather_details": {},
+            "description": "No significant weather impact"
+          },
+          "4b_schedule_density": {
+            "team_a_adj": -10,
+            "team_b_adj": -7,
+            "team_a_details": {
+              "prev_match_id": 77,
+              "prev_venue": "MetLife Stadium",
+              "curr_venue": "AT&T Stadium",
+              "distance_km": 2229.0,
+              "rest_days": 14,
+              "rest_bonus_raw": 0
+            },
+            "team_b_details": {
+              "prev_match_id": 84,
+              "prev_venue": "SoFi Stadium",
+              "curr_venue": "AT&T Stadium",
+              "distance_km": 1974.3,
+              "rest_days": 12,
+              "rest_bonus_raw": 0
+            },
+            "description": "France: -10 (travel+rest) | Spain: -7"
+          },
+          "4.5_friendly_form": {
+            "team_a_adj": -36,
+            "team_b_adj": -13,
+            "description": "France: -36 (warm-up form) | Spain: -13"
+          },
+          "4.6_tournament_form": {
+            "team_a_adj": 161,
+            "team_b_adj": 149,
+            "team_a_details": [
+              "[06-17] W 3-1 vs 塞内加尔 (1683ELO q=+0.46 r=1.0x) → +19",
+              "[06-23] W 3-0/CS vs 伊拉克 (1219ELO q=-0.70 r=1.0x) → +18",
+              "[06-27] W 4-1 vs 挪威 (2172ELO q=+1.68 r=1.0x) → +33",
+              "[07-01] W 3-0/CS vs 瑞典 (1828ELO q=+0.82 r=1.0x) → +31",
+              "[07-04] W 1-0/CS vs 巴拉圭 (1839ELO q=+0.85 r=1.0x) → +20",
+              "[07-10] W 2-0/CS vs 摩洛哥 (2177ELO q=+1.69 r=1.3x) → +40"
+            ],
+            "team_b_details": [
+              "[06-16] D 0-0/CS vs 佛得角 (1774ELO q=+0.69 r=1.0x) → +6",
+              "[06-22] W 4-0/CS vs 沙特阿拉伯 (1670ELO q=+0.42 r=1.0x) → +32",
+              "[06-27] W 1-0/CS vs 乌拉圭 (1688ELO q=+0.47 r=1.0x) → +18",
+              "[07-03] W 3-0/CS vs 奥地利 (1820ELO q=+0.80 r=1.0x) → +30",
+              "[07-07] W 1-0/CS vs 葡萄牙 (2023ELO q=+1.31 r=1.0x) → +22",
+              "[07-11] W 2-1 vs 比利时 (1932ELO q=+1.08 r=1.0x) → +17",
+              "[07-11] W 2-1 vs 比利时 (1932ELO q=+1.08 r=1.3x) → +22"
+            ],
+            "description": "France: +161 | Spain: +149"
+          },
+          "5_news_sentiment": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "description": "Not enabled"
+          },
+          "5.5_unstructured_signals": {
+            "enabled": false,
+            "team_a_adj": 0,
+            "team_b_adj": 0,
+            "tactical_matchup": 0,
+            "description": "Not enabled / no signals"
+          },
+          "6_manual": {
+            "team_a_adj": 16,
+            "team_b_adj": 18,
+            "description": "France: +16 | Spain: +18"
+          }
+        },
+        "effective_elo": {
+          "team_a": {
+            "base": 2539,
+            "effective": 2692,
+            "adjustments": 153
+          },
+          "team_b": {
+            "base": 2110,
+            "effective": 2230,
+            "adjustments": 120
+          },
+          "diff": 462,
+          "engine_delta_a": 16,
+          "engine_delta_b": 18
+        },
+        "prediction": {
+          "model": "Poisson (Elo-based lambda)",
+          "team_a_win": 80.5,
+          "draw": 13.3,
+          "team_b_win": 6.2,
+          "most_likely_score": "2-0",
+          "expected_goals_a": 2.62,
+          "expected_goals_b": 0.58,
+          "scoreline_probs": [
+            {
+              "score": "2-0",
+              "prob": 0.1395,
+              "prob_pct": 13.9,
+              "cumulative": 0.1395
+            },
+            {
+              "score": "3-0",
+              "prob": 0.1217,
+              "prob_pct": 12.2,
+              "cumulative": 0.2612
+            },
+            {
+              "score": "1-0",
+              "prob": 0.1066,
+              "prob_pct": 10.7,
+              "cumulative": 0.3678
+            }
+          ]
+        },
+        "verdict": {
+          "result": "法国 胜（高置信度）",
+          "confidence": "high"
+        },
+        "reasoning": [
+          "ELO 绝对优势 429 分，实力差距明显",
+          "伤病影响：France -10 / Spain -38 ELO",
+          "多层调整后有效 ELO 差 +462（原始 +429）"
+        ],
+        "inference_engine": true,
+        "inference_engine_version": "v1",
+        "inference_trace": {
+          "team_a": {
+            "delta": 16,
+            "raw_sum": 15.7,
+            "saturated": false,
+            "trace": [
+              {
+                "rule_id": "FRM_001",
+                "rule_name": "热身赛状态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+              },
+              {
+                "rule_id": "TFM_001",
+                "rule_name": "锦标赛形态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": -29,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": -11.6,
+                "interactions_applied": [],
+                "final_value": -11.6,
+                "evidence": "随机抽样的锦标赛形态波动"
+              },
+              {
+                "rule_id": "WEA_001",
+                "rule_name": "天气因子",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Open-Meteo API — 比赛日预报"
+              },
+              {
+                "rule_id": "DEN_001",
+                "rule_name": "赛程密度",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Haversine距离+休息天数计算"
+              },
+              {
+                "rule_id": "VEN_001",
+                "rule_name": "场馆效应",
+                "priority": 25,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "venues.json — 16场馆数据"
+              },
+              {
+                "rule_id": "COA_001",
+                "rule_name": "教练/磨合因子",
+                "priority": 30,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 39,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 27.3,
+                "interactions_applied": [],
+                "final_value": 27.3,
+                "evidence": "team_metadata.json — 静态元数据"
+              },
+              {
+                "rule_id": "MAN_001",
+                "rule_name": "手动调整",
+                "priority": 100,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "manual_adjustments.json"
+              }
+            ]
+          },
+          "team_b": {
+            "delta": 18,
+            "raw_sum": 17.8,
+            "saturated": false,
+            "trace": [
+              {
+                "rule_id": "FRM_001",
+                "rule_name": "热身赛状态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "friendly_form_adjustments.json — 热身赛ELO差异"
+              },
+              {
+                "rule_id": "TFM_001",
+                "rule_name": "锦标赛形态",
+                "priority": 18,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 13,
+                "confidence": "low",
+                "confidence_factor": 0.4,
+                "preliminary_value": 5.2,
+                "interactions_applied": [],
+                "final_value": 5.2,
+                "evidence": "随机抽样的锦标赛形态波动"
+              },
+              {
+                "rule_id": "WEA_001",
+                "rule_name": "天气因子",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Open-Meteo API — 比赛日预报"
+              },
+              {
+                "rule_id": "DEN_001",
+                "rule_name": "赛程密度",
+                "priority": 22,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "Haversine距离+休息天数计算"
+              },
+              {
+                "rule_id": "VEN_001",
+                "rule_name": "场馆效应",
+                "priority": 25,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "venues.json — 16场馆数据"
+              },
+              {
+                "rule_id": "COA_001",
+                "rule_name": "教练/磨合因子",
+                "priority": 30,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 18,
+                "confidence": "medium",
+                "confidence_factor": 0.7,
+                "preliminary_value": 12.6,
+                "interactions_applied": [],
+                "final_value": 12.6,
+                "evidence": "team_metadata.json — 静态元数据"
+              },
+              {
+                "rule_id": "MAN_001",
+                "rule_name": "手动调整",
+                "priority": 100,
+                "condition": "",
+                "evaluated": true,
+                "action_type": "elo_adjust",
+                "base_value": 0,
+                "confidence": "high",
+                "confidence_factor": 1.0,
+                "preliminary_value": 0.0,
+                "interactions_applied": [],
+                "final_value": 0.0,
+                "evidence": "manual_adjustments.json"
+              }
+            ]
+          }
+        },
+        "reasoning_path": "\nFrance (+16 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-29, conf=low×0.4) → -11.6\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+39, conf=medium×0.7) → +27.3\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +16 ELO\n\nSpain (+18 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+13, conf=low×0.4) → +5.2\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+18, conf=medium×0.7) → +12.6\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +18 ELO",
+        "schedule": {
+          "match_id": 101,
+          "team_a": "France",
+          "team_b": "Spain",
+          "source": "W97 vs W98 (France 2-0 Morocco, Spain 2-1 Belgium)",
+          "date": "2026-07-14",
+          "date_beijing": "2026-07-15",
+          "round": "SF",
+          "status": "scheduled",
+          "venue": "AT&T Stadium",
+          "venue_city": "Arlington"
+        }
+      },
+      "schedule": {
+        "match_id": 101,
+        "team_a": "France",
+        "team_b": "Spain",
+        "source": "W97 vs W98 (France 2-0 Morocco, Spain 2-1 Belgium)",
+        "date": "2026-07-14",
+        "date_beijing": "2026-07-15",
+        "round": "SF",
+        "status": "scheduled",
+        "venue": "AT&T Stadium",
+        "venue_city": "Arlington"
+      }
+    }
+  ]
+}
