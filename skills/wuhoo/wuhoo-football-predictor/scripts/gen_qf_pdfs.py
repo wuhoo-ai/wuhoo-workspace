@@ -609,3 +609,36 @@ if __name__ == '__main__':
         out = os.path.join(OUT, f"QF_{ta}_vs_{tb}.pdf")
         generate_match_report(ta, tb, p, out)
     print("\nAll QF PDFs generated.")
+
+    # ═══════════════════════════════════════
+    # SF 半决赛支持：从 daily_predictions 构建 QF 格式数据
+    # ═══════════════════════════════════════
+    sf_matches = []
+    for fpath in sorted(_glob.glob(os.path.join(daily_dir, '2026-07-1[5-6].json'))):
+        try:
+            dd = json.load(open(fpath))
+        except: continue
+        for m in dd.get('matches', []):
+            audit = m.get('audit', {})
+            sched = m.get('schedule', {})
+            rnd = sched.get('round', audit.get('round', ''))
+            if rnd != 'SF': continue
+            ta, tb = audit.get('team_a', ''), audit.get('team_b', '')
+            if not ta or not tb: continue
+            pred = audit.get('prediction', {})
+            # Build QF-format prediction dict
+            p = {
+                'team_a': ta, 'team_b': tb,
+                'ensemble': {'team_a_win': pred.get('team_a_win', 0), 'draw': pred.get('draw', 0), 'team_b_win': pred.get('team_b_win', 0)},
+                'poisson': {'team_a_win': pred.get('team_a_win', 0), 'draw': pred.get('draw', 0), 'team_b_win': pred.get('team_b_win', 0)},
+                'logit': {'team_a_win': pred.get('team_a_win', 0), 'draw': pred.get('draw', 0), 'team_b_win': pred.get('team_b_win', 0)},
+                'expected_goals': {'a': pred.get('expected_goals_a', 0), 'b': pred.get('expected_goals_b', 0)},
+                'top_scorelines': [{'score': sp['score'], 'prob': sp['prob_pct']} for sp in pred.get('scoreline_probs', [])[:5]],
+                'trajectory': {},
+            }
+            sf_matches.append((ta, tb, p))
+    if sf_matches:
+        for ta, tb, p in sf_matches:
+            out = os.path.join(OUT, f"SF_{ta}_vs_{tb}.pdf")
+            generate_match_report(ta, tb, p, out)
+        print(f"\nAll {len(sf_matches)} SF PDFs generated.")
