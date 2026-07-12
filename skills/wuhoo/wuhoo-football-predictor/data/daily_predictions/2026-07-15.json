@@ -1,6 +1,6 @@
 {
   "date_beijing": "2026-07-15",
-  "generated": "2026-07-12T12:43:42.138544",
+  "generated": "2026-07-12T13:07:57.358639",
   "total_matches": 1,
   "predictions": [
     {
@@ -11,30 +11,30 @@
       "group": null,
       "matchday": null,
       "time_beijing": null,
-      "team_a_win_pct": 80.5,
-      "draw_pct": 13.3,
-      "team_b_win_pct": 6.2,
+      "team_a_win_pct": 80.8,
+      "draw_pct": 13.1,
+      "team_b_win_pct": 6.0,
       "most_likely_score": "2-0",
-      "expected_goals_a": 2.62,
+      "expected_goals_a": 2.64,
       "expected_goals_b": 0.58,
       "scoreline_probs": [
         {
           "score": "2-0",
-          "prob": 0.1395,
+          "prob": 0.1386,
           "prob_pct": 13.9,
-          "cumulative": 0.1395
+          "cumulative": 0.1386
         },
         {
           "score": "3-0",
-          "prob": 0.1217,
+          "prob": 0.1222,
           "prob_pct": 12.2,
-          "cumulative": 0.2612
+          "cumulative": 0.2608
         },
         {
           "score": "1-0",
-          "prob": 0.1066,
-          "prob_pct": 10.7,
-          "cumulative": 0.3678
+          "prob": 0.1048,
+          "prob_pct": 10.5,
+          "cumulative": 0.3656
         }
       ],
       "verdict": "法国 胜（高置信度）",
@@ -48,7 +48,7 @@
         "team_a": "France",
         "team_b": "Spain",
         "venue": "AT&T Stadium",
-        "generated": "2026-07-12T12:43:42.134823",
+        "generated": "2026-07-12T13:07:55.380117",
         "layers": {
           "1_elo_base": {
             "team_a_elo": 2539,
@@ -172,17 +172,17 @@
             "description": "France: +161 | Spain: +149"
           },
           "5_news_sentiment": {
-            "enabled": false,
-            "team_a_adj": 0,
-            "team_b_adj": 0,
-            "description": "Not enabled"
+            "enabled": true,
+            "team_a_adj": 2,
+            "team_b_adj": -8,
+            "description": "France: +2 | Spain: -8"
           },
           "5.5_unstructured_signals": {
-            "enabled": false,
+            "enabled": true,
             "team_a_adj": 0,
             "team_b_adj": 0,
             "tactical_matchup": 0,
-            "description": "Not enabled / no signals"
+            "description": "France: +0 | Spain: +0"
           },
           "6_manual": {
             "team_a_adj": 16,
@@ -193,44 +193,44 @@
         "effective_elo": {
           "team_a": {
             "base": 2539,
-            "effective": 2692,
-            "adjustments": 153
+            "effective": 2694,
+            "adjustments": 155
           },
           "team_b": {
             "base": 2110,
-            "effective": 2230,
-            "adjustments": 120
+            "effective": 2222,
+            "adjustments": 112
           },
-          "diff": 462,
+          "diff": 472,
           "engine_delta_a": 16,
           "engine_delta_b": 18
         },
         "prediction": {
           "model": "Poisson (Elo-based lambda)",
-          "team_a_win": 80.5,
-          "draw": 13.3,
-          "team_b_win": 6.2,
+          "team_a_win": 80.8,
+          "draw": 13.1,
+          "team_b_win": 6.0,
           "most_likely_score": "2-0",
-          "expected_goals_a": 2.62,
+          "expected_goals_a": 2.64,
           "expected_goals_b": 0.58,
           "scoreline_probs": [
             {
               "score": "2-0",
-              "prob": 0.1395,
+              "prob": 0.1386,
               "prob_pct": 13.9,
-              "cumulative": 0.1395
+              "cumulative": 0.1386
             },
             {
               "score": "3-0",
-              "prob": 0.1217,
+              "prob": 0.1222,
               "prob_pct": 12.2,
-              "cumulative": 0.2612
+              "cumulative": 0.2608
             },
             {
               "score": "1-0",
-              "prob": 0.1066,
-              "prob_pct": 10.7,
-              "cumulative": 0.3678
+              "prob": 0.1048,
+              "prob_pct": 10.5,
+              "cumulative": 0.3656
             }
           ]
         },
@@ -241,7 +241,7 @@
         "reasoning": [
           "ELO 绝对优势 429 分，实力差距明显",
           "伤病影响：France -10 / Spain -38 ELO",
-          "多层调整后有效 ELO 差 +462（原始 +429）"
+          "多层调整后有效 ELO 差 +472（原始 +429）"
         ],
         "inference_engine": true,
         "inference_engine_version": "v1",
@@ -483,6 +483,77 @@
           "status": "scheduled",
           "venue": "AT&T Stadium",
           "venue_city": "Arlington"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 80.8,
+            "draw": 13.1,
+            "team_b_win": 6.0
+          },
+          "poisson": {
+            "team_a_win": 81,
+            "draw": 13,
+            "team_b_win": 6
+          },
+          "logit": {
+            "team_a_win": 66,
+            "draw": 28,
+            "team_b_win": 6
+          },
+          "expected_goals": {
+            "a": 2.64,
+            "b": 0.58
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "France": {
+              "current_elo": 2539,
+              "trend_elo": [
+                2517,
+                2527,
+                2529,
+                2530,
+                2539
+              ],
+              "deltas": [
+                10,
+                2,
+                1,
+                9
+              ],
+              "delta_avg": 5.5,
+              "delta_trend": 9,
+              "volatility": 4.0,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Spain": {
+              "current_elo": 2110,
+              "trend_elo": [
+                2034,
+                2041,
+                2063,
+                2092,
+                2110
+              ],
+              "deltas": [
+                7,
+                22,
+                29,
+                18
+              ],
+              "delta_avg": 19.0,
+              "delta_trend": 18,
+              "volatility": 8.0,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {

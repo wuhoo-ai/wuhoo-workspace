@@ -1,6 +1,6 @@
 {
   "date_beijing": "2026-07-16",
-  "generated": "2026-07-12T12:43:56.239682",
+  "generated": "2026-07-12T13:07:59.519607",
   "total_matches": 1,
   "predictions": [
     {
@@ -48,7 +48,7 @@
         "team_a": "England",
         "team_b": "Argentina",
         "venue": "Mercedes-Benz Stadium",
-        "generated": "2026-07-12T12:43:56.234437",
+        "generated": "2026-07-12T13:07:57.519996",
         "layers": {
           "1_elo_base": {
             "team_a_elo": 2222,
@@ -173,17 +173,17 @@
             "description": "England: +110 | Argentina: +130"
           },
           "5_news_sentiment": {
-            "enabled": false,
-            "team_a_adj": 0,
-            "team_b_adj": 0,
-            "description": "Not enabled"
+            "enabled": true,
+            "team_a_adj": 2,
+            "team_b_adj": 2,
+            "description": "England: +2 | Argentina: +2"
           },
           "5.5_unstructured_signals": {
-            "enabled": false,
+            "enabled": true,
             "team_a_adj": 0,
             "team_b_adj": 0,
-            "tactical_matchup": 0,
-            "description": "Not enabled / no signals"
+            "tactical_matchup": 0.1,
+            "description": "England: +0 | Argentina: +0"
           },
           "6_manual": {
             "team_a_adj": 3,
@@ -194,13 +194,13 @@
         "effective_elo": {
           "team_a": {
             "base": 2222,
-            "effective": 2283,
-            "adjustments": 61
+            "effective": 2285,
+            "adjustments": 63
           },
           "team_b": {
             "base": 2461,
-            "effective": 2674,
-            "adjustments": 213
+            "effective": 2676,
+            "adjustments": 215
           },
           "diff": -391,
           "engine_delta_a": 3,
@@ -496,6 +496,77 @@
           "status": "scheduled",
           "venue": "Mercedes-Benz Stadium",
           "venue_city": "Atlanta"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 7.2,
+            "draw": 15.0,
+            "team_b_win": 77.8
+          },
+          "poisson": {
+            "team_a_win": 7,
+            "draw": 15,
+            "team_b_win": 78
+          },
+          "logit": {
+            "team_a_win": 7,
+            "draw": 28,
+            "team_b_win": 65
+          },
+          "expected_goals": {
+            "a": 0.59,
+            "b": 2.43
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "England": {
+              "current_elo": 2222,
+              "trend_elo": [
+                2137,
+                2137,
+                2148,
+                2191,
+                2222
+              ],
+              "deltas": [
+                0,
+                11,
+                43,
+                31
+              ],
+              "delta_avg": 21.2,
+              "delta_trend": 31,
+              "volatility": 16.8,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Argentina": {
+              "current_elo": 2461,
+              "trend_elo": [
+                2452,
+                2452,
+                2453,
+                2455,
+                2461
+              ],
+              "deltas": [
+                0,
+                1,
+                2,
+                6
+              ],
+              "delta_avg": 2.2,
+              "delta_trend": 6,
+              "volatility": 2.3,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {
