@@ -82,7 +82,6 @@ BXP.US,BXP,"BXP, Inc.",0
 CHRW.US,CHRW,C.H. Robinson,0
 CDNS.US,CDNS,Cadence Design Systems,0
 CPT.US,CPT,Camden Property Trust,0
-CPB.US,CPB,Campbell's Company (The),0
 COF.US,COF,Capital One,0
 CAH.US,CAH,Cardinal Health,0
 CCL.US,CCL,Carnival Corporation,0
@@ -164,7 +163,7 @@ DUK.US,DUK,Duke Energy,0
 DD.US,DD,DuPont,0
 ETN.US,ETN,Eaton Corporation,0
 EBAY.US,EBAY,eBay Inc.,0
-SATS.US,SATS,EchoStar,0
+ECHO.US,ECHO,EchoStar,0
 ECL.US,ECL,Ecolab,0
 EIX.US,EIX,Edison International,0
 EW.US,EW,Edwards Lifesciences,0
@@ -174,7 +173,6 @@ EME.US,EME,Emcor,0
 EMR.US,EMR,Emerson Electric,0
 ETR.US,ETR,Entergy,0
 EOG.US,EOG,EOG Resources,0
-EPAM.US,EPAM,EPAM Systems,0
 EQT.US,EQT,EQT Corporation,0
 EFX.US,EFX,Equifax,0
 EQIX.US,EQIX,Equinix,0
@@ -197,11 +195,13 @@ FICO.US,FICO,Fair Isaac,0
 FAST.US,FAST,Fastenal,0
 FRT.US,FRT,Federal Realty Investment Trust,0
 FDX.US,FDX,FedEx,0
+FDXF.US,FDXF,FedEx Freight,0
 FIS.US,FIS,Fidelity National Information Services,0
 FITB.US,FITB,Fifth Third Bancorp,0
 FSLR.US,FSLR,First Solar,0
 FE.US,FE,FirstEnergy,0
 FISV.US,FISV,Fiserv,0
+FLEX.US,FLEX,Flex Ltd.,0
 F.US,F,Ford Motor Company,0
 FTNT.US,FTNT,Fortinet,0
 FTV.US,FTV,Fortive,0
@@ -301,6 +301,7 @@ MPC.US,MPC,Marathon Petroleum,0
 MAR.US,MAR,Marriott International,0
 MRSH.US,MRSH,Marsh McLennan,0
 MLM.US,MLM,Martin Marietta Materials,0
+MRVL.US,MRVL,Marvell Technology,0
 MAS.US,MAS,Masco,0
 MA.US,MA,Mastercard,0
 MKC.US,MKC,McCormick & Company,0
@@ -369,7 +370,6 @@ PM.US,PM,Philip Morris International,0
 PSX.US,PSX,Phillips 66,0
 PNW.US,PNW,Pinnacle West Capital,0
 PNC.US,PNC,PNC Financial Services,0
-POOL.US,POOL,Pool Corporation,0
 PPG.US,PPG,PPG Industries,0
 PPL.US,PPL,PPL Corporation,0
 PFG.US,PFG,Principal Financial Group,0

@@ -1,0 +1,2138 @@
+[
+  {
+    "code": "MMM",
+    "name": "3M",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 31.13654,
+    "pb": 25.880754,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AOS",
+    "name": "A. O. Smith",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 16.725334,
+    "pb": 4.603303,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ABT",
+    "name": "Abbott Laboratories",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 25.417366,
+    "pb": 3.0358994,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ABBV",
+    "name": "AbbVie",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 123.960594,
+    "pb": -66.80117,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "unknown",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ACN",
+    "name": "Accenture",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 9.939297,
+    "pb": 2.3875215,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ADBE",
+    "name": "Adobe Inc.",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 11.728833,
+    "pb": 7.1022277,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AMD",
+    "name": "Advanced Micro Devices",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 192.3543,
+    "pb": 14.689103,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AES",
+    "name": "AES Corporation",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "roe"
+    ],
+    "verdict": "borderline",
+    "pe": 7.635417,
+    "pb": 2.3652792,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "fail",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AFL",
+    "name": "Aflac",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 13.4,
+    "pb": 1.9979211,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "A",
+    "name": "Agilent Technologies",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 26.672691,
+    "pb": 5.2635126,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "APD",
+    "name": "Air Products",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 30.861052,
+    "pb": 4.1715994,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ABNB",
+    "name": "Airbnb",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 35.333332,
+    "pb": 11.150071,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AKAM",
+    "name": "Akamai Technologies",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 39.93581,
+    "pb": 3.5050108,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ALB",
+    "name": "Albemarle Corporation",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "roe",
+      "net_margin"
+    ],
+    "verdict": "borderline",
+    "pe": null,
+    "pb": 2.0903447,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "fail",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ARE",
+    "name": "Alexandria Real Estate Equities",
+    "market": "us",
+    "industry": "property",
+    "failures": [],
+    "verdict": "pass",
+    "pe": null,
+    "pb": 0.57341564,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ALGN",
+    "name": "Align Technology",
+    "market": "us",
+    "industry": "technology",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 28.34622,
+    "pb": 2.9109926,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ALLE",
+    "name": "Allegion",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 19.192623,
+    "pb": 5.7457776,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "LNT",
+    "name": "Alliant Energy",
+    "market": "us",
+    "industry": "energy",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 23.990566,
+    "pb": 2.6547656,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ALL",
+    "name": "Allstate",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 5.2629952,
+    "pb": 2.0735152,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "GOOGL",
+    "name": "Alphabet Inc. (Class A)",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 27.238567,
+    "pb": 9.044136,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "GOOG",
+    "name": "Alphabet Inc. (Class C)",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 26.971754,
+    "pb": 8.941894,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "MO",
+    "name": "Altria",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 15.020876,
+    "pb": -37.43496,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "unknown",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AMZN",
+    "name": "Amazon",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 31.401844,
+    "pb": 5.8000145,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AMCR",
+    "name": "Amcor",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "net_margin"
+    ],
+    "verdict": "borderline",
+    "pe": 34.68,
+    "pb": 1.7194874,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AEE",
+    "name": "Ameren",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 20.330936,
+    "pb": 2.3073156,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AEP",
+    "name": "American Electric Power",
+    "market": "us",
+    "industry": "utility",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 20.238165,
+    "pb": 2.3397124,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AXP",
+    "name": "American Express",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 21.114231,
+    "pb": 6.7859006,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AIG",
+    "name": "American International Group",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 13.121479,
+    "pb": 0.98298603,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AMT",
+    "name": "American Tower",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 26.339775,
+    "pb": 21.639107,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AWK",
+    "name": "American Water Works",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 23.329788,
+    "pb": 2.3280666,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AMP",
+    "name": "Ameriprise Financial",
+    "market": "us",
+    "industry": "financial",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 11.434696,
+    "pb": 6.652456,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AME",
+    "name": "Ametek",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 36.60212,
+    "pb": 5.0785055,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AMGN",
+    "name": "Amgen",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 25.164698,
+    "pb": 21.26615,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "APH",
+    "name": "Amphenol",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 50.666668,
+    "pb": 15.507477,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ADI",
+    "name": "Analog Devices",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 58.927303,
+    "pb": 5.7334027,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AON",
+    "name": "Aon plc",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 18.214718,
+    "pb": 7.2045436,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "APA",
+    "name": "APA Corporation",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 7.5920744,
+    "pb": 1.7830942,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "APO",
+    "name": "Apollo Global Management",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 74.879745,
+    "pb": 3.6762786,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AAPL",
+    "name": "Apple Inc.",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 35.073936,
+    "pb": 39.856747,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AMAT",
+    "name": "Applied Materials",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 68.01505,
+    "pb": 24.008766,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "APP",
+    "name": "AppLovin",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 44.724823,
+    "pb": 73.31104,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "APTV",
+    "name": "Aptiv",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "roe",
+      "net_margin"
+    ],
+    "verdict": "borderline",
+    "pe": 36.535717,
+    "pb": 1.4116836,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "fail",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ACGL",
+    "name": "Arch Capital Group",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 7.4661536,
+    "pb": 1.4605591,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ADM",
+    "name": "Archer Daniels Midland",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "roe",
+      "gross_margin",
+      "net_margin"
+    ],
+    "verdict": "fail",
+    "pe": 34.107143,
+    "pb": 1.6148465,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "fail",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "fail",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ARES",
+    "name": "Ares Management",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 51.29493,
+    "pb": 9.782055,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ANET",
+    "name": "Arista Networks",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 58.57931,
+    "pb": 15.860331,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AJG",
+    "name": "Arthur J. Gallagher & Co.",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 37.14725,
+    "pb": 2.4806044,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AIZ",
+    "name": "Assurant",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "gross_margin"
+    ],
+    "verdict": "borderline",
+    "pe": 13.763711,
+    "pb": 2.2725003,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "fail",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "T",
+    "name": "AT&T",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 6.969697,
+    "pb": 1.3147031,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ATO",
+    "name": "Atmos Energy",
+    "market": "us",
+    "industry": "energy",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 21.241678,
+    "pb": 1.9287481,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ADSK",
+    "name": "Autodesk",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 28.382483,
+    "pb": 12.86357,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ADP",
+    "name": "Automatic Data Processing",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 20.87139,
+    "pb": 14.128447,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AZO",
+    "name": "AutoZone",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 21.983353,
+    "pb": -18.78738,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "unknown",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AVB",
+    "name": "AvalonBay Communities",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 23.381662,
+    "pb": 2.281179,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AVY",
+    "name": "Avery Dennison",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 18.282658,
+    "pb": 5.4102244,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AXON",
+    "name": "Axon Enterprise",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 224.24399,
+    "pb": 12.780931,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BKR",
+    "name": "Baker Hughes",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 17.731628,
+    "pb": 2.8499537,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BALL",
+    "name": "Ball Corporation",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 18.19242,
+    "pb": 2.9659207,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BAC",
+    "name": "Bank of America",
+    "market": "us",
+    "industry": "financial",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 14.138957,
+    "pb": 1.4737222,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "unknown",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BAX",
+    "name": "Baxter International",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": null,
+    "pb": 1.8220664,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BDX",
+    "name": "Becton Dickinson",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 26.410122,
+    "pb": 1.7278271,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BRK.B",
+    "name": "Berkshire Hathaway",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": null,
+    "pb": null,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "unknown",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "unknown",
+      "ocf_to_ni": "unknown",
+      "net_margin": "unknown",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BBY",
+    "name": "Best Buy",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 14.051851,
+    "pb": 5.1858935,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "TECH",
+    "name": "Bio-Techne",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 100.92857,
+    "pb": 5.47632,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BIIB",
+    "name": "Biogen",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 23.257265,
+    "pb": 1.7097819,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BLK",
+    "name": "BlackRock",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 24.208458,
+    "pb": 2.6353495,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BX",
+    "name": "Blackstone Inc.",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 30.249355,
+    "pb": 11.041569,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "XYZ",
+    "name": "Block, Inc.",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 59.375,
+    "pb": 2.0607934,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BNY",
+    "name": "BNY Mellon",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 17.919455,
+    "pb": 2.5159192,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "unknown",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BA",
+    "name": "Boeing",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 85.561264,
+    "pb": 28.516665,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "exempt",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BKNG",
+    "name": "Booking Holdings",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 23.483532,
+    "pb": -15.935628,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "unknown",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BSX",
+    "name": "Boston Scientific",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 17.85774,
+    "pb": 2.4525917,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BMY",
+    "name": "Bristol Myers Squibb",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 16.140057,
+    "pb": 5.8628407,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AVGO",
+    "name": "Broadcom",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 62.958332,
+    "pb": 20.496473,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BR",
+    "name": "Broadridge Financial Solutions",
+    "market": "us",
+    "industry": "financial",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 14.647058,
+    "pb": 5.6212287,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BRO",
+    "name": "Brown & Brown",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 20.895767,
+    "pb": 1.7070706,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BF.B",
+    "name": "Brown–Forman",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": null,
+    "pb": null,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "unknown",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "unknown",
+      "ocf_to_ni": "unknown",
+      "net_margin": "unknown",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BLDR",
+    "name": "Builders FirstSource",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "roe",
+      "net_margin"
+    ],
+    "verdict": "borderline",
+    "pe": 34.152676,
+    "pb": 2.4026637,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "fail",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BG",
+    "name": "Bunge Global",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "roe",
+      "gross_margin",
+      "net_margin"
+    ],
+    "verdict": "fail",
+    "pe": 28.086843,
+    "pb": 1.2905684,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "fail",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "fail",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "BXP",
+    "name": "BXP, Inc.",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 33.321606,
+    "pb": 2.0422554,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CHRW",
+    "name": "C.H. Robinson",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 38.20284,
+    "pb": 13.05831,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "exempt",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CDNS",
+    "name": "Cadence Design Systems",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 87.48718,
+    "pb": 15.7770405,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CPT",
+    "name": "Camden Property Trust",
+    "market": "us",
+    "industry": "property",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 31.980448,
+    "pb": 2.9546568,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "COF",
+    "name": "Capital One",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "roe"
+    ],
+    "verdict": "borderline",
+    "pe": 61.539875,
+    "pb": 1.1562779,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "fail",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "unknown",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CAH",
+    "name": "Cardinal Health",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "gross_margin",
+      "net_margin"
+    ],
+    "verdict": "borderline",
+    "pe": 36.324158,
+    "pb": -19.712887,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "unknown",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "fail",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CCL",
+    "name": "Carnival Corporation",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 12.8693695,
+    "pb": 3.0226407,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CARR",
+    "name": "Carrier Global",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 48.899998,
+    "pb": 4.5333743,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CVNA",
+    "name": "Carvana",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 38.04624,
+    "pb": 12.6503935,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CASY",
+    "name": "Casey's",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "net_margin"
+    ],
+    "verdict": "borderline",
+    "pe": 41.41688,
+    "pb": 7.4223943,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CAT",
+    "name": "Caterpillar Inc.",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 53.13872,
+    "pb": 26.286688,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CBOE",
+    "name": "Cboe Global Markets",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 20.723312,
+    "pb": 4.7270923,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CBRE",
+    "name": "CBRE Group",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "net_margin"
+    ],
+    "verdict": "borderline",
+    "pe": 30.75114,
+    "pb": 4.629477,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CDW",
+    "name": "CDW Corporation",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 17.13033,
+    "pb": 7.04468,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "COR",
+    "name": "Cencora",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 21.700922,
+    "pb": 16.204548,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "exempt",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CNC",
+    "name": "Centene Corporation",
+    "market": "us",
+    "industry": "other",
+    "failures": [
+      "roe",
+      "gross_margin",
+      "net_margin"
+    ],
+    "verdict": "fail",
+    "pe": null,
+    "pb": 1.4792027,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "fail",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "fail",
+      "ocf_to_ni": "unknown",
+      "net_margin": "fail",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CNP",
+    "name": "CenterPoint Energy",
+    "market": "us",
+    "industry": "energy",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 27.018406,
+    "pb": 2.5162838,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CF",
+    "name": "CF Industries",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 9.753153,
+    "pb": 3.1130664,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CRL",
+    "name": "Charles River Laboratories",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": null,
+    "pb": 3.714824,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "exempt",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "exempt",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "SCHW",
+    "name": "Charles Schwab Corporation",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 18.343935,
+    "pb": 3.7761407,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "CHTR",
+    "name": "Charter Communications",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 3.8466325,
+    "pb": 1.0674183,
+    "source": "yfinance",
+    "date": "2026-07-01",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  }
+]

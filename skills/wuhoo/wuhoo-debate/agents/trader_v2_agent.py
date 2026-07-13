@@ -33,8 +33,33 @@ class TraderV2Agent(TraderAgent):
             disagreement_points=disagreement_points or [],
             quant_stats=quant_stats,
         )
-        response = self._call_llm(input_text)
-        result = self._parse_json_output(response)
+        response = self._call_llm(input_text, max_tokens=16000)
+
+        # JSON 解析重试（Trader v2 推理链长，容易非 JSON 输出）
+        max_retries = 2
+        last_error = None
+        for attempt in range(max_retries + 1):
+            try:
+                result = self._parse_json_output(response)
+                break
+            except ValueError as e:
+                last_error = e
+                if attempt < max_retries:
+                    import time as time_mod
+                    time_mod.sleep(1)
+                    response = self._call_llm(input_text, max_tokens=16000 + (attempt + 1) * 4000)
+                continue
+        else:
+            result = {
+                "decision": "HOLD",
+                "P_up": 0.5,
+                "edge": 0.0,
+                "position_size": 0.0,
+                "confidence": 0.3,
+                "reasoning": f"JSON parse failed after {max_retries+1} attempts: {str(last_error)[:150]}",
+                "bull_quality": 0,
+                "bear_quality": 0,
+            }
 
         result["symbol"] = symbol
         result["timestamp"] = datetime.now().isoformat()

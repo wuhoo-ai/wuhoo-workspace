@@ -105,6 +105,13 @@ class PatternBacktest:
         self.price_map = _load_price_index(self.market)
         print(f"  Prices: {len(self.price_map)} entries", file=sys.stderr)
         
+        # Pre-index price_map by code for O(1) lookup in _prepare_features
+        self._price_dates_by_code = defaultdict(list)
+        for (c, d) in self.price_map:
+            self._price_dates_by_code[c].append(d)
+        for c in self._price_dates_by_code:
+            self._price_dates_by_code[c].sort()
+        
         self.regimes = _load_regimes()
         
         # Prepare feature matrix for fast similarity search
@@ -122,30 +129,50 @@ class PatternBacktest:
         all_dates = sorted(df['factor_date'].unique())
         
         for idx, row in df.iterrows():
-            code = str(row['ts_code']).strip()
+            code_raw = str(row['ts_code']).strip()
             date = str(row['factor_date']).strip()
             
-            # Current price
-            if (code, date) not in self.price_map:
-                continue
-            p0 = self.price_map[(code, date)]
+            # Normalize code: strip .US suffix for US market only
+            # US factor files use "MMM.US" while price data uses "MMM"
+            # CN/HK: both factor and price use same format (.SH/.SZ, HK.XXXXX)
+            if self.market == 'us' and '.' in code_raw:
+                code = code_raw.split('.')[0]
+            else:
+                code = code_raw
             
-            # Forward returns
+            # Find closest available price date for current price lookup
+            available_dates = self._price_dates_by_code.get(code, [])
+            if not available_dates:
+                continue
+            # Use the most recent price date <= factor_date
+            best_date = None
+            for d in reversed(available_dates):
+                if d <= date:
+                    best_date = d
+                    break
+            if best_date is None:
+                best_date = available_dates[0]  # fallback: earliest available
+            p0 = self.price_map[(code, best_date)]
+            
+            # Forward returns — use nearest available price date for each target
             date_idx = all_dates.index(date) if date in all_dates else -1
             if date_idx < 0:
                 continue
             
             fwd_5d = None
             if date_idx + 5 < len(all_dates):
-                d5 = all_dates[date_idx + 5]
-                if (code, d5) in self.price_map:
-                    fwd_5d = (self.price_map[(code, d5)] - p0) / p0
+                d5_target = all_dates[date_idx + 5]
+                # Find closest price date >= d5_target
+                d5_candidates = sorted([d for d in available_dates if d >= d5_target])
+                if d5_candidates:
+                    fwd_5d = (self.price_map[(code, d5_candidates[0])] - p0) / p0
             
             fwd_20d = None
             if date_idx + 20 < len(all_dates):
-                d20 = all_dates[date_idx + 20]
-                if (code, d20) in self.price_map:
-                    fwd_20d = (self.price_map[(code, d20)] - p0) / p0
+                d20_target = all_dates[date_idx + 20]
+                d20_candidates = sorted([d for d in available_dates if d >= d20_target])
+                if d20_candidates:
+                    fwd_20d = (self.price_map[(code, d20_candidates[0])] - p0) / p0
             
             if fwd_5d is None and fwd_20d is None:
                 continue

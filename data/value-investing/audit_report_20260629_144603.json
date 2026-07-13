@@ -1,0 +1,113 @@
+{
+  "audit_time": "2026-06-29T14:45:55.107698",
+  "summary": {
+    "pass": 20,
+    "fail": 0,
+    "warn": 0,
+    "total": 20
+  },
+  "modules": {
+    "financial_rigor.verify-market-cap": {
+      "status": "PASS",
+      "output": "{\n  \"currency\": \"CNY\",\n  \"price\": 150.0,\n  \"shares_billion\": 20.0,\n  \"computed_market_cap\": 300000000000.0,\n  \"computed_market_cap_display\": \"3,000亿\",\n  \"reported_market_cap\": 3000.0,\n  \"deviation_pct\": 100.0,\n  \"verdict\": \"❌ 偏差 100.0%，数据可能错误\",\n  \"status\": \"fail\"\n}\n",
+      "notes": ""
+    },
+    "financial_rigor.cross-validate": {
+      "status": "PASS",
+      "output": "{\n  \"field\": \"净利润\",\n  \"unit\": \"亿\",\n  \"sources\": {\n    \"源1\": 1239.0,\n    \"源2\": 1241.0\n  },\n  \"deviations\": [\n    {\n      \"source1\": \"源1\",\n      \"source2\": \"源2\",\n      \"value1\": 1239.0,\n      \"value2\": 1241.0,\n      \"deviation_pct\": 0.16\n    }\n  ],\n  \"max_deviation_pct\": 0.16,\n  \"verdict\": \"✅ 一致，取来源1数",
+      "notes": ""
+    },
+    "financial_rigor.three-scenario": {
+      "status": "PASS",
+      "output": "re_eps\": 6.655,\n      \"future_price\": 99.82,\n      \"future_market_cap_billion\": 998.25,\n      \"annual_return_pct\": -0.06,\n      \"margin_of_safety_pct\": -0.18\n    },\n    {\n      \"scenario\": \"悲观\",\n      \"growth_rate_pct\": 5.0,\n      \"target_pe\": 10.0,\n      \"future_eps\": 5.7881,\n      \"future_price\": ",
+      "notes": ""
+    },
+    "financial_rigor.reverse-dcf": {
+      "status": "PASS",
+      "output": "{\n  \"currency\": \"CNY\",\n  \"current_price\": 100.0,\n  \"current_eps\": 5.0,\n  \"current_pe\": 20.0,\n  \"discount_rate_pct\": 10,\n  \"terminal_growth_pct\": 3,\n  \"implied_growth_pct\": 4.76,\n  \"interpretation\": \"市场预期低增长（4.8%），估值保守\"\n}\n",
+      "notes": ""
+    },
+    "financial_rigor.verify-valuation": {
+      "status": "PASS",
+      "output": "{\n  \"price\": 150.0,\n  \"pe\": 15.0,\n  \"eps\": 10.0,\n  \"pb\": 1.88,\n  \"bvps\": 80.0,\n  \"fcf_yield_pct\": 8.0,\n  \"fcf_per_share\": 12.0,\n  \"dividend_yield_pct\": 2.0,\n  \"dividend_per_share\": 3.0\n}\n",
+      "notes": ""
+    },
+    "report_audit.extract": {
+      "status": "PASS",
+      "output": "er\": 4,\n      \"type\": \"numeric\",\n      \"metric\": \"\",\n      \"fetched_value\": \"\",\n      \"fetched_source\": \"\",\n      \"fetched_value2\": \"\",\n      \"fetched_source2\": \"\",\n      \"status\": \"pending\"\n    },\n    {\n      \"context\": \"毛利率 50%\",\n      \"reported_value\": \"50\",\n      \"unit\": \"%\",\n      \"line_number\"",
+      "notes": ""
+    },
+    "report_audit.verdict": {
+      "status": "PASS",
+      "output": "0\",\n      \"deviation_pct\": 0.2,\n      \"status\": \"pass\"\n    },\n    {\n      \"reported_value\": \"20\",\n      \"unit\": \"x\",\n      \"fetched_value\": \"20.1\",\n      \"deviation_pct\": 0.5,\n      \"status\": \"pass\"\n    },\n    {\n      \"reported_value\": \"25\",\n      \"unit\": \"%\",\n      \"fetched_value\": \"25.0\",\n      \"d",
+      "notes": ""
+    },
+    "quality_screen.us": {
+      "status": "PASS",
+      "output": "=================\n质量筛选: 美股（S&P 500） (5 只)\n============================================================\n\n  ✅ 通过: 5 (100.0%)\n  ⚠️ 边界: 0 (0.0%)\n  ❌ 排除: 0 (0.0%)\n\n  通过池已保存: /home/admin/wuhoo-workspace/data/value-investing/quality_pass_us_2026-06-29.csv (5 只)\n  详细报告已保存: /home/admin/wuhoo-workspace/data/v",
+      "notes": "S&P500 前5只全通过（预期）"
+    },
+    "quality_screen.outputs": {
+      "status": "PASS",
+      "output": "CSV=True JSON=True Cache=True",
+      "notes": ""
+    },
+    "checklist.AAPL": {
+      "status": "PASS",
+      "output": "\n🔍 检查: Apple (AAPL) [US]\n  ❌ 未通过 Checklist — 多数关卡未达标\n  报告: /home/admin/wuhoo-workspace/data/value-investing/checklist_us_AAPL_20260629.md\n",
+      "notes": "Apple Checklist 6关执行"
+    },
+    "checklist.report": {
+      "status": "PASS",
+      "output": "[PosixPath('/home/admin/wuhoo-workspace/data/value-investing/checklist_us_AAPL_20260629.md')]",
+      "notes": ""
+    },
+    "deep_analysis.AAPL": {
+      "status": "PASS",
+      "output": "📊 四大师深度分析: Apple (AAPL) [US]\n  收集财务数据...\n  信息丰富度: B级\n  报告: /home/admin/wuhoo-workspace/data/value-investing/reports/value_deep_us_AAPL_20260629.md\n  JSON: /home/admin/wuhoo-workspace/data/value-investing/reports/value_deep_us_AAPL_20260629.json\n  ✅ 分析完成\n",
+      "notes": "7模块分析报告生成"
+    },
+    "deep_analysis.reports": {
+      "status": "PASS",
+      "output": "MD=1 JSON=1",
+      "notes": ""
+    },
+    "industry_funnel.AI": {
+      "status": "PASS",
+      "output": "🔍 行业漏斗: AI算力 [US]\n  📄 漏斗报告: /home/admin/wuhoo-workspace/data/value-investing/reports/funnel_AI算力_20260629.md\n  📋 扫描计划已生成 — 需LLM执行扫描+筛选\n  📋 执行计划: /home/admin/wuhoo-workspace/data/value-investing/reports/funnel_plan_AI算力_20260629.json\n  ✅ 模板已生成 — 由 LLM Agent 执行漏斗筛选\n",
+      "notes": "生成扫描计划+报告模板"
+    },
+    "industry_funnel.outputs": {
+      "status": "PASS",
+      "output": "Report=1 Plan=1",
+      "notes": ""
+    },
+    "portfolio_review.no_data": {
+      "status": "PASS",
+      "output": "No portfolio data yet (expected)",
+      "notes": ""
+    },
+    "thesis_tracker.add": {
+      "status": "PASS",
+      "output": "{\n  \"code\": \"AAPL\",\n  \"market\": \"us\",\n  \"name\": \"Apple\",\n  \"thesis\": \"全球最强消费科技品牌，护城河极宽\",\n  \"buy_price\": 150.0,\n  \"buy_date\": \"2026-06-29\",\n  \"sell_conditions\": [\n    \"买入逻辑发生根本性变化\",\n    \"发现更好的投资机会（机会成本）\",\n    \"估值严重高估（安全边际消失）\",\n    \"管理层出现诚信问题\"\n  ],\n  \"position_pct\": null,\n  \"checks\": [],\n  \"status\": \"",
+      "notes": ""
+    },
+    "thesis_tracker.check": {
+      "status": "PASS",
+      "output": "{\n  \"code\": \"AAPL\",\n  \"name\": \"Apple\",\n  \"thesis\": \"全球最强消费科技品牌，护城河极宽\",\n  \"buy_price\": 150.0,\n  \"buy_date\": \"2026-06-29\",\n  \"latest_check\": {\n    \"date\": \"2026-06-29\",\n    \"current_price\": 160.0,\n    \"thesis\": \"全球最强消费科技品牌，护城河极宽\",\n    \"buy_price\": 150.0,\n    \"pnl_pct\": 6.7,\n    \"thesis_intact\": null,\n",
+      "notes": ""
+    },
+    "thesis_tracker.list": {
+      "status": "PASS",
+      "output": "代码           名称         买入价      状态       最后检查\n------------------------------------------------------------\nAAPL         Apple      150.0    active   2026-06-29\n\n共 1 条论文\n",
+      "notes": ""
+    },
+    "thesis_tracker.close": {
+      "status": "PASS",
+      "output": "{\n  \"status\": \"closed\",\n  \"code\": \"AAPL\",\n  \"reason\": \"测试完成\"\n}\n",
+      "notes": ""
+    }
+  },
+  "data_dir": "/home/admin/wuhoo-workspace/data/value-investing",
+  "data_file_count": 10
+}

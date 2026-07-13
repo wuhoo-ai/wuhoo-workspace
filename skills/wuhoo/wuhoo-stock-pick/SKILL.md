@@ -191,6 +191,83 @@ head ~/wuhoo-workspace/data/stock-pick/stock_info_us_top500.csv
 
 S&P 500 中存在同公司双类股（如 GOOG/GOOGL），需在选股后手动过滤，避免重复暴露。
 
+## Market Regime → 选股路由（Cron Job 专用）
+
+每日 cron 选股流程：先跑 `market_regime.py` 判定市场状态，再按 regime 路由到对应选股策略。
+
+### 路由规则
+
+| Regime | 策略 | 仓位 | 工具 |
+|--------|------|------|------|
+| BULL_TRENDING | trend_momentum | 100% | ⚠️ 见下方限制 |
+| BULL_VOLATILE | trend_momentum | 75% | ⚠️ 见下方限制 |
+| RANGING | oversold_rebound | 80% | `stock_pick.py` |
+| BEAR_VOLATILE | oversold_rebound (defensive) | 50% | `stock_pick.py` |
+| BEAR_TRENDING | 空仓 (cash_only) | 0% | 不选股 |
+
+### 执行命令
+
+```bash
+# 1. 判定市场状态
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-trade
+python3.11 market_regime.py --market all --save 2>&1
+
+# 2. 读取 regime JSON
+REGIME_FILE=$(ls -t ~/wuhoo-workspace/data/regime/regime_all_*.json 2>/dev/null | head -1)
+
+# 3. 对每个市场按 strategy 字段执行：
+#    - oversold_rebound → stock_pick.py
+#    - trend_momentum → ⚠️ trend_momentum.py 仅做回测（见下）
+#    - cash_only → 跳过
+
+# RANGING / BEAR_VOLATILE（超跌反弹）
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-stock-pick
+python3.11 stock_pick.py --market <market> --date $(date +%Y-%m-%d) --top-n 10 2>&1
+```
+
+### ⚠️ trend_momentum.py 实时选股限制
+
+`trend_momentum.py` **仅做历史回测**，无 `--date` 参数也无实时选股模式。BULL_TRENDING / BULL_VOLATILE 市场无法通过它获得当日 Top 10，只能降级为 `stock_pick.py` 超跌反弹模型输出。
+
+**设计冲突**：超跌反弹模型按 `momentum_10d` **越低越好**排序（偏好超跌标的），与趋势动量策略的**追高动量**方向相反。降级使用的选股结果不完全匹配策略意图。
+
+**当前处置**：BULL_TRENDING 市场 cron 中**双重运行**：
+
+```bash
+# 并行运行：trend_momentum 回测 + stock_pick 选股
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-trade
+python3.11 trend_momentum.py --market us --months 12 &
+TM_PID=$!
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-stock-pick
+python3.11 stock_pick.py --market us --date $(date +%Y-%m-%d) --top-n 10 &
+SP_PID=$!
+wait $TM_PID $SP_PID
+```
+
+报告中：
+- 主选股表使用 `stock_pick.py` 输出，标注「超跌反弹模型输出（降级执行，非趋势动量）」
+- 附注区输出 `trend_momentum.py` 回测摘要（Sharpe、CumReturn、WinRate），标注「仅供参考」
+- 长期应扩展 trend_momentum.py 增加实时选股模式
+
+### HK 名称查找
+
+`stock_pick.py --market hk` 的输出中 `name` 列常显示 N/A。需手动从 `stock_info_hk_top500.csv` 查表补全：
+
+```bash
+python3.11 -c "
+import pandas as pd
+result = pd.read_csv('~/wuhoo-workspace/data/stock-pick/factors/result_hk_YYYYMMDD.csv')
+info = pd.read_csv('~/wuhoo-workspace/data/stock-pick/stock_info_hk_top500.csv')
+name_map = dict(zip(info['code'], info['name']))  # HK.00700 → 腾讯控股
+for _, row in result.iterrows():
+    print(f'{row.ts_code}  {name_map.get(row.ts_code, \"N/A\")}')
+"
+```
+
+### CN 数据日期滞后
+
+CN 因子计算使用的「最近交易日」可能比 target date 早 1-7 个交易日（Tushare / efinance 入库延迟）。属正常现象，cron 报告中标注实际数据日期即可。对 252d/20d 窗口因子影响有限。
+
 ## 依赖
 
 ```bash
@@ -206,6 +283,41 @@ A 股需要 `TUSHARE_TOKEN` 环境变量。港股需要富途 OpenD 运行在 `1
 | wuhoo-stock-pick | 选股 | 多因子选股（被 Workflow C 调用） |
 | wuhoo-stock-deep-analysis | Workflow B | 单股深度分析 |
 | wuhoo-stock-trade | Workflow C | 多市场自动选股交易 |
+| **wuhoo-value-investing** | **质量预筛选** | **价值投资7指标去劣筛选，选股前过滤 universe** |
+
+### 价值投资质量预筛选集成
+
+v4.4 (2026-06-29) — 新增与 `wuhoo-value-investing` 的集成点：
+
+```bash
+# 选股前先运行质量筛选，排除非一流公司
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-value-investing
+python3.11 quality_screen.py --market us --date $(date +%Y-%m-%d)
+
+# 通过池在 ~/wuhoo-workspace/data/value-investing/quality_pass_{market}_{date}.csv
+# stock_pick.py 可从通过池中选股，而非全量 universe
+```
+
+质量筛选阈值（各市场独立）：
+| 指标 | A股 | 港股 | 美股 |
+|------|:---:|:---:|:---:|
+| ROE < | 5% | 8% | 8% |
+| 负债率 > | 60% | 60%（地产70%） | 60% |
+| 毛利率 < | 15% | 15% | 15% |
+
+详见 `wuhoo-value-investing` skill。
+
+## 数据保鲜检查
+
+每日 cron 可运行保鲜检查脚本，扫描所有数据源的新鲜度：
+
+```bash
+python3.11 ~/wuhoo-workspace/scripts/check_data_freshness.py          # 完整 Markdown 报告
+python3.11 ~/wuhoo-workspace/scripts/check_data_freshness.py --quiet  # 仅问题项
+python3.11 ~/wuhoo-workspace/scripts/check_data_freshness.py --json   # JSON 输出
+```
+
+覆盖范围：A股/港股/美股日线、换手率、因子、成分股、市场状态、期货日线（共 12 个数据源）。
 
 ## 数据更新维护
 
@@ -428,6 +540,26 @@ cat /proc/<python_pid>/io     # 真实 IO 活动
 
 **⚠️ CN --incremental 日线阶段 "0 months updated" 是正常的**：当 `daily_data/` 中已有当月和上月 CSV 时，Tushare 日线阶段会全部跳过（显示 "已存在，跳过"），最终报告 "A 股日线更新完成：0 个月"。**这不是错误** — 日线数据已是最新。efinance 换手率阶段不受影响，仍会独立运行并更新全部 999 只股票。
 
+### Tushare index_weight API 静默返回空（2026-06-22）
+
+`pro.index_weight(index_code='000852.SH', ...)` 可能返回空 DataFrame（0 rows），导致 `update_cn_members()` 返回 `[]`，后续日线更新跳过后所有股票（`update_cn_daily` 收到 0 只 members → 0 个月更新）。
+
+**症状**：`--force` 模式下仍报「无法获取成分股数据」，A股日线停滞。
+
+**根因**：Tushare API 行为变更（不确定），`index_weight` 不再返回中证1000成分股数据。
+
+**修复**：`update_all_data.py` 已加入 akshare 降级逻辑（`ak.index_stock_cons('000852')`）。Tushare 失败时自动用 akshare 获取成分股，格式化为 `XXXXXX.SH/SZ`。
+
+**验证**：
+```bash
+python3.11 -c "
+import tushare as ts, os
+pro = ts.pro_api(os.environ['TUSHARE_TOKEN'])
+df = pro.index_weight(index_code='000852.SH', start_date='20260601', end_date='20260622')
+print(f'Tushare: {len(df)} rows — {\"OK\" if len(df)>0 else \"BROKEN, use akshare fallback\"}')
+"
+```
+
 ### Tushare 节假日数据延迟
 
 中国长假期间（春节、五一、国庆），Tushare Pro 数据入库严重滞后：
@@ -485,28 +617,32 @@ head ~/wuhoo-workspace/data/stock-pick/factors/result_{us,hk,cn}_YYYYMMDD.csv
 
 ## Cron Job 执行策略
 
-CN efinance 换手率阶段已并行化（v3.6），全量 ~3 分钟，增量秒级。US 和 HK 各需 2-5 分钟。三市场可安全并行启动，等待全部完成再输出报告：
+CN efinance 换手率阶段已并行化（v3.6），全量 ~3 分钟。**增量「秒级」仅在待重试股票数 ≤20 时成立** — 当积累了大量先前失败的股票（如 100+）需要重试时，增量可能仍需 5+ 分钟。因此无论 v3.6 与否，CN 必须用 `timeout 300` 包装作为安全网，日线数据足够选股，换手率中断不受影响。
+
+US 和 HK 各需 2-5 分钟。三市场可安全并行启动：
 
 ```bash
-# ✅ 推荐：三市场并行，全部等待（~3-5 分钟）
-python3.11 update_all_data.py --market cn --incremental &
+# ✅ 推荐：三市场并行 + CN timeout 安全网
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-stock-pick
+timeout 300 python3.11 update_all_data.py --market cn --incremental &
 CN_PID=$!
 python3.11 fetch_hk_data.py --incremental &
 HK_PID=$!
 python3.11 update_all_data.py --market us --incremental &
 US_PID=$!
 wait $CN_PID $HK_PID $US_PID
-# → 全部完成后输出完整报告
+# CN timeout → EXIT_CODE=124，属预期行为，不阻塞报告
 
-# 如需提前输出 US/HK 部分报告，仅 wait 相应 PID：
-# wait $US_PID $HK_PID  # 仅等待 US+HKC（~3 分钟）
+# 策略：US/HK 完成即可先输出部分报告，CN 等 timeout 结束
+# wait $US_PID $HK_PID  # 仅等待 US+HK（~3 分钟），CN 后台继续
 ```
 
 **CN 进程监控要点**（Cron 中适用）：
-- v3.6 并行版大幅提速，全量 ~3 分钟，增量秒级，一般无需监控
+- v3.6 并行版：全量 ~3 分钟，纯增量（≤20 retry）秒级，积压 retry（100+）仍可能 5+ 分钟
 - 如进程仍卡在 efinance，检查网络：`ef.stock.get_quote_history('000001')` 测试单只
 - 换手率数据存储在 `turnover_data/`（**不是 `daily_data/`**），文件在拉取过程中**实时写入**（v3.6 增量合并）
 - 首次全量运行时内存从 ~150MB 增长到 ~1GB 是正常的（批量拉取 999 只数据）
+- timeout 返回 `EXIT_CODE=124` 是**预期行为**（非错误），表示换手率阶段被安全截断
 
 ### 港股数据更新
 
@@ -582,11 +718,12 @@ Legacy 格式（含 `change_rate` 列）与 stock-pick 格式兼容，额外列�
 ---
 
 *创建时间：2026-03-12*
-*更新时间：2026-06-08*
-*版本：4.0 — 行业分散约束 + Beta 阈值严格化（前20% + 硬地板1.0）*
+*更新时间：2026-06-27*
+*版本：4.3 — v3.6 增量性能校准：增量「秒级」仅 ≤20 retry；积压 100+ 仍需 5+ 分钟，timeout 300 安全网必留*
 
 ## 参考文件
 
+- `references/20260612-cron-stock-pick-audit.md` — 2026-06-12 cron 选股审计：trend_momentum 实时限制 + HK 名称 N/A + CN 数据滞后
 - `references/20260608-audit.md` — 2026-06-08 选股审计：数据膨胀修复 + Beta 阈值调整 + 行业分散实现
 - `references/20260528-efinance-parallel-rewrite.md` — 2026-05-28 efinance 时序超时修复审计（并行化 v3.6）
 - `references/20260509-cron-audit.md` — 2026-05-09 cron 数据更新审计（三市场并行启动，US/HK 快速完成，CN efinance 阻塞报告）

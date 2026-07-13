@@ -1,0 +1,264 @@
+{
+  "us": {
+    "market": "us",
+    "strategy": "trend_momentum",
+    "parameters": {
+      "top_n": 10,
+      "hold_days": 20,
+      "months_tested": 12
+    },
+    "results": {
+      "monthly_avg_return_pct": 6.64,
+      "monthly_win_rate_pct": 83.3,
+      "best_month_pct": 25.54,
+      "worst_month_pct": -3.87,
+      "std_monthly_pct": 8.28,
+      "sharpe_monthly": 0.802,
+      "total_cumulative_return_pct": 108.89
+    },
+    "monthly_details": [
+      {
+        "ref_date": "2025-06-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 6.16,
+        "win_rate": 90.0,
+        "returns": {
+          "MU": 2.04,
+          "ON": 5.05,
+          "CASY": 2.14,
+          "KLAC": 3.61,
+          "LITE": 8.13,
+          "MCHP": 7.14,
+          "LRCX": 6.04,
+          "HOOD": 23.0,
+          "VST": 8.6,
+          "BXP": -4.11
+        }
+      },
+      {
+        "ref_date": "2025-07-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": -3.87,
+        "win_rate": 40.0,
+        "returns": {
+          "AES": 3.59,
+          "TPR": 10.13,
+          "MRNA": -12.48,
+          "LUV": -19.88,
+          "DAL": -5.39,
+          "ON": -18.6,
+          "NCLH": 11.43,
+          "ALB": -2.09,
+          "PTC": 12.58,
+          "COIN": -18.0
+        }
+      },
+      {
+        "ref_date": "2025-08-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 1.54,
+        "win_rate": 80.0,
+        "returns": {
+          "ALB": -3.22,
+          "VTRS": 0.66,
+          "UAL": 3.72,
+          "DAL": 1.48,
+          "EXPE": 2.45,
+          "CRH": 0.4,
+          "HUM": 8.26,
+          "INCY": -1.08,
+          "LEN": 0.55,
+          "ZBH": 2.2
+        }
+      },
+      {
+        "ref_date": "2025-09-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 12.25,
+        "win_rate": 70.0,
+        "returns": {
+          "SNDK": 42.54,
+          "WBD": -2.42,
+          "CIEN": 11.44,
+          "MU": 19.13,
+          "TSLA": 4.83,
+          "LRCX": 22.56,
+          "COHR": 6.81,
+          "HOOD": 29.47,
+          "TKO": -3.49,
+          "BX": -8.35
+        }
+      },
+      {
+        "ref_date": "2025-10-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 4.53,
+        "win_rate": 50.0,
+        "returns": {
+          "AMD": 8.82,
+          "SNDK": 43.46,
+          "ALB": -1.66,
+          "CEG": -6.5,
+          "GNRC": -14.57,
+          "VRT": 6.03,
+          "UAL": -7.63,
+          "CIEN": 12.36,
+          "CAT": 7.15,
+          "EL": -2.12
+        }
+      },
+      {
+        "ref_date": "2025-11-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 3.48,
+        "win_rate": 90.0,
+        "returns": {
+          "SNDK": -26.89,
+          "EXPE": 7.66,
+          "ALB": 7.47,
+          "AKAM": 0.4,
+          "LITE": 25.16,
+          "EXE": 5.05,
+          "AMGN": 1.81,
+          "EQT": 3.61,
+          "LVS": 3.08,
+          "DVN": 7.47
+        }
+      },
+      {
+        "ref_date": "2025-12-15",
+        "n_stocks_filtered": 502,
+        "n_selected": 10,
+        "avg_return": 0.28,
+        "win_rate": 50.0,
+        "returns": {
+          "MCHP": -3.2,
+          "MRNA": 3.14,
+          "DG": 2.93,
+          "LUV": -0.58,
+          "GEV": -0.26,
+          "HUM": -3.4,
+          "LULU": 2.19,
+          "ODFL": 1.1,
+          "GM": -1.22,
+          "CRL": 2.15
+        }
+      },
+      {
+        "ref_date": "2026-01-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 9.89,
+        "win_rate": 80.0,
+        "returns": {
+          "SNDK": 62.55,
+          "MRNA": 8.1,
+          "WDC": 21.67,
+          "KLAC": -8.71,
+          "LRCX": 9.21,
+          "AMAT": 2.92,
+          "HII": 0.34,
+          "ALB": -5.09,
+          "BG": 4.73,
+          "SLB": 3.18
+        }
+      },
+      {
+        "ref_date": "2026-02-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": -1.69,
+        "win_rate": 40.0,
+        "returns": {
+          "GNRC": -6.28,
+          "TER": 0.02,
+          "GLW": 3.43,
+          "VRT": 2.55,
+          "TPL": 22.86,
+          "SW": -12.26,
+          "TPR": -2.76,
+          "ON": -15.44,
+          "VTRS": -7.69,
+          "IRM": -1.37
+        }
+      },
+      {
+        "ref_date": "2026-03-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 2.79,
+        "win_rate": 70.0,
+        "returns": {
+          "CF": 6.25,
+          "LYB": 11.99,
+          "DOW": 15.0,
+          "TTD": -18.57,
+          "MPC": 5.59,
+          "APA": 21.71,
+          "VLO": 4.95,
+          "PSX": 1.57,
+          "DDOG": -4.91,
+          "COIN": -15.67
+        }
+      },
+      {
+        "ref_date": "2026-04-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 18.76,
+        "win_rate": 80.0,
+        "returns": {
+          "INTC": 47.49,
+          "SNDK": 40.84,
+          "STX": 42.14,
+          "AVGO": 4.99,
+          "AMD": 32.32,
+          "ANET": 11.85,
+          "SBAC": 1.73,
+          "LRCX": -2.49,
+          "MPWR": 16.28,
+          "TER": -7.54
+        }
+      },
+      {
+        "ref_date": "2026-05-15",
+        "n_stocks_filtered": 503,
+        "n_selected": 10,
+        "avg_return": 25.54,
+        "win_rate": 90.0,
+        "returns": {
+          "AKAM": 6.26,
+          "MU": 46.84,
+          "DVA": -5.93,
+          "GLW": 4.64,
+          "SNDK": 21.93,
+          "DOC": 1.0,
+          "COHR": 11.62,
+          "HPE": 69.64,
+          "DELL": 79.89,
+          "QCOM": 19.53
+        }
+      }
+    ],
+    "equity_curve": [
+      106.16,
+      102.05,
+      103.62,
+      116.32,
+      121.59,
+      125.82,
+      126.17,
+      138.65,
+      136.3,
+      140.11,
+      166.39,
+      208.89
+    ]
+  }
+}

@@ -1,0 +1,109 @@
+# 质量筛选阈值配置 — 各市场独立校准
+# 
+# A股：中证1000 中位数 ROE ~5-8%，阈值放宽
+# 港股：地产/基建负债率天然偏高，行业豁免
+# 美股：S&P 500 整体质量高，阈值偏严
+
+markets:
+  cn:
+    name: "A股（中证1000）"
+    data_source: "akshare"
+    thresholds:
+      roe_10yr_avg: 5.0         # ROE < 5% 排除（原值8%，A股下调）
+      fcf_5yr_cumulative: 0     # 5年累计FCF < 0 排除
+      interest_coverage: 2.0    # EBIT/利息 < 2x 排除
+      gross_margin: 15.0        # 毛利率 < 15% 排除
+      ocf_to_ni_5yr_avg: 0.7    # OCF/NI < 0.7 排除
+      net_margin: 5.0           # 净利率 < 5% 排除
+      share_dilution_pct: 20.0  # 5年股本膨胀 > 20% 排除
+    exemptions:
+      strategic_investment:     # 战略投入期豁免(ROE不达标)
+        conditions:
+          - "上市不足10年"
+          - "毛利率 > 30%"
+          - "近2年经营现金流为正"
+      low_margin_strategic:     # 主动低利润率豁免(净利率不达标)
+        conditions:
+          - "毛利率 > 30%"
+          - "近2年净利率回升至5%以上或明确上升趋势"
+      high_turnover:            # 高周转薄利模式豁免(毛利率+净利率不达标)
+        conditions:
+          - "ROE > 20%"
+          - "OCF/NI > 1.0"
+          - "会员制/平台佣金/高周转薄利商业模式"
+    skip_rules:
+      - "银行/保险不适用利息覆盖倍数"
+      - "REIT 用核心营运利润ROE代替"
+      - "数据不足标注'数据不足'，不直接判定"
+
+  hk:
+    name: "港股（恒生Top 500）"
+    data_source: "yfinance + Futu OpenD"
+    thresholds:
+      roe_10yr_avg: 8.0
+      fcf_5yr_cumulative: 0
+      interest_coverage: 2.0
+      gross_margin: 15.0
+      ocf_to_ni_5yr_avg: 0.7
+      net_margin: 5.0
+      share_dilution_pct: 20.0
+    exemptions:
+      strategic_investment:
+        conditions:
+          - "上市不足10年"
+          - "毛利率 > 30%"
+          - "近2年经营现金流为正"
+      low_margin_strategic:
+        conditions:
+          - "毛利率 > 30%"
+          - "近2年净利率回升至5%以上或明确上升趋势"
+      high_turnover:
+        conditions:
+          - "ROE > 20%"
+          - "OCF/NI > 1.0"
+          - "会员制/平台佣金/高周转薄利商业模式"
+    industry_exemptions:
+      property: { liability_ratio: 70.0 }    # 地产/基建放宽负债率至70%
+      utility: { liability_ratio: 70.0 }     # 公用事业同上
+      financial: { skip_interest_coverage: true }  # 金融股跳过利息覆盖
+
+  us:
+    name: "美股（S&P 500）"
+    data_source: "yfinance"
+    thresholds:
+      roe_10yr_avg: 8.0
+      fcf_5yr_cumulative: 0
+      interest_coverage: 2.0
+      gross_margin: 15.0
+      ocf_to_ni_5yr_avg: 0.7
+      net_margin: 5.0
+      share_dilution_pct: 20.0
+    exemptions:
+      strategic_investment:
+        conditions:
+          - "上市不足10年"
+          - "毛利率 > 30%"
+          - "近2年经营现金流为正"
+      low_margin_strategic:
+        conditions:
+          - "毛利率 > 30%"
+          - "近2年净利率回升至5%以上或明确上升趋势"
+      high_turnover:
+        conditions:
+          - "ROE > 20%"
+          - "OCF/NI > 1.0"
+          - "会员制/平台佣金/高周转薄利商业模式"
+    skip_rules:
+      - "银行/保险不适用利息覆盖倍数"
+      - "REIT 用核心营运利润ROE代替"
+
+# 行业分类映射（用于豁免匹配）
+industry_groups:
+  property: ["房地产", "地产", "Real Estate", "Property", "基建", "建筑"]
+  utility: ["公用事业", "电力", "水务", "燃气", "Utility", "Electric"]
+  financial: ["银行", "保险", "券商", "Bank", "Insurance", "Financial"]
+  technology: ["科技", "软件", "互联网", "Technology", "Software", "Internet"]
+  healthcare: ["医药", "医疗", "生物", "Pharma", "Healthcare", "Biotech"]
+  consumer: ["消费", "食品", "饮料", "零售", "Consumer", "Retail", "Food"]
+  manufacturing: ["制造", "工业", "化工", "Manufacturing", "Industrial"]
+  energy: ["能源", "石油", "煤炭", "Energy", "Oil", "Coal"]

@@ -1,0 +1,264 @@
+{
+  "hk": {
+    "market": "hk",
+    "strategy": "trend_momentum",
+    "parameters": {
+      "top_n": 10,
+      "hold_days": 20,
+      "months_tested": 12
+    },
+    "results": {
+      "monthly_avg_return_pct": 1.18,
+      "monthly_win_rate_pct": 41.7,
+      "best_month_pct": 16.66,
+      "worst_month_pct": -9.36,
+      "std_monthly_pct": 6.75,
+      "sharpe_monthly": 0.175,
+      "total_cumulative_return_pct": 12.14
+    },
+    "monthly_details": [
+      {
+        "ref_date": "2025-07-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 0.87,
+        "win_rate": 50.0,
+        "returns": {
+          "HK.1788": -12.17,
+          "HK.1428": -17.15,
+          "HK.1053": 0.7,
+          "HK.0376": -20.28,
+          "HK.1375": 0.0,
+          "HK.1519": 13.09,
+          "HK.1456": 1.41,
+          "HK.0136": -7.83,
+          "HK.2197": 44.74,
+          "HK.0400": 6.22
+        }
+      },
+      {
+        "ref_date": "2025-08-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": -1.27,
+        "win_rate": 60.0,
+        "returns": {
+          "HK.0558": -11.63,
+          "HK.0695": 11.57,
+          "HK.1672": -21.42,
+          "HK.1873": 0.38,
+          "HK.2228": 6.38,
+          "HK.2256": 5.62,
+          "HK.1333": -13.26,
+          "HK.1860": 13.52,
+          "HK.2400": 4.98,
+          "HK.1286": -8.79
+        }
+      },
+      {
+        "ref_date": "2025-09-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 16.66,
+        "win_rate": 60.0,
+        "returns": {
+          "HK.2197": 50.76,
+          "HK.1757": 62.45,
+          "HK.2007": -1.59,
+          "HK.0751": 4.94,
+          "HK.2509": 4.89,
+          "HK.0839": -6.72,
+          "HK.1138": -2.08,
+          "HK.2208": 29.56,
+          "HK.1133": 32.48,
+          "HK.2196": -8.13
+        }
+      },
+      {
+        "ref_date": "2025-10-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": -6.79,
+        "win_rate": 20.0,
+        "returns": {
+          "HK.1104": -20.6,
+          "HK.2245": -12.54,
+          "HK.0358": -7.21,
+          "HK.1635": 7.29,
+          "HK.0763": -19.54,
+          "HK.0826": -3.27,
+          "HK.1772": 10.3,
+          "HK.0340": -16.51,
+          "HK.1302": -0.97,
+          "HK.1347": -4.82
+        }
+      },
+      {
+        "ref_date": "2025-11-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 6.73,
+        "win_rate": 40.0,
+        "returns": {
+          "HK.2339": 120.8,
+          "HK.2418": -22.27,
+          "HK.2465": 7.89,
+          "HK.1763": -9.18,
+          "HK.2198": 1.04,
+          "HK.2338": -2.24,
+          "HK.1072": -4.16,
+          "HK.2315": -8.34,
+          "HK.0666": -18.54,
+          "HK.0670": 2.32
+        }
+      },
+      {
+        "ref_date": "2025-12-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 8.83,
+        "win_rate": 80.0,
+        "returns": {
+          "HK.0326": 21.4,
+          "HK.0038": -6.87,
+          "HK.1104": 28.78,
+          "HK.2208": 16.44,
+          "HK.1133": 11.52,
+          "HK.1072": 6.86,
+          "HK.0631": 4.84,
+          "HK.2198": 3.99,
+          "HK.1157": -0.78,
+          "HK.0966": 2.12
+        }
+      },
+      {
+        "ref_date": "2026-01-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": -9.36,
+        "win_rate": 20.0,
+        "returns": {
+          "HK.1045": -4.31,
+          "HK.1104": -19.33,
+          "HK.0241": -12.83,
+          "HK.0108": -22.42,
+          "HK.2192": -26.09,
+          "HK.1347": 3.97,
+          "HK.0400": 0.0,
+          "HK.2013": -6.17,
+          "HK.2228": -7.62,
+          "HK.2400": 1.18
+        }
+      },
+      {
+        "ref_date": "2026-02-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 2.83,
+        "win_rate": 60.0,
+        "returns": {
+          "HK.0679": -21.74,
+          "HK.1888": 16.52,
+          "HK.1072": 35.52,
+          "HK.1286": 3.06,
+          "HK.2025": -6.33,
+          "HK.1523": 1.42,
+          "HK.1672": -11.78,
+          "HK.0425": -11.17,
+          "HK.1171": 3.92,
+          "HK.2039": 18.91
+        }
+      },
+      {
+        "ref_date": "2026-03-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": -4.35,
+        "win_rate": 40.0,
+        "returns": {
+          "HK.0326": 9.37,
+          "HK.0666": 0.13,
+          "HK.1626": 4.42,
+          "HK.0290": 12.7,
+          "HK.1873": -21.28,
+          "HK.2208": -12.93,
+          "HK.0553": -13.19,
+          "HK.2315": -4.07,
+          "HK.1196": -14.82,
+          "HK.0991": -3.83
+        }
+      },
+      {
+        "ref_date": "2026-04-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 0.0,
+        "win_rate": 0,
+        "returns": {
+          "HK.2442": null,
+          "HK.2197": null,
+          "HK.2162": null,
+          "HK.1070": null,
+          "HK.1797": null,
+          "HK.2359": null,
+          "HK.0288": null,
+          "HK.1579": null,
+          "HK.0990": null,
+          "HK.0326": null
+        }
+      },
+      {
+        "ref_date": "2026-05-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 0.0,
+        "win_rate": 0,
+        "returns": {
+          "HK.2418": null,
+          "HK.2139": null,
+          "HK.2442": null,
+          "HK.2477": null,
+          "HK.2197": null,
+          "HK.1875": null,
+          "HK.1585": null,
+          "HK.1772": null,
+          "HK.1361": null,
+          "HK.0290": null
+        }
+      },
+      {
+        "ref_date": "2026-06-15",
+        "n_stocks_filtered": 500,
+        "n_selected": 10,
+        "avg_return": 0.0,
+        "win_rate": 0,
+        "returns": {
+          "HK.2418": null,
+          "HK.2139": null,
+          "HK.2442": null,
+          "HK.2477": null,
+          "HK.2197": null,
+          "HK.1875": null,
+          "HK.1585": null,
+          "HK.1772": null,
+          "HK.1361": null,
+          "HK.0290": null
+        }
+      }
+    ],
+    "equity_curve": [
+      100.87,
+      99.59,
+      116.18,
+      108.29,
+      115.58,
+      125.79,
+      114.01,
+      117.24,
+      112.14,
+      112.14,
+      112.14,
+      112.14
+    ]
+  }
+}

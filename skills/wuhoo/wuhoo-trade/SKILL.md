@@ -178,6 +178,12 @@ python3.11 trend_momentum.py --market all --months 12
 
 **因子筛选**：momentum_10d > 0（硬性） + momentum_60d > P50 + volume_ratio > 0.8 + beta > max(P20, 1.0)。
 
+> ⚠️ **trend_momentum.py 仅支持历史回测，无实时选股模式**（2026-06-12 确认）。
+> 该脚本无 `--date` 参数，test dates 硬编码为每月 15 日（到最近已过月份为止）。
+> BULL_TRENDING / BULL_VOLATILE 市场的 cron 选股需降级为 `stock_pick.py`（超跌反弹模型），
+> 但超跌反弹按 `momentum_10d` 越低越好排序，与趋势动量的追高方向相反。
+> 长期应扩展 trend_momentum.py 增加 `--date` 参数输出当日动量排序 Top N。
+
 #### 市场状态判定 (market_regime.py)
 
 5 维度加权投票系统，自动判断 Bull/Bear/Ranging/Volatile：
@@ -299,22 +305,25 @@ qty = int(target_amount / price / 100) * 100  # 中国石油股份会报"不足1
 | HK.00857 中国石油股份 | **2000** | ❌ 碎股 | ❌ 碎股 | ✅ |
 | HK.01113 长实集团 | 500 | — | — | — |
 
-### 🔴 HK 模拟盘卖单挂起：所有订单类型均可能卡 SUBMITTED
+### 🟡 HK 模拟盘卖出成交速度：时快时慢，不可预测
 
-**症状（2026-05-25 实测）**：HK 模拟账户 (18767294) 卖出 400 股 HK.00005 汇丰控股，三种订单类型全部失败：
+**症状（2026-05-25 实测）**：HK 模拟账户 (18767294) 卖出 400 股 HK.00005 汇丰控股，三种订单类型全部卡 SUBMITTED 60s+：
 - NORMAL 限价单 @ bid (143.9)：SUBMITTED → 等待 60s 未成交
 - MARKET 市价单：SUBMITTED → 等待 60s 未成交
 - NORMAL 限价单 @ ask (144.0)：SUBMITTED → 等待 60s 未成交
 
-**区别**: CN 模拟盘市价单秒级成交，HK 模拟盘存在系统级延迟。这不是限价/市价的选择问题 — 是整个 HK 模拟交易引擎的 fill 延迟。
+**反例（2026-06-10 实测）**：同一账户，4 只股票市价卖出（00552/00700/01766/01999），**全部 5 秒内 FILLED_ALL**。下午 14:03 港股交易时段执行。
 
-**当前 workaround**：
-1. 接受延迟 — 订单最终会在数分钟到数十分钟后成交
-2. 不要反复取消重建（会产生大量 CANCELLED_ALL 垃圾单）
-3. 核查时用 `refresh_cache=True` 重新查询持仓确认
-4. 在审计报告中标注 "HK 模拟盘卖出挂单中，待成交"
+**结论**: HK 模拟引擎的 fill 速度是**间歇性的**，不是永久性故障。不同交易日/时段表现差异大：
+- ✅ 有时秒级成交（如 2026-06-10 下午盘）
+- ❌ 有时挂单数分钟（如 2026-05-25）
 
-**待探索**：是否需要特定时间窗口（如港股交易活跃时段）fill 更快？还是纯 Futu 模拟引擎限制？
+**调仓时的正确做法**：
+1. **先尝试市价单** — 不要预设会卡，很多情况下能秒成交
+2. 下单后 `sleep(5)` + `order_list_query(refresh_cache=True)` 检查状态
+3. 如果 5s 后仍 SUBMITTED → 等待 60s 再查（不要反复取消重建！）
+4. 60s 后仍 SUBMITTED → 接受延迟，在审计报告中标注
+5. **核对最终持仓** — `position_list_query(refresh_cache=True)` 确认股数变化，因为即使订单状态未更新，持仓可能已变
 
 ### ✅ 路径已修复 (2026-06-09)
 
@@ -512,12 +521,11 @@ Trader=SELL 的股票自动排除买入，BUY 的股票进入推荐流程。
 - `references/20260609-strategy-comparison.md` — 策略对比回测（趋势动量 vs 超跌反弹 + 市场自适应）
 - `references/20260609-all-strategies-comparison.md` — 全策略回测排名（5×US + 4×CN + 3×HK）
 - `references/20260609-regime-breadth-mask-fix.md` — Regime 广度 Mask 修复（CN 误判根因）
-- `references/20260609-backtest-results.md` — 三市场 Walk-forward 回测结果— 全策略回测排名（5×US + 4×CN + 3×HK）
-- `references/20260609-regime-breadth-mask-fix.md` — Regime 广度 Mask 修复（CN 误判根因）
 - `references/20260609-backtest-results.md` — 三市场 Walk-forward 回测结果
 - `references/futu-rebalance-pitfalls.md` — Futu 批量调仓常见陷阱（价格精度、频率限制、限价对齐）
 - `references/20260506-cn-workflow-audit.md` — 2026-05-06 A股全链路审计（数据→选股→辩论→调仓失败）
 - `references/20260513-ahk-rebalance-audit.md` — 2026-05-13 A/HK 双市场调仓审计（卖前买后购买力不足 + 构造函数签名陷阱 + CN 购买力递减重试）
 - `references/20260521-ahk-rebalance-audit.md` — 2026-05-21 A/HK 调仓审计（跳过辩论导致反向交易：长实+安踏买入后辩论看空 + A 股午盘休市卡 SUBMITTED）
+- `references/20260610-hk-us-cn-rebalance.md` — 2026-06-10 三市场联合调仓（HK 4只秒成交→推翻HK卡单说法；CN减仓→现金率59%；US HON止损监控）
 - `scripts/rebalance_us.py` — 美股等权调仓执行脚本模板
 ```\\nskills/wuhoo-trade/\\n  workflow_c_multi_market.py   # 主交易执行流程\\n  workflow_e_periodic_trade.py # 定期交易\\n  us_equal_weight_portfolio.py # 美股等权策略\\n  pnl_tracker.py               # 每日组合净值快照 + 绩效指标\\n  backtest.py                  # Walk-forward 策略回测（支持 contrarian/momentum/both）\\n  trend_momentum.py            # 趋势动量策略（Phase 2，2026-06-09）\\n  market_regime.py             # 市场状态判定模块（Phase 2，2026-06-09）\\n  risk_manager.py              # 风控模块\\n  audit_module.py              # 持仓审计\\n  portfolio_metrics.py         # 组合指标计算\\n  daily_review.py              # 每日复盘\\n  approval_manager.py          # 审批管理\\n  path_config.py               # 统一路径配置\\n  tests/                       # 测试\\n```

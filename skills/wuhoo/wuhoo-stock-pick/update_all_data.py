@@ -94,8 +94,20 @@ def update_cn_members(pro, force=False):
                               end_date=format_date(last_month.replace(day=28)))
 
     if df.empty:
-        print("  ⚠️  无法获取成分股数据")
-        return []
+        # 降级：尝试 akshare
+        try:
+            import akshare as ak
+            df_ak = ak.index_stock_cons('000852')
+            codes = []
+            for _, row in df_ak.iterrows():
+                code = str(row['品种代码'])
+                codes.append(f'{code}.SH' if code.startswith('6') else f'{code}.SZ')
+            print(f"  Tushare 失败，akshare 降级获取 {len(codes)} 只")
+            pd.DataFrame({'code': codes}).to_csv(members_file, index=False)
+            return codes
+        except Exception as e:
+            print(f"  ⚠️  无法获取成分股数据 (tushare+akshare 均失败: {e})")
+            return []
 
     codes = df['con_code'].unique().tolist()
     print(f"  成分股数量：{len(codes)}")

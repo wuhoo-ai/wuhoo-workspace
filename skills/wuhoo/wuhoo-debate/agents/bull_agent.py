@@ -75,11 +75,34 @@ class BullAgent(BaseAgent):
             fundamental_data=fundamental_data
         )
         
-        # 调用 LLM
-        response = self._call_llm(input_text)
+        # 调用 LLM（带 JSON 解析重试，与 analyze_with_context 保持一致）
+        response = self._call_llm(input_text, max_tokens=10000)
         
-        # 解析输出
-        result = self._parse_json_output(response)
+        max_retries = 2
+        last_error = None
+        for attempt in range(max_retries + 1):
+            try:
+                result = self._parse_json_output(response)
+                break
+            except ValueError as e:
+                last_error = e
+                if attempt < max_retries:
+                    import time as time_mod
+                    time_mod.sleep(1)
+                    response = self._call_llm(input_text, max_tokens=10000 + (attempt + 1) * 4000)
+                continue
+        else:
+            result = {
+                "recommendation": "HOLD",
+                "confidence": 0.50,
+                "target_price": 0,
+                "time_horizon": "1M",
+                "key_points": [f"JSON parse failed after {max_retries+1} attempts: {str(last_error)[:100]}"],
+                "bullish_points": [],
+                "bearish_points": [],
+                "stop_loss": 0,
+                "position_suggestion": 0.0,
+            }
         
         # 添加元数据
         result["symbol"] = symbol

@@ -1,0 +1,196 @@
+code,name,verdict,pe,pb,industry,source
+MMM,3M,pass,31.662766,25.963873,other,yfinance
+AOS,A. O. Smith,pass,16.448,4.5269723,other,yfinance
+ABT,Abbott Laboratories,pass,26.413105,3.10181,other,yfinance
+ABBV,AbbVie,pass,123.45146,-67.50996,other,yfinance
+ACN,Accenture,pass,10.300578,2.3932772,other,yfinance
+ADBE,Adobe Inc.,pass,11.809497,7.1510715,other,yfinance
+AMD,Advanced Micro Devices,pass,172.36101,13.641742,other,yfinance
+AES,AES Corporation,borderline,7.619792,2.3604388,other,yfinance
+AFL,Aflac,pass,13.739131,2.0461438,other,yfinance
+A,Agilent Technologies,pass,27.331276,5.2635126,other,yfinance
+APD,Air Products,pass,29.240303,3.8609848,other,yfinance
+ABNB,Airbnb,pass,36.33827,11.467196,other,yfinance
+AKAM,Akamai Technologies,pass,38.445946,3.3742511,other,yfinance
+ALB,Albemarle Corporation,borderline,,2.0081427,other,yfinance
+ARE,Alexandria Real Estate Equities,pass,,0.6031443,property,yfinance
+ALGN,Align Technology,pass,30.005188,2.9933205,technology,yfinance
+ALLE,Allegion,pass,19.077868,5.7114224,other,yfinance
+LNT,Alliant Energy,pass,24.27044,2.6857362,energy,yfinance
+ALL,Allstate,pass,5.3027244,2.1034927,other,yfinance
+GOOGL,Alphabet Inc. (Class A),pass,26.95503,8.949992,other,yfinance
+GOOG,Alphabet Inc. (Class C),pass,26.774391,8.890014,other,yfinance
+MO,Altria,pass,15.395011,-38.527576,other,yfinance
+AMZN,Amazon,pass,31.638998,5.8438177,other,yfinance
+AMCR,Amcor,borderline,34.629032,1.7032247,other,yfinance
+AEE,Ameren,pass,21.25974,2.3389533,other,yfinance
+AEP,American Electric Power,pass,20.409763,2.3595507,utility,yfinance
+AXP,American Express,pass,21.265127,6.838663,other,yfinance
+AIG,American International Group,pass,13.225353,0.99076766,other,yfinance
+AMT,American Tower,pass,28.3479,22.313797,other,yfinance
+AWK,American Water Works,pass,23.534636,2.3443444,other,yfinance
+AMP,Ameriprise Financial,pass,11.136341,6.4788795,financial,yfinance
+AME,Ametek,pass,35.96369,4.9899244,other,yfinance
+AMGN,Amgen,pass,24.934301,21.173948,other,yfinance
+APH,Amphenol,pass,47.0113,14.636764,other,yfinance
+ADI,Analog Devices,pass,57.445747,5.6555943,other,yfinance
+AON,Aon plc,pass,18.047935,7.1150546,other,yfinance
+APA,APA Corporation,pass,7.6829834,1.8044453,other,yfinance
+APO,Apollo Global Management,pass,74.56494,3.5681438,other,yfinance
+AAPL,Apple Inc.,pass,34.358536,38.80716,other,yfinance
+AMAT,Applied Materials,pass,58.81795,23.067013,other,yfinance
+APP,AppLovin,pass,41.494175,70.96756,other,yfinance
+APTV,Aptiv,borderline,35.89697,1.3622355,other,yfinance
+ACGL,Arch Capital Group,pass,7.502678,1.4756072,other,yfinance
+ARES,Ares Management,pass,50.28037,9.456016,other,yfinance
+ANET,Arista Networks,pass,53.980267,15.320699,other,yfinance
+AJG,Arthur J. Gallagher & Co.,pass,36.63226,2.454131,other,yfinance
+AIZ,Assurant,borderline,13.548028,2.2678459,other,yfinance
+T,AT&T,pass,7.6561403,1.3858367,other,yfinance
+ATO,Atmos Energy,pass,21.55857,1.957522,energy,yfinance
+ADSK,Autodesk,pass,28.669605,12.917825,other,yfinance
+ADP,Automatic Data Processing,pass,20.830555,14.192796,other,yfinance
+AZO,AutoZone,pass,21.692255,-18.538603,other,yfinance
+AVB,AvalonBay Communities,pass,23.900743,2.3289325,other,yfinance
+AVY,Avery Dennison,pass,18.391893,5.442549,other,yfinance
+AXON,Axon Enterprise,pass,207.56097,11.640791,other,yfinance
+BKR,Baker Hughes,pass,18.10611,2.8915477,other,yfinance
+BALL,Ball Corporation,pass,18.081633,2.9478588,other,yfinance
+BAC,Bank of America,pass,14.362283,1.4969997,financial,yfinance
+BAX,Baxter International,pass,,1.8818904,other,yfinance
+BDX,Becton Dickinson,pass,27.08377,1.771899,other,yfinance
+BRK.B,Berkshire Hathaway,pass,,,other,yfinance
+BBY,Best Buy,pass,14.377777,5.306178,other,yfinance
+TECH,Bio-Techne,pass,101.28572,5.495698,other,yfinance
+BIIB,Biogen,pass,23.318623,1.7142925,other,yfinance
+BLK,BlackRock,pass,24.269985,2.604133,other,yfinance
+BX,Blackstone Inc.,pass,29.608246,10.779769,other,yfinance
+XYZ,"Block, Inc.",pass,60.953125,2.115567,other,yfinance
+BNY,BNY Mellon,pass,17.819084,2.5018268,other,yfinance
+BA,Boeing,pass,86.22089,28.282177,other,yfinance
+BKNG,Booking Holdings,pass,23.93832,-16.308449,other,yfinance
+BSX,Boston Scientific,pass,18.502129,2.4985633,other,yfinance
+BMY,Bristol Myers Squibb,pass,16.403362,5.958486,other,yfinance
+AVGO,Broadcom,pass,60.560978,20.208899,other,yfinance
+BR,Broadridge Financial Solutions,pass,14.485561,5.5592494,financial,yfinance
+BRO,Brown & Brown,pass,20.833876,1.7020144,other,yfinance
+BF.B,Brown–Forman,pass,,,other,yfinance
+BLDR,Builders FirstSource,borderline,34.545803,2.4303207,other,yfinance
+BXP,"BXP, Inc.",pass,33.873737,2.0656626,other,yfinance
+CHRW,C.H. Robinson,pass,37.323235,12.8094015,other,yfinance
+CDNS,Cadence Design Systems,pass,86.88112,15.667746,other,yfinance
+CPT,Camden Property Trust,pass,32.427776,3.0127227,property,yfinance
+COF,Capital One,borderline,62.04908,1.1658453,other,yfinance
+CAH,Cardinal Health,borderline,36.119267,-19.601694,other,yfinance
+CCL,Carnival Corporation,pass,13.148648,3.0882354,other,yfinance
+CARR,Carrier Global,pass,48.953335,4.5383186,other,yfinance
+CVNA,Carvana,pass,36.0,12.24678,other,yfinance
+CASY,Casey's,borderline,40.658676,7.2865148,other,yfinance
+CAT,Caterpillar Inc.,pass,51.55638,25.503935,other,yfinance
+CBOE,Cboe Global Markets,pass,20.707512,4.509701,other,yfinance
+CBRE,CBRE Group,borderline,31.357141,4.6775966,other,yfinance
+CDW,CDW Corporation,pass,16.239258,7.003607,other,yfinance
+COR,Cencora,pass,21.935358,16.128386,other,yfinance
+CNP,CenterPoint Energy,pass,27.64815,2.559136,energy,yfinance
+CF,CF Industries,pass,9.521229,3.0308259,other,yfinance
+CRL,Charles River Laboratories,pass,,3.6948404,other,yfinance
+SCHW,Charles Schwab Corporation,pass,18.001987,3.7057502,other,yfinance
+CHTR,Charter Communications,pass,3.6153846,1.0971417,other,yfinance
+CVX,Chevron Corporation,pass,29.350176,1.8133383,other,yfinance
+CMG,Chipotle Mexican Grill,pass,30.247707,17.621593,other,yfinance
+CB,Chubb Limited,pass,12.07917,1.8074269,other,yfinance
+CHD,Church & Dwight,pass,32.742474,5.5401506,other,yfinance
+CIEN,Ciena,pass,158.58609,23.447077,other,yfinance
+CI,Cigna,borderline,11.988817,1.7473232,other,yfinance
+CINF,Cincinnati Financial,pass,10.637714,1.8315084,financial,yfinance
+CTAS,Cintas,pass,35.7463,14.124134,other,yfinance
+CSCO,Cisco,pass,37.84566,9.49117,other,yfinance
+C,Citigroup,borderline,17.504913,1.2696815,other,yfinance
+CFG,Citizens Financial Group,borderline,16.689575,1.2470342,financial,yfinance
+CLX,Clorox,pass,15.786991,-175.2527,other,yfinance
+CME,CME Group,pass,18.650171,2.970927,other,yfinance
+CMS,CMS Energy,pass,21.768156,2.6046994,energy,yfinance
+KO,Coca-Cola Company (The),pass,25.990566,10.574463,other,yfinance
+CTSH,Cognizant,pass,8.403471,1.2186606,other,yfinance
+COHR,Coherent Corp.,pass,181.96278,7.16507,other,yfinance
+COIN,Coinbase,pass,54.945652,2.9632452,other,yfinance
+CL,Colgate-Palmolive,pass,35.67568,510.49725,other,yfinance
+CMCSA,Comcast,pass,4.7490196,0.98140115,other,yfinance
+FIX,Comfort Systems USA,pass,53.476673,106.16671,other,yfinance
+CAG,Conagra Brands,borderline,,0.81926864,other,yfinance
+COP,ConocoPhillips,pass,17.965517,1.9668912,other,yfinance
+ED,Consolidated Edison,pass,18.935919,1.6144291,other,yfinance
+STZ,Constellation Brands,pass,15.213508,2.9854002,other,yfinance
+CEG,Constellation Energy,pass,22.529974,2.8064024,energy,yfinance
+COO,Cooper Companies (The),pass,60.500004,1.6888248,other,yfinance
+CPRT,Copart,pass,17.453417,2.9650733,other,yfinance
+GLW,Corning Inc.,pass,122.92789,19.633726,other,yfinance
+CPAY,Corpay,pass,19.925133,6.31811,other,yfinance
+CTVA,Corteva,pass,44.58289,2.2929673,other,yfinance
+CSGP,CoStar Group,pass,418.85715,1.5084631,other,yfinance
+COST,Costco,pass,47.836277,25.39514,other,yfinance
+CRH,CRH plc,pass,20.198517,3.1534586,other,yfinance
+CRWD,CrowdStrike,pass,,40.808018,other,yfinance
+CCI,Crown Castle,pass,34.792034,-17.854223,other,yfinance
+CSX,CSX Corporation,pass,29.453987,6.5704117,other,yfinance
+CMI,Cummins,pass,35.863518,7.721072,other,yfinance
+DHR,Danaher Corporation,pass,37.360466,2.5766525,other,yfinance
+DRI,Darden Restaurants,pass,19.68421,10.650857,other,yfinance
+DDOG,Datadog,pass,621.425,22.17791,other,yfinance
+DVA,DaVita,pass,21.186113,-19.246605,other,yfinance
+DECK,Deckers Brands,pass,14.42735,5.6717253,other,yfinance
+DE,Deere & Company,pass,34.716347,6.172053,other,yfinance
+DELL,Dell Technologies,pass,33.062996,-191.68283,other,yfinance
+DAL,Delta Air Lines,pass,13.522496,2.987846,other,yfinance
+DVN,Devon Energy,pass,11.761906,1.6901466,energy,yfinance
+DXCM,Dexcom,pass,30.163795,9.133386,other,yfinance
+FANG,Diamondback Energy,pass,186.1237,1.3924861,energy,yfinance
+DLR,Digital Realty,pass,50.686172,2.937559,other,yfinance
+DG,Dollar General,pass,16.622347,2.9314044,other,yfinance
+DLTR,Dollar Tree,pass,19.682184,6.7618837,other,yfinance
+D,Dominion Energy,pass,20.40708,2.1597152,energy,yfinance
+DPZ,Domino's,pass,16.918873,-2.5216749,other,yfinance
+DASH,DoorDash,pass,86.76995,7.900992,other,yfinance
+DOV,Dover Corporation,pass,28.0,4.0273285,other,yfinance
+DHI,D. R. Horton,pass,15.435149,1.9807031,other,yfinance
+DTE,DTE Energy,pass,25.332237,2.6000643,energy,yfinance
+DUK,Duke Energy,pass,19.71275,1.8667268,energy,yfinance
+DD,DuPont,pass,119.07018,1.3208649,other,yfinance
+ETN,Eaton Corporation,pass,39.908115,8.038513,other,yfinance
+EBAY,eBay Inc.,pass,24.954956,11.200971,other,yfinance
+ECHO,EchoStar,borderline,,,other,yfinance
+ECL,Ecolab,pass,37.75068,7.8377314,other,yfinance
+EIX,Edison International,pass,8.220043,1.684563,other,yfinance
+EW,Edwards Lifesciences,pass,49.286488,5.094139,other,yfinance
+EA,Electronic Arts,pass,58.418804,7.600356,other,yfinance
+ELV,Elevance Health,borderline,16.747087,1.9212259,other,yfinance
+EME,Emcor,pass,26.80744,9.360389,other,yfinance
+EMR,Emerson Electric,pass,33.136894,3.939971,utility,yfinance
+ETR,Entergy,pass,29.67602,3.0702844,other,yfinance
+EOG,EOG Resources,pass,12.972467,2.283,other,yfinance
+EQT,EQT Corporation,pass,9.867172,1.294853,other,yfinance
+EFX,Equifax,pass,27.966492,4.166207,other,yfinance
+EQIX,Equinix,pass,75.202354,7.4851704,other,yfinance
+EQR,Equity Residential,pass,27.335999,2.403376,other,yfinance
+ERIE,Erie Indemnity,pass,21.910517,5.2769446,other,yfinance
+ESS,Essex Property Trust,pass,33.21324,3.5012183,property,yfinance
+EL,Estée Lauder Companies (The),pass,,7.191266,other,yfinance
+EG,Everest Group,pass,7.2404175,0.939078,other,yfinance
+EVRG,Evergy,pass,23.202667,1.9747623,other,yfinance
+ES,Eversource Energy,pass,15.796573,1.6778111,energy,yfinance
+EXC,Exelon,pass,17.334558,1.6457243,other,yfinance
+EXE,Expand Energy,pass,6.5770097,1.0752583,energy,yfinance
+EXPE,Expedia Group,pass,23.209099,55.266663,other,yfinance
+EXPD,Expeditors International,pass,26.166397,9.360805,other,yfinance
+EXR,Extra Space Storage,pass,33.542984,2.3485615,other,yfinance
+XOM,ExxonMobil,pass,22.905724,2.1920764,other,yfinance
+FFIV,"F5, Inc.",pass,33.680065,6.3844743,other,yfinance
+FDS,FactSet,pass,15.033462,4.0204444,other,yfinance
+FICO,Fair Isaac,pass,37.31052,-13.051796,other,yfinance
+FAST,Fastenal,pass,41.57895,13.640288,other,yfinance
+FRT,Federal Realty Investment Trust,pass,21.698961,3.4381425,other,yfinance
+FDX,FedEx,borderline,17.009932,2.478011,other,yfinance
+FDXF,FedEx Freight,pass,33.79007,0.001563832,other,yfinance
+FIS,Fidelity National Information Services,pass,7.498062,1.251982,other,yfinance
+FITB,Fifth Third Bancorp,borderline,18.989965,1.6111001,other,yfinance
+FSLR,First Solar,pass,15.427436,2.5322516,other,yfinance

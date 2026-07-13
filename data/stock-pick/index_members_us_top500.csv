@@ -82,7 +82,6 @@ BXP,"BXP, Inc.",BXP.US
 CHRW,C.H. Robinson,CHRW.US
 CDNS,Cadence Design Systems,CDNS.US
 CPT,Camden Property Trust,CPT.US
-CPB,Campbell's Company (The),CPB.US
 COF,Capital One,COF.US
 CAH,Cardinal Health,CAH.US
 CCL,Carnival Corporation,CCL.US
@@ -164,7 +163,7 @@ DUK,Duke Energy,DUK.US
 DD,DuPont,DD.US
 ETN,Eaton Corporation,ETN.US
 EBAY,eBay Inc.,EBAY.US
-SATS,EchoStar,SATS.US
+ECHO,EchoStar,ECHO.US
 ECL,Ecolab,ECL.US
 EIX,Edison International,EIX.US
 EW,Edwards Lifesciences,EW.US
@@ -174,7 +173,6 @@ EME,Emcor,EME.US
 EMR,Emerson Electric,EMR.US
 ETR,Entergy,ETR.US
 EOG,EOG Resources,EOG.US
-EPAM,EPAM Systems,EPAM.US
 EQT,EQT Corporation,EQT.US
 EFX,Equifax,EFX.US
 EQIX,Equinix,EQIX.US
@@ -197,11 +195,13 @@ FICO,Fair Isaac,FICO.US
 FAST,Fastenal,FAST.US
 FRT,Federal Realty Investment Trust,FRT.US
 FDX,FedEx,FDX.US
+FDXF,FedEx Freight,FDXF.US
 FIS,Fidelity National Information Services,FIS.US
 FITB,Fifth Third Bancorp,FITB.US
 FSLR,First Solar,FSLR.US
 FE,FirstEnergy,FE.US
 FISV,Fiserv,FISV.US
+FLEX,Flex Ltd.,FLEX.US
 F,Ford Motor Company,F.US
 FTNT,Fortinet,FTNT.US
 FTV,Fortive,FTV.US
@@ -301,6 +301,7 @@ MPC,Marathon Petroleum,MPC.US
 MAR,Marriott International,MAR.US
 MRSH,Marsh McLennan,MRSH.US
 MLM,Martin Marietta Materials,MLM.US
+MRVL,Marvell Technology,MRVL.US
 MAS,Masco,MAS.US
 MA,Mastercard,MA.US
 MKC,McCormick & Company,MKC.US
@@ -369,7 +370,6 @@ PM,Philip Morris International,PM.US
 PSX,Phillips 66,PSX.US
 PNW,Pinnacle West Capital,PNW.US
 PNC,PNC Financial Services,PNC.US
-POOL,Pool Corporation,POOL.US
 PPG,PPG Industries,PPG.US
 PPL,PPL Corporation,PPL.US
 PFG,Principal Financial Group,PFG.US

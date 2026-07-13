@@ -36,6 +36,32 @@ metadata: { "hermes": { "requires": { "bins": ["python3.11"] } } }
 - 单只: `python3.11 run_debate.py --symbol 600519.SH --mode full`
 - 批量: `python3.11 batch_debate.py --date 20260430 --workers 4 --market all`
 
+## 价值投资辩论并行集成
+
+v2.1 (2026-06-29) — 新增与 `wuhoo-value-investing` 的价值辩论并行模式：
+
+```bash
+# 量化辩论（现有）与价值辩论（新增）可并行运行
+# 量化：batch_debate_v2.py（Bull/Bear/Trader/Quant）
+# 价值：value_debate.py（段永平/巴菲特/芒格/李录四大师）
+
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-value-investing
+python3.11 value_debate.py --code AAPL --market us --name Apple
+
+# 并行运行，Trader 综合两者：
+# batch_debate_v2.py 产出 debate_summary.json（量化视角）
+# value_debate.py 产出 value_debate_*.json（价值投资视角）
+# Trader 结合两个 JSON 做最终决策
+```
+
+**价值辩论角色**（方案C：独立运行）：
+- 段永平：生意本质 + 商业模式可持续性
+- 巴菲特：护城河 + 财务估值
+- 芒格：逆向思考 + 失败路径枚举
+- 李录：长期确定性 + 文明趋势
+
+详见 `wuhoo-value-investing` skill > `value_debate.py`。
+
 ## 模块结构
 - `agents/` — QuantAgent (v2统计)、BullAgent（量化分析师）、BearAgent（风险分析师）、TraderAgent + **TraderV2Agent** (v2)、RiskAgent（风控）
 - `prompts/` — bull_analyst.md / bear_analyst.md / trader_decision.md (v1) + **advocate_bull.md / skeptic_bear.md / trader_v2.md / quant_analyst.md** (v2)
@@ -92,6 +118,49 @@ BullAgent(
 ---
 
 ## 🚨 已知问题与修复
+
+### 🔴 batch_debate_v2: 优先加载 result 文件而非全量 factors (2026-06-10 修复)
+
+**症状**: `batch_debate_v2.py --market us --date 20260610` 加载了 `factors_us_20260610.csv`（500 只 S&P 500 全量），跑 30+ 分钟后在汇总阶段 KeyError 崩溃。
+
+**根因**: `load_factors()` 优先匹配 `factors_{market}_{date}.csv`（全量因子文件），fallback 才到 `result_{market}_{date}.csv`（选股结果 8-10 只）。对 CN/HK 无影响（无全量因子文件），US 独有。
+
+**修复** (`batch_debate_v2.py:50-54`): 反转优先级 → 优先 `result_` 文件，fallback 到 `factors_`。
+
+### 🔴 batch_debate_v2: 汇总阶段 KeyError 崩溃 (2026-06-10 修复)
+
+**症状**: 辩论完成但在 `debate_summary.json` 生成时 `KeyError: 'confidence'` — 某只股票的 Bull agent 输出缺少 `confidence` 字段，导致列表推导式崩溃，所有已完成辩论结果丢失。
+
+**修复** (`batch_debate_v2.py:266-277`): 结果汇总全部改用 `.get()` 防御式访问，缺失字段降级为 `'ERROR'` 或 `0`。
+
+### 🟡 batch_debate_v2 US: "Unknown format code 's'" 错误 (2026-06-10，未根除)
+
+**症状**: 部分美股（BEN/FITB/MS/WY 等 4/12 持仓）Agent.analyze 报 `Unknown format code 's' for object of type 'float'`，导致该股票辩论失败。其余股票正常。
+
+**范围**: 仅出现在 batch_debate_v2 + US 市场，CN/HK 无此问题。单只手动辩论（内联 Python）也不触发。
+
+**疑似根因**: `base_agent.py` 的 `_call_openai` 或 Agent 的 prompt 构建中，某处对 float 值使用了 `%s` 格式说明符。线程池并行 + DeepSeek reasoning 内容较长时可能触发不常见的代码路径。
+
+**当前 workaround**: 受影响的 4 只可手动重跑（见下方「单只辩论失败的手动重跑模式」）。未定位具体格式化调用点，待下次 US 批量辩论时捕获完整 traceback。
+
+### 🔴 pattern_backtest US/HK 市场空特征矩阵 (2026-06-10 修复)
+
+**症状**: `batch_debate_v2.py --market us` 在 `PatternBacktest.__init__` → `_prepare_features()` 报 `ValueError: Expected 2D array, got 1D array instead: array=[]` — 特征矩阵为空，无一排数据通过筛选。
+
+**根因（两个不匹配）**:
+
+| 不匹配 | 因子文件 | 价格数据 | 影响 |
+|--------|---------|---------|------|
+| 代码格式 | `MMM.US`（带后缀） | `MMM`（无后缀） | `(code, date) not in self.price_map` → 全部 continue |
+| 日期偏移 | `20260610`（因子文件名） | `2026-06-09`→`20260609`（最新收盘） | 因子日期超前价格日期 1 天 |
+
+两个不匹配叠加 → `_prepare_features` 循环中 500 行全部被 `continue` 跳过 → `self.X = np.array([])` → scaler 报错。CN 市场不受影响（因子和价格数据代码格式一致，都用 `.SH/.SZ` 后缀）。
+
+**修复** (`scripts/pattern_backtest.py:124-165`):
+
+1. **代码归一化**: `code = code_raw.split('.')[0]` — strip `.US/.HK/.SH/.SZ` 后缀，统一与价格数据格式匹配
+2. **当前价取最近日期**: 在 `available_dates` 中取 `≤ factor_date` 的最新价格日期，避免因子日期超前问题
+3. **前向收益日期映射**: 取 `≥ target_date` 的最近价格日期计算 fwd_5d/fwd_20d
 
 ### 🔴 结构性缺陷总结（v1.x 终局审计 — 2026-06-10）
 
@@ -211,6 +280,20 @@ python3.11 batch_debate.py --date 20260504 --workers 3 --market hk
 | 美股 | `ts_code, residual_vol, turnover_5d, momentum_5d, beta_20d, momentum_10d, name, market` | 自动映射 |
 
 ### 🐛 批量辩论常见陷阱
+
+**0. 🔴 环境变量未加载 → 401 认证失败 (2026-06-11 发现)**:
+batch_debate_v2.py 依赖 `DEEPSEEK_API_KEY`，Hermes cron/terminal 环境不自动加载 `.env`：
+
+```bash
+# ❌ 直接运行 → 8 只全 401
+python3.11 batch_debate_v2.py --date 20260610 --market us --workers 3
+
+# ✅ 先加载 env
+source ~/.hermes/.env 2>/dev/null; export DEEPSEEK_API_KEY
+python3.11 batch_debate_v2.py --date 20260610 --market us --workers 3
+```
+
+症状：`LLM API error: 401 - Authentication Fails`，`完成: 0/8 | 错误: 8`。
 
 **1. CSV BOM 头（✅ 已修复 2026-05-05）**: 选股结果 CSV 首列含 BOM (`\ufeffts_code`)，需 `open(csv_path, encoding='utf-8-sig')`。**港股+美股 CSV 均有此问题**。修复前 US 选股结果 symbol 全部为空字符串，所有结果覆盖写入 `debate_.json`。`batch_debate.py:55` 已添加 `encoding='utf-8-sig'`。
 

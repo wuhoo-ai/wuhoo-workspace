@@ -1,0 +1,6 @@
+code,name,verdict,pe,pb,industry,source
+MMM,3M,pass,31.662163,26.21643,other,yfinance
+AOS,A. O. Smith,pass,16.458668,4.529908,other,yfinance
+ABT,Abbott Laboratories,pass,26.364147,3.1489847,other,yfinance
+ABBV,AbbVie,pass,123.58537,-67.25511,other,yfinance
+ACN,Accenture,pass,10.301916,2.4746263,other,yfinance

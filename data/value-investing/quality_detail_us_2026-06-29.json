@@ -1,0 +1,107 @@
+[
+  {
+    "code": "MMM",
+    "name": "3M",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 31.662163,
+    "pb": 26.21643,
+    "source": "yfinance",
+    "date": "2026-06-29",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "AOS",
+    "name": "A. O. Smith",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 16.458668,
+    "pb": 4.529908,
+    "source": "yfinance",
+    "date": "2026-06-29",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ABT",
+    "name": "Abbott Laboratories",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 26.364147,
+    "pb": 3.1489847,
+    "source": "yfinance",
+    "date": "2026-06-29",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ABBV",
+    "name": "AbbVie",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 123.58537,
+    "pb": -67.25511,
+    "source": "yfinance",
+    "date": "2026-06-29",
+    "indicator_summary": {
+      "roe": "unknown",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  },
+  {
+    "code": "ACN",
+    "name": "Accenture",
+    "market": "us",
+    "industry": "other",
+    "failures": [],
+    "verdict": "pass",
+    "pe": 10.301916,
+    "pb": 2.4746263,
+    "source": "yfinance",
+    "date": "2026-06-29",
+    "indicator_summary": {
+      "roe": "pass",
+      "fcf_5yr": "unknown",
+      "interest_coverage": "unknown",
+      "gross_margin": "pass",
+      "ocf_to_ni": "unknown",
+      "net_margin": "pass",
+      "share_dilution": "unknown"
+    }
+  }
+]

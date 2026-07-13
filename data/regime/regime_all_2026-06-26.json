@@ -1,0 +1,134 @@
+{
+  "us": {
+    "market": "us",
+    "ref_date": "2026-06-26",
+    "regime": "BULL_TRENDING",
+    "composite_score": 1.35,
+    "confidence": 0.68,
+    "scores": {
+      "ma_position": {
+        "score": 2,
+        "detail": "强牛: price>231.1>221.6, +3.8%/+8.3%",
+        "ma50_pct": 3.8,
+        "ma200_pct": 8.3
+      },
+      "breadth": {
+        "score": 1,
+        "pct_above_ma50": 63.4,
+        "pct_above_ma200": 62.2,
+        "detail": "MA50: 63%, MA200: 62%, n=503"
+      },
+      "trend_strength": {
+        "score": 2,
+        "ma50_slope_pct": 4.02,
+        "consecutive_days": 2,
+        "consecutive_direction": "up",
+        "detail": "MA50 slope=4.02%, consecutive 2d ↑"
+      },
+      "volatility": {
+        "score": 0,
+        "vol_20d_annualized": 15.8,
+        "vol_ratio": 1.08,
+        "detail": "波动正常: 20d=15.8%"
+      },
+      "momentum_breadth": {
+        "score": 1,
+        "pct_positive_20d": 61.0,
+        "detail": "20d正动量: 61% (n=503)"
+      }
+    },
+    "recommendation": {
+      "strategy": "trend_momentum",
+      "position_pct": 100,
+      "rationale": "牛市趋势 → 全力做多，趋势动量策略"
+    }
+  },
+  "hk": {
+    "market": "hk",
+    "ref_date": "2026-06-26",
+    "regime": "RANGING",
+    "composite_score": 0.4,
+    "confidence": 0.2,
+    "scores": {
+      "ma_position": {
+        "score": 2,
+        "detail": "强牛: price>47.0>27.8, +4.9%/+77.5%",
+        "ma50_pct": 4.9,
+        "ma200_pct": 77.5
+      },
+      "breadth": {
+        "score": -2,
+        "pct_above_ma50": 22.2,
+        "pct_above_ma200": 40.8,
+        "detail": "MA50: 22%, MA200: 41%, n=500"
+      },
+      "trend_strength": {
+        "score": 2,
+        "ma50_slope_pct": 20.53,
+        "consecutive_days": 2,
+        "consecutive_direction": "up",
+        "detail": "MA50 slope=20.53%, consecutive 2d ↑"
+      },
+      "volatility": {
+        "score": 1,
+        "vol_20d_annualized": 20.8,
+        "vol_ratio": 0.06,
+        "detail": "波动收缩: 20d=20.8% (ratio 0.1x)"
+      },
+      "momentum_breadth": {
+        "score": -2,
+        "pct_positive_20d": 25.5,
+        "detail": "20d正动量: 25% (n=601)"
+      }
+    },
+    "recommendation": {
+      "strategy": "oversold_rebound",
+      "position_pct": 80,
+      "rationale": "震荡市 → 超跌反弹策略，低买高卖"
+    }
+  },
+  "cn": {
+    "market": "cn",
+    "ref_date": "2026-06-26",
+    "regime": "RANGING",
+    "composite_score": -0.25,
+    "confidence": 0.12,
+    "scores": {
+      "ma_position": {
+        "score": 2,
+        "detail": "强牛: price>33.5>30.0, +1.5%/+13.6%",
+        "ma50_pct": 1.5,
+        "ma200_pct": 13.6
+      },
+      "breadth": {
+        "score": -2,
+        "pct_above_ma50": 26.2,
+        "pct_above_ma200": 28.8,
+        "detail": "MA50: 26%, MA200: 29%, n=999"
+      },
+      "trend_strength": {
+        "score": 0,
+        "ma50_slope_pct": -1.53,
+        "consecutive_days": 5,
+        "consecutive_direction": "up",
+        "detail": "MA50 slope=-1.53%, consecutive 5d ↑"
+      },
+      "volatility": {
+        "score": -1,
+        "vol_20d_annualized": 56.3,
+        "vol_ratio": 1.38,
+        "detail": "波动上升: 20d=56.3% (ratio 1.4x)"
+      },
+      "momentum_breadth": {
+        "score": -2,
+        "pct_positive_20d": 22.9,
+        "detail": "20d正动量: 23% (n=999)"
+      }
+    },
+    "recommendation": {
+      "strategy": "oversold_rebound",
+      "position_pct": 80,
+      "rationale": "震荡市 → 超跌反弹策略，低买高卖"
+    }
+  }
+}

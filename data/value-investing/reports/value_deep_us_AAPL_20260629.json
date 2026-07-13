@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "code": "AAPL",
+    "name": "Apple",
+    "market": "us",
+    "date": "2026-06-29",
+    "info_richness": "B",
+    "info_richness_note": "信息适中（单一数据源，推算指标需标注置信度）"
+  },
+  "checklist_summary": null,
+  "module_keys": [
+    "business_essence",
+    "moat",
+    "inversion",
+    "management",
+    "civilization",
+    "valuation",
+    "decision"
+  ]
+}

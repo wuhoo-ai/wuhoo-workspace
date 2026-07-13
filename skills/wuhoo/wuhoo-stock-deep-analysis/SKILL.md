@@ -236,6 +236,37 @@ price = float(df.iloc[-1]['close'])  # 真实最新价
 
 - `references/20260608-root-cause-fix.md` — 2026-06-08 4 根因全修复审计（basic/indicators/名映射/辩论加载）
 
+## 四大师深度分析增强集成
+
+v2.7 (2026-06-29) — 新增与 `wuhoo-value-investing` 的增强分析集成：
+
+```bash
+# 价值投资深度分析（7模块：生意/护城河/逆向/管理层/文明/估值/决策）
+cd ~/wuhoo-workspace/skills/wuhoo/wuhoo-value-investing
+python3.11 value_deep_analysis.py --code AAPL --market us --name Apple
+
+# 与现有 deep_analysis.py 的关系：
+#   deep_analysis.py — 快速量化分析（因子+财务+DCF）
+#   value_deep_analysis.py — 价值投资深度分析（四大师7模块框架）
+#   两者互补：量化版给数字，价值版给判断
+#
+# 推荐使用顺序：
+#   1. investment_checklist.py（6关快速判断）
+#   2. value_deep_analysis.py（Checklist通过后深度分析）
+#   3. deep_analysis.py（补充量化数据）
+```
+
+**7模块分析框架**：
+1. 数据收集 + 信息丰富度评级 (A/B/C)
+2. 生意本质 — 段永平（收入漏斗/商业模式/生态粘性）
+3. 护城河评估 — 巴菲特（5类验证/10年预判）
+4. 逆向思考 — 芒格（失败路径/空方论点/历史类比）
+5. 管理层 — 段+巴（决策复盘/资本配置/企业文化）
+6. 文明趋势 — 李录（范式转移/TAM/赢家通吃判断）
+7. 估值与安全边际 — 巴+段（反向DCF/三情景/安全边际）
+
+详见 `wuhoo-value-investing` skill > `value_deep_analysis.py`。
+
 ## 版本历史
 
 | 版本 | 日期 | 变更 |

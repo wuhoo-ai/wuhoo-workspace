@@ -277,6 +277,17 @@ while True:
 - **必须使用 safe_float 包装函数**（见 `references/futu-safe-float.py`）
 - 参考：`wuhoo-futuapi` skill 的「非保证金账户字段返回 N/A」章节
 
+**4. 模拟账户 position_list_query 返回 `average_cost=0.0` / `unrealized_pl=0.0`（全市场通用，2026-06-17 实测）**:
+- CN 模拟账户 (18767295) 和 HK 模拟账户 (18767294) 的 `position_list_query()` 均返回 `average_cost=0.0`、`unrealized_pl=0.0`、`pl_ratio_avg_cost=0.0`
+- 不止 US 账户受影响——**所有模拟账户**的持仓成本/盈亏数据均不可用
+- **影响**：
+  - 盈亏比分布全部显示 "break_even"（无盈利/亏损区分）
+  - Sharpe Ratio 恒为 0.0（无收益序列可计算）
+  - 估算最大回撤恒为 0.0（无盈亏数据）
+  - 止损检查（亏损 > 8%）永远不会触发（pl_ratio 恒为 0）
+  - 意味着**风控中的亏损止损规则（single_stop_loss 8%）在模拟账户上完全失效**
+- **应对**：组合指标中 Sharpe/Max DD 标注「模拟账户限制，不可用」；止损信号依赖 Workflow B 基本面判断而非 API 盈亏数据
+
 ### 数据源限制
 
 | 市场 | Workflow B (akshare) | 替代方案 |
@@ -345,7 +356,7 @@ python3.11 ~/wuhoo-workspace/skills/wuhoo/wuhoo-futuapi/scripts/trade/get_accoun
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
-| 1.8 | 2026-05-12 | 新增「用户直接提供持仓数据的快速诊断模式」章节（WeChat/CLI粘贴持仓，无需OpenD）；新增数据获取优先级链（akshare回退→web_search→daily_data）；新增ETF代码易混淆陷阱（563380≠512770）；新增 daily_data覆盖不全陷阱（仅~1000只）；添加 references/rapid-diagnosis-template.md 报告模板；添加 scripts/akshare_tech_factors.py 因子计算脚本；降级策略表新增2行（daily_data缺失/Futu无A股权限） |
+| 1.9 | 2026-06-17 | 新增「模拟账户 position_list_query 返回 average_cost=0.0」已知问题（全市场通用：CN/HK 均受影响，非仅 US）；说明此问题导致 Sharpe/Max DD/止损检查在模拟账户上完全失效 |
 | 1.7 | 2026-05-08 | 新增串行执行+备份模式的具体命令；新增「解读所有 REDUCE 时的注意事项」章节（区分风控驱动 vs 基本面驱动 REDUCE） |
 | 1.6 | 2026-05-07 | 修正输出路径文档（actual→`workflow_d/`，非旧 `data/diagnose/`）；新增 Hermes Agent 并行 process wait 60s clamp 注意事项；确认输出目录覆盖问题在 CN/HK 并行时仍存在 |（sys.path 缺失 wuhoo-trade 目录）；发现输出目录覆盖问题（CN/HK 并行运行时 HK 覆盖 CN 的 01_portfolio_scan 等文件） |
 | 1.4 | 2026-05-03 | 定时任务拆分：CN/HK 10:00 + US 23:00，新增交易日检查脚本；确认微信推送不可用（Gateway asyncio bug），全部改为 local delivery |

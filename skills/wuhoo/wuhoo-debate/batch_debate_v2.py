@@ -48,13 +48,13 @@ MARKET_CONFIG = {
 
 
 def load_factors(date_str, market):
-    """Load factor data from stock-pick results CSV."""
-    csv_path = DATA_BASE / 'factors' / f'factors_{market}_{date_str}.csv'
+    """Load factor data from stock-pick results CSV (prefer result over full factors)."""
+    # Prefer result file (selected stocks) over full factor file (500+ stocks)
+    csv_path = DATA_BASE / 'factors' / f'result_{market}_{date_str}.csv'
     if not csv_path.exists():
-        # Try result file
-        csv_path = DATA_BASE / 'factors' / f'result_{market}_{date_str}.csv'
+        csv_path = DATA_BASE / 'factors' / f'factors_{market}_{date_str}.csv'
     if not csv_path.exists():
-        raise FileNotFoundError(f"No factor file for {market} on {date_str}: {csv_path}")
+        raise FileNotFoundError(f"No factor file for {market} on {date_str}")
     
     df = pd.read_csv(csv_path, encoding='utf-8-sig')
     
@@ -229,11 +229,13 @@ def run_batch(date_str, market, workers=2):
                 else:
                     results.append(result)
                     t = result['trader']
+                    p_up = t.get('P_up', None)
+                    p_up_str = f"{p_up:.2f}" if isinstance(p_up, (int, float)) else str(p_up)
                     print(f"  ✅ {result['symbol']:15s} {result['name'][:8]:8s} "
                           f"Q={result['quant']['statistical_edge']:20s} "
                           f"Bull={result['bull']['recommendation']:4s}({result['bull']['confidence']:.2f}) "
                           f"Bear={result['bear']['recommendation']:4s}({result['bear']['confidence']:.2f}) "
-                          f"Trader={t['decision']:4s} P={t.get('P_up', '?'):4s} "
+                          f"Trader={t['decision']:4s} P={p_up_str:>6s} "
                           f"[{result['timing']['total_s']:.0f}s]")
             except Exception as e:
                 errors.append({'symbol': stock['symbol'], 'error': str(e)})
@@ -266,14 +268,14 @@ def run_batch(date_str, market, workers=2):
         'results': [{
             'symbol': r['symbol'],
             'name': r['name'],
-            'quant_edge': r['quant']['statistical_edge'],
-            'bull': r['bull']['recommendation'],
-            'bull_conf': r['bull']['confidence'],
-            'bear': r['bear']['recommendation'],
-            'bear_conf': r['bear']['confidence'],
-            'trader': r['trader']['decision'],
-            'trader_P_up': r['trader'].get('P_up'),
-            'trader_position': r['trader'].get('position_size'),
+            'quant_edge': r.get('quant', {}).get('statistical_edge'),
+            'bull': r.get('bull', {}).get('recommendation', 'ERROR'),
+            'bull_conf': r.get('bull', {}).get('confidence', 0),
+            'bear': r.get('bear', {}).get('recommendation', 'ERROR'),
+            'bear_conf': r.get('bear', {}).get('confidence', 0),
+            'trader': r.get('trader', {}).get('decision', 'ERROR'),
+            'trader_P_up': r.get('trader', {}).get('P_up'),
+            'trader_position': r.get('trader', {}).get('position_size'),
         } for r in results],
         'errors': [{'symbol': e['symbol'], 'error': e['error'][:200]} for e in errors],
     }
