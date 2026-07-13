@@ -255,6 +255,75 @@
           "status": "scheduled",
           "date_beijing": "2026-07-02",
           "time_beijing": "TBD"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 66.3,
+            "draw": 20.3,
+            "team_b_win": 13.4
+          },
+          "poisson": {
+            "team_a_win": 66,
+            "draw": 20,
+            "team_b_win": 13
+          },
+          "logit": {
+            "team_a_win": 66,
+            "draw": 28,
+            "team_b_win": 6
+          },
+          "expected_goals": {
+            "a": 2.0,
+            "b": 0.76
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "England": {
+              "current_elo": 2222,
+              "trend_elo": [
+                2137,
+                2137,
+                2148,
+                2191,
+                2222
+              ],
+              "deltas": [
+                0,
+                11,
+                43,
+                31
+              ],
+              "delta_avg": 21.2,
+              "delta_trend": 31,
+              "volatility": 16.8,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "DR Congo": {
+              "current_elo": 1859,
+              "trend_elo": [
+                1875,
+                1867,
+                1870,
+                1859
+              ],
+              "deltas": [
+                -8,
+                3,
+                -11
+              ],
+              "delta_avg": -5.3,
+              "delta_trend": -11,
+              "volatility": 6.0,
+              "adjustment": -15,
+              "classification": "持续下滑",
+              "confidence_discount": 1.0,
+              "n_matches": 4
+            }
+          }
         }
       },
       "schedule": {
@@ -470,6 +539,75 @@
           "status": "scheduled",
           "date_beijing": "2026-07-02",
           "time_beijing": "TBD"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 73.6,
+            "draw": 17.0,
+            "team_b_win": 9.4
+          },
+          "poisson": {
+            "team_a_win": 74,
+            "draw": 17,
+            "team_b_win": 9
+          },
+          "logit": {
+            "team_a_win": 65,
+            "draw": 28,
+            "team_b_win": 7
+          },
+          "expected_goals": {
+            "a": 2.27,
+            "b": 0.67
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "United States": {
+              "current_elo": 1927,
+              "trend_elo": [
+                2002,
+                2024,
+                1971,
+                1983,
+                1927
+              ],
+              "deltas": [
+                22,
+                -53,
+                12,
+                -56
+              ],
+              "delta_avg": -18.8,
+              "delta_trend": -56,
+              "volatility": 35.9,
+              "adjustment": -8,
+              "classification": "波动下滑",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Bosnia and Herzegovina": {
+              "current_elo": 1677,
+              "trend_elo": [
+                1690,
+                1675,
+                1689,
+                1677
+              ],
+              "deltas": [
+                -15,
+                14,
+                -12
+              ],
+              "delta_avg": -4.3,
+              "delta_trend": -12,
+              "volatility": 13.0,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 4
+            }
+          }
         }
       },
       "schedule": {
@@ -687,6 +825,77 @@
           "status": "scheduled",
           "date_beijing": "2026-07-02",
           "time_beijing": "TBD"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 58.4,
+            "draw": 23.2,
+            "team_b_win": 18.3
+          },
+          "poisson": {
+            "team_a_win": 59,
+            "draw": 23,
+            "team_b_win": 18
+          },
+          "logit": {
+            "team_a_win": 65,
+            "draw": 28,
+            "team_b_win": 7
+          },
+          "expected_goals": {
+            "a": 1.77,
+            "b": 0.87
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Belgium": {
+              "current_elo": 1932,
+              "trend_elo": [
+                1868,
+                1878,
+                1894,
+                1950,
+                1932
+              ],
+              "deltas": [
+                10,
+                16,
+                56,
+                -18
+              ],
+              "delta_avg": 16.0,
+              "delta_trend": -18,
+              "volatility": 26.4,
+              "adjustment": 8,
+              "classification": "波动上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Senegal": {
+              "current_elo": 1683,
+              "trend_elo": [
+                1695,
+                1740,
+                1691,
+                1699,
+                1683
+              ],
+              "deltas": [
+                45,
+                -49,
+                8,
+                -16
+              ],
+              "delta_avg": -3.0,
+              "delta_trend": -16,
+              "volatility": 34.3,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {

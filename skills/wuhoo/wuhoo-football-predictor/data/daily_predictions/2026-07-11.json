@@ -523,6 +523,77 @@
           "status": "scheduled",
           "venue": "Hard Rock Stadium",
           "city": "Miami"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 47.8,
+            "draw": 24.7,
+            "team_b_win": 27.5
+          },
+          "poisson": {
+            "team_a_win": 48,
+            "draw": 25,
+            "team_b_win": 27
+          },
+          "logit": {
+            "team_a_win": 18,
+            "draw": 32,
+            "team_b_win": 50
+          },
+          "expected_goals": {
+            "a": 1.61,
+            "b": 1.16
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Norway": {
+              "current_elo": 2172,
+              "trend_elo": [
+                2161,
+                2156,
+                2167,
+                2203,
+                2172
+              ],
+              "deltas": [
+                -5,
+                11,
+                36,
+                -31
+              ],
+              "delta_avg": 2.8,
+              "delta_trend": -31,
+              "volatility": 24.4,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "England": {
+              "current_elo": 2222,
+              "trend_elo": [
+                2137,
+                2137,
+                2148,
+                2191,
+                2222
+              ],
+              "deltas": [
+                0,
+                11,
+                43,
+                31
+              ],
+              "delta_avg": 21.2,
+              "delta_trend": 31,
+              "volatility": 16.8,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {
@@ -990,6 +1061,77 @@
           "status": "scheduled",
           "venue": "Arrowhead Stadium",
           "city": "Kansas City"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 79.2,
+            "draw": 13.7,
+            "team_b_win": 7.1
+          },
+          "poisson": {
+            "team_a_win": 79,
+            "draw": 14,
+            "team_b_win": 7
+          },
+          "logit": {
+            "team_a_win": 66,
+            "draw": 28,
+            "team_b_win": 6
+          },
+          "expected_goals": {
+            "a": 2.66,
+            "b": 0.67
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Argentina": {
+              "current_elo": 2461,
+              "trend_elo": [
+                2452,
+                2452,
+                2453,
+                2455,
+                2461
+              ],
+              "deltas": [
+                0,
+                1,
+                2,
+                6
+              ],
+              "delta_avg": 2.2,
+              "delta_trend": 6,
+              "volatility": 2.3,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Switzerland": {
+              "current_elo": 2030,
+              "trend_elo": [
+                1984,
+                2001,
+                2021,
+                2036,
+                2030
+              ],
+              "deltas": [
+                17,
+                20,
+                15,
+                -6
+              ],
+              "delta_avg": 11.5,
+              "delta_trend": -6,
+              "volatility": 10.3,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {

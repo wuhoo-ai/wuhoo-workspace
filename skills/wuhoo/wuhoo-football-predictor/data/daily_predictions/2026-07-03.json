@@ -299,7 +299,76 @@
           "ELO 优势 113 分，有明确的实力差距",
           "伤病影响：Portugal -15 / Croatia +0 ELO",
           "多层调整后有效 ELO 差 +172（原始 +113）"
-        ]
+        ],
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 58.9,
+            "draw": 22.6,
+            "team_b_win": 18.6
+          },
+          "poisson": {
+            "team_a_win": 59,
+            "draw": 23,
+            "team_b_win": 18
+          },
+          "logit": {
+            "team_a_win": 57,
+            "draw": 31,
+            "team_b_win": 13
+          },
+          "expected_goals": {
+            "a": 1.84,
+            "b": 0.92
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Portugal": {
+              "current_elo": 2023,
+              "trend_elo": [
+                2010,
+                2012,
+                2028,
+                2052,
+                2023
+              ],
+              "deltas": [
+                2,
+                16,
+                24,
+                -29
+              ],
+              "delta_avg": 3.2,
+              "delta_trend": -29,
+              "volatility": 20.2,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Croatia": {
+              "current_elo": 1939,
+              "trend_elo": [
+                1937,
+                1938,
+                1963,
+                1939
+              ],
+              "deltas": [
+                1,
+                25,
+                -24
+              ],
+              "delta_avg": 0.7,
+              "delta_trend": -24,
+              "volatility": 20.0,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 4
+            }
+          }
+        }
       }
     },
     {
@@ -488,7 +557,76 @@
           "ELO 优势 243 分，有明确的实力差距",
           "伤病影响：Spain -35 / Austria -10 ELO",
           "多层调整后有效 ELO 差 +286（原始 +243）"
-        ]
+        ],
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 70.6,
+            "draw": 18.5,
+            "team_b_win": 10.9
+          },
+          "poisson": {
+            "team_a_win": 71,
+            "draw": 18,
+            "team_b_win": 11
+          },
+          "logit": {
+            "team_a_win": 65,
+            "draw": 28,
+            "team_b_win": 7
+          },
+          "expected_goals": {
+            "a": 2.15,
+            "b": 0.7
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Spain": {
+              "current_elo": 2110,
+              "trend_elo": [
+                2034,
+                2041,
+                2063,
+                2092,
+                2110
+              ],
+              "deltas": [
+                7,
+                22,
+                29,
+                18
+              ],
+              "delta_avg": 19.0,
+              "delta_trend": 18,
+              "volatility": 8.0,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Austria": {
+              "current_elo": 1820,
+              "trend_elo": [
+                1846,
+                1844,
+                1842,
+                1820
+              ],
+              "deltas": [
+                -2,
+                -2,
+                -22
+              ],
+              "delta_avg": -8.7,
+              "delta_trend": -22,
+              "volatility": 9.4,
+              "adjustment": -15,
+              "classification": "持续下滑",
+              "confidence_discount": 1.0,
+              "n_matches": 4
+            }
+          }
+        }
       }
     },
     {
@@ -665,7 +803,76 @@
           "ELO 优势 215 分，有明确的实力差距",
           "伤病影响：Switzerland +0 / Algeria -10 ELO",
           "多层调整后有效 ELO 差 +292（原始 +215）"
-        ]
+        ],
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 76.4,
+            "draw": 16.7,
+            "team_b_win": 6.8
+          },
+          "poisson": {
+            "team_a_win": 77,
+            "draw": 17,
+            "team_b_win": 7
+          },
+          "logit": {
+            "team_a_win": 65,
+            "draw": 28,
+            "team_b_win": 7
+          },
+          "expected_goals": {
+            "a": 2.17,
+            "b": 0.48
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Switzerland": {
+              "current_elo": 2030,
+              "trend_elo": [
+                1984,
+                2001,
+                2021,
+                2036,
+                2030
+              ],
+              "deltas": [
+                17,
+                20,
+                15,
+                -6
+              ],
+              "delta_avg": 11.5,
+              "delta_trend": -6,
+              "volatility": 10.3,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Algeria": {
+              "current_elo": 1806,
+              "trend_elo": [
+                1822,
+                1824,
+                1826,
+                1806
+              ],
+              "deltas": [
+                2,
+                2,
+                -20
+              ],
+              "delta_avg": -5.3,
+              "delta_trend": -20,
+              "volatility": 10.4,
+              "adjustment": -15,
+              "classification": "持续下滑",
+              "confidence_discount": 1.0,
+              "n_matches": 4
+            }
+          }
+        }
       }
     }
   ]

@@ -189,7 +189,76 @@
           "ELO 绝对优势 607 分，实力差距明显",
           "伤病影响：France -10 / Sweden -25 ELO",
           "多层调整后有效 ELO 差 +656（原始 +607）"
-        ]
+        ],
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 81.1,
+            "draw": 13.0,
+            "team_b_win": 5.9
+          },
+          "poisson": {
+            "team_a_win": 81,
+            "draw": 13,
+            "team_b_win": 6
+          },
+          "logit": {
+            "team_a_win": 67,
+            "draw": 29,
+            "team_b_win": 4
+          },
+          "expected_goals": {
+            "a": 2.67,
+            "b": 0.58
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "France": {
+              "current_elo": 2539,
+              "trend_elo": [
+                2517,
+                2527,
+                2529,
+                2530,
+                2539
+              ],
+              "deltas": [
+                10,
+                2,
+                1,
+                9
+              ],
+              "delta_avg": 5.5,
+              "delta_trend": 9,
+              "volatility": 4.0,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Sweden": {
+              "current_elo": 1828,
+              "trend_elo": [
+                1834,
+                1819,
+                1830,
+                1828
+              ],
+              "deltas": [
+                -15,
+                11,
+                -2
+              ],
+              "delta_avg": -2.0,
+              "delta_trend": -2,
+              "volatility": 10.6,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 4
+            }
+          }
+        }
       }
     },
     {
@@ -376,7 +445,76 @@
         "reasoning": [
           "ELO 优势 174 分，有明确的实力差距",
           "伤病影响：Ivory Coast -15 / Norway +0 ELO"
-        ]
+        ],
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 19.3,
+            "draw": 22.3,
+            "team_b_win": 58.4
+          },
+          "poisson": {
+            "team_a_win": 19,
+            "draw": 22,
+            "team_b_win": 58
+          },
+          "logit": {
+            "team_a_win": 7,
+            "draw": 28,
+            "team_b_win": 65
+          },
+          "expected_goals": {
+            "a": 0.98,
+            "b": 1.88
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Ivory Coast": {
+              "current_elo": 1876,
+              "trend_elo": [
+                1902,
+                1878,
+                1887,
+                1876
+              ],
+              "deltas": [
+                -24,
+                9,
+                -11
+              ],
+              "delta_avg": -8.7,
+              "delta_trend": -11,
+              "volatility": 13.6,
+              "adjustment": -15,
+              "classification": "持续下滑",
+              "confidence_discount": 1.0,
+              "n_matches": 4
+            },
+            "Norway": {
+              "current_elo": 2172,
+              "trend_elo": [
+                2161,
+                2156,
+                2167,
+                2203,
+                2172
+              ],
+              "deltas": [
+                -5,
+                11,
+                36,
+                -31
+              ],
+              "delta_avg": 2.8,
+              "delta_trend": -31,
+              "volatility": 24.4,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
+        }
       }
     },
     {
@@ -564,7 +702,76 @@
           "ELO 绝对优势 460 分，实力差距明显",
           "伤病影响：Mexico -3 / Ecuador +0 ELO",
           "多层调整后有效 ELO 差 +549（原始 +460）"
-        ]
+        ],
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 83.8,
+            "draw": 11.8,
+            "team_b_win": 4.4
+          },
+          "poisson": {
+            "team_a_win": 84,
+            "draw": 12,
+            "team_b_win": 4
+          },
+          "logit": {
+            "team_a_win": 66,
+            "draw": 28,
+            "team_b_win": 6
+          },
+          "expected_goals": {
+            "a": 2.67,
+            "b": 0.46
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Mexico": {
+              "current_elo": 2264,
+              "trend_elo": [
+                2302,
+                2303,
+                2303,
+                2307,
+                2264
+              ],
+              "deltas": [
+                1,
+                0,
+                4,
+                -43
+              ],
+              "delta_avg": -9.5,
+              "delta_trend": -43,
+              "volatility": 19.4,
+              "adjustment": -15,
+              "classification": "持续下滑",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Ecuador": {
+              "current_elo": 1809,
+              "trend_elo": [
+                1784,
+                1765,
+                1813,
+                1809
+              ],
+              "deltas": [
+                -19,
+                48,
+                -4
+              ],
+              "delta_avg": 8.3,
+              "delta_trend": -4,
+              "volatility": 28.7,
+              "adjustment": 8,
+              "classification": "波动上升",
+              "confidence_discount": 1.0,
+              "n_matches": 4
+            }
+          }
+        }
       }
     }
   ]

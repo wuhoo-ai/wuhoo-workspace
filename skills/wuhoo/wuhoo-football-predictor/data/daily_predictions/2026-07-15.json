@@ -127,19 +127,19 @@
             "team_a_adj": -10,
             "team_b_adj": -7,
             "team_a_details": {
-              "prev_match_id": 77,
-              "prev_venue": "MetLife Stadium",
+              "prev_match_id": 97,
+              "prev_venue": "Gillette Stadium",
               "curr_venue": "AT&T Stadium",
               "distance_km": 2229.0,
-              "rest_days": 14,
+              "rest_days": 5,
               "rest_bonus_raw": 0
             },
             "team_b_details": {
-              "prev_match_id": 84,
+              "prev_match_id": 98,
               "prev_venue": "SoFi Stadium",
               "curr_venue": "AT&T Stadium",
               "distance_km": 1974.3,
-              "rest_days": 12,
+              "rest_days": 4,
               "rest_bonus_raw": 0
             },
             "description": "France: -10 (travel+rest) | Spain: -7"

@@ -545,6 +545,77 @@
           "venue_city": "Atlanta",
           "source": "W86 vs W88",
           "round": "R16"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 81.1,
+            "draw": 13.0,
+            "team_b_win": 5.9
+          },
+          "poisson": {
+            "team_a_win": 81,
+            "draw": 13,
+            "team_b_win": 6
+          },
+          "logit": {
+            "team_a_win": 67,
+            "draw": 29,
+            "team_b_win": 5
+          },
+          "expected_goals": {
+            "a": 2.67,
+            "b": 0.58
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Argentina": {
+              "current_elo": 2461,
+              "trend_elo": [
+                2452,
+                2452,
+                2453,
+                2455,
+                2461
+              ],
+              "deltas": [
+                0,
+                1,
+                2,
+                6
+              ],
+              "delta_avg": 2.2,
+              "delta_trend": 6,
+              "volatility": 2.3,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Egypt": {
+              "current_elo": 1840,
+              "trend_elo": [
+                1845,
+                1853,
+                1843,
+                1842,
+                1840
+              ],
+              "deltas": [
+                8,
+                -10,
+                -1,
+                -2
+              ],
+              "delta_avg": -1.2,
+              "delta_trend": -2,
+              "volatility": 6.4,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {
@@ -1000,6 +1071,77 @@
           "venue_city": "Vancouver",
           "source": "W85 vs W87",
           "round": "R16"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 20.1,
+            "draw": 22.6,
+            "team_b_win": 57.3
+          },
+          "poisson": {
+            "team_a_win": 20,
+            "draw": 22,
+            "team_b_win": 57
+          },
+          "logit": {
+            "team_a_win": 8,
+            "draw": 29,
+            "team_b_win": 63
+          },
+          "expected_goals": {
+            "a": 1.0,
+            "b": 1.86
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Switzerland": {
+              "current_elo": 2030,
+              "trend_elo": [
+                1984,
+                2001,
+                2021,
+                2036,
+                2030
+              ],
+              "deltas": [
+                17,
+                20,
+                15,
+                -6
+              ],
+              "delta_avg": 11.5,
+              "delta_trend": -6,
+              "volatility": 10.3,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Colombia": {
+              "current_elo": 2196,
+              "trend_elo": [
+                2204,
+                2212,
+                2204,
+                2211,
+                2196
+              ],
+              "deltas": [
+                8,
+                -8,
+                7,
+                -15
+              ],
+              "delta_avg": -2.0,
+              "delta_trend": -15,
+              "volatility": 9.8,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {

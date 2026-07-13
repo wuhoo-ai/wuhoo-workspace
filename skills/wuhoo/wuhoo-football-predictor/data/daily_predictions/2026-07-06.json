@@ -523,6 +523,77 @@
           "venue_city": "New York",
           "source": "W76 vs W78",
           "round": "R16"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 40.0,
+            "draw": 25.4,
+            "team_b_win": 34.6
+          },
+          "poisson": {
+            "team_a_win": 40,
+            "draw": 25,
+            "team_b_win": 35
+          },
+          "logit": {
+            "team_a_win": 42,
+            "draw": 33,
+            "team_b_win": 24
+          },
+          "expected_goals": {
+            "a": 1.44,
+            "b": 1.32
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Brazil": {
+              "current_elo": 2197,
+              "trend_elo": [
+                2220,
+                2220,
+                2223,
+                2233,
+                2197
+              ],
+              "deltas": [
+                0,
+                3,
+                10,
+                -36
+              ],
+              "delta_avg": -5.8,
+              "delta_trend": -36,
+              "volatility": 17.8,
+              "adjustment": -15,
+              "classification": "持续下滑",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Norway": {
+              "current_elo": 2172,
+              "trend_elo": [
+                2161,
+                2156,
+                2167,
+                2203,
+                2172
+              ],
+              "deltas": [
+                -5,
+                11,
+                36,
+                -31
+              ],
+              "delta_avg": 2.8,
+              "delta_trend": -31,
+              "volatility": 24.4,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {
@@ -978,6 +1049,77 @@
           "venue_city": "Mexico City",
           "source": "W79 vs W80",
           "round": "R16"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 75.2,
+            "draw": 16.1,
+            "team_b_win": 8.7
+          },
+          "poisson": {
+            "team_a_win": 75,
+            "draw": 16,
+            "team_b_win": 9
+          },
+          "logit": {
+            "team_a_win": 48,
+            "draw": 32,
+            "team_b_win": 20
+          },
+          "expected_goals": {
+            "a": 2.38,
+            "b": 0.67
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Mexico": {
+              "current_elo": 2264,
+              "trend_elo": [
+                2302,
+                2303,
+                2303,
+                2307,
+                2264
+              ],
+              "deltas": [
+                1,
+                0,
+                4,
+                -43
+              ],
+              "delta_avg": -9.5,
+              "delta_trend": -43,
+              "volatility": 19.4,
+              "adjustment": -15,
+              "classification": "持续下滑",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "England": {
+              "current_elo": 2222,
+              "trend_elo": [
+                2137,
+                2137,
+                2148,
+                2191,
+                2222
+              ],
+              "deltas": [
+                0,
+                11,
+                43,
+                31
+              ],
+              "delta_avg": 21.2,
+              "delta_trend": 31,
+              "volatility": 16.8,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {

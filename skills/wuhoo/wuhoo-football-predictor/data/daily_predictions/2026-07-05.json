@@ -516,6 +516,77 @@
           "venue_city": "Philadelphia",
           "source": "W74 vs W77",
           "round": "R16"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 6.0,
+            "draw": 13.0,
+            "team_b_win": 81.0
+          },
+          "poisson": {
+            "team_a_win": 6,
+            "draw": 13,
+            "team_b_win": 81
+          },
+          "logit": {
+            "team_a_win": 4,
+            "draw": 29,
+            "team_b_win": 67
+          },
+          "expected_goals": {
+            "a": 0.59,
+            "b": 2.66
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Paraguay": {
+              "current_elo": 1839,
+              "trend_elo": [
+                1807,
+                1828,
+                1828,
+                1840,
+                1839
+              ],
+              "deltas": [
+                21,
+                0,
+                12,
+                -1
+              ],
+              "delta_avg": 8.0,
+              "delta_trend": -1,
+              "volatility": 9.1,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "France": {
+              "current_elo": 2539,
+              "trend_elo": [
+                2517,
+                2527,
+                2529,
+                2530,
+                2539
+              ],
+              "deltas": [
+                10,
+                2,
+                1,
+                9
+              ],
+              "delta_avg": 5.5,
+              "delta_trend": 9,
+              "volatility": 4.0,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {
@@ -970,6 +1041,77 @@
           "venue_city": "Houston",
           "source": "W73 vs W75",
           "round": "R16"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 7.6,
+            "draw": 15.6,
+            "team_b_win": 76.8
+          },
+          "poisson": {
+            "team_a_win": 8,
+            "draw": 16,
+            "team_b_win": 77
+          },
+          "logit": {
+            "team_a_win": 6,
+            "draw": 28,
+            "team_b_win": 66
+          },
+          "expected_goals": {
+            "a": 0.59,
+            "b": 2.36
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "Canada": {
+              "current_elo": 1818,
+              "trend_elo": [
+                1814,
+                1825,
+                1816,
+                1829,
+                1818
+              ],
+              "deltas": [
+                11,
+                -9,
+                13,
+                -11
+              ],
+              "delta_avg": 1.0,
+              "delta_trend": -11,
+              "volatility": 11.0,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Morocco": {
+              "current_elo": 2177,
+              "trend_elo": [
+                2177,
+                2177,
+                2175,
+                2186,
+                2177
+              ],
+              "deltas": [
+                0,
+                -2,
+                11,
+                -9
+              ],
+              "delta_avg": 0.0,
+              "delta_trend": -9,
+              "volatility": 7.2,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {

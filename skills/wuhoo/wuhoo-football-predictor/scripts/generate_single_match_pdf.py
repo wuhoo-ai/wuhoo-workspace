@@ -1,5 +1,20 @@
 #!/usr/bin/env python3.11
-"""单场预测PDF生成器 — 干净排版 + 数据源标注 + v5.5推理路径"""
+"""
+DEPRECATED — 请使用 gen_match_pdf.py 代替。
+
+gen_match_pdf.py (v5.11) 功能更完整:
+  - 10 模块完整分析（战术/伤病/教练/场地/天气/旅途/表现/RSS/ELO/比分）
+  - 3 模型对比（Ensemble/Poisson/Logit）
+  - ELO 动态轨迹
+  - 推理引擎路径
+  - 小组赛+淘汰赛通用
+  - 自动 enrich（sub_models 缺失时自动计算）
+
+本文件保留用于向后兼容和参考，不再推荐使用。
+
+原文档:
+单场预测PDF生成器 — 干净排版 + 数据源标注 + v5.5推理路径
+"""
 import json, os, sys
 from pathlib import Path
 from reportlab.lib.pagesizes import A4

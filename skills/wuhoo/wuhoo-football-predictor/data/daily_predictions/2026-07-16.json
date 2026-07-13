@@ -129,19 +129,19 @@
             "team_a_adj": 0,
             "team_b_adj": -2,
             "team_a_details": {
-              "prev_match_id": 80,
-              "prev_venue": "Mercedes-Benz Stadium",
+              "prev_match_id": 99,
+              "prev_venue": "Hard Rock Stadium",
               "curr_venue": "Mercedes-Benz Stadium",
               "distance_km": 0,
-              "rest_days": 14,
+              "rest_days": 4,
               "rest_bonus_raw": 0
             },
             "team_b_details": {
-              "prev_match_id": 86,
-              "prev_venue": "Hard Rock Stadium",
+              "prev_match_id": 100,
+              "prev_venue": "Arrowhead Stadium",
               "curr_venue": "Mercedes-Benz Stadium",
               "distance_km": 955.2,
-              "rest_days": 12,
+              "rest_days": 4,
               "rest_bonus_raw": 0
             },
             "description": "England: +0 (travel+rest) | Argentina: -2"

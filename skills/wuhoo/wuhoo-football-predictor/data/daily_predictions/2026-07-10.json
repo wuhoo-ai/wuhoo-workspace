@@ -482,6 +482,77 @@
           "venue_city": "Boston",
           "source": "W89 vs W90",
           "round": "QF"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 76.5,
+            "draw": 15.9,
+            "team_b_win": 7.7
+          },
+          "poisson": {
+            "team_a_win": 77,
+            "draw": 16,
+            "team_b_win": 8
+          },
+          "logit": {
+            "team_a_win": 66,
+            "draw": 28,
+            "team_b_win": 6
+          },
+          "expected_goals": {
+            "a": 2.33,
+            "b": 0.58
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "France": {
+              "current_elo": 2539,
+              "trend_elo": [
+                2517,
+                2527,
+                2529,
+                2530,
+                2539
+              ],
+              "deltas": [
+                10,
+                2,
+                1,
+                9
+              ],
+              "delta_avg": 5.5,
+              "delta_trend": 9,
+              "volatility": 4.0,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Morocco": {
+              "current_elo": 2177,
+              "trend_elo": [
+                2177,
+                2177,
+                2175,
+                2186,
+                2177
+              ],
+              "deltas": [
+                0,
+                -2,
+                11,
+                -9
+              ],
+              "delta_avg": 0.0,
+              "delta_trend": -9,
+              "volatility": 7.2,
+              "adjustment": 0,
+              "classification": "方向不明",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {
