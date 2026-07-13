@@ -1,6 +1,6 @@
 ---
 name: wuhoo-game-dev-gpu-batch
-description: "Use when a task needs GPU (HeartMuLa/Unity/Blender) OR is token-heavy (bulk coding via delegate_task) and should defer to off-peak hours for cost optimization. Daytime peak (CST 09-12,14-18): enqueue only, no heavy work. Off-peak (CST 00-09,12-14,18-24): cron-driven batch execution at low token pricing + GPU node on-hours. Manages the full deferred-work lifecycle."
+description: "Use when a task needs GPU (HeartMuLa/Unity/Blender) OR is token-heavy (bulk coding via delegate_task) and should defer to off-peak hours for cost optimization. Daytime peak (CST 09:00-18:00): enqueue only, no heavy work. Off-peak (CST 00-09,12-14,18-24): cron-driven batch execution at low token pricing + GPU node on-hours. Manages the full deferred-work lifecycle."
 version: 2.0.0
 author: Wuhoo
 license: MIT
@@ -21,15 +21,12 @@ metadata:
 北京时间 (CST, UTC+8):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   高峰 (不跑重任务):
-    上午  09:00 — 12:00
-    下午  14:00 — 18:00
-    合计  7 小时 — 你在线交互, 只做设计/Review/轻量
+    白天  09:00 — 18:00
+    合计  9 小时 — 你在线交互, 只做设计/Review/轻量
 
   低谷 (批量执行窗口):
-    凌晨  00:00 — 09:00   ← 主力窗口
-    午休  12:00 — 14:00
-    夜间  18:00 — 24:00
-    合计  17 小时
+    夜间+凌晨  18:00 — 09:00
+    合计  15 小时
 
   GPU 节点通电窗口: 02:00 — 05:00 (3h, 在低谷内)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -58,7 +55,7 @@ def should_defer(task_type, params):
     hour = now.hour
     
     # 判断是否高峰
-    is_peak = (9 <= hour < 12) or (14 <= hour < 18)
+    is_peak = (9 <= hour < 18)  # 高峰: 09:00-18:00 CST
     if not is_peak:
         return False  # 低谷时段, 直接跑
     
@@ -209,7 +206,7 @@ for task in get_pending('code-heavy'):
 🔌 GPU 节点已关机  |  📦 产物已推送
 ```
 
-## Cron 配置 (更新)
+## Cron 配置
 
 ```bash
 # 主批次: 每天 CST 02:00 (UTC 18:00)
@@ -219,14 +216,6 @@ hermes cron create '0 18 * * *' \
   --skills 'wuhoo-game-dev-gpu-batch' \
   --deliver 'wechat' \
   --enabled_toolsets 'terminal,file,web,delegation'
-
-# 午休补充批次: 每天 CST 12:30 (UTC 04:30) — 只跑 code-heavy, 不开 GPU 节点
-hermes cron create '30 4 * * *' \
-  --name 'lunch-batch' \
-  --prompt '加载 wuhoo-game-dev-gpu-batch skill。只执行 code-heavy 类型的 pending 任务 (delegate_task), 不启动 GPU 节点。完成后 WeChat 通知。' \
-  --skills 'wuhoo-game-dev-gpu-batch' \
-  --deliver 'wechat' \
-  --enabled_toolsets 'terminal,file,delegation'
 ```
 
 ## 日间 code-from-task 变更
@@ -298,7 +287,7 @@ def peak_hour_guard(task_type, task_id, task_context, estimated_tokens=0):
 
     now = datetime.now(timezone(timedelta(hours=8)))  # CST
     hour = now.hour
-    is_peak = (9 <= hour < 12) or (14 <= hour < 18)
+    is_peak = (9 <= hour < 18)  # 高峰: 09:00-18:00 CST
 
     if not is_peak:
         return 'proceed'  # 低谷, 直接跑
