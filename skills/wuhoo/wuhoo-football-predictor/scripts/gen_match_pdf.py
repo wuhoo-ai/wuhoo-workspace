@@ -104,6 +104,21 @@ ROUND_SHORT = {
     'SF': 'SF', 'F': 'Final', '3rd': '3rd',
 }
 
+# ISO 3-letter country codes for filename
+ISO3 = {
+    'France': 'FRA', 'Spain': 'ESP', 'England': 'ENG', 'Argentina': 'ARG',
+    'Germany': 'GER', 'Brazil': 'BRA', 'Netherlands': 'NED', 'Portugal': 'POR',
+    'Belgium': 'BEL', 'Morocco': 'MAR', 'Norway': 'NOR', 'Switzerland': 'SUI',
+    'Croatia': 'CRO', 'Japan': 'JPN', 'Senegal': 'SEN', 'Uruguay': 'URU',
+    'South Korea': 'KOR', 'Australia': 'AUS', 'Iran': 'IRN', 'Serbia': 'SRB',
+    'Canada': 'CAN', 'Paraguay': 'PAR', 'Austria': 'AUT', 'Algeria': 'ALG',
+    'Cape Verde': 'CPV', 'Sweden': 'SWE', 'DR Congo': 'COD', 'Ivory Coast': 'CIV',
+    'Ghana': 'GHA', 'Panama': 'PAN', 'Saudi Arabia': 'KSA', 'Bosnia and Herzegovina': 'BIH',
+    'Qatar': 'QAT', 'New Zealand': 'NZL', 'Iraq': 'IRQ', 'Haiti': 'HAI',
+    'Scotland': 'SCO', 'Jordan': 'JOR', 'Egypt': 'EGY', 'United States': 'USA',
+    'Mexico': 'MEX', 'Colombia': 'COL', 'Ecuador': 'ECU',
+}
+
 # Auto-enrich support
 try:
     from enrich_predictions import enrich_match as _enrich_match
@@ -777,9 +792,11 @@ if __name__ == '__main__':
                 'trajectory': audit.get('e_data', {}).get('trajectory', {}),
             }
 
-            # Output filename
-            rnd_short = ROUND_SHORT.get(rnd, rnd)
-            out = os.path.join(OUT, f"{rnd_short}_{ta}_vs_{tb}.pdf")
+            # Output filename: {YYYYMMDD}_{ISO_A}_{ISO_B}.pdf
+            date_compact = date_str.replace('-', '')
+            iso_a = ISO3.get(ta, ta[:3].upper())
+            iso_b = ISO3.get(tb, tb[:3].upper())
+            out = os.path.join(OUT, f"{date_compact}_{iso_a}_{iso_b}.pdf")
 
             # ── Load subjective judgment if exists ──
             subj_fname = f'{date_str}_{ta}_vs_{tb}.json'
