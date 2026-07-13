@@ -21,6 +21,21 @@ CSV 数值表 → 模拟 → 异常检测 → 平衡报告。
 - 里程碑前的平衡审查
 - 用户说: "帮我看看这个数值有没有问题"
 
+## Peak-Hour Guard
+
+```python
+# 蒙特卡洛模拟 token 消耗中等, 高峰时也可入队
+guard_result = peak_hour_guard(
+    task_type='balance-sim',
+    task_id=f'balance_{timestamp}',
+    task_context={'spec': '数值平衡模拟', 'params': {}, 'output': 'balance-report.md'}
+)
+if guard_result == 'deferred':
+    return  # 入队, 低谷时自动跑并生成报告
+```
+
+> 如果用户说 "现在就分析" → 跳过 guard 直接执行
+
 ## Workflow
 
 ### Step 1: 读取数值表

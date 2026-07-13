@@ -34,13 +34,26 @@ task.params: { "bpm": 70, "mood": "exploration", "loop": true, "duration": 120 }
 task.output: "Assets/Audio/BGM/bgm_day.mp3"
 ```
 
-### Step 2: 确定音频类型与引擎
+### Step 2: 确定音频类型与引擎 + 峰谷检查
 
-| 类型 | 引擎 | 格式 | 参数 |
-|------|------|------|------|
-| BGM (>30s) | **HeartMuLa** (本地 GPU) | .mp3 | BPM, mood, tags, loop, duration |
-| SFX (<2s) | **Python 程序化** (numpy+soundfile) | .wav | 事件类型, 变体数 |
-| 环境音 (10-30s) | HeartMuLa 或 程序化噪声 | .mp3 | 场景氛围描述 |
+| 类型 | 引擎 | 格式 | 参数 | 高峰行为 |
+|------|------|------|------|---------|
+| BGM (>30s) | **HeartMuLa** (本地 GPU) | .mp3 | BPM, mood, tags, loop, duration | ⏳ 入队 |
+| SFX (<2s) | **Python 程序化** (numpy+soundfile) | .wav | 事件类型, 变体数 | ✅ 直接跑 (轻量) |
+| 环境音 (10-30s) | HeartMuLa 或 程序化噪声 | .mp3 | 场景氛围描述 | ⏳ 入队 (如需 HeartMuLa) |
+
+**峰谷检查** (BGM/HeartMuLa 类任务)：
+```python
+if task_needs_heartmula:
+    guard_result = peak_hour_guard(
+        task_type='heartmula',
+        task_id=task['id'],
+        task_context={'spec': task['spec'], 'params': task['params'], 'output': task['output']}
+    )
+    if guard_result == 'deferred':
+        return  # 入队, 等低谷 GPU 批处理
+```
+SFX 程序化生成不受影响——高峰直接跑。
 
 ### Step 3: BGM 生成 (HeartMuLa)
 

@@ -30,7 +30,24 @@ metadata:
 3. 读取现有项目代码了解架构
 ```
 
-### Step 2: 规划
+### Step 2: 峰谷检查
+
+```python
+# 高峰时段 + 预估 token > 10K → 入队延迟到低谷执行
+guard_result = peak_hour_guard(
+    task_type='code-heavy',
+    task_id=task['id'],
+    task_context={'spec': task['spec'], 'params': task['params'], 'output': task['output']},
+    estimated_tokens=estimate_tokens(task['spec'])
+)
+if guard_result == 'deferred':
+    print(f'⏳ {task["id"]} 已入队, 凌晨低谷批量编码')
+    return  # 不入队: 不执行, 等 off-peak batch
+```
+
+> 紧急覆盖: 用户说 "现在跑" / "--now" → 跳过 guard, 直接执行
+
+### Step 3: 实现
 
 确定：
 - 要创建/修改哪些文件 (以 output 字段为准)

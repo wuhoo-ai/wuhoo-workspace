@@ -275,3 +275,125 @@ else:
 - [ ] GPU 产物已回传
 - [ ] GPU 节点已关机
 - [ ] WeChat 通知包含成功/失败统计 + 节省估算
+
+---
+
+## Peak-Hour Guard — 供其他 skill 引用
+
+每个 wuhoo-game-dev 的「重」skill 入口处加此开关。逻辑：高峰 → 入队 → 返回。低谷 → 继续执行。
+
+### 开关逻辑
+
+```python
+# 每个重 skill 在 Step 1 之后、实际执行之前调用
+
+def peak_hour_guard(task_type, task_id, task_context, estimated_tokens=0):
+    """
+    Returns: 'proceed' | 'deferred'
+    高峰 + 重任务 → 写入 gpu-queue.json, 返回 'deferred'
+    其他 → 返回 'proceed'
+    """
+    from datetime import datetime, timezone, timedelta
+    import json, os
+
+    now = datetime.now(timezone(timedelta(hours=8)))  # CST
+    hour = now.hour
+    is_peak = (9 <= hour < 12) or (14 <= hour < 18)
+
+    if not is_peak:
+        return 'proceed'  # 低谷, 直接跑
+
+    # 高峰 — 判断是否重任务
+    HEAVY_TYPES = {
+        'code-heavy',          # 批量编码 (delegate_task)
+        'heartmula',           # 音乐生成 (3B 模型)
+        'unity-build',         # Unity 多平台构建
+        'blender',             # Blender 渲染
+        'pixel-render',        # 像素画批量渲染
+        'balance-sim',         # 蒙特卡洛模拟
+        'ffmpeg-batch'         # 批量音视频后处理
+    }
+
+    if task_type in HEAVY_TYPES or (task_type == 'code' and estimated_tokens > 10000):
+        # 入队
+        queue_path = os.path.expanduser('~/.hermes/gpu-queue.json')
+        queue = json.load(open(queue_path)) if os.path.exists(queue_path) else {'tasks': []}
+
+        # 防重复
+        if any(t['id'] == task_id and t['status'] == 'pending' for t in queue['tasks']):
+            return 'deferred'
+
+        queue['tasks'].append({
+            'id': task_id,
+            'type': task_type,
+            'status': 'pending',
+            'priority': 1 if task_type != 'unity-build' else 2,
+            'spec': task_context.get('spec', ''),
+            'params': task_context.get('params', {}),
+            'output': task_context.get('output', ''),
+            'depends_on': task_context.get('depends_on', []),
+            'deferred_at': now.isoformat()
+        })
+        json.dump(queue, open(queue_path, 'w'), indent=2, ensure_ascii=False)
+        print(f'⏳ Deferred: {task_id} ({task_type}) → off-peak batch queue')
+        print(f'   队列现有 {len(queue["tasks"])} 个任务, 凌晨 02:00 CST 批量执行')
+        return 'deferred'
+
+    return 'proceed'  # 轻量任务, 直接跑
+```
+
+### 轻量任务 (永远不延迟)
+
+以下工作高峰时段直接执行，不入队：
+
+| 任务 | 理由 |
+|------|------|
+| gdd-to-tasks | 编排者, 低 token, 需要即时反馈 |
+| review-task | 质量门禁, 需要你即时看 |
+| music-from-task 的 lyrics/tags 编写 | 低 token (~2K), 仅文案 |
+| sprite-from-task 的 spec 编写 | 低 token, 仅规格描述 |
+| code-from-task 的 bug fix / 小函数 | <10K token, 即时反馈 |
+| 用户直接对话 | 你在线时才有的交互 |
+
+### 各 skill 集成示例
+
+**code-from-task**:
+```
+Step 1: 读取 task spec
+Step 2: 峰谷检查
+  result = peak_hour_guard(
+    task_type='code-heavy',
+    task_id='T003',
+    task_context={'spec': task['spec'], 'params': task['params'], 'output': task['output']},
+    estimated_tokens=estimate_token_count(task['spec'])
+  )
+  if result == 'deferred': return  # ← 这里阻止执行
+Step 3: 实现代码...
+```
+
+**music-from-task**:
+```
+Step 2: 峰谷检查 (BGM/SFX 生成阶段, 非 lyrics 编写阶段)
+  result = peak_hour_guard(
+    task_type='heartmula',
+    task_id=task['id'],
+    task_context={'spec': task['spec'], 'params': task['params'], 'output': task['output']}
+  )
+  if result == 'deferred': return
+Step 3: HeartMuLa 生成...
+```
+
+### 紧急覆盖: --now flag
+
+如需强制立即执行（你的显式指令），跳过高谷检查：
+
+```
+用户说: "T003 现在就跑"
+→ code-from-task 读到 "现在" 关键词 → 跳过 peak_hour_guard → 直接执行
+```
+- [ ] 高峰时段 code-heavy/heartmula/unity-build 入队而非执行
+- [ ] 低谷 cron 按 Phase A→B→C 顺序执行
+- [ ] code-heavy 结果已 commit 到 repo
+- [ ] GPU 产物已回传
+- [ ] GPU 节点已关机
+- [ ] WeChat 通知包含成功/失败统计 + 节省估算

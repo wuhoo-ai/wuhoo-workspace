@@ -42,7 +42,21 @@ task.output: "Assets/Sprites/player_attack.png"
 | UI 元素 | 可变 | ui_palette | 1-3 |
 | Boss | 64×64 | boss_palette | 6+ |
 
-### Step 3: 调用 pixel-art skill
+### Step 3: 峰谷检查 + 调用 pixel-art skill
+
+**B.1 峰谷检查** (pixel-render 阶段)：
+```python
+guard_result = peak_hour_guard(
+    task_type='pixel-render',
+    task_id=task['id'],
+    task_context={'spec': task['spec'], 'params': task['params'], 'output': task['output']}
+)
+if guard_result == 'deferred':
+    return  # 入队, 等低谷批处理
+```
+Spec 编写/风格确定阶段不受影响——高峰直接做。
+
+**B.2 调用 pixel-art skill**：
 
 使用 Hermes 内置 pixel-art skill 作为生成引擎：
 
