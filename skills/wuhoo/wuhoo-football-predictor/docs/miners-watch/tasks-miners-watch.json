@@ -1,0 +1,443 @@
+{
+  "project": "矿工守夜 (Miner's Watch)",
+  "engine": "Unity 6 + URP",
+  "rendering": "2D Sprite + 3D Mesh 混合, Cinemachine, Input System",
+  "generated": "2026-07-13T07:50:00Z",
+  "gdd_source": "2026-07-13_GDD-miners-watch.md",
+  "tasks": [
+    {
+      "id": "T001",
+      "system": "基础设施",
+      "type": "infra",
+      "priority": "P0",
+      "spec": "创建 Unity 6 URP 项目, 配置 Git LFS, 初始化 GameCI GitHub Actions workflow (build.yml + quality-gates.yml), 配置 Unity License Secret, 验证首次构建通过",
+      "params": {},
+      "output": [
+        "Assets/",
+        "ProjectSettings/",
+        ".github/workflows/build.yml",
+        ".github/workflows/quality-gates.yml",
+        ".gitattributes",
+        ".gitignore"
+      ],
+      "test": "GitHub Actions 首次 push 触发构建: StandaloneWindows64 + Android 两个平台均构建成功",
+      "depends_on": [],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T002",
+      "system": "玩家系统",
+      "type": "code",
+      "priority": "P0",
+      "spec": "实现玩家控制器: 2D 横版移动 (A/D 或方向键), 跳跃 (空格), 体力系统 (100 上限, 显示 UI), Cinemachine 摄像机跟随, 洞穴边界限制",
+      "params": {
+        "moveSpeed": 5.0,
+        "jumpForce": 8.0,
+        "maxStamina": 100,
+        "caveBounds": "横版, 宽度随深度变化"
+      },
+      "output": [
+        "Scripts/Player/PlayerController.cs",
+        "Scripts/Player/StaminaSystem.cs",
+        "Assets/Prefabs/Player.prefab"
+      ],
+      "test": "PlayMode: 按 A/D 角色水平移动, 按空格跳跃, 体力条在 UI 左上显示且数值正确",
+      "depends_on": ["T001"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T003",
+      "system": "采矿系统",
+      "type": "code",
+      "priority": "P0",
+      "spec": "实现采矿交互: 玩家靠近矿物碰撞体 → 按 E 键 → 播放采矿动画 → 校验体力 → 消耗体力 (按矿物类型 1/2/5/10/20) → 矿物数据加入背包 → 更新 UI。矿物生成: 按深度层配置的分布概率随机生成矿物节点",
+      "params": {
+        "minerals": {
+          "stone": {"staminaCost": 1, "sellPrice": 5, "level": 1},
+          "iron": {"staminaCost": 2, "sellPrice": 15, "level": 1},
+          "gold": {"staminaCost": 5, "sellPrice": 40, "level": 2},
+          "crystal": {"staminaCost": 10, "sellPrice": 100, "level": 2},
+          "obsidian": {"staminaCost": 20, "sellPrice": 300, "level": 3}
+        }
+      },
+      "output": [
+        "Scripts/Systems/MiningSystem.cs",
+        "Scripts/Data/MineralData.cs",
+        "Scripts/Data/MineralSpawner.cs"
+      ],
+      "test": "EditMode: 挖铁矿物体力减少 2, 背包增加 1 铁。体力不足时 TryMine 返回 false。PlayMode: 按 E 键对着铁矿 → 动画播放 → 体力条减少 2 → 背包显示铁+1",
+      "depends_on": ["T001", "T002"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T004",
+      "system": "背包系统",
+      "type": "code",
+      "priority": "P0",
+      "spec": "实现背包: 物品存储 (List<Item>), 堆叠逻辑 (同类 max 5), 容量限制 (初始 10 格), UI 底部横排显示 (物品图标+数量)。方法: AddItem/RemoveItem/HasItem/GetCount",
+      "params": {
+        "initialCapacity": 10,
+        "maxStackSize": 5,
+        "upgradeCapacity": [10, 20, 30]
+      },
+      "output": [
+        "Scripts/Systems/InventorySystem.cs",
+        "Scripts/Data/ItemData.cs",
+        "Scripts/UI/InventoryUI.cs"
+      ],
+      "test": "EditMode: 添加 6 个铁 → 占 2 格 (5+1)。背包满 10 格时 AddItem 返回 false。RemoveItem 减少数量, 数量为 0 时移除槽位",
+      "depends_on": ["T001", "T003"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T005",
+      "system": "商店/升级系统",
+      "type": "code",
+      "priority": "P0",
+      "spec": "实现地面商店: 卖矿物按钮 (遍历背包中所有矿物 → 清空 → 金币增加), 升级面板 (镐/护甲/背包各 3 级, 显示费用+效果→扣金币→升级), 建造面板 (木墙/陷阱/炮塔各显示费用→扣资源→进入放置模式)。金币 UI 右上显示",
+      "params": {
+        "upgrades": {
+          "pickaxe": [200, 800],
+          "armor": [150, 600],
+          "backpack": [100, 400]
+        },
+        "defenses": {
+          "wall": {"cost_gold": 50, "hp": 50},
+          "spike_trap": {"cost_gold": 80, "cost_iron": 5, "hp": 30, "damage": 20, "uses": 3},
+          "turret": {"cost_gold": 200, "cost_gold_alt": 3, "hp": 40, "damage": 15, "interval": 2, "range": 5}
+        }
+      },
+      "output": [
+        "Scripts/Systems/ShopSystem.cs",
+        "Scripts/Systems/UpgradeSystem.cs",
+        "Scripts/Data/UpgradeData.cs",
+        "Scripts/UI/ShopUI.cs"
+      ],
+      "test": "EditMode: 卖 5 个铁 → 金币 +75。买镐 Lv2 → 金币 -200, 镐等级=2。金币不足时购买返回 false",
+      "depends_on": ["T001", "T004"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T006",
+      "system": "日夜循环",
+      "type": "code",
+      "priority": "P0",
+      "spec": "实现日夜状态机: Day (120s) → Transition (3s, 屏幕变暗/警告UI) → Night (90s) → Settlement (5s, 结算+奖励) → Day。白天玩家在洞穴/地面, 夜晚固定在地面防御区。计时器 UI 显示剩余时间。日落前 10s 播放警告动画",
+      "params": {
+        "dayDuration": 120,
+        "nightDuration": 90,
+        "transitionDuration": 3,
+        "settlementDuration": 5,
+        "warningTime": 10
+      },
+      "output": [
+        "Scripts/Systems/DayNightCycle.cs",
+        "Scripts/UI/DayNightUI.cs"
+      ],
+      "test": "PlayMode: 启动游戏 → 白天开始 → 120s 后自动切换到夜晚 → 场景切换到地面防御区。警告 UI 在日落前 10s 出现",
+      "depends_on": ["T001"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T007",
+      "system": "防御建造",
+      "type": "code",
+      "priority": "P0",
+      "spec": "实现防御建造: 白天在地面场景 → 点击建造按钮 → 进入放置模式 (半透明预览) → 点击 15 格范围内的空位 → 校验资源 → 扣除 → 工事生成。工事逻辑: 木墙=阻挡怪物移动, 陷阱=怪物碰撞时扣血+耐久-1, 炮塔=自动检测范围内怪物→每 2s 射击",
+      "params": {
+        "gridWidth": 15,
+        "wallLayers": 3
+      },
+      "output": [
+        "Scripts/Systems/BuildSystem.cs",
+        "Scripts/Systems/DefenseSystem.cs",
+        "Scripts/Entities/Wall.cs",
+        "Scripts/Entities/SpikeTrap.cs",
+        "Scripts/Entities/Turret.cs"
+      ],
+      "test": "PlayMode: 白天购买木墙 → 放置模式 → 点击空位 → 木墙生成, 金币-$50。夜晚怪物撞木墙 → 停止移动, 木墙 HP 减少",
+      "depends_on": ["T001", "T005", "T006"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T008",
+      "system": "敌人系统",
+      "type": "code",
+      "priority": "P1",
+      "spec": "实现敌人 AI: 3 种小怪 + 1 Boss。行为: 从左侧生成 → 向右移动 (朝基地核心) → 遇到障碍物攻击 (每秒伤害) → 到达核心攻击核心。Boss 模式: 到达 x=5 位置停止, 每 8s 释放一次范围攻击, HP<50% 进入狂暴 (速度+50%)。波次管理: 根据当前深度层配置敌人池和数量",
+      "params": {
+        "enemies": {
+          "rockworm": {"hp": 30, "damage": 10, "speed": 2.0, "drop_iron": [1,2]},
+          "shadow": {"hp": 80, "damage": 20, "speed": 3.5, "drop_gold": 1, "drop_fragment": 1},
+          "lavabeast": {"hp": 200, "damage": 35, "speed": 5.0, "drop_crystal": 1, "drop_core": 1},
+          "guardian": {"hp": 500, "damage": 50, "speed": 3.0, "bossSkills": ["slam", "rage"], "drop_obsidian": 5}
+        }
+      },
+      "output": [
+        "Scripts/Systems/EnemyAI.cs",
+        "Scripts/Systems/WaveManager.cs",
+        "Scripts/Entities/Enemy.cs",
+        "Scripts/Entities/BossGuardian.cs",
+        "Scripts/Data/EnemyData.cs"
+      ],
+      "test": "PlayMode: 夜晚开始 → 石虫从左侧生成 → 向右移动 → 撞到木墙停止 → 攻击木墙 → 木墙 HP 减少。Boss 在深层第 5 夜出现",
+      "depends_on": ["T001", "T006", "T007"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T009",
+      "system": "存档系统",
+      "type": "code",
+      "priority": "P1",
+      "spec": "实现 JSON 存档: 保存当前深度层、金币、升级等级、背包内容、建造工事列表、敌人波次进度。存档版本号 (1), 自动备份保留最近 3 个。主菜单: 新游戏/继续/设置 (音量/屏幕震动开关)",
+      "params": {
+        "backupCount": 3,
+        "saveVersion": 1
+      },
+      "output": [
+        "Scripts/Systems/SaveSystem.cs",
+        "Scripts/Data/SaveData.cs",
+        "Scripts/UI/MainMenuUI.cs"
+      ],
+      "test": "EditMode: 保存 → 退出 → 加载 → 金币/升级/背包完全一致。版本号不匹配时返回 null (不清除旧存档)。自动备份数量不超过 3",
+      "depends_on": ["T001", "T004", "T005"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T010",
+      "system": "场景管理",
+      "type": "code",
+      "priority": "P1",
+      "spec": "实现场景系统: 3 个洞穴场景 (Shallow/Mid/Deep, 使用不同的 3D 背景+矿物分布), 1 个地面场景 (商店+建造区+防御区)。深度解锁逻辑: 浅层初始可用, 中层=浅层累计$500, 深层=中层累计$2000。场景加载用 SceneManager, 过渡用简单淡入淡出 (2s)",
+      "params": {
+        "unlockThresholds": {"level2": 500, "level3": 2000}
+      },
+      "output": [
+        "Scripts/Systems/SceneController.cs",
+        "Scripts/Systems/DepthProgression.cs",
+        "Assets/Scenes/ShallowCave.unity",
+        "Assets/Scenes/MidCave.unity",
+        "Assets/Scenes/DeepCave.unity",
+        "Assets/Scenes/Surface.unity",
+        "Assets/Scenes/MainMenu.unity"
+      ],
+      "test": "PlayMode: 主菜单 → 新游戏 → 进入浅层洞穴。累计 $500 → 地面选择中层 → 进入中层洞穴。深层同理",
+      "depends_on": ["T001", "T005", "T006"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T011",
+      "system": "美术-角色",
+      "type": "art",
+      "priority": "P0",
+      "spec": "生成主角像素画 spritesheet: idle (4帧, 48×48), walk (6帧, 48×48), mine (4帧, 48×48, 镐举起→落下→收回), attack (4帧用于夜晚战斗, 48×48)。调色板: warm_character (暖石色系)。风格参考 Dave the Diver 的 2D 像素角色",
+      "params": {
+        "resolution": "48x48",
+        "frames": [4, 6, 4, 4],
+        "palette": "warm_character",
+        "style": "Dave the Diver 2D pixel character"
+      },
+      "output": [
+        "Assets/Sprites/Character/player_idle.png",
+        "Assets/Sprites/Character/player_walk.png",
+        "Assets/Sprites/Character/player_mine.png",
+        "Assets/Sprites/Character/player_attack.png"
+      ],
+      "test": "Unity Sprite Editor: 帧数正确, 分辨率 48×48, Point filter 生效 (无模糊)",
+      "depends_on": [],
+      "delegate_to": "pixel-art-agent"
+    },
+    {
+      "id": "T012",
+      "system": "美术-怪物",
+      "type": "art",
+      "priority": "P1",
+      "spec": "生成 3 种怪物 spritesheet: 石虫 (2帧行走, 32×32, 灰色调), 暗影 (2帧漂浮, 32×32, 暗紫色调), 熔岩兽 (4帧行走, 32×32, 橙红色调)。每种导出为独立 spritesheet PNG",
+      "params": {
+        "resolution": "32x32",
+        "enemies": ["rockworm_2f", "shadow_2f", "lavabeast_4f"],
+        "palette": "cool_enemy"
+      },
+      "output": [
+        "Assets/Sprites/Enemies/enemy_rockworm.png",
+        "Assets/Sprites/Enemies/enemy_shadow.png",
+        "Assets/Sprites/Enemies/enemy_lavabeast.png"
+      ],
+      "test": "Unity 中切片后动画播放正常, 分辨率 32×32, Point filter",
+      "depends_on": [],
+      "delegate_to": "pixel-art-agent"
+    },
+    {
+      "id": "T013",
+      "system": "美术-Boss",
+      "type": "art",
+      "priority": "P2",
+      "spec": "生成 Boss '地心守卫' spritesheet: 6帧 (idle→roar→attack→damaged→rage→death), 64×64, 暗红+金色调。这是最终 Boss, 需要更多帧和细节",
+      "params": {
+        "resolution": "64x64",
+        "frames": 6,
+        "palette": "boss_dark_gold",
+        "animations": ["idle", "roar", "attack_slam", "damaged", "rage", "death"]
+      },
+      "output": [
+        "Assets/Sprites/Enemies/boss_guardian.png"
+      ],
+      "test": "Unity 中切片 → 6 帧独立 → 创建 Animation Clip → 播放正常",
+      "depends_on": [],
+      "delegate_to": "pixel-art-agent"
+    },
+    {
+      "id": "T014",
+      "system": "美术-3D背景",
+      "type": "art",
+      "priority": "P1",
+      "spec": "在 Blender 中创建 3 层洞穴 3D 背景模型: 浅层 (棕色岩石, 开阔空间, <800 tris), 中层 (灰色矿物纹理, 隧道结构, <800 tris), 深层 (红色熔岩光, 狭窄压迫, <800 tris)。导出 .fbx 到 Unity, 每层作为独立场景背景。为每个场景添加简单的点光源 (2-3 个)",
+      "params": {
+        "tris_limit": 800,
+        "scenes": ["shallow_brown", "mid_grey", "deep_red"],
+        "lights_per_scene": 3
+      },
+      "output": [
+        "Assets/Models/cave_bg_shallow.fbx",
+        "Assets/Models/cave_bg_mid.fbx",
+        "Assets/Models/cave_bg_deep.fbx"
+      ],
+      "test": "Unity 中拖入场景 → 作为背景 (Z=-10) → URP 渲染正常 → tris 数 < 800",
+      "depends_on": [],
+      "delegate_to": "human" 
+    },
+    {
+      "id": "T015",
+      "system": "美术-物品+UI",
+      "type": "art",
+      "priority": "P1",
+      "spec": "生成矿物图标 (5 种, 32×32): 石/铁/金/水晶/黑曜石。生成 UI 元素 (48×16 体力条, 16×16 金币图标, 日落警告图标 64×64, 3 种建造按钮图标 48×48)。统一调色板: item_palette + ui_palette",
+      "params": {
+        "iconResolution": "32x32",
+        "palettes": ["item_palette", "ui_palette"]
+      },
+      "output": [
+        "Assets/Sprites/Items/icon_stone.png",
+        "Assets/Sprites/Items/icon_iron.png",
+        "Assets/Sprites/Items/icon_gold.png",
+        "Assets/Sprites/Items/icon_crystal.png",
+        "Assets/Sprites/Items/icon_obsidian.png",
+        "Assets/Sprites/UI/ui_stamina_bar.png",
+        "Assets/Sprites/UI/ui_coin.png",
+        "Assets/Sprites/UI/ui_night_warning.png",
+        "Assets/Sprites/UI/ui_build_wall.png",
+        "Assets/Sprites/UI/ui_build_trap.png",
+        "Assets/Sprites/UI/ui_build_turret.png"
+      ],
+      "test": "Unity 中所有图标正确显示, 无透明边缘锯齿, Point filter 生效",
+      "depends_on": [],
+      "delegate_to": "pixel-art-agent"
+    },
+    {
+      "id": "T016",
+      "system": "美术-地面+防御",
+      "type": "art",
+      "priority": "P1",
+      "spec": "生成地面场景素材: surface_bg.png (纯 2D 背景, 横版 1920×1080, 像素风草地+天空)。生成防御工事 sprite: 木墙 (48×48, 3 级堆叠视觉), 尖刺陷阱 (48×32), 炮塔 (32×64, 含 2 帧旋转动画)",
+      "params": {
+        "bgResolution": "1920x1080",
+        "palette": "warm_stone"
+      },
+      "output": [
+        "Assets/Sprites/Environment/surface_bg.png",
+        "Assets/Sprites/Defenses/defense_wall.png",
+        "Assets/Sprites/Defenses/defense_spike_trap.png",
+        "Assets/Sprites/Defenses/defense_turret.png"
+      ],
+      "test": "Unity 中拖入场景 → 背景铺满屏幕 → 工事 sprite 可放置在 15 格网格中",
+      "depends_on": [],
+      "delegate_to": "pixel-art-agent"
+    },
+    {
+      "id": "T017",
+      "system": "音频-音效",
+      "type": "audio",
+      "priority": "P1",
+      "spec": "生成游戏音效: 挖矿 (2 变体, 0.3s), 卖钱叮当 (1, 0.3s), 建造 (1, 0.5s), 怪物受伤 (2 变体, 0.3s), 怪物死亡 (1, 0.5s), Boss 吼叫 (1, 1.5s), 昼夜切换 (1, 2s, 氛围过渡), 游戏结束 (1, 2s), 胜利 (1, 2s)",
+      "params": {
+        "total": 11,
+        "variants": {"mine": 2, "enemy_hit": 2},
+        "maxLength": 2.0
+      },
+      "output": [
+        "Assets/Audio/SFX/sfx_mine_01.wav",
+        "Assets/Audio/SFX/sfx_mine_02.wav",
+        "Assets/Audio/SFX/sfx_sell.wav",
+        "Assets/Audio/SFX/sfx_build.wav",
+        "Assets/Audio/SFX/sfx_enemy_hit_01.wav",
+        "Assets/Audio/SFX/sfx_enemy_hit_02.wav",
+        "Assets/Audio/SFX/sfx_enemy_death.wav",
+        "Assets/Audio/SFX/sfx_boss_roar.wav",
+        "Assets/Audio/SFX/sfx_day_night_transition.wav",
+        "Assets/Audio/SFX/sfx_game_over.wav",
+        "Assets/Audio/SFX/sfx_victory.wav"
+      ],
+      "test": "Unity 中播放 → 音量适中 (峰值 -3dB ~ -6dB), 无削波, 延迟 < 50ms",
+      "depends_on": [],
+      "delegate_to": "music-agent"
+    },
+    {
+      "id": "T018",
+      "system": "音频-BGM",
+      "type": "audio",
+      "priority": "P1",
+      "spec": "生成 3 首背景音乐: 白天探索 (70 BPM, 轻松冒险, 120s 循环), 夜晚防御 (110 BPM, 紧张, 90s 循环), Boss 战 (140 BPM, 史诗, 90s 循环)。使用 songwriting skill 生成, Vorbis 压缩, 无缝循环",
+      "params": {
+        "tracks": [
+          {"name": "bgm_day", "bpm": 70, "mood": "adventure_exploration", "duration": 120, "loop": true},
+          {"name": "bgm_night", "bpm": 110, "mood": "tense_defense", "duration": 90, "loop": true},
+          {"name": "bgm_boss", "bpm": 140, "mood": "epic_battle", "duration": 90, "loop": true}
+        ]
+      },
+      "output": [
+        "Assets/Audio/BGM/bgm_day.mp3",
+        "Assets/Audio/BGM/bgm_night.mp3",
+        "Assets/Audio/BGM/bgm_boss.mp3"
+      ],
+      "test": "Unity 中播放 → 循环无缝 → 文件大小 < 5MB each → 风格匹配场景氛围",
+      "depends_on": [],
+      "delegate_to": "music-agent"
+    },
+    {
+      "id": "T019",
+      "system": "测试",
+      "type": "test",
+      "priority": "P1",
+      "spec": "编写 EditMode 测试: MiningSystem (体力消耗+矿物掉落), InventorySystem (添加/移除/堆叠/容量), ShopSystem (卖出/购买/金币不足), SaveSystem (保存/加载/版本检查/备份)。使用 Unity Test Framework + NUnit",
+      "params": {
+        "minTestCount": 12
+      },
+      "output": [
+        "Assets/Tests/EditMode/MiningSystemTests.cs",
+        "Assets/Tests/EditMode/InventorySystemTests.cs",
+        "Assets/Tests/EditMode/ShopSystemTests.cs",
+        "Assets/Tests/EditMode/SaveSystemTests.cs"
+      ],
+      "test": "GameCI test runner: 所有 EditMode 测试通过 (≥12 个)",
+      "depends_on": ["T003", "T004", "T005", "T009"],
+      "delegate_to": "coding-agent"
+    },
+    {
+      "id": "T020",
+      "system": "CI/CD验证",
+      "type": "infra",
+      "priority": "P0",
+      "spec": "验证 GameCI 多平台构建: 确认 StandaloneWindows64 (.exe) + Android (.apk) 在 GitHub Actions 上构建成功。配置 AutoImportPixelArt + AutoImportAudio AssetPostprocessor。确保 URP 渲染设置在构建中正确应用",
+      "params": {
+        "platforms": ["StandaloneWindows64", "Android"]
+      },
+      "output": [
+        "Assets/Editor/AutoImportPixelArt.cs",
+        "Assets/Editor/AutoImportAudio.cs"
+      ],
+      "test": "GitHub Actions: build workflow 全部绿色 → .exe 可运行 → .apk 可安装",
+      "depends_on": ["T001", "T010", "T011", "T015"],
+      "delegate_to": "coding-agent"
+    }
+  ]
+}
