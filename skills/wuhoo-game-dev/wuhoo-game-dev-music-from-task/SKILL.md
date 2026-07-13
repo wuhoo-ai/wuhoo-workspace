@@ -1,18 +1,22 @@
 ---
 name: wuhoo-game-dev-music-from-task
-description: "Use when you need to generate background music or sound effects from an audio task specification. Input: one task from tasks.json with type=audio. Output: .mp3/.wav audio files. Invokes songwriting/heartmula skills for BGM, generates SFX via Suno sound-effect mode or procedural generation."
-version: 1.0.0
+description: "Use when you need to generate background music or sound effects from an audio task specification. Input: one task from tasks.json with type=audio. Output: .mp3/.wav audio files. Primary engine: HeartMuLa (local GPU, free, Apache-2.0). Songwriting skill used for prompt/lyrics engineering. SFX via procedural generation (numpy+soundfile) for short sounds."
+version: 1.1.0
 author: Wuhoo
 license: MIT
 metadata:
   hermes:
-    tags: [wuhoo, game-dev, audio, music, sfx, suno, heartmula]
-    related_skills: [songwriting-and-ai-music, heartmula, wuhoo-game-dev-gdd-to-tasks, wuhoo-game-dev-review-task]
+    tags: [wuhoo, game-dev, audio, music, sfx, heartmula, songwriting]
+    related_skills: [heartmula, songwriting-and-ai-music, wuhoo-game-dev-gdd-to-tasks, wuhoo-game-dev-review-task]
 ---
 
 # Wuhoo Music From Task
 
 单个 audio task → BGM .mp3 + SFX .wav 文件。
+
+**主引擎**: HeartMuLa (本地 GPU, 开源免费, 12GB VRAM 可跑 3B 模型)
+**辅助**: songwriting skill (prompt/lyrics 工程), numpy+soundfile (短音效程序化生成)
+**云端备用**: Suno/Udio (HeartMuLa 不可用时)
 
 ## When to Use
 
@@ -30,47 +34,82 @@ task.params: { "bpm": 70, "mood": "exploration", "loop": true, "duration": 120 }
 task.output: "Assets/Audio/BGM/bgm_day.mp3"
 ```
 
-### Step 2: 确定音频类型
+### Step 2: 确定音频类型与引擎
 
-| 类型 | 工具 | 格式 | 参数 |
+| 类型 | 引擎 | 格式 | 参数 |
 |------|------|------|------|
-| BGM | songwriting/heartmula | .mp3 (压缩) | BPM, mood, loop, duration |
-| SFX (1-2s) | Suno 音效模式 或 Python 程序化 | .wav (未压缩) | 事件类型, 变体数 |
-| 环境音 | Suno 或 程序化噪声 | .mp3 | 场景氛围描述 |
+| BGM (>30s) | **HeartMuLa** (本地 GPU) | .mp3 | BPM, mood, tags, loop, duration |
+| SFX (<2s) | **Python 程序化** (numpy+soundfile) | .wav | 事件类型, 变体数 |
+| 环境音 (10-30s) | HeartMuLa 或 程序化噪声 | .mp3 | 场景氛围描述 |
 
-### Step 3: 生成
+### Step 3: BGM 生成 (HeartMuLa)
 
-**BGM 生成 (songwriting skill)**:
+**3a. 用 songwriting skill 写 prompt**:
 
+加载 songwriting-and-ai-music skill → 根据 task.spec 生成:
+- `tags.txt`: 逗号分隔风格标签, 如 `adventure,orchestral,70bpm,cinematic,hopeful,major-key`
+- `lyrics.txt`: 如果 BGM 不需要歌词 → 用 `[Instrumental]` 标记; 如果需要 → 写对应语言的歌词
+
+**3b. 调用 HeartMuLa**:
+
+```bash
+cd ~/heartlib && .venv/bin/activate
+python ./examples/run_music_generation.py \
+  --model_path=./ckpt \
+  --version="3B" \
+  --lyrics=./assets/lyrics.txt \
+  --tags=./assets/tags.txt \
+  --save_path="Assets/Audio/BGM/bgm_day.mp3" \
+  --lazy_load true \
+  --max_audio_length_ms 120000
 ```
-加载 songwriting-and-ai-music skill → 按照 task.spec 生成歌词/曲风提示词
-→ 调用 Suno/heartmula 生成 → 下载 → 裁剪到 duration
-→ 确保开头和结尾可无缝循环 (loop 标记)
+
+**3c. 无缝循环处理**:
+
+生成后, 用 ffmpeg 检查并修复循环点:
+
+```bash
+# 检查开头和结尾振幅是否平滑
+ffmpeg -i bgm_day.mp3 -af "volumedetect" -f null /dev/null 2>&1
+
+# 如果结尾不平滑, 做 50ms 淡出
+ffmpeg -i bgm_day.mp3 -af "afade=t=out:st=119.95:d=0.05" bgm_day_looped.mp3
 ```
 
-**SFX 生成 (程序化优先)**:
+### Step 4: SFX 生成 (程序化)
 
-短音效 (<2s) 优先用 Python 程序化生成 (减少 API 调用):
+短音效 (<2s) 用 Python 程序化生成 (零 API 调用):
 
 ```python
-# 例: 挖矿音效 - 用 numpy 生成撞击声
 import numpy as np
 import soundfile as sf
 
-sr = 44100
-duration = 0.3
-t = np.linspace(0, duration, int(sr * duration))
-# 噪声衰减模拟撞击
-hit = np.random.randn(len(t)) * np.exp(-t * 20)
-hit = hit / np.max(np.abs(hit))
-sf.write('sfx_mine_1.wav', hit, sr)
+def generate_hit_sfx(filename, duration=0.3, sr=44100, decay=20):
+    """生成撞击音效: 白噪声+指数衰减"""
+    t = np.linspace(0, duration, int(sr * duration))
+    hit = np.random.randn(len(t)) * np.exp(-t * decay)
+    hit = hit / np.max(np.abs(hit))  # 归一化
+    sf.write(filename, hit, sr)
+
+def generate_mine_sfx(base_name, variants=2):
+    """生成挖矿音效变体"""
+    for i in range(variants):
+        # 每个变体用不同 decay 模拟不同矿物硬度
+        decay = 15 + i * 5
+        generate_hit_sfx(f'{base_name}_{i+1:02d}.wav', decay=decay)
+
+def generate_collect_sfx(filename):
+    """金币收集音: 高频叮当声"""
+    sr, dur = 44100, 0.15
+    t = np.linspace(0, dur, int(sr * dur))
+    # 两个正弦波叠加模拟金属撞击
+    ding = (np.sin(2*np.pi*1200*t) + 0.5*np.sin(2*np.pi*2400*t)) * np.exp(-t*30)
+    sf.write(filename, ding / np.max(np.abs(ding)), sr)
 ```
 
-如果程序化效果不够 → 用 Suno 音效模式。
+### Step 5: Unity 音频配置
 
-### Step 4: Unity 音频配置
-
-写入 `AssetPostprocessor` 补充音频设置：
+写入 `AssetPostprocessor` 补充音频设置:
 
 ```csharp
 // 追加到 Assets/Editor/AutoImportAudio.cs
@@ -80,7 +119,6 @@ void OnPreprocessAudio()
 
     if (assetPath.Contains("BGM/"))
     {
-        // BGM: 压缩, 流式加载
         importer.defaultSampleSettings = new AudioImporterSampleSettings
         {
             loadType = AudioClipLoadType.Streaming,
@@ -90,7 +128,6 @@ void OnPreprocessAudio()
     }
     else if (assetPath.Contains("SFX/"))
     {
-        // SFX: 解压, 低延迟
         importer.defaultSampleSettings = new AudioImporterSampleSettings
         {
             loadType = AudioClipLoadType.DecompressOnLoad,
@@ -100,12 +137,13 @@ void OnPreprocessAudio()
 }
 ```
 
-### Step 5: 输出报告
+### Step 6: 输出报告
 
 ```markdown
 ## Task {id} 音频完成报告
 
 **状态**: ✅
+**引擎**: HeartMuLa 3B | Python 程序化
 **输出文件**:
   - Assets/Audio/BGM/bgm_day.mp3 (120s, 70BPM, 3.2MB)
   - Assets/Audio/SFX/sfx_mine_01.wav (0.3s, 52KB)
@@ -114,38 +152,52 @@ void OnPreprocessAudio()
 **Self-Review**: ✅ BPM 匹配, 变体数到位, 无缝循环已验证
 ```
 
-## BGM 规格速查
+## BGM 风格标签速查 (for HeartMuLa tags.txt)
 
-| 场景 | BPM | 风格关键词 | 时长 |
-|------|-----|-----------|------|
-| 白天探索 | 60-80 | 轻松/冒险/lo-fi 节拍 | 90-180s |
-| 夜晚防御 | 100-130 | 紧张/电子/鼓点驱动 | 90-120s |
-| Boss 战 | 130-160 | 史诗/管弦/重金属 | 60-120s |
-| 主菜单 | 70-90 | 氛围/主题曲 | 60-90s |
+| 场景 | BPM | tags.txt 示例 |
+|------|-----|---------------|
+| 白天探索 | 60-80 | `adventure,orchestral,cinematic,hopeful,light-percussion,major-key` |
+| 夜晚防御 | 100-130 | `tense,electronic,drums,aggressive,minor-key,bass-heavy` |
+| Boss 战 | 130-160 | `epic,orchestral,choir,metal,driving-percussion,dark` |
+| 主菜单 | 70-90 | `atmospheric,ambient,piano,nostalgic,warm,lo-fi` |
 
 ## SFX 规格速查
 
-| 事件 | 数量 | 长度 | 说明 |
-|------|------|------|------|
-| 挖矿 | 2-3 变体 | 0.2-0.5s | 不同矿物不同音色 |
-| 收集物品 | 1 | 0.3s | 金币叮当声 |
-| 怪物受伤 | 2 变体 | 0.2-0.4s | 不同怪物不同音色 |
-| UI 点击 | 1-2 变体 | 0.1s | 干净清脆 |
-| 昼夜切换 | 1 | 1-2s | 过渡氛围 |
-| 胜利/失败 | 各 1 | 2-3s | 有仪式感 |
+| 事件 | 数量 | 长度 | 程序化方法 |
+|------|------|------|-----------|
+| 挖矿 | 2-3 变体 | 0.2-0.5s | 噪声+不同 decay |
+| 收集物品 | 1 | 0.15s | 双正弦叠加 |
+| 怪物受伤 | 2 变体 | 0.2-0.4s | 低频噪声 |
+| UI 点击 | 1-2 变体 | 0.1s | 短 sine ping |
+| 昼夜切换 | 1 | 1-2s | 渐变 pad (HeartMuLa) |
+| 胜利/失败 | 各 1 | 2-3s | HeartMuLa 短片段 |
+
+## HeartMuLa 硬件要求
+
+| GPU | 能跑吗 | 配置 |
+|-----|--------|------|
+| RTX 4070 Ti (12GB) | ✅ | `--version 3B --lazy_load true` (~6.2GB) |
+| RTX 3060 (12GB) | ✅ | 同上 |
+| RTX 4060 (8GB) | ⚠️ | 3B 勉强, 关闭其他程序 |
+| 无 GPU | ❌ | 走云端备用 Suno/Udio |
 
 ## Pitfalls
 
-1. BGM 无缝循环失败 — 开头和结尾振幅不匹配 → 检查前 0.1s 和后 0.1s 是否平滑
-2. SFX 延迟太高 — 移动端关键 → 用 DecompressOnLoad + PCM 格式
-3. 包体过大 — 所有 BGM 加起来 < 10MB → 用 Vorbis 压缩 quality=0.5
-4. 缺少变体 — 同一个音效反复播放会疲劳 → 每个 SFX 事件至少 2 个变体
-5. 版权问题 — Suno/Udio 付费版允许商用 → 确认授权后再用
+1. HeartMuLa --lazy_load 拼写 — 是 `lazy_load` 不是 `lazy-load`
+2. HeartCodec 用 fp32 — 不要用 bf16, 会劣化音质
+3. tags 可能被忽略 — lyrics 权重更高, 如果 BGM 不需要歌词, lyrics.txt 写 `[Instrumental]`
+4. BGM 无缝循环 — 开头末尾振幅不匹配 → ffmpeg 做 50ms 淡入淡出
+5. SFX 延迟 — 移动端关键 → DecompressOnLoad + PCM
+6. 包体过大 — 所有 BGM < 10MB → Vorbis quality=0.5
+7. 缺少变体 — 同一音效反复播放会疲劳 → 每个 SFX 至少 2 变体
+8. HeartMuLa 首次安装需要 30min — 下载模型 ~5GB, Python 3.10 venv
+9. RTX 5080 已知不兼容 — 上游 issue 跟踪中
 
 ## Verification
 
 - [ ] 音频文件在正确的 output 路径
 - [ ] BGM: 时长/BPM/mood 符合 task.params
-- [ ] SFX: 长度 ≤ 2s, 至少 2 个变体 (如果 task 要求)
+- [ ] SFX: 长度 ≤ 2s, 变体数达标
 - [ ] AutoImportAudio.cs 覆盖对应路径
-- [ ] 在 Unity Editor 中播放测试, 无削波/失真
+- [ ] Unity Editor 中播放无削波/失真
+- [ ] BGM 无缝循环 (听开头 5s → 结尾 5s 过渡)
