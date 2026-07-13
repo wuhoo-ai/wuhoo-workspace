@@ -1,43 +1,87 @@
 ---
 name: wuhoo-game-dev-gpu-batch
-description: "Use when a task needs GPU (HeartMuLa music gen, Unity build, Blender render, sprite-to-pixel conversion) and the GPU node is offline or in batch mode. Daytime: append tasks to gpu-queue.json. Nighttime (cron 02:00 CST): SSH to 4070 Ti, execute all queued tasks in batch, fetch artifacts back, shutdown node, notify via WeChat. Manages the full GPU batch lifecycle."
-version: 1.0.0
+description: "Use when a task needs GPU (HeartMuLa/Unity/Blender) OR is token-heavy (bulk coding via delegate_task) and should defer to off-peak hours for cost optimization. Daytime peak (CST 09-12,14-18): enqueue only, no heavy work. Off-peak (CST 00-09,12-14,18-24): cron-driven batch execution at low token pricing + GPU node on-hours. Manages the full deferred-work lifecycle."
+version: 2.0.0
 author: Wuhoo
 license: MIT
 metadata:
   hermes:
-    tags: [wuhoo, game-dev, gpu, batch, heartmula, unity-build, blender, cron]
-    related_skills: [wuhoo-game-dev-daily-build, wuhoo-game-dev-music-from-task, wuhoo-game-dev-sprite-from-task, heartmula, cronjob]
+    tags: [wuhoo, game-dev, gpu, batch, off-peak, cost-optimization, heartmula, unity-build, coding, cron]
+    related_skills: [wuhoo-game-dev-code-from-task, wuhoo-game-dev-daily-build, wuhoo-game-dev-music-from-task, wuhoo-game-dev-sprite-from-task, heartmula, delegate_task, cronjob]
 ---
 
-# Wuhoo GPU Batch
+# Wuhoo Batch Queue — 峰谷编排
 
-GPU 任务队列管理 + 凌晨批量执行。一个 skill，两阶段：白天入队，凌晨跑批。
+一个 skill，统一管理所有应延迟到低谷时段执行的「重任务」：
+**GPU 密集型** (HeartMuLa/Unity/Blender) + **Token 密集型** (批量编码)。
 
-## 架构
+## 峰谷时间定义
 
 ```
-白天 (云 Hermes)                      凌晨 2:00 CST (cron触发)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-日间 Agent 产出 spec/代码  ✅          1. SSH 到 GPU 节点
-GPU 依赖任务 → 入队 queue  ⏳          2. 按 task.type 批量执行:
-  - HeartMuLa BGM/SFX                        heartmula → 音乐生成
-  - Unity Win+Android build                  unity → 多平台构建
-  - Blender 3D 渲染                          blender → 模型导出
-  - pixel-art 渲染                           pixel → spritesheet
-  - ffmpeg 音视频后处理                       ffmpeg → 格式转换
-                                       3. scp 产物回云存储
-                                       4. 关机 GPU 节点
-                                       5. WeChat 通知结果
+北京时间 (CST, UTC+8):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  高峰 (不跑重任务):
+    上午  09:00 — 12:00
+    下午  14:00 — 18:00
+    合计  7 小时 — 你在线交互, 只做设计/Review/轻量
+
+  低谷 (批量执行窗口):
+    凌晨  00:00 — 09:00   ← 主力窗口
+    午休  12:00 — 14:00
+    夜间  18:00 — 24:00
+    合计  17 小时
+
+  GPU 节点通电窗口: 02:00 — 05:00 (3h, 在低谷内)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## When to Use
+## 任务类型 (扩展)
 
-- 日间 task 执行时检测到需要 GPU → 入队而非直接执行
-- 凌晨 cron 触发 → 执行队列中所有 pending 任务
-- 用户说：跑 GPU 批处理、检查 GPU 队列、GPU 节点状态
+| type | 何时入队 | 执行引擎 | 预估 Token | 需 GPU? | 优先级 |
+|------|---------|---------|-----------|---------|--------|
+| `heartmula` | 日间 music-from-task | HeartMuLa 3B | 0 | ✅ | 1 |
+| `unity-build` | 日间 daily-build | Unity CLI | 0 | ❌(但需Windows) | 2 |
+| `blender` | 日间 sprite-from-task | Blender headless | 0 | ⚠️ | 1 |
+| `code-heavy` | **日间 code-from-task** | **delegate_task** | **高 (30K-100K)** | ❌ | 1 |
+| `test-suite` | 日间 code-from-task | Unity Test Runner | 低 | ❌ | 2 |
+| `balance-sim` | 日间 balance-validate | Python Monte Carlo | 中 | ❌ | 2 |
+| `pixel-render` | 日间 sprite-from-task | pixel-art skill | 低 | ❌ | 1 |
+| `ffmpeg` | 日间 audio post | ffmpeg | 0 | ❌ | 3 |
 
-## 队列文件: ~/.hermes/gpu-queue.json
+## 入队策略：日间不跑重活
+
+日间 Hermes 检测到当前是高峰时段 + 任务符合入队条件时 → 入队而非直接执行：
+
+```python
+def should_defer(task_type, params):
+    now = datetime.now(tz=timezone('Asia/Shanghai'))
+    hour = now.hour
+    
+    # 判断是否高峰
+    is_peak = (9 <= hour < 12) or (14 <= hour < 18)
+    if not is_peak:
+        return False  # 低谷时段, 直接跑
+    
+    # 高峰时段, 只跑轻量任务
+    heavy_types = {'heartmula', 'unity-build', 'blender', 'code-heavy', 'balance-sim'}
+    if task_type in heavy_types:
+        return True  # 入队, 等低谷
+    
+    # 代码任务 — 按预估 token 量判断
+    if task_type == 'code' and params.get('estimated_tokens', 0) > 10000:
+        return True
+    
+    return False  # 轻量任务, 直接跑
+```
+
+**日间不影响的工作**（直接执行，不入队）：
+- gdd-to-tasks（编排，低 token）
+- review-task（审查，中 token 但需要你即时反馈）
+- 轻量 code-from-task（<10K token，如修一个 bug 或小 function）
+- sprite-from-task 的 spec 编写（入队的是 pixel-render 阶段）
+- music-from-task 的 lyrics/tags 编写（入队的是 HeartMuLa 生成阶段）
+
+## 队列文件 (扩展)
 
 ```json
 {
@@ -47,14 +91,29 @@ GPU 依赖任务 → 入队 queue  ⏳          2. 按 task.type 批量执行:
     "host": "192.168.x.x",
     "user": "admin",
     "gpu": "RTX 4070 Ti 12GB",
-    "wol_mac": "aa:bb:cc:dd:ee:ff"
+    "wol_mac": "aa:bb:cc:dd:ee:ff",
+    "power_window": "02:00-05:00 CST"
   },
   "tasks": [
+    {
+      "id": "T003_code",
+      "type": "code-heavy",
+      "status": "pending",
+      "priority": 1,
+      "spec": "实现采矿系统 MiningSystem.cs",
+      "params": {
+        "task_json_path": "tasks.json#T003",
+        "estimated_tokens": 50000,
+        "delegate_model": "deepseek-v4-pro"
+      },
+      "output": ["Scripts/Systems/MiningSystem.cs", "Scripts/Data/MineralData.cs"],
+      "depends_on": ["T001", "T002"]
+    },
     {
       "id": "T017_music_bgm_day",
       "type": "heartmula",
       "status": "pending",
-      "priority": 1,
+      "priority": 2,
       "spec": "BGM 白天探索 70BPM",
       "params": {
         "tags": "adventure,orchestral,70bpm,hopeful,major-key",
@@ -68,187 +127,151 @@ GPU 依赖任务 → 入队 queue  ⏳          2. 按 task.type 批量执行:
 }
 ```
 
-## Phase 1: 入队 (日间)
+## Phase 2: 批量执行 (低谷 cron)
 
-日间 Hermes 执行 task 时，遇到 GPU 依赖调用入队函数：
+### 执行窗口
+
+```
+CST 02:00 — cron 触发
+  │
+  ├─ 02:00  读取队列, 排序
+  ├─ 02:00  GPU 节点 WoL 开机, 等待就绪
+  │
+  ├─ 02:05  Phase A: code-heavy 任务 (云上 delegate_task)
+  │         5-10 个并行, 每个 30K-100K token
+  │         利用低谷 DeepSeek 价格 (~50% off)
+  │         耗时: ~20-40 min
+  │
+  ├─ 02:45  Phase B: GPU 任务 (SSH 到 4070 Ti)
+  │         heartmula → blender → unity-build
+  │         串行 (避免 VRAM/CPU 争抢)
+  │         耗时: ~30-60 min
+  │
+  ├─ 03:45  Phase C: 轻量后处理 (云上)
+  │         pixel-render / ffmpeg / balance-sim
+  │         耗时: ~5-10 min
+  │
+  ├─ 04:00  scp 产物回传 + git push
+  ├─ 04:10  GPU 节点关机
+  ├─ 04:15  队列清理 + 归档
+  └─ 04:20  WeChat 通知
+```
+
+### Phase A: Code-Heavy 批量编码
 
 ```python
-def enqueue_gpu_task(task_id, task_type, spec, params, output_path):
-    queue = read_queue()
-    # 防重复: 同一 task_id + pending → 跳过
-    existing = [t for t in queue['tasks'] if t['id'] == task_id and t['status'] == 'pending']
-    if existing:
-        return f"Task {task_id} already queued, skipping"
-    queue['tasks'].append({
-        'id': task_id, 'type': task_type, 'status': 'pending',
-        'priority': params.get('priority', 1),
-        'spec': spec, 'params': params, 'output': output_path,
-        'depends_on': params.get('depends_on', [])
-    })
-    write_queue(queue)
-    return f"Queued: {task_id} ({task_type}) for GPU batch"
+# 低谷时段, 对每个 code-heavy task 派发 delegate_task
+for task in get_pending('code-heavy'):
+    task_spec = load_task_json(task['params']['task_json_path'])
+    
+    delegate_task(
+        goal=task_spec['spec'],
+        context=f"""
+        Task: {task['id']}
+        Spec: {task_spec['spec']}
+        Params: {json.dumps(task_spec.get('params', {}))}
+        Output files: {task_spec['output']}
+        Test criteria: {task_spec['test']}
+        Existing codebase: see repo at /mnt/shared/unity-project
+        """,
+        role='leaf'
+    )
+    # delegate_task 是异步的, 派完继续下一个
+    # 所有 coding agent 并行工作
 ```
 
-## Phase 2: 批量执行 (凌晨 cron)
+**并发控制**: 单次最多 3 个 code-heavy 并行（Hermes 默认限制），串行依赖的 task 按 depends_on 排序。
 
-### Step 1: 唤醒/检查 GPU 节点
+### Phase B: GPU 任务
+
+（与 v1.0 相同，HeartMuLa → Unity → Blender）
+
+### Step 5 (更新): 通知
+
+```
+🤖 Off-Peak Batch #03 完成  |  02:00-04:15 CST
+
+📝 Code (低谷 token):
+  ✅ T003_code  MiningSystem.cs         (52K token, 18min)
+  ✅ T004_code  InventorySystem.cs      (38K token, 12min)
+  ✅ T005_code  ShopSystem.cs           (45K token, 15min)
+  ❌ T008_code  EnemyAI.cs              (OOM — context too large)
+
+🎵 Audio (GPU):
+  ✅ T017_music_bgm_day     (2m34s, 3.2MB)
+  ✅ T017_music_bgm_night   (1m58s, 2.8MB)
+
+🏗️ Build (GPU):
+  ✅ T020_build_win         (8m15s, 45MB)
+  ✅ T020_build_android     (6m42s, 38MB)
+
+💰 预估节省: ~120K token × 低谷价 ≈ 节省 40-50%
+🔌 GPU 节点已关机  |  📦 产物已推送
+```
+
+## Cron 配置 (更新)
 
 ```bash
-# WoL 开机 (如果需要)
-wakeonlan aa:bb:cc:dd:ee:ff
-# 等待启动 + SSH 就绪 (最多 2 分钟)
-for i in {1..12}; do
-  ssh -o ConnectTimeout=5 admin@$GPU_HOST 'echo OK' 2>/dev/null && break
-  sleep 10
-done
-```
-
-### Step 2: 读取队列, 按优先级排序
-
-```bash
-cat ~/.hermes/gpu-queue.json | python3 -c "
-import json, sys
-q = json.load(sys.stdin)
-pending = [t for t in q['tasks'] if t['status'] == 'pending']
-pending.sort(key=lambda t: t['priority'])
-print(f'{len(pending)} tasks to execute')
-"
-```
-
-### Step 3: 按类型执行
-
-```bash
-# HeartMuLa 音乐 (优先级 1 — 先跑, GPU 独占)
-for task_id in $(pending_by_type 'heartmula'); do
-    params=$(task_param $task_id)
-    ssh admin@$GPU_HOST "
-        cd ~/heartlib && .venv/bin/activate
-        python run_music_generation.py \
-            --model_path=./ckpt --version=3B \
-            --tags=<(echo '$tags') \
-            --lyrics=./lyrics_instrumental.txt \
-            --save_path=output/$task_id.mp3 \
-            --lazy_load true --max_audio_length_ms $duration_ms
-    "
-    mark_complete $task_id
-done
-
-# Unity 构建 (优先级 2 — HeartMuLa 完成后跑)
-for task_id in $(pending_by_type 'unity-build'); do
-    target=$(task_param $task_id 'target')
-    ssh admin@$GPU_HOST "
-        '/mnt/c/Program Files/Unity/Hub/Editor/6000.x/Editor/Unity.exe' \
-            -batchmode -nographics -quit \
-            -projectPath /mnt/repo/unity-project \
-            -buildTarget $target \
-            -executeMethod BuildScript.PerformBuild \
-            -logFile build_$task_id.log
-    "
-    mark_complete $task_id
-done
-
-# Blender 渲染 (优先级 1 — 和 HeartMuLa 可并行? 不, HeartMuLa 占了 GPU)
-for task_id in $(pending_by_type 'blender'); do
-    blend=$(task_param $task_id 'blend_file')
-    script=$(task_param $task_id 'script')
-    ssh admin@$GPU_HOST "blender '$blend' --background --python '$script'"
-    mark_complete $task_id
-done
-```
-
-### Step 4: 回传产物
-
-```bash
-scp -r admin@$GPU_HOST:output/* /mnt/shared/Assets/Audio/
-scp -r admin@$GPU_HOST:build/* /mnt/shared/build/
-scp -r admin@$GPU_HOST:heartlib/output/* /mnt/shared/Assets/Audio/BGM/
-
-# 提交到 Git LFS
-cd /mnt/shared && git add -A && git commit -m "gpu-batch: $(date +%Y-%m-%d)" && git push
-```
-
-### Step 5: 关机 + 通知
-
-```bash
-ssh admin@$GPU_HOST "sudo shutdown -h +1"
-```
-
-通知模板：
-
-```
-🤖 GPU Batch #03 完成  |  02:00-03:42 CST
-11/12 ✅  |  1 ❌ (Boss sprite VRAM OOM)
-产物已推送 Git LFS  |  🔌 GPU 节点已关机
-```
-
-### Step 6: 队列清理
-
-```bash
-python3 -c "
-import json, shutil
-from datetime import datetime
-q = json.load(open('gpu-queue.json'))
-ts = datetime.now().strftime('%Y%m%d_%H%M%S')
-shutil.copy('gpu-queue.json', f'gpu-queue-archive/{ts}.json')
-# 保留 failed + pending, 移除 completed
-q['tasks'] = [t for t in q['tasks'] if t['status'] in ('pending','failed')]
-q['queue_id'] = f'batch-{ts}'
-json.dump(q, open('gpu-queue.json','w'), indent=2)
-"
-```
-
-## Cron 配置
-
-```bash
+# 主批次: 每天 CST 02:00 (UTC 18:00)
 hermes cron create '0 18 * * *' \
-  --name 'gpu-nightly-batch' \
-  --prompt '加载 wuhoo-game-dev-gpu-batch skill, 读取 gpu-queue.json, SSH 到 GPU 节点执行所有 pending 任务, 回传产物, 关机, WeChat 通知' \
+  --name 'off-peak-batch' \
+  --prompt '加载 wuhoo-game-dev-gpu-batch skill。按 Phase A→B→C 顺序执行所有 pending 队列任务。Phase A: delegate_task 并行跑 code-heavy 任务。Phase B: SSH GPU 节点执行 heartmula/unity/blender。Phase C: 云上跑 pixel-render/ffmpeg。完成后回传产物、关机 GPU 节点、清理队列、WeChat 通知。' \
   --skills 'wuhoo-game-dev-gpu-batch' \
   --deliver 'wechat' \
-  --enabled_toolsets 'terminal,file,web'
+  --enabled_toolsets 'terminal,file,web,delegation'
+
+# 午休补充批次: 每天 CST 12:30 (UTC 04:30) — 只跑 code-heavy, 不开 GPU 节点
+hermes cron create '30 4 * * *' \
+  --name 'lunch-batch' \
+  --prompt '加载 wuhoo-game-dev-gpu-batch skill。只执行 code-heavy 类型的 pending 任务 (delegate_task), 不启动 GPU 节点。完成后 WeChat 通知。' \
+  --skills 'wuhoo-game-dev-gpu-batch' \
+  --deliver 'wechat' \
+  --enabled_toolsets 'terminal,file,delegation'
 ```
 
-> UTC 18:00 = CST 02:00
+## 日间 code-from-task 变更
 
-## GPU 任务类型速查
-
-| type | 引擎 | 预估耗时 | 优先级 | 独占 GPU? |
-|------|------|---------|--------|----------|
-| `heartmula` | HeartMuLa 3B | 2-4 min/首 | 1 | ✅ 是 |
-| `unity-build` | Unity CLI | 6-15 min/平台 | 2 | ❌ 否 |
-| `blender` | Blender headless | 2-5 min/场景 | 1 | ⚠️ 视场景而定 |
-| `pixel-render` | pixel-art skill | 30s-2 min | 1 | ❌ 否 |
-| `ffmpeg` | ffmpeg | <30s | 3 | ❌ 否 |
-
-**执行顺序**: 按 priority 分组, 同 priority 串行 (避免 VRAM 争抢), 不同 priority 按序执行。
-
-## 日间其他 skill 的集成点
-
-其他 wuhoo-game-dev skill 需要在执行前加判断：
+日间 code-from-task skill 在高峰时段遇到重任务时：
 
 ```
-if task_needs_gpu() and gpu_node_is_offline():
-    enqueue_to_gpu_batch(task)
-    task.status = "queued_for_gpu"
-    return  # 不阻塞, 等凌晨批处理
+if is_peak_hours() and estimated_tokens > 10000:
+    → 不入队: 不执行
+    → 写入 gpu-queue.json (type=code-heavy)
+    → 回复用户: "T003 已入队, 凌晨低谷批量编码, 明早可 Review"
+else:
+    → 正常执行 (轻量 fix/小 function)
 ```
 
-影响范围: music-from-task (HeartMuLa), sprite-from-task (pixel render), daily-build (Unity build)。后续逐个 patch。
+## 成本模型
+
+```
+假设一天的工作量:
+  10 个 code-heavy task × 50K token = 500K token
+
+高峰全部执行:
+  500K × DeepSeek v4-pro 高峰价 ≈ $X
+
+低谷全部执行:
+  500K × DeepSeek v4-pro 低谷价 ≈ $X × 0.5 ≈ 节省 50%
+  + GPU 电费 3h ≈ ¥1
+
+  月度节省: 可估算为原来的 40-60%
+```
 
 ## Pitfalls
 
-1. 队列重复入队 — 同一 task_id + pending → 跳过
-2. SSH 超时 — GPU 节点未唤醒 → 重试 12 次 × 10s, 仍失败则跳过所有 GPU 任务
-3. HeartMuLa OOM — 其他进程占 VRAM → HeartMuLa 优先跑, 独占 GPU
-4. Unity license 过期 — 构建静默失败 → Step 1 先验证: `ssh admin@$GPU_HOST "ls 'C:/ProgramData/Unity/' "`
-5. scp 大文件超时 — 产物 > 100MB → 分片或 rsync
-6. 忘记关机 — 脚本 crash → `trap 'ssh admin@$GPU_HOST "sudo shutdown -h +5"' EXIT`
+1. code-heavy 并发超限 — Hermes 默认 max 3 并行 delegate_task → 串行依赖的按序, 独立的并行
+2. 编码任务 OOM — 上下文窗口溢出 (代码库太大) → 拆分为更小的 sub-task
+3. 低谷时段编码 Agent 出错无人看管 → 失败 task 保留在队列, 次日白天人工 Review 后决定重跑或手动修
+4. 日间立刻需要的 task 被误入队 → code-from-task 加 `--now` flag 跳过峰谷检测, 强制立即执行
+5. GPU 节点没开机时 code-heavy 也要等? → 不, code-heavy 在云上跑, 不进 GPU 节点。只有 heartmula/unity/blender 等 GPU 节点
 
 ## Verification
 
-- [ ] gpu-queue.json 格式正确
-- [ ] SSH 可达, GPU 可见 (`nvidia-smi`)
-- [ ] 每种 pending task type 至少执行了一个
-- [ ] 产物已回传且文件非空
+- [ ] 当前时间正确判断高峰/低谷
+- [ ] 高峰时段 code-heavy/heartmula/unity-build 入队而非执行
+- [ ] 低谷 cron 按 Phase A→B→C 顺序执行
+- [ ] code-heavy 结果已 commit 到 repo
+- [ ] GPU 产物已回传
 - [ ] GPU 节点已关机
-- [ ] WeChat 通知已送达
+- [ ] WeChat 通知包含成功/失败统计 + 节省估算
