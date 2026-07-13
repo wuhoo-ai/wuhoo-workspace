@@ -1,6 +1,6 @@
 {
   "date_beijing": "2026-07-16",
-  "generated": "2026-07-12T13:07:59.519607",
+  "generated": "2026-07-13T12:02:25.948395",
   "total_matches": 1,
   "predictions": [
     {
@@ -11,30 +11,30 @@
       "group": null,
       "matchday": null,
       "time_beijing": null,
-      "team_a_win_pct": 7.2,
-      "draw_pct": 15.0,
-      "team_b_win_pct": 77.8,
+      "team_a_win_pct": 7.0,
+      "draw_pct": 14.8,
+      "team_b_win_pct": 78.2,
       "most_likely_score": "0-2",
       "expected_goals_a": 0.59,
-      "expected_goals_b": 2.43,
+      "expected_goals_b": 2.45,
       "scoreline_probs": [
         {
           "score": "0-2",
-          "prob": 0.1447,
-          "prob_pct": 14.5,
-          "cumulative": 0.1447
-        },
-        {
-          "score": "0-1",
-          "prob": 0.1193,
-          "prob_pct": 11.9,
-          "cumulative": 0.2641
+          "prob": 0.144,
+          "prob_pct": 14.4,
+          "cumulative": 0.144
         },
         {
           "score": "0-3",
-          "prob": 0.117,
+          "prob": 0.1178,
+          "prob_pct": 11.8,
+          "cumulative": 0.2618
+        },
+        {
+          "score": "0-1",
+          "prob": 0.1175,
           "prob_pct": 11.7,
-          "cumulative": 0.3811
+          "cumulative": 0.3793
         }
       ],
       "verdict": "阿根廷 胜（高置信度）",
@@ -48,7 +48,7 @@
         "team_a": "England",
         "team_b": "Argentina",
         "venue": "Mercedes-Benz Stadium",
-        "generated": "2026-07-12T13:07:57.519996",
+        "generated": "2026-07-13T12:02:23.955960",
         "layers": {
           "1_elo_base": {
             "team_a_elo": 2222,
@@ -129,19 +129,19 @@
             "team_a_adj": 0,
             "team_b_adj": -2,
             "team_a_details": {
-              "prev_match_id": 99,
-              "prev_venue": "Hard Rock Stadium",
+              "prev_match_id": 80,
+              "prev_venue": "Mercedes-Benz Stadium",
               "curr_venue": "Mercedes-Benz Stadium",
               "distance_km": 0,
-              "rest_days": 4,
+              "rest_days": 14,
               "rest_bonus_raw": 0
             },
             "team_b_details": {
-              "prev_match_id": 100,
-              "prev_venue": "Arrowhead Stadium",
+              "prev_match_id": 86,
+              "prev_venue": "Hard Rock Stadium",
               "curr_venue": "Mercedes-Benz Stadium",
               "distance_km": 955.2,
-              "rest_days": 4,
+              "rest_days": 12,
               "rest_bonus_raw": 0
             },
             "description": "England: +0 (travel+rest) | Argentina: -2"
@@ -174,9 +174,9 @@
           },
           "5_news_sentiment": {
             "enabled": true,
-            "team_a_adj": 2,
+            "team_a_adj": -8,
             "team_b_adj": 2,
-            "description": "England: +2 | Argentina: +2"
+            "description": "England: -8 | Argentina: +2"
           },
           "5.5_unstructured_signals": {
             "enabled": true,
@@ -194,44 +194,44 @@
         "effective_elo": {
           "team_a": {
             "base": 2222,
-            "effective": 2285,
-            "adjustments": 63
+            "effective": 2275,
+            "adjustments": 53
           },
           "team_b": {
             "base": 2461,
             "effective": 2676,
             "adjustments": 215
           },
-          "diff": -391,
+          "diff": -401,
           "engine_delta_a": 3,
           "engine_delta_b": 32
         },
         "prediction": {
           "model": "Poisson (Elo-based lambda)",
-          "team_a_win": 7.2,
-          "draw": 15.0,
-          "team_b_win": 77.8,
+          "team_a_win": 7.0,
+          "draw": 14.8,
+          "team_b_win": 78.2,
           "most_likely_score": "0-2",
           "expected_goals_a": 0.59,
-          "expected_goals_b": 2.43,
+          "expected_goals_b": 2.45,
           "scoreline_probs": [
             {
               "score": "0-2",
-              "prob": 0.1447,
-              "prob_pct": 14.5,
-              "cumulative": 0.1447
-            },
-            {
-              "score": "0-1",
-              "prob": 0.1193,
-              "prob_pct": 11.9,
-              "cumulative": 0.2641
+              "prob": 0.144,
+              "prob_pct": 14.4,
+              "cumulative": 0.144
             },
             {
               "score": "0-3",
-              "prob": 0.117,
+              "prob": 0.1178,
+              "prob_pct": 11.8,
+              "cumulative": 0.2618
+            },
+            {
+              "score": "0-1",
+              "prob": 0.1175,
               "prob_pct": 11.7,
-              "cumulative": 0.3811
+              "cumulative": 0.3793
             }
           ]
         },
@@ -242,7 +242,7 @@
         "reasoning": [
           "ELO 优势 239 分，有明确的实力差距",
           "伤病影响：England -33 / Argentina -13 ELO",
-          "多层调整后有效 ELO 差 -391（原始 -239）"
+          "多层调整后有效 ELO 差 -401（原始 -239）"
         ],
         "inference_engine": true,
         "inference_engine_version": "v1",
@@ -496,77 +496,6 @@
           "status": "scheduled",
           "venue": "Mercedes-Benz Stadium",
           "venue_city": "Atlanta"
-        },
-        "sub_models": {
-          "ensemble": {
-            "team_a_win": 7.2,
-            "draw": 15.0,
-            "team_b_win": 77.8
-          },
-          "poisson": {
-            "team_a_win": 7,
-            "draw": 15,
-            "team_b_win": 78
-          },
-          "logit": {
-            "team_a_win": 7,
-            "draw": 28,
-            "team_b_win": 65
-          },
-          "expected_goals": {
-            "a": 0.59,
-            "b": 2.43
-          }
-        },
-        "e_data": {
-          "trajectory": {
-            "England": {
-              "current_elo": 2222,
-              "trend_elo": [
-                2137,
-                2137,
-                2148,
-                2191,
-                2222
-              ],
-              "deltas": [
-                0,
-                11,
-                43,
-                31
-              ],
-              "delta_avg": 21.2,
-              "delta_trend": 31,
-              "volatility": 16.8,
-              "adjustment": 15,
-              "classification": "稳步上升",
-              "confidence_discount": 1.0,
-              "n_matches": 5
-            },
-            "Argentina": {
-              "current_elo": 2461,
-              "trend_elo": [
-                2452,
-                2452,
-                2453,
-                2455,
-                2461
-              ],
-              "deltas": [
-                0,
-                1,
-                2,
-                6
-              ],
-              "delta_avg": 2.2,
-              "delta_trend": 6,
-              "volatility": 2.3,
-              "adjustment": 0,
-              "classification": "方向不明",
-              "confidence_discount": 1.0,
-              "n_matches": 5
-            }
-          }
         }
       },
       "schedule": {

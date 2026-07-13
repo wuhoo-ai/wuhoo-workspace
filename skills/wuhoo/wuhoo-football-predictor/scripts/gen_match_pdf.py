@@ -237,7 +237,7 @@ def get_rss_articles(team_a, team_b):
 def nohtml(t): return re.sub(r'<[^>]+>', '', t or '').strip()
 
 # ── Main generator ──
-def generate_match_report(team_a, team_b, prediction, outpath, round_label=''):
+def generate_match_report(team_a, team_b, prediction, outpath, round_label='', subjective=None):
     rnd_label = ROUND_LABELS.get(round_label, round_label or '淘汰赛')
     rnd_short = ROUND_SHORT.get(round_label, round_label or '')
     doc = SimpleDocTemplate(outpath, pagesize=A4, leftMargin=12*mm, rightMargin=12*mm,
@@ -570,12 +570,88 @@ def generate_match_report(team_a, team_b, prediction, outpath, round_label=''):
     if is_engine and reasoning_path:
         story.append(HR())
         story.append(P('v5.5 推理引擎路径', 'h2'))
-        for line in reasoning_path.split('\n')[:25]:  # capped at 25 lines
+        for line in reasoning_path.split('\n')[:25]:
             stripped = line.strip()
             if not stripped: continue
             clean = stripped.replace('\U0001f4cb', '[规则] ').replace('\u26a1', '[修正] ').replace('\u2514', '  ->').replace('\u251c', '  |')
             is_header = not (clean.startswith('  ') or clean.startswith('[规则]') or clean.startswith('[修正]'))
             story.append(P(clean, 'body' if is_header else 'small'))
+
+    # ═══════════════════════════════════════
+    # SECTION 11: 主观判断 (第二意见 — optional)
+    # ═══════════════════════════════════════
+    if subjective:
+        story.append(HR())
+        story.append(P('[主观判断] 独立 web 分析 — 数据源: web_fetch（不依赖管线数据）', 'h2'))
+
+        sub_v = subjective.get('verdict', '')
+        sub_conf = subjective.get('confidence', 'medium')
+        sub_score = subjective.get('predicted_score', '')
+        sub_factors = subjective.get('key_factors', [])
+        sub_sources = subjective.get('sources', [])
+        sub_div = subjective.get('divergence_from_model', {})
+
+        verdict_cn = {'team_a_win': f'{ca} 胜', 'draw': '平局', 'team_b_win': f'{cb} 胜'}
+        conf_cn = {'high': '高', 'medium': '中', 'low': '低'}
+        conf_color = {'high': R, 'medium': HexColor('#e67e22'), 'low': G}
+
+        # Subjective verdict
+        story.append(P(f"判定: {verdict_cn.get(sub_v, sub_v)} ({conf_cn.get(sub_conf, sub_conf)}置信度)",
+                       'verdict'))
+        if sub_score:
+            story.append(P(f"预期比分: {sub_score}", 'body'))
+
+        # Key factors
+        if sub_factors:
+            story.append(P('关键因素:', 'h3'))
+            for f in sub_factors:
+                story.append(P(f'  · {f}', 'body'))
+
+        # Divergence box
+        if sub_div and sub_div.get('divergence', 'none') != 'none':
+            div_model = sub_div.get('model_says', '?')
+            div_subj = sub_div.get('subjective_says', '?')
+            YELLOW_BG = HexColor('#fff8e1')
+            YELLOW_BD = HexColor('#ffc107')
+            YELLOW_TX = HexColor('#856404')
+            div_table = Table(
+                [['⚠ 模型 vs 主观判断分歧'],
+                 [f'模型: {div_model}'],
+                 [f'主观: {div_subj}'],
+                 [f'分歧度: {sub_div.get("divergence", "?")}']],
+                colWidths=[330])
+            div_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), YELLOW_BG),
+                ('BACKGROUND', (0, 1), (-1, -1), W),
+                ('TEXTCOLOR', (0, 0), (-1, -1), YELLOW_TX),
+                ('FONTNAME', (0, 0), (-1, -1), F),
+                ('FONTSIZE', (0, 0), (-1, 0), 8),
+                ('FONTSIZE', (0, 1), (-1, -1), 8),
+                ('BOX', (0, 0), (-1, -1), 1, YELLOW_BD),
+                ('TOPPADDING', (0, 0), (-1, -1), 3),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+                ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                ('LEFTPADDING', (0, 0), (-1, -1), 8),
+            ]))
+            story.append(Spacer(1, 4))
+            story.append(div_table)
+            story.append(Spacer(1, 4))
+
+        # Reasoning
+        sub_reasoning = subjective.get('reasoning', '')
+        if sub_reasoning:
+            story.append(P(f'分析: {sub_reasoning}', 'body'))
+
+        # Sources
+        if sub_sources:
+            story.append(P('分析依据:', 'h3'))
+            for s in sub_sources[:5]:
+                site = s.get('site', '?')
+                title = s.get('title', '')[:80]
+                story.append(P(f"[{site}] {title}", 'source'))
+
+        src_names = ', '.join(s.get('site', '?') for s in sub_sources[:5])
+        story.append(P(f'数据源: {src_names} | 分析时间: {subjective.get("generated", "?")}', 'source'))
 
     # ═══════════════════════════════════════
     # SECTION 10: 判定
@@ -607,7 +683,8 @@ if __name__ == '__main__':
         elo_path = os.path.join(DATA, 'elo_ratings.json')
         if os.path.exists(elo_path):
             raw_elo = json.load(open(elo_path))
-            elo_ratings = raw_elo.get('ratings', raw_elo)
+            raw_r = raw_elo.get('ratings', raw_elo)
+            elo_ratings = {k: v.get('elo', v) if isinstance(v, dict) else v for k, v in raw_r.items()}
 
     trajectory_data = {}
     if _HAS_ENRICH and not args.no_enrich:
@@ -703,7 +780,16 @@ if __name__ == '__main__':
             # Output filename
             rnd_short = ROUND_SHORT.get(rnd, rnd)
             out = os.path.join(OUT, f"{rnd_short}_{ta}_vs_{tb}.pdf")
-            generate_match_report(ta, tb, p, out, round_label=rnd)
+
+            # ── Load subjective judgment if exists ──
+            subj_fname = f'{date_str}_{ta}_vs_{tb}.json'
+            subj_path = os.path.join(DATA, 'subjective', subj_fname)
+            subjective = None
+            if os.path.exists(subj_path):
+                subjective = json.load(open(subj_path))
+                print(f"  [subjective] Loaded {subj_fname}")
+
+            generate_match_report(ta, tb, p, out, round_label=rnd, subjective=subjective)
             total_generated += 1
 
     print(f"\nAll done: {total_generated} PDF(s) generated.")

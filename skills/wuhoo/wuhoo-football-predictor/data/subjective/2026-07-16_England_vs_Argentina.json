@@ -1,0 +1,39 @@
+{
+  "team_a": "England",
+  "team_b": "Argentina",
+  "date": "2026-07-16",
+  "generated": "2026-07-13T12:03:04+08:00",
+  "verdict": "draw",
+  "confidence": "medium",
+  "predicted_score": "1-1",
+  "reasoning": "阿根廷三场淘汰赛全部险胜（3-2×2, 3-1），依赖39岁Messi个人能力。英格兰Bellingham连续两场梅开二度（自1986马拉多纳后首人），Kane+Bellingham淘汰赛7球。Tuchel的战术纪律+心理韧性让英格兰在逆境中成长。阿根廷过度依赖Messi，一旦被Rice锁死缺乏Plan B。",
+  "key_factors": [
+    "阿根廷3场淘汰赛全险胜，过度依赖Messi",
+    "Bellingham连续2场梅开二度，历史级状态",
+    "Messi 8球领跑但39岁，半决赛体能存疑",
+    "英格兰Kane+Bellingham淘汰赛合砍7球",
+    "阿根廷缺乏Plan B：若Rice锁死Messi无人破局"
+  ],
+  "divergence_from_model": {
+    "model_says": "阿根廷 胜 (78.2%)",
+    "subjective_says": "平局",
+    "divergence": "significant"
+  },
+  "sources": [
+    {
+      "site": "Fox Sports",
+      "url": "https://www.foxsports.com/stories/soccer/england-vs-argentina-confirmed-semifinals-heres-what-know",
+      "title": "Argentina fought in every KO match; Bellingham historic"
+    },
+    {
+      "site": "Football365",
+      "url": "https://www.football365.com/news/messi-england-powerhouse-world-cup-semi-final",
+      "title": "Messi: England are a powerhouse"
+    },
+    {
+      "site": "Lineker/BBC",
+      "url": "https://www.football365.com/news/lineker-reveals-concern-brilliant-england-star-argentina-match",
+      "title": "Lineker concerned about England star for Argentina match"
+    }
+  ]
+}

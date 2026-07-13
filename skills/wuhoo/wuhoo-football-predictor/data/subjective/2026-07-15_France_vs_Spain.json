@@ -1,0 +1,39 @@
+{
+  "team_a": "France",
+  "team_b": "Spain",
+  "date": "2026-07-15",
+  "generated": "2026-07-13T12:03:03+08:00",
+  "verdict": "team_a_win",
+  "confidence": "high",
+  "predicted_score": "2-0",
+  "reasoning": "法国6战全胜完美晋级，Mbappé 8球领跑金靴，Olise 5助攻创造力爆表。西班牙虽传控出色但对阵比利时靠Merino绝杀才过关，暴露攻坚短板。Deschamps最后一届大赛，攻防两端无明显弱点。",
+  "key_factors": [
+    "法国6战全胜，攻防完美",
+    "Mbappé 20场20球，本届8球金靴级",
+    "Olise 5次助攻，赛事创造王",
+    "西班牙QF对比利时靠绝杀过关",
+    "Deschamps最后一届，球队纪律性顶级"
+  ],
+  "divergence_from_model": {
+    "model_says": "法国 胜 (80.8%)",
+    "subjective_says": "法国 胜",
+    "divergence": "consistent"
+  },
+  "sources": [
+    {
+      "site": "Squawka",
+      "url": "https://www.squawka.com/en/news/world-cup/france-world-cup-2026-route-to-final-09-07",
+      "title": "France route to final: Mbappé 20G/20 matches, Olise 5A"
+    },
+    {
+      "site": "CBS Sports",
+      "url": "https://www.youtube.com/watch?v=hZfcAfSSarA",
+      "title": "France explosive transition vs Spain possession"
+    },
+    {
+      "site": "Fox Sports",
+      "url": "https://www.foxsports.com/",
+      "title": "Yamal could be benched for SF"
+    }
+  ]
+}
