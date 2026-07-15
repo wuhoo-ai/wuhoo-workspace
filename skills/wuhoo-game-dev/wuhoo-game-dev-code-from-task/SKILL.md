@@ -155,6 +155,7 @@ public class MiningSystemTests
 7. PlayMode 在 headless CI 崩溃: GameCI Linux runner 无 Input System 运行时。核心逻辑放 EditMode 纯 C# 测试，PlayMode 仅本地验证用。
 8. .meta 文件 GUID: 手动编辑后必须是 32 位 hex。损坏的 GUID 导致编译错误 "guid"。
 9. 重复方法: CI 合并冲突常导致重复方法 (如 OnTriggerExit2D 出现两次)。提交前 grep 检查。
+10. Destroy() in EditMode 崩溃: Unity Test Framework 中必须用 DestroyImmediate。用 #if UNITY_EDITOR 宏区分运行时和编辑器模式。
 
 ## Verification
 
