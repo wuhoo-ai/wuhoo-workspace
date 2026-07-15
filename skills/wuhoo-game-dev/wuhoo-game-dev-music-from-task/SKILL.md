@@ -1,7 +1,7 @@
 ---
 name: wuhoo-game-dev-music-from-task
-description: "Use when you need to generate background music or sound effects from an audio task specification. Input: one task from tasks.json with type=audio. Output: .mp3/.wav audio files. Primary engine: HeartMuLa (local GPU, free, Apache-2.0). Songwriting skill used for prompt/lyrics engineering. SFX via procedural generation (numpy+soundfile) for short sounds."
-version: 1.1.0
+description: "Use when you need to generate background music or sound effects from an audio task specification. Input: one task from tasks.json with type=audio. Output: .mp3/.wav audio files. BGM: free online placeholder assets (OpenGameArt/Freesound/Pixabay) for demo phase. SFX: procedural generation (numpy+soundfile). HeartMuLa kept as future GPU option. Songwriting skill used for prompt/lyrics engineering."
+version: 2.0.0
 author: Wuhoo
 license: MIT
 metadata:
@@ -14,9 +14,11 @@ metadata:
 
 单个 audio task → BGM .mp3 + SFX .wav 文件。
 
-**主引擎**: HeartMuLa (本地 GPU, 开源免费, 12GB VRAM 可跑 3B 模型)
-**辅助**: songwriting skill (prompt/lyrics 工程), numpy+soundfile (短音效程序化生成)
-**云端备用**: Suno/Udio (HeartMuLa 不可用时)
+**⚠️ Demo 阶段 BGM 策略**: 使用网络免费 BGM 占位，不做原创音乐生成。HeartMuLa 作为未来选项。
+
+**SFX**: Python 程序化生成 (numpy+soundfile)，无需 GPU，立即执行。
+**BGM**: 从 OpenGameArt / Freesound / Pixabay 下载免费可商用资源。
+**未来**: HeartMuLa (本地 GPU, Apache-2.0) — 等 GPU 节点搭建后启用。
 
 ## When to Use
 
@@ -34,30 +36,47 @@ task.params: { "bpm": 70, "mood": "exploration", "loop": true, "duration": 120 }
 task.output: "Assets/Audio/BGM/bgm_day.mp3"
 ```
 
-### Step 2: 确定音频类型与引擎 + 峰谷检查
+### Step 2: 确定音频类型与引擎
 
-| 类型 | 引擎 | 格式 | 参数 | 高峰行为 |
-|------|------|------|------|---------|
-| BGM (>30s) | **HeartMuLa** (本地 GPU) | .mp3 | BPM, mood, tags, loop, duration | ⏳ 入队 |
-| SFX (<2s) | **Python 程序化** (numpy+soundfile) | .wav | 事件类型, 变体数 | ✅ 直接跑 (轻量) |
-| 环境音 (10-30s) | HeartMuLa 或 程序化噪声 | .mp3 | 场景氛围描述 | ⏳ 入队 (如需 HeartMuLa) |
+| 类型 | 引擎 | 格式 | 参数 |
+|------|------|------|------|
+| BGM (>30s) | **免费在线资源** (OpenGameArt/Freesound/Pixabay) | .mp3 | BPM, mood, loop, duration |
+| SFX (<2s) | **Python 程序化** (numpy+soundfile) | .wav | 事件类型, 变体数 |
+| 环境音 (10-30s) | 免费在线资源 或 程序化噪声 | .mp3 | 场景氛围描述 |
 
-**峰谷检查** (BGM/HeartMuLa 类任务)：
-```python
-if task_needs_heartmula:
-    guard_result = peak_hour_guard(
-        task_type='heartmula',
-        task_id=task['id'],
-        task_context={'spec': task['spec'], 'params': task['params'], 'output': task['output']}
-    )
-    if guard_result == 'deferred':
-        return  # 入队, 等低谷 GPU 批处理
+SFX 程序化生成直接执行，无需等待。BGM 下载也可立即进行。
+
+### Step 3: BGM 占位下载 (Demo 阶段)
+
+从免费可商用资源站下载匹配的 BGM：
+
+**推荐来源**:
+- **OpenGameArt.org** — 搜索 "adventure orchestral loop", "tense dark loop", "epic battle loop"
+- **Freesound.org** — 搜索 "game music loop" + filter CC0 license
+- **Pixabay Music** — "cinematic adventure", "epic battle", "dark ambient"
+
+**下载命令示例**:
+```bash
+# 创建目标目录
+mkdir -p Assets/Audio/BGM/
+
+# 下载 (以 Pixabay 为例 — 需要手动下载或 wget)
+# 白天探索 BGM: 搜索 "adventure orchestral 70bpm loop" → bgm_day.mp3
+# 夜晚防御 BGM: 搜索 "tense dark action loop" → bgm_night.mp3
+# Boss BGM: 搜索 "epic battle orchestra loop" → bgm_boss.mp3
 ```
-SFX 程序化生成不受影响——高峰直接跑。
 
-### Step 3: BGM 生成 (HeartMuLa)
+**选择标准**:
+- BPM 大致匹配 task.params (白天 60-80, 夜晚 100-130, Boss 130-160)
+- 可无缝循环 (或做 50ms 淡入淡出)
+- 文件大小 < 5MB each
+- 确认 CC0 或 CC-BY 许可证 (CC-BY 需标注作者)
 
-**3a. 用 songwriting skill 写 prompt**:
+**BGM 风格对照**: 参考 Step 3-alt 中的 BGM 风格标签速查表来筛选。
+
+### Step 3-alt: BGM 生成 (HeartMuLa — 未来)
+
+等 GPU 节点搭建后启用。以下保留供参考：
 
 加载 songwriting-and-ai-music skill → 根据 task.spec 生成:
 - `tags.txt`: 逗号分隔风格标签, 如 `adventure,orchestral,70bpm,cinematic,hopeful,major-key`

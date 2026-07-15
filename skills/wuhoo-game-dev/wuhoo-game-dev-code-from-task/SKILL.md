@@ -1,7 +1,7 @@
 ---
 name: wuhoo-game-dev-code-from-task
 description: "Use when you need to implement a single code task from tasks.json for a Unity URP game. Input: one task object with spec+params+output. Output: C# scripts written to the specified paths, Unity Test Framework tests, and a self-review report. Load wuhoo-game-dev-review-task after implementation for quality gate."
-version: 1.0.0
+version: 1.1.0
 author: Wuhoo
 license: MIT
 metadata:
@@ -30,32 +30,7 @@ metadata:
 3. 读取现有项目代码了解架构
 ```
 
-### Step 2: 峰谷检查
-
-```python
-# 高峰时段 + 预估 token > 10K → 入队延迟到低谷执行
-guard_result = peak_hour_guard(
-    task_type='code-heavy',
-    task_id=task['id'],
-    task_context={'spec': task['spec'], 'params': task['params'], 'output': task['output']},
-    estimated_tokens=estimate_tokens(task['spec'])
-)
-if guard_result == 'deferred':
-    print(f'⏳ {task["id"]} 已入队, 凌晨低谷批量编码')
-    return  # 不入队: 不执行, 等 off-peak batch
-```
-
-> 紧急覆盖: 用户说 "现在跑" / "--now" → 跳过 guard, 直接执行
-
-### Step 3: 实现
-
-确定：
-- 要创建/修改哪些文件 (以 output 字段为准)
-- 需要引入哪些 Unity 命名空间
-- 是否涉及 MonoBehaviour / ScriptableObject / 纯 C# 类
-- 如何与已有系统交互
-
-### Step 3: 实现
+### Step 2: 实现
 
 遵循 Unity + wuhoo 编码规范：
 
@@ -92,7 +67,7 @@ namespace Game.Mining
 - 使用 `Debug.Assert` 做运行时检查
 - ScriptableObject 用于数据定义 (矿物/武器/敌人属性)
 
-### Step 4: 写测试
+### Step 3: 写测试
 
 ```csharp
 // Assets/Tests/EditMode/MiningSystemTests.cs
@@ -131,7 +106,7 @@ public class MiningSystemTests
 - 一个测试一个断言意图 (可以用多个 Assert 但语义统一)
 - 测试命名: MethodName_Scenario_ExpectedBehavior
 
-### Step 5: Self-Review
+### Step 4: Self-Review
 
 实现完成后做自检：
 
@@ -144,7 +119,7 @@ public class MiningSystemTests
 □ 代码 ≤ 200 行 (如果超过, 考虑是否需要拆分)
 ```
 
-### Step 6: 输出报告
+### Step 5: 输出报告
 
 ```markdown
 ## Task {id} 完成报告
@@ -175,6 +150,11 @@ public class MiningSystemTests
 2. 忘记 `[System.Serializable]` — 需要序列化的数据类必须标记
 3. URP 特定: 不要用 `Camera.main` (URP 中使用 `Camera.main` 仍有效但性能差), 考虑缓存引用
 4. 坐标系统: URP 2D 使用像素坐标, 3D 使用世界坐标, 混合时要小心 Cinemachine 配置
+5. EditMode 测试 [SerializeField] 陷阱: Unity Test Framework 运行时会重置所有 SerializeField 字段为 0/null。用 public Init() 方法显式注入依赖，Awake() 中 guard 防御性赋值。
+6. 跨 asmdef 测试: 测试 asmdef 不能引用 Assembly-CSharp。创建独立的游戏逻辑 asmdef (如 MinersWatch.Game)，测试 asmdef 引用它。
+7. PlayMode 在 headless CI 崩溃: GameCI Linux runner 无 Input System 运行时。核心逻辑放 EditMode 纯 C# 测试，PlayMode 仅本地验证用。
+8. .meta 文件 GUID: 手动编辑后必须是 32 位 hex。损坏的 GUID 导致编译错误 "guid"。
+9. 重复方法: CI 合并冲突常导致重复方法 (如 OnTriggerExit2D 出现两次)。提交前 grep 检查。
 
 ## Verification
 

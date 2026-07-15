@@ -1,7 +1,7 @@
 ---
 name: wuhoo-game-dev-balance-validate
 description: "Use when you have numerical design tables (CSV in GDD) and need to validate balance — damage curves, economy flow, upgrade progression. Reads CSV data, runs Monte Carlo simulation, detects anomalies, and generates a balance report with suggested adjustments. Leverages the user's quantitative analysis background."
-version: 1.0.0
+version: 1.1.0
 author: Wuhoo
 license: MIT
 metadata:
@@ -20,21 +20,6 @@ CSV 数值表 → 模拟 → 异常检测 → 平衡报告。
 - 新增了物品/武器/升级, 不确定是否破坏平衡
 - 里程碑前的平衡审查
 - 用户说: "帮我看看这个数值有没有问题"
-
-## Peak-Hour Guard
-
-```python
-# 蒙特卡洛模拟 token 消耗中等, 高峰时也可入队
-guard_result = peak_hour_guard(
-    task_type='balance-sim',
-    task_id=f'balance_{timestamp}',
-    task_context={'spec': '数值平衡模拟', 'params': {}, 'output': 'balance-report.md'}
-)
-if guard_result == 'deferred':
-    return  # 入队, 低谷时自动跑并生成报告
-```
-
-> 如果用户说 "现在就分析" → 跳过 guard 直接执行
 
 ## Workflow
 

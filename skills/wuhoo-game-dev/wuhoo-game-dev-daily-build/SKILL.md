@@ -1,7 +1,7 @@
 ---
 name: wuhoo-game-dev-daily-build
 description: "Use when you need to trigger the daily CI/CD build pipeline, monitor build status, fetch artifacts, and notify the user via WeChat. This is the bridge between the Hermes development loop and the GameCI/GitHub Actions build infrastructure. Also handles build failure diagnosis and retry."
-version: 1.0.0
+version: 1.1.0
 author: Wuhoo
 license: MIT
 metadata:
@@ -23,25 +23,7 @@ metadata:
 
 ## Workflow
 
-### Step 0: 峰谷检查
-
-```python
-# 日间高峰触发构建 → 入队, 等凌晨 GPU 节点
-guard_result = peak_hour_guard(
-    task_type='unity-build',
-    task_id=f'build_{timestamp}',
-    task_context={
-        'spec': 'Unity Win+Android multi-platform build',
-        'params': {'targets': ['StandaloneWindows64', 'Android']},
-        'output': 'build/'
-    }
-)
-if guard_result == 'deferred':
-    print('⏳ Build 已入队, 凌晨 GPU 批处理时构建')
-    return
-```
-
-> 紧急覆盖: 用户说 "现在构建" → 跳过, 直接触发 GameCI（即使高峰也执行）
+> GameCI 构建在 GitHub Actions 运行 (headless Linux runner)，不需要本地 GPU 节点。
 
 ### Step 1: 触发构建
 
