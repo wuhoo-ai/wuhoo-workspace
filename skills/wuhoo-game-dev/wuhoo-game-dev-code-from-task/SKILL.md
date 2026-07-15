@@ -156,6 +156,7 @@ public class MiningSystemTests
 8. .meta 文件 GUID: 手动编辑后必须是 32 位 hex。损坏的 GUID 导致编译错误 "guid"。
 9. 重复方法: CI 合并冲突常导致重复方法 (如 OnTriggerExit2D 出现两次)。提交前 grep 检查。
 10. Destroy() in EditMode 崩溃: Unity Test Framework 中必须用 DestroyImmediate。用 #if UNITY_EDITOR 宏区分运行时和编辑器模式。
+11. JsonUtility 不支持 Dictionary: 序列化后为 {}，反序列化为 null。用 List<Entry> 替代，Entry 是 [Serializable] class with key/value 字段。
 
 ## Verification
 
