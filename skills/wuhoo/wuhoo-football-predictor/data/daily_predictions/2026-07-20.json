@@ -1,40 +1,40 @@
 {
-  "date_beijing": "2026-07-16",
-  "generated": "2026-07-15T12:19:36.969572",
+  "date_beijing": "2026-07-20",
+  "generated": "2026-07-18T13:06:05.854051",
   "total_matches": 1,
   "predictions": [
     {
-      "match_id": 102,
-      "team_a": "England",
+      "match_id": 104,
+      "team_a": "Spain",
       "team_b": "Argentina",
-      "venue": "Mercedes-Benz Stadium",
+      "venue": "MetLife Stadium",
       "group": null,
       "matchday": null,
-      "time_beijing": null,
-      "team_a_win_pct": 7.2,
-      "draw_pct": 15.0,
-      "team_b_win_pct": 77.8,
+      "time_beijing": "TBD",
+      "team_a_win_pct": 7.7,
+      "draw_pct": 15.9,
+      "team_b_win_pct": 76.4,
       "most_likely_score": "0-2",
       "expected_goals_a": 0.59,
-      "expected_goals_b": 2.43,
+      "expected_goals_b": 2.33,
       "scoreline_probs": [
         {
           "score": "0-2",
-          "prob": 0.1447,
-          "prob_pct": 14.5,
-          "cumulative": 0.1447
+          "prob": 0.1469,
+          "prob_pct": 14.7,
+          "cumulative": 0.1469
         },
         {
           "score": "0-1",
-          "prob": 0.1193,
-          "prob_pct": 11.9,
-          "cumulative": 0.2641
+          "prob": 0.126,
+          "prob_pct": 12.6,
+          "cumulative": 0.2729
         },
         {
           "score": "0-3",
-          "prob": 0.117,
-          "prob_pct": 11.7,
-          "cumulative": 0.3811
+          "prob": 0.1142,
+          "prob_pct": 11.4,
+          "cumulative": 0.3871
         }
       ],
       "verdict": "阿根廷 胜（高置信度）",
@@ -45,33 +45,32 @@
   "matches": [
     {
       "audit": {
-        "team_a": "England",
+        "team_a": "Spain",
         "team_b": "Argentina",
-        "venue": "Mercedes-Benz Stadium",
-        "generated": "2026-07-15T12:19:35.155068",
+        "venue": "MetLife Stadium",
+        "generated": "2026-07-18T13:06:03.909197",
         "layers": {
           "1_elo_base": {
-            "team_a_elo": 2222,
-            "team_b_elo": 2461,
-            "elo_diff": -239,
-            "base_win_prob": 20.2,
-            "description": "England 2222 vs Argentina 2461, Δ=-239"
+            "team_a_elo": 2179,
+            "team_b_elo": 2473,
+            "elo_diff": -294,
+            "base_win_prob": 15.5,
+            "description": "Spain 2179 vs Argentina 2473, Δ=-294"
           },
           "2_injuries": {
-            "team_a_penalty": -25,
-            "team_b_penalty": -5,
+            "team_a_penalty": -20,
+            "team_b_penalty": -8,
             "team_a_details": [
-              "  Declan Rice (DM): AVAILABLE — Illness, subbed at HT vs Norway, should recover [-5]",
-              "  Ezri Konsa (CB/RB): AVAILABLE — Hamstring cramp, should be fit [+0]",
-              "  Jordan Henderson (CM): DOUBTFUL — Wrist surgery, wearing cast, bench only [+0]",
-              "  Jarell Quansah (CB): SUSPENDED — 2-match ban (red card vs Mexico) [-20]"
+              "  Lamine Yamal (RW): DOUBTFUL — 左大腿肌肉不适, 7/17未参加全队合练, 预计出战但非100% [-10]",
+              "  Pedro Porro (RB): DOUBTFUL — 肌肉问题(半决赛所致), 预计赶上决赛 [-6]",
+              "  Yeremy Pino (RW): OUT — 肩伤(小组赛vs乌拉圭), 赛会报销 [-4]"
             ],
             "team_b_details": [
-              "  Lionel Messi (FW): AVAILABLE — Blood around right eye (Xhaka collision), expected fit [-5]",
-              "  Cristian Romero (CB): AVAILABLE — Fatigue (knee recovery), subbed ET vs Switzerland, says just tired [+0]",
-              "  Leandro Paredes (CM): AVAILABLE — Fit after knock vs Switzerland [+0]"
+              "  Cristian Romero (CB): AVAILABLE — QF后抽筋已恢复, SF打满90分钟 [+0]",
+              "  Facundo Medina (CB): DOUBTFUL — 小腿伤(R32), 与时间赛跑 [-4]",
+              "  Leandro Paredes (DM): DOUBTFUL — 轻微不适 [-4]"
             ],
-            "description": "England: -25 | Argentina: -5"
+            "description": "Spain: -20 | Argentina: -8"
           },
           "2.5_motivation": {
             "team_a_adjustment": 0,
@@ -88,13 +87,13 @@
             "description": "无半区路径数据（非MD3或非TOP_SEED组）"
           },
           "3_coach_meta": {
-            "team_a_adjustment": 20,
+            "team_a_adjustment": 18,
             "team_b_adjustment": 59,
             "team_a_breakdown": {
-              "coach": 8,
-              "result": 5,
-              "stability": 0.8000000000000007,
-              "chemistry": 5.999999999999998
+              "coach": 0,
+              "result": 0,
+              "stability": 7.200000000000002,
+              "chemistry": 10.5
             },
             "team_b_breakdown": {
               "coach": 16,
@@ -102,63 +101,72 @@
               "stability": 7.200000000000002,
               "chemistry": 10.5
             },
-            "description": "England: +20 (coach+stability+chemistry) | Argentina: +59"
+            "description": "Spain: +18 (coach+stability+chemistry) | Argentina: +59"
           },
           "4_venue": {
             "home_advantage": 0,
-            "team_a_venue_penalty": 4,
+            "team_a_venue_penalty": 2,
             "team_b_venue_penalty": 0,
             "venue_details": {
-              "city": "Atlanta",
-              "altitude_m": 302,
-              "temp_c": 32,
-              "indoor": true,
-              "climate_note": "Hot & humid, indoor stadium (AC) — heat penalty reduced"
+              "city": "East Rutherford (New York)",
+              "altitude_m": 3,
+              "temp_c": 29,
+              "indoor": false,
+              "climate_note": "Warm summer, moderate humidity — FINAL venue"
             },
-            "description": "Home adv +0, venue penalties: England +4 / Argentina +0"
+            "description": "Home adv +0, venue penalties: Spain +2 / Argentina +0"
           },
           "4a_weather": {
-            "team_a_adj": 0,
-            "team_b_adj": 0,
-            "weather_details": {},
-            "description": "No significant weather impact"
+            "team_a_adj": -8,
+            "team_b_adj": -8,
+            "weather_details": {
+              "condition": "overcast",
+              "temp_c": 23.8,
+              "precip_mm": 0.0,
+              "precip_category": "none",
+              "wind_kph": 18.9,
+              "wind_category": "breezy",
+              "indoor": false
+            },
+            "description": "Wind: -8"
           },
           "4b_schedule_density": {
-            "team_a_adj": 0,
-            "team_b_adj": -2,
+            "team_a_adj": -10,
+            "team_b_adj": -5,
             "team_a_details": {
-              "prev_match_id": 80,
-              "prev_venue": "Mercedes-Benz Stadium",
-              "curr_venue": "Mercedes-Benz Stadium",
-              "distance_km": 0,
-              "rest_days": 14,
+              "prev_match_id": 101,
+              "prev_venue": "AT&T Stadium",
+              "curr_venue": "MetLife Stadium",
+              "distance_km": 2229.0,
+              "rest_days": 5,
               "rest_bonus_raw": 0
             },
             "team_b_details": {
-              "prev_match_id": 86,
-              "prev_venue": "Hard Rock Stadium",
-              "curr_venue": "Mercedes-Benz Stadium",
-              "distance_km": 955.2,
-              "rest_days": 12,
+              "prev_match_id": 102,
+              "prev_venue": "Mercedes-Benz Stadium",
+              "curr_venue": "MetLife Stadium",
+              "distance_km": 1202.9,
+              "rest_days": 4,
               "rest_bonus_raw": 0
             },
-            "description": "England: +0 (travel+rest) | Argentina: -2"
+            "description": "Spain: -10 (travel+rest) | Argentina: -5"
           },
           "4.5_friendly_form": {
-            "team_a_adj": -35,
+            "team_a_adj": -13,
             "team_b_adj": 7,
-            "description": "England: -35 (warm-up form) | Argentina: +7"
+            "description": "Spain: -13 (warm-up form) | Argentina: +7"
           },
           "4.6_tournament_form": {
-            "team_a_adj": 110,
-            "team_b_adj": 130,
+            "team_a_adj": 172,
+            "team_b_adj": 150,
             "team_a_details": [
-              "[06-18] W 4-2 vs 克罗地亚 (1939ELO q=+1.10 r=1.0x) → +23",
-              "[06-24] D 0-0/CS vs 加纳 (1844ELO q=+0.86 r=1.0x) → +7",
-              "[06-28] W 2-0/CS vs 巴拿马 (1264ELO q=-0.59 r=1.0x) → +16",
-              "[07-02] W 2-1 vs 刚果民主共和国 (1859ELO q=+0.90 r=1.0x) → +16",
-              "[07-06] W 3-2 vs 墨西哥 (2264ELO q=+1.91 r=1.0x) → +21",
-              "[07-12] W 2-1 vs 挪威 (2172ELO q=+1.68 r=1.3x) → +26"
+              "[06-16] D 0-0/CS vs 佛得角 (1774ELO q=+0.69 r=1.0x) → +6",
+              "[06-22] W 4-0/CS vs 沙特阿拉伯 (1670ELO q=+0.42 r=1.0x) → +32",
+              "[06-27] W 1-0/CS vs 乌拉圭 (1688ELO q=+0.47 r=1.0x) → +18",
+              "[07-03] W 3-0/CS vs 奥地利 (1820ELO q=+0.80 r=1.0x) → +30",
+              "[07-07] W 1-0/CS vs 葡萄牙 (2023ELO q=+1.31 r=1.0x) → +22",
+              "[07-11] W 2-1 vs 比利时 (1932ELO q=+1.08 r=1.0x) → +17",
+              "[07-15] W 2-0/CS vs 法国 (2470ELO q=+2.42 r=1.3x) → +46"
             ],
             "team_b_details": [
               "[06-17] W 3-0/CS vs 阿尔及利亚 (1806ELO q=+0.77 r=1.0x) → +30",
@@ -166,70 +174,71 @@
               "[06-28] W 3-1 vs 约旦 (1253ELO q=-0.62 r=1.0x) → +12",
               "[07-04] W 3-2 vs 佛得角 (1774ELO q=+0.69 r=1.0x) → +15",
               "[07-08] W 3-2 vs 埃及 (1840ELO q=+0.85 r=1.0x) → +16",
-              "[07-12] W 3-1 vs 瑞士 (2030ELO q=+1.32 r=1.3x) → +32"
+              "[07-12] W 3-1 vs 瑞士 (2030ELO q=+1.32 r=1.0x) → +24",
+              "[07-16] W 2-1 vs 英格兰 (2210ELO q=+1.77 r=1.3x) → +27"
             ],
-            "description": "England: +110 | Argentina: +130"
+            "description": "Spain: +172 | Argentina: +150"
           },
           "5_news_sentiment": {
             "enabled": true,
-            "team_a_adj": -8,
+            "team_a_adj": 2,
             "team_b_adj": -8,
-            "description": "England: -8 | Argentina: -8"
+            "description": "Spain: +2 | Argentina: -8"
           },
           "5.5_unstructured_signals": {
             "enabled": true,
             "team_a_adj": 0,
             "team_b_adj": 0,
-            "tactical_matchup": 0.1,
-            "description": "England: +0 | Argentina: +0"
+            "tactical_matchup": -0.04,
+            "description": "Spain: +0 | Argentina: +0"
           },
           "6_manual": {
-            "team_a_adj": 3,
+            "team_a_adj": 18,
             "team_b_adj": 32,
-            "description": "England: +3 | Argentina: +32"
+            "description": "Spain: +18 | Argentina: +32"
           }
         },
         "effective_elo": {
           "team_a": {
-            "base": 2222,
-            "effective": 2283,
-            "adjustments": 61
+            "base": 2179,
+            "effective": 2336,
+            "adjustments": 157
           },
           "team_b": {
-            "base": 2461,
-            "effective": 2674,
-            "adjustments": 213
+            "base": 2473,
+            "effective": 2692,
+            "adjustments": 219
           },
-          "diff": -391,
-          "engine_delta_a": 3,
+          "diff": -356,
+          "engine_delta_a": 18,
           "engine_delta_b": 32
         },
         "prediction": {
           "model": "Poisson (Elo-based lambda)",
-          "team_a_win": 7.2,
-          "draw": 15.0,
-          "team_b_win": 77.8,
+          "team_a_win": 7.7,
+          "draw": 15.9,
+          "team_b_win": 76.4,
           "most_likely_score": "0-2",
           "expected_goals_a": 0.59,
-          "expected_goals_b": 2.43,
+          "expected_goals_b": 2.33,
           "scoreline_probs": [
             {
               "score": "0-2",
-              "prob": 0.1447,
-              "prob_pct": 14.5,
-              "cumulative": 0.1447
+              "prob": 0.1469,
+              "prob_pct": 14.7,
+              "cumulative": 0.1469
             },
             {
               "score": "0-1",
-              "prob": 0.1193,
-              "prob_pct": 11.9,
-              "cumulative": 0.2641
+              "prob": 0.126,
+              "prob_pct": 12.6,
+              "cumulative": 0.2729
             },
             {
               "score": "0-3",
-              "prob": 0.117,
-              "prob_pct": 11.7,
-              "cumulative": 0.3811
+              "prob": 0.1142,
+              "prob_pct": 11.4,
+              "cumulative": 0.3871
             }
           ]
         },
@@ -238,16 +247,16 @@
           "confidence": "high"
         },
         "reasoning": [
-          "ELO 优势 239 分，有明确的实力差距",
-          "伤病影响：England -25 / Argentina -5 ELO",
-          "多层调整后有效 ELO 差 -391（原始 -239）"
+          "ELO 优势 294 分，有明确的实力差距",
+          "伤病影响：Spain -20 / Argentina -8 ELO",
+          "多层调整后有效 ELO 差 -356（原始 -294）"
         ],
         "inference_engine": true,
         "inference_engine_version": "v1",
         "inference_trace": {
           "team_a": {
-            "delta": 3,
-            "raw_sum": 2.8,
+            "delta": 18,
+            "raw_sum": 17.8,
             "saturated": false,
             "trace": [
               {
@@ -272,12 +281,12 @@
                 "condition": "",
                 "evaluated": true,
                 "action_type": "elo_adjust",
-                "base_value": -28,
+                "base_value": 13,
                 "confidence": "low",
                 "confidence_factor": 0.4,
-                "preliminary_value": -11.2,
+                "preliminary_value": 5.2,
                 "interactions_applied": [],
-                "final_value": -11.2,
+                "final_value": 5.2,
                 "evidence": "随机抽样的锦标赛形态波动"
               },
               {
@@ -332,12 +341,12 @@
                 "condition": "",
                 "evaluated": true,
                 "action_type": "elo_adjust",
-                "base_value": 20,
+                "base_value": 18,
                 "confidence": "medium",
                 "confidence_factor": 0.7,
-                "preliminary_value": 14.0,
+                "preliminary_value": 12.6,
                 "interactions_applied": [],
-                "final_value": 14.0,
+                "final_value": 12.6,
                 "evidence": "team_metadata.json — 静态元数据"
               },
               {
@@ -482,31 +491,33 @@
             ]
           }
         },
-        "reasoning_path": "\nEngland (+3 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(-28, conf=low×0.4) → -11.2\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+20, conf=medium×0.7) → +14.0\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +3 ELO\n\nArgentina (+32 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+21, conf=low×0.4) → +8.4\n     ⚡ 饱和: ×0.65 → +5.5\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+59, conf=medium×0.7) → +41.3\n     ⚡ 饱和: ×0.65 → +26.8\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ⚡ 饱和: 正面累计=50 → sigmoid → +32\n  ────────────────────────────────────────\n  净调整: +32 ELO",
+        "reasoning_path": "\nSpain (+18 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+13, conf=low×0.4) → +5.2\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+18, conf=medium×0.7) → +12.6\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ────────────────────────────────────────\n  净调整: +18 ELO\n\nArgentina (+32 ELO):\n  📋 热身赛状态(+0, conf=low×0.4) → +0.0\n     └ 证据: friendly_form_adjustments.json — 热身赛ELO差异\n  📋 锦标赛形态(+21, conf=low×0.4) → +8.4\n     ⚡ 饱和: ×0.65 → +5.5\n     └ 证据: 随机抽样的锦标赛形态波动\n  📋 天气因子(+0, conf=medium×0.7) → +0.0\n     └ 证据: Open-Meteo API — 比赛日预报\n  📋 赛程密度(+0, conf=medium×0.7) → +0.0\n     └ 证据: Haversine距离+休息天数计算\n  📋 场馆效应(+0, conf=high×1.0) → +0.0\n     └ 证据: venues.json — 16场馆数据\n  📋 教练/磨合因子(+59, conf=medium×0.7) → +41.3\n     ⚡ 饱和: ×0.65 → +26.8\n     └ 证据: team_metadata.json — 静态元数据\n  📋 手动调整(+0, conf=high×1.0) → +0.0\n     └ 证据: manual_adjustments.json\n  ⚡ 饱和: 正面累计=50 → sigmoid → +32\n  ────────────────────────────────────────\n  净调整: +32 ELO",
         "schedule": {
-          "match_id": 102,
-          "team_a": "England",
+          "match_id": 104,
+          "team_a": "Spain",
           "team_b": "Argentina",
-          "source": "W99 vs W100 (England 2-1 Norway AET, Argentina 3-1 Switzerland AET)",
-          "date": "2026-07-15",
-          "date_beijing": "2026-07-16",
-          "round": "SF",
+          "date": "2026-07-20",
+          "time_cn": "TBD",
+          "stage": "F",
+          "venue": "MetLife Stadium",
           "status": "scheduled",
-          "venue": "Mercedes-Benz Stadium",
-          "venue_city": "Atlanta"
+          "date_beijing": "2026-07-20",
+          "time_beijing": "TBD",
+          "round": "F"
         }
       },
       "schedule": {
-        "match_id": 102,
-        "team_a": "England",
+        "match_id": 104,
+        "team_a": "Spain",
         "team_b": "Argentina",
-        "source": "W99 vs W100 (England 2-1 Norway AET, Argentina 3-1 Switzerland AET)",
-        "date": "2026-07-15",
-        "date_beijing": "2026-07-16",
-        "round": "SF",
+        "date": "2026-07-20",
+        "time_cn": "TBD",
+        "stage": "F",
+        "venue": "MetLife Stadium",
         "status": "scheduled",
-        "venue": "Mercedes-Benz Stadium",
-        "venue_city": "Atlanta"
+        "date_beijing": "2026-07-20",
+        "time_beijing": "TBD",
+        "round": "F"
       }
     }
   ]

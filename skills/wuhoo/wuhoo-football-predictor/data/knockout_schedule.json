@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-11",
+  "updated": "2026-07-18",
   "stages": {
     "QF": {
       "matches": [
@@ -61,9 +61,14 @@
           "date": "2026-07-14",
           "date_beijing": "2026-07-15",
           "round": "SF",
-          "status": "scheduled",
+          "status": "completed",
           "venue": "AT&T Stadium",
-          "venue_city": "Arlington"
+          "venue_city": "Arlington",
+          "score_a": 0,
+          "score_b": 2,
+          "winner": "Spain",
+          "aet": false,
+          "penalties": null
         },
         {
           "match_id": 102,
@@ -73,9 +78,14 @@
           "date": "2026-07-15",
           "date_beijing": "2026-07-16",
           "round": "SF",
-          "status": "scheduled",
+          "status": "completed",
           "venue": "Mercedes-Benz Stadium",
-          "venue_city": "Atlanta"
+          "venue_city": "Atlanta",
+          "score_a": 1,
+          "score_b": 2,
+          "winner": "Argentina",
+          "aet": false,
+          "penalties": null
         }
       ]
     },
@@ -83,13 +93,15 @@
       "matches": [
         {
           "match_id": 103,
-          "team_a": null,
-          "team_b": null,
-          "source": "L101 vs L102",
+          "team_a": "France",
+          "team_b": "England",
+          "source": "L101 vs L102 (France lost SF1, England lost SF2)",
           "date": "2026-07-18",
           "date_beijing": "2026-07-19",
           "round": "3rd",
-          "status": "scheduled"
+          "status": "scheduled",
+          "venue": "Hard Rock Stadium",
+          "venue_city": "Miami"
         }
       ]
     },
@@ -97,13 +109,15 @@
       "matches": [
         {
           "match_id": 104,
-          "team_a": null,
-          "team_b": null,
-          "source": "W101 vs W102",
+          "team_a": "Spain",
+          "team_b": "Argentina",
+          "source": "W101 vs W102 (Spain 2-0 France, Argentina 2-1 England)",
           "date": "2026-07-19",
           "date_beijing": "2026-07-20",
           "round": "F",
-          "status": "scheduled"
+          "status": "scheduled",
+          "venue": "MetLife Stadium",
+          "venue_city": "New York/New Jersey"
         }
       ]
     }

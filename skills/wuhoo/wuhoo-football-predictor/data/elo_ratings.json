@@ -4,22 +4,22 @@
   "team_count": 64,
   "ratings": {
     "Spain": {
-      "elo": 2110,
+      "elo": 2179,
       "rank": 1,
       "country": "Spain"
     },
     "Argentina": {
-      "elo": 2461,
+      "elo": 2473,
       "rank": 2,
       "country": "Argentina"
     },
     "France": {
-      "elo": 2539,
+      "elo": 2470,
       "rank": 3,
       "country": "France"
     },
     "England": {
-      "elo": 2222,
+      "elo": 2210,
       "rank": 4,
       "country": "England"
     },
@@ -324,7 +324,7 @@
       "country": "Qatar"
     }
   },
-  "last_updated": "2026-07-12",
+  "last_updated": "2026-07-18",
   "update_method": "match_result_v56",
   "applied_results": [
     {
@@ -2184,6 +2184,42 @@
       "k_a": 60,
       "k_b": 60,
       "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "France",
+      "team_b": "Spain",
+      "score": "0-2",
+      "elo_a": {
+        "old": 2539,
+        "new": 2470,
+        "delta": -69
+      },
+      "elo_b": {
+        "old": 2110,
+        "new": 2179,
+        "delta": 69
+      },
+      "k_a": 60,
+      "k_b": 60,
+      "gd_multiplier": 1.25
+    },
+    {
+      "team_a": "England",
+      "team_b": "Argentina",
+      "score": "1-2",
+      "elo_a": {
+        "old": 2222,
+        "new": 2210,
+        "delta": -12
+      },
+      "elo_b": {
+        "old": 2461,
+        "new": 2473,
+        "delta": 12
+      },
+      "k_a": 60,
+      "k_b": 60,
+      "gd_multiplier": 1.0
     }
   ]
 }

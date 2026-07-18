@@ -118,6 +118,18 @@ def predict_by_date(date_str):
     # Filter out matches with null teams (from group stage schedule remnants)
     matches = [m for m in matches if m.get('team_a') and m.get('team_b')]
     
+    # v5.11.2: dedupe — wc2026_schedule.json may now carry synced knockout
+    # matches (97-104), which also live in knockout_schedule.json
+    seen_keys = set()
+    deduped = []
+    for m in matches:
+        key = (m.get('match_id'), m.get('team_a'), m.get('team_b'))
+        if key in seen_keys:
+            continue
+        seen_keys.add(key)
+        deduped.append(m)
+    matches = deduped
+    
     if not matches:
         print(f"✅ {date_str}: 无比赛安排")
         return [], date_str
@@ -159,7 +171,7 @@ def predict_by_date(date_str):
                     m['team_a'], m['team_b'],
                     venue_name=m.get('venue'),
                     enable_news=('--news' in sys.argv),
-                    knockout=m.get('round', '').startswith('R') if m.get('round') else False,
+                    knockout=bool(m.get('round')) and str(m.get('round')) in ('R32', 'R16', 'QF', 'SF', 'F', '3rd', 'Final'),
                     match_id=m.get('match_id'),
                     manual_adjustments=manual_adj,
                     matchday=matchday_val,
@@ -172,7 +184,7 @@ def predict_by_date(date_str):
                     m['team_a'], m['team_b'],
                     venue_name=m.get('venue'),
                     enable_news=('--news' in sys.argv),
-                    knockout=m.get('round', '').startswith('R') if m.get('round') else False,
+                    knockout=bool(m.get('round')) and str(m.get('round')) in ('R32', 'R16', 'QF', 'SF', 'F', '3rd', 'Final'),
                     match_id=m.get('match_id'),
                     manual_adjustments=manual_adj,
                     matchday=matchday_val,

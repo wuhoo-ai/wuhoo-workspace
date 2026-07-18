@@ -12,6 +12,18 @@ category: wuhoo
 
 # 足球赛事预测系统 v5.3
 
+### v5.11.2 更新 (2026-07-18) — 决赛/季军赛管线修复（3个根因Bug）
+
+**触发**: 预测F/3rd时发现休息天数取错（18/17天，应为4/3）+ 同场比赛被预测两次。
+
+**修复（3个根因）**:
+- ✅ **compute_schedule_density 只读小组赛schedule**: `wc2026_predict.py` 只加载 `wc2026_schedule.json`，淘汰赛prev-match完全不可见 → 修复：合并 `knockout_schedule.json` stages 到 matches 列表
+- ✅ **wc2026_schedule.json 97-104为null占位条目**: 既挡住合并去重（match_id已存在）又无法匹配球队 → 修复：从 knockout_schedule + results 同步 team_a/team_b/round/status/score 到占位条目
+- ✅ **predict_by_date 重复预测**: schedule同步后两个文件都含103/104 → 修复：按 (match_id, team_a, team_b) 去重
+- ✅ **knockout标志Bug（历史性）**: `knockout=round.startswith('R')` 导致 QF/SF/F/3rd 全部未启用平局tiebreaker → 修复：白名单 `('R32','R16','QF','SF','F','3rd','Final')`。注意：本届QF/SF预测都跑在knockout=False下（仅影响平局note，不影响概率）
+- ✅ **results重复条目**: M98/98 Spain-Belgium双录（字符串"M98" vs 整数98）→ 按(team_a,team_b,score_a,score_b,date)五元组去重
+- ⚠️ **赛果录入时match_id格式必须与schedule一致（int）**，"M98"字符串格式会绕过去重
+
 ## 概述
 
 基于 Elo 评分 + Poisson 分布 + Monte Carlo 模拟 + **LLM 非结构化信号** + **客观条件因子** + **Layer 6 手动调整** 的多层次预测系统。

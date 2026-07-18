@@ -216,7 +216,23 @@ def compute_schedule_density(team, match_id, schedule_path=None):
         return 0, 0, {}
     
     # Find current match and team's previous match
-    matches = schedule.get('matches', [])
+    matches = list(schedule.get('matches', []))
+    
+    # v5.11.2: also merge knockout_schedule.json so prev-match lookup sees
+    # knockout rounds (fixes rest-days bug where prev_match fell back to
+    # a group-stage match, e.g. 14-day rest instead of 4-5)
+    ko_path = os.path.join(os.path.dirname(schedule_path), 'knockout_schedule.json')
+    try:
+        with open(ko_path) as f:
+            ko = json.load(f)
+        seen_ids = {m.get('match_id') for m in matches}
+        for stage_val in ko.get('stages', {}).values():
+            stage_ms = stage_val.get('matches', []) if isinstance(stage_val, dict) else stage_val
+            for km in stage_ms:
+                if km.get('match_id') not in seen_ids and km.get('team_a') and km.get('team_b'):
+                    matches.append(km)
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
     curr_match = None
     prev_match = None
     

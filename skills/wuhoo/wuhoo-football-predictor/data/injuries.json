@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-07T14:34:54.488592",
+  "last_updated": "2026-07-18T13:00:16.480750",
   "source": "ESPN/Fox Sports/The Athletic/BBC/everythingedinburgh.com",
   "injuries": {
     "Canada": {
@@ -195,16 +195,31 @@
       ]
     },
     "France": {
-      "total_penalty": -10,
+      "total_penalty": -14,
       "players": [
         {
-          "name": "Hugo Ekitiké",
-          "position": "FW",
+          "name": "William Saliba",
+          "position": "CB",
           "status": "OUT",
-          "injury": "Ruptured Achilles tendon (Apr vs PSG); out until 2027. Replaced by Mateta",
-          "elo_penalty": -10
+          "injury": "背伤(半决赛被换下)",
+          "elo_penalty": -12
+        },
+        {
+          "name": "Aurélien Tchouaméni",
+          "position": "DM",
+          "status": "AVAILABLE",
+          "injury": "已恢复",
+          "elo_penalty": 0
+        },
+        {
+          "name": "Marcus Thuram",
+          "position": "FW",
+          "status": "DOUBTFUL",
+          "injury": "肌肉疲劳",
+          "elo_penalty": -2
         }
-      ]
+      ],
+      "note": "季军赛预计大轮换; Mbappé为金靴或首发(与Messi并列); Kanté/L.Hernandez可能获首秀; Deschamps告别战. 源: Yahoo/Standard/RotoWire 7/17-18"
     },
     "United States": {
       "total_penalty": -8,
@@ -226,77 +241,58 @@
       ]
     },
     "Spain": {
-      "total_penalty": -38,
+      "total_penalty": -20,
       "players": [
         {
-          "name": "Fermín López",
-          "position": "MF",
-          "status": "OUT",
-          "injury": "Metatarsal fracture (May vs Betis); 13G+17A last season. Misses WC",
-          "elo_penalty": -8
-        },
-        {
-          "name": "Mikel Merino",
-          "position": "MF",
-          "status": "DOUBTFUL",
-          "injury": "Stress fracture in foot (early Feb); targets return. If not, Fabián Ruiz starts",
-          "elo_penalty": -5
-        },
-        {
           "name": "Lamine Yamal",
-          "position": "FW",
-          "status": "FIT",
-          "injury": "Partially torn hamstring (Apr); Luis de la Fuente: 'could be ready to play on June 15'. Likely available for Cape Verde opener",
-          "elo_penalty": -2
-        },
-        {
-          "name": "Samu Aghehowa",
-          "position": "FW",
-          "status": "OUT",
-          "injury": "ACL rupture (Feb 10, Porto); long-term absence",
-          "elo_penalty": -5
-        },
-        {
-          "name": "Yeremy Pino",
-          "position": "FW",
+          "position": "RW",
           "status": "DOUBTFUL",
-          "injury": "Collar bone fracture (sustained vs Uruguay, June 26). De la Fuente: could miss rest of World Cup. World Soccer Talk: possible return for knockout stage",
+          "injury": "左大腿肌肉不适, 7/17未参加全队合练, 预计出战但非100%",
           "elo_penalty": -10
         },
         {
-          "name": "Nico Williams",
-          "position": "FW",
+          "name": "Pedro Porro",
+          "position": "RB",
           "status": "DOUBTFUL",
-          "injury": "Right adductor injury (vs Uruguay Jun 26). Has not appeared in either knockout match. 'One of the worst days of my life' (ESPN Jul 9). Serious doubt for rest of tournament",
-          "elo_penalty": -8
+          "injury": "肌肉问题(半决赛所致), 预计赶上决赛",
+          "elo_penalty": -6
+        },
+        {
+          "name": "Yeremy Pino",
+          "position": "RW",
+          "status": "OUT",
+          "injury": "肩伤(小组赛vs乌拉圭), 赛会报销",
+          "elo_penalty": -4
         }
-      ]
+      ],
+      "note": "无停赛. 源: SportsMole/AS(via Chosun)/Independent 7/17-18"
     },
     "Argentina": {
-      "total_penalty": -13,
+      "total_penalty": -8,
       "players": [
         {
           "name": "Cristian Romero",
-          "position": "DF",
-          "status": "DOUBTFUL",
-          "injury": "Partially torn MCL (mid-Apr vs Sunderland); started 14 qualifiers",
-          "elo_penalty": -5
+          "position": "CB",
+          "status": "AVAILABLE",
+          "injury": "QF后抽筋已恢复, SF打满90分钟",
+          "elo_penalty": 0
         },
         {
-          "name": "Nahuel Molina",
-          "position": "DF",
+          "name": "Facundo Medina",
+          "position": "CB",
           "status": "DOUBTFUL",
-          "injury": "Thigh injury (May vs Celta Vigo); miss 2-3 weeks. Montiel next up",
-          "elo_penalty": -3
+          "injury": "小腿伤(R32), 与时间赛跑",
+          "elo_penalty": -4
         },
         {
-          "name": "Leonardo Balerdi",
-          "position": "DF",
-          "status": "OUT",
-          "injury": "Soleus muscle injury (pre-tournament training); replaced by Marcos Senesi",
-          "elo_penalty": -5
+          "name": "Leandro Paredes",
+          "position": "DM",
+          "status": "DOUBTFUL",
+          "injury": "轻微不适",
+          "elo_penalty": -4
         }
-      ]
+      ],
+      "note": "主力框架齐整, Messi状态火热(SF两助攻,创纪录). 源: SportsMole/Independent 7/17-18"
     },
     "Australia": {
       "total_penalty": -8,
@@ -361,51 +357,31 @@
       ]
     },
     "England": {
-      "total_penalty": -33,
+      "total_penalty": -12,
       "players": [
-        {
-          "name": "Tino Livramento",
-          "position": "DF",
-          "status": "OUT",
-          "injury": "Calf injury (ended season); OUT per Fox Sports Jun 16. Trevoh Chalobah called up",
-          "elo_penalty": -3
-        },
         {
           "name": "Reece James",
           "position": "RB",
           "status": "DOUBTFUL",
-          "injury": "Hamstring injury; missed R32 vs DR Congo. Tuchel hopeful for R16 return (Sky Sports/Metro Jul 2)",
-          "elo_penalty": -8
+          "injury": "腿筋(半决赛被换下)",
+          "elo_penalty": -6
         },
         {
-          "name": "Jarell Quansah",
-          "position": "RB/CB",
-          "status": "OUT",
-          "injury": "SUSPENDED: Red card vs Mexico (R16); 2-match ban (FIFA disciplinary Jul 9). Misses QF vs Norway + potential SF",
-          "elo_penalty": -8
+          "name": "Declan Rice",
+          "position": "DM",
+          "status": "AVAILABLE",
+          "injury": "疲劳/背痛+疾病已恢复(连续两场提前被换)",
+          "elo_penalty": -4
         },
         {
-          "name": "Marc Guehi",
-          "position": "CB",
-          "status": "DOUBTFUL",
-          "injury": "Hamstring strain (vs Mexico R16); did not train final session in Kansas City. Serious doubt for QF vs Norway (Sky Sports Jul 9)",
-          "elo_penalty": -8
-        },
-        {
-          "name": "Jordan Henderson",
-          "position": "MF",
-          "status": "OUT",
-          "injury": "Arm fracture (fell off advertising hoarding during post-match celebrations vs Mexico); surgery completed. Out for tournament (ESPN Jul 9)",
-          "elo_penalty": -3
-        },
-        {
-          "name": "Bukayo Saka",
-          "position": "RW",
-          "status": "QUESTIONABLE",
-          "injury": "Nursed throughout tournament; started only 1 of 4 matches (Metro Jul 2)",
-          "elo_penalty": -3
+          "name": "Jordan Pickford",
+          "position": "GK",
+          "status": "AVAILABLE",
+          "injury": "可能轮换给Henderson/Trafford",
+          "elo_penalty": -2
         }
-      ]
+      ],
+      "note": "Tuchel预计大轮换, Kane可能替补(媒体呼吁), Mainoo或首发. 源: Yahoo/Standard/SI/football365 7/17-18"
     },
     "Ghana": {
       "total_penalty": -20,

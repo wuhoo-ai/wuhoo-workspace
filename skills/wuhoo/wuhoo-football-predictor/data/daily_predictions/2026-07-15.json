@@ -1,6 +1,6 @@
 {
   "date_beijing": "2026-07-15",
-  "generated": "2026-07-13T12:02:23.800690",
+  "generated": "2026-07-14T13:47:11.343830",
   "total_matches": 1,
   "predictions": [
     {
@@ -11,30 +11,30 @@
       "group": null,
       "matchday": null,
       "time_beijing": null,
-      "team_a_win_pct": 80.8,
-      "draw_pct": 13.1,
-      "team_b_win_pct": 6.0,
+      "team_a_win_pct": 78.6,
+      "draw_pct": 14.5,
+      "team_b_win_pct": 6.9,
       "most_likely_score": "2-0",
-      "expected_goals_a": 2.64,
+      "expected_goals_a": 2.48,
       "expected_goals_b": 0.58,
       "scoreline_probs": [
         {
           "score": "2-0",
-          "prob": 0.1386,
-          "prob_pct": 13.9,
-          "cumulative": 0.1386
+          "prob": 0.1438,
+          "prob_pct": 14.4,
+          "cumulative": 0.1438
         },
         {
           "score": "3-0",
-          "prob": 0.1222,
-          "prob_pct": 12.2,
-          "cumulative": 0.2608
+          "prob": 0.1187,
+          "prob_pct": 11.9,
+          "cumulative": 0.2625
         },
         {
           "score": "1-0",
-          "prob": 0.1048,
-          "prob_pct": 10.5,
-          "cumulative": 0.3656
+          "prob": 0.1161,
+          "prob_pct": 11.6,
+          "cumulative": 0.3786
         }
       ],
       "verdict": "法国 胜（高置信度）",
@@ -48,7 +48,7 @@
         "team_a": "France",
         "team_b": "Spain",
         "venue": "AT&T Stadium",
-        "generated": "2026-07-13T12:02:21.806555",
+        "generated": "2026-07-14T13:47:09.344065",
         "layers": {
           "1_elo_base": {
             "team_a_elo": 2539,
@@ -58,20 +58,18 @@
             "description": "France 2539 vs Spain 2110, Δ=+429"
           },
           "2_injuries": {
-            "team_a_penalty": -10,
-            "team_b_penalty": -38,
+            "team_a_penalty": -15,
+            "team_b_penalty": 0,
             "team_a_details": [
-              "  Hugo Ekitiké (FW): OUT — Ruptured Achilles tendon (Apr vs PSG); out until 2027. Replaced by Mateta [-10]"
+              "  Aurélien Tchouaméni (DM): DOUBTFUL — Thigh muscle issue [-10]",
+              "  Kylian Mbappé (FW): AVAILABLE — Minor ankle knock, insists completely fine [-5]",
+              "  Manu Koné (DM): AVAILABLE — Minor knee, precautionary sub vs Morocco [+0]",
+              "  Marcus Thuram (FW): DOUBTFUL — Calf [+0]"
             ],
             "team_b_details": [
-              "  Fermín López (MF): OUT — Metatarsal fracture (May vs Betis); 13G+17A last season. Misses WC [-8]",
-              "  Mikel Merino (MF): DOUBTFUL — Stress fracture in foot (early Feb); targets return. If not, Fabián Ruiz starts [-5]",
-              "  Lamine Yamal (FW): FIT — Partially torn hamstring (Apr); Luis de la Fuente: 'could be ready to play on June 15'. Likely available for Cape Verde opener [-2]",
-              "  Samu Aghehowa (FW): OUT — ACL rupture (Feb 10, Porto); long-term absence [-5]",
-              "  Yeremy Pino (FW): DOUBTFUL — Collar bone fracture (sustained vs Uruguay, June 26). De la Fuente: could miss rest of World Cup. World Soccer Talk: possible return for knockout stage [-10]",
-              "  Nico Williams (FW): DOUBTFUL — Right adductor injury (vs Uruguay Jun 26). Has not appeared in either knockout match. 'One of the worst days of my life' (ESPN Jul 9). Serious doubt for rest of tournament [-8]"
+              "  Nico Williams (FW): AVAILABLE — Returned from injury, played off bench vs Belgium [+0]"
             ],
-            "description": "France: -10 | Spain: -38"
+            "description": "France: -15 | Spain: +0"
           },
           "2.5_motivation": {
             "team_a_adjustment": 0,
@@ -173,9 +171,9 @@
           },
           "5_news_sentiment": {
             "enabled": true,
-            "team_a_adj": 2,
-            "team_b_adj": -8,
-            "description": "France: +2 | Spain: -8"
+            "team_a_adj": -8,
+            "team_b_adj": 2,
+            "description": "France: -8 | Spain: +2"
           },
           "5.5_unstructured_signals": {
             "enabled": true,
@@ -193,44 +191,44 @@
         "effective_elo": {
           "team_a": {
             "base": 2539,
-            "effective": 2694,
-            "adjustments": 155
+            "effective": 2679,
+            "adjustments": 140
           },
           "team_b": {
             "base": 2110,
-            "effective": 2222,
-            "adjustments": 112
+            "effective": 2270,
+            "adjustments": 160
           },
-          "diff": 472,
+          "diff": 409,
           "engine_delta_a": 16,
           "engine_delta_b": 18
         },
         "prediction": {
           "model": "Poisson (Elo-based lambda)",
-          "team_a_win": 80.8,
-          "draw": 13.1,
-          "team_b_win": 6.0,
+          "team_a_win": 78.6,
+          "draw": 14.5,
+          "team_b_win": 6.9,
           "most_likely_score": "2-0",
-          "expected_goals_a": 2.64,
+          "expected_goals_a": 2.48,
           "expected_goals_b": 0.58,
           "scoreline_probs": [
             {
               "score": "2-0",
-              "prob": 0.1386,
-              "prob_pct": 13.9,
-              "cumulative": 0.1386
+              "prob": 0.1438,
+              "prob_pct": 14.4,
+              "cumulative": 0.1438
             },
             {
               "score": "3-0",
-              "prob": 0.1222,
-              "prob_pct": 12.2,
-              "cumulative": 0.2608
+              "prob": 0.1187,
+              "prob_pct": 11.9,
+              "cumulative": 0.2625
             },
             {
               "score": "1-0",
-              "prob": 0.1048,
-              "prob_pct": 10.5,
-              "cumulative": 0.3656
+              "prob": 0.1161,
+              "prob_pct": 11.6,
+              "cumulative": 0.3786
             }
           ]
         },
@@ -240,8 +238,7 @@
         },
         "reasoning": [
           "ELO 绝对优势 429 分，实力差距明显",
-          "伤病影响：France -10 / Spain -38 ELO",
-          "多层调整后有效 ELO 差 +472（原始 +429）"
+          "伤病影响：France -15 / Spain +0 ELO"
         ],
         "inference_engine": true,
         "inference_engine_version": "v1",
@@ -483,6 +480,77 @@
           "status": "scheduled",
           "venue": "AT&T Stadium",
           "venue_city": "Arlington"
+        },
+        "sub_models": {
+          "ensemble": {
+            "team_a_win": 78.6,
+            "draw": 14.5,
+            "team_b_win": 6.9
+          },
+          "poisson": {
+            "team_a_win": 79,
+            "draw": 14,
+            "team_b_win": 7
+          },
+          "logit": {
+            "team_a_win": 66,
+            "draw": 28,
+            "team_b_win": 6
+          },
+          "expected_goals": {
+            "a": 2.48,
+            "b": 0.58
+          }
+        },
+        "e_data": {
+          "trajectory": {
+            "France": {
+              "current_elo": 2539,
+              "trend_elo": [
+                2517,
+                2527,
+                2529,
+                2530,
+                2539
+              ],
+              "deltas": [
+                10,
+                2,
+                1,
+                9
+              ],
+              "delta_avg": 5.5,
+              "delta_trend": 9,
+              "volatility": 4.0,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            },
+            "Spain": {
+              "current_elo": 2110,
+              "trend_elo": [
+                2034,
+                2041,
+                2063,
+                2092,
+                2110
+              ],
+              "deltas": [
+                7,
+                22,
+                29,
+                18
+              ],
+              "delta_avg": 19.0,
+              "delta_trend": 18,
+              "volatility": 8.0,
+              "adjustment": 15,
+              "classification": "稳步上升",
+              "confidence_discount": 1.0,
+              "n_matches": 5
+            }
+          }
         }
       },
       "schedule": {

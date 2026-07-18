@@ -1515,20 +1515,6 @@
       "source": "ESPN/FIFA/Standard.co.uk"
     },
     {
-      "match_id": 98,
-      "team_a": "Spain",
-      "team_b": "Belgium",
-      "score_a": 2,
-      "score_b": 1,
-      "date": "2026-07-10",
-      "date_beijing": "2026-07-11",
-      "round": "QF",
-      "status": "completed",
-      "winner": "Spain",
-      "penalties": null,
-      "aet": false
-    },
-    {
       "match_id": 99,
       "team_a": "Norway",
       "team_b": "England",
@@ -1549,6 +1535,40 @@
       "date_beijing": "2026-07-12",
       "status": "completed",
       "aet": true
+    },
+    {
+      "match_id": 101,
+      "round": "SF",
+      "team_a": "France",
+      "team_b": "Spain",
+      "score_a": 0,
+      "score_b": 2,
+      "aet": false,
+      "penalties": null,
+      "winner": "Spain",
+      "status": "completed",
+      "date": "2026-07-15",
+      "date_beijing": "2026-07-15",
+      "venue": "AT&T Stadium",
+      "venue_city": "Arlington",
+      "note": "Oyarzabal(pen 52') + Pedro Porro(58'). 西班牙本届第6场零封(世界杯历史纪录), 法国全场xG仅0.3. 多源验证: AlJazeera/ESPN/FOX/NBC"
+    },
+    {
+      "match_id": 102,
+      "round": "SF",
+      "team_a": "England",
+      "team_b": "Argentina",
+      "score_a": 1,
+      "score_b": 2,
+      "aet": false,
+      "penalties": null,
+      "winner": "Argentina",
+      "status": "completed",
+      "date": "2026-07-16",
+      "date_beijing": "2026-07-16",
+      "venue": "Mercedes-Benz Stadium",
+      "venue_city": "Atlanta",
+      "note": "Gordon先入球, 阿根廷85'后连扳两球(Enzo Fernandez远射扳平+绝杀, Messi两助攻). 多源验证: CNN/NPR/AlJazeera/ESPN/NBC"
     }
   ],
   "_meta": {
@@ -1556,7 +1576,7 @@
     "matches_completed": 54,
     "updated": "2026-06-25T14:35:00"
   },
-  "last_updated": "2026-07-03T14:40:32.393062",
+  "last_updated": "2026-07-18",
   "updated": "2026-07-11T15:25:00+08:00",
   "last_repaired": "2026-07-08T10:55:55.786957",
   "repair_note": "P0.1: scores synced from schedule + knockout_schedule, rounds classified"
