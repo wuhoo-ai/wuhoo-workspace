@@ -280,3 +280,36 @@ Windows 安装 Hermes Desktop 后可通过配对码连接云端同一 Agent 实�
 11. **haohaijiao SSH 密钥添加**：Windows UAC 下管理员也无法跨用户修改文件。公钥内容需发给用户手动追加到 `C:\\Users\\haohaijiao\\.ssh\\authorized_keys`。
 12. **`.ssh` 目录/文件继承权限导致公钥认证静默失败**：`.ssh` 和 `authorized_keys` 通常会从父目录继承 `BUILTIN\\Administrators` 的 FullControl。仅 `/remove:g` 不够——权限会随继承刷新回来。必须 **`/inheritance:r` 先清除继承**，再 `/grant:r` 只授予 haohaijiao+SYSTEM。且 `icacls` 必须在 **cmd** 中运行，PowerShell 会误将 `(F)` 解析为命令。
 13. **`authorized_keys` UTF-16 LE 编码陷阱**：Windows 记事本默认保存为 UTF-16 LE（BOM=`FF FE`），OpenSSH 只认 UTF-8/ASCII。用 `[System.IO.File]::WriteAllText` 配合 `UTF8Encoding($false)` 写无 BOM UTF-8。验证：`Format-Hex` 看开头是否为 `73 73 68`（s s h）而非 `FF FE`。
+14. **⚠️ Unity Personal 计划 MCP 工具调用被墙（2026-07 实测）**：`tools/list` 能成功（relay 缓存层返回）≠ `tools/call` 可用。直连 MCP 配额由账号 entitlement 决定（`Account.settings.ConnectionLimits.AllowedMcpConnections`），**Unity Personal = 0** → `ConnectionCensus.TryReserveDirect` 在审批弹窗之前就拒绝，报 `Connection revoked. Go to Unity Editor > Project Settings > AI > Unity MCP...`，编辑器里点 Approve 也没用。证据链：`Library/AI.MCP/connections-v2.asset` 记录 "Your Unity plan doesn't include MCP connections"；Editor.log 大量 `Code 404: Found 0 entitlement groups`。相关源码：`Unity.AI.MCP.Editor/Bridge.cs` (ValidateAndApproveAsync)、`Connection/ConnectionCensus.cs`、`Unity.AI.Toolkit.Accounts/Services/ConnectionLimitResolver.cs`。包内有 dev tier 模拟器 `ConnectionPolicyOverride`（SessionState 键 `ConnectionPolicyOverride.MaxDirect`）可解除 cap，但属绕过计划限制的灰色手段，需用户明确授权。
+15. **文件桥替代方案（无 MCP 依赖）**：`Assets/Editor/HermesFileBridge.cs`（[InitializeOnLoad] + EditorApplication.update 每秒轮询）。云端写 `<工程根>/.hermes-bridge/request.json`（`{"id":"x","action":"ping|capture_sceneview|capture_camera","target":"相机名","width":1920,"height":1080}`），脚本执行后写 `response_<id>.json`，截图 PNG 落在同目录。编译存活标记 `bridge-alive.txt`。注意：**部署/修改脚本后需用户焦点一次 Unity 窗口触发 asset refresh 编译**（后台不刷新）；`.hermes-bridge/` 已加入 .gitignore。手动测试菜单：Hermes → Capture Scene View。
+
+## 手动 MCP 调试脚本（绕过 Hermes MCP 客户端）
+
+会话未加载 MCP 工具时，可用 `/tmp/unity_mcp_call.py`（无参=tools/list；`<tool> '<json>'`=tools/call）直接通过 SSH 走 newline-delimited JSON-RPC。**2026-07-18 已改为 CoplayDev uvx 命令**（官方 relay 版本作废）。要点: 必须交互式读写（initialize→读 id=1 响应→再发 initialized+call；一次性 communicate 写完关 stdin 拿不到响应）；python3.6 无 `text=`；Windows ssh stderr 是 GBK 需 errors='replace'。
+
+47 工具全清单 + v1.1 工作流映射 + 实测 pitfalls（refresh_unity 不触发包解析、ugui CI 事故等）见 `references/unity-mcp-tool-matrix.md`。
+
+## CoplayDev unity-mcp（当前主力方案，2026-07 替代官方 relay）
+
+官方 relay 被 Unity Personal 计划墙封死后（pitfall 14），改用开源 [CoplayDev/unity-mcp](https://github.com/CoplayDev/unity-mcp)（12.5k star, MIT, 47 工具）：
+
+**架构**：Unity 包（MCPForUnity, C# 插件）↔ Python 服务端（PyPI `mcpforunityserver`, FastMCP）↔ Hermes（stdio over SSH）。服务端跑在 Windows PC（haohaijiao 用户），与 Unity 同机 localhost 自动发现，无 entitlement/审批/连接数限制。
+
+**安装步骤（已完成的部署）**：
+1. PC 侧 `Packages/manifest.json` 加依赖：`"com.coplaydev.unity-mcp": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.1.0"`（备份 manifest.json.hermes-bak；PC 需有 git，已确认 2.55）
+2. 服务端预热：`uvx --from mcpforunityserver mcp-for-unity --transport stdio`（首次自动装 76 包）
+3. 云端注册：`printf 'Y\n' | hermes mcp add unity --command ssh --args "-i" "/home/admin/.ssh/hermes-gpu" "-p" "2222" "haohaijiao@localhost" "<uvx完整命令单条arg>"`
+4. Unity 焦点一次触发包编译，之后新 Hermes 会话自动加载 47 工具
+
+**Pitfalls（实测）**：
+- **uv junction + sshd RedirectionGuard（os error 448 "不受信任的装入点"）**：uv 管理的 Python 有版本别名 junction（`cpython-3.11-...` → `cpython-3.11.15-...`），Windows sshd 子进程禁止穿越用户 junction。解法：`--python` 直接指向**真实版本目录**：`C:\Users\haohaijiao\AppData\Roaming\uv\python\cpython-3.11.15-windows-x86_64-none\python.exe`。hermes venv 的 python.exe 是 trampoline 也指向 junction，同样不可用。
+- **`hermes mcp add` 有交互确认**：非交互终端会 Cancelled 且不写配置，必须 `printf 'Y\n' |` 管道喂。
+- uvx/uv 在 PC 上已有（Hermes Desktop 自带）：`C:\Users\haohaijiao\AppData\Local\hermes\bin\uvx.exe`
+- 截图没有专用工具：用 `execute_code`（编辑器内跑任意 C#）或 `manage_camera`。
+- 服务端 serverInfo 版本号（3.4.4）与 repo tag（v10.1.0）不同步，正常。
+- **UPM git URL 会报 "No 'git' executable was found"**：git 在系统 PATH 但 Unity/Hub 启动早于其环境刷新，需重启 Unity+Hub 才认。**直接用 OpenUPM scoped registry 免 git**：`"scopedRegistries":[{"name":"package.openupm.com","url":"https://package.openupm.com","scopes":["com.coplaydev.unity-mcp"]}]` + 依赖 `"com.coplaydev.unity-mcp": "10.1.0"`。
+- **"installed without a signature" 警告无害**（第三方包无 Unity 官方签名，正常）。
+- **Unity 6000.5.4f1 硬废弃连环坑**：inputsystem 1.11.2 报 1056 个 CS0619（TreeView 系）→ 升 **1.19.0**；cinemachine 3.1.0 报 GetInstanceID 废弃 → 升 **3.1.7**。任何包编译错误会卡死全项目脚本编译（含 [InitializeOnLoad]），表现为文件桥/插件全部沉默。
+- **插件默认 HTTP 传输，必须手动切 Stdio**：Window → MCP For Unity → Transport 下拉选 **Stdio** → 点 **Connect**。stdio 桥 = TCP 6400 监听 + `~/.unity-mcp/unity-mcp-port-*.json` 发现文件（服务端 `Path.home()/.unity-mcp` glob 发现，可用 `UNITY_MCP_STATUS_DIR` 覆盖）。切换下拉不点 Connect 桥不会起。
+- **manifest.json 变更后 Unity 焦点可能不触发解析**（有弹窗挡着时）：让用户 Ctrl+R 或开 Package Manager 窗口强制 resolve。
+- **execute_code 必须带 `action:"execute"`** + `code`。UnityEditor API 可用（SceneView.lastActiveSceneView 等），编译器 codedom。工具参数错误会返回 pydantic 校验错误并列出合法枚举值，可据此自纠。
