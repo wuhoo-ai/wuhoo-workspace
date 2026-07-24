@@ -13,7 +13,7 @@ category: wuhoo
 容器 `Up` 但端口不监听（`ss -tlnp | grep 1200` 为空）→ 内部进程崩溃 → 重建容器一次解决：
 
 ```bash
-podman stop rsshub && podman rm -f rsshub && \
+podman rm -f rsshub 2>/dev/null; \
 podman pull docker.io/diygod/rsshub:latest && \
 podman run -d --name rsshub --network host --restart unless-stopped \
   docker.io/diygod/rsshub:latest && \
@@ -21,6 +21,8 @@ sleep 8 && curl -s -o /dev/null -w "HTTP %{http_code}\n" http://127.0.0.1:1200/
 ```
 
 验证：重新跑 fetch，Connection Refused 源数应从 19+ → 0。路透社/B站排行榜两个 HTML 非 XML 源是 RSSHub 路由层面的已知问题，不归容器恢复。
+
+**Pitfall**: `podman stop` 可能卡死（conmon exited prematurely），直接用 `podman rm -f` 跳过 stop。容器 Up 但端口不监听 = 内部 Node.js 崩溃，必须重建。
 
 ## FRP 隧道
 
