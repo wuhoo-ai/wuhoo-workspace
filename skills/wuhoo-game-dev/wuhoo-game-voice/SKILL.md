@@ -104,8 +104,10 @@ python3.11 scripts/gen_voice.py --file dialog.txt --voice longanlufeng \
 2. **CosyVoice 音色名无效**: `longnan_v3`、`longlaobo_v3` 等 `long*_v3` 音色在本模型上 `call()` 静默返回 None。只认 v3.6 / longan* 系统音色和 `qwen-audio-3.0-tts-plus-*` 基础音色。
 3. **dashscope 只装在 python3.11**: 脚本必须用 `python3.11` 跑；系统 python3=3.6 会报 ModuleNotFoundError。安装: `pip3.11 install dashscope`。
 4. **失败时查 request_id**: `syn.get_last_request_id()` 打印出来供排查。
-5. **地域**: token-plan 是 cn-beijing workspace，WebSocket URL 里的 workspace 前缀不能丢。
-6. **指令用中文写**: freestyle instruction 中文效果最好。
+5. **纯标点文本被拒**: 服务端返回 `InvalidParameter: Please ensure input text is valid.`。长文本分块时若边界切出孤立标点 chunk 会失败——脚本已自动合并纯标点碎片到相邻块并逐块重试 3 次。
+6. **地域**: token-plan 是 cn-beijing workspace，WebSocket URL 里的 workspace 前缀不能丢。
+7. **指令用中文写**: freestyle instruction 中文效果最好。
+8. **WAV header nframes 不可靠**: dashscope 流式产物的 header 长度字段可能失真，脚本按字节计算时长、手动解析 RIFF data chunk 做拼接。
 
 ## 验证记录（2026-08-03）
 
@@ -115,3 +117,7 @@ python3.11 scripts/gen_voice.py --file dialog.txt --voice longanlufeng \
 - longanlingxin 旁白 + 太平广记引文 ✓ (1.0MB)
 - 细粒度标签 [sigh] ✓
 - 无效音色验证: longnan_v3 / longlaobo_v3 / longshuo_v3.6 均失败 ✓
+- gen_voice.py 端到端: 单句 wav44 ✓ / 分块拼接(max-chunk=8, 3块) ✓ / WAV header-body 时长一致 ✓
+- split_text 单元测试: 5 用例全过 (含纯标点/空文本边界) ✓
+- 纯标点输入正确报错退出 ✓
+- 修复: 孤立标点 chunk 合并 + 逐块重试3次 + WAV 字节级时长计算

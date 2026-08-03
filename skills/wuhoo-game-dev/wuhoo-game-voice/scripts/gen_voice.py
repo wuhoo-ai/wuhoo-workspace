@@ -61,7 +61,15 @@ def split_text(text, max_chars=500):
             buf = p
     if buf:
         chunks.append(buf)
-    return chunks
+    # 合并/丢弃纯标点碎片——服务端拒绝纯标点文本 (InvalidParameter)
+    merged = []
+    for c in chunks:
+        if not re.search(r"\w", c):
+            if merged and len(merged[-1]) < max_chars:
+                merged[-1] += c
+            continue
+        merged.append(c)
+    return merged
 
 
 def _wav_data(payload):
@@ -144,6 +152,8 @@ def main():
     fmt = getattr(AudioFormat, FORMATS[args.format])
 
     chunks = split_text(text, args.max_chunk)
+    if not chunks:
+        sys.exit("错误: 文本中没有可合成的内容（仅标点/空白）")
     parts = []
     for i, ch in enumerate(chunks, 1):
         kw = dict(model=args.model, voice=args.voice, format=fmt)
@@ -156,7 +166,14 @@ def main():
         if args.volume is not None:
             kw["volume"] = args.volume
         syn = SpeechSynthesizer(**kw)
-        audio = syn.call(ch)
+        audio = None
+        for attempt in range(1, 4):
+            audio = syn.call(ch)
+            if audio:
+                break
+            print("[%d/%d] 第 %d 次尝试失败, 重试中..." % (i, len(chunks), attempt),
+                  file=sys.stderr)
+            syn = SpeechSynthesizer(**kw)  # 重建连接
         rid = syn.get_last_request_id()
         if not audio:
             sys.exit("错误: 第 %d/%d 块合成失败 (request_id=%s)。"
