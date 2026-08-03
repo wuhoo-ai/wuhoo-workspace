@@ -1,6 +1,6 @@
 # wuhoo-game-dev Skill 索引
 
-> 12 个 skill，统一 wuhoo-game-* 命名。2026-07-28 整合完成。
+> 13 个 skill，统一 wuhoo-game-* 命名。2026-07-28 整合完成，2026-08-03 新增 voice。
 
 ## 生产流程（从上到下）
 
@@ -13,11 +13,12 @@
 | 5 | `wuhoo-game-review` | 审查 (diff→验收，独立上下文) | 任务完成后 |
 | 6 | `wuhoo-game-art` | 美术 (style guide→生图→后处理) | 需要精灵/贴图 |
 | 7 | `wuhoo-game-audio` | 音频 (prompt→生成→标准化) | 需要 BGM/SFX |
-| 8 | `wuhoo-game-scene` | 场景 (Author→新鲜度→完整性) | 改了 SceneKit |
-| 9 | `wuhoo-game-ci` | CI/CD (构建+27 pitfall+lint) | CI 红了 |
-| 10 | `wuhoo-game-debug` | 调试 (症状→决策树→定位) | 崩溃/运行时 bug |
-| 11 | `wuhoo-game-gpu` | GPU (健康检查+MCP+远程环境) | GPU 节点操作 |
-| 12 | `wuhoo-game-balance` | 数值 (Monte Carlo 平衡验证) | 调数值后 |
+| 8 | `wuhoo-game-voice` | 配音 (qwen-audio-3.0-tts 对白/旁白) | 需要角色配音 |
+| 9 | `wuhoo-game-scene` | 场景 (Author→新鲜度→完整性) | 改了 SceneKit |
+| 10 | `wuhoo-game-ci` | CI/CD (构建+27 pitfall+lint) | CI 红了 |
+| 11 | `wuhoo-game-debug` | 调试 (症状→决策树→定位) | 崩溃/运行时 bug |
+| 12 | `wuhoo-game-gpu` | GPU (健康检查+MCP+远程环境) | GPU 节点操作 |
+| 13 | `wuhoo-game-balance` | 数值 (Monte Carlo 平衡验证) | 调数值后 |
 
 ## 合并来源
 
@@ -31,6 +32,7 @@
 | wuhoo-game-review | review-task (改写) |
 | wuhoo-game-art | sprite-from-task (改写) |
 | wuhoo-game-audio | music-from-task (改写) |
+| wuhoo-game-voice | 新建 (2026-08-03, qwen-audio-3.0-tts) |
 | wuhoo-game-balance | balance-validate (改名) |
 | wuhoo-game-arch | 新建 |
 | wuhoo-game-gates | 新建 |
