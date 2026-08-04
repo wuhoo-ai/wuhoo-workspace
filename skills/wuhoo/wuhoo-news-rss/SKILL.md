@@ -168,6 +168,8 @@ DataAggregator._get_combined_sentiment()
 
 ## 已知问题 / 注意事项
 
+- **cron 环境禁止用绝对路径调用 python3.11 (2026-08-04)**：终端命令写成 `/usr/bin/python3.11 src/fetcher.py --fetch` 会触发 Hermes cron lifecycle guard 递归扫描该"被引用脚本"（含 `/` 的 executable token 被视为脚本），读取 ELF 二进制内容时崩溃 `ValueError: embedded null byte`。**必须用裸命令名**：`python3.11 src/fetcher.py --fetch`（guard 只扫描含 `/` 或 .sh 后缀的 executable）。execute_code 的 terminal() 同样受影响。
+- **RSSHub 容器 Up 但 HTTP 000 (2026-08-04)**：19 个 RSSHub 路由源 Connection refused。恢复流程见 wuhoo-infra skill。Pitfall：`podman rm -f rsshub` 后必须确认删除成功再 `podman run`，`;` 串联时 rm 可能未生效导致 "container name already in use"；rm 后加 `sleep 2`。
 - **RSSHub 路由大面积 503** (2026-07-03)：`seekingalpha`, `stcn`, `reddit`, `cls/telegraph` 等多个路由返回 503。Seeking Alpha 使用原生 `feed.xml` 绕过。需定期更新 RSSHub 版本或排查特定路由。
 - **路透社国际 / B站排行榜 RSSHub 路由**：返回 HTML 而非 XML（`text/html is not an XML media type`）。B站排行榜周期性失效。
 - **词边界匹配**：使用 `\b` regex 避免子串误匹配，但中文关键词的 `\b` 行为可能不完全理想。中文文本中 `\b` 依赖 Unicode 词边界，CJK 字符间无词边界。

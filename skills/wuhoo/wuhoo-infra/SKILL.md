@@ -23,6 +23,7 @@ sleep 8 && curl -s -o /dev/null -w "HTTP %{http_code}\n" http://127.0.0.1:1200/
 验证：重新跑 fetch，Connection Refused 源数应从 19+ → 0。路透社/B站排行榜两个 HTML 非 XML 源是 RSSHub 路由层面的已知问题，不归容器恢复。
 
 **Pitfall**: `podman stop` 可能卡死（conmon exited prematurely），直接用 `podman rm -f` 跳过 stop。容器 Up 但端口不监听 = 内部 Node.js 崩溃，必须重建。
+**Pitfall (2026-08-04)**: `podman rm -f rsshub` 在 `;` 串联命令中可能未生效（容器名仍被占用导致 run 失败 "container name already in use"）。rm 后加 `sleep 2` 并确认返回后再 run。重建后失败源应从 19+ → 3（路透社/B站 HTML 非 XML + Stratechery junk 为已知路由问题）。
 
 ## FRP 隧道
 

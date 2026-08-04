@@ -1,82 +1,59 @@
-📰 Wuhoo RSS 资讯简报 | 2026-07-03
-============================================================
-数据采集: 59 源 | 48 小时 | 有效 387 条 | 新增强化: feed权重+关键词增强+模糊多源覆盖
+📰 Wuhoo RSS 资讯简报 | 2026-08-04
+══════════════════════════════════
+数据采集: 60 源 | 新增 1452 条 | 48 小时窗口
 
-🔬 【科技/AI】共 202 条，TOP 5
-1. **Comcast’s ‘amicable divorce’ unwinds Hollywood’s corporate experiment**
-   来源: Financial Times | 2026-06-30 | 热度: 10
-   NBCUniversal split sparks talk of future deals amid ongoing media and entertainment consolidation
-2. **‘Unprecedented’ plane crash tests Beijing’s sense of security**
-   来源: Financial Times | 2026-06-30 | 热度: 10
-   Fatal flight of a light aircraft into Chinese capital’s tallest building raises questions about its defences
-3. **White House lifts ban on Anthropic models**
-   来源: Financial Times | 2026-07-01 | 热度: 10
-   US government move allows AI start-up to re-release Mythos and Fable models
-4. **Anthropic launches Claude Science in push for pharma revenue**
-   来源: Financial Times | 2026-06-30 | 热度: 10
-   New AI product has use cases in rendering 3D protein structures and drug discovery
-5. **World Bank to phase out China lending**
-   来源: Financial Times | 2026-06-30 | 热度: 10
-   Decision from global development institution follows years of pressure from the Trump administration
-────────────────────────────────────────────────────────────
-💰 【财经/投资】共 99 条，TOP 5
-1. **华侨银行：黄金中期内料仍是资产多元化的有效标的**
-   来源: 格隆汇 | 2026-07-03 | 热度: 15
-   🔑 策略,加息,美联储,央行
-   格隆汇7月3日｜华侨银行集团研究部策略师在一份报告中表示，黄金作为资产多元化标的的中期作用依然有效，但其价格可能会受到更严峻的宏观经济环境拖累。华侨银行的分析师表示，黄金的需求可能会受到官方部门的支撑，各国央行表示打算在未来12个月内增加黄
-2. **Donald Trump made more than $1bn last year in return to presidency**
-   来源: Financial Times | 2026-07-01 | 热度: 10
-   US president also earned hundreds of thousands of dollars from licensing of Bibles, watches and perfume while in office
-3. **Trump made up to $1.4bn in stock purchases in 2025**
-   来源: Financial Times | 2026-07-01 | 热度: 10
-   FT analysis shows US president declared more than 22,000 share transactions last year
-4. **KNDS postpones IPO after investors balk at €12bn-plus valuation**
-   来源: Financial Times | 2026-07-01 | 热度: 10
-   Franco-German tank maker says it will wait for ‘more favourable’ market conditions
-5. **Why Americans are about to pay so much for their July 4 hot dog**
-   来源: Financial Times | 2026-07-02 | 热度: 10
-   Inflation triggered by Donald Trump’s tariffs and Iran war set to make holiday parties most expensive ever
-────────────────────────────────────────────────────────────
-🏛️ 【宏观政策】共 41 条，TOP 5
-1. **US Supreme Court checks Trump’s power even as it bolsters the presidency**
-   来源: Financial Times | 2026-07-01 | 热度: 10
-   The rulings this week serve notice that America’s top court is ‘not just rolling over’ for US president
-2. **Europe’s rearmament drive is sustaining 195,000 US defence jobs, Nato chief says**
-   来源: Financial Times | 2026-06-30 | 热度: 10
-   Mark Rutte makes economic case for Donald Trump to remain committed to the alliance in FT interview
-3. **US Supreme Court rejects Trump’s bid to end birthright citizenship**
-   来源: Financial Times | 2026-06-30 | 热度: 10
-   Ruling is major blow to president’s immigration agenda
-4. **Supreme Court reminds America (and Trump) what citizenship is**
-   来源: Financial Times | 2026-06-30 | 热度: 10
-   The United States has always been based on the notion of welcoming newcomers from every country
-5. **Supreme Court checks Trump, but empowers the presidency**
-   来源: Financial Times | 2026-07-01 | 热度: 10
-   Despite losses on tariffs and birthright citizenship, the executive has emerged stronger
-────────────────────────────────────────────────────────────
-🏭 【产业/公司】共 45 条，TOP 5
-1. **港股异动丨半导体回调资金回流科网？恒生科技指数涨超2%，小米涨超5%**
-   来源: 格隆汇 | 2026-07-03 | 热度: 33
-   🔑 估值,机器人,腾讯,阿里,百度,美团,京东,小米,Meta,比亚迪
-   格隆汇7月3日｜港股科网股拉升，恒生科技指数涨超2%。成分股中，智谱涨超11%，比亚迪股份、小米涨超5%，地平线机器人、京东健康、快手、MINIMAX、阿里健康涨超4%，携程集团、商汤涨3%，腾讯、蔚来、零跑汽车、百度、比亚迪电子、腾讯音乐
-2. **AI巨头们之间的资本混战，到底是个什么情况？**
-   来源: B站排行榜 | 2026-07-01 | 热度: 18
-   🔑 英伟达,估值,AR,微软,谷歌
-   AI像是一个资本黑洞一样吸引着全球的钱。
-谷歌、微软、英伟达等等巨头，自身估值不断膨胀的同时，互相之间也有竞争与投资。
-今天我们来跟大家捋一捋，这些AI公司之间是怎么个盘根错节的投资合作关系。
-3. **报道：苹果新款iPad Pro计划明年春季推出，入门级MacBook Pro面临全新设计**
-   来源: 华尔街见闻 | 2026-07-01 | 热度: 9
-   苹果正准备在明年推出升级版iPadPro系列以及重新设计的入门级MacBookPro，这些新品将成为iPhone20周年纪念年份一系列重大产品发布的一部分。
-据彭博援引知情人士透露，该公司正在测试四款新的iPadPro机型，计划于2027年
-4. **特朗普政府持续限制Anthropic最强模型Mythos，海外机构不可访问**
-   来源: 华尔街见闻 | 2026-07-01 | 热度: 9
-   美国政府在解除对Anthropic PBC最新人工智能模型出口管制的同时，仍将其更强大的Mythos 5模型限定为少数美国机构专用，令包括外国政府、企业和金融机构在内的全球用户继续陷入不确定状态。
-据彭博，Anthropic表示，全球用户可
-5. **Meta收涨8.8%！报道：筹划进军云计算市场，以出售富余的AI算力资源**
-   来源: 华尔街见闻 | 2026-07-01 | 热度: 9
-   Meta正筹划进军竞争激烈的云计算基础设施市场，计划通过出售其过剩的人工智能（AI）计算能力和模型访问权限，将庞大的AI基础设施投资转化为新的创收渠道。
-据彭博援引知情人士透露，Meta正在制定一项全新的云业务计划，旨在向外部客户出售计算资
-────────────────────────────────────────────────────────────
+【科技/AI】共 144 条，展示 TOP 5
+1. Germany news: Calls intensify to consider Meta Glasses ban — 德国之声 | 2026-08-03
+   Both rights groups and regulators say the new AI t…
+2. Ten advances in mathematics and theoretical computer science — OpenAI Blog | 2026-08-01
+   OpenAI shares new results on long-standing open pr…
+3. 谷歌 Pixel 11 Pro 手机官方渲染图流出，外观细节抢先看 — IT之家 | 2026-08-03
+   继知名爆料人埃文 · 布拉斯（Evan Blass）此前曝光据称为 Google Pixel 11 …
+4. 经济学家汉克：AI 成本极高，难以大规模取代人力 — IT之家 | 2026-08-02
+   美国约翰斯 · 霍普金斯大学应用经济学教授史蒂夫 · 汉克（Steve Hanke）表示，认为人工智…
+5. 古尔曼：苹果计划将智能眼镜打造为健康健身平台 — IT之家 | 2026-08-02
+   据马克・古尔曼最新一期《Power On》通讯报道，苹果计划将即将推出的非 AR 智能眼镜打造为又一…
 
-📊 总计: 387 条有效 | 59 来源 | 2026-07-03
+────────────────────────────────
+
+【财经/投资】共 126 条，展示 TOP 5
+1. U.S. Jobs, Circle, Galaxy, American Bitcoin earnings: Crypto Week Ahead — CoinDesk | 2026-08-03
+   U.S. Jobs, Circle, Galaxy, American Bitcoin earnin…
+2. Threat to oil tankers in Middle East worst since start of Iran war, analysts say — BBC Business | 2026-08-03
+   Fresh attacks on alternative shipping routes have …
+3. US and Japan take action to prop up yen in rare joint move — BBC Business | 2026-08-03
+   Both countries have said that they will not hesita…
+4. 美股8月开门红，道指新高，亚马逊市值首破三万亿，阿里涨超4%，原油重挫 — 华尔街见闻 | 2026-08-03
+   美伊谈判希望重燃，美股8月开门红，三大股指三连阳，道指创收盘历史新高。油价大跌拖低通胀预期，美债走强…
+5. 全美25州提起诉讼，反对美政府最新关税措施 — 华尔街见闻 | 2026-08-03
+   8月3日获悉，法庭文件显示，美国有25个州提起诉讼，反对美政府最新关税措施。 美国纽约州总检察长宣布…
+
+────────────────────────────────
+
+【宏观政策】共 5 条，展示 TOP 4
+1. 中国、美国和俄罗斯的太空攻防战：卫星如何成为现代战争的第一击？ — BBC 中文 | 2026-08-04
+   ImagesArticle InformationAuthor, 马克·派星（Mark Piesin…
+2. 美国与日本罕有联手干预汇市，图阻日圆跌至40年来新低 — BBC 中文 | 2026-08-04
+   via Getty Images日本首相高市早苗于今年3月与美国总统特朗普会面。Article In…
+3. 特朗普表示同意取消对伊朗的打击，前提是能"迅速"达成协议 — BBC 中文 | 2026-08-03
+   2026年8月2日阅读时间: 2 分钟美国总统唐纳德·特朗普表示，他同意取消对伊朗的打击行动，前提是…
+4. 宇樹科技：美禁令不影響現有產品 但後續或無法銷美 — 中央社 | 2026-08-01
+   美國政府日前宣布將人形機器人納入禁止進口的產品清單，衝擊中國製造商，即將首次公開募股（IPO）的中國…
+
+────────────────────────────────
+
+【产业/公司】共 40 条，展示 TOP 5
+1. 'This quarter was otherworldly': Palantir earnings surge past expectations — 卫报国际 | 2026-08-03
+   Shares soar as yearly revenue up 93%, even as oppo…
+2. 苹果曝出数据管理漏洞：部分员工离职后仍可通过个人 iCloud 访问公司机密文件 — IT之家 | 2026-08-03
+   苹果公司起诉 OpenAI 窃取商业机密一案持续发酵。据 The Information 报道，多名…
+3. 吕爱丽：台湾面临半导体安全战 — 联合早报 | 2026-08-03
+   人工智能（AI）浪潮带动全球半导体需求强劲增长，台湾作为先进晶片制造重镇，战略地位愈发凸显。近期相继…
+4. Adani to pay no company tax despite $1bn revenue from Queensland coalmine — 卫报国际 | 2026-08-01
+   Indian conglomerate offsets earnings from Carmicha…
+5. Windows 游戏模拟器 CrossOver 宣布原生 Apple Silicon 支持 — Solidot 奇点资讯 | 2026-07-31
+   sroorz 写道： 在初代 Apple Silicon 发布六年后，CrossOver 宣布推出原…
+
+────────────────────────────────
+
+底部标注: 总文章数 500 / 来源数 40 / 采集时间 2026-08-04 08:34
