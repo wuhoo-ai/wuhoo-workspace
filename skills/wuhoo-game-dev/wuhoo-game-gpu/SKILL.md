@@ -214,7 +214,48 @@ pip install -r requirements.txt
 >
 > 启用条件: 用户明确指示 + 节点空闲 > 2h。
 
+## 10.5 部署实战经验（2026-08-07 全量部署验证）
+
+### 网络通道矩阵（用户机器实测，GitHub 主站不通）
+| 目标 | 状态 | 用途 |
+|------|------|------|
+| github.com | ✗ 不通 | 主站全挂 |
+| api.github.com | ✓ 直连 200 | API 可用（release 信息） |
+| codeload.github.com | ✓ 可达(301→200) | 仓库 zip 下载，大仓库打包慢易超时 |
+| ghfast.top 代理 | ✓ 快 | `https://ghfast.top/https://github.com/...`（archive zip 38MB/40s） |
+| gitee.com/mirrors/ComfyUI | ✓ | ComfyUI 镜像（git clone 正常） |
+| modelscope.cn | ✓ 快 | 模型下载主力（SDXL/LivePortrait 权重） |
+| 清华 PyPI | ✓ | pip 源 |
+| mirrors.aliyun.com/pytorch-wheels | ✓ | **cu121 wheel 下载**（比 pytorch.org 快） |
+| hf-mirror.com / liblibai / ghproxy 系列 | ✗ | 全不通 |
+| 本地代理 127.0.0.1:10809 | 存在 | **pip 走代理会卡死/失败，curl 直连反而通** |
+
+### 关键坑（全部实测踩过）
+1. **PyPI 的 Windows torch wheel 是 CPU 版**（203MB，"Torch not compiled with CUDA"）——CUDA 版必须从 cu121 index 下：`mirrors.aliyun.com/pytorch-wheels/cu121/torch-2.5.1%2Bcu121-cp311-cp311-win_amd64.whl`（2.4GB）
+2. **Start-Process 在 SSH 会话下假启动**（子进程不存活）——所有长任务用 `schtasks /create + /run`（计划任务分离，SSH 断开不影响）
+3. **schtasks /tr 里 `&&` 转义失败**（"系统找不到指定的路径"）——用绝对路径单命令，或多命令写 bat 文件
+4. **bat 文件 URL 里 `%2B` 必须写 `%%2B`**（cmd 批处理变量解析会吞掉 %2B 导致 404）
+5. **modelscope 文件下载**：`repo/files?Recursive=true` 返回的 JSON 有 `Path` 字段（含子目录）；下载 URL = `repo?Revision=master&FilePath=<Path>`（302 跳转需 curl -L；cmd 里 & 要 ^& 转义）
+6. **Unity Hub CLI 无 create 命令**（Hub 3.15.2 报 "create is not a Hub command"）——用 `Unity.exe -createProject <path> -batchmode -quit -nographics` 创建默认项目
+7. **默认项目是内置管线**：manifest.json 加 `com.unity.render-pipelines.universal: 17.0.3`（版本参照 miners-watch）+ 编辑器脚本（base64 传远程写 Assets/Editor/Setup2D.cs）`-executeMethod Setup2D.Run` 创建 Renderer2DData + UniversalRenderPipelineAsset 并设 GraphicsSettings
+8. **MCP for Unity 包**：OpenUPM registry（scope com.coplaydev.unity-mcp）；离线方案=复制已有项目 `Library/PackageCache/com.coplaydev.unity-mcp@<hash>` 到新项目 `Packages/` 作 embed 包 + manifest 写 `file:Packages/com.coplaydev.unity-mcp`
+9. ProjectSettings.asset 里字段是小写 `runInBackground: 0`（不是 m_RunInBackground）
+10. **Unity.exe -help 会挂起进程**（Electron/license 弹窗）——别跑，超时后 taskkill
+11. Unity batchmode 首次打开项目要几分钟（下载 URP 包），验证标志=`Exiting batchmode successfully now!`
+12. ComfyUI 首次启动 ~90s，验证=`curl 127.0.0.1:8188/system_stats` 返回 devices 含 cuda
+
+### 部署验证命令速查
+```bash
+# CUDA 验证
+C:\ai\ComfyUI\venv\Scripts\python.exe -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+# ComfyUI 服务
+schtasks /run /tn wuhoo_comfy; curl http://127.0.0.1:8188/system_stats
+# 文件完整性（对照 modelscope API 的 Size 字段，字节精确匹配）
+dir C:\ai\ComfyUI\models\checkpoints\sd_xl_base_1.0.safetensors  # 6,938,078,334 字节
+```
+
 ## 变更历史
 
+- v3.1.0 (2026-08-07): 全量部署验证后新增 §10.5 实战经验 — 网络通道矩阵(ghfast/modelscope/阿里云pytorch-wheels) + 12 个实测坑(PyPI torch=CPU版/Start-Process假启动/schtasks转义/bat%%2B/modelscope Path字段/Hub无create/URP2D脚本/MCP包复制/runInBackground小写/-help挂起) + 部署验证命令速查
 - v3.0.0 (2026-08-07): 对齐 GDD 09 第十一章(决策97/99/106) + 10-gpu-node-setup.md v1.0 — 新增 §7 guimei 侧 C:\ai 分阶段部署(含完成状态勾选) + §8 防呆三禁令/故障排查表; MCP 工具名更新为 mcp__unity__*(决策106 MCP for Unity 主通道); 健康检查加入 GPU/磁盘/驱动/C:\ai/电源; 记录 Windows 无 head/grep、GBK 乱码等实测坑
 - v2.0.0: 合并 gpu-ops + remote-env + gpu-batch(FUTURE)
