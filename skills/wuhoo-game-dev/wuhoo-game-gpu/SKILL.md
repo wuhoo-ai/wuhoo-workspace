@@ -285,8 +285,59 @@ GPU: gh-proxy.com 前缀下载 (3.1MB/s, 比 ghfast 0.15MB/s 快 20x)
 ### 素材一致性校验
 - 立绘/音频传到 GPU 后必须 MD5 校验: 云端 `md5sum`, GPU `certutil -hashfile X MD5 | findstr /v hash`
 
+## 10.7 H3 (MiniMax-H3) Ref2VA 视频管线（2026-08-08 全链路验证）
+
+> 链路: 立绘(身份) + 风格标杆图(风格) + 对白 → H3 Ref2VA 音画生成 → 音频环境音 → ffmpeg 合成对白 → WebDAV 上传 NAS
+> **铁律 1: ref_images 只做"身份"参考, 风格必须写进 prompt**(风格圣经语言: 中唐水墨重彩志怪/墨线为骨·重彩为肉/纸绢质感/禁忌照片写实)
+> **铁律 2: 素材上传必须 MD5 校验**(scp 静默损坏: GPU MD5 ≠ 云端 MD5 → 生成结果与参考图毫无关系)
+> **铁律 3: 成品只传 NAS 不发微信**
+
+### H3 部署关键（ComfyUI 0.31.0, GPU 4070Ti 12GB）
+- 四件套权重(modelscope `Comfy-Org/MiniMax-H3`): audio_vae 605MB / video_vae 5.2GB / text_encoder qwen3vl nvfp4_awq 15.7GB / diffusion ref2va pruned_int8 20.97GB
+- **kitchen 版本必须锁 `comfy-kitchen==0.2.27`**: 0.2.28 需 torch2.6+ 启动崩溃; 0.2.22 缺 AsymW4A8Int8Layout → nvfp4 加载失败 (`'NoneType' object has no attribute 'Params'` @ ops.py:1616)
+- 启动: schtasks `wuhoo_comfy8188` + bat (`C:\ai\start_comfy8188.bat`), 日志 `C:\ai\logs\comfy8188.log`
+- H3 节点: `EmptyMiniMaxH3LatentAV` / `MiniMaxH3ImageToVideo` / `MiniMaxH3ReferenceToVideo` / `MiniMaxH3SigmaShift`
+
+### Ref2VA workflow 要点（0.31 API）
+- 链路: CLIPLoader(type=minimax) → UNETLoader → 双 VAELoader(video_vae + audio_vae) → Ref2VA → SigmaShift(shift_video=12.0/shift_audio=3.0) → KSampler(cfg=1.0, euler/simple, 20 steps) → VAEDecode → CreateVideo(fps=24) → SaveVideo(format=mp4, **codec=h264 必填**)
+- 音频: VAEDecodeAudio(vae=audio_vae) → SaveAudio (flac)
+- **0.31 Autogrow 用复数容器**: `ref_images: [["7",0],["18",0]]` (不是 ref_image_0 单数)
+- negative: ConditioningZeroOut (Ref2VA 只输出 positive, cfg=1.0 时 negative 不参与)
+- ref_image_size: **match**=缩到生成分辨率(快4.5倍, 身份"神似"); **max**=2048px短边(慢~133s/it, 身份"形似")
+
+### 风格 prompt 模板（guimei 风格圣经 v2.0）
+```
+Zhong-Tang ink-wash heavy-color zhiguai style, like <Picture 2>. The woman from <Picture 1> stands...
+Ink line as skeleton: fine brush strokes... Heavy color as flesh: mineral pigments - azurite blue dyes the river,
+ochre dyes the muddy bank, cinnabar touches the paper lantern... Paper and silk texture, silk grain visible...
+Light accent: warm lantern glow... Sparse-dense contrast composition. Forbidden: no photorealism,
+no western illustration style, no modern elements.
+```
+
+### 性能实测（4070Ti 12GB 层卸载）
+| 配置 | 速度 | 备注 |
+|------|------|------|
+| 无音频 + match | ~29-35s/it, 12min/5s | 最快 |
+| 带 ref_audios + match | ~115-130s/it, ~40min/5s | 音频参考显著拖慢 |
+| max 模式 | ~133s/it, ~44min/5s | 最慢, 身份保真最高 |
+| length=243 (10s) | **OOM** | 12GB 显存装不下, 需降分辨率或分段 |
+
+### 长视频方案（10s 完整对白）
+- **分段拼接**: 2×5s (124帧) 各自生成, 段2 用段1尾帧作 ref 续帧, 最后 concat — 当前方案
+- 或降分辨率 512x288 单段 (未验证)
+
+### 已踩坑清单
+1. **frpc `transport.tcpMux=false` 导致 login EOF**: frp 0.70.0 组合下握手即断 (`connect to server error: EOF`), 去掉即恢复; 心跳 heartbeatInterval=10/heartbeatTimeout=30 + log.to 落盘已配
+2. SaveVideo 缺 codec → `missing 1 required positional argument: 'codec'`
+3. VAEDecodeAudio 参数名是 `vae` 不是 `audio_vae`
+4. 采样完成后 SaveVideo 崩溃 (`Fatal Python error: Aborted` 在 Pin error 后) — 重跑同 workflow 缓存命中可跳过采样, 只补保存
+5. 参考图损坏 → 生成结果与参考毫无关系 (scp 传输中断静默损坏, 必须 MD5)
+6. 完整版 243帧 OOM → 分段
+7. 音频参考拖慢采样 ~3-4 倍
+
 ## 变更历史
 
+- v3.3.0 (2026-08-08): 新增 §10.7 H3 (MiniMax-H3) Ref2VA 视频管线 — 部署关键(kitchen锁0.2.27/四件套权重/schtasks启动)/Ref2VA workflow要点(0.31复数容器/SaveVideo codec必填/VAEDecodeAudio用vae参数)/风格prompt模板(铁律: ref_images只做身份, 风格必须写prompt)/性能实测表(match vs max/音频参考拖慢3-4倍/243帧OOM)/长视频分段方案/7个已踩坑(frpc tcpMux=false EOF/SaveVideo崩溃缓存跳过/参考图损坏MD5校验)
 - v3.2.0 (2026-08-08): 新增 §10.6 Wan2.1 i2v + Video-Retalking 视频管线 — 全链路配置(umt5必须Comfy-Org repackaged/SaveVideo输出在images字段/单次81帧上限/分段续帧脚本)/19权重清单/口型铁律(face必须用Wan输出非LivePortrait)/权重中转链(gh-proxy 3.1MB/s)/MD5校验
 - v3.1.0 (2026-08-07): 全量部署验证后新增 §10.5 实战经验 — 网络通道矩阵(ghfast/modelscope/阿里云pytorch-wheels) + 12 个实测坑(PyPI torch=CPU版/Start-Process假启动/schtasks转义/bat%%2B/modelscope Path字段/Hub无create/URP2D脚本/MCP包复制/runInBackground小写/-help挂起) + 部署验证命令速查
 - v3.0.0 (2026-08-07): 对齐 GDD 09 第十一章(决策97/99/106) + 10-gpu-node-setup.md v1.0 — 新增 §7 guimei 侧 C:\ai 分阶段部署(含完成状态勾选) + §8 防呆三禁令/故障排查表; MCP 工具名更新为 mcp__unity__*(决策106 MCP for Unity 主通道); 健康检查加入 GPU/磁盘/驱动/C:\ai/电源; 记录 Windows 无 head/grep、GBK 乱码等实测坑
