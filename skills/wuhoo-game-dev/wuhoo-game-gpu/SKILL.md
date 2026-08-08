@@ -254,8 +254,40 @@ schtasks /run /tn wuhoo_comfy; curl http://127.0.0.1:8188/system_stats
 dir C:\ai\ComfyUI\models\checkpoints\sd_xl_base_1.0.safetensors  # 6,938,078,334 字节
 ```
 
+## 10.6 Wan2.1 i2v + Video-Retalking 视频管线（2026-08-08 全链路验证）
+
+> 链路: 正式立绘 → Wan2.1 i2v 分段续帧 → Video-Retalking 口型同步 → ffmpeg 合成 → WebDAV 上传 NAS
+> **铁律: Video-Retalking 的 face 输入必须用 Wan 输出视频, 不是 LivePortrait 产物!** 否则苏小小脸会被替换(用户实测出现"男人脸")。
+
+### Wan2.1 i2v 关键配置（ComfyUI 0.28, GPU 4070Ti 16GB）
+- 模型: `wan2.1-i2v-14b-480p-Q5_K_M.gguf` (UnetLoaderGGUF, weight_dtype=default) + `Wan2.1_VAE.pth` + **umt5 必须用 Comfy-Org repackaged `umt5_xxl_fp8_e4m3fn_scaled.safetensors`**（modelscope 的 pth 格式 ComfyUI 不认; 768维/4096维错误 = 编码器不对）
+- 参数: 832x480, length=81 (单次上限), fps=25, steps=20, cfg=6.0, euler/simple
+- **长视频方案**: 单次最多 81 帧=3.24s。9.73s 对白 → 3 段各 81 帧, 每段用上段尾帧作 start_image 续帧, 最后 concat。脚本: `/tmp/wan_multi_seg.py` (seed 递增避免重复)
+- 抽尾帧: `ffmpeg -y -sseof -0.1 -i seg.mp4 -frames:v 1 last.png` (Windows 无 tail, 用 findstr)
+- 耗时: 81帧约 25 分钟 (GPU 满载 100%, 9.8GB)
+- SaveVideo 输出在 ComfyUI 0.28 的 outputs 里是 `images` 字段 (animated=true), 不是 gifs/videos
+
+### Video-Retalking 配置
+- venv: `C:\ai\video-retalking\venv`, 推理: `inference.py --face <视频> --audio <wav> --outfile out.mp4 --tmp_dir p0 --LNet_batch_size 8`
+- 19 个权重文件在 `C:\ai\video-retalking-main\checkpoints\` (DNet/ENet/LNet/GFPGAN/GPEN-BFR-512/ParseNet/RetinaFace/face3d/shape_predictor/expression.mat/BFM 9件)
+- 音视频合成: `ffmpeg -y -i retalk.mp4 -i voice.wav -c:v libx264 -pix_fmt yuv420p -c:a aac -shortest -movflags +faststart final.mp4`
+- 口型质量依赖 face 视频清晰度——Wan 输出 832x480 直接可用
+
+### 权重中转链（GPU 无法直连 HF/Google）
+```
+云端新加坡: hf download → GitHub release (public repo, 需先 bootstrap commit)
+GPU: gh-proxy.com 前缀下载 (3.1MB/s, 比 ghfast 0.15MB/s 快 20x)
+兜底: HF 链接发给用户, 他家宽可能直连; 或 NAS WebDAV 中转 (10MB/s)
+```
+- 私有 repo 的 release 资产 GPU 无 token 拉取返回 404 → **必须 public**
+- 空 repo 不能发 release → 先提交 README
+
+### 素材一致性校验
+- 立绘/音频传到 GPU 后必须 MD5 校验: 云端 `md5sum`, GPU `certutil -hashfile X MD5 | findstr /v hash`
+
 ## 变更历史
 
+- v3.2.0 (2026-08-08): 新增 §10.6 Wan2.1 i2v + Video-Retalking 视频管线 — 全链路配置(umt5必须Comfy-Org repackaged/SaveVideo输出在images字段/单次81帧上限/分段续帧脚本)/19权重清单/口型铁律(face必须用Wan输出非LivePortrait)/权重中转链(gh-proxy 3.1MB/s)/MD5校验
 - v3.1.0 (2026-08-07): 全量部署验证后新增 §10.5 实战经验 — 网络通道矩阵(ghfast/modelscope/阿里云pytorch-wheels) + 12 个实测坑(PyPI torch=CPU版/Start-Process假启动/schtasks转义/bat%%2B/modelscope Path字段/Hub无create/URP2D脚本/MCP包复制/runInBackground小写/-help挂起) + 部署验证命令速查
 - v3.0.0 (2026-08-07): 对齐 GDD 09 第十一章(决策97/99/106) + 10-gpu-node-setup.md v1.0 — 新增 §7 guimei 侧 C:\ai 分阶段部署(含完成状态勾选) + §8 防呆三禁令/故障排查表; MCP 工具名更新为 mcp__unity__*(决策106 MCP for Unity 主通道); 健康检查加入 GPU/磁盘/驱动/C:\ai/电源; 记录 Windows 无 head/grep、GBK 乱码等实测坑
 - v2.0.0: 合并 gpu-ops + remote-env + gpu-batch(FUTURE)
