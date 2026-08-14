@@ -34,7 +34,7 @@ ssh -i ~/.ssh/hermes-gpu -p 2222 -o ServerAliveInterval=15 -o ConnectTimeout=10 
 | 项目 | 路径 (Windows) |
 |------|----------------|
 | miners-watch | C:\Users\haohaijiao\miners-watch (Unity 6000.5.4f1) |
-| guimei-lab | C:\ai\guimei-lab (Unity 6.2, 决策106, 未创建则先部署) |
+| guimei-lab | C:\ai\guimei-lab (Unity 6000.5.4f1, 与 miners-watch 同版本; 决策订正 2026-08-11 弃 6.2) |
 | AI 工具根 | C:\ai\ (ComfyUI/kohya_ss/LivePortrait, 短路径无中文) |
 
 ## 2. 健康检查清单（一键）
@@ -91,6 +91,21 @@ Pitfall: Windows cmd 无 head/tail——git 输出大时直接全量输出或用
 | 资源导入/场景组装 | mcp__unity__manage_asset / manage_scene / manage_gameobject |
 | 刷新资源 | mcp__unity__refresh_unity |
 | 截图 | mcp__unity__manage_camera 或 capture 相关 |
+| 切换活动实例 | mcp__unity__set_active_instance (Name@hash) |
+
+### 多实例切换（miners-watch ↔ guimei-lab 并存时, 2026-08-14 实测）
+
+两项目都装 mcp-for-unity 插件(都监听 6400, frp unity-mcp proxy 转发), MCP server 会记着上次连的实例。关一个开另一个后, execute_code 报错:
+`instance 'miners-watch@xxx' not found. Available instances: ['guimei-lab@xxx']`。处理:
+1. 从报错信息拿新实例名(Name@hash)
+2. `mcp__unity__set_active_instance` 传 `guimei-lab@xxx`
+3. execute_code 验证 `Application.dataPath` 指向目标项目
+
+### 退出 Unity（关编辑器）
+
+- `mcp__unity__manage_editor` **无 quit/exit 动作**(只有 play/pause/stop 等)
+- 用 execute_code 调 `UnityEditor.EditorApplication.Exit(0)`, 但 **safety_checks 默认会拦 `EditorApplication.Exit`**(Blocked pattern), 需 `safety_checks=false`
+- 退出前先 `if(scene.isDirty) EditorSceneManager.SaveOpenScenes()` 防丢场景改动
 
 ## 5. 场景 Author（GPU 专属操作）
 
@@ -160,8 +175,11 @@ pip install -r requirements.txt
 ```
 
 ### 阶段 5: Unity guimei-lab（远程可执行, 最耗时）
-- Unity Hub CLI 装 6.2 → 新建 URP 2D 项目 C:\ai\guimei-lab（无中文路径）
-- MCP: 决策106 = MCP for Unity(CoplayDev/unity-mcp, 47工具) 主通道; 备路 = miners-watch 的 Unity AI Assistant 插件(MCP Bridge)复用
+- 项目已建好(2026-08-14 实测): C:\ai\guimei-lab, 6000.5.4f1 + URP 2D(17.0.3) + MCP embed 包(com.coplaydev.unity-mcp) 就位
+- 启动(SSH 下 GUI 程序必须 schtasks 分离, 否则假启动):
+  `schtasks /create /tn wuhoo_guimei_lab /tr "\"C:\Program Files\Unity 6000.5.4f1\Editor\Unity.exe\" -projectPath C:\ai\guimei-lab" /sc once /st 00:00 /f & schtasks /run /tn wuhoo_guimei_lab`
+  (注意 /st 过去时间会警告但不影响 /run 强制运行; 首次加载几分钟, 验证标志=6400 端口 LISTENING + execute_code dataPath=C:/ai/guimei-lab/Assets)
+- MCP: 决策106 = MCP for Unity(CoplayDev/unity-mcp) 主通道; 备路 = miners-watch 的 Unity AI Assistant 插件(MCP Bridge)复用
 - Run In Background 勾上(Project Settings → Player, 防失焦暂停)
 - 验证: 云端 read_console → 0 errors
 
