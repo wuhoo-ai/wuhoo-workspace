@@ -165,6 +165,21 @@ DontDestroyOnLoad 对象 Awake() 时 additive 场景未加载 → FindObjectOfTy
 
 ### 低频（Unity 6 特有）
 
+#### P28: Unity 6 batchmode `-runTests` 静默失效(2026-08-19 guimei实测)
+**症状**: `-batchmode -runTests -testPlatform EditMode -testResults x.xml` 退出码0,但XML不生成、日志无任何测试痕迹——测试根本没跑。`-define UNITY_INCLUDE_TESTS`/`-executeMethod`组合也救不回来。
+**解法**: 自写执行器走 TestRunnerApi + `-executeMethod`,关键三点:
+1. 命令行**不带-quit**(由脚本自己调`EditorApplication.Exit(退出码)`)
+2. 等待结果用`EditorApplication.update`轮询,**严禁Thread.Sleep阻塞主线程**(与TestRunner死锁,测试永不触发)
+3. 测试asmdef**不要**写`defineConstraints:["UNITY_INCLUDE_TESTS"]`(batchmode下不满足,测试类编译不进dll,TypeCache显示0个TestAttribute)
+**结果约定**: 0=全绿 2=有失败 3=零测试;结果写文件而非Console(batchmode下Console.WriteLine不落盘)。
+参考实现: guimei仓库 `Unity/Assets/EditorTools/BatchTestRunner.cs`。
+
+#### P29: batchmode进PlayMode验证必须MonoBehaviour.Update驱动
+进入PlayMode触发domain reload,**静态订阅(EditorApplication.update等)全部清空**。静态轮询的验证逻辑会永远卡住(进程不死不退出)。解法:验证逻辑做成运行时MonoBehaviour,动态挂到场景对象(不SaveScene避免污染正式场景),由其Update计时→写结果文件→反射调`EditorApplication.Exit`。参考: guimei `Unity/Assets/Scripts/Combat/PlayModeWatcher.cs`。
+
+#### P30: GPU节点bat提交中文commit message乱码
+cmd默认GBK解析UTF-8的bat→message变乱码。bat文件必须:首行`chcp 65001`+文件本身UTF-8编码+CRLF换行(Linux写的bat经scp是LF,cmd解析会错位)。
+
 #### P21: ParticleSystemShapeArcMode 不存在
 Unity 6 移除了此 API。直接使用默认值。
 
