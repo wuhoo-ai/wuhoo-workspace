@@ -50,13 +50,13 @@
 - [x] GPU C:\ai\ref\UnityCsReference: git clone --depth=1 --branch 6000.5 (github直连恢复, 08-07通道矩阵已过时)
 - [x] guimei-codeup manifest.json 加 com.unity.2d.tilemap.extras 6.0.3, commit 0c62d82 push Codeup (pre-commit L1 门禁全过: GDD linter 71文档 0err + mark + dialogue)
 - [x] 电子书入库: docs/reference/unity-game-programming-patterns-ebook.pdf (11.8MB, %PDF-1.7 完整, commit 4bbf465)
+- [x] 新版电子书入库: docs/reference/design-patterns-solid-ebook.pdf (6.8MB, 2024 Unity6版, MD5 a6511f12 与NAS源一致, 2026-08-20)
 - [x] Unity-Technologies/skills clone 到 /tmp/unity-tech-skills (22个 skill)
 - [ ] 结论存档 (本文档) → commit push
 
 暂缓: 透光 shader 相关 (Graphics 仓库深读, 用户暂缓)
 待办:
 - Unity 编辑器下次打开 guimei-codeup 时解析 tilemap.extras (当前编辑器进程在跑, 外部改 manifest 需重载)
-- 新版电子书《Level up your code with design patterns and SOLID》(2024, Unity 6, 更多模式) 下载链接需表单, 未入库
 
 ## 四、Unity-Technologies/skills 适配评估 (待用户确认后落盘)
 
