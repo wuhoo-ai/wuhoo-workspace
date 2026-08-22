@@ -387,6 +387,24 @@ no western illustration style, no modern elements.
 6. **HF 动态模块缓存**(SYSTEM): `C:\WINDOWS\system32\config\systemprofile\.cache\huggingface\modules\transformers_modules\`——改源文件后必须删该目录缓存, 否则跑旧代码
 7. 定位坑时看 `C:\WINDOWS\system32\config\systemprofile\.cache\huggingface\modules\transformers_modules\SenseNova_hyphen_...\modeling_neo_chat.py`(trust_remote_code 动态加载的副本, 与节点目录源文件对应)
 
+## 10.9 frpc 服务化（NSSM, 2026-08-22 落地）
+
+> frpc 曾是"登录时计划任务+可见 cmd 窗口"——被误关窗口 = 隧道断（上次结果 0xC000013A Ctrl+C）。已服务化根治。
+
+### 现状（服务方式运行, 无需任何人工操作）
+- 位置: `C:\ai\frp\`（frpc.exe + frpc.toml, 自 Downloads 迁出; 旧目录 Downloads\frp_0.70.0_windows_amd64 可删）
+- 服务名: `frpc`（NSSM 2.24, `C:\ai\nssm.exe`; zip 已删, nssm.exe 保留）
+- 特性: 无窗口 ✅ 开机自启(SERVICE_AUTO_START) ✅ **崩溃/被杀自动重启**（AppExit Default Restart, 实测杀进程 15s 内拉起）✅
+- 常用命令: `nssm start/stop frpc` | `sc query frpc` | `sc failure` 由 NSSM 管理
+- 日志: `C:\ai\frp\frpc-service.log`（NSSM stdout/stderr）+ frpc.toml log.to = `C:\ai\frp\frpc.log`
+
+### 坑（全部实测）
+1. **frp 0.70 不能 sc 直注册服务**（`sc create frpc binPath= ...` + `sc failure`）→ 启动 1053 超时: frpc 不响应 SCM 协议（服务实例能连云端但 SCM 判失败, 会与手动实例冲突循环）。**必须 NSSM 包装**（frpc 作子进程, 无服务协议要求）
+2. **bat 里 `timeout /t N` 在 SSH 非交互环境报错** "Input redirection is not supported, exiting the process immediately" → 用 `ping 127.0.0.1 -n N >nul` 代替
+3. **改 frpc.toml 路径用 PowerShell -replace 易失败**: toml 里路径是字面双反斜杠（`C:\\Users\\...`）, 单反斜杠匹配不到 → 用 Python `s.replace()`（匹配 `\\\\` 双反斜杠文本）最稳
+4. **改 frpc 的顺序铁律**: 先建好新实例（服务）→ 最后才杀旧实例。杀 frpc = 断掉 SSH 隧道自身, 操作中断（本次 20:20 曾因此把会话切断, 服务没建完）
+5. 杀手动实例按 PID 或按路径过滤（`wmic process where "name='frpc.exe' and ExecutablePath like '%Downloads%'"`）, 勿误杀服务实例（同路径 C:\ai\frp 时按 PID）
+
 ## 变更历史
 
 - v3.5.0 (2026-08-22): §10.8 增补双轨 POC 验证结果(Z-Image 20s/张可用, SenseNova ~10min/张风格跑偏) + SenseNova U1.5 适配 7 坑(transformers 4.57.2 model_type bug/trust_remote_code 三连/config trust 字段/modeling 漏传 image_size/模型代码 9 py 完整性/HF SYSTEM 动态缓存/定位副本路径)
