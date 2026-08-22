@@ -354,7 +354,33 @@ no western illustration style, no modern elements.
 6. 完整版 243帧 OOM → 分段
 7. 音频参考拖慢采样 ~3-4 倍
 
+## 10.8 Z-Image + SenseNova U1.5 本地生图双轨（2026-08-22 部署验证）
+
+> 双轨 POC: Z-Image Turbo (通义, GGUF Q8) + SenseNova-U1.5-8B-MoT-Preview (商汤, GGUF Q4) 本地出图,
+> 走 ComfyUI GGUF 管线。权重从 NAS `/public/Backup/guimei-transfer/model/` WebDAV 拉取。
+
+### 部署状态
+- 模型: `z_image_turbo-Q8_0.gguf`(7.2GB)→`models/diffusion_models/`; `SenseNova-U1.5-8B-MoT-Preview-Q4_0-v2.gguf`(10.9GB)→`models/gguf/`; VAE `ae.safetensors`=GPU 已有 `zimage-ae.safetensors`(同一文件, 335,304,388 字节, 跳过); text encoder `Qwen3-4B-UD-Q5_K_XL.gguf` 已有
+- 节点: `ComfyUI_SenseNova_U1` (smthemex, gh-proxy 下载 161MB zip; 注册 `SenseNova_SM_Model`/`SenseNova_SM_Sampler`)
+- 依赖: diffusers + accelerate + **transformers>=4.57.1,<4.58.0**(transformers 5.x 不兼容节点; 已锁 4.57.2)
+- workflow 参考: NAS `zimage-gguf-workflow.json` → `ComfyUI/user/default/workflows/`(UNETLoader + SageAttention(KJNodes) + ModelSamplingAuraFlow shift=3)
+
+### 关键坑（2026-08-22 全部实测）
+1. **venv python 是 shim, wmic 会看到父子两个进程**——`C:\ai\ComfyUI\venv\Scripts\python.exe` 启动后会 spawn 真实解释器(`uv\python\cpython-3.11...\python.exe`)子进程, 命令行都含脚本名。**看到两个同名进程 ≠ 双实例**, 查 `ParentProcessId` 确认父子再判断。误杀 real 进程 = 下载中断(本日白下 7GB 的教训)
+2. **`set PYTHONUTF8=1` 会让 python 静默启动失败**(无任何输出, 退出码 1)——只设 `set PYTHONIOENCODING=utf-8` + `chcp 65001` 即可解决 GBK/emoji 崩溃
+3. **schtasks /ru SYSTEM 跑服务**: 需要先 `icacls <目录> /grant *S-1-5-18:(OI)(CI)F /T`(SYSTEM 默认无 C:\ai 写权限, 报 PermissionError); /ru 不带时默认当前 SSH 用户(hermes-agent)+"只使用交互式"限制 → **SSH 非交互登录下任务永不触发**(Last Result 267011=从未运行)
+4. **start_comfy8188.bat 会丢**(曾丢失导致 ComfyUI 无法重启): 已重建在 C:\ai\start_comfy8188.bat(SYSTEM 版), 日志 `C:\ai\ComfyUI\comfy8188.log`(SYSTEM 无 C:\ai 根写权限, 日志放 ComfyUI 目录内)
+5. **GPU 上的 pythonw 进程 = Hermes gateway**(`-m hermes_cli.main gateway run`)——**不是 ComfyUI!** 杀进程前必须 wmic 查 CommandLine, 别 taskkill 17688(会断 GPU Hermes 服务)
+6. SenseNova 节点 import 时 transformers auto_docstring 打印 emoji → GBK logger 崩溃(`UnicodeEncodeError \U0001f6a8`)→ 整个节点 IMPORT FAILED。修复 = bat 加 PYTHONIOENCODING=utf-8 后重启
+7. 大文件 WebDAV 下载正常速度 ~5MB/s(实测 4.7GB/16min); 用 Python urllib + Range resume + `.part` + 大小精确校验, 脚本模式见 dl_models.py 经验
+
+### 双轨 POC 验证要点（下载完成后）
+- Z-Image: UNETLoaderGGUF(z_image_turbo-Q8_0.gguf) + CLIPLoader(Qwen3-4B) + VAELoader(zimage-ae) + ModelSamplingAuraFlow(shift=3) + KSampler, 参考 zimage-gguf-workflow.json
+- SenseNova U1.5: SenseNova_SM_Model(gguf 路径) + SenseNova_SM_Sampler, count=8-9 文生图 / 4 图生图(MoT), 8GB 显存可跑
+
 ## 变更历史
+
+- v3.4.0 (2026-08-22): 新增 §10.8 Z-Image + SenseNova U1.5 本地生图双轨部署 — 模型/节点/依赖清单 + 7 个实测坑(venv shim 父子进程误判/PYTHONUTF8 静默失败/schtasks SYSTEM 需 icacls/交互式任务 SSH 不触发/start_comfy8188.bat 重建/pythonw=Hermes gateway 勿杀/GBK emoji 节点崩溃)
 
 - v3.3.0 (2026-08-08): 新增 §10.7 H3 (MiniMax-H3) Ref2VA 视频管线 — 部署关键(kitchen锁0.2.27/四件套权重/schtasks启动)/Ref2VA workflow要点(0.31复数容器/SaveVideo codec必填/VAEDecodeAudio用vae参数)/风格prompt模板(铁律: ref_images只做身份, 风格必须写prompt)/性能实测表(match vs max/音频参考拖慢3-4倍/243帧OOM)/长视频分段方案/7个已踩坑(frpc tcpMux=false EOF/SaveVideo崩溃缓存跳过/参考图损坏MD5校验)
 - v3.2.0 (2026-08-08): 新增 §10.6 Wan2.1 i2v + Video-Retalking 视频管线 — 全链路配置(umt5必须Comfy-Org repackaged/SaveVideo输出在images字段/单次81帧上限/分段续帧脚本)/19权重清单/口型铁律(face必须用Wan输出非LivePortrait)/权重中转链(gh-proxy 3.1MB/s)/MD5校验
