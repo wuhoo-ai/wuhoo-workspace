@@ -375,10 +375,21 @@ no western illustration style, no modern elements.
 7. 大文件 WebDAV 下载正常速度 ~5MB/s(实测 4.7GB/16min); 用 Python urllib + Range resume + `.part` + 大小精确校验, 脚本模式见 dl_models.py 经验
 
 ### 双轨 POC 验证要点（下载完成后）
-- Z-Image: UNETLoaderGGUF(z_image_turbo-Q8_0.gguf) + CLIPLoader(Qwen3-4B) + VAELoader(zimage-ae) + ModelSamplingAuraFlow(shift=3) + KSampler, 参考 zimage-gguf-workflow.json
-- SenseNova U1.5: SenseNova_SM_Model(gguf 路径) + SenseNova_SM_Sampler, count=8-9 文生图 / 4 图生图(MoT), 8GB 显存可跑
+- Z-Image: UNETLoaderGGUF(z_image_turbo-Q8_0.gguf) + CLIPLoaderGGUF(Qwen3-4B-UD-**Q6**_K_XL.gguf, type=lumina2) + VAELoader(zimage-ae) + ModelSamplingAuraFlow(shift=3) + KSampler(8步,cfg=1,euler/simple), 20s/张 1024²。**Q5_K_XL 必失败**(reshape 249M≠319M), 必须 Q6(modelscope unsloth/Qwen3-4B-GGUF 3.66GB)
+- SenseNova U1.5: SenseNova_SM_Model(gguf=文件名, diffusion_models=none, attn_backend=auto) + SenseNova_SM_Sampler(img_mode=interleave 文生图/edit 图编辑/vqa), ~10min/张(4图/次, MoT 慢)
+
+### SenseNova U1.5 适配坑（2026-08-22 实测, 4 处代码修改才能跑）
+1. transformers 4.57.2 bug: tokenization 加载 `_config.model_type` 对 dict 属性访问崩溃 → 模型目录 config.json `transformers_version` 改 "4.58.0" 绕过(该字段≤4.57.2 才触发 bug)
+2. trust_remote_code 三连: AutoConfig.from_pretrained / AutoTokenizer(改为 `Qwen2Tokenizer.from_pretrained`, AutoTokenizer 的 elif 分支不传 trust) / AutoModel.from_config 全部显式 `trust_remote_code=True`
+3. 模型目录 config.json 加 `"trust_remote_code": true`(config 级放行)
+4. **modeling_neo_chat.py bug: interleave_gen 调 `_t2i_predict_v` 漏传 image_size**(10 处)→ 补 `image_size=image_size`, 否则 `'NoneType' object is not subscriptable`
+5. 模型代码完整性: `SenseNova-U1.5-8B-MoT-Preview/` 目录需 9 个 py(从 `SenseNova/src/sensenova_u1/models/neo_unify/` 复制: configuration/modeling/conv 等)
+6. **HF 动态模块缓存**(SYSTEM): `C:\WINDOWS\system32\config\systemprofile\.cache\huggingface\modules\transformers_modules\`——改源文件后必须删该目录缓存, 否则跑旧代码
+7. 定位坑时看 `C:\WINDOWS\system32\config\systemprofile\.cache\huggingface\modules\transformers_modules\SenseNova_hyphen_...\modeling_neo_chat.py`(trust_remote_code 动态加载的副本, 与节点目录源文件对应)
 
 ## 变更历史
+
+- v3.5.0 (2026-08-22): §10.8 增补双轨 POC 验证结果(Z-Image 20s/张可用, SenseNova ~10min/张风格跑偏) + SenseNova U1.5 适配 7 坑(transformers 4.57.2 model_type bug/trust_remote_code 三连/config trust 字段/modeling 漏传 image_size/模型代码 9 py 完整性/HF SYSTEM 动态缓存/定位副本路径)
 
 - v3.4.0 (2026-08-22): 新增 §10.8 Z-Image + SenseNova U1.5 本地生图双轨部署 — 模型/节点/依赖清单 + 7 个实测坑(venv shim 父子进程误判/PYTHONUTF8 静默失败/schtasks SYSTEM 需 icacls/交互式任务 SSH 不触发/start_comfy8188.bat 重建/pythonw=Hermes gateway 勿杀/GBK emoji 节点崩溃)
 
