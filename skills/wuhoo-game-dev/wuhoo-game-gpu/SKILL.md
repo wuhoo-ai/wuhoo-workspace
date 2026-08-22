@@ -405,6 +405,12 @@ no western illustration style, no modern elements.
 4. **改 frpc 的顺序铁律**: 先建好新实例（服务）→ 最后才杀旧实例。杀 frpc = 断掉 SSH 隧道自身, 操作中断（本次 20:20 曾因此把会话切断, 服务没建完）
 5. 杀手动实例按 PID 或按路径过滤（`wmic process where "name='frpc.exe' and ExecutablePath like '%Downloads%'"`）, 勿误杀服务实例（同路径 C:\ai\frp 时按 PID）
 
+### 启动项排查（2026-08-22, 重启后黑窗口来源）
+- **曾存在 `启动文件夹\frpc.exe.lnk`**（指向旧 Downloads 路径, 登录弹黑窗口+双重启动）→ 已删。启动文件夹现仅: Hermes_Gateway.vbs（sh.Run ...,0 隐藏窗口, 保留）+ v2rayN.exe.lnk（GUI 代理, 用户工具, 保留）
+- **wuhoo_comfy_autostart（Logon+Hidden:False+直接跑 bat）= 弹黑窗口** → 已禁用（ComfyUI 由 wuhoo_comfy8188 SYSTEM 任务负责自启, 冗余）
+- 查启动项三板斧: `schtasks /query /fo csv` + 启动文件夹 dir + `reg query ...\Run`; 触发器用 PowerShell `Get-ScheduledTask | %{ $_.Triggers.CimClass.CimClassName }` 筛 Boot/Logon; 窗口判定看 `Settings.Hidden` + 动作是否 bat/console exe; SYSTEM 任务窗口在会话0不显示, Hidden:False 也无妨
+- wuhoo_comfy8188 是 SYSTEM 运行（会话0无可见窗口）✅; 第三方 Logon 任务（ZJRC 签名/ASUS/WPS/OneDrive/Edge）均为 GUI/托盘, 不干扰 frpc
+
 ## 变更历史
 
 - v3.5.0 (2026-08-22): §10.8 增补双轨 POC 验证结果(Z-Image 20s/张可用, SenseNova ~10min/张风格跑偏) + SenseNova U1.5 适配 7 坑(transformers 4.57.2 model_type bug/trust_remote_code 三连/config trust 字段/modeling 漏传 image_size/模型代码 9 py 完整性/HF SYSTEM 动态缓存/定位副本路径)
