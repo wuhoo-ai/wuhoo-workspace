@@ -47,7 +47,7 @@ ssh -i ~/.ssh/hermes-gpu -p 2222 haohaijiao@localhost "
   echo === FRPC === && tasklist | findstr frpc
   echo === GIT === && cd C:\Users\haohaijiao\miners-watch && git branch --show-current && git status --short && git log --oneline -1
   echo === GPU === && nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu,temperature.gpu,driver_version --format=csv,noheader
-  echo === DISK === && wmic logicaldisk get caption,freespace
+  echo === DISK === && powershell -NoProfile -Command "Write-Host ([math]::Round((Get-PSDrive C).Free/1GB,1))"  # wmic 已移除(2026-08-30实测: "'wmic' 不是内部或外部命令"), Win11 24H2+ 默认无 wmic, 用 PowerShell 取磁盘
   echo === AI_DIR === && if exist C:\ai (dir C:\ai /b) else (echo C:\ai NOT_EXISTS)
   echo === POWER === && powercfg /getactivescheme | findstr /i GUID
 "
