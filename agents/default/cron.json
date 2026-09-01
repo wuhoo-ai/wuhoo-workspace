@@ -163,44 +163,5 @@
     "skill": null,
     "skills": [],
     "workdir": null
-  },
-  {
-    "base_url": null,
-    "context_from": null,
-    "deliver": "local",
-    "enabled": true,
-    "enabled_toolsets": [
-      "terminal",
-      "messaging"
-    ],
-    "id": "468cf061ea5b",
-    "model": null,
-    "model_snapshot": "qwen3.8-flash",
-    "monitor_script": "gpu_tunnel_watch.sh",
-    "monitor_state": {
-      "last_output_hash": "aede09bbe262bcbbf63c6accad50a73f8841dffec0b31d8bb9f154cec446f311",
-      "last_changed_at": "2026-09-01T16:46:11.571956+08:00"
-    },
-    "monitor_url": null,
-    "name": "GPU隧道复活哨兵",
-    "no_agent": false,
-    "origin": null,
-    "prompt": "你是 GPU 隧道复活哨兵。当前状态在下面的 monitor diff 里。\n\n如果状态不是 DEPLOY_READY（即 ssh/28642 仍 down）：只回复一行 \"still down\"，不做任何操作。\n\n如果状态变为 DEPLOY_READY（GPU frpc 隧道已恢复，2222=SSH、28642=GPU api_server 均已监听），依次完成端云部署收尾（资产已全部预置于云端 ~/.hermes/scripts/ 与 ~/.hermes/deploy/）：\n1. 推送: scp -i ~/.ssh/hermes-gpu -P 2222 -o StrictHostKeyChecking=no /home/admin/.hermes/scripts/gpu_deploy4.py /home/admin/.hermes/scripts/gpu_launch_deploy4.ps1 /home/admin/wuhoo-workspace/agents/gpu-worker/setup_gpu_worker.py haohaijiao@localhost:C:/ai/deploy/ （setup 改名传为 setup_gpu_worker.py；失败重试 2 次；命令输出用 tr -d '\\r' 处理）\n2. WMI 分离执行: ssh haohaijiao@localhost -p 2222 -i ~/.ssh/hermes-gpu \"powershell -NoProfile -ExecutionPolicy Bypass -File C:\\ai\\deploy\\gpu_launch_deploy4.ps1\"（注意 launch ps1 内部启动的命令是 C:\\ai\\python311\\python.exe C:\\ai\\deploy\\gpu_deploy4.py；如路径不符则现场校正）\n3. 轮询 C:\\ai\\logs\\gpu_deploy4.log 至 DEPLOY4_DONE（最多 5 分钟）；验收行: EXTRACT_DONE、SETUP_RC=0、API8642=UP\n4. 云端冒烟: hermes peer dm gpu \"回执测试:只回复OK\"；GPU 反向: ssh 执行 C:\\Users\\haohaijiao\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\hermes.exe -p gpu-worker peer dm cloud \"回执测试:只回复OK\"\n5. 用 send_message 把结果摘要（成功项/失败项/下一步）发到微信 home channel，然后用 cronjob remove 把本哨兵任务(468cf061ea5b)删除\n6. 某步连续失败 3 次则停止并微信汇报失败详情；禁止自行发明替代传输通道（止损铁律：隧道恢复后入向大流量仍禁，只传小脚本没问题）",
-    "provider": null,
-    "provider_snapshot": "custom",
-    "repeat": {
-      "times": null,
-      "completed": 5
-    },
-    "schedule": {
-      "kind": "interval",
-      "minutes": 10,
-      "display": "every 10m"
-    },
-    "schedule_display": "every 10m",
-    "script": null,
-    "skill": null,
-    "skills": [],
-    "workdir": null
   }
 ]
