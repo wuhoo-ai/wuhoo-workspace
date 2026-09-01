@@ -1,7 +1,7 @@
 ---
 name: wuhoo-game-gpu
 description: "Use for GPU node ops: health, MCP, sync, remote env."
-version: 3.0.0
+version: 3.6.0
 author: Wuhoo
 license: MIT
 metadata:
@@ -22,7 +22,7 @@ metadata:
 - MCP 连接断开
 - 需要远程 Unity 操作（Author/截图/PlayMode）
 - 代码同步（云端→GPU 或反向）
-- guimei 管线部署（ComfyUI/kohya_ss/LivePortrait/guimei-lab）
+- guimei 管线部署（ComfyUI/kohya_ss/guimei-lab; LivePortrait/Spine 已被决策110否决, 见§7废弃标记）
 
 ## 1. 连接信息
 
@@ -35,7 +35,7 @@ ssh -i ~/.ssh/hermes-gpu -p 2222 -o ServerAliveInterval=15 -o ConnectTimeout=10 
 |------|----------------|
 | miners-watch | C:\Users\haohaijiao\miners-watch (Unity 6000.5.4f1) |
 | guimei-lab | C:\ai\guimei-lab (Unity 6000.5.4f1, 与 miners-watch 同版本; 决策订正 2026-08-11 弃 6.2) |
-| AI 工具根 | C:\ai\ (ComfyUI/kohya_ss/LivePortrait, 短路径无中文) |
+| AI 工具根 | C:\ai\ (ComfyUI/kohya_ss, 短路径无中文; LivePortrait 已否决不部署) |
 
 ## 2. 健康检查清单（一键）
 
@@ -47,7 +47,7 @@ ssh -i ~/.ssh/hermes-gpu -p 2222 haohaijiao@localhost "
   echo === FRPC === && tasklist | findstr frpc
   echo === GIT === && cd C:\Users\haohaijiao\miners-watch && git branch --show-current && git status --short && git log --oneline -1
   echo === GPU === && nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu,temperature.gpu,driver_version --format=csv,noheader
-  echo === DISK === && powershell -NoProfile -Command "Write-Host ([math]::Round((Get-PSDrive C).Free/1GB,1))"  # wmic 已移除(2026-08-30实测: "'wmic' 不是内部或外部命令"), Win11 24H2+ 默认无 wmic, 用 PowerShell 取磁盘
+  echo === DISK === && fsutil volume diskfree C:  # wmic 已被 Windows 移除(2026-08-30实测 \"'wmic' 不是内部或外部命令\"); fsutil 内置可用, 输出含字节数(中文行 GBK 乱码但数字可读); PowerShell 备用: powershell -NoProfile -Command \"Write-Host ([math]::Round((Get-PSDrive C).Free/1GB,1))\"
   echo === AI_DIR === && if exist C:\ai (dir C:\ai /b) else (echo C:\ai NOT_EXISTS)
   echo === POWER === && powercfg /getactivescheme | findstr /i GUID
 "
@@ -132,7 +132,8 @@ Hermes → Author Deep Cave Scene
 > 状态标记: [x]=已完成 / [ ]=待执行。C:\ai 不存在 = 全部未开始 (2026-08-07 实测)。
 
 ### 阶段 0: 账号与支付（用户手动, 30分钟）
-火山方舟 API Key(Seedream/Seedance) / 即梦会员 / 哩布哩布+吐司(模型下载) / Spine 购买(esotericsoftware.com, 国际信用卡)。Key 交 Hermes 存配置不入 git。
+火山方舟 API Key(Seedream/Seedance) / 即梦会员 / 哩布哩布+吐司(模型下载)。Key 交 Hermes 存配置不入 git。
+~~Spine 购买~~ —— **决策110 否决**(2026-08-10): 纯皮影美学+Unity 2D Animation 部件补间唯一, Spine 不再需要。
 
 ### 阶段 1: GPU 节点基础（远程可执行）
 - [x] frp 隧道（已有, 矿工守夜在用）
@@ -167,12 +168,9 @@ git clone https://github.com/bmaltais/kohya_ss
 ```
 - 长训练禁用 SSH 直挂: `Start-Process -WindowStyle Hidden` 分离或计划任务
 
-### 阶段 4: LivePortrait（立绘说话, 远程可执行）
-```powershell
-cd C:\ai
-git clone https://github.com/KwaiVGI/LivePortrait
-pip install -r requirements.txt
-```
+### 阶段 4: LivePortrait —— 【已废弃, 禁止部署】
+~~立绘说话(远程可执行): git clone KwaiVGI/LivePortrait~~
+**决策110 否决**(2026-08-10): 表情=换头茬+活眼活口(纯皮影美学), 不用 LivePortrait/网格畸变类立绘驱动; 过场视频保留 Minimax H3/HappyHorse(见 §10.7), 与本阶段无关。
 
 ### 阶段 5: Unity guimei-lab（远程可执行, 最耗时）
 - 项目已建好(2026-08-14 实测): C:\ai\guimei-lab, 6000.5.4f1 + URP 2D(17.0.3) + MCP embed 包(com.coplaydev.unity-mcp) 就位
@@ -183,14 +181,15 @@ pip install -r requirements.txt
 - Run In Background 勾上(Project Settings → Player, 防失焦暂停)
 - 验证: 云端 read_console → 0 errors
 
-### 阶段 6: Spine（用户手动, 需购买）
-官网下载试用 → 导入分层角色图绑定导出。Spine JSON/atlas = Hermes 可程序化格式, GUI 精修是唯一手动残留。
+### 阶段 6: Spine —— 【已废弃, 不再执行】
+~~官网下载试用 → 导入分层角色图绑定导出~~
+**决策110 否决**(2026-08-10): 绑定走 Unity 2D Animation 硬关节(锚点配对制), Spine 购买/部署/导出全链路废弃。
 
 ### 阶段 7: 端到端验证（周末与用户协作）
-- [ ] 三版方向图(即梦 vs 本地 SDXL vs 万相), 用户拍板色彩方向
-- [ ] 「桥上超度」AI 视频初试(万相/火山 Seedance)
-- [ ] 吴守桥锚定卡 → 立绘说话 demo
-- [ ] 回收待验证: Spine 支付 / godmodeai / Mirage2 / 模型站下载速度
+- [x] 三版方向图(即梦 vs 本地 SDXL vs 万相), 用户拍板色彩方向 —— 已完成(风格圣经 v3.1 验收, 决策110 后为皮影部件图基准)
+- [x] 「桥上超度」AI 视频初试 —— 已过时(决策110/113-115: 过场走 H3/HappyHorse, 见 §10.7)
+- [ ] 吴守桥锚定卡 → 立绘说话 demo —— LivePortrait 路线已废(决策110), 如重启需按换头茬+活眼活口重立题
+- [ ] 回收待验证: ~~Spine 支付~~(已废) / godmodeai / Mirage2 / 模型站下载速度
 
 ### 常驻服务存活铁律
 - 所有常驻服务不要挂在 SSH 会话启动（断连即死）: 用户本地启动 / 计划任务 / `Start-Process -WindowStyle Hidden`
@@ -413,6 +412,7 @@ no western illustration style, no modern elements.
 
 ## 变更历史
 
+- v3.6.0 (2026-09-01): §2 健康检查磁盘命令 wmic→`fsutil volume diskfree C:`(wmic 已被 Windows 移除, 健康检查 cron 每轮失败兜底的实测故障, PowerShell 降为备用); §7 清理决策110 否决的部署残留: 阶段4 LivePortrait/阶段6 Spine 标废弃禁部署, 阶段0 移除 Spine 购买, 阶段7 验证清单标注过时项
 - v3.5.0 (2026-08-22): §10.8 增补双轨 POC 验证结果(Z-Image 20s/张可用, SenseNova ~10min/张风格跑偏) + SenseNova U1.5 适配 7 坑(transformers 4.57.2 model_type bug/trust_remote_code 三连/config trust 字段/modeling 漏传 image_size/模型代码 9 py 完整性/HF SYSTEM 动态缓存/定位副本路径)
 
 - v3.4.0 (2026-08-22): 新增 §10.8 Z-Image + SenseNova U1.5 本地生图双轨部署 — 模型/节点/依赖清单 + 7 个实测坑(venv shim 父子进程误判/PYTHONUTF8 静默失败/schtasks SYSTEM 需 icacls/交互式任务 SSH 不触发/start_comfy8188.bat 重建/pythonw=Hermes gateway 勿杀/GBK emoji 节点崩溃)
