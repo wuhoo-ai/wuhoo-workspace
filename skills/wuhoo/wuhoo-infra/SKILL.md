@@ -8,6 +8,19 @@ category: wuhoo
 
 # Wuhoo 基础设施运维
 
+## Hermes 多 Profile 拓扑 (2026-09-01 拆分后)
+
+单 gateway multiplex（default 独占微信+api_server）：default=总控/运维/RSS简报；trader=投资15 cron+wuhoo 投资技能（external_dirs→skills/wuhoo）；gamedev=游戏线+GPU健康cron+Unity MCP（external_dirs→skills/wuhoo-game-dev）。
+铁律：
+- 次级 profile 的 .env/config **严禁** WEIXIN_* 与 api_server 绑定——multiplex 会整个跳过该 profile（SecondaryPortBindingConfigError）；微信单 token 不可两 profile 共用。
+- default 的 `~/.hermes/skills/feeds-lib/` 用 symlink 引 workspace 原件（wuhoo-news-rss/infra/football-predictor），external_dirs 已清空。
+- 次级 profile cron 由 default gateway 的 ticker 代跑；`hermes -p X cron status` 显示 "gateway not running" 是误报，以 default 侧为准。
+- cron 漂移钉定：drift_skip 报错时 `hermes -p X cron edit <ID> --provider token-plan --model qwen3.8-flash`。
+- GPU 健康检查 job 9eb1f08c4100 挂 monitor 脚本 `~/.hermes/scripts/gpu_health_monitor.sh`（确定性分桶输出，状态无变化 0 LLM 唤醒）。
+- Dashboard 服务：systemd --user `hermes-dashboard.service`，0.0.0.0:9119，basic auth（配置在 config.yaml dashboard.basic_auth）。
+- 回退基线：`config.yaml.bak.split-20260901` / `cron/jobs.json.bak.split-20260901`。
+- 重启 gateway 会牵连 Unity MCP 子进程（现挂 gamedev 域）：重启后按下方"GPU 节点"节验证。
+
 ## RSSHub 容器恢复
 
 容器 `Up` 但端口不监听（`ss -tlnp | grep 1200` 为空）→ 内部进程崩溃 → 重建容器一次解决：
@@ -120,6 +133,16 @@ frps -c /home/admin/frp/frps.toml
 2. **端口占用导致 systemd 启动失败**：旧 frps 进程未完全退出时，systemd 会反复 restart 失败。先用 `fuser 7000/tcp` 查占用进程并 `kill`，再 `systemctl --user restart frps`。
 3. **SSH 认证**：必须指定 `-i ~/.ssh/hermes-gpu`，默认密钥不匹配 Windows 侧 authorized_keys。
 4. frps binary 位置：`/usr/local/bin/frps`（v0.61.0），由 root 安装。
+
+## GPU 节点健康检查
+
+cron 心跳任务：`~/.hermes/guimei-gpu-health.md`（追加，无异常静默 [SILENT]）。
+
+**Pitfall (2026-08-31)**: Windows 新版已移除 `wmic`（"'wmic' 不是内部或外部命令"），磁盘查询改用 PowerShell：
+```bash
+ssh -i ~/.ssh/hermes-gpu -p 2222 haohaijiao@localhost "powershell -NoProfile -Command \"[math]::Round((Get-PSDrive C).Free/1GB,1)\""
+```
+其他检查命令：`nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu,temperature.gpu --format=csv,noheader`（GPU）、`curl -s http://127.0.0.1:8188/system_stats | findstr /i cuda`（ComfyUI）、`sc query frpc | findstr STATE`（应含 RUNNING，被杀 15s 自愈）。
 
 ## Gateway 维护陷阱
 
