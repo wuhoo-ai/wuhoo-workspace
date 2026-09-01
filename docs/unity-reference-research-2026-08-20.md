@@ -62,7 +62,7 @@
 
 官方 22 个 agent skill, 与 guimei 相关分级:
 
-**建议改编为 wuhoo-game-* 家族 (git托管 ~/wuhoo-workspace/skills/wuhoo-game-dev/):**
+**建议改编为 wuhoo-game-* 家族 (git托管 ~/wuhoo-workspace/skills/gamedev/):**
 1. **wuhoo-unity-headless** (新) ← unity-cli + unity-package-management
    - 无头装包 Client API + 不 -quit 模式 (已实证: 官方 skill 明确不要手改 manifest)
    - Unity CLI: 装编辑器/建项目/跑构建/驱动运行中编辑器
