@@ -21,6 +21,7 @@ RUNTIME_KEYS = {'last_run_at', 'last_status', 'last_error', 'next_run_at', 'fail
                 'fire_claim', 'drift_alerted', 'last_delivery_error', 'state', 'paused_at',
                 'paused_reason', 'created_at', 'run_count', 'last_context_hash',
                 'monitor_last_hash', 'notepad', 'execution_id'}
+# continuity / monitor_script / script 等声明性字段保留(曾因此被剥掉)
 SCRIPTS_ALLOW = {
     'default': [],
     'trader': ['check_cn_trading_day.py', 'check_us_trading_day.py'],
