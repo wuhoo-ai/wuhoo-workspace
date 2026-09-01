@@ -6,7 +6,7 @@ ws_dir = C:\ai\wuhoo-workspace (解压后的代码包)
 import os, sys, shutil, subprocess
 
 WS = sys.argv[1] if len(sys.argv) > 1 else r'C:\ai\wuhoo-workspace'
-HERMES_HOME = os.path.expandvars(r'%LOCALAPPDATA%\hermes')
+HERMES_HOME = os.environ.get('GPU_HERMES_ROOT') or os.path.expandvars(r'%LOCALAPPDATA%\hermes')
 PROFILE = os.path.join(HERMES_HOME, 'profiles', 'gpu-worker')
 import yaml
 
@@ -87,6 +87,12 @@ inject = {
     'API_SERVER_ENABLED': 'true',
     'API_SERVER_KEY': open(os.path.join(HERMES_HOME, 'deploy', 'gpu_api_key.txt')).read().strip(),
 }
+# GPU 默认 .env 可能没有 token-plan key → 回退读部署包
+if not inject['TOKEN_PLAN_API_KEY']:
+    alt = os.path.join(r'C:\ai\deploy', 'token_plan_key.txt')
+    if os.path.exists(alt):
+        inject['TOKEN_PLAN_API_KEY'] = open(alt).read().strip()
+        print('token_plan key 取自部署包回退文件')
 for k, v in inject.items():
     if v:
         lines.append(f'{k}={v}')

@@ -58,6 +58,11 @@ def pull():
         src = f'{home}/SOUL.md'
         if os.path.exists(src):
             shutil.copy2(src, f'{dst}/soul.md')
+        # 记忆备份(2026-09-01 补: 拆分时未留备份, 现在入版本管理)
+        for mf in ('MEMORY.md', 'USER.md'):
+            msrc = f'{home}/memories/{mf}'
+            if os.path.exists(msrc):
+                shutil.copy2(msrc, f'{dst}/{mf.lower().replace(".md", "")}.md')
         # cron (剥离运行时字段)
         cj = clean_jobs(f'{home}/cron/jobs.json')
         if cj is not None:
