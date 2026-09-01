@@ -12,7 +12,9 @@ import yaml
 
 def hermes_cli(args):
     exe = os.path.join(HERMES_HOME, 'hermes-agent', 'venv', 'Scripts', 'hermes.exe')
-    return subprocess.run([exe] + args, capture_output=True, text=True)
+    # Windows 下 hermes 输出 UTF-8, 默认 GBK 解码会炸线程 → 显式 utf-8 + replace
+    return subprocess.run([exe] + args, capture_output=True, text=True,
+                          encoding='utf-8', errors='replace')
 
 # 1) 建 profile(若缺) — 用命令行(无 -p 即 default home)
 if not os.path.isdir(PROFILE):
@@ -27,8 +29,9 @@ if os.path.exists(soul_src):
     print('SOUL applied')
 
 # 3) 读 default 配置作底, 重配模型/provider/技能/网关
-dcfg = yaml.safe_load(open(os.path.join(HERMES_HOME, 'config.yaml')))
-cfg = yaml.safe_load(open(os.path.join(PROFILE, 'config.yaml')))
+# Windows 默认 GBK 编码读 UTF-8 的 yaml 会 UnicodeDecodeError → 显式 utf-8
+dcfg = yaml.safe_load(open(os.path.join(HERMES_HOME, 'config.yaml'), encoding='utf-8'))
+cfg = yaml.safe_load(open(os.path.join(PROFILE, 'config.yaml'), encoding='utf-8'))
 
 cfg['timezone'] = 'Asia/Shanghai'
 # 模型栈: 与云端一致的 token-plan(键在 .env)
@@ -75,10 +78,12 @@ print('config written')
 # 4) .env: 注入 TOKEN_PLAN_API_KEY / API_SERVER_KEY(GPU 本机 api_server 鉴权), 清 weixin
 from pathlib import Path
 envp = Path(PROFILE) / '.env'
-lines = [l for l in envp.read_text().splitlines() if not l.startswith(('WEIXIN_', 'API_SERVER_'))]
+lines = []
+if envp.exists():
+    lines = [l for l in envp.read_text(encoding='utf-8').splitlines() if not l.startswith(('WEIXIN_', 'API_SERVER_'))]
 envf = Path(HERMES_HOME) / '.env'
 denv = {}
-for l in envf.read_text().splitlines():
+for l in envf.read_text(encoding='utf-8').splitlines():
     if '=' in l and not l.strip().startswith('#'):
         k, v = l.split('=', 1)
         denv[k] = v
@@ -96,7 +101,7 @@ if not inject['TOKEN_PLAN_API_KEY']:
 for k, v in inject.items():
     if v:
         lines.append(f'{k}={v}')
-envp.write_text('\n'.join(lines) + '\n')
+envp.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 print('env written')
 
 # 5) peer cloud 注册(GPU→云端 default 的 8642, key=云端 default 的)
