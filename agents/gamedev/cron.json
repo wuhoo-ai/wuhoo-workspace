@@ -1,0 +1,37 @@
+[
+  {
+    "base_url": null,
+    "context_from": null,
+    "deliver": "local",
+    "enabled": true,
+    "enabled_toolsets": null,
+    "id": "9eb1f08c4100",
+    "model": "qwen3.8-flash",
+    "model_snapshot": null,
+    "monitor_script": "gpu_health_monitor.sh",
+    "monitor_state": {
+      "last_output_hash": "5a1cdd73baa46d0a36678c7c095cdf032bb6e17fa95b0c2bf80c0fc5b020d548",
+      "last_changed_at": "2026-09-01T13:20:11.647813+08:00"
+    },
+    "name": "guimei GPU/MCP 健康检查",
+    "no_agent": false,
+    "origin": null,
+    "prompt": "检查 guimei GPU 节点与 Unity MCP 健康状态，异常记录到 /home/admin/.hermes/guimei-gpu-health.md（追加模式，不覆盖；文件不存在则创建）。\n\n## 检查项（每项独立执行，一项失败不影响其他）\n1. SSH 隧道: `ssh -i ~/.ssh/hermes-gpu -p 2222 -o ConnectTimeout=10 haohaijiao@localhost \"echo OK\"`（frpc 已 NSSM 服务化，掉线会自愈；连续 2 次失败才记录异常并提示用户检查机器）\n2. GPU 显存/温度: `ssh ... \"nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu,temperature.gpu --format=csv,noheader\"`\n3. ComfyUI: `ssh ... \"curl -s http://127.0.0.1:8188/system_stats | findstr /i cuda\"`（无输出=ComfyUI 挂了，记录）\n4. frpc 服务: `ssh ... \"sc query frpc | findstr STATE\"`（应含 RUNNING）\n5. 磁盘: `ssh ... \"wmic logicaldisk where DeviceID='C:' get FreeSpace\"`（<40GB 告警）\n6. 云端 frps: tail /home/admin/frp/frps.log 看最近 client 心跳\n\n## 记录格式（追加一行）\n`YYYY-MM-DD HH:MM CST | SSH=OK/FAIL | GPU=used/total MiB | Comfy=OK/DOWN | frpc=RUNNING/STOPPED | 磁盘=XGB | 异常: 描述`\n\n无异常也记录（心跳用），但不要推送微信（deliver=local 静默）。异常（SSH 连续失败/Comfy 挂/frpc 停/磁盘告警）才在回复中显著提示。",
+    "provider": "token-plan",
+    "provider_snapshot": null,
+    "repeat": {
+      "times": null,
+      "completed": 142
+    },
+    "schedule": {
+      "kind": "interval",
+      "minutes": 120,
+      "display": "every 120m"
+    },
+    "schedule_display": "every 120m",
+    "script": null,
+    "skill": null,
+    "skills": [],
+    "workdir": null
+  }
+]

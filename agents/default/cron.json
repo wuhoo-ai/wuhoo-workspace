@@ -1,0 +1,132 @@
+[
+  {
+    "base_url": null,
+    "context_from": null,
+    "deliver": "local",
+    "enabled": false,
+    "enabled_toolsets": null,
+    "id": "2fa60288dd91",
+    "model": null,
+    "name": "weixin-health-check",
+    "origin": null,
+    "prompt": "检查 Hermes Gateway 微信通道状态：\n1. 运行 `hermes gateway status` 检查 gateway 是否 running\n2. 搜索最近 24 小时的 agent.log 中是否有 `Session expired` 或 `errcode.*-14` 错误: `grep -E \"Session expired|errcode.*-14\" ~/.hermes/logs/agent.log | tail -5`\n3. 检查 `~/.hermes/weixin/accounts/` 下是否有 .json 凭证文件\n4. 如果有异常（gateway 停止 或 session expired），提醒用户执行: `bash ~/.hermes/scripts/refresh-weixin.sh`\n5. 如果一切正常，简要报告即可，不需要长篇输出",
+    "provider": null,
+    "repeat": {
+      "times": null,
+      "completed": 60
+    },
+    "schedule": {
+      "kind": "cron",
+      "expr": "0 */12 * * *",
+      "display": "0 */12 * * *"
+    },
+    "schedule_display": "0 */12 * * *",
+    "script": null,
+    "skill": null,
+    "skills": [],
+    "workdir": null
+  },
+  {
+    "base_url": null,
+    "context_from": [
+      "self"
+    ],
+    "deliver": "origin",
+    "enabled": true,
+    "enabled_toolsets": null,
+    "id": "d6d628cc68a1",
+    "model": null,
+    "name": "RSS资讯简报推送",
+    "no_agent": false,
+    "origin": null,
+    "prompt": "执行 RSS 资讯采集与简报生成，严格按 wuhoo-rss-briefing skill 的标准流程：\n\n1. 拉取最新 RSS 资讯（所有源）：\n   cd ~/wuhoo-workspace/skills/default/wuhoo-news-rss\n   /usr/bin/python3.11 src/fetcher.py --fetch\n   echo \"--- RSS 拉取完成 ---\"\n\n2. 使用 SQLite 直查 news.db，48 小时窗口，按 pub_date DESC：\n   python3.11 -c \"\n   import sqlite3\n   DB = '/home/admin/wuhoo-workspace/skills/default/wuhoo-news-rss/data/news.db'\n   conn = sqlite3.connect(DB)\n   cur = conn.cursor()\n   cur.execute(\\\"\\\"\\\"SELECT id, feed_name, title, summary, link, category, pub_date\n       FROM articles WHERE fetched_at >= datetime('now', '-48 hours')\n       ORDER BY pub_date DESC LIMIT 500\\\"\\\"\\\")\n   rows = cur.fetchall()\n   print(f'Total articles in 48h window: {len(rows)}')\n   for r in rows[:5]:\n       print(f'  [{r[5]}] {r[2][:60]} | {r[1]}')\n   conn.close()\n   \"\n\n3. 按 wuhoo-rss-briefing skill 的四类分类，每类 TOP 5：\n   - 🔬 科技/AI\n   - 💰 财经/投资\n   - 🏛️ 宏观政策\n   - 🏭 产业/公司\n\n   采用评分制分类（关键词匹配 + database category 加权），严格应用 NOISE_PATTERNS 过滤噪声（白宫安全事件、节假日新闻、娱乐、体育、阿拉伯语等），事件级去重（同事件多源报道合并）。\n\n4. 最终输出格式（纯文本，无 Markdown）：\n📰 Wuhoo RSS 资讯简报 | YYYY-MM-DD\n══════════════════════════════════\n数据采集: N 源 | 新增 M 条 | 48 小时窗口\n\n【分类名】共 X 条，展示 TOP 5\n1. 标题 — 来源 | YYYY-MM-DD\n   摘要（50 字以内）\n2. ...\n（不足 5 条，实际展示 X 条）\n────────────────────────────────\n\n底部标注：总文章数 / 来源数 / 采集时间\n\n若某分类无符合条件的文章，写明\"本时段无相关文章\"。",
+    "provider": null,
+    "repeat": {
+      "times": null,
+      "completed": 90
+    },
+    "schedule": {
+      "kind": "cron",
+      "expr": "0 8 * * *",
+      "display": "0 8 * * *"
+    },
+    "schedule_display": "0 8 * * *",
+    "script": null,
+    "skill": "wuhoo-news-rss",
+    "skills": [
+      "wuhoo-news-rss",
+      "wuhoo-rss-briefing"
+    ],
+    "workdir": null
+  },
+  {
+    "base_url": null,
+    "context_from": null,
+    "deliver": "local",
+    "enabled": false,
+    "enabled_toolsets": [
+      "terminal",
+      "file"
+    ],
+    "id": "3d769a6a6225",
+    "model": null,
+    "name": "系统健康日报",
+    "no_agent": false,
+    "origin": null,
+    "prompt": "执行系统综合健康检查，输出简洁报告。所有检查项独立执行，一项失败不影响其他。\n\n1. OpenD 状态检查：\n   ss -tlnp 2>/dev/null | grep -q 11111 && echo \"✅ OpenD 运行中\" || echo \"❌ OpenD 未运行！需启动: bash ~/wuhoo-workspace/scripts/start_opend.sh start\"\n\n2. RSSHub 状态检查：\n   podman ps --format \"{{.Names}} {{.Status}}\" 2>/dev/null | grep rsshub || echo \"⚠️ RSSHub 未检测到\"\n\n3. 磁盘使用率：\n   df -h / | awk 'NR==2{printf \"磁盘: %s used / %s total (%s)\", $3, $2, $5}'\n\n4. 内存使用：\n   free -h | awk '/^Mem:/{printf \"内存: %s used / %s total (%.0f%%)\", $3, $2, $3/$2*100}'\n\n5. CPU 负载：\n   uptime | awk -F'load average:' '{print \"CPU负载:\" $2}'\n\n6. Hermes 进程状态：\n   pgrep -f \"hermes\" | wc -l | xargs echo \"Hermes 进程数:\"\n\n7. 最近错误扫描（~/wuhoo-workspace/ 和 ~/.hermes/ 下最近 24h 的日志）：\n   find ~/.hermes/logs/ ~/wuhoo-workspace/logs/ -name \"*.log\" -mmin -1440 2>/dev/null | head -5 | while read f; do\n     errs=$(grep -ci \"error\\|traceback\\|fail\" \"$f\" 2>/dev/null || echo 0)\n     [ \"$errs\" -gt 0 ] && echo \"  $(basename $f): $errs errors\"\n   done\n\n8. 各个 Cron 最近一次运行汇总：\n   列出已知的 cron 名称和预期频率，提示需要手动查看具体状态。\n\n最终输出格式：\n🏥 系统健康日报 | YYYY-MM-DD HH:MM\n════════════════════════════════\nOpenD:        ✅/❌ [说明]\nRSSHub:       ✅/⚠️ [说明]\n磁盘:         XX% used (XXG/XXG)\n内存:         XX% used (XXG/XXG)\nCPU:          1m/5m/15m 负载\nHermes:       N 进程运行中\n日志错误:     N 条 (过去24h)\n════════════════════════════════\n[如有异常，附加处理建议]",
+    "provider": null,
+    "repeat": {
+      "times": null,
+      "completed": 29
+    },
+    "schedule": {
+      "kind": "cron",
+      "expr": "0 9 * * *",
+      "display": "0 9 * * *"
+    },
+    "schedule_display": "0 9 * * *",
+    "script": null,
+    "skill": null,
+    "skills": [],
+    "workdir": null
+  },
+  {
+    "base_url": null,
+    "context_from": null,
+    "deliver": "local,origin",
+    "enabled": false,
+    "enabled_toolsets": [
+      "terminal",
+      "file",
+      "web"
+    ],
+    "id": "c1e357b05736",
+    "model": null,
+    "name": "WC2026 每日全量预测",
+    "no_agent": false,
+    "origin": {
+      "platform": "weixin",
+      "chat_id": "o9cq804F5CLA_CCnVkVftOlzExYg@im.wechat",
+      "chat_name": null,
+      "thread_id": null
+    },
+    "prompt": "执行 WC2026 每日全量预测管线（淘汰赛阶段）。\n\ncd /home/admin/wuhoo-workspace/skills/default/wuhoo-football-predictor\n\n## 第1步：数据保鲜检查\npython3.11 scripts/check_football_freshness.py --quiet 2>&1\n# 如有严重过期项，标注警告但继续\n\n## 第2步：采集赛果（回溯前2天）\npython3.11 scripts/collect_results.py --check 2>&1\n# 如有遗漏→web_search→--manual 录入\n# 检查 schedule 中 date < today 且不在 results 中的比赛\n\n## 第3步：更新 ELO\npython3.11 scripts/update_elo_from_results.py 2>&1\n\n## 第4步：伤病扫描\nweb_search 搜索明日所有参赛队伍最新伤病\n\n## 第5步：天气采集\npython3.11 scripts/fetch_weather.py --tomorrow 2>&1\n\n## 第6步：明日预测（v5.5引擎默认启用）\npython3.11 scripts/predict_by_date.py --tomorrow --news 2>&1\n\n## 第7步：生成单场PDF（v5.10.1增强版优先）\n# 先用增强版 gen_qf_pdfs.py（QF/SF/F阶段，含完整10模块）\npython3.11 scripts/gen_qf_pdfs.py 2>&1\n# 同时运行传统版 generate_single_match_pdf.py 作为补充\npython3.11 scripts/generate_single_match_pdf.py --date tomorrow --all 2>&1\n\n## 第8步：递归推演\npython3.11 scripts/bracket_recursive.py --sims 5000 2>&1\n\n## 第9步：推演报告PDF\npython3.11 scripts/gen_bracket_pdf.py 2>&1\n\n## 第10步：串关建议（如有≥2场）\npython3.11 scripts/lottery_parlay.py 2>&1 || echo \"串关跳过\"\n\n## 第11步：推送（单场PDF优先，30s间隔）\n# 发送所有QF_*.pdf + bracket_recursive_v510.pdf\n# 每个PDF用MEDIA:标签发送，间隔≥30秒\n# 推送摘要：胜平负/xG/Top5比分/冠军概率",
+    "provider": null,
+    "repeat": {
+      "times": null,
+      "completed": 9
+    },
+    "schedule": {
+      "kind": "cron",
+      "expr": "30 14 * * *",
+      "display": "30 14 * * *"
+    },
+    "schedule_display": "30 14 * * *",
+    "script": null,
+    "skill": "wuhoo/wuhoo-football-predictor",
+    "skills": [
+      "wuhoo/wuhoo-football-predictor"
+    ],
+    "workdir": "/home/admin/wuhoo-workspace/skills/default/wuhoo-football-predictor"
+  }
+]
