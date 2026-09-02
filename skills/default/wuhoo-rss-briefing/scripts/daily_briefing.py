@@ -152,7 +152,7 @@ NOISE_PATTERNS = [
     'works better in the app',                        # HN 泛评论 (app vs web 争论, 非新闻事件)
     'dw users on life',                               # 德国之声系列特稿 (民众生活软内容, 非新闻事件)
     # 2026-09-02 新增 — BBC Business 家庭金钱软内容 / 消费省钱软文误入财经 TOP (同类: money disagre/plug-in solar)
-    'lend me £10k', 'financial favouritism', 'cheaper meals out', 'soft launches and late sittings',
+    'lend me £10k', 'financial favourit', 'cheaper meals out', 'soft launches and late sittings',
     # 2026-09-02 新增 — IT之家消费电子发售挤占产业/公司 TOP (同类: vgn鼠标/外设; 米家冰箱/制冰机/漫步者音箱/HKC手柄)
     '米家.*(首销|发售|开售)', '漫步者.*(首销|发售|开售)', '猎弦', '绝梦',
     'ankidroid',                                      # HN 小众 App 捐赠链接政策变动 (低信号, 非新闻事件)
