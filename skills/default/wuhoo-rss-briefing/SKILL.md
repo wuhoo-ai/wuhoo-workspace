@@ -324,11 +324,18 @@ return best
 - **NOISE_PATTERNS 模式必须全小写（2026-09-01）**：`is_noise` 先 `text.lower()` 再 `re.search(p, tl)`，含大写的模式（如 `IT早报`）对已小写文本静默失效（re 默认大小写敏感），导致过滤不生效。新增模式一律全小写（中文不受影响，仅拉丁字母注意）。已同步 scripts/daily_briefing.py。
 - **IT早报 日更聚合栏目（2026-09-01）**：IT之家"IT早报 0830"标题聚合 5+ 条资讯（长鑫LPDDR6/小米折叠/华为三折叠…），hot_score 高（多关键词命中）挤占产业/公司 TOP5，非单一新闻事件。NOISE_PATTERNS 补 `it早报`（同类早餐FM/fm-radio）。已同步 scripts/daily_briefing.py。
 - **summary 尾部未闭合标签片段（2026-08-25）**：IT之家 summary 残留 `<spa`（`<[^>]+>` 因无 `>` 匹配不掉）。clean_html 补 `re.sub(r'</?[A-Za-z][^>]*$', '', t)`。
+- **重点事件保底插入机制落地脚本（2026-09-02）**：文档 2026-08-09 即记录 Hassabis 案例（大事件 hot 分不足被 TOP5 截断），但 scripts/daily_briefing.py 一直缺失该机制。本次实现 `PRIORITY_EVENTS = [(regex, 主题)]`：TOP5 已含该事件则跳过，否则从该主题全量事件中取 hot 最高版本替换 TOP5 末位。首个启用规则：苹果 CEO 换任（库克→特努斯，8 条报道 hot 仅 6，被 12+ 分条目挤出）。
+- **实体级 key 新增（2026-09-02）**：`claude_fable_51`（Anthropic 发布 Claude Fable 5.1/Mythos 5.1，HN+IT之家+Verge+TechCrunch+华尔街见闻 5 源合并；此前 HN 英文标题与中文源标题指纹不同不合并）；`apple_ceo_transition`（`(ternus|特努斯)|(tim cook|库克).*(final message|parting|告别|farewell|executive chair|最后一天)`，覆盖告别信/首份备忘录/身价/卸任 8 条）；`apple_mac_ai_demand`（Mac mini/Studio 提前发布，注意 IT之家标题写作 "mini / Studio" 需 `mini\s*/\s*studio` 变体）；`ftc_amazon_surcharge`（FTC 起诉亚马逊广告乱收费，TechCrunch+Verge+Engadget+Ars 4 源，`(ftc.*amazon|amazon.*ftc).*(advert|surcharg|overcharg|rigging)`）。已同步 scripts/daily_briefing.py。
+- **NOISE_PATTERNS 新增（2026-09-02）**：BBC Business 家庭金钱软内容（`lend me £10k`/`financial favouritism`，同类 money disagre/asking couples）、消费省钱软文（`cheaper meals out`/`soft launches and late sittings`）、信用卡退款科普（`refund when using your credit card`，category=财经 +3 加权误入财经 TOP）、IT之家消费电子发售（`米家.*(首销|发售|开售)`/`漫步者.*(首销|发售|开售)`/`猎弦`/`绝梦`，同类 vgn 鼠标/外设；注意米家制冰机不匹配旧 `米家冰箱`，需用 `米家.*(首销|发售|开售)`）、`ankidroid`（HN 小众 App 捐赠政策）、`fortrea`（SA 单股分析）。已同步 scripts/daily_briefing.py。
+- **trade war 归宏观政策（2026-09-02）**：分类特殊规则从 `trade deal|trade talks|trade agreement|贸易协议|贸易协定` 扩展 `trade war|贸易战`（BBC Business "US-Canada trade war" 此前因 category=财经 +3 落入财经/投资）。已同步 scripts/daily_briefing.py。
+- **BBC 中文纯拉丁 byline 残留清理（2026-09-02）**：摘要截断后可能只剩 "Getty Images" 等 credit（拉丁 credit 正则需后续 CJK lookahead，无正文时不匹配）。clean_summary BBC 中文分支补 `re.fullmatch(r'[A-Za-z\s/&.\-]{1,50}', s)` → 置空。已同步 scripts/daily_briefing.py。
+- **代表文章同分中文标题优先（2026-09-02）**：pick_representative 排序键补第三位 `bool(re.search(r'[\u4e00-\u9fff]', title))`（文档 2026-08-10 OpenAI Astra 案例要求中文标题优先展示）。已同步 scripts/daily_briefing.py。
 
 ## 版本
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.11 | 2026-09-02 | ENTITY_KEYS 加 claude_fable_51（5源）/apple_ceo_transition（苹果CEO换任 8条）/apple_mac_ai_demand（mini/Studio 变体）/ftc_amazon_surcharge（4源）；实现 PRIORITY_EVENTS 重点事件保底插入（替换 TOP5 末位）；分类规则 trade war/贸易战 → 宏观政策 +3；NOISE 补 BBC 家庭金钱软文/信用卡退款科普/IT之家消费电子发售（米家·漫步者·猎弦·绝梦）/ankidroid/fortrea；BBC 中文纯拉丁 credit 残留置空；pick_representative 同分中文标题优先；同步 scripts/daily_briefing.py |
 | 1.10 | 2026-08-31 | ENTITY_KEYS 加 warsh_jackson_hole（沃什杰克逊霍尔首秀放鹰 39 条报道未合并占满财经 TOP5）/iceland_eu（冰岛欧盟公投）/anthropic_ruling（Anthropic 黑名单裁决）；NOISE 补 spend too much on/works better in the app/dw users on life；BBC 中文摘要日期变体 `^\s*\d{4}年...阅读时间` 前缀清理（前导空格容错）；同步 scripts/daily_briefing.py |
 | 1.9 | 2026-08-29 | 知乎日报 feed 级过滤（FEED_NOISE_RE 加知乎日报，科普文章"概率的本质"无日期误入财经 TOP5）；NOISE 补 gta/grand theft auto（GTA6 预告/泄露娱乐内容误入产业/公司 TOP5）；同步 scripts/daily_briefing.py |
 | 1.8 | 2026-08-28 | NOISE 补 back to school/uniform costs（BBC Business 返校消费软文误入财经 TOP5）；同步 scripts/daily_briefing.py |
