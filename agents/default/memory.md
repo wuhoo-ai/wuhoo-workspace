@@ -15,3 +15,7 @@ LLM链路(09-01拍板,09-02改名): provider名 token-plan→qwen(端点不变),
 游戏项目命名铁律(用户2026-09-01两次强调): 项目名只写作"guimei"(拼音),不存在"归魅"两个汉字,禁止在文档/kanban卡/文件名中自造中文名。Kanban: guimei/invest 两板已建, default 配 kanban 工具集(新会话生效); CLI 用法坑见 kanban-orchestrator 技能(--board 是全局参数放子命令前)
 §
 GPU改造部署(09-01晚完成主体, 09-02配置同步): gpu-worker profile+独立网关(gw_gpuworker_restart.bat, WMI拉起)+api_server 8642; 云→GPU经frp 28642(peer dm实测通); GPU→云 28643未持久化已断, 用户拍板暂缓; GPU网关重启坑: schtasks拉不起InteractiveToken任务(267009), 用WMI Win32_Process.Create+HERMES_HOME显式(gw_gpuworker_restart.bat); 09-02发现旧网关UNCLEANLY退出(SIGKILL/OOM, lifecycle_ledger记录)→8642无监听, WMI重启恢复; 09-02 GPU gpu-worker模型链路已与云端一致(qwen主+deepseek兜底), .env补DEEPSEEK_API_KEY+去重TOKEN_PLAN_API_KEY; wmic已从Win11移除→Get-CimInstance替代
+§
+系统体检(09-02): trader 15个投资cron自07-01全部有意暂停(非丢失,trader空转,恢复需逐个resume+钉模型); dashboard 9119公网开放+basic_auth弱口令H%emersAgent待拍板; api_server 8642公网安全组未开(peer实际走frp localhost:28642, config public_url失真); 大文本微信投递(64KB简报)会触iLink限流失败——判读法见hermes-fleet-ops §11
+§
+用户要审计 worker 完整推理过程(09-02 battle卡): 从执行 profile 的 state.db messages 表导出 md(思考+工具调用+返回)入 review 目录 commit 三端给路径; 卡"无产出"先区分诊断期 vs 停滞(heartbeat+文件mtime+工作区diff 三查联合判读)

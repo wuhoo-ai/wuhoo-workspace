@@ -11,7 +11,7 @@
     "monitor_script": "gpu_health_monitor.sh",
     "monitor_state": {
       "last_output_hash": "60df4b4433fa676d6b271392689e662036c47679dc863e678f8b0887d8799c72",
-      "last_changed_at": "2026-09-02T01:32:19.078720+08:00"
+      "last_changed_at": "2026-09-02T23:51:50.262252+08:00"
     },
     "name": "guimei GPU/MCP 健康检查",
     "no_agent": false,
@@ -21,7 +21,7 @@
     "provider_snapshot": null,
     "repeat": {
       "times": null,
-      "completed": 148
+      "completed": 160
     },
     "schedule": {
       "kind": "interval",
