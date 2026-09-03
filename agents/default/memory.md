@@ -19,3 +19,11 @@ GPU改造部署(09-01晚完成主体, 09-02配置同步): gpu-worker profile+独
 系统体检(09-02): trader 15个投资cron自07-01全部有意暂停(非丢失,trader空转,恢复需逐个resume+钉模型); dashboard 9119公网开放+basic_auth弱口令H%emersAgent待拍板; api_server 8642公网安全组未开(peer实际走frp localhost:28642, config public_url失真); 大文本微信投递(64KB简报)会触iLink限流失败——判读法见hermes-fleet-ops §11
 §
 用户要审计 worker 完整推理过程(09-02 battle卡): 从执行 profile 的 state.db messages 表导出 md(思考+工具调用+返回)入 review 目录 commit 三端给路径; 卡"无产出"先区分诊断期 vs 停滞(heartbeat+文件mtime+工作区diff 三查联合判读)
+§
+guimei管线方向拍板中(09-03): 用户否52件分件拼装(拼接感/精修依赖/token贵/舍本逐末), 帕累托标准=传统味+表现力+AI舒适OPC; 已论证方案B'=A-pose整身定妆图→程序化切10-14主身大块→现有锚点+RigBuilder铰链重挂→覆盖层5-8件→表情Sprite Swap不变; Spine纯蒙皮被否(权重绑定GUI活非OPC, 皮影语汇=铰链刚体非柔体, 与决策110一致); idle四层/battle动画逻辑可复用; wsq battle v2.1渲染验收+idle执行卡已冻结; 试点卡(吴守桥定妆图1张→切块→idle重挂→帧差+用户目检)待批
+§
+web_search故障根因(09-03已定位未修): hermes-agent上游d6773cf2已删tavily后端, config残留backend: tavily→报no registered provider; brave插件注册名=brave-free且读BRAVE_SEARCH_API_KEY(.env只有旧名BRAVE_API_KEY); 修复命令待用户批准(审批超时): cp .env备份+sed改名BRAVE_API_KEY→BRAVE_SEARCH_API_KEY + hermes config set web.backend brave-free + extract_backend firecrawl(keyless ring), 执行后必实测search+extract各一次
+§
+guimei路线决策(09-03拍板): B'=A-pose整身定妆图→程序化切10-14大块→现有锚点/RigBuilder铰链树复用→覆盖层5-8(武器/面具)→表情换头茬不变; 皮影语汇=刚体铰链非蒙皮, Spine蒙皮对比待用户有额度时触发; 吴守桥battle v2.1渲染验收+idle执行卡冻结, 52件资产冻结保留; 试点卡暂停; battle两卡均timed_out于60轮迭代上限→续跑必须切"先渲1帧试看"级小卡, 程序验收(帧差/画像)测不了审美, 视觉闸门=用户看帧; 备忘=guimei/docs/route-decision-2026-09-03.md(commit已落, 未push)
+§
+web_search修复(09-03): 上游8/30删Tavily后端(d6773cf2, keyless ring=exa/parallel/firecrawl/keenable), config残留tavily→报no registered provider; 修复=backend brave-free + extract firecrawl + .env BRAVE_API_KEY改名BRAVE_SEARCH_API_KEY + env_passthrough同步; 已实测通; 旧TAVILY_API_KEY/plugins/web/tavily空目录为上游删除残留
