@@ -132,7 +132,9 @@ NOISE_PATTERNS = [
     '敘利亞', '叙利亞', '爆炸',
     '交管台海', '陸委會', '海峽論壇', '饒慶鈴',
     '汉光', '漢光', '演习', '演習',
-    'man united', 'man utd', 'chelsea', 'liverpool fc', 'transfer news', 'nba', 'nfl',
+    'man united', 'man utd', 'chelsea', 'liverpool fc', 'transfer news', r'\bnba\b', r'\bnfl\b',
+    # 2026-09-06: 体育缩写必须词边界! 裸词 'nfl' 子串命中 "co[nfl]ict" → 所有含 conflict 的战争/宏观英文报道被误滤
+    # (BBC Business 柴油价历史新高 hot=22 死于 "the Iran conflict"; 同批 nba 一并加边界)
     'apple is getting this wrong',
     'hyrox', 'fitness craze',
     'full confidence',
@@ -158,6 +160,8 @@ NOISE_PATTERNS = [
     'ankidroid',                                      # HN 小众 App 捐赠链接政策变动 (低信号, 非新闻事件)
     'refund when using your credit card',             # BBC Business 信用卡退款科普 (category=财经 加权误入财经 TOP)
     'fortrea',                                        # Seeking Alpha 单股分析 (Fortrea Holdings 中盘CRO, 低信号)
+    # 2026-09-05 新增 — 少数派"派早报"日更聚合栏目 (同类: IT早报/早餐FM/fm-radio, 每日多资讯打包非单一事件)
+    '派早报',
 ]
 
 def is_noise(text):
@@ -205,6 +209,7 @@ KEYWORDS = {
         '谈判','协议','条约','签证','移民','immigration','战争','冲突','conflict','导弹',
         '核','nuclear','军事','military','国防','defense','军队','地缘','geopolitical',
         '台湾','台海','南海','东海','朝鲜','伊朗','iran','俄罗斯','russia','乌克兰','ukraine',
+        '伊朗战争','美伊','油价','石油','oil price','diesel','柴油','能源价格','霍尔木兹','燃料价格','fuel price',
         '以色列','israel','巴勒斯坦','中东','中美','中欧','中俄','贸易','trade','出口管制',
         'export control','补贴','subsidy','反倾销','世贸','wto','imf','峰会','summit','g7','g20',
         '气候','climate','碳排放','碳中和','经济','economy',
@@ -292,6 +297,12 @@ ENTITY_KEYS = [
     (re.compile(r'(mac mini|mac studio|mini\s*/\s*studio)', re.I), 'apple_mac_ai_demand'),
     # 2026-09-02: FTC 起诉亚马逊广告乱收费 (TechCrunch+Verge+Engadget+Ars 4源同事件)
     (re.compile(r'(ftc.*amazon|amazon.*ftc).*(advert|surcharg|overcharg|rigging)', re.I), 'ftc_amazon_surcharge'),
+    # 2026-09-03: Google 发布 Gemini 3.8 Flash/Flash Cyber (DeepMind 官方+HN+IT之家×2+Verge+Ars+华尔街见闻×2+第一财经 9行8源; 此前 HN 英文标题与中文源不合并拆占 TOP5 两条)
+    (re.compile(r'gemini\s*3\.?\s*8', re.I), 'gemini_38_flash'),
+    # 2026-09-05: ChatGPT/Claude/Grok/Gemini 四大 AI 服务同时宕机 (09-04 事件, Solidot+Ars Tech+HN 4源, 此前 Solidot 新闻版与 HN Ask 版拆占科技/AI TOP5 两条)
+    (re.compile(r'(openai|chatgpt|claude|grok|gemini).*(simultaneously|同时|downtime|outage|宕机|下线|故障)|(simultaneously|同时|downtime|outage|宕机|下线|故障).*(openai|chatgpt|claude|grok|gemini)', re.I), 'ai_service_outage'),
+    # 2026-09-06: 美伊战争推高美国柴油价至历史新高 (BBC hot22/NYT/FT/美联社 6源同事件, 此前关键词表无油价词全部落未匹配 640 条)
+    (re.compile(r'diesel.*(record|all[- ]?time|new high|新高|纪录)|(record|all[- ]?time|new high|新高|纪录).*diesel', re.I), 'diesel_record'),
 ]
 
 def entity_key(title, summary):

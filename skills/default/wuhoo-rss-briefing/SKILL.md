@@ -330,11 +330,18 @@ return best
 - **trade war 归宏观政策（2026-09-02）**：分类特殊规则从 `trade deal|trade talks|trade agreement|贸易协议|贸易协定` 扩展 `trade war|贸易战`（BBC Business "US-Canada trade war" 此前因 category=财经 +3 落入财经/投资）。已同步 scripts/daily_briefing.py。
 - **BBC 中文纯拉丁 byline 残留清理（2026-09-02）**：摘要截断后可能只剩 "Getty Images" 等 credit（拉丁 credit 正则需后续 CJK lookahead，无正文时不匹配）。clean_summary BBC 中文分支补 `re.fullmatch(r'[A-Za-z\s/&.\-]{1,50}', s)` → 置空。已同步 scripts/daily_briefing.py。
 - **代表文章同分中文标题优先（2026-09-02）**：pick_representative 排序键补第三位 `bool(re.search(r'[\u4e00-\u9fff]', title))`（文档 2026-08-10 OpenAI Astra 案例要求中文标题优先展示）。已同步 scripts/daily_briefing.py。
+- **Gemini 3.8 Flash 发布实体级 key（2026-09-03）**：DeepMind 官方发布 Gemini 3.8 Flash/Flash Cyber，9 行 8 源（HN/IT之家×2/Verge/Ars/华尔街见闻×2/DeepMind/第一财经），HN 英文标题与中文源指纹不合并，拆成两条占科技/AI TOP5 的第 1、4 位，且把 Claude Fable 5.1 [5源] 挤出 TOP5。修复：ENTITY_KEYS 加 `gemini\s*3\.?\s*8 → gemini_38_flash`（48h 窗口内 Gemini 3.8 相关即该发布事件）。已同步 scripts/daily_briefing.py。
+- **四大 AI 服务同时宕机实体级 key（2026-09-05）**：09-04 ChatGPT/Claude/Grok/Gemini 几乎同时故障（Solidot 新闻版"四大 AI 模型同时下线"+Ars Technica "rare overlapping downtime"+HN Ask 版分散），Solidot 与 HN Ask 版拆占科技/AI TOP5 两条。修复：ENTITY_KEYS 加 `(openai|chatgpt|claude|grok|gemini).*(simultaneously|同时|downtime|outage|宕机|下线|故障)` 双向 → ai_service_outage（合并后 [8源]）。同批 NOISE 补 `派早报`（少数派日更聚合栏目，同类 IT早报/早餐FM，3 条挤占产业/公司 TOP5）。已同步 scripts/daily_briefing.py。
+- **NOISE 体育缩写裸词必须词边界（2026-09-06 严重）**：NOISE_PATTERNS 里的 `'nfl'`（美国橄榄球缩写）作为正则裸词做子串匹配，**"co[nfl]ict" 含 nfl** → 所有含 conflict 的战争/冲突英文报道（BBC/FT/NYT 宏观高频词）被静默过滤！实测 BBC Business 柴油价历史新高（hot=22）死于 summary "the Iran conflict"，修复后 48h 过滤后总数 1748→1761（救回 13 条含 conflict 文章，宏观政策 +8 条）。修复：`'nfl'`→`r'\bnfl\b'`、`'nba'`→`r'\bnba\b'`。**经验：英文缩写类噪声词一律写词边界正则**（同 2026-08-05 英文关键词词边界教训）。
+- **能源价格类事件无关键词全落未匹配（2026-09-06）**：美伊战争推高美国柴油价至历史新高（BBC hot22+NYT+FT+美联社 6 条同事件）标题/摘要无财经宏观词 → classify 全 0 → 落 640 条未匹配池，任何主题 TOP5 都不显示。修复：宏观政策表补 `油价/石油/oil price/diesel/柴油/能源价格/美伊/伊朗战争/霍尔木兹/燃料价格/fuel price`；ENTITY_KEYS 加 `diesel.*(record|all[- ]?time|new high|新高|纪录)` → diesel_record（4 唯一源合并 [4源]，BBC 22 分代表进财经/投资 TOP1）。已同步 scripts/daily_briefing.py。
 
 ## 版本
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.14 | 2026-09-06 | **严重修复**: NOISE 体育缩写裸词 `'nfl'` 子串命中 "co[nfl]ict" → 所有含 conflict 的战争/宏观英文报道被误滤（BBC Business 柴油价历史新高 hot=22 死于 "the Iran conflict"，实测救回 13 条含 conflict 文章）→ 改词边界 `r'\bnfl\b'`/`r'\bnba\b'`；宏观表补能源价格词（油价/石油/oil price/diesel/柴油/美伊/霍尔木兹）；ENTITY_KEYS 加 diesel_record（BBC/NYT/FT/美联社 4 源合并）；同步 scripts/daily_briefing.py |
+| 1.13 | 2026-09-05 | ENTITY_KEYS 加 ai_service_outage（09-04 ChatGPT/Claude/Grok/Gemini 同时宕机 Solidot+Ars+HN 拆占科技/AI TOP5 两条 → 合并 [8源]）；NOISE 补 派早报（少数派日更聚合栏目）；同步 scripts/daily_briefing.py |
+| 1.12 | 2026-09-03 | ENTITY_KEYS 加 gemini_38_flash（Gemini 3.8 Flash 发布 9行8源不合并拆占科技/AI TOP5 两条并挤出 Claude Fable [5源]）；同步 scripts/daily_briefing.py |
 | 1.11 | 2026-09-02 | ENTITY_KEYS 加 claude_fable_51（5源）/apple_ceo_transition（苹果CEO换任 8条）/apple_mac_ai_demand（mini/Studio 变体）/ftc_amazon_surcharge（4源）；实现 PRIORITY_EVENTS 重点事件保底插入（替换 TOP5 末位）；分类规则 trade war/贸易战 → 宏观政策 +3；NOISE 补 BBC 家庭金钱软文/信用卡退款科普/IT之家消费电子发售（米家·漫步者·猎弦·绝梦）/ankidroid/fortrea；BBC 中文纯拉丁 credit 残留置空；pick_representative 同分中文标题优先；同步 scripts/daily_briefing.py |
 | 1.10 | 2026-08-31 | ENTITY_KEYS 加 warsh_jackson_hole（沃什杰克逊霍尔首秀放鹰 39 条报道未合并占满财经 TOP5）/iceland_eu（冰岛欧盟公投）/anthropic_ruling（Anthropic 黑名单裁决）；NOISE 补 spend too much on/works better in the app/dw users on life；BBC 中文摘要日期变体 `^\s*\d{4}年...阅读时间` 前缀清理（前导空格容错）；同步 scripts/daily_briefing.py |
 | 1.9 | 2026-08-29 | 知乎日报 feed 级过滤（FEED_NOISE_RE 加知乎日报，科普文章"概率的本质"无日期误入财经 TOP5）；NOISE 补 gta/grand theft auto（GTA6 预告/泄露娱乐内容误入产业/公司 TOP5）；同步 scripts/daily_briefing.py |
