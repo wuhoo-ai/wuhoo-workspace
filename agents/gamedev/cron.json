@@ -10,8 +10,8 @@
     "model_snapshot": null,
     "monitor_script": "gpu_health_monitor.sh",
     "monitor_state": {
-      "last_output_hash": "0757d5cc085e94ecf2f8e2bc66099c134d78afaecc4cffb2697a7b0bcb83f496",
-      "last_changed_at": "2026-09-05T14:26:38.869999+08:00"
+      "last_output_hash": "8915e1f1c605d92d5e9590f943185ab953ce0d64521beb0625242ae2cb7b1cfb",
+      "last_changed_at": "2026-09-08T00:42:57.778712+08:00"
     },
     "name": "guimei GPU/MCP 健康检查",
     "no_agent": false,
@@ -21,7 +21,7 @@
     "provider_snapshot": null,
     "repeat": {
       "times": null,
-      "completed": 208
+      "completed": 220
     },
     "schedule": {
       "kind": "interval",
