@@ -14,6 +14,9 @@ metadata:
 
 > 2026-08-20 建立。改编自 Unity-Technologies/skills 官方 sprite-editor skill,
 > 面向 guimei 皮影部件管线(决策110: 部件集→AI拆分→装配 全链路)。
+>
+> 2026-09-03 路线升级(决策117): 皮影角色改为 B' 大块铰链——主身 10–14 大块 + 5–8 覆盖层,
+> 不再批量处理 52 件细部件; pivot/切块按大块铰链点设置。
 
 ## 核心事实
 
@@ -50,7 +53,7 @@ var spriteRects = provider.GetSpriteRects();
 
 ## 皮影部件管线(guimei)
 
-1. AI 出图 → 部件集(头/身/臂/腿 分层, 见 wuhoo-game-art 资产卡)
+1. AI 出 1 张 A-pose 整身定妆图 → 程序化切 10–14 主身大块 + 5–8 覆盖层(见 wuhoo-art-pipeline B' 主线)
 2. 批量导入 + 统一 PPU/过滤模式(批处理脚本一次跑完)
 3. 部件切割 + 骨骼锚点 pivot 统一
 4. Sprite Swap 装配(2D Animation, 见 UnityCsReference U2DRuntime — 查询 wuhoo-unity-reference)

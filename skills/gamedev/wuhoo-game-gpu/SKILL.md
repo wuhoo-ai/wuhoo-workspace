@@ -1,7 +1,7 @@
 ---
 name: wuhoo-game-gpu
 description: "Use for GPU node ops: health, MCP, sync, remote env."
-version: 3.6.0
+version: 3.0.0
 author: Wuhoo
 license: MIT
 metadata:
@@ -15,6 +15,8 @@ metadata:
 > GPU 节点 = Windows PC (RTX 4070Ti) + frp 隧道 + 双 Unity 项目 + C:\ai 常驻服务。
 > GDD 依据(权威): guimei 09-ai-production-pipeline.md 第十一章(决策97/99/106) + 10-gpu-node-setup.md v1.0(详细版)。
 > 本 skill 与 10-gpu-node-setup.md 冲突时以 GDD 文档为准。
+>
+> 2026-09-03 路线升级(决策117-121): 皮影路线= B' 大块铰链; Spine/LivePortrait 冻结, 不再作为部署项。
 
 ## 触发条件
 
@@ -22,7 +24,7 @@ metadata:
 - MCP 连接断开
 - 需要远程 Unity 操作（Author/截图/PlayMode）
 - 代码同步（云端→GPU 或反向）
-- guimei 管线部署（ComfyUI/kohya_ss/guimei-lab; LivePortrait/Spine 已被决策110否决, 见§7废弃标记）
+- guimei 管线部署（ComfyUI/kohya_ss/LivePortrait/guimei-lab）
 
 ## 1. 连接信息
 
@@ -35,7 +37,7 @@ ssh -i ~/.ssh/hermes-gpu -p 2222 -o ServerAliveInterval=15 -o ConnectTimeout=10 
 |------|----------------|
 | miners-watch | C:\Users\haohaijiao\miners-watch (Unity 6000.5.4f1) |
 | guimei-lab | C:\ai\guimei-lab (Unity 6000.5.4f1, 与 miners-watch 同版本; 决策订正 2026-08-11 弃 6.2) |
-| AI 工具根 | C:\ai\ (ComfyUI/kohya_ss, 短路径无中文; LivePortrait 已否决不部署) |
+| AI 工具根 | C:\ai\ (ComfyUI/kohya_ss/LivePortrait, 短路径无中文) |
 
 ## 2. 健康检查清单（一键）
 
@@ -47,7 +49,7 @@ ssh -i ~/.ssh/hermes-gpu -p 2222 haohaijiao@localhost "
   echo === FRPC === && tasklist | findstr frpc
   echo === GIT === && cd C:\Users\haohaijiao\miners-watch && git branch --show-current && git status --short && git log --oneline -1
   echo === GPU === && nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu,temperature.gpu,driver_version --format=csv,noheader
-  echo === DISK === && fsutil volume diskfree C:  # wmic 已被 Windows 移除(2026-08-30实测 \"'wmic' 不是内部或外部命令\"); fsutil 内置可用, 输出含字节数(中文行 GBK 乱码但数字可读); PowerShell 备用: powershell -NoProfile -Command \"Write-Host ([math]::Round((Get-PSDrive C).Free/1GB,1))\"
+  echo === DISK === && powershell -NoProfile -Command "Write-Host ([math]::Round((Get-PSDrive C).Free/1GB,1))"
   echo === AI_DIR === && if exist C:\ai (dir C:\ai /b) else (echo C:\ai NOT_EXISTS)
   echo === POWER === && powercfg /getactivescheme | findstr /i GUID
 "
@@ -132,8 +134,7 @@ Hermes → Author Deep Cave Scene
 > 状态标记: [x]=已完成 / [ ]=待执行。C:\ai 不存在 = 全部未开始 (2026-08-07 实测)。
 
 ### 阶段 0: 账号与支付（用户手动, 30分钟）
-火山方舟 API Key(Seedream/Seedance) / 即梦会员 / 哩布哩布+吐司(模型下载)。Key 交 Hermes 存配置不入 git。
-~~Spine 购买~~ —— **决策110 否决**(2026-08-10): 纯皮影美学+Unity 2D Animation 部件补间唯一, Spine 不再需要。
+火山方舟 API Key(Seedream/Seedance) / 即梦会员 / 哩布哩布+吐司(模型下载)。Spine 购买冻结(决策117/119: 待用户触发再评估)。Key 交 Hermes 存配置不入 git。
 
 ### 阶段 1: GPU 节点基础（远程可执行）
 - [x] frp 隧道（已有, 矿工守夜在用）
@@ -168,9 +169,12 @@ git clone https://github.com/bmaltais/kohya_ss
 ```
 - 长训练禁用 SSH 直挂: `Start-Process -WindowStyle Hidden` 分离或计划任务
 
-### 阶段 4: LivePortrait —— 【已废弃, 禁止部署】
-~~立绘说话(远程可执行): git clone KwaiVGI/LivePortrait~~
-**决策110 否决**(2026-08-10): 表情=换头茬+活眼活口(纯皮影美学), 不用 LivePortrait/网格畸变类立绘驱动; 过场视频保留 Minimax H3/HappyHorse(见 §10.7), 与本阶段无关。
+### 阶段 4: LivePortrait（已冻结, 决策110/117; 不执行）
+```powershell
+cd C:\ai
+git clone https://github.com/KwaiVGI/LivePortrait
+pip install -r requirements.txt
+```
 
 ### 阶段 5: Unity guimei-lab（远程可执行, 最耗时）
 - 项目已建好(2026-08-14 实测): C:\ai\guimei-lab, 6000.5.4f1 + URP 2D(17.0.3) + MCP embed 包(com.coplaydev.unity-mcp) 就位
@@ -181,15 +185,14 @@ git clone https://github.com/bmaltais/kohya_ss
 - Run In Background 勾上(Project Settings → Player, 防失焦暂停)
 - 验证: 云端 read_console → 0 errors
 
-### 阶段 6: Spine —— 【已废弃, 不再执行】
-~~官网下载试用 → 导入分层角色图绑定导出~~
-**决策110 否决**(2026-08-10): 绑定走 Unity 2D Animation 硬关节(锚点配对制), Spine 购买/部署/导出全链路废弃。
+### 阶段 6: Spine（已冻结, 决策117/119; 待用户触发对比）
+官网下载试用 → 导入分层角色图绑定导出。Spine JSON/atlas = Hermes 可程序化格式, GUI 精修是唯一手动残留。
 
 ### 阶段 7: 端到端验证（周末与用户协作）
-- [x] 三版方向图(即梦 vs 本地 SDXL vs 万相), 用户拍板色彩方向 —— 已完成(风格圣经 v3.1 验收, 决策110 后为皮影部件图基准)
-- [x] 「桥上超度」AI 视频初试 —— 已过时(决策110/113-115: 过场走 H3/HappyHorse, 见 §10.7)
-- [ ] 吴守桥锚定卡 → 立绘说话 demo —— LivePortrait 路线已废(决策110), 如重启需按换头茬+活眼活口重立题
-- [ ] 回收待验证: ~~Spine 支付~~(已废) / godmodeai / Mirage2 / 模型站下载速度
+- [ ] 三版方向图(即梦 vs 本地 SDXL vs 万相), 用户拍板色彩方向
+- [ ] 「桥上超度」AI 视频初试(万相/火山 Seedance)
+- [ ] 吴守桥锚定卡 → 立绘说话 demo
+- [ ] 回收待验证: Spine 支付 / godmodeai / Mirage2 / 模型站下载速度
 
 ### 常驻服务存活铁律
 - 所有常驻服务不要挂在 SSH 会话启动（断连即死）: 用户本地启动 / 计划任务 / `Start-Process -WindowStyle Hidden`
@@ -386,33 +389,8 @@ no western illustration style, no modern elements.
 6. **HF 动态模块缓存**(SYSTEM): `C:\WINDOWS\system32\config\systemprofile\.cache\huggingface\modules\transformers_modules\`——改源文件后必须删该目录缓存, 否则跑旧代码
 7. 定位坑时看 `C:\WINDOWS\system32\config\systemprofile\.cache\huggingface\modules\transformers_modules\SenseNova_hyphen_...\modeling_neo_chat.py`(trust_remote_code 动态加载的副本, 与节点目录源文件对应)
 
-## 10.9 frpc 服务化（NSSM, 2026-08-22 落地）
-
-> frpc 曾是"登录时计划任务+可见 cmd 窗口"——被误关窗口 = 隧道断（上次结果 0xC000013A Ctrl+C）。已服务化根治。
-
-### 现状（服务方式运行, 无需任何人工操作）
-- 位置: `C:\ai\frp\`（frpc.exe + frpc.toml, 自 Downloads 迁出; 旧目录 Downloads\frp_0.70.0_windows_amd64 可删）
-- 服务名: `frpc`（NSSM 2.24, `C:\ai\nssm.exe`; zip 已删, nssm.exe 保留）
-- 特性: 无窗口 ✅ 开机自启(SERVICE_AUTO_START) ✅ **崩溃/被杀自动重启**（AppExit Default Restart, 实测杀进程 15s 内拉起）✅
-- 常用命令: `nssm start/stop frpc` | `sc query frpc` | `sc failure` 由 NSSM 管理
-- 日志: `C:\ai\frp\frpc-service.log`（NSSM stdout/stderr）+ frpc.toml log.to = `C:\ai\frp\frpc.log`
-
-### 坑（全部实测）
-1. **frp 0.70 不能 sc 直注册服务**（`sc create frpc binPath= ...` + `sc failure`）→ 启动 1053 超时: frpc 不响应 SCM 协议（服务实例能连云端但 SCM 判失败, 会与手动实例冲突循环）。**必须 NSSM 包装**（frpc 作子进程, 无服务协议要求）
-2. **bat 里 `timeout /t N` 在 SSH 非交互环境报错** "Input redirection is not supported, exiting the process immediately" → 用 `ping 127.0.0.1 -n N >nul` 代替
-3. **改 frpc.toml 路径用 PowerShell -replace 易失败**: toml 里路径是字面双反斜杠（`C:\\Users\\...`）, 单反斜杠匹配不到 → 用 Python `s.replace()`（匹配 `\\\\` 双反斜杠文本）最稳
-4. **改 frpc 的顺序铁律**: 先建好新实例（服务）→ 最后才杀旧实例。杀 frpc = 断掉 SSH 隧道自身, 操作中断（本次 20:20 曾因此把会话切断, 服务没建完）
-5. 杀手动实例按 PID 或按路径过滤（`wmic process where "name='frpc.exe' and ExecutablePath like '%Downloads%'"`）, 勿误杀服务实例（同路径 C:\ai\frp 时按 PID）
-
-### 启动项排查（2026-08-22, 重启后黑窗口来源）
-- **曾存在 `启动文件夹\frpc.exe.lnk`**（指向旧 Downloads 路径, 登录弹黑窗口+双重启动）→ 已删。启动文件夹现仅: Hermes_Gateway.vbs（sh.Run ...,0 隐藏窗口, 保留）+ v2rayN.exe.lnk（GUI 代理, 用户工具, 保留）
-- **wuhoo_comfy_autostart（Logon+Hidden:False+直接跑 bat）= 弹黑窗口** → 已禁用（ComfyUI 由 wuhoo_comfy8188 SYSTEM 任务负责自启, 冗余）
-- 查启动项三板斧: `schtasks /query /fo csv` + 启动文件夹 dir + `reg query ...\Run`; 触发器用 PowerShell `Get-ScheduledTask | %{ $_.Triggers.CimClass.CimClassName }` 筛 Boot/Logon; 窗口判定看 `Settings.Hidden` + 动作是否 bat/console exe; SYSTEM 任务窗口在会话0不显示, Hidden:False 也无妨
-- wuhoo_comfy8188 是 SYSTEM 运行（会话0无可见窗口）✅; 第三方 Logon 任务（ZJRC 签名/ASUS/WPS/OneDrive/Edge）均为 GUI/托盘, 不干扰 frpc
-
 ## 变更历史
 
-- v3.6.0 (2026-09-01): §2 健康检查磁盘命令 wmic→`fsutil volume diskfree C:`(wmic 已被 Windows 移除, 健康检查 cron 每轮失败兜底的实测故障, PowerShell 降为备用); §7 清理决策110 否决的部署残留: 阶段4 LivePortrait/阶段6 Spine 标废弃禁部署, 阶段0 移除 Spine 购买, 阶段7 验证清单标注过时项
 - v3.5.0 (2026-08-22): §10.8 增补双轨 POC 验证结果(Z-Image 20s/张可用, SenseNova ~10min/张风格跑偏) + SenseNova U1.5 适配 7 坑(transformers 4.57.2 model_type bug/trust_remote_code 三连/config trust 字段/modeling 漏传 image_size/模型代码 9 py 完整性/HF SYSTEM 动态缓存/定位副本路径)
 
 - v3.4.0 (2026-08-22): 新增 §10.8 Z-Image + SenseNova U1.5 本地生图双轨部署 — 模型/节点/依赖清单 + 7 个实测坑(venv shim 父子进程误判/PYTHONUTF8 静默失败/schtasks SYSTEM 需 icacls/交互式任务 SSH 不触发/start_comfy8188.bat 重建/pythonw=Hermes gateway 勿杀/GBK emoji 节点崩溃)
