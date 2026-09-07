@@ -209,3 +209,20 @@ class TestDieselRecord20260906:
         # BBC Business category=财经 +3 加权 → 财经/投资 (简报实测 TOP1)
         c = classify('US diesel prices hit an all-time-high Fuel prices have soared', '财经')
         assert c == '财经/投资', c
+
+
+class TestNoise20260907:
+    """2026-09-07: HN 成人/盗版八卦混入科技/AI TOP5; 米家/漫步者发售噪声
+    模式扩展 预售 (小米破壁机 3 预售软文占产业/公司 TOP5 第3位漏网)"""
+
+    def test_hn_adult_gossip_is_noise(self):
+        t = "Adult Film Producer Unmasks Prolific 'John DOE' Torrent Pirate as Meta Executive"
+        assert is_noise(t)
+
+    def test_mijia_presale_is_noise(self):
+        assert is_noise('首发 389 → 311 元：小米 1.5L 米家破壁机 3 预售，可拆刀座轻松洗')
+
+    def test_normal_corp_news_not_noise(self):
+        # 米家预售规则不得误伤普通车型/公司预售新闻 (长安启源不含 米家/漫步者)
+        assert not is_noise('长安启源 Q06 新能源 SUV 预售：纯电 / 增程动力，14.79 万元起')
+        assert not is_noise('Volkswagen to cut 100,000 jobs by end of decade')
