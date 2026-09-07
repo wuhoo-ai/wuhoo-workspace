@@ -135,6 +135,7 @@ NOISE_PATTERNS = [
     'man united', 'man utd', 'chelsea', 'liverpool fc', 'transfer news', r'\bnba\b', r'\bnfl\b',
     # 2026-09-06: 体育缩写必须词边界! 裸词 'nfl' 子串命中 "co[nfl]ict" → 所有含 conflict 的战争/宏观英文报道被误滤
     # (BBC Business 柴油价历史新高 hot=22 死于 "the Iran conflict"; 同批 nba 一并加边界)
+    'adult film producer', 'torrent pirate',  # HN 成人/盗版八卦混入科技/AI TOP5 (2026-09-07)
     'apple is getting this wrong',
     'hyrox', 'fitness craze',
     'full confidence',
@@ -156,7 +157,7 @@ NOISE_PATTERNS = [
     # 2026-09-02 新增 — BBC Business 家庭金钱软内容 / 消费省钱软文误入财经 TOP (同类: money disagre/plug-in solar)
     'lend me £10k', 'financial favourit', 'cheaper meals out', 'soft launches and late sittings',
     # 2026-09-02 新增 — IT之家消费电子发售挤占产业/公司 TOP (同类: vgn鼠标/外设; 米家冰箱/制冰机/漫步者音箱/HKC手柄)
-    '米家.*(首销|发售|开售)', '漫步者.*(首销|发售|开售)', '猎弦', '绝梦',
+    '米家.*(首销|发售|开售|预售)', '漫步者.*(首销|发售|开售|预售)', '猎弦', '绝梦',
     'ankidroid',                                      # HN 小众 App 捐赠链接政策变动 (低信号, 非新闻事件)
     'refund when using your credit card',             # BBC Business 信用卡退款科普 (category=财经 加权误入财经 TOP)
     'fortrea',                                        # Seeking Alpha 单股分析 (Fortrea Holdings 中盘CRO, 低信号)
