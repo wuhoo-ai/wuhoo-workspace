@@ -17,6 +17,9 @@ metadata:
 >
 > 2026-09-03 路线升级(决策117): 皮影角色改为 B' 大块铰链——主身 10–14 大块 + 5–8 覆盖层,
 > 不再批量处理 52 件细部件; pivot/切块按大块铰链点设置。
+>
+> **2026-09-08 决策122: 本技能降级为可选粗分层工具**——整图表演路线无批量切块/无部件批量 pivot;
+> 仅当需要头层裁切/可选手臂粗层/表情头茬网格时才使用本技能的 importer 操作。
 
 ## 核心事实
 
@@ -51,13 +54,14 @@ var spriteRects = provider.GetSpriteRects();
 - 九宫格边框: 改 SpriteRect.border(皮影道具/容器花纹)
 - 图集: 精灵图集(Sprite Atlas)下子图数据仍由 importer 管理
 
-## 皮影部件管线(guimei)
+## 皮影整图路线下的可选用途(guimei, 决策122)
 
-1. AI 出 1 张 A-pose 整身定妆图 → 程序化切 10–14 主身大块 + 5–8 覆盖层(见 wuhoo-art-pipeline B' 主线)
-2. 批量导入 + 统一 PPU/过滤模式(批处理脚本一次跑完)
-3. 部件切割 + 骨骼锚点 pivot 统一
-4. Sprite Swap 装配(2D Animation, 见 UnityCsReference U2DRuntime — 查询 wuhoo-unity-reference)
-5. 每步留验证: Unity Console 0 error + 资源窗口抽查
+1. 整身母版插画导入(统一 PPU/过滤模式) + 头层裁切 importer 设置(可选项)
+2. 头层/手臂粗层 pivot 设置(挂点=neck/shoulder, 格式 docs/guimei-puppet-format-v0.2.md)
+3. 表情头茬网格切片(换头茬集, 挂在头层)
+4. 每步留验证: Unity Console 0 error + 资源窗口抽查
+
+〔历史〕B' 大块切块流程(决策117)与 52 件批量 pivot 已废止, 不再执行。
 
 ## 坑
 
