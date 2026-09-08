@@ -12,11 +12,11 @@ class TestFetcherImport:
     """Fetcher 模块导入测试"""
 
     def test_fetcher_import(self):
-        """fetcher 模块可导入"""
+        """fetcher 模块可导入 (函数式架构: fetch_all/main 为入口)"""
         # feedparser可能未安装，测试模块结构
         try:
-            from fetcher import NewsFetcher
-            assert NewsFetcher is not None
+            from fetcher import fetch_all, main
+            assert callable(fetch_all) and callable(main)
         except ImportError as e:
             if 'feedparser' in str(e):
                 pytest.skip("feedparser 未安装")

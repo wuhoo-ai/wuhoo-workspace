@@ -164,6 +164,17 @@ ssh admin@主机 "systemctl --user restart hermes-gateway"
 | RSS 简报推送 | `0 8 * * *` | d6d628cc68a1 |
 | WC2026 预测 | 已暂停 | c1e357b05736 |
 
+## 微信发送限速（2026-09-02 拍板：≤3条/60s，可迟到不可丢）
+
+iLink 对 bot 发消息有限流（触发时返回 ret=-2），Hermes weixin 适配器（gateway/platforms/weixin.py）行为：
+分片间 sleep `send_chunk_delay_seconds`；遇限流按 `send_chunk_retry_delay_seconds*3` 退避重试；
+60s 窗口内 `rate_limit_circuit_threshold` 次限流 → 熔断 `rate_limit_circuit_open_seconds`，熔断期间 chunk 直接失败=丢消息。
+
+当前配置（config.yaml gateway.platforms.weixin.extra）：chunk_delay=20.0（=3条/60s 节奏）、retries=10、retry_delay=5.0、
+threshold=10/window=60/open=30。大简报（64KB→30+分片）曾因 2s 间隔密集发送触发熔断丢投递，改 20s 后不再触发。
+重启 gateway 生效；验证：日志退避时长 = retry_delay*3（旧 6s=2*3 → 新 15s=5*3）。
+残余风险：iLink 持续限流超过重试窗口（约 2.5 分钟）仍会失败，cron job 的 last_delivery_error 可查。
+
 ## PDF 微信投递
 
 命名规范：`/tmp/{YYYYMMDD}_{ISO3}_{ISO3}.pdf`
