@@ -14,16 +14,16 @@ LLM链路(09-01拍板,09-02改名): provider名 token-plan→qwen(端点不变),
 §
 游戏项目命名铁律(用户2026-09-01两次强调): 项目名只写作"guimei"(拼音),不存在"归魅"两个汉字,禁止在文档/kanban卡/文件名中自造中文名。Kanban: guimei/invest 两板已建, default 配 kanban 工具集(新会话生效); CLI 用法坑见 kanban-orchestrator 技能(--board 是全局参数放子命令前)
 §
-GPU改造部署(09-01晚完成主体, 09-02配置同步): gpu-worker profile+独立网关(gw_gpuworker_restart.bat, WMI拉起)+api_server 8642; 云→GPU经frp 28642(peer dm实测通); GPU→云 28643未持久化已断, 用户拍板暂缓; GPU网关重启坑: schtasks拉不起InteractiveToken任务(267009), 用WMI Win32_Process.Create+HERMES_HOME显式(gw_gpuworker_restart.bat); 09-02发现旧网关UNCLEANLY退出(SIGKILL/OOM, lifecycle_ledger记录)→8642无监听, WMI重启恢复; 09-02 GPU gpu-worker模型链路已与云端一致(qwen主+deepseek兜底), .env补DEEPSEEK_API_KEY+去重TOKEN_PLAN_API_KEY; wmic已从Win11移除→Get-CimInstance替代
+GPU改造部署(09-01主体,09-02同步): gpu-worker profile+独立网关(gw_gpuworker_restart.bat, WMI拉起)+api_server 8642; 云→GPU经frp 28642(peer dm实测通); GPU→云28643未持久化已断,用户拍板暂缓; GPU网关重启: schtasks InteractiveToken拉不起(267009)→WMI Win32_Process.Create+HERMES_HOME显式; GPU模型链路与云端一致(qwen主+deepseek兜底),.env补DEEPSEEK_API_KEY去重TOKEN_PLAN_API_KEY; GPU HERMES_HOME=C:\Users\haohaijiao\AppData\Local\hermes(SSH hermes-agent跑hermes.exe必须显式set HERMES_HOME否则解析到空home); 09-09起-p gpu-worker serve 127.0.0.1:9119供GPU桌面直连看gpu-worker会话+GPU板卡(gw_gpuworker_serve.bat)
 §
 系统体检(09-02): trader 15个投资cron自07-01全部有意暂停(非丢失,trader空转,恢复需逐个resume+钉模型); dashboard 9119公网开放+basic_auth弱口令H%emersAgent待拍板; api_server 8642公网安全组未开(peer实际走frp localhost:28642, config public_url失真); 大文本微信投递(64KB简报)会触iLink限流失败——判读法见hermes-fleet-ops §11
 §
 用户要审计 worker 完整推理过程(09-02 battle卡): 从执行 profile 的 state.db messages 表导出 md(思考+工具调用+返回)入 review 目录 commit 三端给路径; 卡"无产出"先区分诊断期 vs 停滞(heartbeat+文件mtime+工作区diff 三查联合判读)
 §
-guimei管线方向拍板中(09-03): 用户否52件分件拼装(拼接感/精修依赖/token贵/舍本逐末), 帕累托标准=传统味+表现力+AI舒适OPC; 已论证方案B'=A-pose整身定妆图→程序化切10-14主身大块→现有锚点+RigBuilder铰链重挂→覆盖层5-8件→表情Sprite Swap不变; Spine纯蒙皮被否(权重绑定GUI活非OPC, 皮影语汇=铰链刚体非柔体, 与决策110一致); idle四层/battle动画逻辑可复用; wsq battle v2.1渲染验收+idle执行卡已冻结; 试点卡(吴守桥定妆图1张→切块→idle重挂→帧差+用户目检)待批
-§
-web_search故障根因(09-03已定位未修): hermes-agent上游d6773cf2已删tavily后端, config残留backend: tavily→报no registered provider; brave插件注册名=brave-free且读BRAVE_SEARCH_API_KEY(.env只有旧名BRAVE_API_KEY); 修复命令待用户批准(审批超时): cp .env备份+sed改名BRAVE_API_KEY→BRAVE_SEARCH_API_KEY + hermes config set web.backend brave-free + extract_backend firecrawl(keyless ring), 执行后必实测search+extract各一次
-§
-guimei路线决策(09-03拍板): B'=A-pose整身定妆图→程序化切10-14大块→现有锚点/RigBuilder铰链树复用→覆盖层5-8(武器/面具)→表情换头茬不变; 皮影语汇=刚体铰链非蒙皮, Spine蒙皮对比待用户有额度时触发; 吴守桥battle v2.1渲染验收+idle执行卡冻结, 52件资产冻结保留; 试点卡暂停; battle两卡均timed_out于60轮迭代上限→续跑必须切"先渲1帧试看"级小卡, 程序验收(帧差/画像)测不了审美, 视觉闸门=用户看帧; 备忘=guimei/docs/route-decision-2026-09-03.md(commit已落, 未push)
-§
 web_search修复(09-03): 上游8/30删Tavily后端(d6773cf2, keyless ring=exa/parallel/firecrawl/keenable), config残留tavily→报no registered provider; 修复=backend brave-free + extract firecrawl + .env BRAVE_API_KEY改名BRAVE_SEARCH_API_KEY + env_passthrough同步; 已实测通; 旧TAVILY_API_KEY/plugins/web/tavily空目录为上游删除残留
+§
+kanban t_64481600试点+t_d4781f9b shader(parent-gated, 均gamedev/deepseek-v4-pro); 试点视觉闸用户否决(脖子断开=挖孔底比头层底浅12px+羽化落重合区+峰值角10.3°超设计9°, 复盘commit 999f2e3, 修复参数表+根因已存ai-2d-rig-pipeline技能, A方案零token待拍板, shader卡已ready待用户定); 文档guimei=3d56e19+skills=d1d1b8b
+§
+云端state.db 09-08三次损坏: 晨二次(09-07 22:30后未落盘不可补, 修复会话消息仅.hermes_history留痕)+12:06三次; 三坏同根因=gateway运行中rm/cp wal/shm sidecar→连接fd指向deleted inode(操作前必stop+fuser验证); 12:06 hermes sessions recover 100%救回(90289 msgs含45增量/393 sessions, 坏库留档=corrupt-final-20260908-1206, 产物=/tmp/recovered-state.db)已替换重启; 判读/命令见hermes-fleet-ops §10
+§
+kanban铁律(09-08晚拍板): Unity卡/本地模型卡一律建GPU节点板(assignee=gpu-worker本地跑MCP/batchmode),云端guimei板只放文档编排卡,不允许劣化; GPU效果优先=资源使劲用/接受耗时长(推翻"本地草稿API定稿"); 云端建GPU板卡=SSH+kb_create.ps1(C:\ai\,body文件首行title,ProcessAPI传参——PS5.1多行参数不加引号必拆); 09-08四卡: t_9a38c305修复(几何+脖子归母版)/t_924bdcc9 shader验证(parent-gated)/t_ccbef01c Animate-2部署/t_cf74ad79 H3冒烟
