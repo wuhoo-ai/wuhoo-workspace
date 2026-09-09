@@ -163,6 +163,9 @@ NOISE_PATTERNS = [
     'fortrea',                                        # Seeking Alpha 单股分析 (Fortrea Holdings 中盘CRO, 低信号)
     # 2026-09-05 新增 — 少数派"派早报"日更聚合栏目 (同类: IT早报/早餐FM/fm-radio, 每日多资讯打包非单一事件)
     '派早报',
+    # 2026-09-09 新增 — IT之家消费电子发售挤占产业/公司 TOP (同类: 米家/漫步者/vgn; 实测 09-08 爱国者机箱首销/技嘉显示器上架/利民散热器首发价 占 TOP3-5)
+    '爱国者.*(首销|开售|发售|上架|预售)', '技嘉.*(上架|首销|开售|发售|预售|显示器)',
+    '利民.*(散热器|首发价|首销|上架)', '星璨岚',
 ]
 
 def is_noise(text):
@@ -277,7 +280,9 @@ ENTITY_KEYS = [
     (re.compile(r'hassabis|迪恩', re.I), 'hassabis_deepmind'),
     (re.compile(r'meta.*(fined|fine|罚|567)', re.I), 'meta_fined'),
     (re.compile(r'(trump|特朗普).*(vaccine|疫苗)|(vaccine|疫苗).*(trump|特朗普)', re.I), 'trump_vaccine'),
-    (re.compile(r'astra|cyber capabilit', re.I), 'openai_astra'),
+    # 2026-09-09: 收紧 openai_astra — 原裸 'astra' 把任何提到 GPT-6 Astra (OpenAI 现役旗舰模型名) 的文章全并成 openai_astra 事件
+    # (实测 09-08: robot 臂演示 HN20 + 算力暴涨市场文 华尔街见闻15 + 按效果收费定价文 华尔街见闻6 三篇无关文章误合并)
+    (re.compile(r'astra.*(cyber|secur|pause|delay|postpone|safet|推迟|延迟|安全|评估|暂停|搁置|审查)|cyber capabilit', re.I), 'openai_astra'),
     (re.compile(r'数十国|dozens of countries', re.I), 'trump_tariff_china'),
     (re.compile(r'伊朗.*(外长|会谈|谈判|提议|阿拉格齐)', re.I), 'iran_diplomacy'),
     (re.compile(r'谷歌.*anthropic|google.*anthropic', re.I), 'google_anthropic'),
@@ -304,10 +309,24 @@ ENTITY_KEYS = [
     (re.compile(r'(openai|chatgpt|claude|grok|gemini).*(simultaneously|同时|downtime|outage|宕机|下线|故障)|(simultaneously|同时|downtime|outage|宕机|下线|故障).*(openai|chatgpt|claude|grok|gemini)', re.I), 'ai_service_outage'),
     # 2026-09-06: 美伊战争推高美国柴油价至历史新高 (BBC hot22/NYT/FT/美联社 6源同事件, 此前关键词表无油价词全部落未匹配 640 条)
     (re.compile(r'diesel.*(record|all[- ]?time|new high|新高|纪录)|(record|all[- ]?time|new high|新高|纪录).*diesel', re.I), 'diesel_record'),
+    # 2026-09-09: 德国 AfD 萨安州(萨克森-安哈尔特)选举大胜 (DW×3/FT/BBC World×2/第一财经 7源; 此前 DW 两条不同角度未合并各占宏观 TOP 3-4 位)
+    (re.compile(r'(afd|德国选择党|极右).*(saxony|萨安|萨克森|state election|州选)|(saxony|萨安|萨克森|state election|州选).*(afd|极右|选择党)', re.I), 'afd_saxony_election'),
+    # 2026-09-09: OpenAI 用 10000 智能体攻克 Navier-Stokes 千禧年大奖难题 (HN 22/OpenAI Blog 19/IT之家 12/Engadget 6/第一财经 3 同事件;
+    # 旧规则要求 openai 上下文, HN/OpenAI Blog 官方标题无 "openai" 字样不命中→英文代表落未匹配池; Buckmaster 学术 PDF 无 prize/millennium/千禧年 语境不合并)
+    (re.compile(r'(navier|stokes|纳维|斯托克斯).*(millennium|prize|千禧年|大奖难题|solved|solution|problem|解决|攻克)|千禧年', re.I), 'openai_navier_stokes'),
+    # 2026-09-09: OpenAI ChatGPT Images 2.5 发布 (HN 14/IT之家 6/OpenAI Blog 3/华尔街见闻 3; 标题前缀 Introducing/发布/OpenAI发布 不同不合并)
+    (re.compile(r'chatgpt\s*images\s*2\.?5', re.I), 'chatgpt_images_25'),
+    # 2026-09-09: Meta 发布首个个人 AI 智能体 Muse (Meta官方/TechCrunch/Verge/Engadget/HN100+/IT之家/华尔街见闻 7源;
+    # 中文标题 "智能体Muse" 前是 CJK 字符无 \b 边界需中文语境分支; \bmuse\b 防 Renoir Museum 误并)
+    (re.compile(r'\bmuse\b.*(meta|agent)|(meta|agent).*\bmuse\b|(智能体|个人智能).*muse|muse.*(智能体|个人智能)', re.I), 'meta_muse'),
 ]
 
 def entity_key(title, summary):
-    combined = norm(f'{title} {summary}')
+    # 2026-09-09: 实体匹配文本必须保留 ASCII 点号! norm() 把 '.' 替换成空格 → "ChatGPT Images 2.5" 变 "2 5",
+    # chatgpt_images_25/gemini_38_flash 等版本号规则全部静默失效 (gemini 3.8 规则 09-03 起从未生效);
+    # 其余标点 (，。、！？等) 照常归一
+    raw = f'{title} {summary}'
+    combined = re.sub(r'[，,、；;：:。·！!？?"\'（）()【】]+', ' ', raw).strip()
     for rx, key in ENTITY_KEYS:
         if rx.search(combined):
             return key
@@ -331,8 +350,10 @@ def pick_representative(group):
 
 # ── 重点事件保底 (2026-09-02 实现, 同 skill 文档 2026-08-09 Hassabis 案例) ──
 # 大事件 hot 分不足时替换 TOP5 末位, 防止被截断 (如 苹果 CEO 换任 8条报道 hot 仅6)
+# 2026-09-09: 收紧苹果规则 — 原裸 `(ternus|特努斯)` 会让换帅后一周的跟进旧闻(如 09-06 古尔曼"现在是特努斯时代")持续强制插入,
+# 挤掉更新鲜的大事件; 改为要求换任语境词 (接替/卸任/换帅/告别/最后一天等)
 PRIORITY_EVENTS = [
-    (re.compile(r'(ternus|特努斯)|(tim cook|库克).*(final message|parting|告别|farewell|executive chair|最后一天)', re.I), '科技/AI'),
+    (re.compile(r'(ternus|特努斯|tim cook|库克).*(final message|parting|告别|farewell|executive chair|最后一天|卸任|接任|接替|换帅|离任)|(卸任|接任|接替|换帅|离任).*(ternus|特努斯|tim cook|库克)', re.I), '科技/AI'),
 ]
 
 # ── 主流程 ────────────────────────────────────────────
@@ -380,15 +401,28 @@ event_reps = []
 for g in events:
     rep, nsrc = pick_representative(g)
     rep['nsrc'] = nsrc
-    event_reps.append(rep)
+    # 2026-09-09: 摘要回填 — 代表无摘要时取组内有摘要成员 (中文优先, 再按 hot), 解决 HN 无摘要版压过有摘要中文版
+    if not rep['summary']:
+        cands = [a for a in g if a.get('summary')]
+        if cands:
+            best_s = sorted(cands, key=lambda a: (bool(re.search(r'[\u4e00-\u9fff]', a['title'])), a['hot_score']), reverse=True)[0]
+            rep['summary'] = best_s['summary']
+    event_reps.append((rep, g))
 
 # 2) 分类
 topic_articles = {t: [] for t in KEYWORDS}
 unmatched = 0
-for a in event_reps:
-    c = classify(f"{a['title']} {a['summary']}", a['category'])
+for rep, g in event_reps:
+    c = classify(f"{rep['title']} {rep['summary']}", rep['category'])
+    if not c:
+        # 2026-09-09: 代表分类失败时按 hot 序试组内其他成员 — 修复英文代表标题无关键词(如 HN "On the Navier–Stokes Millennium Prize Problem")
+        # 但同事件中文版(IT之家含 AI 智能体/OpenAI 关键词)被丢进未匹配池的问题
+        for m in sorted(g, key=lambda x: x['hot_score'], reverse=True):
+            c = classify(f"{m['title']} {m['summary']}", m['category'])
+            if c:
+                break
     if c:
-        topic_articles[c].append(a)
+        topic_articles[c].append(rep)
     else:
         unmatched += 1
 
