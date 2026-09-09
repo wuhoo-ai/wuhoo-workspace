@@ -281,8 +281,9 @@ ENTITY_KEYS = [
     (re.compile(r'meta.*(fined|fine|罚|567)', re.I), 'meta_fined'),
     (re.compile(r'(trump|特朗普).*(vaccine|疫苗)|(vaccine|疫苗).*(trump|特朗普)', re.I), 'trump_vaccine'),
     # 2026-09-09: 收紧 openai_astra — 原裸 'astra' 把任何提到 GPT-6 Astra (OpenAI 现役旗舰模型名) 的文章全并成 openai_astra 事件
-    # (实测 09-08: robot 臂演示 HN20 + 算力暴涨市场文 华尔街见闻15 + 按效果收费定价文 华尔街见闻6 三篇无关文章误合并)
-    (re.compile(r'astra.*(cyber|secur|pause|delay|postpone|safet|推迟|延迟|安全|评估|暂停|搁置|审查)|cyber capabilit', re.I), 'openai_astra'),
+    # (实测 09-08: robot 臂演示 HN20 + 算力暴涨市场文 华尔街见闻15 + 按效果收费定价文 华尔街见闻6 三篇无关文章误合并);
+    # 语境词须双向 (真实标题 "pause some work on AI model Astra" 语境词在前)
+    (re.compile(r'astra.*(cyber|secur|pause|delay|postpone|safet|推迟|延迟|安全|评估|暂停|搁置|审查)|(cyber|secur|pause|delay|postpone|safet|推迟|延迟|安全|评估|暂停|搁置|审查).*astra|cyber capabilit', re.I), 'openai_astra'),
     (re.compile(r'数十国|dozens of countries', re.I), 'trump_tariff_china'),
     (re.compile(r'伊朗.*(外长|会谈|谈判|提议|阿拉格齐)', re.I), 'iran_diplomacy'),
     (re.compile(r'谷歌.*anthropic|google.*anthropic', re.I), 'google_anthropic'),
@@ -309,11 +310,13 @@ ENTITY_KEYS = [
     (re.compile(r'(openai|chatgpt|claude|grok|gemini).*(simultaneously|同时|downtime|outage|宕机|下线|故障)|(simultaneously|同时|downtime|outage|宕机|下线|故障).*(openai|chatgpt|claude|grok|gemini)', re.I), 'ai_service_outage'),
     # 2026-09-06: 美伊战争推高美国柴油价至历史新高 (BBC hot22/NYT/FT/美联社 6源同事件, 此前关键词表无油价词全部落未匹配 640 条)
     (re.compile(r'diesel.*(record|all[- ]?time|new high|新高|纪录)|(record|all[- ]?time|new high|新高|纪录).*diesel', re.I), 'diesel_record'),
-    # 2026-09-09: 德国 AfD 萨安州(萨克森-安哈尔特)选举大胜 (DW×3/FT/BBC World×2/第一财经 7源; 此前 DW 两条不同角度未合并各占宏观 TOP 3-4 位)
-    (re.compile(r'(afd|德国选择党|极右).*(saxony|萨安|萨克森|state election|州选)|(saxony|萨安|萨克森|state election|州选).*(afd|极右|选择党)', re.I), 'afd_saxony_election'),
+    # 2026-09-09: 德国 AfD 萨安州(萨克森-安哈尔特)选举大胜 (DW×3/FT/BBC World×2/第一财经 7源; 此前 DW 两条不同角度未合并各占宏观 TOP 3-4 位;
+    # BBC World 标题以 "eastern state" 指代萨安州)
+    (re.compile(r'(afd|德国选择党|极右).*(saxony|萨安|萨克森|eastern state|state election|州选)|(saxony|萨安|萨克森|eastern state|state election|州选).*(afd|极右|选择党)', re.I), 'afd_saxony_election'),
     # 2026-09-09: OpenAI 用 10000 智能体攻克 Navier-Stokes 千禧年大奖难题 (HN 22/OpenAI Blog 19/IT之家 12/Engadget 6/第一财经 3 同事件;
-    # 旧规则要求 openai 上下文, HN/OpenAI Blog 官方标题无 "openai" 字样不命中→英文代表落未匹配池; Buckmaster 学术 PDF 无 prize/millennium/千禧年 语境不合并)
-    (re.compile(r'(navier|stokes|纳维|斯托克斯).*(millennium|prize|千禧年|大奖难题|solved|solution|problem|解决|攻克)|千禧年', re.I), 'openai_navier_stokes'),
+    # 旧规则要求 openai 上下文, HN/OpenAI Blog 官方标题无 "openai" 字样不命中→英文代表落未匹配池;
+    # Engadget 标题以 controversy 指代; Buckmaster 学术 PDF 无 prize/millennium/千禧年 语境不合并; 语境词双向)
+    (re.compile(r'(navier|stokes|纳维|斯托克斯).*(millennium|prize|千禧年|大奖难题|solved|solution|problem|解决|攻克|controversy|争议)|(millennium|prize|solved|solution|problem|controversy|千禧年|大奖难题).*(navier|stokes|纳维|斯托克斯)|千禧年', re.I), 'openai_navier_stokes'),
     # 2026-09-09: OpenAI ChatGPT Images 2.5 发布 (HN 14/IT之家 6/OpenAI Blog 3/华尔街见闻 3; 标题前缀 Introducing/发布/OpenAI发布 不同不合并)
     (re.compile(r'chatgpt\s*images\s*2\.?5', re.I), 'chatgpt_images_25'),
     # 2026-09-09: Meta 发布首个个人 AI 智能体 Muse (Meta官方/TechCrunch/Verge/Engadget/HN100+/IT之家/华尔街见闻 7源;

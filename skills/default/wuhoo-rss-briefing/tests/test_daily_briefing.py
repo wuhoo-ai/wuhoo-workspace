@@ -226,3 +226,97 @@ class TestNoise20260907:
         # 米家预售规则不得误伤普通车型/公司预售新闻 (长安启源不含 米家/漫步者)
         assert not is_noise('长安启源 Q06 新能源 SUV 预售：纯电 / 增程动力，14.79 万元起')
         assert not is_noise('Volkswagen to cut 100,000 jobs by end of decade')
+
+
+class TestEntityKeyDotPreserved20260909:
+    """2026-09-09 严重修复: entity_key 不再经 norm() (norm 会吞 ASCII 点号) —
+    版本号类规则 (chatgpt_images_25 / gemini_38_flash, 含点号) 此前全部静默失效"""
+
+    def test_chatgpt_images_25_merges_zh_en(self):
+        for t in ['ChatGPT Images 2.5', 'Introducing ChatGPT Images 2.5',
+                  'OpenAI 最强 AI 生图模型：ChatGPT Images 2.5 登场，延迟降低 50%',
+                  'OpenAI发布ChatGPT Images 2.5：生成速度最高提升50%']:
+            assert entity_key(t, '') == 'chatgpt_images_25', t
+
+    def test_chatgpt_images_no_false_positive(self):
+        for t in ['Introducing ChatGPT Images 3', 'OpenAI Images 2.5 更新',
+                  'Gemini 2.5 Pro 正式向公众开放']:
+            assert entity_key(t, '') is None, t
+
+    def test_gemini38_still_merges_after_dot_fix(self):
+        assert entity_key('Gemini 3.8 Flash and 3.8 Flash Cyber', '') == 'gemini_38_flash'
+
+
+class TestOpenaiNavierStokes20260909:
+    """2026-09-09: OpenAI 攻克 Navier-Stokes 千禧年难题 5 源同事件合并;
+    英文官方标题无 openai 字样也须命中; Buckmaster 学术 PDF 不误并"""
+
+    def test_english_official_and_cn_merge(self):
+        for t in ['On the Navier–Stokes Millennium Prize Problem',
+                  'OpenAI 宣布用 10000 个 AI 智能体 88 小时攻克千禧年大奖难题',
+                  "What's going on with OpenAI and the Navier-Stokes controversy?",
+                  'OpenAI内部模型88小时暴力攻克千禧年数学难题']:
+            assert entity_key(t, '') == 'openai_navier_stokes', t
+
+    def test_academic_pdf_not_merged(self):
+        assert entity_key('Navier-Stokes – Tristan Buckmaster [pdf]', '') is None
+
+
+class TestMetaMuseChineseBoundary20260909:
+    """2026-09-09: '智能体Muse' 前为 CJK 字符无 \b 边界, 中文语境分支必须命中;
+    Renoir Museum 等含 museum 子串不得误并"""
+
+    def test_zh_en_merge(self):
+        for t in ['Meta debuts its Muse AI agent', 'Meta bets on AI agent Muse to catch up',
+                  'Meta推出个人AI智能体Muse，扎克伯格：个人AI助手是Meta最大的商业机遇',
+                  'Introducing Muse: The World’s First Personal AI Agent Built for Everyone',
+                  'Muse: Meta\'s personal AI agent, features and capabilities']:
+            assert entity_key(t, '') == 'meta_muse', t
+
+    def test_museum_not_merged(self):
+        for t in ['Renoir Museum robbery: 2 paintings missing',
+                  'Artworks stolen from Renoir Museum on French Riviera in latest heist']:
+            assert entity_key(t, '') is None, t
+
+
+class TestAstraTightened20260909:
+    """2026-09-09: 裸 'astra' 把 GPT-6 Astra (现役旗舰名) 相关无关文章误并 → 需安全/推迟语境"""
+
+    def test_bare_astra_mention_no_longer_merges(self):
+        assert entity_key('GPT-6 Astra on robot arms', '') is None
+        assert entity_key('GPT-6之后，算力暴涨的故事又讲得通了？', '9月3日GPT-6 Astra发布后') is None
+
+    def test_astra_security_context_still_merges(self):
+        for t in ['OpenAI to pause some work on AI model Astra',
+                  'OpenAI delays Astra safety review after cyber incident',
+                  'Responding to the next frontier of critical cyber capabilities']:
+            assert entity_key(t, '') == 'openai_astra', t
+
+
+class TestAfdSaxony20260909:
+    """2026-09-09: 德国 AfD 萨安州选举 DW×3/FT/BBC×2/第一财经 9 源同事件合并"""
+
+    def test_multi_source_merge(self):
+        for t in ['Saxony-Anhalt: Far-right AfD secures huge lead in key vote',
+                  'AfD wants to form a government in Saxony-Anhalt — but how?',
+                  '德国选择党在萨安州议会选举中大幅领先',
+                  'Far-right AfD surges to first place in German state election',
+                  "Germany's far-right AfD set for big win in eastern state"]:
+            assert entity_key(t, '') == 'afd_saxony_election', t
+
+    def test_national_afd_news_not_merged(self):
+        assert entity_key('AfD polls at record high nationwide', '') is None
+
+
+class TestNoiseItHome20260909:
+    """2026-09-09: IT之家消费电子发售(爱国者机箱/技嘉显示器/利民散热器)挤占产业/公司 TOP5"""
+
+    def test_hardware_presale_is_noise(self):
+        for t in ['爱国者星璨岚大岚双屏版机箱首销：配双 6 英寸面板，首发价 699 元',
+                  '技嘉推出“GO27Q32”27 英寸显示器：2K 320Hz QD-OLED，2999 元',
+                  '利民推出 AXP120-X77 下压式风冷散热器：77mm 高度，首发价 239 元']:
+            assert is_noise(t), t
+
+    def test_corp_news_not_noise(self):
+        assert not is_noise('利民实业发布上半年财报 净利润同比增长 12%')
+
