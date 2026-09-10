@@ -39,6 +39,11 @@ def clean_summary(s, feed_name=''):
             s = ''  # 纯拉丁 byline/credit 残留 (如 "Getty Images"), 无正文 (2026-09-02)
     s = s.split('|')[0].strip()
     s = re.sub(r'\s+', ' ', s).strip()
+    # 2026-09-10: 通用前缀清理 — NYT中文 "KALLEY HUANG2026年9月10日周三，..." 署名+前导日期 (iPhone Duo 代表回填实测);
+    # RFI "09/09/2026 - 20:54 ..." 时间戳 (巴黎空间峰会条目实测)
+    s = re.sub(r'^[A-Z][A-Za-z.\-\s]{1,40}(?=\d{4}年\d{1,2}月)', '', s)
+    s = re.sub(r'^\d{4}年\d{1,2}月\d{1,2}日(周|星期)?[一二三四五六日]?[，,\s]*', '', s)
+    s = re.sub(r'^\d{2}/\d{2}/\d{4}\s*-\s*\d{1,2}:\d{2}\s*', '', s)
     if not re.search(r'[\u4e00-\u9fffA-Za-z0-9]', s):
         return ''
     return s[:50]
@@ -166,6 +171,12 @@ NOISE_PATTERNS = [
     # 2026-09-09 新增 — IT之家消费电子发售挤占产业/公司 TOP (同类: 米家/漫步者/vgn; 实测 09-08 爱国者机箱首销/技嘉显示器上架/利民散热器首发价 占 TOP3-5)
     '爱国者.*(首销|开售|发售|上架|预售)', '技嘉.*(上架|首销|开售|发售|预售|显示器)',
     '利民.*(散热器|首发价|首销|上架)', '星璨岚',
+    # 2026-09-10 新增 — IT之家消费电子发售续 (同类: 米家/漫步者/爱国者/技嘉/利民; 实测 09-08 九州风神散热器占产业/公司 TOP)
+    '九州风神.*(散热器|散热|首销|开售|上架|发售|风扇|机箱|水冷)',
+    # 2026-09-10 新增 — BBC Future 特稿 (机器人索要小费趋势文, 非新闻事件; 同类: dw users on life/月经周期)
+    '索要小费',
+    # 2026-09-10 新增 — BBC Business 个人理财软文 (同类: money disagre/lend me £10k/back to school; 实测 09-08 财经 TOP10 第6位)
+    'written my will',
 ]
 
 def is_noise(text):
@@ -322,6 +333,17 @@ ENTITY_KEYS = [
     # 2026-09-09: Meta 发布首个个人 AI 智能体 Muse (Meta官方/TechCrunch/Verge/Engadget/HN100+/IT之家/华尔街见闻 7源;
     # 中文标题 "智能体Muse" 前是 CJK 字符无 \b 边界需中文语境分支; \bmuse\b 防 Renoir Museum 误并)
     (re.compile(r'\bmuse\b.*(meta|agent)|(meta|agent).*\bmuse\b|(智能体|个人智能).*muse|muse.*(智能体|个人智能)', re.I), 'meta_muse'),
+    # 2026-09-10: Apple 秋季发布会首款折叠屏 iPhone Duo (HN×2 hot30/TechCrunch×3/Verge/NYT中文/RFI/中央社×2/Engadget×3/Ars/华尔街见闻热门/B站/第一财经 12+源;
+    # HN 裸标题 "iPhone Duo" 与各源指纹不同全不合并; iPhone Duo 为具体产品名 (非泛公司名, 48h 窗口内即该发布事件)
+    (re.compile(r'iphone[\s\-]*duo', re.I), 'iphone_duo_launch'),
+    # 2026-09-10: 美加贸易战升级 — 美对加酒类/乳制品/摩托车进口禁令 + 加方反制关税 + 特朗普威胁禁 Bombardier
+    # (BBC14/卫报6/NYT6/美联社3/DW11 等 8+条标题各异不合并, BBC 版单独占宏观 TOP1 无 [N源];
+    #  误并实测: "Bank of Canada"需词边界、卫报 Palestine"Canada...banning"跨句 135 字符误并→距离限 80、
+    #  中央社以色列"加拿大...禁止进口...反制措施"→中文分支距离限 80 且去裸 '禁/进口'、
+    #  孟晚舟"她在加拿大被捕"+"贸易战"远距离误并→限距修复)
+    (re.compile(r'(canad|carney|卡尼).{0,120}(\bimports?\b|\bbans?\b|\btariffs?\b|trade war|retaliat|\bdairy\b|alcohol|motorcycl|bombardier|乳制品|摩托|庞巴迪|关税|贸易战|反制|红酒|葡萄酒|烈酒|啤酒|威士忌|酒类|酒類)|(\bimports?\b|\bbans?\b|\bbanning\b|\btariffs?\b|retaliat|\bdairy\b|alcohol|motorcycl|bombardier).{0,80}canad|(加拿大|卡尼).{0,80}(关税|贸易战|反制|乳制品|摩托|庞巴迪|红酒|葡萄酒|烈酒|啤酒|威士忌|酒类|酒類|酒精)|(关税|贸易战|反制).{0,80}加拿大|bombardier.*(trump|block|jets?|planes?)|(trump|block).*bombardier', re.I), 'us_canada_trade_war'),
+    # 2026-09-10: 迈阿密亚马逊货机坠毁事故 (BBC World/BBC Business/美联社×3 共 6 条同事件标题各异不合并; 合并后 [3源])
+    (re.compile(r'miami.*(cargo|plane|crash|jet|runway)|(cargo (plane|jet)).*(miami|crash|runway)', re.I), 'miami_amazon_crash'),
 ]
 
 def entity_key(title, summary):
