@@ -25,6 +25,7 @@ group_events = NS['group_events']
 classify = NS['classify']
 is_noise = NS['is_noise']
 clean_summary = NS['clean_summary']
+clean_title = NS['clean_title']
 
 
 def _art(title, summary='', feed='Hacker News', date='2026-09-02', cat='科技', hot=10):
@@ -436,3 +437,13 @@ class TestSummaryPrefixCleanup20260910:
     def test_rfi_timestamp_prefix_stripped(self):
         s = clean_summary('09/09/2026 - 20:54 在三星推出折叠屏手机七年后，苹果公司周三终于发布了首款折叠屏手机。')
         assert s.startswith('在三星') or s.startswith('在'), s
+
+
+class TestRfiTitleSuffix20260910:
+    """2026-09-10: RFI 标题尾部 '- RFI - 法国国际广播电台' 与来源名重复, clean_title 剥离"""
+
+    def test_rfi_suffix_stripped(self):
+        assert clean_title('马克龙在巴黎办国际空间峰会，美科技巨头抵制、德意总理缺席 - RFI - 法国国际广播电台') == \
+            '马克龙在巴黎办国际空间峰会，美科技巨头抵制、德意总理缺席'
+        assert clean_title('苹果新CEO发布首款折叠屏手机iPhone Duo - RFI - 法国国际广播电台') == \
+            '苹果新CEO发布首款折叠屏手机iPhone Duo'

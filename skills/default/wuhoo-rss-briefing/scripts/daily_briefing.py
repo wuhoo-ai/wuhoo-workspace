@@ -20,6 +20,7 @@ def clean_title(t):
     t = re.sub(r'^36氪获悉[，,]?', '', t).strip()
     t = re.sub(r'^[\u4e00-\u9fff\w]+[\d]*月\d+日\|?', '', t).strip()
     t = t.split('|')[0].strip()
+    t = re.sub(r'\s*-\s*RFI\s*-\s*法国国际广播电台\s*$', '', t).strip()  # 2026-09-10: RFI 标题尾部来源后缀与来源名重复
     return t
 
 def clean_summary(s, feed_name=''):
