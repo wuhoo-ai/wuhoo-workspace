@@ -124,6 +124,7 @@ def article_hash(link: str, title: str) -> str:
 def insert_article(conn: sqlite3.Connection, article: dict) -> bool:
     """插入文章，返回是否是新文章"""
     try:
+        before = conn.total_changes  # 2026-09-10 修复: total_changes 是连接累计值, 不能直接 >0 判断
         conn.execute("""
             INSERT OR IGNORE INTO articles
             (feed_name, source_url, title, summary, content, link,
@@ -147,7 +148,7 @@ def insert_article(conn: sqlite3.Connection, article: dict) -> bool:
             article.get("is_alert", 0),
             article.get("alert_keywords", ""),
         ))
-        return conn.total_changes > 0  # 有变化 = 新文章
+        return conn.total_changes > before  # 本次调用是否实际插入 (修复前用 >0, 首条之后重复也被判为新文章)
     except sqlite3.IntegrityError:
         return False  # 重复
 

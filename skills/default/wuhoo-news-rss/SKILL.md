@@ -166,6 +166,9 @@ DataAggregator._get_combined_sentiment()
 ### ⚠️ 关键陷阱：`insert_article` 必须包含评分字段
 旧版 `insert_article` SQL 中缺少 `hot_score`, `is_alert`, `alert_keywords` 列，导致尽管 `calc_hot_score` 正确计算了分数，但数据库始终存储默认值 0。修复时需确保 INSERT 语句包含这三列。
 
+### ⚠️ 关键陷阱：`insert_article` 新文章统计必须用 before/after 快照 (2026-09-10)
+`insert_article` 原用 `return conn.total_changes > 0` 判断是否新文章，但 `total_changes` 是**连接生命周期累计值** — 首条插入成功后恒 >0，此后所有被 `INSERT OR IGNORE` 忽略的重复也返回 True，导致 fetch 统计虚高（实测某次 fetch 报"新增 1407 条"而实际仅插入 26 条）。修复：`before = conn.total_changes` 快照 → `return conn.total_changes > before`。回归测试见 `tests/test_news_rss.py::TestInsertArticleCounting20260910`。
+
 ## 已知问题 / 注意事项
 
 - **cron 环境禁止用绝对路径调用 python3.11 (2026-08-04)**：终端命令写成 `/usr/bin/python3.11 src/fetcher.py --fetch` 会触发 Hermes cron lifecycle guard 递归扫描该"被引用脚本"（含 `/` 的 executable token 被视为脚本），读取 ELF 二进制内容时崩溃 `ValueError: embedded null byte`。**必须用裸命令名**：`python3.11 src/fetcher.py --fetch`（guard 只扫描含 `/` 或 .sh 后缀的 executable）。execute_code 的 terminal() 同样受影响。
@@ -257,6 +260,7 @@ DataAggregator._get_combined_sentiment()
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 2.1 | 2026-09-10 | 修复 `insert_article` 新文章统计 bug：`conn.total_changes > 0` 为连接累计值，首条插入后重复也被统计为新 → 改 before/after 快照对比（实测 fetch 报"新增 1407" vs 实际 26）；新增回归测试 TestInsertArticleCounting20260910 |
 | 2.0 | 2026-07-03 | **热点评分系统大修**：三层评分 (Feed权重 + 200关键词增强 + 模糊多源覆盖)；修复 `insert_article` 缺少 hot_score 列的严重 bug；修复 RSSNewsAdapter DB 路径 (skills/news-rss → skills/default/wuhoo-news-rss)；源清理：移除 11 个死亡源 (酷壳/cnbang/澎湃/品玩等)，合并 4 组冗余源；新增 7 个高质量源 (Stratechery/Seeking Alpha/Google DeepMind/CoinDesk/Meta/集思录/Google AI Blog)；关键词匹配增加 `\b` 词边界；RSSHub 路由大面积 503 标注 |
 | 1.8 | 2026-06-18 | 足球源 7→10：新增 懂球帝早报, BBC Sport Football RSSHub 路由, Breaking The Lines；失效路由标注更新 |
 | 1.7 | 2026-06-02 | 足球 RSS 源大修：4 个失效源替换为 Football Rankings/SoccerNews/World Soccer Talk/Football Italia |
