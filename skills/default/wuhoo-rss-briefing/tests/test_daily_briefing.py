@@ -447,3 +447,22 @@ class TestRfiTitleSuffix20260910:
             '马克龙在巴黎办国际空间峰会，美科技巨头抵制、德意总理缺席'
         assert clean_title('苹果新CEO发布首款折叠屏手机iPhone Duo - RFI - 法国国际广播电台') == \
             '苹果新CEO发布首款折叠屏手机iPhone Duo'
+
+
+class TestSaLowSignal20260911:
+    """2026-09-11: SA 会议 slideshow/transcript 自动材料 (hot 19 挤占财经 TOP2) 必须被 SA_LOW_RE 过滤"""
+
+    SA = NS['SA_LOW_RE']
+
+    def test_conference_slideshow_filtered(self):
+        for t in ['First Quantum Minerals Ltd. (FM:CA) Presents at Jefferies Global Industrials Conference 2026 - Slideshow',
+                  'First Quantum Minerals Ltd. (FM:CA) Presents at JPM Back to School - Slideshow',
+                  'Beam Therapeutics Inc. (BEAM) Discusses Updated Phase 1/2 Data for BEAM-302 in Alpha-1 Antitrypsin Deficiency - Slideshow',
+                  'Texas Ventures Acquisition III Corp (TVA) Plus Automation Inc., - M&A Call - Slideshow']:
+            assert self.SA.search(t), t
+
+    def test_legit_analysis_not_filtered(self):
+        for t in ['Oracle Q1: 20x Earnings Is Too Cheap For 120% Cloud Growth',
+                  'Nebius: Explosive Growth Meets A Stretched Valuation',
+                  "Target's Turnaround Is Shaping Up Nicely, But The Rising Valuation Forces A Downgrade"]:
+            assert not self.SA.search(t), t

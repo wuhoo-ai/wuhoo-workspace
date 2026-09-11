@@ -3,6 +3,7 @@
 """Wuhoo RSS 简报生成 v2 — 跨主题事件分组 → 分类 → 主题内去重"""
 import sqlite3, re
 from collections import defaultdict
+from datetime import datetime, timedelta
 
 DB = "/home/admin/wuhoo-workspace/skills/default/wuhoo-news-rss/data/news.db"
 
@@ -52,7 +53,7 @@ def clean_summary(s, feed_name=''):
 # ── Feed 级过滤 ───────────────────────────────────────
 FEED_NOISE_RE = re.compile(r'arxiv|知乎日报', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
-SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call', re.I)
+SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call', re.I)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
@@ -386,16 +387,19 @@ PRIORITY_EVENTS = [
 conn = sqlite3.connect(DB)
 conn.row_factory = sqlite3.Row
 cur = conn.cursor()
+# 2026-09-11: 窗口修复 — fetched_at 是 fetcher 用 datetime.now().isoformat() 写的本地 CST 字符串,
+# 而 SQLite datetime('now') 是 UTC; 旧写法字符串比较使实际窗口 ≈56h。改用本地 cutoff 参数化查询, 精确 48h。
+cutoff = (datetime.now() - timedelta(hours=48)).isoformat()
 cur.execute("""
     SELECT id, feed_name, title, summary, link, author, pub_date, category, tags, hot_score
-    FROM articles WHERE fetched_at >= datetime('now', '-48 hours')
+    FROM articles WHERE fetched_at >= ?
     AND hot_score > 0
     ORDER BY hot_score DESC LIMIT 3000
-""")
+""", (cutoff,))
 rows = cur.fetchall()
 total_48h = conn.execute(
-    "SELECT COUNT(*) FROM articles WHERE fetched_at >= datetime('now', '-48 hours')").fetchone()[0]
-cur.execute("SELECT COUNT(DISTINCT feed_name) FROM articles WHERE fetched_at >= datetime('now', '-48 hours')")
+    "SELECT COUNT(*) FROM articles WHERE fetched_at >= ?", (cutoff,)).fetchone()[0]
+cur.execute("SELECT COUNT(DISTINCT feed_name) FROM articles WHERE fetched_at >= ?", (cutoff,))
 n_feeds = cur.fetchone()[0]
 conn.close()
 
