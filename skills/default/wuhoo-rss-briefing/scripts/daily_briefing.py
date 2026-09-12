@@ -179,6 +179,10 @@ NOISE_PATTERNS = [
     '索要小费',
     # 2026-09-10 新增 — BBC Business 个人理财软文 (同类: money disagre/lend me £10k/back to school; 实测 09-08 财经 TOP10 第6位)
     'written my will',
+    # 2026-09-12 新增 — HN 引用列表/wiki 帖 (非新闻事件; 实测 "List of references on Sony websites…" hot11 占产业/公司 TOP1, 同类 ankidroid/marty)
+    'list of references on',
+    # 2026-09-12 新增 — BBC Business 个人理财软文续 (同类: written my will/money disagre; 实测 "I asked my husband to pay into my pension…" hot11)
+    'pay into my pension',
 ]
 
 def is_noise(text):

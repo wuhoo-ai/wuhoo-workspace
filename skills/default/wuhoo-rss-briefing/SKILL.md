@@ -349,11 +349,13 @@ return best
 - **clean_summary 通用前缀清理（2026-09-10）**：①NYT中文 署名+前导日期——"KALLEY HUANG2026年9月10日周三，…"（iPhone Duo 代表回填实测，前缀吃满 50 字窗口）；②RFI 时间戳——"09/09/2026 - 20:54 …"（巴黎空间峰会条目实测）。修复：`^[A-Z][A-Za-z.\-\s]{1,40}(?=\d{4}年\d{1,2}月)` / `^\d{4}年\d{1,2}月\d{1,2}日(周|星期)?[一二三四五六日]?[，,\s]*` / `^\d{2}/\d{2}/\d{4}\s*-\s*\d{1,2}:\d{2}\s*` 三级剥离。已同步 scripts/daily_briefing.py。
 - **SA 会议 slideshow/transcript 批量低信号（2026-09-11）**：Seeking Alpha 自动生成的会议材料（「First Quantum Minerals … Presents at Jefferies Global Industrials Conference 2026 - Slideshow」hot=19 三条同公司变体挤占财经/投资 TOP2；同类「… - M&A Call - Slideshow」「…Discusses… - Slideshow」，48h 内共 50 条）漏过旧 SA_LOW_RE（仅覆盖 q1/q2/commentary/portfolio update/earnings call）。修复：SA_LOW_RE 增 `presents at|slideshow|m&a call`。已同步 scripts/daily_briefing.py。
 - **48h 窗口时区不一致修复（2026-09-11）**：fetcher 用 `datetime.now().isoformat()`（本地 CST）写 fetched_at，而简报 SQL 用 SQLite `datetime('now','-48 hours')`（UTC）做字符串比较 → 实际窗口 ≈56 小时且随时区漂移。修复：主流程改 Python 本地 cutoff `(datetime.now() - timedelta(hours=48)).isoformat()` 参数化查询。已同步 scripts/daily_briefing.py。
+- **NOISE 新增（2026-09-12）**：HN 引用列表/wiki 帖（`list of references on`，"List of references on Sony websites…" hot=11 占产业/公司 TOP1，非新闻事件，同类 ankidroid/marty）；BBC Business 个人理财软文续（`pay into my pension`，"I asked my husband to pay into my pension…"，同类 written my will/money disagre/lend me £10k）。已同步 scripts/daily_briefing.py。
 
 ## 版本
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.18 | 2026-09-12 | NOISE 补 `list of references on`（HN 引用列表帖占产业/公司 TOP1 非新闻事件）、`pay into my pension`（BBC 个人理财软文，同类 written my will）；同步 scripts/daily_briefing.py |
 | 1.17 | 2026-09-11 | SA_LOW_RE 增 `presents at|slideshow|m&a call`（SA 会议 slideshow hot=19 挤占财经 TOP2；48h 内 50 条低信号）；48h 窗口时区修复（SQLite datetime('now') UTC vs fetched_at 本地 CST → 实际 ~56h，改本地 cutoff 参数化查询）；同步 scripts/daily_briefing.py |
 | 1.16 | 2026-09-10 | ENTITY_KEYS 加 iphone_duo_launch（Apple 首款折叠屏发布 12 源不合并，HN 裸标题）、us_canada_trade_war（美加贸易战 10 源；三例误并修复：bans? 词边界防 Bank of Canada、英文距离限 120/80 防跨句误并、中文去裸 禁/进口+距离限 80 防以色列/孟晚舟误并）、miami_amazon_crash（6 条合并 [3源]）；NOISE 补 九州风神散热器/索要小费/written my will；clean_summary 补通用前缀清理（NYT中文署名+日期/RFI 时间戳）；确认 entity_key 匹配文本为 clean_summary[:50] 截断版；同步 scripts/daily_briefing.py |
 | 1.15 | 2026-09-09 | **严重修复**: entity_key 用 norm() 归一吞掉 ASCII 点号 → 版本号类实体规则（chatgpt_images_25/gemini_38_flash 等含 `\.`）静默失效（gemini 3.8 规则 09-03 起从未生效）→ 匹配文本保留点号；裸 `astra` 规则把 GPT-6 Astra（现役旗舰名）相关 3 篇无关文章误并 → 收紧需安全/推迟语境；英文代表标题无关键词整组落未匹配（Navier-Stokes 5 源事件）→ 分类失败组内降级尝试 + 代表无摘要回填；ENTITY_KEYS 加 openai_navier_stokes/chatgpt_images_25/meta_muse(中文分支)/afd_saxony_election；PRIORITY_EVENTS 苹果规则收紧（防旧闻跟进强制插入）；NOISE 补 IT之家 爱国者/技嘉/利民 发售；同步 scripts/daily_briefing.py |

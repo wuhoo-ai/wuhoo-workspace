@@ -466,3 +466,20 @@ class TestSaLowSignal20260911:
                   'Nebius: Explosive Growth Meets A Stretched Valuation',
                   "Target's Turnaround Is Shaping Up Nicely, But The Rising Valuation Forces A Downgrade"]:
             assert not self.SA.search(t), t
+
+
+class TestNoise20260912:
+    """2026-09-12: HN 引用列表帖 ("List of references on Sony websites…" hot=11 占产业/公司 TOP1,
+    非新闻事件, 同类 ankidroid/marty); BBC Business 个人理财软文续 ("pay into my pension",
+    同类 written my will/money disagre/lend me £10k)"""
+
+    def test_hn_reference_list_is_noise(self):
+        assert is_noise('List of references on Sony websites to players "owning" their digital games')
+
+    def test_pension_soft_feature_is_noise(self):
+        assert is_noise("I asked my husband to pay into my pension when we had a child - here's why")
+
+    def test_corp_news_not_noise(self):
+        # 引用列表规则不得误伤正常新闻; 个人理财短语不得误伤养老金政策报道
+        assert not is_noise('索尼数字游戏所有权纠纷升级，玩家组织发起集体诉讼')
+        assert not is_noise('Pensions minister unveils reform to workplace pension schemes')
