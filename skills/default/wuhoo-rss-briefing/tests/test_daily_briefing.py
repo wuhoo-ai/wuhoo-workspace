@@ -483,3 +483,97 @@ class TestNoise20260912:
         # 引用列表规则不得误伤正常新闻; 个人理财短语不得误伤养老金政策报道
         assert not is_noise('索尼数字游戏所有权纠纷升级，玩家组织发起集体诉讼')
         assert not is_noise('Pensions minister unveils reform to workplace pension schemes')
+
+
+class TestNoise20260913:
+    """2026-09-13: The Verge 导购/促销 commerce 帖 (where to preorder / half off) +
+    IT之家消费电子发售续二 (机械革命上架 / 努比亚散热器开售 / 米家众筹)
+    实测: Fire TV 促销占产业/公司 TOP4; 机械革命上架 hot6 占 TOP2; 努比亚散热器开售 hot3"""
+
+    def test_verge_commerce_is_noise(self):
+        for t in ["Amazon's Fire TV Stick 4K is over half off at under $20",
+                  'Where to preorder the iPhone 18 Pro and Pro Max',
+                  'Where to preorder the new Apple Watch Series 12 and Ultra 4']:
+            assert is_noise(t), t
+
+    def test_it_home_commerce_is_noise(self):
+        for t in ['机械革命无界 14S 2026 笔记本锐龙版上架：R7 H 255 处理器，24GB+512GB 售价 4699 元（国补后 3994.15 元）',
+                  '努比亚冰淇淋散热器开售：至低-18℃ 制冷、25W 峰值功率，99 元',
+                  '小米米家夜灯 4 开启众筹：暗光感应、8 个月长续航，59 元']:
+            assert is_noise(t), t
+
+    def test_corp_news_not_noise(self):
+        assert not is_noise('机械革命母公司发布财报：上半年净利润同比增长 25%')
+        assert not is_noise('努比亚发布新一代游戏手机，搭载骁龙处理器')
+
+
+class TestEngadgetGuide20260913:
+    """2026-09-13: Engadget How-to 指南类 (Alexa 语音设置 / Muse 上手) 非新闻事件"""
+
+    G = NS['ENGADGET_GUIDE_RE']
+
+    def test_guides_match(self):
+        for t in ["How to change Amazon Alexa's voice and personality",
+                  "How to get started with Meta's new AI agent, Muse"]:
+            assert self.G.search(t), t
+
+    def test_news_not_match(self):
+        for t in ['Engadget reviews the new iPhone Duo', 'Apple how-to event recap']:
+            assert not self.G.search(t), t
+
+
+class TestBbcVideoCaption20260913:
+    """2026-09-13: BBC 中文视频字幕残留 ("Watch: … , 节目全长 N,NN HH:MM") 不得占满摘要窗口"""
+
+    def test_caption_stripped_to_empty(self):
+        for raw in [
+            '你的器材不支持播放多媒体材料 Play video,  Watch: Three times Trump has promised money to Americans , 节目全长 1,2301:23',
+            'Watch: Lava fountain and ash cloud as Indonesia volcano erupts , 节目全长 0,2700:27',
+            'How much can Canada fight back in its trade war with the US? , 节目全长 1,2401:24',
+            '西藏泥石流最震撼衝擊畫面遭受中國官媒審查 , 节目全长 1,0401:04',
+        ]:
+            s = clean_summary(raw, 'BBC 中文')
+            assert '节目全长' not in s and 'Watch' not in s, (raw, s)
+
+    def test_normal_summary_kept(self):
+        s = clean_summary('苹果公司周三发布了首款折叠屏手机，起售价 1999 美元。', 'BBC 中文')
+        assert s.startswith('苹果公司'), s
+
+    def test_deep_caption_not_stripped(self):
+        # "节目全长" 在正文深处 (IT之家任天堂直面会条目, 无视频时长格式) 不得触发剥离
+        s = clean_summary('IT之家 9 月 4 日消息，任天堂今晚宣布，将于 9 月 8-9 日连续举行两场直面会，节目全长约 40 分钟。', 'IT之家')
+        assert s.startswith('任天堂') and '节目全长' in s, s
+
+
+class TestTrump5000Check20260913:
+    """2026-09-13: 特朗普"每人5000美元支票"中期选举承诺多源同事件合并
+    (BBC 中文 hot19 + 华尔街见闻 + 卫报; BBC 版摘要为视频字幕残留 → 合并后中文摘要回填)"""
+
+    CASES = [
+        '特朗普真的能向每位美国成年人发放5,000美元吗',
+        '特朗普称"5000美元红利"无需国会批准，参院共和党领袖打哈哈，民主党痛斥',
+        '特朗普拟给美国成年人每人发5000美元，美媒算账：总额高达1.2万亿美元',
+        '特朗普的5000美元支票计划在共和党盟友中反响冷淡',
+        'Trump keeps touting $5,000 payments if Republicans retain control of Congress',
+        '哈塞特：特朗普5000美元计划"可以以负责任的财政方式实现"',
+    ]
+
+    def test_all_map_to_same_key(self):
+        for t in self.CASES:
+            assert entity_key(t, '') == 'trump_5000_check', t
+
+    def test_no_false_positive(self):
+        for t in ['美国一律师用 ChatGPT 生成诉讼文书却出现伪造警察证词，被罚款 5000 美元',
+                  '特朗普威胁对华加征 5000 亿美元关税',
+                  '特朗普宣布新的关税政策，美股应声下跌',
+                  'Spain could suffer 2030 World Cup final snub as Morocco FA president names 115,000-seat stadium']:
+            assert entity_key(t, '') is None, (t, entity_key(t, ''))
+
+    def test_merge_across_sources(self):
+        arts = [_art('特朗普真的能向每位美国成年人发放5,000美元吗', '', feed='BBC 中文', hot=19),
+                _art('特朗普拟给美国成年人每人发5000美元，美媒算账：总额高达1.2万亿美元',
+                     '财政成本远超关税收入所能覆盖的范围', feed='华尔街见闻热门', hot=3),
+                _art('Trump keeps touting $5,000 payments if Republicans retain control of Congress',
+                     'some in his party question feasibility', feed='卫报国际', hot=6)]
+        groups = group_events(arts)
+        assert len(groups) == 1 and len(groups[0]) == 3, f'{len(groups)} 组'

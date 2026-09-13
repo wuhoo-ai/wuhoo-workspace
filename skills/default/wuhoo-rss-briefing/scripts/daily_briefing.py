@@ -29,6 +29,10 @@ def clean_summary(s, feed_name=''):
     # HN: 评论链接形式
     s = re.split(r'Comments on Hacker News|Article URL:|Comments URL:', s)[0]
     s = re.sub(r'^你的器材不支持播放多媒体材料\s*Play video,?\s*', '', s)
+    # 2026-09-13: BBC 视频字幕残留 — "Watch: <caption> , 节目全长 N,NN HH:MM" 占满 50 字摘要窗口
+    # (实测: 特朗普5000美元 BBC版 hot19 / 印尼火山 / 关税加拿大 / 西藏泥石流; 剥离后如无正文由事件组内中文成员摘要回填)
+    # 锚定视频时长格式 N,NN HH:MM — IT之家"节目全长约 40 分钟"等正文合法用法不受影响
+    s = re.sub(r'^.{0,90}?节目全长\s*\d+,\d+\s*\d{1,2}:\d{2}\s*', ' ', s, flags=re.DOTALL)
     s = re.sub(r'^IT?之家\s*\d+\s*月\s*\d+\s*日\s*消息[，,]?', '', s)
     # BBC 中文 byline 结构 (仅该源)
     if 'bbc 中文' in feed_name.lower():
@@ -54,6 +58,7 @@ def clean_summary(s, feed_name=''):
 FEED_NOISE_RE = re.compile(r'arxiv|知乎日报', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call', re.I)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
+ENGADGET_GUIDE_RE = re.compile(r'^how to\b', re.I)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
@@ -164,7 +169,7 @@ NOISE_PATTERNS = [
     # 2026-09-02 新增 — BBC Business 家庭金钱软内容 / 消费省钱软文误入财经 TOP (同类: money disagre/plug-in solar)
     'lend me £10k', 'financial favourit', 'cheaper meals out', 'soft launches and late sittings',
     # 2026-09-02 新增 — IT之家消费电子发售挤占产业/公司 TOP (同类: vgn鼠标/外设; 米家冰箱/制冰机/漫步者音箱/HKC手柄)
-    '米家.*(首销|发售|开售|预售)', '漫步者.*(首销|发售|开售|预售)', '猎弦', '绝梦',
+    '米家.*(首销|发售|开售|预售|众筹)', '漫步者.*(首销|发售|开售|预售)', '猎弦', '绝梦',
     'ankidroid',                                      # HN 小众 App 捐赠链接政策变动 (低信号, 非新闻事件)
     'refund when using your credit card',             # BBC Business 信用卡退款科普 (category=财经 加权误入财经 TOP)
     'fortrea',                                        # Seeking Alpha 单股分析 (Fortrea Holdings 中盘CRO, 低信号)
@@ -183,6 +188,10 @@ NOISE_PATTERNS = [
     'list of references on',
     # 2026-09-12 新增 — BBC Business 个人理财软文续 (同类: written my will/money disagre; 实测 "I asked my husband to pay into my pension…" hot11)
     'pay into my pension',
+    # 2026-09-13 新增 — The Verge 导购/促销 commerce 帖 (同类: lowest price/10p coin; "Where to preorder…" 导购 与 "over half off" 促销 非新闻事件)
+    'where to preorder', 'half off',
+    # 2026-09-13 新增 — IT之家消费电子发售续二 (同类: 米家/漫步者/爱国者/技嘉/利民/九州风神; 实测 机械革命笔记本上架 hot6 占产业/公司 TOP2、努比亚散热器开售 hot3 占 TOP5)
+    '机械革命.*(上架|开售|首销|发售|预售)', '努比亚.*(散热器|开售|首销|上架|发售)',
 ]
 
 def is_noise(text):
@@ -350,6 +359,10 @@ ENTITY_KEYS = [
     (re.compile(r'(canad|carney|卡尼).{0,120}(\bimports?\b|\bbans?\b|\btariffs?\b|trade war|retaliat|\bdairy\b|alcohol|motorcycl|bombardier|乳制品|摩托|庞巴迪|关税|贸易战|反制|红酒|葡萄酒|烈酒|啤酒|威士忌|酒类|酒類)|(\bimports?\b|\bbans?\b|\bbanning\b|\btariffs?\b|retaliat|\bdairy\b|alcohol|motorcycl|bombardier).{0,80}canad|(加拿大|卡尼).{0,80}(关税|贸易战|反制|乳制品|摩托|庞巴迪|红酒|葡萄酒|烈酒|啤酒|威士忌|酒类|酒類|酒精)|(关税|贸易战|反制).{0,80}加拿大|bombardier.*(trump|block|jets?|planes?)|(trump|block).*bombardier', re.I), 'us_canada_trade_war'),
     # 2026-09-10: 迈阿密亚马逊货机坠毁事故 (BBC World/BBC Business/美联社×3 共 6 条同事件标题各异不合并; 合并后 [3源])
     (re.compile(r'miami.*(cargo|plane|crash|jet|runway)|(cargo (plane|jet)).*(miami|crash|runway)', re.I), 'miami_amazon_crash'),
+    # 2026-09-13: 特朗普"每人5000美元支票"中期选举承诺 (BBC 中文 hot19 + 华尔街见闻 + 格隆汇 + 卫报 同事件标题各异不合并;
+    # BBC 版摘要为视频字幕残留 → 合并后 [N源] + 中文摘要回填。防误并: 数字前置禁接数字(115,000-seat 类子串)、后置禁接 亿/billion(5000亿美元关税为不同事件)、须含特朗普/trump 上下文(律师罚 5000 美元不合并);
+    # 数字 '5,000' 经 entity 标点归一(逗号→空格)变 '5 000' → 模式写 5[,\s]?000 双格式容错)
+    (re.compile(r'(trump|特朗普).{0,60}(?<!\d)(5[,\s]?000|五千)(?!\s*(?:亿|billion|trillion)).{0,15}(美元|支票|红利|发放|发钱|payments?|checks?|payouts?)|(?<!\d)(5[,\s]?000|五千)(?!\s*(?:亿|billion|trillion)).{0,15}(美元|支票|红利|发放|发钱|payments?|checks?|payouts?).{0,60}(trump|特朗普)', re.I), 'trump_5000_check'),
 ]
 
 def entity_key(title, summary):
@@ -418,6 +431,8 @@ for r in rows:
     if FEED_NOISE_RE.search(feed):
         continue
     if 'seeking alpha' in feed.lower() and SA_LOW_RE.search(title.lower()):
+        continue
+    if 'engadget' in feed.lower() and ENGADGET_GUIDE_RE.search(title):
         continue
     if not title:
         continue
