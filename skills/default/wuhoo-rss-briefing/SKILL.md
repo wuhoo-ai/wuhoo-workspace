@@ -355,11 +355,13 @@ return best
 - **特朗普"每人5000美元支票"多源不合并（2026-09-13）**：BBC 中文 hot19 + 华尔街见闻 + 华尔街见闻热门 + 卫报 同事件标题各异（且 BBC 版摘要为视频字幕残留、无正文可回填前）。修复：ENTITY_KEYS 加 `trump_5000_check`。**防误并三则**：数字前置 `(?<!\d)`（防 "115,000-seat" 类子串）、后置 `(?!\s*(?:亿|billion|trillion))`（"5000亿美元关税"为不同事件）、必须含特朗普/trump 上下文（"律师被罚 5000 美元"不合并）；数字经标点归一逗号→空格（"5,000"→"5 000"），模式写 `5[,\s]?000` 双格式容错。已同步 scripts/daily_briefing.py。
 - **Engadget How-to 指南非新闻事件（2026-09-13）**：'How to change Amazon Alexa's voice and personality' hot6 占产业/公司 TOP4；'How to get started with Meta's new AI agent, Muse' hot12。修复：主循环加 `ENGADGET_GUIDE_RE = ^how to\b` feed 级过滤（仅 Engadget，48h 内 6 条指南类；同类 ankidroid/派早报 非事件内容）。已同步 scripts/daily_briefing.py。
 - **48h 窗口边界批次现象（2026-09-13 观察，非缺陷）**：fetcher 批量插入使 fetched_at 聚集（一次 fetch 数百至千条落在几分钟内），每日运行时刻若正跨在边界上，整个批次会进/出滚动窗口——同日相差几分钟运行，库内条数实测 2086→1431（09-11 早间批次出界），TOP5 内容随之变化。**对账/复查时先对齐运行时刻**，勿误判为数据丢失或脚本回归。
+- **cron 投递纪律必须写进 job prompt（2026-09-13 落地）**：投递内容=该轮**最后一条消息**（多轮时只有最后一条 assistant 消息发出）——09-09、09-13 两次事故均为末轮"修复+测试验证"总结顶掉简报正文（微信只收到 pytest 结果）。已在 job `d6d628cc68a1` prompt 尾部追加【投递纪律】段：末条必须=完整简报正文、维护/验证动作一律前置、失败时末条写明原因。**重建/迁移该 job 必须保留该段**；复核=看 `~/.hermes/cron/output/d6d628cc68a1/<日期>.md` 的 ## Response 是否为简报正文。
 
 ## 版本
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.20 | 2026-09-13 | cron 投递纪律写入 job prompt（d6d628cc68a1）：投递=该轮最后一条消息，末条必须为完整简报正文，修复/验证/维护动作一律前置——防"pytest 总结顶掉简报正文"（09-09、09-13 两次实测事故）；重建/迁移该 job 必须保留纪律段 |
 | 1.18 | 2026-09-12 | NOISE 补 `list of references on`（HN 引用列表帖占产业/公司 TOP1 非新闻事件）、`pay into my pension`（BBC 个人理财软文，同类 written my will）；同步 scripts/daily_briefing.py |
 | 1.19 | 2026-09-13 | NOISE 补 The Verge commerce 帖（`where to preorder`/`half off`）与 IT之家发售续二（`机械革命`上架/`努比亚`散热器开售/米家扩`众筹`）；主循环加 `ENGADGET_GUIDE_RE` 过滤 Engadget How-to 指南；clean_summary 增 BBC 视频字幕残留剥离（锚定 `节目全长 N,NN HH:MM` 时长格式，IT之家"约 40 分钟"式正文不受影响）；ENTITY_KEYS 加 `trump_5000_check`（BBC 中文 hot19+华尔街见闻+卫报 同事件合并；防误并：数字子串 115,000/后接亿/无特朗普上下文）；同步 scripts/daily_briefing.py |
 | 1.17 | 2026-09-11 | SA_LOW_RE 增 `presents at|slideshow|m&a call`（SA 会议 slideshow hot=19 挤占财经 TOP2；48h 内 50 条低信号）；48h 窗口时区修复（SQLite datetime('now') UTC vs fetched_at 本地 CST → 实际 ~56h，改本地 cutoff 参数化查询）；同步 scripts/daily_briefing.py |
