@@ -356,12 +356,14 @@ return best
 - **Engadget How-to 指南非新闻事件（2026-09-13）**：'How to change Amazon Alexa's voice and personality' hot6 占产业/公司 TOP4；'How to get started with Meta's new AI agent, Muse' hot12。修复：主循环加 `ENGADGET_GUIDE_RE = ^how to\b` feed 级过滤（仅 Engadget，48h 内 6 条指南类；同类 ankidroid/派早报 非事件内容）。已同步 scripts/daily_briefing.py。
 - **48h 窗口边界批次现象（2026-09-13 观察，非缺陷）**：fetcher 批量插入使 fetched_at 聚集（一次 fetch 数百至千条落在几分钟内），每日运行时刻若正跨在边界上，整个批次会进/出滚动窗口——同日相差几分钟运行，库内条数实测 2086→1431（09-11 早间批次出界），TOP5 内容随之变化。**对账/复查时先对齐运行时刻**，勿误判为数据丢失或脚本回归。
 - **cron 投递纪律必须写进 job prompt（2026-09-13 落地）**：投递内容=该轮**最后一条消息**（多轮时只有最后一条 assistant 消息发出）——09-09、09-13 两次事故均为末轮"修复+测试验证"总结顶掉简报正文（微信只收到 pytest 结果）。已在 job `d6d628cc68a1` prompt 尾部追加【投递纪律】段：末条必须=完整简报正文、维护/验证动作一律前置、失败时末条写明原因。**重建/迁移该 job 必须保留该段**；复核=看 `~/.hermes/cron/output/d6d628cc68a1/<日期>.md` 的 ## Response 是否为简报正文。
+- **verify-on-stop 证据账本与「验证提醒」循环（2026-09-14 根因定位）**：cron 轮次中编辑脚本后，Hermes 会注入「You edited code…」验证提醒（**有界，最多 2 次**）；若模型以"验证总结"收尾，微信投递的就是该总结——**这正是 09-09/09-13「pytest 总结顶掉简报」的根因（并非随机事故）**。证据账本 `~/.hermes/verification_evidence.db` 只记录**可归因的规范命令**：必须裸 `pytest tests/ -q`（`~/.local/bin/pytest` → shebang python3.11；等价拼写表仅含 `python -m pytest`/`python3 -m pytest`/`uv run pytest` 等，**`python3.11 -m pytest` 不匹配**）；**严禁追加 `; echo`、管道或后续命令**（退出码不可归因 → 证据不记录 → 提醒重复触发）。应对：编辑后先裸跑 `pytest tests/ -q` 记 passed（提醒即止），**再**输出简报作为末条消息。本日实测一次即记 `{"status":"passed","canonical_command":"pytest"}`。
 - **OpenAI 智能体攻击 RubyGems 事件披露 5 源不合并（2026-09-14）**：HN 直述 RubyGems（hot14）/中央社「代理再爆失控」/第一财经「AI进化速递」/Engadget「before the Hugging Face incident」/Verge「rogue AI tried to hack another company in May」（标题与 50 字摘要窗口均无 RubyGems 字样）标题各异不合并 → 科技/AI TOP5 第 5 位显示为 "(无摘要)" 英文裸标题。修复：ENTITY_KEYS 加 `rubygems_attack`（Hugging Face 分支要求攻击语境防 HuggingFace Blog 常规内容误并；「another company」分支要求 hack/attack 动词；合并后 [5源] + 中央社中文摘要回填）；clean_summary 增中央社 byline 剥离 `^（中央社[^）]{0,60}?）`（实测吃满 50 字窗口）。已同步 scripts/daily_briefing.py。
 
 ## 版本
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.22 | 2026-09-14 | verify-on-stop 守卫根因沉淀：cron 编辑脚本后须裸 `pytest tests/ -q`（等价拼写表不含 python3.11；`; echo`/管道使退出码不可归因→不记录→提醒重复）先记录验证证据再输出简报；本日实测账本记 passed；定位 09-09/09-13「pytest 总结顶掉简报」根因为该守卫提醒 |
 | 1.21 | 2026-09-14 | ENTITY_KEYS 加 `rubygems_attack`（OpenAI 智能体攻击 RubyGems 披露 5 源不合并：HN/中央社/第一财经/Verge/Engadget 标题各异；Verge 版标题与 50 字摘要窗口均无 RubyGems 字样需「another company」分支；Hugging Face 分支要求攻击语境防 HF Blog 误并）；clean_summary 增中央社 byline 剥离 `^（中央社[^）]{0,60}?）`（合并回填实测）；同步 scripts/daily_briefing.py |
 | 1.20 | 2026-09-13 | cron 投递纪律写入 job prompt（d6d628cc68a1）：投递=该轮最后一条消息，末条必须为完整简报正文，修复/验证/维护动作一律前置——防"pytest 总结顶掉简报正文"（09-09、09-13 两次实测事故）；重建/迁移该 job 必须保留纪律段 |
 | 1.18 | 2026-09-12 | NOISE 补 `list of references on`（HN 引用列表帖占产业/公司 TOP1 非新闻事件）、`pay into my pension`（BBC 个人理财软文，同类 written my will）；同步 scripts/daily_briefing.py |
