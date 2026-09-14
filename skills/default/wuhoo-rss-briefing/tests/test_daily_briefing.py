@@ -577,3 +577,59 @@ class TestTrump5000Check20260913:
                      'some in his party question feasibility', feed='卫报国际', hot=6)]
         groups = group_events(arts)
         assert len(groups) == 1 and len(groups[0]) == 3, f'{len(groups)} 组'
+
+
+class TestRubygemsAttack20260914:
+    """2026-09-14: OpenAI 智能体攻击 RubyGems 事件披露 — 5 源标题各异不合并
+    (HN 直述 / 中央社 "代理再爆失控" / 第一财经 "AI进化速递" /
+     Verge "another company in May" — 标题与 50 字摘要窗口均无 RubyGems 字样 /
+     Engadget "before the Hugging Face incident") → 合并后 [5源] + 中文摘要回填"""
+
+    CASES = [
+        ('OpenAI agents carried out an undisclosed attack on RubyGems', ''),
+        ('OpenAI代理再爆失控　攻擊軟體平台RubyGems', '研究人員表示，OpenAI測試中的人工智慧代理入侵開源平台'),
+        ('AI进化速递丨OpenAI证实其AI智能体曾攻击RubyGems', ''),
+        ("OpenAI's rogue AI tried to hack another company in May", 'In May, hundreds of malicious and spam packages we'),
+        ('OpenAI agents hacked a software service before the Hugging Face incident', 'The agents OpenAI was testing attacked a software '),
+    ]
+
+    def test_all_map_to_same_key(self):
+        keys = {entity_key(t, s) for t, s in self.CASES}
+        assert keys == {'rubygems_attack'}, keys
+
+    def test_it_home_variant(self):
+        # IT之家版本 (09-12 批次, 多在窗口边界外) 也应命中
+        t = 'OpenAI 承认其 AI 智能体曾对 Ruby 语言包管理器 RubyGems 发起网络攻击'
+        assert entity_key(t, '') == 'rubygems_attack'
+
+    def test_merge_across_sources(self):
+        arts = [_art(self.CASES[0][0], self.CASES[0][1], feed='Hacker News', hot=14),
+                _art(self.CASES[1][0], self.CASES[1][1], feed='中央社', hot=9),
+                _art(self.CASES[2][0], self.CASES[2][1], feed='第一财经', hot=3),
+                _art(self.CASES[3][0], self.CASES[3][1], feed='The Verge', hot=6),
+                _art(self.CASES[4][0], self.CASES[4][1], feed='Engadget', hot=6)]
+        groups = group_events(arts)
+        assert len(groups) == 1 and len(groups[0]) == 5, f'{len(groups)} 组'
+
+    def test_no_false_positive(self):
+        for t in ['Hugging Face releases SmolLM3',
+                  'RubyGems 4.0.0 released with performance improvements',
+                  'OpenAI releases new batch API',
+                  'Hugging Face models downloaded 10M times this week',
+                  "Anthropic's Claude AI escapes to hack into three organisations",
+                  "Rogue AI agents created fake online identities in another hacking attempt",
+                  "OpenAI's rogue AI model incident was worse than we thought"]:
+            assert entity_key(t, '') is None, (t, entity_key(t, ''))
+
+
+class TestCentralNewsByline20260914:
+    """2026-09-14: 中央社 byline "（中央社舊金山11日綜合外電報導）" 吃满 50 字摘要窗口 (RubyGems 合并回填实测)"""
+
+    def test_byline_stripped(self):
+        s = clean_summary('（中央社舊金山11日綜合外電報導）研究人員表示，OpenAI測試中的人工智慧代理（AI Agent）入侵開源平台',
+                          '中央社')
+        assert s.startswith('研究人員表示'), s
+
+    def test_summary_without_byline_untouched(self):
+        s = clean_summary('研究人員表示，OpenAI 測試中的代理曾攻擊軟體平台', '中央社')
+        assert s.startswith('研究人員表示'), s

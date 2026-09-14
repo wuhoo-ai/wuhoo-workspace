@@ -50,6 +50,8 @@ def clean_summary(s, feed_name=''):
     s = re.sub(r'^[A-Z][A-Za-z.\-\s]{1,40}(?=\d{4}年\d{1,2}月)', '', s)
     s = re.sub(r'^\d{4}年\d{1,2}月\d{1,2}日(周|星期)?[一二三四五六日]?[，,\s]*', '', s)
     s = re.sub(r'^\d{2}/\d{2}/\d{4}\s*-\s*\d{1,2}:\d{2}\s*', '', s)
+    # 2026-09-14: 中央社 byline 前缀 — "（中央社舊金山11日綜合外電報導）…" 吃满 50 字摘要窗口 (RubyGems 合并回填实测)
+    s = re.sub(r'^（中央社[^）]{0,60}?）\s*', '', s)
     if not re.search(r'[\u4e00-\u9fffA-Za-z0-9]', s):
         return ''
     return s[:50]
@@ -363,6 +365,16 @@ ENTITY_KEYS = [
     # BBC 版摘要为视频字幕残留 → 合并后 [N源] + 中文摘要回填。防误并: 数字前置禁接数字(115,000-seat 类子串)、后置禁接 亿/billion(5000亿美元关税为不同事件)、须含特朗普/trump 上下文(律师罚 5000 美元不合并);
     # 数字 '5,000' 经 entity 标点归一(逗号→空格)变 '5 000' → 模式写 5[,\s]?000 双格式容错)
     (re.compile(r'(trump|特朗普).{0,60}(?<!\d)(5[,\s]?000|五千)(?!\s*(?:亿|billion|trillion)).{0,15}(美元|支票|红利|发放|发钱|payments?|checks?|payouts?)|(?<!\d)(5[,\s]?000|五千)(?!\s*(?:亿|billion|trillion)).{0,15}(美元|支票|红利|发放|发钱|payments?|checks?|payouts?).{0,60}(trump|特朗普)', re.I), 'trump_5000_check'),
+    # 2026-09-14: OpenAI 智能体攻击 RubyGems 事件披露 (HN14/中央社9/Engadget6/Verge6/第一财经3 共5源; 与 Hugging Face 事故同一调查线,
+    # 各源标题差异极大: HN 直述 RubyGems / 中央社 "代理再爆失控" / 第一财经 "AI进化速递" / Engadget 以 "before the Hugging Face incident" 指代 /
+    # Verge "rogue AI tried to hack another company in May" 标题与 50 字摘要窗口均无 RubyGems 字样 → 需 "another company" 分支;
+    # Hugging Face 分支要求攻击语境 (防 HuggingFace Blog 常规内容误并); "another company" 分支要求 hack/attack 动词;
+    # 简繁变体双写 (攻击|攻擊 / 承认|承認) — 第一财经简体版实测 "曾攻击RubyGems" 需简体词)
+    (re.compile(r'(rubygems|ruby\s*语言包管理器).{0,60}(attack|attacked|hack|hacked|incident|入侵|攻擊|攻击|失控|承认|承認|undisclosed|breach|penetrat)'
+                r'|(attack|attacked|hack|hacked|incident|入侵|攻擊|攻击|失控|承认|承認|breach|penetrat|undisclosed).{0,60}(rubygems)'
+                r'|hugging\s*face.{0,30}(attack|attacked|hacked|incident|入侵|攻擊|攻击|breach)'
+                r'|(attack|attacked|hacked|incident|入侵|攻擊|攻击|breach).{0,60}hugging\s*face'
+                r'|(hack|hacked|attack|attacked|breach|入侵|攻擊|攻击).{0,40}another\s+(company|firm)', re.I), 'rubygems_attack'),
 ]
 
 def entity_key(title, summary):
