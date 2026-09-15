@@ -194,6 +194,18 @@ NOISE_PATTERNS = [
     'where to preorder', 'half off',
     # 2026-09-13 新增 — IT之家消费电子发售续二 (同类: 米家/漫步者/爱国者/技嘉/利民/九州风神; 实测 机械革命笔记本上架 hot6 占产业/公司 TOP2、努比亚散热器开售 hot3 占 TOP5)
     '机械革命.*(上架|开售|首销|发售|预售)', '努比亚.*(散热器|开售|首销|上架|发售)',
+    # 2026-09-15 新增 — The Verge 促销导购 commerce 续 (同类: where to preorder/half off/lowest price; 实测 "The best deals from Nintendo's…sale" hot9 占产业/公司 TOP1)
+    'best deals',
+    # 2026-09-15 新增 — IT之家消费电子促销 (实测 "小米 15 Ultra 国补直降" hot6 占产业/公司 TOP5; 同类 米家/漫步者/爱国者发售)
+    '直降',
+    # 2026-09-15 新增 — 个人博客/评论帖非新闻事件 (同类: apple is getting this wrong/works better in the app;
+    # "I'm being cyberattacked by Tesla, Inc"(个人纠纷 blog) 与 "Why is Google still serving dodgy ads?"(评论帖) 各占科技/AI 14分档）
+    'cyberattacked by tesla', 'dodgy ads',
+    # 2026-09-15 新增 — HN 产品展示帖 (同类: marty 复古模拟器/ankidroid; "Pion, an agent designed to run any company autonomously" 占科技/AI 14分档)
+    'run any company autonomously',
+    # 2026-09-15 新增 — BBC 软内容: 健康研究/学生防盗指南/搬家补贴个人故事 (同类: 月经周期/back to school/plug-in solar;
+    # 实测 "滚烫饮品可增加患癌风险" hot11 占科技/AI 候选、"How to protect your laptop…"/"I got paid $5,000 to move…" 占财经 11 分档)
+    '滚烫饮品', 'protect your laptop', 'got paid .{0,12}to move',
 ]
 
 def is_noise(text):
@@ -375,6 +387,14 @@ ENTITY_KEYS = [
                 r'|hugging\s*face.{0,30}(attack|attacked|hacked|incident|入侵|攻擊|攻击|breach)'
                 r'|(attack|attacked|hacked|incident|入侵|攻擊|攻击|breach).{0,60}hugging\s*face'
                 r'|(hack|hacked|attack|attacked|breach|入侵|攻擊|攻击).{0,40}another\s+(company|firm)', re.I), 'rubygems_attack'),
+    # 2026-09-15: AI 巨头集体呼吁"放缓 AI 发展"辩论 (Amodei 倡议 + 马斯克/奥特曼背书 + 微软自律准则 + 特朗普反对 + 美股AI板块大跌;
+    # 15+ 源碎片化: 英文台 slowdown 直述 / 中文源 放缓·刹车·警告 表述; hot 最高仅 12-14, 天然排名被 14+ 分条目挤出 TOP5)
+    # 注: ai 锚点用 (?<![a-z])ai(?![a-z]) 而非 \b — CJK 邻接("AI放缓")时 \b 失效 (Python \w 含 CJK, 'I'-'放' 间无边界)
+    # 距离限 55: 卫报 "AI-linked stocks slide after tech bosses call for slowdown" 实测距离 48 (40 会漏)
+    (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|放缓|放慢|减速|刹车|警告|warn)'
+                r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,60}(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴)'
+                r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能|前沿)'
+                r'|((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能).{0,55}(slow ?down|slowdown|放缓|放慢|减速|刹车)', re.I), 'ai_slowdown_debate'),
 ]
 
 def entity_key(title, summary):
@@ -410,6 +430,11 @@ def pick_representative(group):
 # 挤掉更新鲜的大事件; 改为要求换任语境词 (接替/卸任/换帅/告别/最后一天等)
 PRIORITY_EVENTS = [
     (re.compile(r'(ternus|特努斯|tim cook|库克).*(final message|parting|告别|farewell|executive chair|最后一天|卸任|接任|接替|换帅|离任)|(卸任|接任|接替|换帅|离任).*(ternus|特努斯|tim cook|库克)', re.I), '科技/AI'),
+    # 2026-09-15: AI 巨头集体呼吁"放缓AI发展"辩论 (Amodei 倡议 + 马斯克/奥特曼背书 + 微软自律准则 + 特朗普反对 + 美股AI板块大跌;
+    # 15+ 源碎片化, 代表 hot 仅 12 → 天然排名被 14 分 HN 条目挤出 TOP5; 同类: 苹果 CEO 换任案例 2026-09-02)
+    (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|放缓|放慢|减速|刹车|警告|warn)'
+                r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|人工智能|前沿)'
+                r'|((?<![a-z])ai(?![a-z])|a\.i\.?|人工智能).{0,55}(slow ?down|slowdown|放缓|放慢|减速|刹车)', re.I), '科技/AI'),
 ]
 
 # ── 主流程 ────────────────────────────────────────────
@@ -430,6 +455,9 @@ total_48h = conn.execute(
     "SELECT COUNT(*) FROM articles WHERE fetched_at >= ?", (cutoff,)).fetchone()[0]
 cur.execute("SELECT COUNT(DISTINCT feed_name) FROM articles WHERE fetched_at >= ?", (cutoff,))
 n_feeds = cur.fetchone()[0]
+# 2026-09-15: 新增数 = 当日 fetch 批次条数 (今日 00:00 起; 与 job prompt "新增 M 条" 口径一致)
+today_start = datetime.now().strftime('%Y-%m-%dT00:00:00')
+n_new = conn.execute("SELECT COUNT(*) FROM articles WHERE fetched_at >= ?", (today_start,)).fetchone()[0]
 conn.close()
 
 articles = []
@@ -516,7 +544,7 @@ from datetime import datetime
 today = datetime.now().strftime('%Y-%m-%d')
 print(f"📰 Wuhoo RSS 资讯简报 | {today}")
 print("=" * 40)
-print(f"数据采集: {n_feeds} 源 | 48 小时窗口 | 库内 {total_48h} 条")
+print(f"数据采集: {n_feeds} 源 | 新增 {n_new} 条 | 48 小时窗口（库内 {total_48h} 条）")
 
 for t in KEYWORDS:
     print()

@@ -633,3 +633,95 @@ class TestCentralNewsByline20260914:
     def test_summary_without_byline_untouched(self):
         s = clean_summary('研究人員表示，OpenAI 測試中的代理曾攻擊軟體平台', '中央社')
         assert s.startswith('研究人員表示'), s
+
+
+class TestAiSlowdownDebate20260915:
+    """2026-09-15: AI 巨头集体呼吁"放缓 AI 发展"辩论 15+ 源碎片化不合并
+    (Amodei 倡议 + 马斯克/奥特曼背书 + 微软自律准则 + 特朗普反对 + 美股 AI 板块大跌;
+    Verge/华尔街见闻×4/FT×2/NYT×2/卫报/TechCrunch/BBC中文/虎嗅/凤凰网/RFI×3/中央社×2/联合早报/纽约时报中文/HN/BBC World;
+    hot 最高仅 12 → 另配 PRIORITY_EVENTS 保底插入。
+    关键修复: ai 锚点 CJK 邻接 ("AI放缓"/"放缓AI") 时 \\b 静默失效 → 用 (?<![a-z])ai(?![a-z]) )"""
+
+    MERGE_CASES = [
+        ("Is Big Tech's AI slowdown a safety pact or a cartel?",
+         'When OpenAI CEO Sam Altman, Anthropic CEO Dario Amodei loosely agreed over the weekend'),
+        ('Anthropic boss Dario Amodei calls for AI slowdown', ''),
+        ('Anthropic boss Dario Amodei calls for AI development to slow down', ''),
+        ('死敌罕见联手！马斯克、Altman支持Dario Amodei“全球放缓AI”呼吁', ''),
+        ('“AI交易”周一要遭暴击？三巨头支持“放缓”、OpenAI推迟IPO引热议',
+         '周六，Anthropic首席执行官Dario Amodei发文呼吁全球AI行业主动放缓前沿模型开发节奏'),
+        ('美国政坛激辩“AI放缓”：领袖班农、桑德斯都支持，特朗普称“不能踩刹车”',
+         '由多位科技行业领袖发起的“放缓AI发展”倡议'),
+        ('AI开发放缓担忧升温，美股指全线收跌，芯片指数大跌近6%', ''),
+        ('US tech stocks fall after big AI groups call for slowdown', ''),
+        ('The A.I. Slowdown Debate Goes Global', ''),
+        ('Tech Stocks Tumble After AI Leaders Call for Industry to Slow Down', ''),
+        ('Anthropic首席执行官呼吁放缓人工智能发展速度', ''),
+        ('AI-linked stocks slide after tech bosses call for slowdown in “reckless” development', ''),
+        ("Nvidia CEO Jensen Huang tells Trump we're not going to let [an AI slowdown] happen", ''),
+        ('人工智能“放缓”论战：业界示警言“恐惧人类未来”', ''),
+        ('阿莫迪、奥特曼、马斯克都喊放缓', ''),
+        ('中国官媒批安特罗匹克放缓人工智能倡议体现针对中国的“冷战思维”', ''),
+        ('AI问题已成为中期选举核心议题：特朗普政府不愿放缓AI发展', ''),
+        ('集体踩刹车，微软加入OpenAI、Anthropic，表态放缓AI前沿开发', ''),
+        ('Everyone should slow down AI development except for me', ''),
+        ("Questions mount over what an AI 'slowdown' would look like", ''),
+        ('科技巨頭倡議放慢AI發展　環球時報指是冷戰劇本',
+         'Anthropic執行長阿莫戴日前發表文章 提倡協調一致放慢'),
+    ]
+
+    def test_all_map_to_same_key(self):
+        for t, s in self.MERGE_CASES:
+            assert entity_key(t, s) == 'ai_slowdown_debate', (t, entity_key(t, s))
+
+    def test_cjk_adjacent_ai_boundary(self):
+        # \b 修复验证: CJK 邻接的 "AI放缓"/"放缓AI" 必须命中 ('I'-'放' 间无 \b 词边界)
+        assert entity_key('AI放缓引发市场担忧', '') == 'ai_slowdown_debate'
+        assert entity_key('市场热议放缓AI发展', '') == 'ai_slowdown_debate'
+
+    def test_no_false_positive(self):
+        for t in ['Nvidia is the central bank of AI',
+                  'Retrospectively Reverse-Engineering Apple’s Neural Engine',
+                  'Fed officials signal rate rises could slow',
+                  '中国经济放缓压力加大，政策工具箱充足',
+                  'NVIDIA announces new datacenter GPU',
+                  # David Sacks 推文: 属辩论回应但不并入 (并入会使推文夺代表位, 标题误导) — 保持独立
+                  'David Sacks: OpenAI and Anthropic Don’t Need Regulations to Pace Frontier Models']:
+            assert entity_key(t, '') is None, (t, entity_key(t, ''))
+
+    def test_merge_across_sources(self):
+        arts = [_art('Is Big Tech’s AI slowdown a safety pact or a cartel?', '', feed='The Verge', hot=12),
+                _art('死敌罕见联手！马斯克、Altman支持Dario Amodei“全球放缓AI”呼吁', '', feed='华尔街见闻', hot=11),
+                _art('AI-linked stocks slide after tech bosses call for slowdown', '', feed='卫报国际', hot=6)]
+        groups = group_events(arts)
+        assert len(groups) == 1 and len(groups[0]) == 3, f'{len(groups)} 组'
+
+    def test_priority_regex_covers_merged_event(self):
+        # PRIORITY_EVENTS 保底: 代表标题 (Verge) 必须被某条保底规则命中
+        matched = any(prx.search("Is Big Tech's AI slowdown a safety pact or a cartel?")
+                      for prx, _ in NS['PRIORITY_EVENTS'])
+        assert matched
+
+
+class TestNoise20260915:
+    """2026-09-15: 促销/个人博客/软内容噪声 —
+    best deals (The Verge Nintendo 促销占产业/公司 TOP1) / 直降 (小米国补促销占 TOP5) /
+    cyberattacked by tesla + dodgy ads (HN 个人纠纷/评论帖, 同类 apple is getting this wrong) /
+    Pion 产品展示帖 (同类 marty/ankidroid) / 滚烫饮品 (健康研究) /
+    protect your laptop (学生防盗指南) / got paid to move (搬家补贴个人故事)"""
+
+    def test_new_noise_patterns(self):
+        for t in ["The best deals from Nintendo’s ‘customer appreciation’ sale",
+                  '16+512G 3799 元：小米 15 Ultra 国补直降，骁龙 8 至尊 + 徕卡 2 亿长焦',
+                  "I'm being cyberattacked by Tesla, Inc",
+                  'Why is Google still serving dodgy ads?',
+                  'Pion, an agent designed to run any company autonomously',
+                  '滚烫饮品可增加患癌风险——牛津大学带来最新研究',
+                  'How to protect your laptop, phone and bike from thieves at uni',
+                  "I got paid $5,000 to move to a place I'd never heard of"]:
+            assert is_noise(t), t
+
+    def test_corp_news_not_noise(self):
+        assert not is_noise('小米 18 Fold 中折叠手机拥有 1.2 米抗跌落能力，雷军称媲美直板旗舰')
+        assert not is_noise('特斯拉 Q3 交付量创新高，上海超级工厂产能利用率达 95%')
+        assert not is_noise('牛津大学团队获 1.5 亿英镑科研资助，将建新实验室')
