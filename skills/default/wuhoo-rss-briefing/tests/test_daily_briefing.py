@@ -725,3 +725,30 @@ class TestNoise20260915:
         assert not is_noise('小米 18 Fold 中折叠手机拥有 1.2 米抗跌落能力，雷军称媲美直板旗舰')
         assert not is_noise('特斯拉 Q3 交付量创新高，上海超级工厂产能利用率达 95%')
         assert not is_noise('牛津大学团队获 1.5 亿英镑科研资助，将建新实验室')
+
+
+class TestNoise20260916:
+    """2026-09-16: Engadget 促销帖 (Prime Big Deal Days) / IT之家消费电子发售续三 (影石发布, 同类 米家/漫步者/机械革命)"""
+
+    def test_new_noise_patterns(self):
+        for t in ["Amazon's Prime Big Deal Days sale returns in October",
+                  '影石 Mic Pro 腾讯会议版 AI 录音领夹麦发布，698 元']:
+            assert is_noise(t), t
+
+    def test_corp_news_not_noise(self):
+        assert not is_noise('影石 X5 全景相机获 DXOMARK 评测最高分')
+        assert not is_noise('亚马逊云科技发布新一代自研 AI 芯片 Trainium 4')
+
+
+class TestEngadgetGuideConsidering20260916:
+    """2026-09-16: Engadget 导购类扩 considering — 'Considering a Level 2 EV charger? How to know if you need one'
+    hot6 占产业/公司候选, 与 How-to 同类为非新闻事件。该正则为 feed 级过滤 (仅 Engadget feed 启用), 非全局噪声。"""
+
+    G = NS['ENGADGET_GUIDE_RE']
+
+    def test_considering_guide_matches(self):
+        assert self.G.search('Considering a Level 2 EV charger? How to know if you need one')
+        assert self.G.search('How to change Amazon Alexa’s voice and personality')
+
+    def test_news_not_match(self):
+        assert not self.G.search('EV charger demand is outstripping supply, says ChargePoint report')

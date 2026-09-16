@@ -363,11 +363,13 @@ return best
 - **NOISE 新增（2026-09-15）**：`best deals`（The Verge Nintendo 促销 hot9 占产业/公司 TOP1）、`直降`（"小米 15 Ultra 国补直降" hot6 占 TOP5）、`cyberattacked by tesla`/`dodgy ads`（HN 个人纠纷 blog/评论帖，同类 apple is getting this wrong/works better in the app）、`run any company autonomously`（Pion 产品展示帖，同类 marty/ankidroid）、`滚烫饮品`（BBC 健康研究 hot11）、`protect your laptop`（学生防盗指南）、`got paid .{0,12}to move`（搬家补贴个人故事）。已同步 scripts/daily_briefing.py。
 - **David Sacks 推文未并入的决策记录（2026-09-15）**：WH AI 事务负责人推文 "OpenAI and Anthropic Don't Need Regulations to Pace Frontier Models"（属放缓辩论回应）若并入 `ai_slowdown_debate` 会以 14 分夺得**组代表位**（主事件标题被推文文案顶替，误导）→ 保持独立展示（如实）；ENTITY/PRIORITY 规则均不含 'pace frontier'。
 - **"新增 M 条" 口径（2026-09-15）**：banner 数据采集行补 `新增 {n_new} 条`（= `fetched_at` 今日 00:00 起的条数，对齐 job prompt 输出格式与当日 fetch 计数；实测 751 与 fetch 输出一致）。已同步 scripts/daily_briefing.py。
+- **NOISE 新增 + Engadget 导购扩类（2026-09-16）**：`big deal days`（Engadget "Amazon's Prime Big Deal Days sale returns in October" 促销 hot6 占产业/公司候选，同类 best deals/where to preorder）；`影石.*(发布|开售|首销|上架|首发|众筹)`（IT之家消费电子发售续三，"影石 Mic Pro 腾讯会议版…发布" hot6，同类 米家/漫步者/机械革命）；`ENGADGET_GUIDE_RE` 扩 `considering`（"Considering a Level 2 EV charger? How to know if you need one" 导购，同类 How-to 指南）。已同步 scripts/daily_briefing.py + tests。
 
 ## 版本
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.24 | 2026-09-16 | ENGADGET_GUIDE_RE 扩 `considering` 导购类（'Considering a Level 2 EV charger?…' hot6）；NOISE 补 `big deal days`（Engadget 促销）/ `影石.*(发布|开售|…)`（IT之家消费电子发售续三）；窗口边界三测（09-14 批次 fetched_at=08:03:59 于本日 08:03→08:1x 两跑之间整批出窗，财经 TOP5 换血）；同步 scripts/daily_briefing.py + tests |
 | 1.23 | 2026-09-15 | ENTITY_KEYS 加 `ai_slowdown_debate`（Amodei"放缓AI"辩论 16 源不合并；**ai 锚点 CJK 邻接修复 `(?<![a-z])ai(?![a-z])` 替 `\b`**、距离限 55；Sacks 推文保持独立）+ PRIORITY_EVENTS 保底（代表 hot 12 被 14 分条目挤出 TOP5 → 替换末位）；NOISE 补 best deals/直降/cyberattacked by tesla/dodgy ads/run any company autonomously/滚烫饮品/protect your laptop/got paid 搬家；banner 补"新增 M 条"（今日 00:00 起）；窗口边界二次实测（09-13 批次整批进出）；同步 scripts/daily_briefing.py |
 | 1.22 | 2026-09-14 | verify-on-stop 守卫根因沉淀：cron 编辑脚本后须裸 `pytest tests/ -q`（等价拼写表不含 python3.11；`; echo`/管道使退出码不可归因→不记录→提醒重复）先记录验证证据再输出简报；本日实测账本记 passed；定位 09-09/09-13「pytest 总结顶掉简报」根因为该守卫提醒 |
 | 1.21 | 2026-09-14 | ENTITY_KEYS 加 `rubygems_attack`（OpenAI 智能体攻击 RubyGems 披露 5 源不合并：HN/中央社/第一财经/Verge/Engadget 标题各异；Verge 版标题与 50 字摘要窗口均无 RubyGems 字样需「another company」分支；Hugging Face 分支要求攻击语境防 HF Blog 误并）；clean_summary 增中央社 byline 剥离 `^（中央社[^）]{0,60}?）`（合并回填实测）；同步 scripts/daily_briefing.py |

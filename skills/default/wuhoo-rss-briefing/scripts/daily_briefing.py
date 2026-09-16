@@ -60,7 +60,7 @@ def clean_summary(s, feed_name=''):
 FEED_NOISE_RE = re.compile(r'arxiv|知乎日报', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call', re.I)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
-ENGADGET_GUIDE_RE = re.compile(r'^how to\b', re.I)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4)
+ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering)\b', re.I)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
@@ -206,6 +206,10 @@ NOISE_PATTERNS = [
     # 2026-09-15 新增 — BBC 软内容: 健康研究/学生防盗指南/搬家补贴个人故事 (同类: 月经周期/back to school/plug-in solar;
     # 实测 "滚烫饮品可增加患癌风险" hot11 占科技/AI 候选、"How to protect your laptop…"/"I got paid $5,000 to move…" 占财经 11 分档)
     '滚烫饮品', 'protect your laptop', 'got paid .{0,12}to move',
+    # 2026-09-16 新增 — Engadget 促销帖 (同类: best deals/where to preorder/half off; "Amazon's Prime Big Deal Days sale returns in October" hot6 占产业/公司候选)
+    'big deal days',
+    # 2026-09-16 新增 — IT之家消费电子发售续三 (同类: 米家/漫步者/机械革命/努比亚; 实测 "影石 Mic Pro 腾讯会议版…发布" hot6 占产业/公司候选)
+    '影石.*(发布|开售|首销|上架|首发|众筹)',
 ]
 
 def is_noise(text):
