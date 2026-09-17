@@ -127,6 +127,13 @@ NOISE_PATTERNS = [
     '哥倫比亞.*候選', '哥倫比亞.*總統',
     '鹅腿阿姨', '成本价.*块', '塌房', '清澈的愚蠢',
     '朱思码记', '西湖论功', '雍正', '断桥',
+    # 2026-09-17 新增 — 虎嗅个人专栏 (同类 朱思码记; "战魔田默｜…全球定价权" 占产业/公司 TOP5, 非新闻事件)
+    '战魔田默',
+    # 2026-09-17 新增 — 游戏皮肤/预购争议 (同类 gta/深海迷航; "《暗黑破坏神 4》杰洛特皮肤引争议" 占产业/公司 TOP5)
+    '暗黑破坏神', '杰洛特', '游戏皮肤',
+    # 2026-09-17 续 — 游戏联动/皮肤公告 (同类; "《Apex 英雄》游戏官宣联动《街头霸王》" 递补占 TOP5,
+    # 泛化规则: 游戏+联动/皮肤 组合; apex 需限定 '英雄' 防误伤公司名 Apex)
+    '游戏.*(联动|皮肤)', '(联动|皮肤).*游戏', r'apex\s*英雄', '街头霸王',
     '泰国.*公主', '泰国.*病逝', '公主.*病逝', '公主.*逝世',
     '王室.*公告', 'royal.*palace', '泰国王室', '宮務處',
     'thai princess', 'bajrakitiyabha', 'dies after years in coma',
@@ -399,6 +406,15 @@ ENTITY_KEYS = [
                 r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,60}(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴)'
                 r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能|前沿)'
                 r'|((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能).{0,55}(slow ?down|slowdown|放缓|放慢|减速|刹车)', re.I), 'ai_slowdown_debate'),
+    # 2026-09-17: 美联储三年来首次加息 (09-16 FOMC, 三年来首次加息+暗示更多紧缩; BBC19/FT12/华尔街见闻×5/NYT×3/
+    # 德国之声/中央社/HN/CoinDesk×2/RFI 约10源标题各异不合并, 财经 TOP5 第1+第5位被同事件拆开占据)
+    # 锚点=美联储/联准会/Fed/Warsh+加息语境; 防误并: 'feds?' 词边界 (federal 不单独命中, 显式加 federal reserve);
+    # 英澳/英央行不并 (无 fed 锚点; 'IMF...Australian...interest rate hike' 因 hike 非 raised 且无锚点不并);
+    # BBC 版标题 'US interest rates raised for first time...' 无 Fed 字样 → 专列独立分支 (48h 窗口内唯一指该事件)
+    (re.compile(r'(?:\bfeds?\b|federal reserve|美联储|聯準|联准会).{0,50}(?:rate hike|first rate (?:hike|rise|increase)|\bhikes? (?:the )?(?:key |interest )?rates?\b|raises? (?:the )?(?:key |interest )?rates?\b|interest rates? (?:were )?(?:raised|hiked)|rais\w*\s+interest\s+rates?|加息|升息|調升利率|调升利率)'
+                r'|(?:rate hike|加息|升息).{0,50}(?:\bfeds?\b|federal reserve|美联储|聯準|联准会)'
+                r'|(?:warsh|沃什).{0,40}(?:rate|加息|升息|hike)'
+                r'|interest rates raised for (?:the )?first time', re.I), 'fed_rate_hike'),
 ]
 
 def entity_key(title, summary):

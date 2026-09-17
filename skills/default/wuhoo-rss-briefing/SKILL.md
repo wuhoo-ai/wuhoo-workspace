@@ -369,6 +369,7 @@ return best
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.25 | 2026-09-17 | ENTITY_KEYS 加 `fed_rate_hike`（美联储三年来首次加息 09-16 FOMC，13源39条不合并，财经 TOP5 第1+第5位被同事件拆开占据；BBC 版标题无 Fed 字样需独立分支 `interest rates raised for (the )?first time`；防误并：`feds?` 词边界防 Fedex、英/欧央行与 IMF 澳洲无锚点不并、`hikes? rates?` 收紧为带 the/key/interest 限定防"Fed officials signal rate rises could slow"型预测文误并——该防例回归测试实测拦截）；NOISE 补 `战魔田默`（虎嗅署名专栏，同类 朱思码记）+ 游戏娱乐三批（`暗黑破坏神`/`杰洛特`/`游戏皮肤` + 泛化 `游戏.*(联动\|皮肤)`/`apex\s*英雄`/`街头霸王`，同类 gta/深海迷航——游戏皮肤/联动公告连续两次递补挤占产业/公司 TOP5）；93 passed |
 | 1.24 | 2026-09-16 | ENGADGET_GUIDE_RE 扩 `considering` 导购类（'Considering a Level 2 EV charger?…' hot6）；NOISE 补 `big deal days`（Engadget 促销）/ `影石.*(发布|开售|…)`（IT之家消费电子发售续三）；窗口边界三测（09-14 批次 fetched_at=08:03:59 于本日 08:03→08:1x 两跑之间整批出窗，财经 TOP5 换血）；同步 scripts/daily_briefing.py + tests |
 | 1.23 | 2026-09-15 | ENTITY_KEYS 加 `ai_slowdown_debate`（Amodei"放缓AI"辩论 16 源不合并；**ai 锚点 CJK 邻接修复 `(?<![a-z])ai(?![a-z])` 替 `\b`**、距离限 55；Sacks 推文保持独立）+ PRIORITY_EVENTS 保底（代表 hot 12 被 14 分条目挤出 TOP5 → 替换末位）；NOISE 补 best deals/直降/cyberattacked by tesla/dodgy ads/run any company autonomously/滚烫饮品/protect your laptop/got paid 搬家；banner 补"新增 M 条"（今日 00:00 起）；窗口边界二次实测（09-13 批次整批进出）；同步 scripts/daily_briefing.py |
 | 1.22 | 2026-09-14 | verify-on-stop 守卫根因沉淀：cron 编辑脚本后须裸 `pytest tests/ -q`（等价拼写表不含 python3.11；`; echo`/管道使退出码不可归因→不记录→提醒重复）先记录验证证据再输出简报；本日实测账本记 passed；定位 09-09/09-13「pytest 总结顶掉简报」根因为该守卫提醒 |
