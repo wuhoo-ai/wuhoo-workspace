@@ -47,7 +47,7 @@ def clean_summary(s, feed_name=''):
     s = re.sub(r'\s+', ' ', s).strip()
     # 2026-09-10: 通用前缀清理 — NYT中文 "KALLEY HUANG2026年9月10日周三，..." 署名+前导日期 (iPhone Duo 代表回填实测);
     # RFI "09/09/2026 - 20:54 ..." 时间戳 (巴黎空间峰会条目实测)
-    s = re.sub(r'^[A-Z][A-Za-z.\-\s]{1,40}(?=\d{4}年\d{1,2}月)', '', s)
+    s = re.sub(r'^[A-Z][A-Za-z.\-\s,，]{1,40}(?=\d{4}年\d{1,2}月)', '', s)  # 2026-09-18: 补逗号 — 多作者署名 "MATINA STEVIS-GRIDNEFF, JEANNA SMIALEK2026年…" (canada_eu_associate 代表实测)
     s = re.sub(r'^\d{4}年\d{1,2}月\d{1,2}日(周|星期)?[一二三四五六日]?[，,\s]*', '', s)
     s = re.sub(r'^\d{2}/\d{2}/\d{4}\s*-\s*\d{1,2}:\d{2}\s*', '', s)
     # 2026-09-14: 中央社 byline 前缀 — "（中央社舊金山11日綜合外電報導）…" 吃满 50 字摘要窗口 (RubyGems 合并回填实测)
@@ -180,6 +180,12 @@ NOISE_PATTERNS = [
     # 2026-09-02 新增 — IT之家消费电子发售挤占产业/公司 TOP (同类: vgn鼠标/外设; 米家冰箱/制冰机/漫步者音箱/HKC手柄)
     '米家.*(首销|发售|开售|预售|众筹)', '漫步者.*(首销|发售|开售|预售)', '猎弦', '绝梦',
     'ankidroid',                                      # HN 小众 App 捐赠链接政策变动 (低信号, 非新闻事件)
+    # 2026-09-18 新增 — HN 开源项目/编程语言展示帖 (同类: marty/ankidroid/run any company autonomously;
+    # "Bend – A language that blocks AI mistakes via proof" 占科技/AI TOP3、"Neovim have a ~$800k Bitcoin
+    # donation sitting untouched since 2023" 占财经 TOP5, 均为社区话题非新闻事件)
+    'blocks ai mistakes', 'neovim',
+    # 2026-09-18 新增 — IT之家手机供应链软文 (京东方为努比亚新机型"独供"屏幕, 营销稿非独立事件, 同类 消费电子发售系列)
+    '京东方.*(独供|供货)',
     'refund when using your credit card',             # BBC Business 信用卡退款科普 (category=财经 加权误入财经 TOP)
     'fortrea',                                        # Seeking Alpha 单股分析 (Fortrea Holdings 中盘CRO, 低信号)
     # 2026-09-05 新增 — 少数派"派早报"日更聚合栏目 (同类: IT早报/早餐FM/fm-radio, 每日多资讯打包非单一事件)
@@ -415,6 +421,9 @@ ENTITY_KEYS = [
                 r'|(?:rate hike|加息|升息).{0,50}(?:\bfeds?\b|federal reserve|美联储|聯準|联准会)'
                 r'|(?:warsh|沃什).{0,40}(?:rate|加息|升息|hike)'
                 r'|interest rates raised for (?:the )?first time', re.I), 'fed_rate_hike'),
+    # 2026-09-18: 加拿大成欧盟首个"准成员"提案 (HN 英文标题 / 德国之声 "Von der Leyen eyes Canada..." 同事件标题各异不合并,
+    # 各占宏观 TOP1/TOP4; 锚点须带 associate/准成员 语境防一般加欧新闻误并; von der leyen 标题用 "first associate member")
+    (re.compile(r'(canad|carney|卡尼|加拿大).{0,80}(associate|quasi[- ]member|准成员)|(associate|quasi[- ]member|准成员).{0,80}(canad|carney|卡尼|加拿大)', re.I), 'canada_eu_associate'),
 ]
 
 def entity_key(title, summary):

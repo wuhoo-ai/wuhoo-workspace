@@ -814,3 +814,53 @@ class TestNoise20260917:
     def test_game_crossover_noise(self):
         assert is_noise('《Apex 英雄》游戏官宣联动《街头霸王》，9 月 22 日正式上线')
         assert is_noise('某游戏推出限定皮肤活动')
+
+
+class TestCanadaEuAssociate20260918:
+    """2026-09-18: 加拿大成欧盟首个'准成员'提案 — HN 英文版与德国之声 Von der Leyen 版同事件不合并，
+    各占宏观 TOP1/TOP4"""
+
+    MERGE_CASES = [
+        ("Canada welcomes EU proposal to become 'associate member'", ''),
+        ("Von der Leyen eyes Canada as EU's first 'associate member'", ''),
+        ("卡尼欢迎欧盟邀请加拿大成为准成员", ''),
+    ]
+
+    def test_all_map_to_same_key(self):
+        for t, s in self.MERGE_CASES:
+            assert entity_key(t, s) == 'canada_eu_associate', (t, entity_key(t, s))
+
+    def test_no_false_positive(self):
+        # 无 associate/准成员 语境的一般加欧新闻不并
+        for t in ['Canada and EU sign new trade deal',
+                  'Germany welcomes additional US military base',
+                  'Associate justice nominated to supreme court']:
+            assert entity_key(t, '') is None, (t, entity_key(t, ''))
+
+    def test_merge_across_sources(self):
+        arts = [_art("Canada welcomes EU proposal to become 'associate member'", feed='Hacker News', hot=11),
+                _art("Von der Leyen eyes Canada as EU's first 'associate member'", feed='德国之声中文', hot=10)]
+        groups = group_events(arts)
+        assert len(groups) == 1 and len(groups[0]) == 2, f'{len(groups)} 组'
+
+
+class TestNoise20260918:
+    """2026-09-18: HN 开源项目/社区展示帖 (Bend 语言/Neovim 比特币捐赠) 占科技/财经 TOP5;
+    IT之家手机供应链软文 (京东方独供) 占产业 TOP5"""
+
+    def test_hn_project_posts_noise(self):
+        assert is_noise('Bend – A language that blocks AI mistakes via proof, on CPU and GPU')
+        assert is_noise('Neovim have a ~$800k Bitcoin donation sitting untouched since 2023')
+
+    def test_supply_chain_pr_noise(self):
+        assert is_noise('京东方：为努比亚 NaviX Ultra 独供 AI 原生旗舰屏幕，息屏也能低功耗支撑 AI 后台运行')
+
+    def test_legit_news_not_noise(self):
+        assert not is_noise('NVIDIA launches new GPU for data centers')
+        assert not is_noise('京东方上半年净利润同比增长 30%')
+
+    def test_multi_author_byline_stripped(self):
+        # 2026-09-18: NYT中文多作者署名含逗号 "MATINA STEVIS-GRIDNEFF, JEANNA SMIALEK2026年9月17日周三，…"
+        # 旧字符类无逗号 → 署名吃满 50 字窗口 (canada_eu_associate 代表实测)
+        s = clean_summary('MATINA STEVIS-GRIDNEFF, JEANNA SMIALEK2026年9月17日周三，加拿大欢迎欧盟准成员提案')
+        assert s.startswith('加拿大欢迎'), repr(s)
