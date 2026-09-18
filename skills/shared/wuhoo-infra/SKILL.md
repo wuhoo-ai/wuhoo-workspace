@@ -174,6 +174,7 @@ iLink 对 bot 发消息有限流（触发时返回 ret=-2），Hermes weixin 适
 threshold=10/window=60/open=30。大简报（64KB→30+分片）曾因 2s 间隔密集发送触发熔断丢投递，改 20s 后不再触发。
 重启 gateway 生效；验证：日志退避时长 = retry_delay*3（旧 6s=2*3 → 新 15s=5*3）。
 残余风险：iLink 持续限流超过重试窗口（约 2.5 分钟）仍会失败，cron job 的 last_delivery_error 可查。
+**2026-09-10 实测**：74KB 简报连续限流 3.3 分钟后 `send failed ... ret=-2 errmsg=prepare failed`，任务被标 failed（failure_streak+1），且**未自动生成重试 obligation**（09-09 那次走 obligation 补推成功——两条路径行为不同）。大简报更稳的备选：转 PDF 走文件通道或拆分发送。
 
 ## PDF 微信投递
 
