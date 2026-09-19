@@ -864,3 +864,157 @@ class TestNoise20260918:
         # 旧字符类无逗号 → 署名吃满 50 字窗口 (canada_eu_associate 代表实测)
         s = clean_summary('MATINA STEVIS-GRIDNEFF, JEANNA SMIALEK2026年9月17日周三，加拿大欢迎欧盟准成员提案')
         assert s.startswith('加拿大欢迎'), repr(s)
+
+
+class TestOpenaiTransparency20260919:
+    """2026-09-19: OpenAI 披露模型"异常行为"透明度报告 (德国之声14/IT之家9/FT6/Engadget6/华尔街见闻3 共5源
+    标题各异不合并: discloses new 'concerning' behavior / 披露 GPT-5.6 Sol 异常行为 / reveals more instances…)"""
+
+    MERGE_CASES = [
+        ("OpenAI discloses new 'concerning' behavior",
+         'New transparency reports from OpenAI show that som'),
+        ("OpenAI discloses new 'concerning' model behaviour",
+         'Developer launches system to track and report AI model'),
+        ("OpenAI reveals more instances of concerning AI model behaviors during testing", ''),
+        ("OpenAI 披露 GPT-5.6 Sol 异常行为：AI 模型会留下指令要求“未来版本的自己”隐瞒自身错误", ''),
+        ('当AI开始"撒谎"，OpenAI披露旗舰模型六起"异常行为"', ''),
+    ]
+
+    def test_all_map_to_same_key(self):
+        for t, s in self.MERGE_CASES:
+            assert entity_key(t, s) == 'openai_transparency', (t, entity_key(t, s))
+
+    def test_no_false_positive(self):
+        # 无 concerning/异常行为/透明度报告 语境的普通 OpenAI 新闻不并
+        for t in ['OpenAI launches new pricing tier for enterprise customers',
+                  "OpenAI and Anthropic don't need regulations to pace frontier models"]:
+            assert entity_key(t, '') is None, (t, entity_key(t, ''))
+
+    def test_merge_across_sources(self):
+        arts = [_art("OpenAI discloses new 'concerning' behavior", feed='德国之声', hot=14),
+                _art('OpenAI 披露 GPT-5.6 Sol 异常行为：模型会隐瞒自身错误', feed='IT之家', hot=9, cat='科技')]
+        groups = group_events(arts)
+        assert len(groups) == 1 and len(groups[0]) == 2, f'{len(groups)} 组'
+
+
+class TestGoogleCcAgent20260919:
+    """2026-09-19: Google 发布新实验性 "CC" AI 智能体 (Engadget12/TechCrunch12/Ars12 三源同事件标题各异不合并)"""
+
+    MERGE_CASES = [
+        ("Google's revamped CC is an AI agent for families and groups", ''),
+        ("Google’s new ‘CC’ is an AI agent that helps families run their households", ''),
+        ('Google announces new experimental "CC" AI agent for families', ''),
+    ]
+
+    def test_all_map_to_same_key(self):
+        for t, s in self.MERGE_CASES:
+            assert entity_key(t, s) == 'google_cc_agent', (t, entity_key(t, s))
+
+    def test_no_false_positive(self):
+        # Verge "Google will now let any AI agent run your smart home"(hot15) 无 CC 产品名 → 不同事件不并
+        for t in ['Google will now let any AI agent run your smart home',
+                  'Google announces Gemini 3.6 Flash for developers']:
+            assert entity_key(t, '') is None, (t, entity_key(t, ''))
+
+    def test_merge_across_sources(self):
+        arts = [_art("Google's revamped CC is an AI agent for families and groups", feed='Engadget', hot=12),
+                _art('Google announces new experimental "CC" AI agent for families', feed='Ars Technica', hot=12)]
+        groups = group_events(arts)
+        assert len(groups) == 1 and len(groups[0]) == 2, f'{len(groups)} 组'
+
+
+class TestXiUsVisit20260919:
+    """2026-09-19: 习近平访美随行企业高管名单 (中央社 + RFI 两条同事件标题各异不合并)"""
+
+    MERGE_CASES = [
+        ('南華早報：中際旭創、小米、寧德時代等代表可能隨習近平訪美',
+         '川習會預計將於24日登場，隨同中國國家主席習近平訪美的名單也備受關注'),
+        ('比亚迪、小米等公司高管或随习近平访美 黄仁勋、奥特曼等美高管将出席国宴',
+         '据路透社援引三位知情人士报导称，华盛顿和北京方面正在敲定一份随同中国国家主席习近平即将访美行程的中国'),
+    ]
+
+    def test_all_map_to_same_key(self):
+        for t, s in self.MERGE_CASES:
+            assert entity_key(t, s) == 'xi_us_visit', (t, entity_key(t, s))
+
+    def test_no_false_positive(self):
+        for t in ['习近平会见美国工商界代表', '特朗普表示将访美企业纳入关税豁免']:
+            assert entity_key(t, '') is None, (t, entity_key(t, ''))
+
+
+class TestBuffettStepdown20260919:
+    """2026-09-19: 巴菲特卸任伯克希尔董事长 (BBC11/DW11/虎嗅3/HN3/NYT3/中央社3 共6源标题各异不合并,
+    hot 11 与 4 条普通条目并列被挤出 TOP5 → 同批加 PRIORITY_EVENTS 保底插入)"""
+
+    MERGE_CASES = [
+        ("Warren Buffett steps down after six decades at Berkshire - 'Father Time always wins'", ''),
+        ('Warren Buffett steps down as Berkshire Hathaway chairman',
+         "Buffett's son, Howard, will succeed him in the rol"),
+        ('巴菲特71岁的儿子，接任董事长', '有“股神”之称的传奇投资人沃伦·巴菲特正式卸任伯克希尔·哈撒韦董事长'),
+        ('96歲巴菲特致信波克夏股東　宣布卸任董事長', ''),
+        ('Warren Buffett Steps Down as Berkshire Chairman, Names Son to Replace Him', ''),
+    ]
+
+    def test_all_map_to_same_key(self):
+        for t, s in self.MERGE_CASES:
+            assert entity_key(t, s) == 'buffett_stepdown', (t, entity_key(t, s))
+
+    def test_no_false_positive(self):
+        for t in ['Berkshire Hathaway reports record quarterly operating profit',
+                  '巴菲特指标显示美股估值处于历史高位']:
+            assert entity_key(t, '') is None, (t, entity_key(t, ''))
+
+    def test_priority_event_registered(self):
+        topics = [t for rx, t in NS['PRIORITY_EVENTS']
+                  if rx.search('Warren Buffett steps down as Berkshire Hathaway chairman')]
+        assert topics == ['财经/投资'], topics
+
+
+class TestSaLowSignalTranscript20260919:
+    """2026-09-19: SA 会议材料续 — 'Discusses … Transcript' / 'Analyst/Investor Day Transcript'
+    漏过旧规则 (q1/q2/commentary/slideshow/…) 占财经/投资 TOP5"""
+
+    SA = NS['SA_LOW_RE']
+
+    def test_transcript_variants_matched(self):
+        for t in ['Vicinity Centres Stapled Securities (CNRAF) Discusses Capability Showcase With Focus on '
+                  'Development Strategy and Asset Portfolio Transcript',
+                  'AeroVironment, Inc. (AVAV) Analyst/Investor Day Transcript',
+                  'Zeta Global Holdings Corp. (ZETA) Discusses AI Strategy Evolution, Infrastructure Transformation']:
+            assert self.SA.search(t.lower()), t
+
+    def test_legit_sa_news_not_matched(self):
+        # 正常财报新闻不应被 SA_LOW_RE 命中
+        for t in ['NVIDIA beats Q3 revenue estimates as data center demand surges',
+                  'Apple Q4 earnings preview: what to watch']:
+            assert not self.SA.search(t.lower()), t
+
+
+class TestNoise20260919:
+    """2026-09-19: HN 开发工具细枝末节帖 (Claude Code AGENTS.md, HN hot14 占科技/AI TOP3) +
+    BBC Business 街头采访软内容 ('I would tip up to 30% at a restaurant' hot11 进财经候选)"""
+
+    def test_hn_devtool_post_noise(self):
+        # 同题 IT之家转述版一并过滤 (同一非头条事件, 同类 ankidroid/neovim/派早报)
+        assert is_noise('Claude Code now reads AGENTS.md if there is no Claude.md')
+        assert is_noise('Claude Code 宣布添加支持“AI 通用说明书”AGENTS.md')
+
+    def test_street_interview_noise(self):
+        assert is_noise("'I would tip up to 30% at a restaurant' New Yorkers and Londoners share what they usually")
+
+    def test_legit_news_not_noise(self):
+        assert not is_noise('Anthropic 发布 Claude Code 新版本，支持子代理并行')
+        assert not is_noise('European markets tipped to open higher after Fed hike')
+
+
+class TestSiliconSpeciesClassify20260919:
+    """2026-09-19: AI 风险/超级智能类话题 → 科技/AI
+    (BBC Business 'Uncontrolled AI could lead to silicon species' hot17 因 category=财经 +3 且财经关键词=0 误分财经/投资 TOP1)"""
+
+    def test_ai_risk_goes_tech(self):
+        t = "Uncontrolled AI could lead to 'silicon species' rivalling humans, warns Microsoft"
+        s = 'Mustafa Suleyman says he believes rival AI firm Anthropic'
+        assert classify(t + ' ' + s, '财经') == '科技/AI'
+
+    def test_plain_finance_still_finance(self):
+        assert classify('Fed raises rates for the first time in three years', '财经') == '财经/投资'

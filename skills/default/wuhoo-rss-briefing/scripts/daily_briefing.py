@@ -59,7 +59,9 @@ def clean_summary(s, feed_name=''):
 # ── Feed 级过滤 ───────────────────────────────────────
 FEED_NOISE_RE = re.compile(r'arxiv|知乎日报', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
-SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call', re.I)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
+# 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
+# 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
+SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day', re.I)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
 ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering)\b', re.I)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
@@ -223,6 +225,12 @@ NOISE_PATTERNS = [
     'big deal days',
     # 2026-09-16 新增 — IT之家消费电子发售续三 (同类: 米家/漫步者/机械革命/努比亚; 实测 "影石 Mic Pro 腾讯会议版…发布" hot6 占产业/公司候选)
     '影石.*(发布|开售|首销|上架|首发|众筹)',
+    # 2026-09-19 新增 — HN 开发工具细枝末节帖 (非新闻事件, 同类 ankidroid/neovim/派早报;
+    # 实测 'Claude Code now reads AGENTS.md if there is no Claude.md' HN hot14 占科技/AI TOP3)
+    'agents\\.md',
+    # 2026-09-19 新增 — BBC Business 街头采访软内容 (同类 money disagre/central london shoppers/spend too much on;
+    # 实测 \"'I would tip up to 30% at a restaurant'\" hot11 进财经/投资候选)
+    'tip up to',
 ]
 
 def is_noise(text):
@@ -316,6 +324,10 @@ def classify(text, category_field):
         scores['宏观政策'] += 2
     if re.search(r'trade deal|trade talks|trade agreement|贸易协议|贸易协定|trade war|贸易战', text, re.I):
         scores['宏观政策'] += 3
+    # 2026-09-19: AI 风险/超级智能话题 → 科技/AI (BBC Business "Uncontrolled AI could lead to 'silicon species' rivalling humans"
+    # 因 category=财经 +3 且财经关键词=0 被误分为财经/投资 TOP1; hot17)
+    if re.search(r'silicon species|superintelligence|超级智能|超級智能|\bagi\b', text, re.I):
+        scores['科技/AI'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
     if category_field in cm:
@@ -424,6 +436,17 @@ ENTITY_KEYS = [
     # 2026-09-18: 加拿大成欧盟首个"准成员"提案 (HN 英文标题 / 德国之声 "Von der Leyen eyes Canada..." 同事件标题各异不合并,
     # 各占宏观 TOP1/TOP4; 锚点须带 associate/准成员 语境防一般加欧新闻误并; von der leyen 标题用 "first associate member")
     (re.compile(r'(canad|carney|卡尼|加拿大).{0,80}(associate|quasi[- ]member|准成员)|(associate|quasi[- ]member|准成员).{0,80}(canad|carney|卡尼|加拿大)', re.I), 'canada_eu_associate'),
+    # 2026-09-19: OpenAI 披露模型"异常行为"透明度报告 (德国之声14/IT之家9/FT6/Engadget6/华尔街见闻3 共5源标题各异不合并:
+    # discloses new 'concerning' behavior / 披露 GPT-5.6 Sol 异常行为 / reveals more instances of concerning AI model behaviors;
+    # 模糊防误并: 必须带 concerning/异常行为/隐瞒/六起/transparency report 语境, 不用泛 'behaviors' 裸词)
+    (re.compile(r'openai.{0,70}(concerning|transparency report|異常行為|异常行为|令人擔憂|令人担忧|隱瞞|隐瞒|撒謊|撒谎|六起)', re.I), 'openai_transparency'),
+    # 2026-09-19: Google 发布新实验性 "CC" AI 智能体 (Engadget12/TechCrunch12/Ars12 三源同事件标题各异不合并;
+    # 必须带 \bcc\b 产品名 — Verge "Google will now let any AI agent run your smart home"(hot15) 属不同事件不并)
+    (re.compile(r'(google|谷歌).{0,40}\bcc\b.{0,70}(ai agent|agent|famil|household|家庭|助手)|\bcc\b.{0,60}(ai agent|agent).{0,60}(famil|household|家庭)', re.I), 'google_cc_agent'),
+    # 2026-09-19: 习近平访美随行企业高管名单 (中央社 + RFI 两条同事件: 中际旭创/小米/宁德时代/比亚迪 等随行, 川习会 09-24)
+    (re.compile(r'(?:随|隨|随同|随行|高管|代表团|代表團|商界|陪).{0,40}[习習]近平.{0,20}(访|訪)美|[习習]近平.{0,20}(访|訪)美.{0,80}(高管|国宴|國宴|随行|隨行|名单|名單)', re.I), 'xi_us_visit'),
+    # 2026-09-19: 巴菲特卸任伯克希尔董事长 (BBC11/DW11/虎嗅3/HN3/NYT3/中央社3 共6源标题各异不合并, 当日最大财经人事事件)
+    (re.compile(r'(buffett|巴菲特).{0,60}(steps? down|stepping down|卸任|接任|chairman|董事長|董事长)|(chairman|董事長|董事长|卸任).{0,40}(buffett|巴菲特)', re.I), 'buffett_stepdown'),
 ]
 
 def entity_key(title, summary):
@@ -464,6 +487,9 @@ PRIORITY_EVENTS = [
     (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|放缓|放慢|减速|刹车|警告|warn)'
                 r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|人工智能|前沿)'
                 r'|((?<![a-z])ai(?![a-z])|a\.i\.?|人工智能).{0,55}(slow ?down|slowdown|放缓|放慢|减速|刹车)', re.I), '科技/AI'),
+    # 2026-09-19: 巴菲特卸任伯克希尔董事长 (6源合并后 hot 11, 与另外 4 条同为 11 分的普通条目竞争排第 6 位被 TOP5 截断;
+    # 56 年任期终结为当日最大财经人事事件, 同类 2026-08-09 Hassabis 案例 / 2026-09-15 放缓辩论案例)
+    (re.compile(r'(buffett|巴菲特).{0,60}(steps? down|stepping down|卸任|接任|chairman|董事長|董事长)|(chairman|董事長|董事长|卸任).{0,40}(buffett|巴菲特)', re.I), '财经/投资'),
 ]
 
 # ── 主流程 ────────────────────────────────────────────
