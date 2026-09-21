@@ -1160,3 +1160,26 @@ class TestNoise20260920:
                   '苹果 M6 芯片 GPU 跑分曝光，相比 M5 提升约 20%',
                   '墨西哥总统与特朗普会面讨论关税']:
             assert not is_noise(t), t
+
+
+class TestNoise20260921:
+    """2026-09-21: HN 项目展示帖 + 华尔街见闻周历栏目 + 虎嗅生活方式稿"""
+
+    def test_new_noise(self):
+        for t in ['Pirate Face Rescues LLM Models from Deletion',
+                  '下周重磅日程：全球聚焦中美',
+                  '无醇啤酒赢了增速，却还没赢下中国人的餐桌']:
+            assert is_noise(t), t
+
+    def test_new_noise_batch2(self):
+        for t in ['台电 T60 Mini 8.8 英寸小平板开售：支持 4G 插卡通话、紫光展锐 T7300 芯片，899 元',
+                  'San Francisco Onion Futures Company',
+                  'Ed Sheeran speaks on Gaza after Macklemore controversy']:
+            assert is_noise(t), t
+
+    def test_legit_news_not_noise(self):
+        for t in ['下周，美联储议息会议将决定是否加息',
+                  '啤酒行业半年报：青岛华润利润双增',
+                  '海盗湾推出 LLM 模型镜像库，OpenAI 回应',
+                  '歌星捐款支援加沙人道走廊，多国外长回应']:
+            assert not is_noise(t), t

@@ -289,6 +289,24 @@ NOISE_PATTERNS = [
     'tobacconist', 'firebomb',
     # 2026-09-20 新增 — Engadget 消费评论软文 (非新闻事件; 'Why buy a streaming device when you have a smart TV?')
     'why buy a streaming device',
+    # 2026-09-21 新增 — HN 一次性项目展示帖 (非新闻事件; 同类 marty/ankidroid/radio cipher;
+    # 实测 'Pirate Face Rescues LLM Models from Deletion' hot14 占科技/AI TOP2 且无摘要)
+    'pirate face',
+    # 2026-09-21 新增 — 华尔街见闻周度日程栏目 (非单一新闻事件, 周期性聚合; 同类 IT早报/早餐FM/派早报;
+    # 实测 '下周重磅日程：全球聚焦中美' hot19 占财经/投资 TOP1)
+    '下周重磅日程',
+    # 2026-09-21 新增 — 虎嗅消费生活方式稿 (非产业事件; 同类 鹅腿阿姨/躺在床上喝茶;
+    # 实测 '无醇啤酒赢了增速，却还没赢下中国人的餐桌' hot11 占宏观政策 TOP4)
+    '无醇啤酒',
+    # 2026-09-21 新增 — IT之家消费电子发售续五 (同类 米家/漫步者/爱国者/技嘉/利民/九州风神/台电;
+    # 实测 '台电 T60 Mini 8.8 英寸小平板开售' hot 占科技/AI TOP4)
+    '台电.*(发布|开售|首销|预售|上架|发售)',
+    # 2026-09-21 新增 — HN 玩笑/虚构项目帖 (非新闻事件; 同类 marty/neovim/pirate face;
+    # 实测 'San Francisco Onion Futures Company' 无摘要占财经 TOP3)
+    'onion futures',
+    # 2026-09-21 新增 — 娱乐名人八卦 (同类 泰国公主/哈利和梅根;
+    # 实测 'Ed Sheeran speaks on Gaza after Macklemore controversy' 占宏观政策 TOP3)
+    'ed sheeran', 'macklemore',
 ]
 
 def is_noise(text):
