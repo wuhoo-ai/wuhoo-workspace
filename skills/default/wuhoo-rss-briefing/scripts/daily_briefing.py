@@ -307,6 +307,9 @@ NOISE_PATTERNS = [
     # 2026-09-21 新增 — 娱乐名人八卦 (同类 泰国公主/哈利和梅根;
     # 实测 'Ed Sheeran speaks on Gaza after Macklemore controversy' 占宏观政策 TOP3)
     'ed sheeran', 'macklemore',
+    # 2026-09-22 新增 — 华尔街见闻自营"会员早报"日更聚合栏目 (非单一新闻事件;
+    # 实测 '会员早报：美国柴油价格刷新历史纪录 Meta智能体登顶美国App Store' 占财经/投资 TOP1, 同类 IT早报/早餐FM/派早报/下周重磅日程)
+    '会员早报',
 ]
 
 def is_noise(text):
@@ -466,6 +469,12 @@ ENTITY_KEYS = [
     (re.compile(r'chatgpt\s*images\s*2\.?5', re.I), 'chatgpt_images_25'),
     # 2026-09-09: Meta 发布首个个人 AI 智能体 Muse (Meta官方/TechCrunch/Verge/Engadget/HN100+/IT之家/华尔街见闻 7源;
     # 中文标题 "智能体Muse" 前是 CJK 字符无 \b 边界需中文语境分支; \bmuse\b 防 Renoir Museum 误并)
+    # 2026-09-22: 亚马逊封锁 Meta Muse AI 购物代理 (TechCrunch18 "Meta's AI agent has been
+    # blocked from using Amazon.com" 标题无 muse 字样 + HN15 "Amazon blocks Meta's new Muse..."
+    # + 华尔街见闻中文 "亚马逊封锁Meta旗下Muse AI购物代理" 同事件不合并 → 科技/AI TOP1-2 被占两条;
+    # 三锚点 lookahead: Amazon + block/ban + muse/智能体/AI agent, 规则须在 meta_muse 之前;
+    # 防误并: "Muse登上苹果应用商店榜首"(无封锁词)、"OpenAI开发新功能应对Meta Muse竞争"(无封锁词)均不合并)
+    (re.compile(r'(?=[\s\S]{0,200}(?:amazon|亚马逊|m\.com))(?=[\s\S]{0,200}(?:\bblock|\bban(?:s|ned|ning)?\b|封锁|封禁))(?=[\s\S]{0,200}(?:\bmuse\b|智能体|ai\s*(?:agent|购物代理|代购)))[\s\S]{0,200}', re.I), 'meta_muse_amazon_block'),
     (re.compile(r'\bmuse\b.*(meta|agent)|(meta|agent).*\bmuse\b|(智能体|个人智能).*muse|muse.*(智能体|个人智能)', re.I), 'meta_muse'),
     # 2026-09-10: Apple 秋季发布会首款折叠屏 iPhone Duo (HN×2 hot30/TechCrunch×3/Verge/NYT中文/RFI/中央社×2/Engadget×3/Ars/华尔街见闻热门/B站/第一财经 12+源;
     # HN 裸标题 "iPhone Duo" 与各源指纹不同全不合并; iPhone Duo 为具体产品名 (非泛公司名, 48h 窗口内即该发布事件)

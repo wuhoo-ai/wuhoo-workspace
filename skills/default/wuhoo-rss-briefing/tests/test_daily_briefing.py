@@ -1183,3 +1183,38 @@ class TestNoise20260921:
                   '海盗湾推出 LLM 模型镜像库，OpenAI 回应',
                   '歌星捐款支援加沙人道走廊，多国外长回应']:
             assert not is_noise(t), t
+
+
+class TestBriefing20260922:
+    """2026-09-22: 会员早报聚合栏目噪声 + 亚马逊封锁 Meta Muse 实体级合并"""
+
+    def test_huiyuan_zaobao_noise(self):
+        assert is_noise('会员早报：美国柴油价格刷新历史纪录 Meta智能体登顶美国App Store')
+
+    def test_amazon_blocks_muse_merged(self):
+        # 三源标题写法各异，必须合并为同一事件
+        cases = [
+            ("Meta\u2019s AI agent has been blocked from using Amazon.com",
+             "Amazon has its own cohort of foundation models, along with one of the most popular inference platforms"),
+            ("Amazon blocks Meta\u2019s new Muse AI agent from shopping on amazon.com",
+             "Meta\u2019s new AI agent Muse has racked up more downloads and daily active users"),
+            ("亚马逊封锁Meta旗下Muse AI购物代理，AI代购时代规则之争开始",
+             "9月21日，据GeekWire报道，亚马逊已切断Meta旗下Muse AI购物代理的访问"),
+        ]
+        keys = {entity_key(t, s) for t, s in cases}
+        assert keys == {'meta_muse_amazon_block'}, keys
+
+    def test_amazon_block_not_overmerged(self):
+        # Muse 登顶榜单 / OpenAI 应对竞争 — 无封锁语境，不得并入封锁事件
+        assert entity_key("Muse登上苹果应用商店榜首，Meta暴涨13%，AMD和英特尔也嗨了！",
+                          "Meta旗下全新AI助手Muse迅速攀升至美国苹果和谷歌应用商店免费榜首位") != 'meta_muse_amazon_block'
+        assert entity_key("报道：OpenAI开发新功能应对Grok Bot和Meta Muse竞争",
+                          "OpenAI正针对SpaceX旗下Grok Bot及Meta新推出的Muse产品，分别开发相应的专项功能") != 'meta_muse_amazon_block'
+        # Chrome 漏洞类新闻：有 block/ban 语境但无 muse 锚点
+        assert entity_key("Google patches Chrome zero-day exploited by hackers",
+                          "The flaw was actively exploited in the wild") != 'meta_muse_amazon_block'
+
+    def test_priority_rule_order_before_meta_muse(self):
+        # 封锁规则必须在 meta_muse 之前命中（同一文本两者都匹配时取封锁事件）
+        k = entity_key("Meta\u2019s AI agent has been blocked from using Amazon.com", "Amazon blocks the agent")
+        assert k == 'meta_muse_amazon_block'
