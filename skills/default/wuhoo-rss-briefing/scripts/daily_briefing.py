@@ -60,7 +60,10 @@ def clean_summary(s, feed_name=''):
     # BBC 中文 byline 结构 (仅该源)
     if 'bbc 中文' in feed_name.lower():
         s = re.split(r'Article Information', s)[0]
-        s = re.sub(r'^图像来源[，,、\s]*', '', s)
+        # 2026-09-23: clean_html 后 img alt 图片说明在 "图像来源，Getty Images" credit 之前 (习访美前瞻条目实测
+        # "美国总统唐纳德·特朗普…握手。 图像来源， Getty Images <导语>") — 旧 `^图像来源` 只处理 credit 在行首的情况;
+        # 非贪婪删到第一个 "图像来源" (限 160 字内), 导语再由后续拉丁 credit 正则续剥
+        s = re.sub(r'^.{0,160}?图像来源[，,、\s]*', '', s, count=1, flags=re.DOTALL)
         s = re.sub(r'^[A-Za-z][A-Za-z\s/&.\-]*?(?=\s*[0-9\u4e00-\u9fff])', '', s)
         s = re.sub(r'Published\s+.*?阅读时间:?\s*[\d\s]*分钟?', '', s, flags=re.I)
         s = re.sub(r'^\s*\d{4}年\d{1,2}月\d{1,2}日\s*阅读时间:?\s*[\d\s]*分钟?', '', s)  # 中文日期变体, 前导空格容错 (2026-08-31)
@@ -75,6 +78,8 @@ def clean_summary(s, feed_name=''):
     s = re.sub(r'^\d{2}/\d{2}/\d{4}\s*-\s*\d{1,2}:\d{2}\s*', '', s)
     # 2026-09-14: 中央社 byline 前缀 — "（中央社舊金山11日綜合外電報導）…" 吃满 50 字摘要窗口 (RubyGems 合并回填实测)
     s = re.sub(r'^（中央社[^）]{0,60}?）\s*', '', s)
+    # 2026-09-23: 德国之声中文 byline — "德才2026-09-21T11:05:17.481Z2025年4月…" 作者名+ISO时间戳吃满摘要窗口 (奥迪状告AUDI 条目实测)
+    s = re.sub(r'^.{0,12}?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?', '', s).strip()
     if not re.search(r'[\u4e00-\u9fffA-Za-z0-9]', s):
         return ''
     return s[:50]
@@ -283,6 +288,9 @@ NOISE_PATTERNS = [
     # 2026-09-20 新增 — HN 一次性博客演示帖 (非新闻事件; 同类 marty/neovim/ankidroid/blocks ai mistakes;
     # 实测 'GPT-6 Astra Solves a WWI German Radio Cipher' hot14 占科技/AI TOP2 且无摘要)
     'radio cipher',
+    # 2026-09-23 新增 — 同 cryptocellar 博客的 'GPT-6 Astra breaks Enigma message' hot17 单源无摘要占科技/AI TOP4
+    # (与 WWI Radio Cipher 同站同类演示帖; 不用裸 enigma 防产品名误伤)
+    'breaks enigma', 'enigma message',
     # 2026-09-20 新增 — 文化/地方治安软内容 (实测 德国之声 'Aztec manuscript loaned back to Mexico after two centuries'
     # hot11 因 'mexico' 命中宏观政策表占宏观 TOP3; 卫报墨尔本烟草店纵火案为地方治安)
     'aztec', 'manuscript loaned',
@@ -444,6 +452,12 @@ ENTITY_KEYS = [
     (re.compile(r'(iceland|冰岛).*(eu|欧盟)|(eu|欧盟).*(iceland|冰岛)', re.I), 'iceland_eu'),
     # 2026-08-31: Anthropic 黑名单裁决 (HN+BBC Business 两条同事件)
     (re.compile(r'anthropic.*(blacklist|unlawful|retaliat|judge|ruling)|(blacklist|unlawful|retaliat|judge).*anthropic', re.I), 'anthropic_ruling'),
+    # 2026-09-23: Claude Opus 5.5 发布 (HN30 裸标题/IT之家6/华尔街见闻6/HN100+6/TechCrunch3/虎嗅9 六源不合并,
+    # 代表显示为 HN "(无摘要)"; 须置于 claude_fable_51 之前 — IT之家/见闻标题含"媲美 Fable 5.1"会被泛 fable 规则抢先;
+    # sol/luna 词边界用 (?<![a-z]) 而非 \b — 虎嗅"GPT-6 Sol和Luna" CJK 邻接时 \b 静默失效 (同 09-15 ai 教训))
+    (re.compile(r'opus\s*5\.?5', re.I), 'claude_opus_55'),
+    (re.compile(r'gpt[\s\-]*6[\s\S]{0,60}(?<![a-z])sol(?![a-z])|gpt[\s\-]*6[\s\S]{0,60}(?<![a-z])luna(?![a-z])'
+                r'|(?<![a-z])sol(?![a-z])[\s\S]{0,20}(?<![a-z])luna(?![a-z])|(?<![a-z])luna(?![a-z])[\s\S]{0,20}(?<![a-z])sol(?![a-z])', re.I), 'gpt6_sol_luna'),
     # 2026-09-02: Claude Fable 5.1 / Mythos 5.1 发布 (Anthropic 重大发布, HN+IT之家+Verge+TechCrunch+华尔街见闻 5源)
     (re.compile(r'(fable|mythos).*(anthropic|claude)|(anthropic|claude).*(fable|mythos)', re.I), 'claude_fable_51'),
     # 2026-09-02: 苹果 CEO 换任 库克→特努斯 (告别信/首份备忘录/身价, 8条报道, 实体级强规则避免被 TOP5 截断)

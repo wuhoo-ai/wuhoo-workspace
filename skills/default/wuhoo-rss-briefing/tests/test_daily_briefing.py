@@ -1218,3 +1218,36 @@ class TestBriefing20260922:
         # 封锁规则必须在 meta_muse 之前命中（同一文本两者都匹配时取封锁事件）
         k = entity_key("Meta\u2019s AI agent has been blocked from using Amazon.com", "Amazon blocks the agent")
         assert k == 'meta_muse_amazon_block'
+
+class TestBriefing20260923:
+    """2026-09-23: Claude Opus 5.5 / GPT-6 Sol&Luna 实体合并 + DW ISO byline + Enigma 博客帖噪声"""
+
+    def test_opus55_merged_and_before_fable(self):
+        # IT之家/见闻标题含"媲美 Fable 5.1"，opus 规则须先于 claude_fable_51 命中
+        assert entity_key("Anthropic 发布 Claude Opus 5.5 模型：性能媲美 Fable 5.1，运行成本比 Opus 5 低 40%", "") == 'claude_opus_55'
+        assert entity_key("Claude Opus 5.5", "") == 'claude_opus_55'
+        assert entity_key("Anthropic releases Opus 5.5 with lower prices and Fable-level performance", "") == 'claude_opus_55'
+
+    def test_sol_luna_cjk_adjacency(self):
+        assert entity_key("GPT-6 Sol and Luna", "") == 'gpt6_sol_luna'
+        # 虎嗅无空格 CJK 邻接写法; "一夜三连发" 综合稿同时含两事件, opus 规则在前先命中 (归入任一组均合理)
+        assert entity_key("一夜三连发，Claude Opus5.5、GPT-6 Sol和Luna全部都来了。", "") == 'claude_opus_55'
+        assert entity_key("OpenAI再推两款GPT-6模型：Sol、Luna定价腰斩", "") == 'gpt6_sol_luna'
+        assert entity_key("OpenAI launches GPT-6 Sol and Luna, boasting lower cost", "") == 'gpt6_sol_luna'
+
+    def test_sol_luna_not_overmerged(self):
+        # Solana/SOLO 等含裸 sol 的无关文本不得命中
+        assert entity_key("Cardano joins Solana, XRP Ledger in race to power AI agent payments", "") != 'gpt6_sol_luna'
+        assert entity_key("田小娟SOLO2我要辞职了中文填词翻唱", "") != 'gpt6_sol_luna'
+
+    def test_fable_rule_still_works(self):
+        assert entity_key("Introducing Claude Fable 5.1 and Claude Mythos 5.1", "") == 'claude_fable_51'
+
+    def test_enigma_blog_post_noise(self):
+        assert is_noise("OpenAI GPT-6 Astra breaks Enigma message that has resisted solution since 2005")
+        assert not is_noise("英伟达发布新一代 GPU 架构")
+
+    def test_dw_iso_byline_stripped(self):
+        raw = '<div><i>  德才<br />2026-09-21T11:05:17.481Z</i></div>2025年4月上海国际车展首次发布AUDI新款轿车'
+        s = clean_summary(raw, '德国之声中文')
+        assert s.startswith('2025年4月上海国际车展'), repr(s)
