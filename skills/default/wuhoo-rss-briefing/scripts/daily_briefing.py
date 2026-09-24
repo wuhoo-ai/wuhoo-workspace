@@ -318,6 +318,10 @@ NOISE_PATTERNS = [
     # 2026-09-22 新增 — 华尔街见闻自营"会员早报"日更聚合栏目 (非单一新闻事件;
     # 实测 '会员早报：美国柴油价格刷新历史纪录 Meta智能体登顶美国App Store' 占财经/投资 TOP1, 同类 IT早报/早餐FM/派早报/下周重磅日程)
     '会员早报',
+    # 2026-09-24 新增 — TechCrunch Disrupt 会议预热/议程/展位促销稿 (会议营销内容非新闻事件;
+    # 实测 'Noble Carbon will show how it's making EV charger installs painless at TechCrunch Disrupt' hot6 占产业/公司 TOP2,
+    # 48h 内同类 5 条; 词边界 'disrupt\b' 防误伤 Ars 'Microsoft disrupts AI-assisted platform…')
+    r'techcrunch disrupt\b',
 ]
 
 def is_noise(text):
