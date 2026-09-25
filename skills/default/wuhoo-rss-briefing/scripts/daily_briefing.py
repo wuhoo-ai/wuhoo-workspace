@@ -12,7 +12,7 @@ def clean_html(t):
     t = re.sub(r'<!--.*?-->', ' ', t, flags=re.DOTALL)
     t = re.sub(r'<[^>]+>', '', t)
     t = re.sub(r'</?[A-Za-z][^>]*$', '', t)  # 尾部未闭合标签片段 <spa
-    t = re.sub(r'&nbsp;|&amp;|&lt;|&gt;|&quot;|&#\d+;', ' ', t)
+    t = re.sub(r'&nbsp;|&amp;|&lt;|&gt;|&quot;|&#x[0-9a-fA-F]+;|&#\d+;', ' ', t)  # 2026-09-25: 补十六进制实体 &#x27; (BBC 视频 caption 残留实测)
     return t
 
 def clean_title(t):
@@ -48,7 +48,9 @@ def clean_summary(s, feed_name=''):
     # 2026-09-20 改锚点式: 旧写法 `^.{0,90}?节目全长...` 无差别从行首吞到时长处 — 若说明文字前有正文则正文一并丢失;
     # 现仅从 "你的器材不支持播放多媒体材料 / Play video / Watch:" 标记起删除, 且时长可缺失 (DB 中部分摘要截断在 "节目全长 2,00")。
     # 摘要若因此为空: 优先由同事件其他源正文回填, 仍无则用 video_caption() 兜底
-    s = re.sub(r'(?:你的器材不支持播放多媒体材料|Play video,?|Watch:).{0,150}?节目全长\s*\d+,\d+\s*(?:\d{1,2}:\d{2})?\s*',
+    # 2026-09-25: 时长格式收紧为 \d+,\d{2} 且允许 HH:MM 无前导空格直连 (截断摘要 "<time>00:45"
+    # 紧贴 "节目全长 0,45" 成 "0,4500:45"，旧 \d+,\d+ 贪婪吞到 0,4500 把 "00" 让给时间组失败、残 ":45" 占摘要位)
+    s = re.sub(r'(?:你的器材不支持播放多媒体材料|Play video,?|Watch:).{0,150}?节目全长\s*\d+,\d{2}(?:\d{2}:\d{2}|\s*\d{1,2}:\d{2})?\s*',
                ' ', s, flags=re.DOTALL)
     # 2026-09-20: 整条摘要就是一条视频说明 (caption + "节目全长 N,NN HH:MM", 前后无正文) → 返回空,
     # 交由主流程先做组内其他源正文回填 (2026-09-13 意图), 组内也无正文时才用 video_caption() 兜底。
@@ -114,6 +116,15 @@ ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering)\b', re.I)  # 2026-09-13: 
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
+    # 2026-09-25: TechCrunch "streaming inflation" 流媒体涨价趋势评论 (inflation 命中宏观表占宏观 TOP4，非政策事件)
+    'streaming inflation',
+    # 2026-09-25: 独立 AI 驾驶基准演示站 (drivingbench.com, HN "GPT-6 Astra has gained the ability to drive a car"
+    # 裸链接无报道上下文, 同 09-20 radio cipher/09-23 breaks enigma 站型; HN 摘要 split 后为空 → 需匹配标题词)
+    'drivingbench', 'ability to drive a car',
+    # 2026-09-25: 格隆汇盘前音频要点 (同 早餐FM/会员早报 自营聚合栏目, 非单一事件)
+    '盘前要点',
+    # 2026-09-25: 德国之声 Cockroach Party（印度反腐抗议政党花边）占宏观 TOP4，抗议运动段子非政策事件
+    'cockroach party',
     'usb cheat', 'usbcheat', 'c64_music', 'discret 11', 'fabiensanglard',
     'martin galway', 'beans', 'gassy', 'cosmology with geometry',
     'rdp client', 'coding assistance', 'blender open', 'lambench',
@@ -348,6 +359,9 @@ KEYWORDS = {
         '数据泄露','data breach','chatgpt','copilot','sora','大语言模型','foundation model','基座模型',
         'cpo','共封装光学','海力士','hynix','sk hynix','hacker','黑客','漏洞','vulnerability',
         'exploit','后门','供应链攻击','零日',
+        # 2026-09-25: 智能眼镜类 (BBC Business "pervert glasses" camera-free Meta 眼镜稿 hot11 因 category=财经
+        # +3 且科技词=0 误入财经 TOP5；补词后归科技/AI)
+        '智能眼镜','smart glasses','ai glasses',
     ],
     '财经/投资': [
         '股市','港股','美股','a股','上证','恒生','纳指','标普','道指','ipo','上市','财报',
@@ -418,6 +432,10 @@ def classify(text, category_field):
     # 2026-09-19: AI 风险/超级智能话题 → 科技/AI (BBC Business "Uncontrolled AI could lead to 'silicon species' rivalling humans"
     # 因 category=财经 +3 且财经关键词=0 被误分为财经/投资 TOP1; hot17)
     if re.search(r'silicon species|superintelligence|超级智能|超級智能|\bagi\b', text, re.I):
+        scores['科技/AI'] += 3
+    # 2026-09-25: 智能眼镜产品话题 → 科技/AI (BBC Business camera-free Meta 眼镜稿 category=财经 +3 压过科技词 2 分误入财经 TOP5;
+    # 同 silicon species 案例机制, 产品品类词不足以靠单词表取胜时用语境加 3)
+    if re.search(r'smart glasses|智能眼镜|ai glasses|ray-?ban', text, re.I):
         scores['科技/AI'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
@@ -527,6 +545,12 @@ ENTITY_KEYS = [
                 r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,60}(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴)'
                 r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能|前沿)'
                 r'|((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能).{0,55}(slow ?down|slowdown|放缓|放慢|减速|刹车)', re.I), 'ai_slowdown_debate'),
+    # 2026-09-25: 美国9月PMI爆表→加息预期重燃、美债遭血洗 (华尔街见闻系 12 篇同事件稿占财经多席;
+    # 锚点=PMI 或 美债收益率破位语境 (破5%/抛售/收益率创新高/黑色星期三/拍卖遇冷), 全部归同一宏观市场事件;
+    # **必须置于 fed_rate_hike 之前** — "PMI重燃加息预期+摘要含美联储" 会被 09-16 FOMC 旧规则抢先误并)
+    (re.compile(r'pmi[\s\S]{0,80}(加息|美债|收益率|超预期|创五年|五年新高|新高|强化|hike)'
+                r'|美债[\s\S]{0,60}(破5%|站上5|升穿5|收益率|抛售|血洗|跌势|重创|遇冷|黑色星期三|断裂阈值|新高)'
+                r'|(加息预期|重燃加息)[\s\S]{0,40}美债', re.I), 'us_pmi_rate_hike'),
     # 2026-09-17: 美联储三年来首次加息 (09-16 FOMC, 三年来首次加息+暗示更多紧缩; BBC19/FT12/华尔街见闻×5/NYT×3/
     # 德国之声/中央社/HN/CoinDesk×2/RFI 约10源标题各异不合并, 财经 TOP5 第1+第5位被同事件拆开占据)
     # 锚点=美联储/联准会/Fed/Warsh+加息语境; 防误并: 'feds?' 词边界 (federal 不单独命中, 显式加 federal reserve);
@@ -558,6 +582,17 @@ ENTITY_KEYS = [
     (re.compile(r'gemini.{0,50}(rogue|hack|hacked|hacking|hacker|越狱|越獄|入侵|自主接入|escaped|逃逸|安全测试|安全測試|security test|testing environment)'
                 r'|(rogue|hack|hacked|hacking|hacker|越狱|越獄|入侵|自主接入|escaped|逃逸).{0,50}gemini'
                 r'|(谷歌|google).{0,25}(越狱|越獄|自主入侵|入侵三家|自主接入)', re.I), 'gemini_hack_incident'),
+    # 2026-09-25: OpenAI 智能体入侵澳大利亚政府(Medicare)网站、阿尔巴尼斯总理证实 (BBC Business17/BBC Business14/BBC World12/
+    # FT9/卫报9/HN9/德国之声9/Ars9/IT之家6/格隆汇3 共9源标题各异不合并 → 财经 TOP1+TOP4 同事件拆两条 + 宏观 TOP5 又一条;
+    # 锚点=openai/agent/albanese + australia/澳洲/medicare 双词共现距离80; 防误并: "F-35从澳洲返美被扣" RFI 条目无 openai/hack 词不命中)
+    (re.compile(r'(openai|chatgpt|altman|albanese|ai\s*agent)[\s\S]{0,80}(australia|australian|澳洲|澳大|medicare|阿尔巴尼斯)'
+                r'|(australia|australian|澳洲|澳大|medicare|阿尔巴尼斯)[\s\S]{0,80}(openai|hack|infiltrat|入侵|breach|agent)', re.I), 'openai_australia_hack'),
+    # 2026-09-25: Claude 发现新型酶系统(类CRISPR) Anthropic 官方发布 (HN14 英文官方标题 + 华尔街见闻热门6 "Claude发现神秘DNA系统…上帝手术刀"
+    # 中英指纹不同不合并, 代表显示 (无摘要) → 合并 [2源] + 中文摘要回填)
+    (re.compile(r'claude[\s\S]{0,60}(enzyme|crispr|dna|上帝手术刀|手术刀)', re.I), 'claude_enzyme'),
+    # 2026-09-25: 小米18 Pro 秋季发布会 (IT之家 6 篇衍生稿+Engadget 各占产业/公司 TOP 位 → 同事件 4 条占 TOP5 之 3-5 位;
+    # 锚定 "小米/Xiaomi + 18 Pro" 具体产品名 (iPhone 18 Pro 稿无小米词安全); 发布会汇总/图赏/卢伟冰回应 均含该词组合)
+    (re.compile(r'(xiaomi|小米)[\s\S]{0,40}18\s*pro|18\s*pro[\s\S]{0,40}(xiaomi|小米)', re.I), 'xiaomi_18_launch'),
 ]
 
 def entity_key(title, summary):

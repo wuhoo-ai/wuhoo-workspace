@@ -381,6 +381,7 @@ return best
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.32 | 2026-09-24 | NOISE 补 `techcrunch disrupt\b`（TechCrunch Disrupt 会议预热/议程/展位促销稿占产业/公司 TOP2，48h 内同类 5 条，会议营销内容非新闻事件，同类 IT早报/会员早报；词边界 \b 防误伤 Ars "Microsoft disrupts AI-assisted platform"）；147 passed；fetch 08:13 完成 785 新增/6 失败（36氪 XML 解析错误新增一例，凤凰网财经/路透/美联社/B站/Stratechery 为已知） |
 | 1.31 | 2026-09-23 | ENTITY_KEYS 加 `claude_opus_55`（HN30 裸标题/IT之家/见闻/HN100+/TechCrunch/虎嗅 6 源不合并，占科技/AI TOP1 显示 (无摘要)；**规则必须置于 claude_fable_51 之前**——IT之家/见闻标题含"媲美 Fable 5.1"会被泛 fable 规则抢先）与 `gpt6_sol_luna`（HN17/OpenAI Blog/TechCrunch/IT之家/见闻 5 源；**sol/luna 词边界用 `(?<![a-z])sol(?![a-z])` 而非 `\b`**——虎嗅"GPT-6 Sol和Luna" CJK 邻接时 `\b` 静默失效，同 09-15 ai 教训；防误并 Solana/SOLO2 回归测试）；"一夜三连发"综合稿同时含两事件时按规则顺序归 opus 组（合理）；clean_summary 补德国之声中文 ISO byline 剥离（`作者名+2026-09-21T11:05:17.481Z` 吃满 50 字窗口，奥迪状告 AUDI 条目实测）；BBC 中文 `图像来源` 剥离扩为**非贪婪跳过前置 img alt 图片说明**（`^.{0,160}?图像来源`，习访美前瞻条目实测 credit 在图片说明之后、旧 `^图像来源` 不匹配）；NOISE 补 `breaks enigma`/`enigma message`（cryptocellar 博客 GPT-6 破译 Enigma HN17 帖，与 09-20 radio cipher 同站同类）；147 passed |
 | 1.30 | 2026-09-22 | NOISE 补 `会员早报`（华尔街见闻自营日更聚合栏目占财经 TOP1）；ENTITY_KEYS 加 `meta_muse_amazon_block`（亚马逊封锁 Meta Muse 购物代理 3 源合并，三锚点 lookahead 防误并，规则置于 meta_muse 泛规则之前）；141 passed |
 | 1.29 | 2026-09-21 | NOISE 补 6 条：`pirate face`（HN 项目展示帖）/`下周重磅日程`（华尔街见闻周历栏目，hot19 占财经 TOP1）/`无醇啤酒`（虎嗅生活方式稿）/`台电.*(发布|开售|…)`（消费电子发售续五）/`onion futures`（HN 玩笑帖）/`ed sheeran`+`macklemore`（娱乐八卦误入宏观）；137 passed |

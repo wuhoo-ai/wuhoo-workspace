@@ -1251,3 +1251,65 @@ class TestBriefing20260923:
         raw = '<div><i>  德才<br />2026-09-21T11:05:17.481Z</i></div>2025年4月上海国际车展首次发布AUDI新款轿车'
         s = clean_summary(raw, '德国之声中文')
         assert s.startswith('2025年4月上海国际车展'), repr(s)
+
+
+
+class TestBriefing20260925:
+    # 2026-09-25 批: 澳洲入侵/PMI/小米18/Claude酶 实体合并 + BBC 视频时长截断变体 + 智能眼镜分类 + 蟑螂党噪声
+
+    def test_openai_australia_hack_merged(self):
+        assert entity_key("OpenAI agent 'infiltrated' Australian government website, PM says", "") == 'openai_australia_hack'
+        assert entity_key("Why Australia chose the world's biggest political stage to reveal OpenAI hack", "") == 'openai_australia_hack'
+        assert entity_key("已证实首例：澳大利亚政府网站遭 OpenAI 智能体入侵", "") == 'openai_australia_hack'
+        assert entity_key("Anthony Albanese says OpenAI agent hacked Medicare", "") == 'openai_australia_hack'
+        # 防误并: 中澳关系一般新闻 / F-35 扣押新闻 不含 openai/agent/hack 锚点
+        assert entity_key("中国驻澳大使：中澳国情发展不同 但不同不是合作障碍", "") != 'openai_australia_hack'
+        assert entity_key("F-35敏感零部件从澳洲返美途中在韩国降落离奇改飞香港被中国扣押", "") != 'openai_australia_hack'
+
+    def test_us_pmi_rate_hike_merged(self):
+        assert entity_key("意外强劲PMI重燃加息预期，美债遭血洗！纳指终结四连涨，美元涨黄金跌", "") == 'us_pmi_rate_hike'
+        assert entity_key("美国9月综合PMI初值大幅超预期，创五年新高，10年期美债收益率再破5%", "") == 'us_pmi_rate_hike'
+        # 防误并: 他国普通 PMI 数据稿 (无加息/美债语境)
+        assert entity_key("日本9月制造业PMI初值降至48.9", "") != 'us_pmi_rate_hike'
+
+    def test_xiaomi_18_launch_merged(self):
+        assert entity_key("曝小米 18 Pro 系列手机新增原色风格影调", "") == 'xiaomi_18_launch'
+        assert entity_key("【IT之家开箱】小米 18 Pro Max 透明特别版图赏", "") == 'xiaomi_18_launch'
+        assert entity_key("Xiaomi's 18 Pro series phones have the latest Snapdragon chip", "") == 'xiaomi_18_launch'
+        # 防误并: iPhone 18 Pro (无小米词)
+        assert entity_key("Where to preorder the iPhone 18 Pro", "") != 'xiaomi_18_launch'
+
+    def test_claude_enzyme_merged(self):
+        assert entity_key("Claude discovers a novel enzyme system with CRISPR-like repeats", "") == 'claude_enzyme'
+        assert entity_key("Claude发现神秘DNA系统！狂烧2.1 亿Token挖出上帝手术刀", "") == 'claude_enzyme'
+
+    def test_bbc_video_duration_no_space(self):
+        # 2026-09-25: "节目全长 0,45"+"00:45" 直连变体 (截断摘要 <time> 标签粘连) 不得残 ":45" 占摘要位
+        raw = ('<div><strong>你的器材不支持播放多媒体材料</strong></div><button><span>Play video, '
+               '&quot;Watch: Trump threatens to &#x27;annihilate&#x27; Iran if no deal reached&quot;, '
+               '节目全长 0,45</span></button><time datetime="PT45S">00:45</ti')
+        s = clean_summary(raw, 'BBC 中文')
+        assert s == '', repr(s)
+
+    def test_bbc_video_caption_still_stripped(self):
+        # 常规变体 (时长后正常带 HH:MM) 仍被剥离
+        raw = '你的器材不支持播放多媒体材料 Play video, Watch: Some caption , 节目全长 2,25 02:25 正文从这里开始'
+        s = clean_summary(raw, 'BBC 中文')
+        assert s.startswith('正文从这里开始'), repr(s)
+
+    def test_smart_glasses_classify_tech(self):
+        # BBC Business category=财经 的 Meta 无摄像头眼镜稿 → 应归科技/AI
+        c = classify("They were labelled 'pervert glasses'. Will a camera-free version transform their image? Meta has unveiled audio-only smart glasses", '财经')
+        assert c == '科技/AI', c
+
+    def test_cockroach_party_noise(self):
+        assert is_noise("India news: Cockroach party demands election head resign")
+        assert not is_noise("印度大选投票启动")
+
+    def test_pmi_rule_before_fed_rate_hike(self):
+        # 2026-09-25: "PMI重燃加息预期" 稿摘要含 "美联储…紧缩" — 若 fed_rate_hike (09-16 FOMC 事件) 规则在前会误并
+        t = "意外强劲PMI重燃加息预期，美债遭血洗！纳指终结四连涨，美元涨黄金跌"
+        s = "油价上涨与强劲经济数据的双重夹击，令市场对美联储将维持更长时间紧缩立场的押注急剧升温，美国国债收益率"
+        assert entity_key(t, s) == 'us_pmi_rate_hike'
+        # 真·美联储加息报道仍归 fed_rate_hike
+        assert entity_key("Fed hikes rates for first time in three years", "") == 'fed_rate_hike'
