@@ -333,6 +333,9 @@ NOISE_PATTERNS = [
     # 实测 'Noble Carbon will show how it's making EV charger installs painless at TechCrunch Disrupt' hot6 占产业/公司 TOP2,
     # 48h 内同类 5 条; 词边界 'disrupt\b' 防误伤 Ars 'Microsoft disrupts AI-assisted platform…')
     r'techcrunch disrupt\b',
+    # 2026-09-26 新增 — HN 一次性技术帖 (非新闻事件; 同类 marty/neovim/radio cipher/pirate face;
+    # 实测 'Platform-independent SIMD in Go' 无摘要占产业/公司 TOP1)
+    'platform-independent simd',
 ]
 
 def is_noise(text):
