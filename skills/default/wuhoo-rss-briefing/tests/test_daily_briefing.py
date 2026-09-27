@@ -1313,3 +1313,30 @@ class TestBriefing20260925:
         assert entity_key(t, s) == 'us_pmi_rate_hike'
         # 真·美联储加息报道仍归 fed_rate_hike
         assert entity_key("Fed hikes rates for first time in three years", "") == 'fed_rate_hike'
+
+
+class TestBriefing20260927:
+    """2026-09-27: HN 博客回顾帖 + IT之家外设/爆料稿 + 游戏跳票 + 巴菲特秘诀软文 + SA 评论帖 + BBC Published 变体"""
+
+    def test_new_noise(self):
+        for t in ['Breaking Up with Google Play: Why Conversations Is Now Free',
+                  'Fifteen years later, the Apple Cards origin story',
+                  '华硕 a 豆 100W 氮化镓充电器 Wiggle 联名款上架：2C+1A，支持小米澎湃秒充，169 元',
+                  '小米推出米家吸顶灯 C 高显色版本：Ra95 全光谱灯珠',
+                  '小米 18 Fold 中折叠首销情况曝光：9 月 7 日-13 日约 3.97 万台',
+                  '《Hell Is Us 地狱即我们》任天堂 Switch 2 版跳票至 10 月 27 日发售',
+                  '巴菲特卸任董事长，他的3大投资成功秘诀',
+                  "Nvidia CEO Pushes Back On The 'AI Apocalypse,' But The Risk Of A Slowdown Remains"]:
+            assert is_noise(t), t
+
+    def test_legit_news_not_noise(self):
+        for t in ['苹果 iPad 12 爆料：A19 芯片、8GB 内存、自研 N1/C1X 芯片',
+                  '巴菲特宣布卸任伯克希尔董事长，继任者出炉',
+                  'Google Play 调整开发者分成政策，回应欧盟裁决']:
+            assert not is_noise(t), t
+
+    def test_bbc_published_variant_stripped(self):
+        # "Published 2026年9月23日最近更新…" 无 阅读时间 后缀变体
+        s = clean_summary('习近平时隔11年的首次对美国事访问实际将逗留不到两天。Published 2026年9月23日最近更新')
+        assert s.startswith('习近平'), repr(s)
+
