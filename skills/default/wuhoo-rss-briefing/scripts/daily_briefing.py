@@ -68,6 +68,8 @@ def clean_summary(s, feed_name=''):
         s = re.sub(r'^.{0,160}?图像来源[，,、\s]*', '', s, count=1, flags=re.DOTALL)
         s = re.sub(r'^[A-Za-z][A-Za-z\s/&.\-]*?(?=\s*[0-9\u4e00-\u9fff])', '', s)
         s = re.sub(r'Published\s+.*?阅读时间:?\s*[\d\s]*分钟?', '', s, flags=re.I)
+        # 2026-09-27: BBC 中文 "Published 2026年9月23日最近更新…" 变体（无 阅读时间 后缀，习访美条目实测残留占满摘要窗）
+        s = re.sub(r'Published\s+.*$', '', s, flags=re.I)
         s = re.sub(r'^\s*\d{4}年\d{1,2}月\d{1,2}日\s*阅读时间:?\s*[\d\s]*分钟?', '', s)  # 中文日期变体, 前导空格容错 (2026-08-31)
         if re.fullmatch(r'[A-Za-z\s/&.\-]{1,50}', s):
             s = ''  # 纯拉丁 byline/credit 残留 (如 "Getty Images"), 无正文 (2026-09-02)
@@ -336,6 +338,18 @@ NOISE_PATTERNS = [
     # 2026-09-26 新增 — HN 一次性技术帖 (非新闻事件; 同类 marty/neovim/radio cipher/pirate face;
     # 实测 'Platform-independent SIMD in Go' 无摘要占产业/公司 TOP1)
     'platform-independent simd',
+    # 2026-09-27 新增 — HN 一次性博客/回顾帖 (非新闻事件; 同类 marty/neovim/pirate face;
+    # 实测 'Breaking Up with Google Play: Why Conversations Is Now Free' / 'Fifteen years later, the Apple Cards origin story' 无摘要占科技/AI TOP2-3)
+    'breaking up with google play', 'apple cards origin story',
+    # 2026-09-27 新增 — IT之家消费电子发售续六 (同类 米家/漫步者/台电; 实测 华硕a豆100W充电器Wiggle联名上架
+    # / 米家吸顶灯C高显色上架 / 小米18 Fold首销情况曝光(博主爆料) 占产业/公司 TOP1-3)
+    'a\s*豆.*(上架|开售|首销|发售|预售)', '吸顶灯', '首销情况曝光',
+    # 2026-09-27 新增 — 游戏发售跳票 (同类 gta/深海迷航; 实测 'Hell Is Us 地狱即我们' Switch2 跳票占产业 TOP5)
+    'hell is us', '地狱即我们',
+    # 2026-09-27 新增 — 名人回顾软文 (实测 '巴菲特卸任董事长，他的3大投资成功秘诀' 朝鲜日报中文 抢下 buffett_stepdown 组代表位)
+    '投资成功秘诀',
+    # 2026-09-27 新增 — SA 单股评论帖 (同类 fortrea; 实测 'Nvidia CEO Pushes Back On The AI Apocalypse' 无摘要占科技/AI TOP5)
+    'pushes back on the',
 ]
 
 def is_noise(text):
