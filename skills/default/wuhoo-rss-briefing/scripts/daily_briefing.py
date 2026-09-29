@@ -109,7 +109,7 @@ def video_caption(raw):
 VIDEO_CAP_RE = re.compile(r'^(.*?)节目全长\s*\d+,\d+\s*(?:\d{1,2}:\d{2})?', re.DOTALL)
 
 # ── Feed 级过滤 ───────────────────────────────────────
-FEED_NOISE_RE = re.compile(r'arxiv|知乎日报', re.I)
+FEED_NOISE_RE = re.compile(r'arxiv|知乎日报|b站|bilibili', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 # 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
 # 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
@@ -338,6 +338,15 @@ NOISE_PATTERNS = [
     # 2026-09-26 新增 — HN 一次性技术帖 (非新闻事件; 同类 marty/neovim/radio cipher/pirate face;
     # 实测 'Platform-independent SIMD in Go' 无摘要占产业/公司 TOP1)
     'platform-independent simd',
+    # 2026-09-28 新增 — HN 个人博客泛评论帖 (非新闻事件; 同类 apple is getting this wrong/works better in the app;
+    # 实测 'When did Google get so weird?' (sancho.bearblog.dev) hot14 占科技/AI TOP5)
+    'google get so weird',
+    # 2026-09-28 新增 — IT之家消费电子发售续七 (同类 米家/漫步者/九州风神/台电/影石;
+    # 实测 '小米 REDMI X 系列 RGB-Mini LED 2027 竞技版上架盲订' hot6 占产业/公司 TOP2)
+    r'\bredmi\b.*(上架|开售|首销|盲订|预售|发售)',
+    # 2026-09-28 新增 — IT之家消费电子发售/导购续八 (同类 米家/绿联系外设软文;
+    # 实测 '绿联推出 65W 旅行转换充电器…169 元 预售' 占产业/公司 TOP5)
+    r'绿联.*(推出|预售|开售|上架|首销|发售)',
     # 2026-09-27 新增 — HN 一次性博客/回顾帖 (非新闻事件; 同类 marty/neovim/pirate face;
     # 实测 'Breaking Up with Google Play: Why Conversations Is Now Free' / 'Fifteen years later, the Apple Cards origin story' 无摘要占科技/AI TOP2-3)
     'breaking up with google play', 'apple cards origin story',
@@ -350,6 +359,11 @@ NOISE_PATTERNS = [
     '投资成功秘诀',
     # 2026-09-27 新增 — SA 单股评论帖 (同类 fortrea; 实测 'Nvidia CEO Pushes Back On The AI Apocalypse' 无摘要占科技/AI TOP5)
     'pushes back on the',
+    # 2026-09-29 新增 — HN 个人博客/文化特稿/诉讼细枝帖 (非头条事件; 同类 google get so weird/marty;
+    # 实测 'So long Google, and thanks for all the nudes' 占科技/AI TOP4、
+    # 'Unsealed Briefs in Authors' Case v. Microsoft/OpenAI' 诉讼程序稿占 TOP2、
+    # 'Kids turned low-traffic NPR Spotify comments into a secret group chat' 网络文化特稿占产业/公司 TOP1)
+    'thanks for all the nudes', 'unsealed briefs', 'npr spotify',
 ]
 
 def is_noise(text):

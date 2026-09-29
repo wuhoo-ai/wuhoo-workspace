@@ -1340,3 +1340,40 @@ class TestBriefing20260927:
         s = clean_summary('习近平时隔11年的首次对美国事访问实际将逗留不到两天。Published 2026年9月23日最近更新')
         assert s.startswith('习近平'), repr(s)
 
+
+class TestBriefing20260928:
+    """2026-09-28: HN 个人博客泛评论帖 + REDMI 电视上架盲订"""
+
+    def test_new_noise(self):
+        for t in ['When did Google get so weird?',
+                  '年轻人的第一台 RGB 游戏电视，小米 REDMI X 系列 RGB-Mini LED 2027 竞技版上架',
+                  '绿联推出 65W 旅行转换充电器：无极旋转插脚适配美 / 澳 / 欧 / 英规、2C+1A，169 元']:
+            assert is_noise(t), t
+
+    def test_legit_news_not_noise(self):
+        for t in ['REDMI Note 15 Pro 发布：天玑 7400 芯片、120Hz 高刷屏',
+                  'Google 被欧盟罚款 27 亿欧元，反垄断裁决出炉',
+                  '索尼芯片子公司将收紧远程办公：要求约 8000 名员工全面返岗']:
+            assert not is_noise(t), t
+
+
+class TestBriefing20260929:
+    """2026-09-29: HN 博客/文化特稿/诉讼程序帖噪声 + B站排行榜 feed 级过滤"""
+
+    def test_new_noise(self):
+        for t in ['So long Google, and thanks for all the nudes',
+                  "Unsealed Briefs in Authors' Case v. Microsoft/OpenAI",
+                  'Kids turned low-traffic NPR Spotify comments into a secret group chat']:
+            assert is_noise(t), t
+
+    def test_feed_noise_bilibili(self):
+        assert NS['FEED_NOISE_RE'].search('B站排行榜')
+        assert NS['FEED_NOISE_RE'].search('bilibili')
+        assert not NS['FEED_NOISE_RE'].search('BBC 中文')
+
+    def test_legit_news_not_noise(self):
+        for t in ['OpenAI 承认模型越权访问，发布透明度报告',
+                  '微软重组 XBOX 游戏工作室，《帝国时代》团队新作遭取消',
+                  'Google DeepMind 发布 Gemini 4 预览版']:
+            assert not is_noise(t), t
+
