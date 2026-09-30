@@ -364,6 +364,27 @@ NOISE_PATTERNS = [
     # 'Unsealed Briefs in Authors' Case v. Microsoft/OpenAI' 诉讼程序稿占 TOP2、
     # 'Kids turned low-traffic NPR Spotify comments into a secret group chat' 网络文化特稿占产业/公司 TOP1)
     'thanks for all the nudes', 'unsealed briefs', 'npr spotify',
+    # 2026-09-30 新增 — BBC Business 个人理财软文续 (同类: written my will/pay into my pension;
+    # 实测 "You need £17,000 for a first home - here's how to do it" hot11 占财经/投资 TOP4)
+    'for a first home',
+    # 2026-09-30 新增 — 游戏收录/娱乐内容 (同类: gta/hell is us; "Codenames Party is the latest addition
+    # to Netflix Games" hot6 占产业/公司 TOP5)
+    'netflix games', 'codenames',
+    # 2026-09-30 新增 — IT之家平台促销软文 (非独立新闻事件; "阿里 Qoder 平台 Qwen3.8-Flash 限时免费
+    # 活动延期" hot6 占产业/公司 TOP4, 同类 直降/best deals)
+    '限时免费',
+    # 2026-09-30 新增 — IT之家消费电子发售续八 (同类: 达尔优/尼康限产品词; "松下 Technics 首款磁流体
+    # 头戴耳机 EAH-A1000 发布" hot6 占产业/公司 TOP3; 限定 耳机/耳麦 词防 "松下发布财报" 类真新闻)
+    '松下.*(耳机|耳麦)', 'technics.*(耳机|耳麦|发布)', '磁流体.*耳机',
+    # 2026-09-30 续 — BBC 高校消费评测软文 (同类 written my will/first home; "Unis are offering degrees
+    # in content creation for £30,000. But are they worth it?" hot11 递补占财经 TOP5)
+    'degrees in content creation', 'content creation degrees',
+    # 2026-09-30 续 — 网红社媒话题 (非企业新闻; "张雪机车回应网传团队在意大利被盗" hot6 占产业 TOP4)
+    '网传.{0,12}被盗',
+    # 2026-09-30 续 — 游戏预购公告 (同类 gta/hell is us 游戏娱乐; "索尼《战神：劳菲》公布预购奖励" hot6 占产业 TOP5)
+    '战神.{0,8}劳菲', '预购奖励',
+    # 2026-09-30 续 — 虎嗅消费生活方式稿 (同类 鹅腿阿姨/无醇啤酒; "60cm长蛋挞9月卖出超12万" 占产业 TOP5)
+    '蛋挞',
 ]
 
 def is_noise(text):
@@ -557,6 +578,12 @@ ENTITY_KEYS = [
     # 2026-09-13: 特朗普"每人5000美元支票"中期选举承诺 (BBC 中文 hot19 + 华尔街见闻 + 格隆汇 + 卫报 同事件标题各异不合并;
     # BBC 版摘要为视频字幕残留 → 合并后 [N源] + 中文摘要回填。防误并: 数字前置禁接数字(115,000-seat 类子串)、后置禁接 亿/billion(5000亿美元关税为不同事件)、须含特朗普/trump 上下文(律师罚 5000 美元不合并);
     # 数字 '5,000' 经 entity 标点归一(逗号→空格)变 '5 000' → 模式写 5[,\s]?000 双格式容错)
+    # 2026-09-30: 特朗普白宫 AI 协议（英伟达/OpenAI/Anthropic/xAI/谷歌/微软签"道德约束力"AI 治理自律协议）
+    # 见闻15/格隆汇12/RFI12/第一财经3 分散，同一事件拆占 财经TOP1+宏观TOP2 两榜；特朗普/白宫 + 签署/道德/自律/pledge 语境共现
+    (re.compile(r'(trump|特朗普|白宫|white house).{0,80}(道德约束|道德|自律|pledge|ethic|safety standard|安全标准)|(签署|sign(?:s|ed|ing)?).{0,30}(道德|ethic|自律|人工智能|ai).{0,40}(协议|pledge|agreement)', re.I), 'trump_ai_pledge'),
+    # 2026-09-30: MongoDB CEO 辞职加盟 Meta（HN14 裸标题无摘要 + TechCrunch9 "hires MongoDB CEO" 同事件拆占；
+    # 带 resign/join/hire 语境防 MongoDB 财报/股价类其他事件误并，泛公司名裸词禁止规则）
+    (re.compile(r'mongodb.{0,40}(resign|join|hire)|(hire|resign).{0,20}mongodb', re.I), 'mongodb_meta'),
     (re.compile(r'(trump|特朗普).{0,60}(?<!\d)(5[,\s]?000|五千)(?!\s*(?:亿|billion|trillion)).{0,15}(美元|支票|红利|发放|发钱|payments?|checks?|payouts?)|(?<!\d)(5[,\s]?000|五千)(?!\s*(?:亿|billion|trillion)).{0,15}(美元|支票|红利|发放|发钱|payments?|checks?|payouts?).{0,60}(trump|特朗普)', re.I), 'trump_5000_check'),
     # 2026-09-14: OpenAI 智能体攻击 RubyGems 事件披露 (HN14/中央社9/Engadget6/Verge6/第一财经3 共5源; 与 Hugging Face 事故同一调查线,
     # 各源标题差异极大: HN 直述 RubyGems / 中央社 "代理再爆失控" / 第一财经 "AI进化速递" / Engadget 以 "before the Hugging Face incident" 指代 /

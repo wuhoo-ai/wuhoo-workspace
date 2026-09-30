@@ -1377,3 +1377,50 @@ class TestBriefing20260929:
                   'Google DeepMind 发布 Gemini 4 预览版']:
             assert not is_noise(t), t
 
+
+class TestBriefing20260930:
+    """2026-09-30: 特朗普白宫AI协议合并 + MongoDB CEO 转投 Meta + BBC理财软文/游戏收录/促销噪声"""
+
+    def test_trump_ai_pledge_merged(self):
+        EK = NS['entity_key']
+        # 华尔街见闻/格隆汇/RFI/见闻热门 同事件（白宫AI协议）
+        cases = [
+            ('特朗普会晤科技巨头：签署AI"道德约束"协议，推行行业自律监管，"AI远超工业革命"', ''),
+            ('白宫人工智能协议：英伟达、OpenAI、Anthropic、xAI、谷歌将定期讨论人工智能安全标准。', ''),
+            ('科技公司高管签署了一项"具有道德约束力的协议"', ''),
+        ]
+        keys = {EK(clean_title(t), clean_summary(s)[:50]) for t, s in cases}
+        assert keys == {'trump_ai_pledge'}, keys
+
+    def test_trump_ai_pledge_no_false_merge(self):
+        EK = NS['entity_key']
+        # 不相关特朗普新闻与不相关协议新闻不并入
+        assert EK('特朗普签署行政令 收紧移民执法', '') != 'trump_ai_pledge'
+        assert EK('英法签署防务协议 不涉及美国', '') != 'trump_ai_pledge'
+
+    def test_mongodb_meta_merged(self):
+        EK = NS['entity_key']
+        assert EK('MongoDB CEO resigns to join Meta', '') == 'mongodb_meta'
+        assert EK('Meta launches enterprise AI platform, hires MongoDB CEO to lead new initiative', '') == 'mongodb_meta'
+        # MongoDB 财报类新闻不并入
+        assert EK('MongoDB Q2 revenue beats estimates on database growth', '') != 'mongodb_meta'
+
+    def test_new_noise(self):
+        for t in ['You need £17,000 for a first home - here\'s how to do it',
+                  'Codenames Party is the latest addition to Netflix Games',
+                  '阿里 Qoder 平台 Qwen3.8-Flash 限时免费活动延期，10 月之后继续用',
+                  '松下 Technics 首款磁流体头戴耳机 EAH-A1000 发布，国行 2599 元',
+                  'Unis are offering degrees in content creation for £30,000. But are they worth it?',
+                  '张雪机车回应网传"团队在意大利被盗"：全员安全',
+                  '索尼公布《战神：劳菲》游戏预购奖励，明日开启预购',
+                  '60cm长蛋挞9月卖出超1200万根，谁在赚钱？能红多久？']:
+            assert is_noise(t), t
+
+    def test_legit_news_not_noise(self):
+        for t in ['松下发布截至3月财年年度报告：营业利润同比增长8%',
+                  'Netflix 上调订阅价格，流媒体涨价潮蔓延',
+                  '英伟达发布新一代 GPU 架构',
+                  '荷兰法院裁定索尼PlayStation垄断赔偿案']:
+            assert not is_noise(t), t
+
+
