@@ -1424,3 +1424,67 @@ class TestBriefing20260930:
             assert not is_noise(t), t
 
 
+
+
+class TestBriefing20261001:
+    """2026-10-01: Gemini 4 Argon 7源合并 + OpenAI IPO 推迟 + Anthropic IPO 招股书 + Fire TV 发布 + 特朗普自我监管变体 + IT之家前瞻噪声"""
+
+    def test_gemini_4_argon_merged(self):
+        EK = NS['entity_key']
+        cases = [
+            ('Gemini 4 Argon', ''),
+            ('Google announces Gemini 4 and says it\u2019s so capable that only \u2018trusted cyber defenders\u2019 can have it right now', 'Google today revealed its next AI frontier model, which it\u2019s calling G'),
+            ('Google releases Gemini 4 Argon, called its most powerful model yet', ''),
+            ('谷歌最前沿 AI 模型：Gemini 4 Argon 登场，长周期代码工程 DeepSWE 测试超 Claude Opus 5.5', ''),
+            ('Gemini 4 Argon: our next era of frontier intelligence', ''),
+            ('谷歌Gemini 4 Argon多指标SOTA！输出上限破百万token，推广期价格仅竞品1/5', ''),
+        ]
+        keys = {EK(clean_title(t), clean_summary(s)[:50]) for t, s in cases}
+        assert keys == {'gemini_4_argon'}, keys
+
+    def test_gemini_4_no_false_merge(self):
+        EK = NS['entity_key']
+        # 模型偷跑(无 argon/发布锚点) 与 Chrome 漏洞稿不并入
+        assert EK('Gemini 4 Pro偷跑上线！碾压Astra和Fable', '') != 'gemini_4_argon'
+        assert EK('Google patches Chrome zero-day exploited by hackers', '') != 'gemini_4_argon'
+
+    def test_openai_ipo_delay_merged(self):
+        EK = NS['entity_key']
+        cases = [
+            ('Altman says OpenAI will delay its IPO until it overcomes safety concerns', 'ChatGPT maker launches a new AI personal assistant'),
+            ('OpenAI seeks $30 billion in funding at whopping $1.4 trillion valuation after delaying IPO', ''),
+            ('消息称 OpenAI 计划 IPO 前再融资至少 300 亿美元，估值达 1.4 万亿美元', ''),
+            ('OpenAI delays IPO over AI safety concerns', ''),
+            ('OpenAI首席执行官称AI安全成为焦点 相信投资者会对IPO保持耐心', ''),
+        ]
+        keys = {EK(clean_title(t), clean_summary(s)[:50]) for t, s in cases}
+        assert keys == {'openai_ipo_delay'}, keys
+
+    def test_anthropic_ipo_pitch(self):
+        EK = NS['entity_key']
+        # IPO 招股书稿不再被 ai_slowdown_debate 抢先
+        assert EK('Anthropic\u2019s IPO pitch includes a warning about human extinction', 'The Claude maker warns its own models could resist') == 'anthropic_ipo_pitch'
+        # 放缓辩论稿(无 ipo 词)仍归原事件
+        assert EK('Amodei calls for global AI slowdown', '') == 'ai_slowdown_debate'
+
+    def test_fire_tv_launch_merged(self):
+        EK = NS['entity_key']
+        assert EK('Amazon unveils a thinner and faster Fire TV Stick 4K, plus a new remote', '') == 'amazon_fire_tv_launch'
+        assert EK('Amazon simplifies its Fire TV streaming device lineup', '') == 'amazon_fire_tv_launch'
+        assert EK('亚马逊发布新款 Fire TV Stick 4K 电视棒：59.99 美元，新款遥控器按键可触摸识别', '') == 'amazon_fire_tv_launch'
+        # interface 升级稿属同场发布报道，并入发布事件；旧事件 "Alexa is now free on Fire TV"(裸 free) 仍归 amazon_alexa_free
+        assert EK("Amazon's new Fire TV interface and mobile app will come with Alexa+ upgrades", '') == 'amazon_fire_tv_launch'
+        assert EK('Alexa is now free on Fire TV devices everywhere', '') == 'amazon_alexa_free'
+
+    def test_trump_ai_pledge_selfregulation_variants(self):
+        EK = NS['entity_key']
+        assert EK('视频 : 特朗普称人工智能行业可以自我监管', '美国总统特朗普9月29日在白宫与近20位美国高科技界企业领袖会面后指出该行业的自我监管非常重要') == 'trump_ai_pledge'
+        assert EK('Trump praises \u201ctremendous self-regulation\u201d of AI after summoning tech bosses to', 'President says chief executives have signed a \u2018morally bindi') == 'trump_ai_pledge'
+        assert EK('特朗普要求人工智能巨头自我监管', '') == 'trump_ai_pledge'
+        assert EK('特朗普签署行政令 收紧移民执法', '') != 'trump_ai_pledge'
+
+    def test_ithome_preview_noise(self):
+        assert is_noise('苹果 iPad Mini 8 前瞻：首次支持 IP 防水，A20 Pro 芯片、OLED 屏、12GB 内存')
+        assert is_noise('微软 Win11 27H2 前瞻：预计将基于全新 Strontium 平台，Win12 仍难现身')
+        # 真新闻(无冒号格式) 不误伤
+        assert not is_noise('习近平访美前瞻：随行企业高管名单公布')

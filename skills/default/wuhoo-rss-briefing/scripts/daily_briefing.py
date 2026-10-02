@@ -258,8 +258,11 @@ NOISE_PATTERNS = [
     '利民.*(散热器|首发价|首销|上架)', '星璨岚',
     # 2026-09-10 新增 — IT之家消费电子发售续 (同类: 米家/漫步者/爱国者/技嘉/利民; 实测 09-08 九州风神散热器占产业/公司 TOP)
     '九州风神.*(散热器|散热|首销|开售|上架|发售|风扇|机箱|水冷)',
+    # 2026-10-02 新增 — IT之家消费电子发售续 (GEEKOM GeekBook M14 笔记本推出 hot3 占科技/AI TOP5);
+    # App 小版本号更新稿 (苹果 Invites App 升至 1.12.0 hot9 占科技/AI TOP3, 版本迭代非事件; 要求空格防 "下载量升至第一" 误伤)
+    'geekom.*(推出|发布|上架|开售|首销|预售)', 'app\\s+升至',
     # 2026-09-10 新增 — BBC Future 特稿 (机器人索要小费趋势文, 非新闻事件; 同类: dw users on life/月经周期)
-    '索要小费',
+    '索要小费', '猫眼如何启发', '貓眼為何',
     # 2026-09-10 新增 — BBC Business 个人理财软文 (同类: money disagre/lend me £10k/back to school; 实测 09-08 财经 TOP10 第6位)
     'written my will',
     # 2026-09-12 新增 — HN 引用列表/wiki 帖 (非新闻事件; 实测 "List of references on Sony websites…" hot11 占产业/公司 TOP1, 同类 ankidroid/marty)
@@ -353,6 +356,9 @@ NOISE_PATTERNS = [
     # 2026-09-27 新增 — IT之家消费电子发售续六 (同类 米家/漫步者/台电; 实测 华硕a豆100W充电器Wiggle联名上架
     # / 米家吸顶灯C高显色上架 / 小米18 Fold首销情况曝光(博主爆料) 占产业/公司 TOP1-3)
     r'a\s*豆.*(上架|开售|首销|发售|预售)', '吸顶灯', '首销情况曝光',
+    # 2026-10-01 新增 — IT之家"XX 前瞻：YY"爆料稿 (MacRumors 博文转述, 非官方事件; 实测 iPad Mini 8 前瞻 hot15 占科技/AI TOP3,
+    # Win11 27H2 前瞻同类; 须限产品词, 裸 '前瞻：' 会误伤 "访美前瞻：随行名单" 类真新闻)
+    r'(iphone|ipad|airpods|mac mini|win\d+|window).{0,25}前瞻：',
     # 2026-09-27 新增 — 游戏发售跳票 (同类 gta/深海迷航; 实测 'Hell Is Us 地狱即我们' Switch2 跳票占产业 TOP5)
     'hell is us', '地狱即我们',
     # 2026-09-27 新增 — 名人回顾软文 (实测 '巴菲特卸任董事长，他的3大投资成功秘诀' 朝鲜日报中文 抢下 buffett_stepdown 组代表位)
@@ -519,6 +525,9 @@ ENTITY_KEYS = [
     (re.compile(r'谷歌.*anthropic|google.*anthropic', re.I), 'google_anthropic'),
     (re.compile(r'超聚变', re.I), 'superfusion_ipo'),
     (re.compile(r'prime air|drone deliver', re.I), 'amazon_prime_air'),
+    # 2026-10-01: 亚马逊 Fire TV 秋季硬件发布 (Engadget "unveils a thinner Fire TV Stick 4K"/"simplifies lineup" + IT之家 同事件拆占产业 TOP4-5;
+    # 需 unveil/simplif/interface/new remote/发布/新款/电视棒 等发布报道词; 防误并: 旧事件 "Alexa is now free on Fire TV"(裸 free) 仍归 amazon_alexa_free)
+    (re.compile(r'fire\s*tv[\s\S]{0,60}(unveil|simplif|new\s+remote|lineup|interface|发布|新款|电视棒)|(amazon|亚马逊)[\s\S]{0,50}fire\s*tv[\s\S]{0,60}(unveil|simplif|stick\s*4k|发布|新款)', re.I), 'amazon_fire_tv_launch'),
     (re.compile(r'alexa.*(free|fire tv)|fire tv.*alexa', re.I), 'amazon_alexa_free'),
     # 2026-08-31: 沃什杰克逊霍尔首秀放鹰 (8/28-29 最大事件, 39条报道分散占据财经 TOP5 4条)
     (re.compile(r'(warsh|沃什).*(jackson hole|杰克逊霍尔)|(jackson hole|杰克逊霍尔).*(warsh|沃什)', re.I), 'warsh_jackson_hole'),
@@ -529,6 +538,12 @@ ENTITY_KEYS = [
     # 2026-09-23: Claude Opus 5.5 发布 (HN30 裸标题/IT之家6/华尔街见闻6/HN100+6/TechCrunch3/虎嗅9 六源不合并,
     # 代表显示为 HN "(无摘要)"; 须置于 claude_fable_51 之前 — IT之家/见闻标题含"媲美 Fable 5.1"会被泛 fable 规则抢先;
     # sol/luna 词边界用 (?<![a-z]) 而非 \b — 虎嗅"GPT-6 Sol和Luna" CJK 邻接时 \b 静默失效 (同 09-15 ai 教训))
+    # 2026-10-01: Google 发布 Gemini 4 Argon 旗舰模型 (HN17 裸标题/Verge15/TechCrunch12/IT之家9/Ars9/DeepMind6/见闻3 共 7 源不合并,
+    # HN 版 (无摘要) 占科技/AI TOP2; argon 为具体产品代号锚点; Verge 版标题无 argon 字样需 announce 分支;
+    # 须置于 claude_opus_55 之前 — IT之家标题"Gemini 4 Argon…超 Claude Opus 5.5"含 opus5.5 词会被抢先;
+    # 防误并: 'Gemini 4 Pro偷跑上线'(无 argon, gemini 4 后接 pro 被负向断言排除)
+    # 与 09-20 gemini_hack_incident(入侵稿, 触发词不同) 不冲突)
+    (re.compile(r'gemini[\s\-]*4[\s\-]*argon|argon[\s\S]{0,40}gemini|(google|谷歌)[\s\S]{0,30}(announc|reveal|releas|发布|登场)[\s\S]{0,30}gemini\s*4(?![\s\-]*pro)|gemini\s*4(?![\s\-]*pro)[\s\S]{0,40}(most powerful|so capable|frontier|next era|多指标sota|登场)', re.I), 'gemini_4_argon'),
     (re.compile(r'opus\s*5\.?5', re.I), 'claude_opus_55'),
     (re.compile(r'gpt[\s\-]*6[\s\S]{0,60}(?<![a-z])sol(?![a-z])|gpt[\s\-]*6[\s\S]{0,60}(?<![a-z])luna(?![a-z])'
                 r'|(?<![a-z])sol(?![a-z])[\s\S]{0,20}(?<![a-z])luna(?![a-z])|(?<![a-z])luna(?![a-z])[\s\S]{0,20}(?<![a-z])sol(?![a-z])', re.I), 'gpt6_sol_luna'),
@@ -580,9 +595,14 @@ ENTITY_KEYS = [
     # 数字 '5,000' 经 entity 标点归一(逗号→空格)变 '5 000' → 模式写 5[,\s]?000 双格式容错)
     # 2026-09-30: 特朗普白宫 AI 协议（英伟达/OpenAI/Anthropic/xAI/谷歌/微软签"道德约束力"AI 治理自律协议）
     # 见闻15/格隆汇12/RFI12/第一财经3 分散，同一事件拆占 财经TOP1+宏观TOP2 两榜；特朗普/白宫 + 签署/道德/自律/pledge 语境共现
-    (re.compile(r'(trump|特朗普|白宫|white house).{0,80}(道德约束|道德|自律|pledge|ethic|safety standard|安全标准)|(签署|sign(?:s|ed|ing)?).{0,30}(道德|ethic|自律|人工智能|ai).{0,40}(协议|pledge|agreement)', re.I), 'trump_ai_pledge'),
+    (re.compile(r'(trump|特朗普|白宫|white house).{0,80}(道德约束|道德|自律|自我监管|self[- ]?regulat|pledge|ethic|safety standard|安全标准)|(签署|sign(?:s|ed|ing)?).{0,30}(道德|ethic|自律|人工智能|ai).{0,40}(协议|pledge|agreement)'
+                # 2026-10-02: 反向分支 — CoinDesk "OpenAI, Google and Meta pledge independent AI safety audits under voluntary White House deal" 锚点(White House)在 pledge 之后
+                r'|(?=[\s\S]*(white house|白宫))(?=[\s\S]*(pledge|audit|deal|协议|自律|安全标准))(?=[\s\S]*((?<![a-z])ai(?![a-z])|safety|安全))', re.I), 'trump_ai_pledge'),
     # 2026-09-30: MongoDB CEO 辞职加盟 Meta（HN14 裸标题无摘要 + TechCrunch9 "hires MongoDB CEO" 同事件拆占；
     # 带 resign/join/hire 语境防 MongoDB 财报/股价类其他事件误并，泛公司名裸词禁止规则）
+    # 2026-10-02: 宝马 3 系燃油/纯电同平台定价报道 (TechCrunch "EV is $4,400 cheaper" + Ars "US 3 series pricing"
+    # 同事件拆占产业/公司 TOP2+TOP4; 三锚点共现: BMW + 3系产品词 + EV/纯电语境, 防 BMW 财报/其他车型稿误并)
+    (re.compile(r'(?=[\s\S]*(bmw|宝马))(?=[\s\S]*(3\s*series|330|i3\s*50|3系))(?=[\s\S]*((?<![a-z])evs?(?![a-z])|electric|纯电|电动))', re.I), 'bmw_3series_ev_pricing'),
     (re.compile(r'mongodb.{0,40}(resign|join|hire)|(hire|resign).{0,20}mongodb', re.I), 'mongodb_meta'),
     (re.compile(r'(trump|特朗普).{0,60}(?<!\d)(5[,\s]?000|五千)(?!\s*(?:亿|billion|trillion)).{0,15}(美元|支票|红利|发放|发钱|payments?|checks?|payouts?)|(?<!\d)(5[,\s]?000|五千)(?!\s*(?:亿|billion|trillion)).{0,15}(美元|支票|红利|发放|发钱|payments?|checks?|payouts?).{0,60}(trump|特朗普)', re.I), 'trump_5000_check'),
     # 2026-09-14: OpenAI 智能体攻击 RubyGems 事件披露 (HN14/中央社9/Engadget6/Verge6/第一财经3 共5源; 与 Hugging Face 事故同一调查线,
@@ -599,7 +619,17 @@ ENTITY_KEYS = [
     # 15+ 源碎片化: 英文台 slowdown 直述 / 中文源 放缓·刹车·警告 表述; hot 最高仅 12-14, 天然排名被 14+ 分条目挤出 TOP5)
     # 注: ai 锚点用 (?<![a-z])ai(?![a-z]) 而非 \b — CJK 邻接("AI放缓")时 \b 失效 (Python \w 含 CJK, 'I'-'放' 间无边界)
     # 距离限 55: 卫报 "AI-linked stocks slide after tech bosses call for slowdown" 实测距离 48 (40 会漏)
-    (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|放缓|放慢|减速|刹车|警告|warn)'
+    # 2026-10-01: Anthropic IPO 招股书风险披露 (Ars15 "Anthropic's IPO pitch includes a warning about human extinction"
+    # 被下面 ai_slowdown_debate 的 (anthropic).{0,60}warn 分支抢先误并 — IPO 是独立事件, 须带 ipo 锚点且置前;
+    # 防误并: 放缓辩论稿(无 ipo 词)不受影响; ipo 词边界用 (?<![a-z]) 防 CJK 邻接失效;
+    # 二次收紧: 必须带招股书语境 (pitch/prospectus/招股/filing/申请/披露),
+    # 否则 09-15 回归用例 "三巨头支持放缓、OpenAI推迟IPO引热议"+摘要含 Amodei 会被误并)
+    (re.compile(r'(anthropic|amodei|claude)[\s\S]{0,80}(?<![a-z])ipo(?![a-z])[\s\S]{0,80}(pitch|prospectus|filing|招股|申请|披露|valuation)'
+                r'|(pitch|prospectus|filing|招股|申请|披露|valuation)[\s\S]{0,80}(?<![a-z])ipo(?![a-z])[\s\S]{0,80}(anthropic|amodei|claude)'
+                r'|(?<![a-z])ipo(?![a-z])[\s\S]{0,60}(anthropic|amodei)[\s\S]{0,60}(pitch|prospectus|filing|招股)', re.I), 'anthropic_ipo_pitch'),
+    # 2026-10-02: 去掉裸 (anthropic).{0,60}warn 分支 — 卫报 "Anthropic pushes for opt-out model... ABC warns
+    # of cannibalisation"(新闻行业版权稿) 被误并进放缓辩论事件; 放缓语境词(slowdown/放缓)仍保留双向锚点
+    (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|放缓|放慢|减速|刹车)'
                 r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,60}(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴)'
                 r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能|前沿)'
                 r'|((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能).{0,55}(slow ?down|slowdown|放缓|放慢|减速|刹车)', re.I), 'ai_slowdown_debate'),
@@ -651,6 +681,7 @@ ENTITY_KEYS = [
     # 2026-09-25: 小米18 Pro 秋季发布会 (IT之家 6 篇衍生稿+Engadget 各占产业/公司 TOP 位 → 同事件 4 条占 TOP5 之 3-5 位;
     # 锚定 "小米/Xiaomi + 18 Pro" 具体产品名 (iPhone 18 Pro 稿无小米词安全); 发布会汇总/图赏/卢伟冰回应 均含该词组合)
     (re.compile(r'(xiaomi|小米)[\s\S]{0,40}18\s*pro|18\s*pro[\s\S]{0,40}(xiaomi|小米)', re.I), 'xiaomi_18_launch'),
+    (re.compile(r'(openai|chatgpt|altman|奥特曼)[\s\S]{0,120}(?<![a-z])ipo(?![a-z])|(?<![a-z])ipo(?![a-z])[\s\S]{0,120}(openai|chatgpt|altman|奥特曼)', re.I), 'openai_ipo_delay'),
 ]
 
 def entity_key(title, summary):
@@ -703,7 +734,7 @@ PRIORITY_EVENTS = [
     (re.compile(r'(ternus|特努斯|tim cook|库克).*(final message|parting|告别|farewell|executive chair|最后一天|卸任|接任|接替|换帅|离任)|(卸任|接任|接替|换帅|离任).*(ternus|特努斯|tim cook|库克)', re.I), '科技/AI'),
     # 2026-09-15: AI 巨头集体呼吁"放缓AI发展"辩论 (Amodei 倡议 + 马斯克/奥特曼背书 + 微软自律准则 + 特朗普反对 + 美股AI板块大跌;
     # 15+ 源碎片化, 代表 hot 仅 12 → 天然排名被 14 分 HN 条目挤出 TOP5; 同类: 苹果 CEO 换任案例 2026-09-02)
-    (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|放缓|放慢|减速|刹车|警告|warn)'
+    (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|放缓|放慢|减速|刹车)'
                 r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|人工智能|前沿)'
                 r'|((?<![a-z])ai(?![a-z])|a\.i\.?|人工智能).{0,55}(slow ?down|slowdown|放缓|放慢|减速|刹车)', re.I), '科技/AI'),
     # 2026-09-19: 巴菲特卸任伯克希尔董事长 (6源合并后 hot 11, 与另外 4 条同为 11 分的普通条目竞争排第 6 位被 TOP5 截断;
