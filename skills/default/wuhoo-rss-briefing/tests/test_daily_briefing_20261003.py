@@ -34,6 +34,12 @@ class TestBriefing20261003:
         # 防误伤: 正常机构持仓报道不含"我清仓"
         assert not is_noise('巴菲特清仓了苹果股票 伯克希尔第三季度减持')
 
+    def test_bbc_gen_z_pension_story_noise(self):
+        # BBC Business 个人叙事软文 (同类 pay into my pension)
+        assert is_noise("'it could cost me \u00a310k but i need the money now': why gen z are opting out of pensions")
+        # 防误伤: 制度性养老金新闻不受影响
+        assert not is_noise('government announces reform of state pension age from 2027')
+
     def test_auto_monthly_sales_merged(self):
         # 榜单/汇总两条聚合稿合并为一个事件
         assert entity_key('2026 年 9 月汽车销量 / 交付榜出炉：比亚迪 46.36 万辆稳坐头把交椅', '') == 'china_auto_monthly_sales'

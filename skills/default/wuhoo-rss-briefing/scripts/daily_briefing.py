@@ -400,6 +400,9 @@ NOISE_PATTERNS = [
     # 2026-10-03 新增 — 第一人称投资叙事软文 (非新闻事件; 同类 written my will/pay into my pension/投资成功秘诀;
     # 实测 '体验了Muse后，我清仓了Airbnb' hot14 靠 category=财经+3 占财经 TOP1，IT之家版同类)
     r'我清仓|我加仓|清仓了.*加仓',
+    # 2026-10-03 新增 — BBC Business Gen Z 弃领养老金个人叙事软文 (同类 pay into my pension/written my will;
+    # 实测 "'It could cost me £10k but I need the money now': Why Gen Z are opting out of pensions" 占财经 TOP5)
+    r'opting out of pension',
 ]
 
 def is_noise(text):
