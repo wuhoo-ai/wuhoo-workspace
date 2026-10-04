@@ -261,6 +261,23 @@ NOISE_PATTERNS = [
     # 2026-10-02 新增 — IT之家消费电子发售续 (GEEKOM GeekBook M14 笔记本推出 hot3 占科技/AI TOP5);
     # App 小版本号更新稿 (苹果 Invites App 升至 1.12.0 hot9 占科技/AI TOP3, 版本迭代非事件; 要求空格防 "下载量升至第一" 误伤)
     'geekom.*(推出|发布|上架|开售|首销|预售)', 'app\\s+升至',
+    # 2026-10-04 新增 — IT之家消费电子发售续 (铭凡 PCIe 扩展卡 ESP4B 上市 hot 占产业/公司 TOP1、
+    # HKC 神盾电竞显示器发售占 TOP5, 同类 米家/漫步者/爱国者/技嘉/利民/geekom/影石/台电)
+    '铭凡.*(上市|上架|开售|首销|发售|预售|推出)',
+    'hkc.*(显示器|发售|上架|开售|首销|预售)',
+    # 2026-10-04 新增 — 德国之声 "India news:" 直播聚合博客 (同类 australia news live, 多条滚动占宏观 TOP)
+    'india news:',
+    # 2026-10-04 新增 — Apple TV 免费直播 F1 消费促销稿 (体育转播羊毛, 非科技/投资事件; 限定 apple tv 语境防误伤)
+    'apple tv.*(免费|直播).*(f1|大奖赛)',
+    # 2026-10-04 新增 — IT之家车企单品牌月度销量明细/交付软文 (奇瑞各品牌销量明细 hot 高误入宏观TOP5——
+    # '增长/同比'命中宏观词; 风云A9单月订单稿属产品营销, 同类 消费电子发售系列; 月度全行业数据 乘联会/销量榜 已由
+    # china_auto_monthly_sales 实体合并, 单车企明细不进榜)
+    '各品牌销量', '风云\\s*a9|智界\\s*5008',
+    # 2026-10-04 新增 — DW 气候趋势特稿 (solar 'everyone everywhere' 2030 议题评论, 非事件; 同类 dw users on life/hyrox)
+    'everyone, everywhere',
+    # 2026-10-04 新增 — TechCrunch 大会招商/倒计时促销稿 (Founder Summit side event "less than 24 hours to apply"
+    # 因 summit 命中宏观词误入 TOP5; 同类 techcrunch disrupt 会议营销 09-28 规则)
+    'side event at|founder summit',
     # 2026-09-10 新增 — BBC Future 特稿 (机器人索要小费趋势文, 非新闻事件; 同类: dw users on life/月经周期)
     '索要小费', '猫眼如何启发', '貓眼為何',
     # 2026-09-10 新增 — BBC Business 个人理财软文 (同类: money disagre/lend me £10k/back to school; 实测 09-08 财经 TOP10 第6位)
@@ -576,6 +593,20 @@ ENTITY_KEYS = [
     (re.compile(r'(openai|chatgpt|claude|grok|gemini).*(simultaneously|同时|downtime|outage|宕机|下线|故障)|(simultaneously|同时|downtime|outage|宕机|下线|故障).*(openai|chatgpt|claude|grok|gemini)', re.I), 'ai_service_outage'),
     # 2026-09-06: 美伊战争推高美国柴油价至历史新高 (BBC hot22/NYT/FT/美联社 6源同事件, 此前关键词表无油价词全部落未匹配 640 条)
     (re.compile(r'diesel.*(record|all[- ]?time|new high|新高|纪录)|(record|all[- ]?time|new high|新高|纪录).*diesel', re.I), 'diesel_record'),
+    # 2026-10-04: G7 释放1亿桶油储+美柴油出口禁令威胁 (见闻11/BBC11/DW11/中央社×3/卫报×2/FT/RFI×2/一财×3 16+条同事件;
+    # 此前无 entity 规则 → 同事件拆占 财经TOP3+TOP5 与 宏观TOP2+TOP4+TOP5 两榜, [N源] 失效。
+    # 防误并: diesel_record 在前抢判柴油纪录稿; 裸'(g7|七国)'会把访华/声明等其他 G7 新闻误并——必须共现 抛储/储备/stockpile/release+barrel/reserve 语境;
+    # 数字分支限定 1亿桶/1億桶/100m barrels 本事件专属数字; 出口禁令分支须 G7/EU 锚点 (裸 bans? 教训 09-10: 词边界+距离限)。
+    (re.compile(
+        r'(?=[\s\S]*(g7|七国|七大工業國|马克龙|macron|欧盟|欧洲|european|(?<![a-z])eu(?![a-z])|trump|特朗普|allies\b))'
+        r'(?=[\s\S]*(释[放出储]|釋[放出储]|抛储|抛儲|联合抛|储备|儲備|stockpil|releas\w*|strategic reserve|reserves?\b|barrels?\b|出口禁令|出口\s*ban|export ban|(?<![a-z])bans?\b|协调|協調|联合行动|聯合行動|会商|會商|协商|協商|峰会|峰會|summit|增产|增產))'
+        r'(?=[\s\S]*(柴油|原油|石油|燃料|油价|油储|储备|diesel|oil|fuel))',
+        re.I), 'g7_oil_release'),
+    (re.compile(
+        r'(?=[\s\S]*(g7|七国|七大工業國|马克龙|macron| Macron|欧盟|eu\b))'
+        r'(?=[\s\S]*(释放|释出|抛储|stockpile|reserves?\b|barrels?\b|出口禁令|bans?\b|联合行动|协调))'
+        r'(?=[\s\S]*(柴油|原油|石油|燃料|油价|diesel|oil|fuel))',
+        re.I), 'g7_oil_release'),
     # 2026-09-09: 德国 AfD 萨安州(萨克森-安哈尔特)选举大胜 (DW×3/FT/BBC World×2/第一财经 7源; 此前 DW 两条不同角度未合并各占宏观 TOP 3-4 位;
     # BBC World 标题以 "eastern state" 指代萨安州)
     (re.compile(r'(afd|德国选择党|极右).*(saxony|萨安|萨克森|eastern state|state election|州选)|(saxony|萨安|萨克森|eastern state|state election|州选).*(afd|极右|选择党)', re.I), 'afd_saxony_election'),
