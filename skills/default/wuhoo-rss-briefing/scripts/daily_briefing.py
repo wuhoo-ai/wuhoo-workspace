@@ -278,6 +278,28 @@ NOISE_PATTERNS = [
     # 2026-10-04 新增 — TechCrunch 大会招商/倒计时促销稿 (Founder Summit side event "less than 24 hours to apply"
     # 因 summit 命中宏观词误入 TOP5; 同类 techcrunch disrupt 会议营销 09-28 规则)
     'side event at|founder summit',
+    # 2026-10-05 新增 — The Verge Prime Day 导购 (同类 best deals/where to preorder/half off;
+    # 实测 "The MacBook Air M5 is $200 off for the first time in months" hot 占产业/公司 TOP1)
+    'prime day',
+    # 2026-10-05 新增 — IT之家单车型月度销量明细 (秦MAX 9月销量12066辆 占产业 TOP2;
+    # 同 10-04 各品牌销量/风云A9 规则; 行业聚合榜由 china_auto_monthly_sales 合并, 单车企/单车型稿不进榜)
+    '比亚迪.*(车型|秦|汉|唐|宋|元|海豹|海鸥|海豚|驱逐舰|夏|豹).*(销量|热销|交付)',
+    # 2026-10-05 新增 — IT之家消费电子发售续 (泰坦军团显示器发售 hot 占产业 TOP3、QCY 耳夹式耳机推出占 TOP4、
+    # 华硕无畏笔记本上架占 TOP5, 同类 米家/漫步者/爱国者/技嘉/利民/铭凡/hkc/geekom/影石/台电)
+    '泰坦军团.*(发售|上架|开售|首销|预售|推出)',
+    'qcy.*(推出|上架|开售|首销|预售|发售)',
+    '航嘉.*(推出|上架|开售|首销|预售|发售)',
+    '充气泵|胎压检测',
+    # 2026-10-05 续 — 前批规则过滤后同类稿递补暴露 (荣耀平板上架/联想手表推出/雷柏鼠标预约 各占产业 TOP3-5)
+    '荣耀.*(平板|手表|路由器).*(上架|发售|开售|首销|预售|预约|推出)',
+    '联想.*(推出|上架|开售|首销|预售|发售).*(手表|平板|充电|键鼠|显示器)',
+    '雷柏.*(预约|上架|开售|首销|预售|发售|推出)',
+    # 2026-10-05 续二 — 海信猎影显示器预售 (二次递补暴露, 同类显示器发售系列)
+    '海信.*(显示器|预售|首销|开售|上架|发售)',
+    '华硕.*(上架|开售|首销|发售|预售).*(笔记本|无畏)',
+    # 2026-10-05 新增 — BBC 中文深度专栏/解释性特稿 (栏目名式标题带问号, 无新闻事件本体, 常缺正文;
+    # 同类 dw users on life/everyone everywhere/索要小费; 实测 "西班牙与中国愈走愈近，欧盟多方为何不满？" 占宏观 TOP2 (无摘要))
+    '为何不满', 'cosying up',
     # 2026-09-10 新增 — BBC Future 特稿 (机器人索要小费趋势文, 非新闻事件; 同类: dw users on life/月经周期)
     '索要小费', '猫眼如何启发', '貓眼為何',
     # 2026-09-10 新增 — BBC Business 个人理财软文 (同类: money disagre/lend me £10k/back to school; 实测 09-08 财经 TOP10 第6位)
@@ -527,6 +549,10 @@ def classify(text, category_field):
     # 同 silicon species 案例机制, 产品品类词不足以靠单词表取胜时用语境加 3)
     if re.search(r'smart glasses|智能眼镜|ai glasses|ray-?ban', text, re.I):
         scores['科技/AI'] += 3
+    # 2026-10-05: 间谍/情报话题 → 宏观政策 (BBC 中文 '军情五处警告：中国资助英国研究…间谍机关' hot11 仅靠
+    # 科技表 '研究' 命中误分科技/AI TOP4; 地缘间谍事件属宏观)
+    if re.search(r'军情五处|\bmi5\b|间谍|espionage|intelligence agency|情报机构', text, re.I):
+        scores['宏观政策'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
     if category_field in cm:
@@ -731,6 +757,22 @@ ENTITY_KEYS = [
     # 2026-10-03: 车企月度销量/交付放榜 (IT之家 '9月汽车销量/交付榜出炉' + '交付汇总(持续更新)' 两条同题材稿拆占产业 TOP1-2;
     # 只并聚合稿(须含 榜/汇总/出炉/成绩单), 单车企产销公告 ('比亚迪9月销量463561辆…') 无聚合词不并、保留为独立公司事件)
     (re.compile(r'(汽车|车企|新能源)[\s\S]{0,20}(销量|交付|产销)[\s\S]{0,20}(榜|汇总|出炉|成绩单|交卷)', re.I), 'china_auto_monthly_sales'),
+    # 2026-10-05: OpenAI 安全元老 David Robinson 辞职死谏 (见闻14 "12朝元老辞职死谏"/TechCrunch "resigns…culture is broken"/
+    # Verge "safety employee has quit"/HN×2 "I Quit OpenAI…"/格隆汇×2/一财/IT之家/虎嗅 8+ 源标题各异不合并 →
+    # 拆占 科技/AI TOP2+财经 TOP3 两榜。三锚点 lookahead (10-02 教训: 英文锚点顺序不可预测用共现不用距离);
+    # 语境限 resign/quit/离职/辞职 (防 "OpenAI fires workers" 泄密解雇事件误并 — 该事件不同, 见 openai_data_leak_firings)
+    (re.compile(r'((?=[\s\S]*(robinson|罗宾逊))(?=[\s\S]*openai)|(?=[\s\S]*openai)(?=[\s\S]*(resign|quit|离职|辞职|死谏|culture is broken|文化.{0,6}崩坏)))', re.I), 'openai_robinson_resign'),
+    # 2026-10-05: OpenAI 解雇 3 名向外部安全评估组织泄密员工 (BBC Business14 "fires workers for mishandling
+    # sensitive information" + Engadget6 "fires three employees who allegedly shared info with an external AI safety group"
+    # 同事件不合并; 锚点 openai+fire(词边界防 wildfire/fires break out)+泄密语境; 置于 australia_hack 类规则后无冲突)
+    (re.compile(r'((?=[\s\S]*openai)(?=[\s\S]*\bfires?\b[\s\S]*(mishandl|sensitive|shared info|external|evaluation group))|(?=[\s\S]*openai)(?=[\s\S]*(mishandl|泄密)[\s\S]*\bfires?\b))', re.I), 'openai_data_leak_firings'),
+    # 2026-10-05: 埃塞俄比亚政府军收复提格雷首府机场 (德国之声11 "government forces reclaim Tigray capital airport"
+    # + BBC World3 "rebel forces withdraw from Tigray regional capital" 同事件英文表述相反视角不合并;
+    # 锚点须 tigray/提格雷 + 军事进退词 (reclaim/withdraw/retake/收复/撤出); DW 和平斡旋评论稿 "broker a new peace" 无进退词不并 (独立分析)
+    (re.compile(r'(tigray|提格雷)[\s\S]{0,80}(reclaim|withdraw|retake|capture|收复|撤出|攻占)|(reclaim|withdraw|retake|收复|撤出)[\s\S]{0,80}(tigray|提格雷)', re.I), 'ethiopia_tigray'),
+    # 2026-10-05: 小米 Vision GT 入驻 Gran Turismo 7 (IT之家 "十月入驻…首次推出电车驾驶教学" + "十月即将正式入驻…首台中国 Vision GT"
+    # 两条衍生稿拆占产业 TOP2+TOP4; 具体产品名 vision gt 48h 窗口内即该事件)
+    (re.compile(r'vision\s*gt|vision\s*gran\s*turismo', re.I), 'xiaomi_vision_gt'),
 ]
 
 def entity_key(title, summary):
