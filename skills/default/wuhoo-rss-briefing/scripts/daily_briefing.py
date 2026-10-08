@@ -118,6 +118,15 @@ ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering)\b', re.I)  # 2026-09-13: 
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
+    # 2026-10-08 新增 — BBC 中文社会新闻/解释性特稿 (台北同志酒吧搜查 hot19 占宏观 TOP1、普京黑海别墅
+    # "为何要暗地重建？" 栏目名式特稿占宏观 TOP5，同类 为何不满/为何要为)；TechCrunch 消费者趣闻稿
+    # (Amazon 'flat buttocks' 占产业 TOP3)；The Verge 促销汇总 (Kindle Paperwhite 30 percent off 占产业
+    # TOP5，同类 best deals/half off；'percent off' 48h 实测仅命中导购措辞，不误伤 "tariffs cut by 30 percent"
+    # 类新闻——后者用 cut/reduced 动词不接 percent off 形)；虎嗅诺奖培养体制评论特稿 (日本为何不断产生诺奖科学家)
+    '同志酒吧', '黑海别墅', '元首行宫', 'flat buttocks', 'percent off', '不断产生诺奖',
+    # 2026-10-08 续查 — The Verge Alexa aux 接口功能退化趣闻稿(消费者小毛病, 非事件, 占产业 TOP4)；
+    # 中央社富比世移民富豪榜榜单稿(榜单聚合非新闻事件, 占宏观 TOP4)
+    'aux input', '移民富豪榜',
     # 2026-09-25: TechCrunch "streaming inflation" 流媒体涨价趋势评论 (inflation 命中宏观表占宏观 TOP4，非政策事件)
     'streaming inflation',
     # 2026-09-25: 独立 AI 驾驶基准演示站 (drivingbench.com, HN "GPT-6 Astra has gained the ability to drive a car"
@@ -563,6 +572,12 @@ def classify(text, category_field):
     # 科技表 '研究' 命中误分科技/AI TOP4; 地缘间谍事件属宏观)
     if re.search(r'军情五处|\bmi5\b|间谍|espionage|intelligence agency|情报机构', text, re.I):
         scores['宏观政策'] += 3
+    # 2026-10-08: 公司财报话题 → 产业/公司 (HN "JetBrains reports revenue growth, net financial loss for 2025"
+    # hot 高但因 'growth/增长' 命中宏观表 + 无摘要 误入宏观 TOP5; 营收/亏损/财报属公司动态。
+    # 限定非财经 category 才加(财经源市场稿已有 category +3, 防止被拉去产业/公司))
+    if category_field not in ('财经', '投资') and re.search(
+            r'reports? revenue|revenue growth|net (financial )?loss|财报|財報|营收|營收|亏损|虧損', text, re.I):
+        scores['产业/公司'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
     if category_field in cm:
@@ -800,6 +815,30 @@ ENTITY_KEYS = [
     (re.compile(r'(?=[\s\S]*(hanning|spy chief|spymaster|前情报局长|情报局长|foreign intelligence|(?<![a-z])bnd(?![a-z])))'
                 r'(?=[\s\S]*(arrest|detain|treason|espionag|被捕|被拘|卖国|allegation|scandal|huge success))', re.I),
      'germany_spy_arrest'),
+    # 2026-10-08: 2026 诺贝尔物理学奖(Halzen/冰立方中微子) 10+ 源拆榜 — 虎嗅11/凤凰财经11/德国之声11/见闻11
+    # 同事件标题各异(南极望远镜/ghost particles/冰疙瘩/独揽)不合并, 拆占 财经TOP2+TOP5 两席; 锚点用物理奖专属词
+    # (halzen/icecube/冰立方/neutrino/中微子/物理奖变体); 防误并: "诺奖经济学家背书AI就业"Acemoglu 稿与和平奖
+    # 川普自认稿均无物理锚点不命中
+    (re.compile(r'halzen|icecube|冰立方|(?<![a-z])neutrino|中微子|诺贝尔物[理理]|諾貝爾物[理理]|物理[奖獎]|'
+                r'nobel\s*(prize\s*)?(in\s*)?physics|physics\s*nobel', re.I), 'nobel_physics_2026'),
+    # 2026-10-08: 2026 诺贝尔化学奖(Kagan/Soai 手性/自催化) 6 源拆榜 — 见闻11/德国之声11/RFI/中央社/凤凰财经/
+    # BBC World/Ars 各占各榜; 锚点化学奖专属词; 防误并: 裸'手性/chiral'不设(论文稿), 物理组无化学词不并
+    (re.compile(r'kagan|(?<![a-z])soai(?![a-z])|诺贝尔化[学學]|諾貝爾化[学學]|化[学學][奖獎]|'
+                r'nobel\s*(prize\s*)?(in\s*)?chemistry|chemistry\s*nobel', re.I), 'nobel_chemistry_2026'),
+    # 2026-10-08: 微软 Surface Laptop Ultra / RTX Spark 发布会 (IT之家12 售价公布 + TechCrunch12 "Nvidia-chip AI PCs
+    # with revamped Windows 11" + Verge12 "Everything announced" + Engadget×3 + IT之家探秘/Dev Box/Copilot 衍生稿
+    # 各拆占科技 TOP5; entity 匹配文本=title+clean_summary[:50], TechCrunch 摘要 50 字窗口够不到 Surface 字样,
+    # 须按其标题原文词形单独分支。rtx spark 分支要求与微软/microsoft/surface 共现距 80 — 防"戴尔 XPS 16 配
+    # RTX Spark"(另一厂商独立公告)误并; Verge "first Nvidia RTX Spark laptops $7,000" 无微软锚不并(平台综述稿, 可接受))
+    (re.compile(r'surface\s*laptop\s*ultra|surface旗舰新机|microsoft releases new nvidia-chip'
+                r'|(?<![a-z])rtx\s*spark[\s\S]{0,80}(微软|microsoft|surface)|(微软|microsoft|surface)[\s\S]{0,80}(?<![a-z])rtx\s*spark', re.I),
+     'surface_laptop_ultra'),
+    # 2026-10-08: 艾美奖转播权转至亚马逊 Prime Video (IT之家12 "…亚马逊 Prime Video 拿下艾美奖全球独家直播权" +
+    # TechCrunch12 "Emmys will move from broadcast TV to Prime Video in 2027" + Engadget12 "The Emmy Awards are
+    # moving to Prime Video" 三源拆占产业 TOP2/3/5; 双向距离 80(裸 lookahead 交替在"锚点在前的中文语序"下失效,
+    # 见 us_canada_trade_war 10-10 教训), 锚点 emmy/艾美 与 prime video/亚马逊 共现)
+    (re.compile(r'(prime\s*video|亚马逊|amazon)[\s\S]{0,80}((?<![a-z])emmys?(?![a-z])|艾美)'
+                r'|((?<![a-z])emmys?(?![a-z])|艾美)[\s\S]{0,80}(prime\s*video|亚马逊|amazon)', re.I), 'emmys_prime_video'),
 ]
 
 def entity_key(title, summary):
