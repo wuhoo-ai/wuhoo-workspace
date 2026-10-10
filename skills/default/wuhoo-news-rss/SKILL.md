@@ -174,6 +174,7 @@ DataAggregator._get_combined_sentiment()
 - **cron 环境禁止用绝对路径调用 python3.11 (2026-08-04)**：终端命令写成 `/usr/bin/python3.11 src/fetcher.py --fetch` 会触发 Hermes cron lifecycle guard 递归扫描该"被引用脚本"（含 `/` 的 executable token 被视为脚本），读取 ELF 二进制内容时崩溃 `ValueError: embedded null byte`。**必须用裸命令名**：`python3.11 src/fetcher.py --fetch`（guard 只扫描含 `/` 或 .sh 后缀的 executable）。execute_code 的 terminal() 同样受影响。
 - **RSSHub 容器 Up 但 HTTP 000 (2026-08-04)**：19 个 RSSHub 路由源 Connection refused。恢复流程见 wuhoo-infra skill。Pitfall：`podman rm -f rsshub` 后必须确认删除成功再 `podman run`，`;` 串联时 rm 可能未生效导致 "container name already in use"；rm 后加 `sleep 2`。
 - **RSSHub 路由大面积 503** (2026-07-03)：`seekingalpha`, `stcn`, `reddit`, `cls/telegraph` 等多个路由返回 503。Seeking Alpha 使用原生 `feed.xml` 绕过。需定期更新 RSSHub 版本或排查特定路由。
+- **feedx.net 上游 522 单点故障 (2026-10-09)**：RFI/德国之声中文/俄卫星/朝鲜日报中文/日经中文网/中央社/纽约时报中文/BBC 中文 8 个综合源全部走 `feedx.net/rss/*.xml`，feedx 源站挂时 8 源同时报 `not well-formed (invalid token)`（实为 Cloudflare 522 文本被当 XML 解析）。判定法：`curl -s -o /dev/null -w %{http_code} https://feedx.net/rss/cna.xml`（522 或 000=完全连不上均属此故障）；属外部临时故障，勿动本地 RSSHub/配置，宏观板块靠前一日批次兜底。10-10 复现：升级为 000 完全无响应（8 个 feedx 源全灭）。
 - **路透社国际 / B站排行榜 RSSHub 路由**：返回 HTML 而非 XML（`text/html is not an XML media type`）。B站排行榜周期性失效。
 - **词边界匹配**：使用 `\b` regex 避免子串误匹配，但中文关键词的 `\b` 行为可能不完全理想。中文文本中 `\b` 依赖 Unicode 词边界，CJK 字符间无词边界。
 - **路径硬编码**：调用 fetcher.py 时请使用绝对路径 `/home/admin/wuhoo-workspace/skills/default/wuhoo-news-rss/src/fetcher.py`，避免相对路径歧义。

@@ -461,6 +461,24 @@ NOISE_PATTERNS = [
     # 2026-10-03 新增 — BBC Business Gen Z 弃领养老金个人叙事软文 (同类 pay into my pension/written my will;
     # 实测 "'It could cost me £10k but I need the money now': Why Gen Z are opting out of pensions" 占财经 TOP5)
     r'opting out of pension',
+    # 2026-10-10 新增 — 诺奖文学奖(Anne Carson) 文化奖项非资讯事件 (德国之声11 靠'加拿大'命中宏观表占宏观 TOP1;
+    # 同类: 虎嗅'残雪村上春树陪跑'评论稿 / IT之家·Solidot·BBC World·HN 各版)
+    r'anne carson|诺贝尔文学|諾貝爾文學|literature prize|literary prize',
+    # 2026-10-10 新增 — IT之家散热/水冷配件厂商新品 (同类: 利民散热器/九州风神/瓦尔基里; 实测
+    # 'Alphacool 带来多款 GPU 单槽冷头' 占科技/AI TOP4)
+    r'alphacool.*(冷头|散热|水冷|显卡)',
+    # 2026-10-10 新增 — IT之家双十一促销导购稿 (同类: 直降/best deals/京东开售; 实测
+    # '小米空调 11.11 强劲风 1.5 匹 1850 元…新低' 占产业/公司 TOP2)
+    r'11[\.\s]*11.*(元|新低|抢|券)', '双十一全面抢', '京东家居家电',
+    # 2026-10-10 新增 — BBC Business 纪录片/人物评论软文 (非企业新闻; 同类 street interview/dw users on life;
+    # 实测 "Mark Zuckerberg has an image problem - so why is Meta's business booming?" 占财经 TOP3)
+    r'image problem',
+    # 2026-10-10 新增 — 流媒体剧集预告片/收视宣传稿 (娱乐宣传非企业新闻; 'Watch the trailer for 'The
+    # Altruists,' Netflix's show about the FTX scandal' 因 FTX 命中产业表占产业 TOP5; 同类 gta/netflix games)
+    r'watch the trailer|the altruists',
+    # 2026-10-10 新增 — Engadget 'Everything X has announced so far' 月度汇总栏目 (聚合已报道事件非独立新闻;
+    # 同类 IT早报/会员早报; 实测占产业/公司 TOP5)
+    r'announced so far',
 ]
 
 def is_noise(text):
@@ -781,7 +799,17 @@ ENTITY_KEYS = [
     (re.compile(r'(openai|chatgpt|altman|奥特曼)[\s\S]{0,120}(?<![a-z])ipo(?![a-z])|(?<![a-z])ipo(?![a-z])[\s\S]{0,120}(openai|chatgpt|altman|奥特曼)', re.I), 'openai_ipo_delay'),
     # 2026-10-03: 车企月度销量/交付放榜 (IT之家 '9月汽车销量/交付榜出炉' + '交付汇总(持续更新)' 两条同题材稿拆占产业 TOP1-2;
     # 只并聚合稿(须含 榜/汇总/出炉/成绩单), 单车企产销公告 ('比亚迪9月销量463561辆…') 无聚合词不并、保留为独立公司事件)
-    (re.compile(r'(汽车|车企|新能源)[\s\S]{0,20}(销量|交付|产销)[\s\S]{0,20}(榜|汇总|出炉|成绩单|交卷)', re.I), 'china_auto_monthly_sales'),
+        (re.compile(r'(汽车|车企|新能源)[\s\S]{0,20}(销量|交付|产销)[\s\S]{0,20}(榜|汇总|出炉|成绩单|交卷)', re.I), 'china_auto_monthly_sales'),
+    # 2026-10-10: 中欧贸易争端缓和(电动车出口限制换 trade war avert) — 德国之声6 'EU envoy in China to avert trade war'
+    # + NYT6 'China and Europe Step Back From Trade War With Limits on Chinese Car Exports' + 卫报6 'minerals…avert China trade war'
+    # 拆占宏观 TOP4-5。双锚点 lookahead: (eu|europe|欧盟|欧洲) + (china|中国) + trade war/deescalate 语境。
+    # 防误并: 美加贸易战(us_canada)/单纯中欧峰会稿无 trade war|step back|出口限制 锚不并
+    (re.compile(r'((?=[\s\S]*(eu\b|europe|欧盟|歐洲|欧洲|中歐|中欧))(?=[\s\S]*(china|中国|中華|中国|中歐|中欧))(?=[\s\S]*(trade war|贸易战|step back|avert|de-escalat|出口限制|export limit|car export|电动车)))', re.I), 'eu_china_trade_deescalation'),
+    # 2026-10-10: OpenAI 实际年化营收低于此前信号(FT 独家披露) — HN14 'OpenAI annualised revenues $20B less
+    # than previously signalled'(英文裸标题无摘要) 与 IT之家 'OpenAI 年化营收被曝接近 500 亿美元，比预期少了约 200 亿'
+    # 同事件拆占 科技TOP4+产业TOP5 两榜。双 lookahead: openai + 营收词(annualis|年化营收|revenue) + 低于预期语境
+    # (less than|shortfall|below|低于|少了|不及)。防误并: openai IPO/融资稿无 revenue 词不命中 (走 openai_ipo_delay)
+    (re.compile(r'(?=[\s\S]*openai)(?=[\s\S]*(?:annualis|年化营收|年化收入|revenues?\b|营收|營收))(?=[\s\S]*(?:less than|shortfall|below expectation|低于|少了|不及|少于))', re.I), 'openai_revenue_shortfall'),
     # 2026-10-05: OpenAI 安全元老 David Robinson 辞职死谏 (见闻14 "12朝元老辞职死谏"/TechCrunch "resigns…culture is broken"/
     # Verge "safety employee has quit"/HN×2 "I Quit OpenAI…"/格隆汇×2/一财/IT之家/虎嗅 8+ 源标题各异不合并 →
     # 拆占 科技/AI TOP2+财经 TOP3 两榜。三锚点 lookahead (10-02 教训: 英文锚点顺序不可预测用共现不用距离);
@@ -790,7 +818,14 @@ ENTITY_KEYS = [
     # 2026-10-05: OpenAI 解雇 3 名向外部安全评估组织泄密员工 (BBC Business14 "fires workers for mishandling
     # sensitive information" + Engadget6 "fires three employees who allegedly shared info with an external AI safety group"
     # 同事件不合并; 锚点 openai+fire(词边界防 wildfire/fires break out)+泄密语境; 置于 australia_hack 类规则后无冲突)
-    (re.compile(r'((?=[\s\S]*openai)(?=[\s\S]*\bfires?\b[\s\S]*(mishandl|sensitive|shared info|external|evaluation group))|(?=[\s\S]*openai)(?=[\s\S]*(mishandl|泄密)[\s\S]*\bfires?\b))', re.I), 'openai_data_leak_firings'),
+    # 2026-10-10: 同事件后续「被解雇研究员公开信反驳」报道并入 — BBC14 'Fired OpenAI researchers say they
+    # were let go for prioritising safety'(摘要截断50字无mishandl) + Engadget14 'dispute their dismissals in
+    # open letter' + TechCrunch6 'warn of chilling effect' 三源拆占 科技TOP3+财经TOP4 两榜。
+    # 重写为三锚 lookahead (openai + 解雇语系 + 泄密/研究员/寒蝉语境)；原两分支词汇集入。
+    # 防误并: robinson 辞职死谏规则在前抢先; \bfires?\b 词边界防 wildfire; 无 openai 锚不命中
+    (re.compile(r'(?=[\s\S]*openai)(?=[\s\S]*(?:\bfires?\b|泄密|解雇|dismissal|fired|let go|open letter))'
+                r'(?=[\s\S]*(?:mishandl|sensitive|shared info|external|evaluation group|泄密|研究员|学者'
+                r'|chilling|misconduct|dispute|prioritisi|safety research))', re.I), 'openai_data_leak_firings'),
     # 2026-10-05: 埃塞俄比亚政府军收复提格雷首府机场 (德国之声11 "government forces reclaim Tigray capital airport"
     # + BBC World3 "rebel forces withdraw from Tigray regional capital" 同事件英文表述相反视角不合并;
     # 锚点须 tigray/提格雷 + 军事进退词 (reclaim/withdraw/retake/收复/撤出); DW 和平斡旋评论稿 "broker a new peace" 无进退词不并 (独立分析)
