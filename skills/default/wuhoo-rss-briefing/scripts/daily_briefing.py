@@ -496,6 +496,13 @@ NOISE_PATTERNS = [
     # 上架|开售|首销 覆盖; 实测 '长城推出 KING 1050W 氮化镓电源' 占产业 TOP2、'街电推出 55W 挂包充电宝'
     # 占 TOP4、'闪极推出 Vision Mag 带屏磁吸充电宝' 占 TOP5; 长城限定电源/充电器产品词防误伤长城汽车稿)
     r'长城(?=.*(电源|充电器|氮化镓))(?=.*(推出|上架|开售|首销|预售|发售))|街电.*(推出|上架|充电宝|开售|首销)|闪极.*(推出|上架|充电宝|开售|首销)',
+    # 2026-10-13 新增 — IT之家消费电子发售续八 (同类 海信显示器/泰坦军团/铭凡; 实测 '熊猫"S24Q6A"23.8英寸
+    # 显示器发售：2K 180Hz，599元（国补后521.1元）' 占产业/公司 TOP4; 熊猫是动物IP名，须产品词+发售动词双组合锚定防误伤大熊猫新闻稿)
+    r'熊猫.*(显示器|电视|笔记本|平板|耳机|音箱).*(发售|首销|开售|上架|预售|推出)',
+    # 2026-10-13 新增 — IT之家降价促销导购稿 (同类 直降/best deals/half off/percent off; 实测 '华硕 ROG
+    # XG27UCGR 显示器 2499 → 1869 元探新低' 占产业/公司 TOP3; 'N → M 元' 箭头降价格式覆盖 直降/探新低
+    # 各措辞变体; 正常新闻几乎不用该格式(写法为"从X元上调至Y元"), 误伤风险低)
+    r'\d+\s*→\s*\d+\s*元',
 ]
 
 def is_noise(text):
@@ -710,7 +717,7 @@ ENTITY_KEYS = [
     # 三锚点 lookahead: Amazon + block/ban + muse/智能体/AI agent, 规则须在 meta_muse 之前;
     # 防误并: "Muse登上苹果应用商店榜首"(无封锁词)、"OpenAI开发新功能应对Meta Muse竞争"(无封锁词)均不合并)
     (re.compile(r'(?=[\s\S]{0,200}(?:amazon|亚马逊|m\.com))(?=[\s\S]{0,200}(?:\bblock|\bban(?:s|ned|ning)?\b|封锁|封禁))(?=[\s\S]{0,200}(?:\bmuse\b|智能体|ai\s*(?:agent|购物代理|代购)))[\s\S]{0,200}', re.I), 'meta_muse_amazon_block'),
-    (re.compile(r'\bmuse\b.*(meta|agent)|(meta|agent).*\bmuse\b|(智能体|个人智能).*muse|muse.*(智能体|个人智能)', re.I), 'meta_muse'),
+    (re.compile(r'\bmuse\b.*(meta|agent)|(meta|agent).*\bmuse\b|(智能体|个人智能).*muse|muse.*(智能体|个人智能)|wonder\s+full', re.I), 'meta_muse'),
     # 2026-09-10: Apple 秋季发布会首款折叠屏 iPhone Duo (HN×2 hot30/TechCrunch×3/Verge/NYT中文/RFI/中央社×2/Engadget×3/Ars/华尔街见闻热门/B站/第一财经 12+源;
     # HN 裸标题 "iPhone Duo" 与各源指纹不同全不合并; iPhone Duo 为具体产品名 (非泛公司名, 48h 窗口内即该发布事件)
     (re.compile(r'iphone[\s\-]*duo', re.I), 'iphone_duo_launch'),
