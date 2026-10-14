@@ -42,6 +42,13 @@ def clean_summary(s, feed_name=''):
     s = clean_html(s).strip()
     # HN: 评论链接形式
     s = re.split(r'Comments on Hacker News|Article URL:|Comments URL:', s)[0]
+    # 2026-10-14: HN 互链帖模板 "Main thread: <i>标题</i> - 链接"/"See also: ..." —
+    # Gemini 4 Argon for Robotics (hot17) 占科技/AI TOP1 时摘要只剩链接骨架。
+    # 仅对 HN 源启用，防误删他源正文中的 "Main thread:"/"See also:" 措辞。
+    # 剥离后摘要为空 → 走组内正文回填 (IT之家/见闻中文版优先)。
+    fl = feed_name.lower()
+    if 'hacker news' in fl or 'hackernews' in fl:
+        s = re.split(r'\s*(?:Main thread|See also)\s*:', s)[0]
     s = re.sub(r'^你的器材不支持播放多媒体材料\s*Play video,?\s*', '', s)
     # 2026-09-13: BBC 视频说明文字 — "Watch: <caption> , 节目全长 N,NN HH:MM" 占满 50 字摘要窗口
     # (实测: 特朗普5000美元 BBC版 hot19 / 印尼火山 / 关税加拿大 / 西藏泥石流).
@@ -82,6 +89,9 @@ def clean_summary(s, feed_name=''):
     s = re.sub(r'^\d{2}/\d{2}/\d{4}\s*-\s*\d{1,2}:\d{2}\s*', '', s)
     # 2026-09-14: 中央社 byline 前缀 — "（中央社舊金山11日綜合外電報導）…" 吃满 50 字摘要窗口 (RubyGems 合并回填实测)
     s = re.sub(r'^（中央社[^）]{0,60}?）\s*', '', s)
+    # 2026-10-14: 华尔街见闻 blockquote 摘要框 — "<strong>摘要</strong>…<strong>1&nbsp;</strong>正文"
+    # clean_html+实体还原后成 "摘要 1 中美科技股背离背后…" ("如何看待当前中美科技股的背离" 占财经 TOP5)。
+    s = re.sub(r'^摘要\s*(?:\d+\s*[、.]?\s*)?[:：]?\s*', '', s)
     # 2026-09-23: 德国之声中文 byline — "德才2026-09-21T11:05:17.481Z2025年4月…" 作者名+ISO时间戳吃满摘要窗口 (奥迪状告AUDI 条目实测)
     s = re.sub(r'^.{0,12}?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?', '', s).strip()
     if not re.search(r'[\u4e00-\u9fffA-Za-z0-9]', s):
@@ -674,6 +684,14 @@ ENTITY_KEYS = [
                 r'|(?<![a-z])sol(?![a-z])[\s\S]{0,20}(?<![a-z])luna(?![a-z])|(?<![a-z])luna(?![a-z])[\s\S]{0,20}(?<![a-z])sol(?![a-z])', re.I), 'gpt6_sol_luna'),
     # 2026-09-02: Claude Fable 5.1 / Mythos 5.1 发布 (Anthropic 重大发布, HN+IT之家+Verge+TechCrunch+华尔街见闻 5源)
     (re.compile(r'(fable|mythos).*(anthropic|claude)|(anthropic|claude).*(fable|mythos)', re.I), 'claude_fable_51'),
+    # 2026-10-14: 库克卸任苹果CEO后访华/何立峰会见 (中央社6/联合早报3×2/凤凰网3 同事件拆占
+    # 科技/AI TOP5 (联合早报"何立峰见库克") 与 产业/公司 TOP3 (中央社"何立峰會見蘋果庫克") 两榜;
+    # 规则须置于 apple_ceo_transition 之前，防"卸任/执行董事长"语境稿被换任泛规则抢先;
+    # 英文分支必须 tim cook 或 apple 共现 — NYT "Lawyer for Fed Governor Cook" (美联储理事Cook, 不同人) 不并)
+    (re.compile(r'(何立峰).{0,12}(會見|会见|見|见)?.{0,8}(庫克|库克)'
+                r'|(庫克|库克).{0,16}(訪華|访华|到訪中國|访问中国|廣州|广州|早茶|何立峰)'
+                r'|(tim\s+cook|apple.{0,24}cook(?![a-z])).{0,70}(china|beijing|guangzhou)'
+                r'|(china|beijing|guangzhou).{0,70}tim\s+cook', re.I), 'cook_china_visit'),
     # 2026-09-02: 苹果 CEO 换任 库克→特努斯 (告别信/首份备忘录/身价, 8条报道, 实体级强规则避免被 TOP5 截断)
     (re.compile(r'(ternus|特努斯)|(tim cook|库克).*(final message|parting|告别|farewell|executive chair|最后一天)', re.I), 'apple_ceo_transition'),
     # 2026-09-02: 苹果提前发布 2026 款 Mac mini/Studio (AI 需求激增, IT之家+HN 同事件; IT之家标题为 "mini / Studio")
