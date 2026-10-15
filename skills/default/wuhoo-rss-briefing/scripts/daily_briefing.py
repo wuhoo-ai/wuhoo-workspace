@@ -513,6 +513,18 @@ NOISE_PATTERNS = [
     # XG27UCGR 显示器 2499 → 1869 元探新低' 占产业/公司 TOP3; 'N → M 元' 箭头降价格式覆盖 直降/探新低
     # 各措辞变体; 正常新闻几乎不用该格式(写法为"从X元上调至Y元"), 误伤风险低)
     r'\d+\s*→\s*\d+\s*元',
+    # 2026-10-15 新增 — BBC 中文解释性特稿续 (同类 月经周期/晕车/感情走下坡/索要小费; 实测 'AI翻译：还有多久会
+    # 完全取代人类？' hot11 法律译者个人叙事占产业/公司 TOP1 非新闻事件) + NYT中文 为何体栏目特稿
+    # ('欧洲为何对中国电动汽车爱恨交加' 占产业 TOP3，同类 西班牙与中国愈走愈近)
+    r'还有多久会.{0,10}取代|完全取代人类|爱恨交加',
+    # 2026-10-15 新增 — IT之家消费电子发售续九 (特稿过滤后递补暴露; 实测 '长安凯程V919荣耀版8方上市：
+    # 限时8.89万元起' 与 '联想小新27元气版一体机上架…10月16日开售' 占产业 TOP4-5，
+    # 单车型/一体机发售导购稿，同类 米家/漫步者/爱国者/技嘉/影石/台电/熊猫)
+    r'长安凯程.*(上市|开售|首销|预售|推出)|联想.{0,6}小新.{0,20}(上架|开售|首销|预售|发售)',
+    # 2026-10-15 新增 — 榜单/花边栏目续 (实测 'Steam 新一周游戏销量榜公布：AION 2 继续领跑' 周更榜单栏目
+    # 占产业 TOP4，同类 B站排行榜/概念股一览表；'小米员工透露智能家庭屏曾拟命名 HomeView' 员工社交花边
+    # 占 TOP5，非公司事件)
+    r'steam.{0,16}(周|销量榜|排行榜)|拟命名',
 ]
 
 def is_noise(text):
@@ -916,6 +928,25 @@ ENTITY_KEYS = [
     # 见 us_canada_trade_war 10-10 教训), 锚点 emmy/艾美 与 prime video/亚马逊 共现)
     (re.compile(r'(prime\s*video|亚马逊|amazon)[\s\S]{0,80}((?<![a-z])emmys?(?![a-z])|艾美)'
                 r'|((?<![a-z])emmys?(?![a-z])|艾美)[\s\S]{0,80}(prime\s*video|亚马逊|amazon)', re.I), 'emmys_prime_video'),
+    # 2026-10-15: OpenAI 沙特工程师会议室藏窃听录音设备被捕 (BBC Business14 起诉稿+14 解读稿"厕所纸包录音机"/
+    # FT6×2/IT之家6×2/Solidot9/TechCrunch6/Verge6/Engadget6/Ars6 标题各异不合并 → 拆占 财经 TOP2+TOP4 两榜。
+    # 双锚: openai/alfozan + 录音设备语系(recording device|secret recorder|录音设备|窃听|监听|bugging|
+    # bug wrapped|planting a bug|toilet paper|arrests openai)。防误并: 卫报 toilet paper 物价稿无 openai 锚不命中;
+    # "OpenAI found a bug" 软件 bug 泛词不收裸 bug, 仅收 bug wrapped/bugging/planting a bug 固定搭配
+    (re.compile(r'(?=[\s\S]*(openai|alfozan))(?=[\s\S]*(recording device|secret recorder|录音设备|錄音設備|窃听|竊聽|监听|監聽|'
+                r'bug wrapped|bugging|planting a bug|toilet paper))', re.I), 'openai_bugging_arrest'),
+    # 2026-10-15: 特朗普美俄柴油协议事件簇 (BBC中文"拟从俄罗斯进口柴油 反对声浪"11 + BBC中文"分析：中期选举前夕
+    # 油价降不下"11 摘要含"与普京达成柴油协议" + DW Merz 11 + NYT 参议员施压 各拆占宏观 TOP2+TOP4)。
+    # 三锚共现: diesel/柴油 + trump/特朗普/川普 + russia/俄罗斯/普京/putin。
+    # 防误并: 柴油价格纪录稿无俄锚不命中(归 diesel_record); 泽连斯基/乌军袭俄炼油厂稿无"协议/deal"仍三锚齐?
+    # "Trump presses Zelenskyy to stop hitting Russian refineries" 无 diesel 词不命中; 9月旧稿已在窗外
+    (re.compile(r'(?=[\s\S]*(diesel|柴油))(?=[\s\S]*(trump|特朗普|川普))(?=[\s\S]*(russe|russia|俄罗斯|俄羅斯|普京|putin|普丁))', re.I),
+     'trump_russia_diesel_deal'),
+    # 2026-10-15: Netflix 2022 来最大裁员 ~1000人/6% (BBC Business14 + IT之家6 + TechCrunch 同事件不合并
+    # → 拆占 财经TOP3+产业TOP4+TOP5 三席)。双锚: netflix/奈飞 + 裁员语系(裁员|lay off|shed|cut.{0,12}job|1000 jobs|1,000)
+    # 防误并: Netflix 内容/剧集稿无裁员锚不命中
+    (re.compile(r'(?=[\s\S]*(netflix|奈飞|網飛))(?=[\s\S]*(裁员|裁員| layoffs?\b|lay\s*off|laying off|shed.{0,20}jobs|job cuts?\b|cutting.{0,20}jobs|reduc\w*.{0,20}staff))', re.I),
+     'netflix_layoffs_2026'),
 ]
 
 def entity_key(title, summary):
