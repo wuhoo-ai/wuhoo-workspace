@@ -525,6 +525,12 @@ NOISE_PATTERNS = [
     # 占产业 TOP4，同类 B站排行榜/概念股一览表；'小米员工透露智能家庭屏曾拟命名 HomeView' 员工社交花边
     # 占 TOP5，非公司事件)
     r'steam.{0,16}(周|销量榜|排行榜)|拟命名',
+    # 2026-10-16 新增 — BBC 中文校园性侵案社会新闻 ("康奈尔大学因性侵案取消兄弟会派对" hot11 因摘要
+    # "州政府官员…批评" 误分宏观 TOP3，社会治安案件非宏观政策，同类 中央社劳权人物稿/墨尔本烟草店纵火)；
+    # TechCrunch 创始人访谈特稿 ("Amazon devices chief Panos Panay on the importance of failure" 非新闻事件，
+    # 与 Bee 发布稿同事件簇的访谈软文，同类 名人回顾软文)
+    r'康奈尔.*(兄弟会|性侵)|兄弟会派对|cornell.{0,40}(fraternit|sexual)',
+    r'importance of failure|bouncing back from',
 ]
 
 def is_noise(text):
@@ -628,13 +634,20 @@ def classify(text, category_field):
     # 因 category=财经 +3 且财经关键词=0 被误分为财经/投资 TOP1; hot17)
     if re.search(r'silicon species|superintelligence|超级智能|超級智能|\bagi\b', text, re.I):
         scores['科技/AI'] += 3
+    # 2026-10-16: 网络武器/间谍软件话题 → 科技/AI (Solidot "以色列公司通过数字广告安装零点击间谍软件"
+    # 被宏观国家词 以色列+加拿大 计2分拉进宏观 — 网络监控武器/Citizen Lab 研究属网络安全事件非宏观政策;
+    # 同 2026-08-21 科技表补 hacker/security 词先例，语境整体反转加 3)
+    if re.search(r'spyware|间谍软件|间谍芯片|零点击|zero[- ]?click|恶意软件|malware|漏洞利用|\bexploit\b|公民实验室|citizen lab', text, re.I):
+        scores['科技/AI'] += 3
     # 2026-09-25: 智能眼镜产品话题 → 科技/AI (BBC Business camera-free Meta 眼镜稿 category=财经 +3 压过科技词 2 分误入财经 TOP5;
     # 同 silicon species 案例机制, 产品品类词不足以靠单词表取胜时用语境加 3)
     if re.search(r'smart glasses|智能眼镜|ai glasses|ray-?ban', text, re.I):
         scores['科技/AI'] += 3
     # 2026-10-05: 间谍/情报话题 → 宏观政策 (BBC 中文 '军情五处警告：中国资助英国研究…间谍机关' hot11 仅靠
     # 科技表 '研究' 命中误分科技/AI TOP4; 地缘间谍事件属宏观)
-    if re.search(r'军情五处|\bmi5\b|间谍|espionage|intelligence agency|情报机构', text, re.I):
+    # 2026-10-16: 间谍排除产品语境 — Solidot "Ledger 证实其硬件钱包被植入间谍芯片" hot11 被拉进宏观 TOP4;
+    # 后缀(芯片/软件)负向前瞻拦标题版，摘要截断 50 字恰好落在"被植入间谍"时后缀够不到 → 前顾(?<!植入)补拦
+    if re.search(r'军情五处|\bmi5\b|(?<!植入)间谍(?![\s]*(软件|芯片|硬件|设备|应用|程序|工具))|espionage|intelligence agency|情报机构', text, re.I):
         scores['宏观政策'] += 3
     # 2026-10-08: 公司财报话题 → 产业/公司 (HN "JetBrains reports revenue growth, net financial loss for 2025"
     # hot 高但因 'growth/增长' 命中宏观表 + 无摘要 误入宏观 TOP5; 营收/亏损/财报属公司动态。
@@ -642,6 +655,10 @@ def classify(text, category_field):
     if category_field not in ('财经', '投资') and re.search(
             r'reports? revenue|revenue growth|net (financial )?loss|财报|財報|营收|營收|亏损|虧損', text, re.I):
         scores['产业/公司'] += 3
+    # 2026-10-16: 股市抛售/大跌话题 → 财经/投资 (卫报 "Tech market sell-off deepens amid fears over US
+    # inflation and AI debt" hot15 因标题 Tech/AI/inflation 命中科技表误分 科技/AI TOP1 — 市场大跌事件属财经)
+    if re.search(r'sell[- ]?off|selloff|market rout', text, re.I):
+        scores['财经/投资'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
     if category_field in cm:
@@ -788,6 +805,26 @@ ENTITY_KEYS = [
     # 15+ 源碎片化: 英文台 slowdown 直述 / 中文源 放缓·刹车·警告 表述; hot 最高仅 12-14, 天然排名被 14+ 分条目挤出 TOP5)
     # 注: ai 锚点用 (?<![a-z])ai(?![a-z]) 而非 \b — CJK 邻接("AI放缓")时 \b 失效 (Python \w 含 CJK, 'I'-'放' 间无边界)
     # 距离限 55: 卫报 "AI-linked stocks slide after tech bosses call for slowdown" 实测距离 48 (40 会漏)
+    # 2026-10-16: Anthropic Q3 营收/估值披露事件 (见闻"Q3营收168亿美元"11 + FT "tells investors quarterly
+    # revenue up 50% to $16.8bn ahead of IPO" 9 + IT之家"第三季度营收达168亿美元"6 + 见闻"估值预期承压：
+    # 收入增速放缓，部分投资者转向1.5万亿美元"6 — 同事件 4 源拆占 财经TOP4+科技TOP5 两榜)。
+    # 双 lookahead: anthropic/amodei + 财务披露锚点(168/16.8bn/quarterly revenue/估值/营收/增速放缓/盈利)。
+    # 置于 anthropic_ipo_pitch 之前 — FT 版 "ahead of IPO" 是营收披露稿非 9/30 招股书风险稿;
+    # 置于 ai_slowdown_debate 之前 — "收入增速放缓"是财务语义非放缓AI发展辩论。
+    # 防误并: 虎嗅"为什么Anthropic不做Personal AI"/Ars"FTC probes Anthropic"/IT之家欧盟调查稿(营业额非营收)
+    # 均无财务披露锚点不命中
+    (re.compile(r'(?=[\s\S]*(anthropic|amodei|安特罗匹克))'
+                r'(?=[\s\S]*(168|16\.8 ?bn|quarterly revenue|revenue (?:up|grew|growth)|valuation|估值|营收|收入增速|增速放缓|盈利|现金流))', re.I),
+     'anthropic_q3_revenue'),
+    # 2026-10-16: 亚马逊旗下 Bee 发布两款 AI 录音设备 (TechCrunch9/Engadget6/IT之家3 同事件拆占产业 TOP1+TOP3)。
+    # \bbee\b 词边界防卫报 "Beetaloo emissions" 子串命中; 须共现产品/发布语系 (frontier/eclipse/录音/note-taking)
+    (re.compile(r'\bbee\b[\s\S]{0,80}(frontier|eclipse|note[- ]?taking|personal ?ai|录音|launch(es)? two|unveil(s)? two|推出两款)'
+                r'|(亚马逊|amazon)[\s\S]{0,30}\bbee\b', re.I),
+     'amazon_bee_launch'),
+    # 2026-10-16: 美国9月PPI同比涨6.3% 数据发布 (见闻"通胀全面超预期！美国9月PPI"11 与 中央社"美國9月PPI年增6.3%"9
+    # 同事件拆占 财经候选+宏观TOP5)。双锚 ppi+6.3 (中国9月PPI涨5.0% 无 6.3 不命中; Coins.ph 稿无锚)
+    (re.compile(r'(?=[\s\S]*(?<![a-z])ppi(?![a-z]))(?=[\s\S]*6[.,]3)(?=[\s\S]*(美国|美國|\bus\b|producer|生产物价|生產物價))', re.I),
+     'us_sept_ppi'),
     # 2026-10-01: Anthropic IPO 招股书风险披露 (Ars15 "Anthropic's IPO pitch includes a warning about human extinction"
     # 被下面 ai_slowdown_debate 的 (anthropic).{0,60}warn 分支抢先误并 — IPO 是独立事件, 须带 ipo 锚点且置前;
     # 防误并: 放缓辩论稿(无 ipo 词)不受影响; ipo 词边界用 (?<![a-z]) 防 CJK 邻接失效;
@@ -798,10 +835,12 @@ ENTITY_KEYS = [
                 r'|(?<![a-z])ipo(?![a-z])[\s\S]{0,60}(anthropic|amodei)[\s\S]{0,60}(pitch|prospectus|filing|招股)', re.I), 'anthropic_ipo_pitch'),
     # 2026-10-02: 去掉裸 (anthropic).{0,60}warn 分支 — 卫报 "Anthropic pushes for opt-out model... ABC warns
     # of cannibalisation"(新闻行业版权稿) 被误并进放缓辩论事件; 放缓语境词(slowdown/放缓)仍保留双向锚点
-    (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|放缓|放慢|减速|刹车)'
-                r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,60}(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴)'
-                r'|(slow ?down|slowdown|放缓|放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能|前沿)'
-                r'|((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能).{0,55}(slow ?down|slowdown|放缓|放慢|减速|刹车)', re.I), 'ai_slowdown_debate'),
+    # 2026-10-16: 放缓/放慢加负向后顾 — "收入增速放缓"(财务语义)曾被 branch1 anthropic+放缓 误捕
+    # (见闻 Anthropic估值承压稿, 靠 anthropic_q3_revenue 抢判兜住, 此处双保险防无财务锚点的同类财务稿)
+    (re.compile(r'(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴).{0,60}(slow ?down|slowdown|slow(?!\w)|(?<!增速)(?<!收入)(?<!营收)放缓|(?<!增速)放慢|减速|刹车)'
+                r'|(slow ?down|slowdown|(?<!增速)(?<!收入)(?<!营收)放缓|(?<!增速)放慢|减速|刹车).{0,60}(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴)'
+                r'|(slow ?down|slowdown|(?<!增速)(?<!收入)(?<!营收)放缓|(?<!增速)放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能|前沿)'
+                r'|((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能).{0,55}(slow ?down|slowdown|(?<!增速)(?<!收入)(?<!营收)放缓|(?<!增速)放慢|减速|刹车)', re.I), 'ai_slowdown_debate'),
     # 2026-09-25: 美国9月PMI爆表→加息预期重燃、美债遭血洗 (华尔街见闻系 12 篇同事件稿占财经多席;
     # 锚点=PMI 或 美债收益率破位语境 (破5%/抛售/收益率创新高/黑色星期三/拍卖遇冷), 全部归同一宏观市场事件;
     # **必须置于 fed_rate_hike 之前** — "PMI重燃加息预期+摘要含美联储" 会被 09-16 FOMC 旧规则抢先误并)
@@ -947,6 +986,11 @@ ENTITY_KEYS = [
     # 防误并: Netflix 内容/剧集稿无裁员锚不命中
     (re.compile(r'(?=[\s\S]*(netflix|奈飞|網飛))(?=[\s\S]*(裁员|裁員| layoffs?\b|lay\s*off|laying off|shed.{0,20}jobs|job cuts?\b|cutting.{0,20}jobs|reduc\w*.{0,20}staff))', re.I),
      'netflix_layoffs_2026'),
+    # 2026-10-16: 塞尔达时之笛重制版报道簇 (IT之家"实体版包装展示"3 + IT之家"评测新细节自由视角/钱包翻倍"3 +
+    # Engadget 评测 "plays even better than" 3 同产品发售衍生报道拆占产业 TOP3+TOP5，
+    # iphone_duo_launch 衍生报道合并先例。锚点须 ocarina/时之笛/zelda+remake，裸 重制 不收防他游戏误并)
+    (re.compile(r'ocarina of time|塞尔达传说[\s\S]{0,10}时之笛|时之笛[\s\S]{0,6}重制|zelda[\s\S]{0,20}remake', re.I),
+     'zelda_totk_remake'),
 ]
 
 def entity_key(title, summary):
