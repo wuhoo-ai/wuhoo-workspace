@@ -531,6 +531,27 @@ NOISE_PATTERNS = [
     # 与 Bee 发布稿同事件簇的访谈软文，同类 名人回顾软文)
     r'康奈尔.*(兄弟会|性侵)|兄弟会派对|cornell.{0,40}(fraternit|sexual)',
     r'importance of failure|bouncing back from',
+    # 2026-10-17 新增 — The Verge "A week with X:" 一周使用评测特稿 (非新闻事件，同类 importance of failure)
+    r'a week with',
+    # Show HN 项目展示帖整类排除 (同类 marty/neovim/radio cipher/pirate face/drivingbench，实测占科技TOP 一位)
+    r'show hn',
+    # IT之家消费电子发售续十一: AOC 显示器上架 (同类 技嘉/HKC/熊猫/华硕ROG)
+    r'aoc.*(上架|开售|首销|发售|预售|显示器|电竞屏)',
+    # TechCrunch 保时捷 Macan 评测软文 (同类 汽车 road test 非事件；保时捷 Mission S 概念车发布真新闻不受影响)
+    r'automotive existential crisis',
+    # 亚马逊雨林砍伐环境数据 (裸 amazon 公司词误命中产业/公司，DW+卫报 两条；环境统计非四类板块事件，同类气候特稿)
+    r'deforestation',
+    # BBC Business 婚礼礼物街头采访 (同类 money disagre/wedding/tip up to 软内容)
+    r'wedding present',
+    # 游戏娱乐续 (IT之家 世嘉《全面战争:幕府将军2》下架差评稿 + 动视《使命召唤》新子系列 误入宏观 TOP，
+    # 同类 gta/最终幻想/暗黑破坏神；裸"全面战争"不收防战争语境误伤)
+    r'幕府将军|shogun 2|使命召唤|call of duty|动视|activision',
+    # 中央社 勒卡雷文学特稿 (前情报首长谈谍报小说大师，靠 情报/间谍 词误入宏观候选)
+    r'勒卡雷|le carr[ée]',
+    # IT之家 苹果 Sports 应用小版本更新 (同类 app 升至 细枝末节)
+    r'(苹果|apple)\s*sports|灵动岛',
+    # 游戏复刻发售续 (IT之家《永恒传说》高清复刻多平台发售，同类 消费电子发售/游戏公告)
+    r'永恒传说|tales of eternia|复刻版.*(发售|上架)',
 ]
 
 def is_noise(text):
@@ -991,6 +1012,19 @@ ENTITY_KEYS = [
     # iphone_duo_launch 衍生报道合并先例。锚点须 ocarina/时之笛/zelda+remake，裸 重制 不收防他游戏误并)
     (re.compile(r'ocarina of time|塞尔达传说[\s\S]{0,10}时之笛|时之笛[\s\S]{0,6}重制|zelda[\s\S]{0,20}remake', re.I),
      'zelda_totk_remake'),
+    # 2026-10-17: 特斯拉"飞行跑车"展示事件 (BBC Business14 "Watch: Did Tesla really just unveil a flying car?"
+    # + 见闻热门6 "特斯拉飞行跑车安全吗？马斯克…" 同事件拆散，合并 [2源])。双锚 tesla/特斯拉 + flying car/飞行汽车/飞行跑车
+    # 防误并: 小鹏汇天等他品牌飞行汽车稿无 tesla 锚不命中
+    (re.compile(r'(tesla|特斯拉|特斯拉)[\s\S]{0,60}(flying car|飞行汽车|飞行跑车|飛行汽車)|(flying car|飞行汽车|飞行跑车|飛行汽車)[\s\S]{0,60}(tesla|特斯拉|特斯拉)', re.I),
+     'tesla_flying_car'),
+    # 2026-10-17: OpenAI 研究智能体编码任务耗尽测试以太币后动用他人钱包 (Engadget12 "stole test Ethereum"
+    # + CoinDesk12 "ran out of Ethereum funds, took from a wallet" 同事件拆占 科技TOP+财经TOP 两榜且 CoinDesk 版无摘要，
+    # 合并后组内回填)。三锚 openai + ethereum + 盗取语系
+    # 防误并: ETH 币价/以太坊升级稿无 openai+盗取锚不命中
+    (re.compile(r'(?=[\s\S]*(openai|OpenAI))'
+                r'(?=[\s\S]*ethereum)'
+                r'(?=[\s\S]*(stole|steal|took from|wallet|ran out|挪用|盗用|盗取|窃取|擅自使用))', re.I),
+     'openai_eth_steal'),
 ]
 
 def entity_key(title, summary):
