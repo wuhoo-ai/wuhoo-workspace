@@ -89,6 +89,8 @@ def clean_summary(s, feed_name=''):
     s = re.sub(r'^\d{2}/\d{2}/\d{4}\s*-\s*\d{1,2}:\d{2}\s*', '', s)
     # 2026-09-14: 中央社 byline 前缀 — "（中央社舊金山11日綜合外電報導）…" 吃满 50 字摘要窗口 (RubyGems 合并回填实测)
     s = re.sub(r'^（中央社[^）]{0,60}?）\s*', '', s)
+    # 2026-10-18: 格隆汇 byline 前缀 — "格隆汇10月17日｜摩根士丹利称…" (大摩数据中心算力稿占财经 TOP3 实测, 全角竖线不经 split('|') 通道)
+    s = re.sub(r'^格隆汇\s*\d+月\d+日[|｜]\s*', '', s)
     # 2026-10-14: 华尔街见闻 blockquote 摘要框 — "<strong>摘要</strong>…<strong>1&nbsp;</strong>正文"
     # clean_html+实体还原后成 "摘要 1 中美科技股背离背后…" ("如何看待当前中美科技股的背离" 占财经 TOP5)。
     s = re.sub(r'^摘要\s*(?:\d+\s*[、.]?\s*)?[:：]?\s*', '', s)
@@ -123,8 +125,8 @@ FEED_NOISE_RE = re.compile(r'arxiv|知乎日报|b站|bilibili', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 # 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
 # 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
-SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day', re.I)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
-ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering)\b', re.I)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6)
+SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for', re.I)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
+ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b', re.I)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
@@ -552,6 +554,20 @@ NOISE_PATTERNS = [
     r'(苹果|apple)\s*sports|灵动岛',
     # 游戏复刻发售续 (IT之家《永恒传说》高清复刻多平台发售，同类 消费电子发售/游戏公告)
     r'永恒传说|tales of eternia|复刻版.*(发售|上架)',
+    # 游戏娱乐续 — 《刺客信条：命运》实机泄露+取消稿占产业 TOP4 (育碧IP泄露传闻属游戏娱乐非产业事件，同类 gta/最终幻想/hell is us)
+    r"刺客信条|assassin.?s creed",
+    # IT之家"现已在京东上架"发售句式通式 (倍思移动电源/科大讯飞词典笔占产业 TOP3-4 实测——
+    # 品牌枚举式屡失效(同 票房词族教训)，改句式通捕; 真发布会事件不会用该流水句式)
+    r'现已在.{0,6}(京东|天猫).{0,3}(上架|开售|首销|预售|发售)',
+    # 发售句式变体 — "现已启动/开启…预售" (易速马赤兔S05 Pro手柄预售占产业 TOP5，不涉京东/天猫渠道措辞)
+    r'现已(启动|开启).{0,25}(预售|首发|首销|开售|发售)',
+    # IT之家新配置首发含国补括号价通式 (七彩虹橘宝R16新增配置"9999 元（国补 8499.15 元）"占科技TOP4——
+    # 括注国补到手价=上架促销稿特征)
+    r'[（(]国补\s*[\d.]+\s*元[）)]',
+    # 数码博主 @RD观测 手机销量爆料稿 (曝小米18 Fold销量破十万台——博主营销爆料非官方事件，同 首销情况曝光 先例)
+    r'rd观测',
+    # 虎嗅自媒体观点文标题句式 ("百度，最担心的事情发生了"——情绪化复盘文非事件新闻，同 鹅腿阿姨/无醇啤酒)
+    r'最担心的事情发生',
 ]
 
 def is_noise(text):
@@ -669,6 +685,10 @@ def classify(text, category_field):
     # 2026-10-16: 间谍排除产品语境 — Solidot "Ledger 证实其硬件钱包被植入间谍芯片" hot11 被拉进宏观 TOP4;
     # 后缀(芯片/软件)负向前瞻拦标题版，摘要截断 50 字恰好落在"被植入间谍"时后缀够不到 → 前顾(?<!植入)补拦
     if re.search(r'军情五处|\bmi5\b|(?<!植入)间谍(?![\s]*(软件|芯片|硬件|设备|应用|程序|工具))|espionage|intelligence agency|情报机构', text, re.I):
+        scores['宏观政策'] += 3
+    # 2026-10-18: 外交人员/使馆事件 → 宏观政策 (FT "Israeli settlers attack European diplomats in the West Bank"
+    # category=财经 +3 压过宏观词, 误占财经/投资 TOP1 — 外交袭击事件属地缘宏观; 同 silicon species 语境反转先例)
+    if re.search(r'diplomats?|外交官|大使馆|embassy|领事|总领事', text, re.I):
         scores['宏观政策'] += 3
     # 2026-10-08: 公司财报话题 → 产业/公司 (HN "JetBrains reports revenue growth, net financial loss for 2025"
     # hot 高但因 'growth/增长' 命中宏观表 + 无摘要 误入宏观 TOP5; 营收/亏损/财报属公司动态。
