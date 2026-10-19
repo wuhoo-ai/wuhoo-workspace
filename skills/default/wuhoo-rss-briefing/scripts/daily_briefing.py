@@ -125,8 +125,8 @@ FEED_NOISE_RE = re.compile(r'arxiv|知乎日报|b站|bilibili', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 # 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
 # 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
-SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for', re.I)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
-ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b', re.I)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
+SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for|wall street brunch', re.I)  # 2026-10-19: SA 自营播客栏目 "Wall Street Brunch: SpaceX, Tesla, Meta On The Earnings Card"(无摘要占财经TOP1，同类 busy week for)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
+ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b', re.I)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
@@ -568,6 +568,12 @@ NOISE_PATTERNS = [
     r'rd观测',
     # 虎嗅自媒体观点文标题句式 ("百度，最担心的事情发生了"——情绪化复盘文非事件新闻，同 鹅腿阿姨/无醇啤酒)
     r'最担心的事情发生',
+    # 华尔街见闻抽象市场观点栏目文 ("若是反弹还没来"——无主体无事件的情绪化标题+AI放缓措辞
+    # 被拉进科技/AI TOP5，摘要实为嵌套 <section> 残壳+行情复盘，同类 最担心的事情发生)
+    r'若是反弹还没来',
+    # 私募名人直播观点稿 ("林园：现在是乌龟爬着，等牛市哪天爆发…" 投资作业本代笔直播转述，
+    # 递补挤占财经 TOP5，个人直播观点非市场事件，同类 投资成功秘诀/我清仓|我加仓)
+    r'林园|投资作业本',
 ]
 
 def is_noise(text):
