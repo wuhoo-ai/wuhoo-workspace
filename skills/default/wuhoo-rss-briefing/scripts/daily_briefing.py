@@ -564,6 +564,12 @@ NOISE_PATTERNS = [
     # IT之家新配置首发含国补括号价通式 (七彩虹橘宝R16新增配置"9999 元（国补 8499.15 元）"占科技TOP4——
     # 括注国补到手价=上架促销稿特征)
     r'[（(]国补\s*[\d.]+\s*元[）)]',
+    # IT之家新品首发标价句式 (VGN×天美限定款机械键盘"首发价 419 元"占产业 TOP5——品牌枚举外新品牌，
+    # "，首发价 N 元"尾注=发售稿特征，真事件稿不写；同类 利民首发价/米家首销)
+    r'首发价\s*[\d.]+\s*元',
+    # 2026-10-20 新增 — BBC Business 约会生活方式特稿 ('"I\'m fed up of swiping": Why singles
+    # now want to meet IRL' hot14 占财经 TOP2; 同类 money disagre/central london shoppers/tip up to 街访个人叙事)
+    'fed up of swiping|singles now want to meet',
     # 数码博主 @RD观测 手机销量爆料稿 (曝小米18 Fold销量破十万台——博主营销爆料非官方事件，同 首销情况曝光 先例)
     r'rd观测',
     # 虎嗅自媒体观点文标题句式 ("百度，最担心的事情发生了"——情绪化复盘文非事件新闻，同 鹅腿阿姨/无醇啤酒)
@@ -721,6 +727,10 @@ def norm(t):
 
 # 强实体事件规则 (仅跨源同一事件, 泛公司名不放这里避免过度合并)
 ENTITY_KEYS = [
+    # 2026-10-20: 三星采用台积电3nm为英伟达产下一代HBM基础晶粒 (中央社繁版12/IT之家9/格隆汇6/第一财经3/联合早报3
+    # 五源标题措辞各异拆占 科技/AI TOP2+TOP5 两席; 三锚共现 lookahead 写法——繁体'台積電/奈米'与简体'台积电/纳米'
+    # 均覆盖; 防误并: 三星手机/Galaxy 稿无 HBM 锚、SK海力士 HBM 稿无三星锚、三星供HBM给非台积电稿无台积电锚)
+    (re.compile(r'(?=[\s\S]*(三星|samsung|삼성))(?=[\s\S]*hbm)(?=[\s\S]*(台積電|台积电|tsmc))', re.I), 'samsung_hbm_tsmc'),
     (re.compile(r'(unitree|宇树).*(ipo|上市|首日|debut|surge|打新)|(ipo|上市|首日|debut).*(unitree|宇树)', re.I), 'unitree_ipo'),
     (re.compile(r'(shein|希音).*(ipo|上市|首日|debut|surge|打新|发售)|(ipo|上市|首日|debut|打新|发售).*(shein|希音)', re.I), 'shein_ipo'),
     (re.compile(r'taalas', re.I), 'amd_taalas'),
