@@ -120,6 +120,21 @@ def video_caption(raw):
 
 VIDEO_CAP_RE = re.compile(r'^(.*?)节目全长\s*\d+,\d+\s*(?:\d{1,2}:\d{2})?', re.DOTALL)
 
+def photo_caption(raw):
+    """2026-10-21: BBC 中文图片说明条目兜底 — 摘要整体 = <img alt="照片说明"> + Article Information byline,
+    clean_summary 剥离后为空 (实测 霍尔木兹海峡轮船遇袭 hot11 占宏观 TOP2 显示 (无摘要), 10-20 同条目亦如此)。
+    取首张 <img alt> 照片说明作末级兜底 (同 video_caption 意图, 仅当摘要为空且组内无正文时启用)。
+    要求含 CJK: 防 'Getty Images' 类纯拉丁署名顶替; 要求 ≥6 字符: 防装饰图空/短 alt。"""
+    if not raw or '<img' not in raw.lower():
+        return ''
+    m = re.search(r'<img[^>]*alt="([^"]{6,})"', raw, re.I)
+    if not m:
+        return ''
+    alt = clean_html(m.group(1)).strip()
+    if not re.search(r'[\u4e00-\u9fff]', alt):
+        return ''
+    return alt[:50]
+
 # ── Feed 级过滤 ───────────────────────────────────────
 FEED_NOISE_RE = re.compile(r'arxiv|知乎日报|b站|bilibili', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
@@ -580,6 +595,11 @@ NOISE_PATTERNS = [
     # 私募名人直播观点稿 ("林园：现在是乌龟爬着，等牛市哪天爆发…" 投资作业本代笔直播转述，
     # 递补挤占财经 TOP5，个人直播观点非市场事件，同类 投资成功秘诀/我清仓|我加仓)
     r'林园|投资作业本',
+    # 2026-10-21 新增 — IT之家国补促销稿句式通捕 (REDMI MiniLED 显示器 "国补后 2294 元" 占产业/公司 TOP4;
+    # 旧 10-18 句式只认 [（(]国补 N 元[）)] 括注形, 本例无括号; "国补后[仅需] N 元"=到手价促销话术, 真政策稿
+    # 不写具体到手价数字+元; 京东活动框 "【京东活动可能随时变更，需以实付款为准】" 为每篇导购稿固定开头)
+    r'国补.{0,4}[\d,.]+\s*元',
+    r'京东活动可能随时变更',
 ]
 
 def is_noise(text):
@@ -727,6 +747,16 @@ def norm(t):
 
 # 强实体事件规则 (仅跨源同一事件, 泛公司名不放这里避免过度合并)
 ENTITY_KEYS = [
+    # 2026-10-21: 特斯拉×SpaceX 合并 — BBC14/Verge9/FT6/TC6/Ars6/见闻/一财/IT之家(联姻+10-19关注传闻) 拆占
+    # 财经 TOP4+产业多席无 [N源]; 三锚共现 (tesla|特斯拉 + spacex + 合并语系); 防误并: "送股给全美儿童"稿
+    # (无合并锚)、"SpaceX 抓火箭"稿 (无 tesla+合并锚) 不命中。置于 spacex_q3_earnings 之前——
+    # IT之家联姻稿摘要含"财报电话会"字样，earnings 锚会抢判
+    (re.compile(r'(?=[\s\S]*(tesla|特斯拉))(?=[\s\S]*spacex)(?=[\s\S]*(merger|merging|合并|联姻|combine))', re.I),
+     'tesla_spacex_merger'),
+    # 2026-10-21: SpaceX Q3 财报 (营收145.8亿+161%/净利44亿/AI业务爆发) — 见闻11/Verge9/IT之家6/NYT6/TC3/一财3
+    # 拆占两榜; 双锚 spacex+业绩语系; 防误并: "美伊妥协方案市场综述稿(盘后SpaceX涨近7%)"无业绩锚不命中
+    (re.compile(r'(?=[\s\S]*spacex)(?=[\s\S]*(财报|营收|收入|利润|盈利|净利润|扭亏|业绩|电话会|第三财季|财季|q3|revenue|earnings|profit|net income|third[- ]quarter))', re.I),
+     'spacex_q3_earnings'),
     # 2026-10-20: 三星采用台积电3nm为英伟达产下一代HBM基础晶粒 (中央社繁版12/IT之家9/格隆汇6/第一财经3/联合早报3
     # 五源标题措辞各异拆占 科技/AI TOP2+TOP5 两席; 三锚共现 lookahead 写法——繁体'台積電/奈米'与简体'台积电/纳米'
     # 均覆盖; 防误并: 三星手机/Galaxy 稿无 HBM 锚、SK海力士 HBM 稿无三星锚、三星供HBM给非台积电稿无台积电锚)
@@ -1184,7 +1214,7 @@ for r in rows:
         continue
     articles.append({
         'id': r['id'], 'feed_name': feed, 'title': title, 'summary': summary,
-        'caption': video_caption(r['summary'] or ''),  # 2026-09-20: 视频说明文字兜底 (仅当摘要为空且组内无正文可回填时用)
+        'caption': video_caption(r['summary'] or '') or photo_caption(r['summary'] or ''),  # 2026-09-20: 视频说明文字兜底; 2026-10-21: 扩 BBC 中文 <img alt> 照片说明兜底 (霍尔木兹条目实测 (无摘要))
         'link': r['link'], 'pub_date': r['pub_date'] or '',
         'category': r['category'] or '', 'hot_score': r['hot_score'] or 0,
     })
