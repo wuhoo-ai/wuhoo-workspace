@@ -558,6 +558,9 @@ NOISE_PATTERNS = [
     r'automotive existential crisis',
     # 亚马逊雨林砍伐环境数据 (裸 amazon 公司词误命中产业/公司，DW+卫报 两条；环境统计非四类板块事件，同类气候特稿)
     r'deforestation',
+    # 2026-10-22: 亚马逊雨林环境特稿续 (卫报 "Giving £2 a day to people in the Amazon helps
+    # protect rainforest" 靠 \bamazon\b 公司词占产业 TOP5；同类 deforestation 教训)
+    r'rainforest',
     # BBC Business 婚礼礼物街头采访 (同类 money disagre/wedding/tip up to 软内容)
     r'wedding present',
     # 游戏娱乐续 (IT之家 世嘉《全面战争:幕府将军2》下架差评稿 + 动视《使命召唤》新子系列 误入宏观 TOP，
@@ -660,6 +663,9 @@ KEYWORDS = {
         '增长','growth','衰退','recession','失业','就业','失业率','劳动力','通胀','inflation',
         '货币','货币政策','财政','fiscal','预算','budget','国债','赤字','贸易协议','贸易协定',
         'trade deal','trade talks','trade agreement','加拿大','canada','墨西哥','mexico',
+        # 2026-10-22: 社会骚乱语系 (法国骚乱 BBC 稿因产业表泛词"平台"命中"二手平台"误分产业
+        # TOP3，宏观侧无骚乱词；英文 riot/curfew/unrest 由 kw_hit_count 词边界处理)
+        '骚乱','骚亂','宵禁','动乱','動亂','riot','curfew','unrest',
     ],
     '产业/公司': [
         '收购','并购','acquisition','合并','merger','私有化','裁员','layoff','重组',
@@ -706,7 +712,8 @@ def classify(text, category_field):
     # 2026-10-16: 网络武器/间谍软件话题 → 科技/AI (Solidot "以色列公司通过数字广告安装零点击间谍软件"
     # 被宏观国家词 以色列+加拿大 计2分拉进宏观 — 网络监控武器/Citizen Lab 研究属网络安全事件非宏观政策;
     # 同 2026-08-21 科技表补 hacker/security 词先例，语境整体反转加 3)
-    if re.search(r'spyware|间谍软件|间谍芯片|零点击|zero[- ]?click|恶意软件|malware|漏洞利用|\bexploit\b|公民实验室|citizen lab', text, re.I):
+    if re.search(r'spyware|间谍软件|间谍芯片|零点击|zero[- ]?click|恶意软件|malware|漏洞利用|\bexploit\b|公民实验室|citizen lab'
+                 r'|(严重|高危|重大)\s*漏洞|critical[\s-]?vulnerab|\bzero[- ]?day\b|漏洞[\s\S]{0,8}(威胁|下线|攻击|被利用)', text, re.I):
         scores['科技/AI'] += 3
     # 2026-09-25: 智能眼镜产品话题 → 科技/AI (BBC Business camera-free Meta 眼镜稿 category=财经 +3 压过科技词 2 分误入财经 TOP5;
     # 同 silicon species 案例机制, 产品品类词不足以靠单词表取胜时用语境加 3)
@@ -845,6 +852,27 @@ ENTITY_KEYS = [
     (re.compile(r'chatgpt\s*images\s*2\.?5', re.I), 'chatgpt_images_25'),
     # 2026-09-09: Meta 发布首个个人 AI 智能体 Muse (Meta官方/TechCrunch/Verge/Engadget/HN100+/IT之家/华尔街见闻 7源;
     # 中文标题 "智能体Muse" 前是 CJK 字符无 \b 边界需中文语境分支; \bmuse\b 防 Renoir Museum 误并)
+    # 2026-10-22: Anthropic 发布 Claude Duet 智能体 (IT之家15/Engadget15/见闻6/HN6 中英文标题
+    # 指纹不同不合并，拆占科技/AI TOP1+TOP3)；Engadget 标题含 "Meta Muse" 字样，规则必须置于
+    # meta_muse_amazon_block/meta_muse 之前抢判。claude duet 为组合产品名 (同 iphone_duo_launch
+    # 先例，48h 窗口内即该发布事件)；防误并: Muse 下载量/停服分享稿不含 duet 字样不命中
+    (re.compile(r'claude[\s\-]*duet', re.I), 'claude_duet_launch'),
+    # 2026-10-22: 法国骚乱浪潮 (BBC中文11/中央社×3/RFI×2/DW中文/凤凰网×3/见闻金融角度/Solidot
+    # 等 10+ 篇拆散无 [N源]，BBC 版还被产业表泛词"平台"命中"二手平台"误分产业 TOP3)；
+    # 锚点 法国/法國/Paris/France/French + 骚乱语系 双向共现距 60；防误并: 毛里求斯宵禁稿
+    # 无法国锚不命中，riot 必须词边界 ("Patriot" 含子串 riot)，英文分支限距
+    (re.compile(r'(法国|法國|巴黎|Paris|France|French)[\s\S]{0,60}'
+                r'(骚乱|骚亂|宵禁|动乱|動亂|暴力冲突|暴力衝突|紧急状态|緊急狀態|\briot\b|\briots\b|\bcurfew\b|\bunrest\b)'
+                r'|(骚乱|骚亂|宵禁|动乱|動亂|暴力冲突|暴力衝突|紧急状态|緊急狀態|\briot\b|\briots\b|\bcurfew\b|\bunrest\b)[\s\S]{0,60}'
+                r'(法国|法國|巴黎|Paris|France|French)', re.I),
+     'france_unrest'),
+    # 2026-10-22: 字节/阿里/腾讯逾350亿美元英伟达显卡订单 (Solidot/RFI 同事件拆占产业 TOP1+TOP5;
+    # 锚点须含 字节 或 字节跳动 + 订购语系/350亿/RTX 共现; 防误并: TechCrunch "Google attacks
+    # Nvidia's stronghold" 无字节无订单锚不命中，英伟达常规财报稿不命中)
+    (re.compile(r'(?=[\s\S]*(字节|字节跳动|ByteDance))(?=[\s\S]*(RTX|显卡|英伟达|Nvidia|GPU|350\s*亿))[\s\S]{0,80}(订购|下单|订下|订单)'
+                r'|(?=[\s\S]*(RTX|显卡|英伟达|Nvidia|GPU|350\s*亿))(订购|订单)[\s\S]{0,40}(字节|ByteDance)'
+                r'|(?=[\s\S]*(字节|ByteDance|阿里|腾讯))(?=[\s\S]*(RTX|350\s*亿|350亿|英伟达|Nvidia))[\s\S]{0,80}(order|orders|buys|purchases)', re.I),
+     'china_rtx_order'),
     # 2026-09-22: 亚马逊封锁 Meta Muse AI 购物代理 (TechCrunch18 "Meta's AI agent has been
     # blocked from using Amazon.com" 标题无 muse 字样 + HN15 "Amazon blocks Meta's new Muse..."
     # + 华尔街见闻中文 "亚马逊封锁Meta旗下Muse AI购物代理" 同事件不合并 → 科技/AI TOP1-2 被占两条;
