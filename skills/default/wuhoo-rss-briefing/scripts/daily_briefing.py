@@ -95,7 +95,9 @@ def clean_summary(s, feed_name=''):
     # clean_html+实体还原后成 "摘要 1 中美科技股背离背后…" ("如何看待当前中美科技股的背离" 占财经 TOP5)。
     s = re.sub(r'^摘要\s*(?:\d+\s*[、.]?\s*)?[:：]?\s*', '', s)
     # 2026-09-23: 德国之声中文 byline — "德才2026-09-21T11:05:17.481Z2025年4月…" 作者名+ISO时间戳吃满摘要窗口 (奥迪状告AUDI 条目实测)
-    s = re.sub(r'^.{0,12}?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?', '', s).strip()
+    # 2026-10-25: 前缀上限 12→40 — "Madelaine Pitt2026-10-23T…" 14 字符拉丁作者名超旧上限,
+    # byline 残留吃满 50 字窗口 (法国警察条目占宏观 TOP5 实测); ISO 时间戳形态本身够特异, 放宽安全
+    s = re.sub(r'^.{0,40}?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?', '', s).strip()
     if not re.search(r'[\u4e00-\u9fffA-Za-z0-9]', s):
         return ''
     return s[:50]
@@ -141,7 +143,7 @@ SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 # 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
 # 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
 SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for|wall street brunch', re.I)  # 2026-10-19: SA 自营播客栏目 "Wall Street Brunch: SpaceX, Tesla, Meta On The Earnings Card"(无摘要占财经TOP1，同类 busy week for)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
-ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b', re.I)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
+ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b|and how does it work\?', re.I)  # 2026-10-25: 扩 "What kind of cooling system do EV batteries use and how does it work?" 科普解释体占产业 TOP5 (仍限 Engadget feed 级)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
@@ -607,6 +609,21 @@ NOISE_PATTERNS = [
     # 抢占财经 TOP1，同批 5 条）。探针格式 probe_i<数字> 下划线命名，正常新闻 probe 词后不接 _i+数字；
     # DB 脏行已同步删除，此规则防上游再次泄漏时复发
     r'probe_i\d+',
+    # 2026-10-25 新增 — 华尔街见闻抽象市场观点栏目文续 ("从'稳赚不赔'到'两害相权'，AI投资逻辑彻底变了！"
+    # hot17 占财经 TOP1，标题=话术转折+感叹句式，摘要为叙事复盘无单一事件，同类 若是反弹还没来/最担心的事情发生)
+    r'投资逻辑彻底变',
+    # BBC Business 个人叙事软稿 ("Woman 'scared to turn heating on' due to oil cost" 占财经 TOP4，
+    # 同类 money disagre/fed up of swiping/tip up to 个体故事非市场事件)
+    r'scared to turn heating',
+    # BBC 中文解释性特稿续 ("特朗普治下，美国经济的真实表现如何？" hot11 占宏观 TOP5，摘要仅照片说明，
+    # 栏目式问句分析稿非新闻事件，同类 为何要为/爱恨交加/还有多久会…取代)
+    r'美国经济的真实表现',
+    # IT之家消费电子"预热：产品词"导购稿 (小米 REDMI Book 2027 预热：外观焕新 占产业 TOP3——发布前官方
+    # 预热营销稿，同 前瞻：句式教训，须带配置类尾词防误伤真事件 "峰会预热：两国关系" 类)
+    r'预热[:：].{0,12}(外观|搭载|标配|屏幕|续航|配置)',
+    # BBC Business 伦敦租房街访 ('Renting in London - "I pay £2,000 for one bedroom"' hot 占财经 TOP2，
+    # 摘要 "We ask people in the capital how much they pay" = 街头采访个体叙事，同类 money disagre/tip up to)
+    r'renting in london.{0,8}i pay',
 ]
 
 def is_noise(text):
