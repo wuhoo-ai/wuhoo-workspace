@@ -142,7 +142,7 @@ FEED_NOISE_RE = re.compile(r'arxiv|知乎日报|b站|bilibili', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 # 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
 # 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
-SA_LOW_RE = re.compile(r'q[12]\s*20\d\d|commentary|portfolio update|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for|wall street brunch', re.I)  # 2026-10-19: SA 自营播客栏目 "Wall Street Brunch: SpaceX, Tesla, Meta On The Earnings Card"(无摘要占财经TOP1，同类 busy week for)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
+SA_LOW_RE = re.compile(r'q[1-4]\s*20\d\d|commentary|portfolio (update|activity)|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for|wall street brunch', re.I)  # 2026-10-26: 'Third Avenue Real Estate Value Fund Q3 2026 Portfolio Activity' hot 高占财经TOP1——旧 q[12] 只覆盖 Q1/Q2，Q3 季报漏网，扩 q[1-4] 并补 portfolio activity 措辞变体  # 2026-10-19: SA 自营播客栏目 "Wall Street Brunch: SpaceX, Tesla, Meta On The Earnings Card"(无摘要占财经TOP1，同类 busy week for)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
 ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b|and how does it work\?', re.I)  # 2026-10-25: 扩 "What kind of cooling system do EV batteries use and how does it work?" 科普解释体占产业 TOP5 (仍限 Engadget feed 级)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
@@ -575,10 +575,15 @@ NOISE_PATTERNS = [
     # 游戏复刻发售续 (IT之家《永恒传说》高清复刻多平台发售，同类 消费电子发售/游戏公告)
     r'永恒传说|tales of eternia|复刻版.*(发售|上架)',
     # 游戏娱乐续 — 《刺客信条：命运》实机泄露+取消稿占产业 TOP4 (育碧IP泄露传闻属游戏娱乐非产业事件，同类 gta/最终幻想/hell is us)
-    r"刺客信条|assassin.?s creed",
+    r'刺客信条|assassin.?s creed',
+    # 2026-10-26 新增三组:
+    r'running list',  # TechCrunch 持续更新清单栏目 "The AI graveyard: a running list of…" (维护式列表非单一事件, 同 announced so far 月度汇总)
+    r'i hope apple',  # Verge 主观期望观点稿 "I hope Apple's touchscreen MacBook takes some lessons…" (同类 a week with 一周评测)
+    r'终身学习者',  # IT之家转述《商业内幕》职场建议特稿 "DeepMind 高管：终身学习者将在 AI 职场中占据优势" (人物观点, 非事件)
     # IT之家"现已在京东上架"发售句式通式 (倍思移动电源/科大讯飞词典笔占产业 TOP3-4 实测——
     # 品牌枚举式屡失效(同 票房词族教训)，改句式通捕; 真发布会事件不会用该流水句式)
-    r'现已在.{0,6}(京东|天猫).{0,3}(上架|开售|首销|预售|发售)',
+    r'现已在.{0,6}(京东|天猫|电商平台|拼多多|苏宁).{0,4}(上架|开售|首销|预售|发售|销售|到货)',  # 2026-10-26: 联想极光键盘"现已在电商平台销售…129 元"占产业TOP4——平台枚举外"电商平台"措辞变体
+    r'(自营店|官方旗舰店).{0,4}(新上了?|上架|开售|到货|首发)',  # 2026-10-26: 戴尔UltraSharp"京东自营店新上了两款显示器…5199 元"占产业TOP5——店铺视角到货措辞变体（真发布会稿写"正式发布"不写"店新上了"）
     # 发售句式变体 — "现已启动/开启…预售" (易速马赤兔S05 Pro手柄预售占产业 TOP5，不涉京东/天猫渠道措辞)
     r'现已(启动|开启).{0,25}(预售|首发|首销|开售|发售)',
     # IT之家新配置首发含国补括号价通式 (七彩虹橘宝R16新增配置"9999 元（国补 8499.15 元）"占科技TOP4——
