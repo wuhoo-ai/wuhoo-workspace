@@ -580,6 +580,10 @@ NOISE_PATTERNS = [
     r'running list',  # TechCrunch 持续更新清单栏目 "The AI graveyard: a running list of…" (维护式列表非单一事件, 同 announced so far 月度汇总)
     r'i hope apple',  # Verge 主观期望观点稿 "I hope Apple's touchscreen MacBook takes some lessons…" (同类 a week with 一周评测)
     r'终身学习者',  # IT之家转述《商业内幕》职场建议特稿 "DeepMind 高管：终身学习者将在 AI 职场中占据优势" (人物观点, 非事件)
+    r'观鸟|认知衰退',  # 2026-10-27 BBC中文健康解释特稿 "观鸟如何重塑大脑，延缓认知衰退?" hot11 占宏观TOP1(摘要仅照片说明,'衰退'泛词误分; 同类 晕车/月经周期/滚烫饮品)
+    r'不会写代码|这波.{0,8}ai\s*红利',  # 2026-10-27 华尔街见闻贩卖焦虑职场软文 "35岁不会写代码? 这波AI红利可能就轮到你了" hot18 占财经TOP1 (同类 终身学习者)
+    r'创始人深度解析|semianalysis.{0,8}深度解析',  # 2026-10-27 见闻访谈观点稿 "SemiAnalysis创始人深度解析:AI投资还能撑多久?" hot11 占财经TOP5 (播客访谈纪要非新闻事件, 同类 importance of failure)
+    r'on sale for',  # 2026-10-27 Verge 促销导购措辞 "Samsung's Switch 2-ready MicroSD Express card is on sale for less than $50" 占产业TOP4 (同类 half off/percent off/best deals)
     # IT之家"现已在京东上架"发售句式通式 (倍思移动电源/科大讯飞词典笔占产业 TOP3-4 实测——
     # 品牌枚举式屡失效(同 票房词族教训)，改句式通捕; 真发布会事件不会用该流水句式)
     r'现已在.{0,6}(京东|天猫|电商平台|拼多多|苏宁).{0,4}(上架|开售|首销|预售|发售|销售|到货)',  # 2026-10-26: 联想极光键盘"现已在电商平台销售…129 元"占产业TOP4——平台枚举外"电商平台"措辞变体
@@ -765,6 +769,10 @@ def classify(text, category_field):
     # inflation and AI debt" hot15 因标题 Tech/AI/inflation 命中科技表误分 科技/AI TOP1 — 市场大跌事件属财经)
     if re.search(r'sell[- ]?off|selloff|market rout', text, re.I):
         scores['财经/投资'] += 3
+    # 2026-10-27: 产品用户规模/观看指标 → 产业/公司 (Solidot "Netflix 用户观看量下降，应用打开量下降" hot6
+    # 摘要"应对用户增长停滞"命中宏观表'增长'被拉进宏观政策TOP2 — 产品用户增长/流失属公司经营动态非宏观经济)
+    if re.search(r'用户增长|用户流失|观看量|打开量|日活|月活|订阅用户|subscriber (?:loss|decline)|unsubscriber', text, re.I):
+        scores['产业/公司'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
     if category_field in cm:
@@ -790,6 +798,12 @@ ENTITY_KEYS = [
     # 拆占两榜; 双锚 spacex+业绩语系; 防误并: "美伊妥协方案市场综述稿(盘后SpaceX涨近7%)"无业绩锚不命中
     (re.compile(r'(?=[\s\S]*spacex)(?=[\s\S]*(财报|营收|收入|利润|盈利|净利润|扭亏|业绩|电话会|第三财季|财季|q3|revenue|earnings|profit|net income|third[- ]quarter))', re.I),
      'spacex_q3_earnings'),
+    # 2026-10-27: SpaceX 400 亿美元 GPU 债务融资 (Apollo) 三条同事件拆榜 — IT之家"史上最大规模 GPU 融资安排"hot12
+    # + IT之家"马斯克确认 SpaceX 完成 400 亿美元债务融资，用于购买 GPU"hot6 + TechCrunch"locks in $40B GPU
+    # financing deal with Apollo"hot6; 双锚 spacex+(资金方|金额) 共现; 防误并: Starlink乌克兰稿/SA "Ramping Up CapEx
+    # Risk"稿(摘要空) 无资金锚不命中, NYT"Meta and SpaceX to Raise Billions More"综述稿无 gpu/apollo/金额锚不命中
+    (re.compile(r'(?=[\s\S]*spacex)(?=[\s\S]*(apollo|gpu|400\s*亿|40\s*b|\$40|debt financ|债务融资|融资安排))', re.I),
+     'spacex_gpu_financing'),
     # 2026-10-20: 三星采用台积电3nm为英伟达产下一代HBM基础晶粒 (中央社繁版12/IT之家9/格隆汇6/第一财经3/联合早报3
     # 五源标题措辞各异拆占 科技/AI TOP2+TOP5 两席; 三锚共现 lookahead 写法——繁体'台積電/奈米'与简体'台积电/纳米'
     # 均覆盖; 防误并: 三星手机/Galaxy 稿无 HBM 锚、SK海力士 HBM 稿无三星锚、三星供HBM给非台积电稿无台积电锚)
@@ -973,7 +987,11 @@ ENTITY_KEYS = [
     # 否则 09-15 回归用例 "三巨头支持放缓、OpenAI推迟IPO引热议"+摘要含 Amodei 会被误并)
     (re.compile(r'(anthropic|amodei|claude)[\s\S]{0,80}(?<![a-z])ipo(?![a-z])[\s\S]{0,80}(pitch|prospectus|filing|招股|申请|披露|valuation)'
                 r'|(pitch|prospectus|filing|招股|申请|披露|valuation)[\s\S]{0,80}(?<![a-z])ipo(?![a-z])[\s\S]{0,80}(anthropic|amodei|claude)'
-                r'|(?<![a-z])ipo(?![a-z])[\s\S]{0,60}(anthropic|amodei)[\s\S]{0,60}(pitch|prospectus|filing|招股)', re.I), 'anthropic_ipo_pitch'),
+                r'|(?<![a-z])ipo(?![a-z])[\s\S]{0,60}(anthropic|amodei)[\s\S]{0,60}(pitch|prospectus|filing|招股)'
+                # 2026-10-27: 招股书/prospectus 本身即 IPO 申报强锚 — IT之家"Anthropic 招股书披露生态打法"
+                # 衍生稿标题无 literal IPO 字样未并入 [6源] 事件拆占产业TOP3 (同 iphone_duo 衍生报道合并先例)
+                r'|(anthropic|amodei|claude)[\s\S]{0,60}(招股|prospectus)'
+                r'|(招股|prospectus)[\s\S]{0,60}(anthropic|amodei|claude)', re.I), 'anthropic_ipo_pitch'),
     # 2026-10-02: 去掉裸 (anthropic).{0,60}warn 分支 — 卫报 "Anthropic pushes for opt-out model... ABC warns
     # of cannibalisation"(新闻行业版权稿) 被误并进放缓辩论事件; 放缓语境词(slowdown/放缓)仍保留双向锚点
     # 2026-10-16: 放缓/放慢加负向后顾 — "收入增速放缓"(财务语义)曾被 branch1 anthropic+放缓 误捕
@@ -1257,6 +1275,10 @@ for r in rows:
     if SPORT_FEED_RE.search(feed) or r['category'] == '足球':
         continue
     if FEED_NOISE_RE.search(feed):
+        continue
+    if 'bbc.com/future' in (r['link'] or ''):
+        # 2026-10-27: BBC Future 解释性特稿栏目级过滤(跨 feed) — HN 转述 "Solar power is becoming bigger
+        # than nuclear" hot6 无摘要占宏观TOP4(nuclear 命中宏观表); 同类 09-10 "机器人索要小费" BBC Future 特稿
         continue
     if 'seeking alpha' in feed.lower() and SA_LOW_RE.search(title.lower()):
         continue
