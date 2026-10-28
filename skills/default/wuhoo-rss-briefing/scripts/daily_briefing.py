@@ -788,6 +788,14 @@ def norm(t):
 
 # 强实体事件规则 (仅跨源同一事件, 泛公司名不放这里避免过度合并)
 ENTITY_KEYS = [
+    # 2026-10-28: 卢拉巴西大选逆转胜(第四任期) — 见闻11/DW11/BBC中文11/中央社/德国之声中文/朝鲜日报/BBC World×4/
+    # FT×2/NYT/一财×3/联合早报/凤凰×4/半岛 30+ 源拆占 财经TOP4+宏观TOP4 两榜、[N源]失效；
+    # 三锚共现 (lula|卢拉|盧拉 + 巴西|brazil + 胜选语系)；防误并: "Meta Employees Denounce Interference in
+    # Brazilian Elections"(员工抗议另一事件)/"Flávio Bolsonaro flees Brazil for US"(败方候选人出走，无 lula 锚)/
+    # "右翼盟友敗選 川普批巴西總統大選遭操縱"(无 lula) 均不命中；庆祝/承认败选/市场暴跌/人物特稿=衍生报道并入
+    # (g7_oil_release 多波次词形覆盖先例)
+    (re.compile(r'(?=[\s\S]*(lula|卢拉|盧拉))(?=[\s\S]*(巴西|brazil))(?=[\s\S]*(\bwin|\bwon|胜选|勝選|当选|當選|连任|連任|re[- ]?elect|逆转|逆轉|逆袭|逆襲|翻盘|翻盤|comeback|victor|fourth term|击败|擊敗|赢得|贏得|赢|贏|surprise))', re.I),
+     'brazil_lula_election'),
     # 2026-10-21: 特斯拉×SpaceX 合并 — BBC14/Verge9/FT6/TC6/Ars6/见闻/一财/IT之家(联姻+10-19关注传闻) 拆占
     # 财经 TOP4+产业多席无 [N源]; 三锚共现 (tesla|特斯拉 + spacex + 合并语系); 防误并: "送股给全美儿童"稿
     # (无合并锚)、"SpaceX 抓火箭"稿 (无 tesla+合并锚) 不命中。置于 spacex_q3_earnings 之前——
