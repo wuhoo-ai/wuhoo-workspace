@@ -627,6 +627,12 @@ NOISE_PATTERNS = [
     # BBC 中文解释性特稿续 ("特朗普治下，美国经济的真实表现如何？" hot11 占宏观 TOP5，摘要仅照片说明，
     # 栏目式问句分析稿非新闻事件，同类 为何要为/爱恨交加/还有多久会…取代)
     r'美国经济的真实表现',
+    # BBC 中文解释性特稿续 (10-29 "特朗普重返白宫后，如何从五方面改变美国移民政策？" hot19 连续两日占宏观
+    # TOP1-3 — "从N方面改变"栏目式盘点句式非单一新闻事件，同类 美国经济的真实表现/为何要为)
+    r'如何从[一二三四五六七八九十\d]{1,3}[个]?方面|如何從[一二三四五六七八九十\d]{1,3}[個]?方面',
+    # BBC 中文"是什么？一文了解"科普栏目稿 (10-29 "美国中期选举是什么？一文了解选举制度及重要性" hot 递补占
+    # 宏观 TOP5，摘要仅图片说明 — 背景科普非单一新闻事件，同类 美国经济的真实表现/如何从N方面)
+    r'一文了解|一文读懂|一圖了解|一图了解',
     # IT之家消费电子"预热：产品词"导购稿 (小米 REDMI Book 2027 预热：外观焕新 占产业 TOP3——发布前官方
     # 预热营销稿，同 前瞻：句式教训，须带配置类尾词防误伤真事件 "峰会预热：两国关系" 类)
     r'预热[:：].{0,12}(外观|搭载|标配|屏幕|续航|配置)',
@@ -796,6 +802,12 @@ ENTITY_KEYS = [
     # (g7_oil_release 多波次词形覆盖先例)
     (re.compile(r'(?=[\s\S]*(lula|卢拉|盧拉))(?=[\s\S]*(巴西|brazil))(?=[\s\S]*(\bwin|\bwon|胜选|勝選|当选|當選|连任|連任|re[- ]?elect|逆转|逆轉|逆袭|逆襲|翻盘|翻盤|comeback|victor|fourth term|击败|擊敗|赢得|贏得|赢|贏|surprise))', re.I),
      'brazil_lula_election'),
+    # 2026-10-29: 以色列第26届议会选举 (出口民调→开票→组阁分析 多波次 30+ 条: DW×4/FT×2/BBC World×4/卫报×2/
+    # 见闻×2/凤凰/一财×3 标题各异不合并, 两条 DW 版 hot11 同时占宏观 TOP2+TOP5, [N源] 失效;
+    # 锚点=以色列/内塔尼亚胡/netanyahu 与 选举语系(election|vote|民调|席位|组阁|bloc) 60 字符共现 (双向分支);
+    # 防误并: 加沙空袭/伊朗政策稿无选举语系不并 (Will elections in Israel change its Iran approach? 属本事件分析稿, 并入正确))
+    (re.compile(r'(?:israel|israeli|以色列|内塔尼亚胡|內塔尼亞胡|netanyahu)[\s\S]{0,60}(?:election|exit poll|\bvote\b|\bvoting\b|parliamentar|majority|seat\b|seats\b|coalition|bloc|选举|選舉|投票|民調|民调|过半|多數|多数|席位|组阁|組閣|無贏家|无明显赢家)|(?:election|exit poll|parliamentar|coalition|民調|民调|投票结束|组阁|席位)[\s\S]{0,60}(?:israel|以色列|内塔尼亚胡|內塔尼亞胡|netanyahu)', re.I),
+     'israel_election_2026'),
     # 2026-10-21: 特斯拉×SpaceX 合并 — BBC14/Verge9/FT6/TC6/Ars6/见闻/一财/IT之家(联姻+10-19关注传闻) 拆占
     # 财经 TOP4+产业多席无 [N源]; 三锚共现 (tesla|特斯拉 + spacex + 合并语系); 防误并: "送股给全美儿童"稿
     # (无合并锚)、"SpaceX 抓火箭"稿 (无 tesla+合并锚) 不命中。置于 spacex_q3_earnings 之前——
@@ -849,6 +861,11 @@ ENTITY_KEYS = [
     # 须置于 claude_opus_55 之前 — IT之家标题"Gemini 4 Argon…超 Claude Opus 5.5"含 opus5.5 词会被抢先;
     # 防误并: 'Gemini 4 Pro偷跑上线'(无 argon, gemini 4 后接 pro 被负向断言排除)
     # 与 09-20 gemini_hack_incident(入侵稿, 触发词不同) 不冲突)
+    # 2026-10-29: 谷歌发布网络安全专精前沿模型 Gemini 4 Carbon (Verge18/Ars9/HN9/见闻9/IT之家6/DeepMind6 六源
+    # 标题各异不合并, Verge 版无 [N源] 独占科技/AI TOP1; 具体产品代号锚点 (iphone_duo/gemini_4_argon 先例);
+    # **必须置于 gemini_4_argon 之前** — Ars "Google announces Gemini 4 Carbon" 与 DeepMind "next frontier
+    # model" 会被 argon 泛 announce/frontier 分支抢判 (10-01 argon 抢判教训链))
+    (re.compile(r'gemini[\s\-]*4[\s\-]*carbon|carbon[\s\S]{0,40}gemini[\s\-]*4', re.I), 'gemini_4_carbon'),
     (re.compile(r'gemini[\s\-]*4[\s\-]*argon|argon[\s\S]{0,40}gemini|(google|谷歌)[\s\S]{0,30}(announc|reveal|releas|发布|登场)[\s\S]{0,30}gemini\s*4(?![\s\-]*pro)|gemini\s*4(?![\s\-]*pro)[\s\S]{0,40}(most powerful|so capable|frontier|next era|多指标sota|登场)', re.I), 'gemini_4_argon'),
     (re.compile(r'opus\s*5\.?5', re.I), 'claude_opus_55'),
     (re.compile(r'gpt[\s\-]*6[\s\S]{0,60}(?<![a-z])sol(?![a-z])|gpt[\s\-]*6[\s\S]{0,60}(?<![a-z])luna(?![a-z])'
@@ -1008,6 +1025,16 @@ ENTITY_KEYS = [
                 r'|(slow ?down|slowdown|(?<!增速)(?<!收入)(?<!营收)放缓|(?<!增速)放慢|减速|刹车).{0,60}(amodei|阿莫迪|安特罗匹克|anthropic|阿莫戴)'
                 r'|(slow ?down|slowdown|(?<!增速)(?<!收入)(?<!营收)放缓|(?<!增速)放慢|减速|刹车).{0,55}((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能|前沿)'
                 r'|((?<![a-z])ai(?![a-z])|a\.i\.?|artificial intelligence|人工智能).{0,55}(slow ?down|slowdown|(?<!增速)(?<!收入)(?<!营收)放缓|(?<!增速)放慢|减速|刹车)', re.I), 'ai_slowdown_debate'),
+    # 2026-10-29: 美联储10月末决议按兵不动 (NYT12 "Fed Holds Rates Steady"/FT12 "Fed holds fire"/见闻11×2/
+    # 一财×2 同事件跨源拆占 财经TOP1+TOP3 两榜、[N源] 失效; 锚点=Fed/美联储 与 hold 语系共现
+    # (holds fire|holds rates steady|按兵不动|维持联邦基金|决议+反对票);
+    # 防误并: "决议前夕…科技股反弹"综述稿与"决议 通胀越烧越热"前瞻稿均无 hold 语系不并;
+    # 沃什"明年起削减议息会议次数"无 hold 语系不并; 加拿大央行加息稿无 fed 锚不并;
+    # **必须置于 us_pmi_rate_hike/fed_rate_hike 之前** — 决议报道"两票委支持加息"会被 09-16 FOMC
+    # 旧加息规则抢先 (10-16 anthropic_q3 置于 slowdown 前同构教训))
+    (re.compile(r'(?:\bfeds?\b|federal reserve|美联储|聯準|联准会)[\s\S]{0,60}(?:holds?\s+(?:fire|steady|rates?\s+(?:steady|at|in))|held\s+(?:fire|rates|interest)|keep\s+rates|按兵不動|按兵不动|维持利率不变|维持联邦基金|保持利率不变|維持利率)'
+                r'|(?:holds?\s+(?:fire|steady)|held\s+fire|按兵不动|按兵不動)[\s\S]{0,25}(?:\bfeds?\b|federal reserve|美联储)'
+                r'|(?:美联储|federal reserve|\bfeds?\b)[\s\S]{0,30}(?:决议|decision)[\s\S]{0,40}(?:反对票|反對票|dissent|异议|異議|\d+票赞成)', re.I), 'fed_rate_hold'),
     # 2026-09-25: 美国9月PMI爆表→加息预期重燃、美债遭血洗 (华尔街见闻系 12 篇同事件稿占财经多席;
     # 锚点=PMI 或 美债收益率破位语境 (破5%/抛售/收益率创新高/黑色星期三/拍卖遇冷), 全部归同一宏观市场事件;
     # **必须置于 fed_rate_hike 之前** — "PMI重燃加息预期+摘要含美联储" 会被 09-16 FOMC 旧规则抢先误并)
