@@ -633,6 +633,13 @@ NOISE_PATTERNS = [
     # BBC 中文"是什么？一文了解"科普栏目稿 (10-29 "美国中期选举是什么？一文了解选举制度及重要性" hot 递补占
     # 宏观 TOP5，摘要仅图片说明 — 背景科普非单一新闻事件，同类 美国经济的真实表现/如何从N方面)
     r'一文了解|一文读懂|一圖了解|一图了解',
+    # BBC Business 能源补贴 FAQ 指南体 (10-30 "Will I get the £100 energy payment and when will I receive it?"
+    # 占财经 TOP5 — 领取资格问答非政策事件，同类 refund when using your credit card；
+    # 防误伤: 卫报 "Budget 2026: £100 energy payment for millions..." 为真实预算新闻，不含问答句式)
+    r'energy payment and when will i receive',
+    # DW 软性专题 (10-30 "Living with the US-Canada trade war" 安大略视角生活观察占宏观 TOP4 —
+    # 贸易战事件本体已出窗，特稿非新事件，同类 everyone, everywhere/dw users on life)
+    r'living with the us-canada',
     # IT之家消费电子"预热：产品词"导购稿 (小米 REDMI Book 2027 预热：外观焕新 占产业 TOP3——发布前官方
     # 预热营销稿，同 前瞻：句式教训，须带配置类尾词防误伤真事件 "峰会预热：两国关系" 类)
     r'预热[:：].{0,12}(外观|搭载|标配|屏幕|续航|配置)',
@@ -779,6 +786,14 @@ def classify(text, category_field):
     # 摘要"应对用户增长停滞"命中宏观表'增长'被拉进宏观政策TOP2 — 产品用户增长/流失属公司经营动态非宏观经济)
     if re.search(r'用户增长|用户流失|观看量|打开量|日活|月活|订阅用户|subscriber (?:loss|decline)|unsubscriber', text, re.I):
         scores['产业/公司'] += 3
+    # 2026-10-30: 公司并购/收购交易 → 产业/公司 (Globalstar 组中文代表 "FTC批准亚马逊以115亿美元收购Globalstar，
+    # 这笔交易为…" 靠财经表泛词 交易(这笔交易)+美元(115亿美元) 得2分与产业表 收购+亚马逊 平分时按 dict 序
+    # 胜出，事件被吞进 财经/投资 后掉榜 — 四大类定义并购属产业/公司，语境 +3 同 silicon species/财报/产品指标先例。
+    # 限定 M&A 专属词族，不收裸 合并/merger 防地缘政治合并稿误吸；军事采购语境排除——
+    # "Ethiopia acquires Russian fighter jets" (国家军购属宏观军事，裸 acquire 误吸实测防住，同 间谍规则产品后缀前瞻教训)
+    if re.search(r'acquisition|\bacquire[sd]?\b|acqui-?sition|收购|收購|并购|併購', text, re.I) \
+            and not re.search(r'fighter|warplane|\bjets?\b|weapon|missile|aircraft|防空|战机|战斗机|军机|军购|国防|武器', text, re.I):
+        scores['产业/公司'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
     if category_field in cm:
@@ -794,6 +809,32 @@ def norm(t):
 
 # 强实体事件规则 (仅跨源同一事件, 泛公司名不放这里避免过度合并)
 ENTITY_KEYS = [
+    # 2026-10-30: 谷歌将 AI 搜索广告推向国际市场(核心广告增长放缓) — TechCrunch12 英文版与 IT之家3 中文版
+    # 拆占 科技/AI TOP4+TOP5 两席；三锚共现 (谷歌/google + 广告语系 + 国际语系)。
+    # 防误并: 财报稿"搜索广告疲态"(无国际锚)、Gemini 发布稿(无广告锚)不命中。须置于 google_q3_earnings 之前——
+    # TC 广告稿摘要含 "alongside parent company Alphabet [earnings]" 字样防被财报规则抢判
+    (re.compile(r'(?=[\s\S]*(谷歌|google))(?=[\s\S]*(搜索广告|ai\s*search|ads|生成式广告|generative\s*ad))(?=[\s\S]*(国际|全球|global|international|expand|推向))', re.I),
+     'google_ai_ads_global'),
+    # 2026-10-30: Alphabet Q3 财报不及预期→创纪录暴跌 多波次报道簇 (IT之家9/见闻11财报见闻/见闻3电话会/一财3盘后跌/
+    # 一财6发布财报/IT之家6跌超13%/BBC9 plunges $500bn/HN9 less than half revenue/SA3×2) 拆占 财经TOP4+产业TOP1 两榜；
+    # 双锚 谷歌/google/alphabet + 财报暴跌语系；负向前瞻排除市场综述稿(美股指三连涨/纳指/tech stocks fall 为独立
+    # 市场事件、同 fed_rate_hold 测试用例共存教训)与信用市场前瞻稿(CDS/债主不安为另一事件)。
+    # 防误并: Gemini 4 Carbon 发布稿无财报语系不并、Ars 2020大选回避稿不并、英特尔Q3稿无谷歌锚不并
+    # **教训: 负向前瞻 (?![\s\S]*X) 必须配 ^ 锚**——rx.search 逐位扫描，扫描位越过 X 后前瞻只看
+    # 当前位置之后，"美股指三连涨…盘后谷歌大跌" 综述稿从'股指'之后起匹配致拦截失效（10-30 pytest 实测）
+    (re.compile(r'^(?=[\s\S]*(谷歌|google|alphabet))(?![\s\S]*(股指|纳斯达克|nasdaq|tech stocks|普跌|三连涨|终结|信用市场|债主|\bCDS\b))(?=[\s\S]*(q3|third[- ]quarter|quarterly|财报|业绩|earnings|revenue|营收|cash\s*flow|现金流|资本开支|capex|不及预期|disappoint|变现焦虑|焦虑|质疑|plunge|crash|record\s+drop|rocked|rattle|suffers|跌|暴跌|大跌|less\s+than\s+half))', re.I),
+     'google_q3_earnings'),
+    # 2026-10-30: FCC/美国机构批准亚马逊 Leo 115 亿美元收购 Globalstar — Engadget9/HN9/Solidot(FTC批准) 三源
+    # 标题各异拆占 产业TOP3+TOP4；Globalstar 为专属公司名，裸词即强锚。防误并: Solidot"年底推出宽带服务"稿
+    # (摘要无 globalstar 字样，属 Amazon Leo 另一动态)不命中
+    (re.compile(r'globalstar', re.I), 'amazon_globalstar_deal'),
+    # 2026-10-30: 亚马逊 10 月硬件发布会 (Alexa Photo Frame/Echo Time/Echo Studio Home Camera/Kindle 升级)
+    # TechCrunch6/Engadget6 汇总稿/Ars6 智能相机稿/Engadget Kindle评测6 四源拆占产业TOP2+4+5；
+    # 具体产品名强锚 (alexa photo frame|echo time|echo studio|home camera|echo devices) + kindle paperwhite review
+    # 衍生评测 (iphone_duo/zelda_totk 衍生报道合并先例)。防误并: Globalstar 稿无产品锚、"Alexa is now free on
+    # Fire TV" 旧事件稿无新词命中(仍归 amazon_alexa_free，本规则置于其前但词表不含裸 free/fire tv)
+    (re.compile(r'alexa photo frame|echo time|echo studio|echo devices|home camera|kindle paperwhite.{0,30}review', re.I),
+     'amazon_device_launch'),
     # 2026-10-28: 卢拉巴西大选逆转胜(第四任期) — 见闻11/DW11/BBC中文11/中央社/德国之声中文/朝鲜日报/BBC World×4/
     # FT×2/NYT/一财×3/联合早报/凤凰×4/半岛 30+ 源拆占 财经TOP4+宏观TOP4 两榜、[N源]失效；
     # 三锚共现 (lula|卢拉|盧拉 + 巴西|brazil + 胜选语系)；防误并: "Meta Employees Denounce Interference in
