@@ -794,6 +794,17 @@ def classify(text, category_field):
     if re.search(r'acquisition|\bacquire[sd]?\b|acqui-?sition|收购|收購|并购|併購', text, re.I) \
             and not re.search(r'fighter|warplane|\bjets?\b|weapon|missile|aircraft|防空|战机|战斗机|军机|军购|国防|武器', text, re.I):
         scores['产业/公司'] += 3
+    # 2026-10-31: 国家军购→宏观政策。10-30 的 M&A 军事排除只挡住了语境 +3，
+    # BBC World "Ethiopia acquires Russian fighter jets and air defence systems amid war in Tigray" 真实流水线文本
+    # (clean_title + clean_summary[:50]，摘要 "The acquisition of the warplanes comes amid ongoin") 被产业表裸词
+    # 'acquisition' 计 1 分仍进 产业 TOP5 (昨日测试只喂纯标题未覆盖摘要形态，10-31 实测暴露)。
+    # 装备词+购词共现才计，排除财报/营收语境防国防承包商财报稿被拉宏观 (同 间谍产品后缀前瞻防误吸教训)
+    if re.search(r'fighter[\s-]?jets?|warplane|air[\s-]?defen[cs]e|missile[\s-]?systems?|attack\s+helicopter|'
+                 r'战机|战斗机|军机|防空系统|导弹系统|军购|军火', text, re.I) \
+            and re.search(r'acquir|purchas|\bbuy\b|\bbought\b|\border[sed]?\b|deliver|procure|transfer|'
+                 r'采购|購買|购买|订购|訂單|接收', text, re.I) \
+            and not re.search(r'revenue|earnings|profit|财报|財報|营收|營收|利润|利潤|亏损|虧損', text, re.I):
+        scores['宏观政策'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
     if category_field in cm:
@@ -809,6 +820,14 @@ def norm(t):
 
 # 强实体事件规则 (仅跨源同一事件, 泛公司名不放这里避免过度合并)
 ENTITY_KEYS = [
+    # 2026-10-31: 币安 63 亿美元被盗(史上最大加密盗窃，朝鲜黑客涉案)多源多波次报道簇 — DW17/BBC14 拆占
+    # 财经TOP1+TOP3 两席，48h 窗口 12+ feeds 共 25 篇(NYT×5/BBC×4/见闻热门×2/FT×2/TC×2/HN100+×3/Engadget/
+    # Ars/卫报/Solidot/BBC中文/中央社)，锚点取 币安|binance|幣安 + 黑客/盗/heist/stolen 等语系共现；
+    # FT "$6.3bn in 30 minutes" 标题无币安字样但截断摘要含 "attack on Binance" 命中(多波次词形覆盖先例)。
+    # 防误并: 卫报 "crypto hacking funds North Korea nuclear programme"(朝鲜黑客资金流向独立专题)无 binance 锚不并；
+    # 币安常规产品稿(无黑客/盗语系)不并。
+    (re.compile(r'(?=[\s\S]*(?:binance|币安|幣安))[\s\S]*(?:hack|heist|theft|stolen|\bsteal\b|breach|recover|盗|竊|洗劫|黑客|转走|轉走|漏洞|攻击|攻擊)', re.I),
+     'binance_hack'),
     # 2026-10-30: 谷歌将 AI 搜索广告推向国际市场(核心广告增长放缓) — TechCrunch12 英文版与 IT之家3 中文版
     # 拆占 科技/AI TOP4+TOP5 两席；三锚共现 (谷歌/google + 广告语系 + 国际语系)。
     # 防误并: 财报稿"搜索广告疲态"(无国际锚)、Gemini 发布稿(无广告锚)不命中。须置于 google_q3_earnings 之前——
