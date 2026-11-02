@@ -143,7 +143,7 @@ SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 # 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
 # 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
 SA_LOW_RE = re.compile(r'q[1-4]\s*20\d\d|commentary|portfolio (update|activity)|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for|wall street brunch', re.I)  # 2026-10-26: 'Third Avenue Real Estate Value Fund Q3 2026 Portfolio Activity' hot 高占财经TOP1——旧 q[12] 只覆盖 Q1/Q2，Q3 季报漏网，扩 q[1-4] 并补 portfolio activity 措辞变体  # 2026-10-19: SA 自营播客栏目 "Wall Street Brunch: SpaceX, Tesla, Meta On The Earnings Card"(无摘要占财经TOP1，同类 busy week for)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
-ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b|and how does it work\?', re.I)  # 2026-10-25: 扩 "What kind of cooling system do EV batteries use and how does it work?" 科普解释体占产业 TOP5 (仍限 Engadget feed 级)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
+ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b|and how does it work\?|^\d+\s+\S+.{0,20}\btips\b', re.I)  # 2026-11-02: 扩 "5 Netflix tips we all wish we knew sooner" 数字清单体 tips 占产业 TOP5 (feed 级仍限 Engadget)  # 2026-10-25: 扩 "What kind of cooling system do EV batteries use and how does it work?" 科普解释体占产业 TOP5 (仍限 Engadget feed 级)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
@@ -404,8 +404,9 @@ NOISE_PATTERNS = [
     # 实测 'Pirate Face Rescues LLM Models from Deletion' hot14 占科技/AI TOP2 且无摘要)
     'pirate face',
     # 2026-09-21 新增 — 华尔街见闻周度日程栏目 (非单一新闻事件, 周期性聚合; 同类 IT早报/早餐FM/派早报;
-    # 实测 '下周重磅日程：全球聚焦中美' hot19 占财经/投资 TOP1)
-    '下周重磅日程',
+    # 实测 '下周重磅日程：全球聚焦中美' hot19 占财经/投资 TOP1;
+    # 2026-11-02 复现 '本周重磅日程：聚焦美国中选与中国重磅金融会议' 占财经 TOP5 — 栏目名有 本周/下周 两种措辞)
+    r'(本周|下周)重磅日程',
     # 2026-09-21 新增 — 虎嗅消费生活方式稿 (非产业事件; 同类 鹅腿阿姨/躺在床上喝茶;
     # 实测 '无醇啤酒赢了增速，却还没赢下中国人的餐桌' hot11 占宏观政策 TOP4)
     '无醇啤酒',
@@ -646,6 +647,19 @@ NOISE_PATTERNS = [
     # BBC Business 伦敦租房街访 ('Renting in London - "I pay £2,000 for one bedroom"' hot 占财经 TOP2，
     # 摘要 "We ask people in the capital how much they pay" = 街头采访个体叙事，同类 money disagre/tip up to)
     r'renting in london.{0,8}i pay',
+    # 2026-11-02 新增 — 京东双十一秒杀/红包导购稿 (IT之家 "【20:00~20:15】蹲点速抢 1.18 元京东无门槛红包，
+    # 小米 55 寸电视 1 元秒杀" 占产业/公司 TOP1 — 旧 11.11 模式要求 "11.11" 与 "元/抢" 同窗共现，本例促销词全在
+    # 标题、正文 "11.11" 在 50 字摘要窗外; "蹲点速抢/无门槛红包/N元秒杀/秒杀狂促" = 导购专属话术，真新闻不用)
+    r'蹲点速抢|无门槛红包|元秒杀|秒杀狂促',
+    # Keychron 三模键盘 "国行发售：…721 元" 占产业 TOP3 (区域上市+标价尾注=发售促销稿，同 首发价 N 元 句式;
+    # 真发售事件稿不写国行+裸标价组合)
+    r'国行.{0,6}发售.{0,20}[\d,.]+\s*元',
+    # 虎嗅匿名访谈观点栏目 ("一线投资人与创业者匿名访谈：到底是谁在逼谁追共识" 占产业 TOP5，
+    # VC 共识复盘非单一事件，同类 最担心的事情发生/创始人深度解析)
+    r'逼谁追共识',
+    # 虎嗅情绪化观点文 ("请停止赞美技术的\"无人化\"​" 占产业 TOP3，借老干妈/亚马逊报道发挥的评论体非事件，
+    # 同类 最担心的事情发生/投资逻辑彻底变)
+    r'请?停止赞美',
 ]
 
 def is_noise(text):
@@ -932,6 +946,11 @@ ENTITY_KEYS = [
                 r'|(?<![a-z])sol(?![a-z])[\s\S]{0,20}(?<![a-z])luna(?![a-z])|(?<![a-z])luna(?![a-z])[\s\S]{0,20}(?<![a-z])sol(?![a-z])', re.I), 'gpt6_sol_luna'),
     # 2026-09-02: Claude Fable 5.1 / Mythos 5.1 发布 (Anthropic 重大发布, HN+IT之家+Verge+TechCrunch+华尔街见闻 5源)
     (re.compile(r'(fable|mythos).*(anthropic|claude)|(anthropic|claude).*(fable|mythos)', re.I), 'claude_fable_51'),
+    # 2026-11-02: 苹果 Apple 智能入华 (与阿里合作集成千问、11月4日开放测试) — 见闻/联合早报/IT之家×2/一财/少数派
+    # 各写不同标题拆占 科技/AI TOP4-5 两条、[N源] 失效; 双锚 lookahead: Apple 智能产品词 + 中国落地语境词。
+    # 防误并: 阿里千问自家模型稿无 Apple 锚不并; Apple 智能欧美监管/功能稿无中国锚不并 (samsung_hbm/g7 三锚先例同构)
+    (re.compile(r'(?=[\s\S]*(apple\s*智能|苹果智能|蘋果智能|apple[\s\-]*intelligence))'
+                r'(?=[\s\S]*(入华|入華|国行|國行|中国版|中國版|阿里|alibaba|千问|qwen|集成至|中国推出|中國推出|登陆中国))', re.I), 'apple_intelligence_china'),
     # 2026-10-14: 库克卸任苹果CEO后访华/何立峰会见 (中央社6/联合早报3×2/凤凰网3 同事件拆占
     # 科技/AI TOP5 (联合早报"何立峰见库克") 与 产业/公司 TOP3 (中央社"何立峰會見蘋果庫克") 两榜;
     # 规则须置于 apple_ceo_transition 之前，防"卸任/执行董事长"语境稿被换任泛规则抢先;
