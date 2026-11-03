@@ -660,6 +660,19 @@ NOISE_PATTERNS = [
     # 虎嗅情绪化观点文 ("请停止赞美技术的\"无人化\"​" 占产业 TOP3，借老干妈/亚马逊报道发挥的评论体非事件，
     # 同类 最担心的事情发生/投资逻辑彻底变)
     r'请?停止赞美',
+    # 2026-11-03 新增 — 华尔街见闻抽象市场观点栏目文续 ("何处是底" 4 字无主体情绪化标题占财经 TOP5，
+    # 摘要=拐点/市场审视复盘叙事非单一事件，同类 若是反弹还没来/投资逻辑彻底变/最担心的事情发生)
+    r'何处是底|到底何处是底',
+    # BBC 中文人物解释性特稿 ("弗拉维奥·博索纳罗：巴西前总统之子，败给卢拉后，为何飞往美国？" 占宏观 TOP2 —
+    # "为何…"人物解释句式=栏目特稿非单一事件，同类 美国经济的真实表现/如何从N方面；
+    # 防误伤: 弗拉维奥当选/受审类真新闻无 为何 句式不命中)
+    r'弗拉维奥.{0,80}(为何|为什么)|flavio.{0,80}(why|flew)',
+    # IT之家手机爆料体稿 (诺基亚 2360 Flip 翻盖功能机曝光——消息源 handle+曝光=博主爆料非官方事件占科技 TOP3，
+    # 同类 rd观测/首销情况曝光；功能机+曝光组合词防误伤正常诺基亚公司新闻)
+    r'功能机.{0,12}(曝光|爆料|渲染|现身)|翻盖功能机',
+    # 卫报滚动直播聚合栏目 ("Ikea among shops affected by fridge cyber-hacks – Europe live"——栏目日更
+    # 聚合非单一事件，同类 australia news live/india news:)
+    r'europe live',
 ]
 
 def is_noise(text):
@@ -834,6 +847,13 @@ def norm(t):
 
 # 强实体事件规则 (仅跨源同一事件, 泛公司名不放这里避免过度合并)
 ENTITY_KEYS = [
+    # 2026-11-03: 央行/证监会等金融监管部门 11月2日座谈会 (见闻14/凤凰14 同名"金融监管部门将召开座谈会" +
+    # 见闻11"金融管理部门明日将召开会议" + 格隆汇"三部门增量政策稳市" + 联合早报"周一开会" 同事件拆占
+    # 财经 TOP2+TOP5 两席，[2源] 失效；锚点: 监管部门/央行证监会/三部门 + 开会/座谈/会议 共现，
+    # 会议本体词强制 (裸"央行"锚须与会议词同行，防货币政策报告/例行稿误并——测试拦截)
+    (re.compile(r'(?=[\s\S]*(金融监管|金融管理|央行、证监会|央行等|央行.{0,10}证监会|三部门|中國.{0,6}金融監管|中国.{0,6}金融监管))'
+                r'(?=[\s\S]*(座谈|开会|召開|召开|会议|會議))', re.I),
+     'china_regulators_meeting'),
     # 2026-10-31: 币安 63 亿美元被盗(史上最大加密盗窃，朝鲜黑客涉案)多源多波次报道簇 — DW17/BBC14 拆占
     # 财经TOP1+TOP3 两席，48h 窗口 12+ feeds 共 25 篇(NYT×5/BBC×4/见闻热门×2/FT×2/TC×2/HN100+×3/Engadget/
     # Ars/卫报/Solidot/BBC中文/中央社)，锚点取 币安|binance|幣安 + 黑客/盗/heist/stolen 等语系共现；
@@ -959,6 +979,15 @@ ENTITY_KEYS = [
                 r'|(庫克|库克).{0,16}(訪華|访华|到訪中國|访问中国|廣州|广州|早茶|何立峰)'
                 r'|(tim\s+cook|apple.{0,24}cook(?![a-z])).{0,70}(china|beijing|guangzhou)'
                 r'|(china|beijing|guangzhou).{0,70}tim\s+cook', re.I), 'cook_china_visit'),
+    # 2026-11-03: 苹果 2026 财年 Q4 财报 (iPhone 销售纪录/特努斯掌舵首份财报/净利润1321亿) — The Verge12
+    # 英文 "Apple set an iPhone sales record" 占科技/AI TOP1 与 IT之家中文 "苹果最强第四财季 [3源]" 占产业 TOP2
+    # 跨分类拆榜 (同 trump_ai_pledge/gemini_hack 跨分类教训)，FT/SA/见闻/凤凰网 10+ 源同事件分散；
+    # 双锚 lookahead: apple/苹果/蘋果 + 财报语境词族 (record(?![a-z]) 防 recording 子串)；
+    # **须置于 apple_ceo_transition 之前** — "特努斯掌舵后首份财报"含特努斯会被换任裸词规则抢判
+    # (10-01 gemini/10-29 fed_rate 抢判教训链)；
+    # 防误并: iPhone Duo 交货延迟稿/MacBook Neo 订单稿/Counterpoint 销量稿/FT memory chip costs 稿无财报锚不并
+    (re.compile(r'(?=[\s\S]*(apple|苹果|蘋果))(?=[\s\S]*(fourth quarter|q4|record(?![a-z])|第四财季|四季报|财报|財報|earnings|营收|營收|盈利|净利润|淨利潤|超预期|创纪录|創紀錄|电话会|電話會|成绩单|成績單))', re.I),
+     'apple_q4_earnings'),
     # 2026-09-02: 苹果 CEO 换任 库克→特努斯 (告别信/首份备忘录/身价, 8条报道, 实体级强规则避免被 TOP5 截断)
     (re.compile(r'(ternus|特努斯)|(tim cook|库克).*(final message|parting|告别|farewell|executive chair|最后一天)', re.I), 'apple_ceo_transition'),
     # 2026-09-02: 苹果提前发布 2026 款 Mac mini/Studio (AI 需求激增, IT之家+HN 同事件; IT之家标题为 "mini / Studio")
@@ -1017,6 +1046,14 @@ ENTITY_KEYS = [
                 r'|(?=[\s\S]*(RTX|显卡|英伟达|Nvidia|GPU|350\s*亿))(订购|订单)[\s\S]{0,40}(字节|ByteDance)'
                 r'|(?=[\s\S]*(字节|ByteDance|阿里|腾讯))(?=[\s\S]*(RTX|350\s*亿|350亿|英伟达|Nvidia))[\s\S]{0,80}(order|orders|buys|purchases)', re.I),
      'china_rtx_order'),
+    # 2026-11-03: 消息称 Meta 与傅利叶合作打造人形机器人原型 (The Information 报道，号称 Muse 模型物理化身) —
+    # Engadget 英文 "Meta reportedly built a humanoid robot prototype" 占科技 TOP4 与 见闻/IT之家 中文版拆散
+    # (08-08 中英指纹不合并教训)；双锚 lookahead: meta + humanoid/人形机器人/机器人原型；
+    # **须置于 meta_muse_amazon_block/meta_muse 之前** — IT之家版标题"号称 Muse 模型的物理化身"含 Muse 字样
+    # 会被泛规则抢判 (10-22 claude_duet 抢判教训)；
+    # 防误并: 亚马逊封锁 Muse 稿无机器人锚、Ars Apple $1,000 home robot 稿无 meta 锚均不命中
+    (re.compile(r'(?=[\s\S]*meta)(?=[\s\S]*(humanoid|人形机器人|机器人原型|robot prototype))', re.I),
+     'meta_fourier_robot'),
     # 2026-09-22: 亚马逊封锁 Meta Muse AI 购物代理 (TechCrunch18 "Meta's AI agent has been
     # blocked from using Amazon.com" 标题无 muse 字样 + HN15 "Amazon blocks Meta's new Muse..."
     # + 华尔街见闻中文 "亚马逊封锁Meta旗下Muse AI购物代理" 同事件不合并 → 科技/AI TOP1-2 被占两条;
@@ -1035,6 +1072,10 @@ ENTITY_KEYS = [
     (re.compile(r'(canad|carney|卡尼).{0,120}(\bimports?\b|\bbans?\b|\btariffs?\b|trade war|retaliat|\bdairy\b|alcohol|motorcycl|bombardier|乳制品|摩托|庞巴迪|关税|贸易战|反制|红酒|葡萄酒|烈酒|啤酒|威士忌|酒类|酒類)|(\bimports?\b|\bbans?\b|\bbanning\b|\btariffs?\b|retaliat|\bdairy\b|alcohol|motorcycl|bombardier).{0,80}canad|(加拿大|卡尼).{0,80}(关税|贸易战|反制|乳制品|摩托|庞巴迪|红酒|葡萄酒|烈酒|啤酒|威士忌|酒类|酒類|酒精)|(关税|贸易战|反制).{0,80}加拿大|bombardier.*(trump|block|jets?|planes?)|(trump|block).*bombardier', re.I), 'us_canada_trade_war'),
     # 2026-09-10: 迈阿密亚马逊货机坠毁事故 (BBC World/BBC Business/美联社×3 共 6 条同事件标题各异不合并; 合并后 [3源])
     (re.compile(r'miami.*(cargo|plane|crash|jet|runway)|(cargo (plane|jet)).*(miami|crash|runway)', re.I), 'miami_amazon_crash'),
+    # 2026-11-03: 赫尔松(奥列什基)局部停火结束·俄军恢复攻击 — DW11 英文占宏观 TOP1 与 BBC中文"我们从地狱
+    # 回来了"占 TOP5 同榜拆散，+ BBC World×2/DW撤离稿/中央社(繁体"赫松") 共 6-8 源 (09-10 iphone_duo 具体专名
+    # 强锚先例，48h 窗口内即该事件)；防误并: 俄乌其他战线稿无此地名不受影响
+    (re.compile(r'oleshky|奥列什基|赫尔松|赫松|kherson', re.I), 'kherson_ceasefire'),
     # 2026-09-13: 特朗普"每人5000美元支票"中期选举承诺 (BBC 中文 hot19 + 华尔街见闻 + 格隆汇 + 卫报 同事件标题各异不合并;
     # BBC 版摘要为视频字幕残留 → 合并后 [N源] + 中文摘要回填。防误并: 数字前置禁接数字(115,000-seat 类子串)、后置禁接 亿/billion(5000亿美元关税为不同事件)、须含特朗普/trump 上下文(律师罚 5000 美元不合并);
     # 数字 '5,000' 经 entity 标点归一(逗号→空格)变 '5 000' → 模式写 5[,\s]?000 双格式容错)
