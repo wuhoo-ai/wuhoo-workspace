@@ -673,6 +673,13 @@ NOISE_PATTERNS = [
     # 卫报滚动直播聚合栏目 ("Ikea among shops affected by fridge cyber-hacks – Europe live"——栏目日更
     # 聚合非单一事件，同类 australia news live/india news:)
     r'europe live',
+    # 2026-11-04 新增 — 虎嗅观点罗列体栏目 ("AI新物种组织治理十大冲突" hot9 占科技/AI TOP5——
+    # 产业格局复盘+罗列句式非单一事件，同类 投资逻辑彻底变/何处是底/最担心的事情发生)
+    r'十大冲突',
+    # DW 选举解释性栏目 ("US midterm election: Why it's important and races to watch" hot11 占宏观 TOP5——
+    # blockquote 导语栏目体裁，同类 美国经济的真实表现/europe live；防误伤: 开票/选战报道
+    # ("Battle for US midterm elections heats up" 等)无 "why it's important and races" 栏目句式)
+    r"why it.?s important and races",
 ]
 
 def is_noise(text):
