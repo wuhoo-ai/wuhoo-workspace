@@ -680,6 +680,18 @@ NOISE_PATTERNS = [
     # blockquote 导语栏目体裁，同类 美国经济的真实表现/europe live；防误伤: 开票/选战报道
     # ("Battle for US midterm elections heats up" 等)无 "why it's important and races" 栏目句式)
     r"why it.?s important and races",
+    # 2026-11-05 新增 — IT之家发售句式续 (微软 329 元 Xbox Nano 迷你手柄今日开售 hot9 占科技/AI TOP5——
+    # 旧 现已在京东/天猫 句式不覆盖"今日开售"语序；同类 米家/漫步者/爱国者/机械革命)
+    r'今日(开售|首销|开卖|发售|上架|预售)',
+    # IT之家供应链爆料稿 ("苹果 HomePod mini 2 确认配 2GB 内存" hot12 占科技/AI TOP2——MacRumors
+    # 未发布产品内存爆料，同类 功能机曝光/rd观测；防误伤 SK海力士发布内存 真新闻无"确认配N GB"句式)
+    r'确认配\s*\d+\s*gb',
+    # BBC Business 生态软新闻 ("killer toad march across Australia" hot11 占财经 TOP5——
+    # 矿业公司资助灭蛤蟆，非财经事件，同类 白头海雕/树懒 动物特稿)
+    r'killer toad|cane toad',
+    # BBC 中文选举解释栏目 ("民调显示民主党将取得胜利，但预测还准确吗？" hot11 占宏观 TOP4——
+    # 栏目名式问号特稿，同类 美国经济的真实表现/一文了解/如何从N方面)
+    r'预测还准确吗',
 ]
 
 def is_noise(text):
@@ -986,6 +998,12 @@ ENTITY_KEYS = [
                 r'|(庫克|库克).{0,16}(訪華|访华|到訪中國|访问中国|廣州|广州|早茶|何立峰)'
                 r'|(tim\s+cook|apple.{0,24}cook(?![a-z])).{0,70}(china|beijing|guangzhou)'
                 r'|(china|beijing|guangzhou).{0,70}tim\s+cook', re.I), 'cook_china_visit'),
+    # 2026-11-05: AMD Q3 财报簇 (IT之家前三季净利9/Solidot营收超英特尔9/Ars record quarter 9/
+    #   HN outsell Intel 9/见闻营收超预期6/苏姿丰电话会官宣Venice出货12 — 拆占产业 TOP3+TOP5；
+    #   amd 锚 CJK 邻接用 (?<![a-z]) 不用 \b (同 09-15 ai/10-01 ipo 教训链)；
+    #   防误并: AMD 纯产品发布稿无财报锚不并、英特尔/Arm 财报稿无 amd 锚不并、高通数据中心稿不并
+    (re.compile(r'(?=[\s\S]*((?<![a-z])amd(?![a-z])|amd holdings|苏姿丰))(?=[\s\S]*(财报|財報|营收|營收|净利|淨利|盈利|电话会|電話會|超预期|創紀錄|创纪录|超过英特尔|超過英特爾|outsell|record quarter|earnings|revenue|guidance|指引|第四财季|前三季))', re.I),
+     'amd_q3_earnings'),
     # 2026-11-03: 苹果 2026 财年 Q4 财报 (iPhone 销售纪录/特努斯掌舵首份财报/净利润1321亿) — The Verge12
     # 英文 "Apple set an iPhone sales record" 占科技/AI TOP1 与 IT之家中文 "苹果最强第四财季 [3源]" 占产业 TOP2
     # 跨分类拆榜 (同 trump_ai_pledge/gemini_hack 跨分类教训)，FT/SA/见闻/凤凰网 10+ 源同事件分散；
