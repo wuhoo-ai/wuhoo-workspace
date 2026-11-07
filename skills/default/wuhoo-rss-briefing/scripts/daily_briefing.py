@@ -94,6 +94,10 @@ def clean_summary(s, feed_name=''):
     # 2026-10-14: 华尔街见闻 blockquote 摘要框 — "<strong>摘要</strong>…<strong>1&nbsp;</strong>正文"
     # clean_html+实体还原后成 "摘要 1 中美科技股背离背后…" ("如何看待当前中美科技股的背离" 占财经 TOP5)。
     s = re.sub(r'^摘要\s*(?:\d+\s*[、.]?\s*)?[:：]?\s*', '', s)
+    # 2026-11-07: Google DeepMind/AI Blog 图片卡 alt 文本垃圾 — 'Text "Gemini Introducing Gemini Omni 1.2 Flash"
+    # surroudned by images of …' (Gemini Omni 合并组代表实测占满摘要位，alt 无正文价值) → 置空走组内中文回填
+    if re.match(r'^Text\s*[""“]', s):
+        return ''
     # 2026-09-23: 德国之声中文 byline — "德才2026-09-21T11:05:17.481Z2025年4月…" 作者名+ISO时间戳吃满摘要窗口 (奥迪状告AUDI 条目实测)
     # 2026-10-25: 前缀上限 12→40 — "Madelaine Pitt2026-10-23T…" 14 字符拉丁作者名超旧上限,
     # byline 残留吃满 50 字窗口 (法国警察条目占宏观 TOP5 实测); ISO 时间戳形态本身够特异, 放宽安全
@@ -692,6 +696,10 @@ NOISE_PATTERNS = [
     # BBC 中文选举解释栏目 ("民调显示民主党将取得胜利，但预测还准确吗？" hot11 占宏观 TOP4——
     # 栏目名式问号特稿，同类 美国经济的真实表现/一文了解/如何从N方面)
     r'预测还准确吗',
+    # 2026-11-07 新增 — The Verge 消费对比导购 ("KPop Demon Hunters on 4K Blu-ray costs less than
+    # a month of Netflix Premium" hot 占产业/公司 TOP3——实体唱片 vs 订阅比价软文，
+    # 同类 where to preorder/half off/best deals/on sale for)
+    r'kpop demon hunters', r'costs less than a month of',
 ]
 
 def is_noise(text):
@@ -866,6 +874,28 @@ def norm(t):
 
 # 强实体事件规则 (仅跨源同一事件, 泛公司名不放这里避免过度合并)
 ENTITY_KEYS = [
+    # 2026-11-07: OpenAI 完成 110 亿美元首期新融资·估值 1.25 万亿美元 (IT之家12/Verge12/TC9/见闻3×2 拆占
+    # 科技TOP5(Verge版 [2源] 不含中文版)+财经TOP4 两榜; 见闻"大金主踩刹车"后续稿同事件无数字锚)。
+    # 双分支: ①openai+数字锚(110 亿|11 billion|1.25 万亿/trillion/tn) ②openai+融资/funding+遇冷语系(缩水|缩减|踩刹车|软银|红杉)。
+    # openai 锚用 (?<![a-z])openai(?![a-z]) 防 CJK 邻接 ("OpenAI新融资"，09-15 ai/10-01 ipo 教训链)。
+    # 置于 anthropic_q3_revenue/openai_ipo_delay 之前 — Verge 标题 "as rival Anthropic nears its IPO" 含
+    # anthropic+IPO 字样防抢判 (10-16/10-01 抢判链)。防误并回归: Anthropic IPO 估值下调稿(无 openai 锚)、
+    # FT "Anthropic to press ahead with IPO" 稿、币安/市场综述稿均不命中。
+    (re.compile(r'(?=[\s\S]*(?<![a-z])openai(?![a-z]))'
+                r'(?=[\s\S]*(110\s*亿|11\s*billion|1\.25\s*(?:万亿|trillion|tn)|\$1\.25))'
+                r'|(?=[\s\S]*(?<![a-z])openai(?![a-z]))(?=[\s\S]*(融资|funding))'
+                r'(?=[\s\S]*(遇冷|缩水|缩减|縮減|踩刹车|軟銀|软银|红杉|紅杉))', re.I),
+     'openai_125tn_funding'),
+    # 2026-11-07: 谷歌发布 Gemini Omni 1.2 Flash 视频模型 (DeepMind14/AI Blog14 英文+IT之家6 中文
+    # "AI 视频模型卷出新高度…原生 15 秒生成、较 1.1 降价 30%" 拆占科技榜，[2源] 不含中文版)。
+    # 版本号规则依赖实体匹配保留点号 (09-09 先例)；omni 锚加词边界防他词子串。
+    # 防误并: Gemini Omni 1.1/其它版本稿、非 Omni 系列 Gemini 稿不命中。
+    (re.compile(r'(?<![a-z])omni(?![a-z])[\s\-]*1\.2|gemini[\s\-]*omni\s*1\s*\.\s*2', re.I),
+     'gemini_omni_12_flash'),
+    # 2026-11-07: Dropbox 3.5 亿美元收购 Tigris Data (IT之家9 中文占产业 TOP1 + TechCrunch6 英文占 TOP5 同事件拆榜)。
+    # 双专名共现锚，零误并面
+    (re.compile(r'dropbox[\s\S]{0,80}tigris|tigris[\s\S]{0,80}dropbox', re.I),
+     'dropbox_tigris'),
     # 2026-11-03: 央行/证监会等金融监管部门 11月2日座谈会 (见闻14/凤凰14 同名"金融监管部门将召开座谈会" +
     # 见闻11"金融管理部门明日将召开会议" + 格隆汇"三部门增量政策稳市" + 联合早报"周一开会" 同事件拆占
     # 财经 TOP2+TOP5 两席，[2源] 失效；锚点: 监管部门/央行证监会/三部门 + 开会/座谈/会议 共现，
