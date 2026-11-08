@@ -255,7 +255,11 @@ NOISE_PATTERNS = [
     '宏福苑', '火灾',
     '槍擊', '枪杀',
     'livestream in mexico', 'tiktok influencer', 'influencer shot',
-    '敘利亞', '叙利亞', '爆炸',
+    # 2026-11-08 严重修复: 裸 '爆炸' 子串命中 "格什姆岛传出爆炸声/爆炸可能是美国空袭" 等全部伊朗遇袭报道
+    # (实测 NOISE=True 静默杀 5 源军事事件簇)，叙利亚爆炸目标由地名词覆盖 (同 09-06 裸 nfl 命中 conflict
+    # 教训家族，战事/爆炸新闻高频中性词禁止裸收)。测试过程暴露旧地名词形缺简体: 叙利亞=混排(亞)不匹配
+    # 简体 叙利亚，旧裸'爆炸'一直在掩盖此缺口 → 补 叙利亚 简体词形。
+    '敘利亞', '叙利亞', '叙利亚',
     '交管台海', '陸委會', '海峽論壇', '饒慶鈴',
     '汉光', '漢光', '演习', '演習',
     'man united', 'man utd', 'chelsea', 'liverpool fc', 'transfer news', r'\bnba\b', r'\bnfl\b',
@@ -309,6 +313,10 @@ NOISE_PATTERNS = [
     'hkc.*(显示器|发售|上架|开售|首销|预售)',
     # 2026-10-04 新增 — 德国之声 "India news:" 直播聚合博客 (同类 australia news live, 多条滚动占宏观 TOP)
     'india news:',
+    # 2026-11-08 通式化: "Germany news: Son of Iran's last shah…" 占宏观 TOP4 实测 — DW 国别版日更聚合栏目家族
+    # (blockquote "DW has more"/"Follow DW for more" + <ul> 多条滚动)。^ 锚定文本起点=is_noise 传入的
+    # title 开头，不误伤摘要正文措辞；india 旧条保留。
+    r'^[a-z]{2,12} news:',
     # 2026-10-04 新增 — Apple TV 免费直播 F1 消费促销稿 (体育转播羊毛, 非科技/投资事件; 限定 apple tv 语境防误伤)
     'apple tv.*(免费|直播).*(f1|大奖赛)',
     # 2026-10-04 新增 — IT之家车企单品牌月度销量明细/交付软文 (奇瑞各品牌销量明细 hot 高误入宏观TOP5——
@@ -859,6 +867,14 @@ def classify(text, category_field):
                  r'采购|購買|购买|订购|訂單|接收', text, re.I) \
             and not re.search(r'revenue|earnings|profit|财报|財報|营收|營收|利润|利潤|亏损|虧損', text, re.I):
         scores['宏观政策'] += 3
+    # 2026-11-08: 导弹击中/遇袭类武装打击行动 → 宏观政策 (美军两枚导弹击中伊朗格什姆岛簇 5 源全部
+    # category=财经 +3 被吞进 财经/投资，代表 hot11 又低于财经 TOP5 截断线 → 地缘军事事件整体消失；
+    # 军事打击本身属宏观事件非财经动态，silicon species/间谍软件/外交官 语境反转先例同族。
+    # 财报词排除防军工企业财报稿被拉宏观 (10-31 军购规则同款守卫)；市场反应稿(布油暴跌类)
+    # 无本词族措辞、天然不受影响，回归拦截)
+    if re.search(r'导弹击中|遭到?空袭|遭袭|遇袭|发射.{0,8}导弹|(?:两|三|数|多)枚导弹', text, re.I) \
+            and not re.search(r'revenue|earnings|profit|财报|財報|营收|營收|利润|利潤|亏损|虧損', text, re.I):
+        scores['宏观政策'] += 3
     # database category 加权 (只信 财经/投资/ai)
     cm = {'财经': '财经/投资', '投资': '财经/投资', 'ai': '科技/AI'}
     if category_field in cm:
@@ -1131,6 +1147,13 @@ ENTITY_KEYS = [
     # 回来了"占 TOP5 同榜拆散，+ BBC World×2/DW撤离稿/中央社(繁体"赫松") 共 6-8 源 (09-10 iphone_duo 具体专名
     # 强锚先例，48h 窗口内即该事件)；防误并: 俄乌其他战线稿无此地名不受影响
     (re.compile(r'oleshky|奥列什基|赫尔松|赫松|kherson', re.I), 'kherson_ceasefire'),
+    # 2026-11-08: 美军两枚导弹击中伊朗格什姆岛 + 特朗普证实"小规模打击"事件簇 — 格隆汇11/凤凰11/见闻/一财×2/
+    # 见闻热门(特朗普证实稿,标题含 导弹击中格什姆) 拆散，代表靠 category=财经 +3 吞进 财经 且 hot11 低于
+    # TOP5 截断线 12 → 整个事件消失两榜 (跨分类拆榜+掉榜，同 10-21 tesla_spacex_merger 案例形态)。
+    # 击落无人机为独立子事件 (11-05 MQM-170/11-06 MQ-1 击落稿不并，openai_robinson/leak 两事件分开教训)。
+    (re.compile(r'格什姆.{0,30}(?:导弹|爆炸|空袭|遇袭|遭袭|击中|袭击|打击)'
+                r'|(?:导弹|空袭|打击|袭击).{0,20}格什姆'
+                r'|qeshm.{0,40}(?:hit|hit|strikes?|explosions?|missiles?)', re.I), 'gheshm_strikes'),
     # 2026-09-13: 特朗普"每人5000美元支票"中期选举承诺 (BBC 中文 hot19 + 华尔街见闻 + 格隆汇 + 卫报 同事件标题各异不合并;
     # BBC 版摘要为视频字幕残留 → 合并后 [N源] + 中文摘要回填。防误并: 数字前置禁接数字(115,000-seat 类子串)、后置禁接 亿/billion(5000亿美元关税为不同事件)、须含特朗普/trump 上下文(律师罚 5000 美元不合并);
     # 数字 '5,000' 经 entity 标点归一(逗号→空格)变 '5 000' → 模式写 5[,\s]?000 双格式容错)
