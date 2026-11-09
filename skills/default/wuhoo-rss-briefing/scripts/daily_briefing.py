@@ -287,7 +287,7 @@ NOISE_PATTERNS = [
     # 2026-09-02 新增 — BBC Business 家庭金钱软内容 / 消费省钱软文误入财经 TOP (同类: money disagre/plug-in solar)
     'lend me £10k', 'financial favourit', 'cheaper meals out', 'soft launches and late sittings',
     # 2026-09-02 新增 — IT之家消费电子发售挤占产业/公司 TOP (同类: vgn鼠标/外设; 米家冰箱/制冰机/漫步者音箱/HKC手柄)
-    '米家.*(首销|发售|开售|预售|众筹)', '漫步者.*(首销|发售|开售|预售)', '猎弦', '绝梦',
+    '米家.*(首销|发售|开售|预售|众筹)', '漫步者.*(首销|发售|开售|预售|上架)', '猎弦', '绝梦',
     'ankidroid',                                      # HN 小众 App 捐赠链接政策变动 (低信号, 非新闻事件)
     # 2026-09-18 新增 — HN 开源项目/编程语言展示帖 (同类: marty/ankidroid/run any company autonomously;
     # "Bend – A language that blocks AI mistakes via proof" 占科技/AI TOP3、"Neovim have a ~$800k Bitcoin
@@ -563,6 +563,10 @@ NOISE_PATTERNS = [
     # 与 Bee 发布稿同事件簇的访谈软文，同类 名人回顾软文)
     r'康奈尔.*(兄弟会|性侵)|兄弟会派对|cornell.{0,40}(fraternit|sexual)',
     r'importance of failure|bouncing back from',
+    # 2026-11-09 新增 — 人物经历特稿 ("He arrested a hacker, then spent 18 months clearing his own
+    # name. Now he's a cybersecurity VC." TechCrunch hot9 占科技/AI TOP4——前特工筹基金人物故事，
+    # 非新闻事件，同类 importance of failure/创始人深度解析)
+    r'clearing his own name',
     # 2026-10-17 新增 — The Verge "A week with X:" 一周使用评测特稿 (非新闻事件，同类 importance of failure)
     r'a week with',
     # Show HN 项目展示帖整类排除 (同类 marty/neovim/radio cipher/pirate face/drivingbench，实测占科技TOP 一位)
@@ -609,6 +613,10 @@ NOISE_PATTERNS = [
     # IT之家新品首发标价句式 (VGN×天美限定款机械键盘"首发价 419 元"占产业 TOP5——品牌枚举外新品牌，
     # "，首发价 N 元"尾注=发售稿特征，真事件稿不写；同类 利民首发价/米家首销)
     r'首发价\s*[\d.]+\s*元',
+    # 2026-11-09 新增 — "上架：限量 N 套，N 元" 冒号发售句式通捕 (漫步者 W900NB 30周年典藏版头戴
+    # 蓝牙耳机上架：限量 3000 套，1159 元 占产业 TOP1——品牌枚举追赶再复现，改句式通式：冒号+限量
+    # +标价尾注=发售促销稿特征，真事件稿不写；同类 首发价 N 元/国行发售：N 元)
+    r'上架[：:]\s*限量',
     # 2026-10-20 新增 — BBC Business 约会生活方式特稿 ('"I\'m fed up of swiping": Why singles
     # now want to meet IRL' hot14 占财经 TOP2; 同类 money disagre/central london shoppers/tip up to 街访个人叙事)
     'fed up of swiping|singles now want to meet',
@@ -872,7 +880,14 @@ def classify(text, category_field):
     # 军事打击本身属宏观事件非财经动态，silicon species/间谍软件/外交官 语境反转先例同族。
     # 财报词排除防军工企业财报稿被拉宏观 (10-31 军购规则同款守卫)；市场反应稿(布油暴跌类)
     # 无本词族措辞、天然不受影响，回归拦截)
-    if re.search(r'导弹击中|遭到?空袭|遭袭|遇袭|发射.{0,8}导弹|(?:两|三|数|多)枚导弹', text, re.I) \
+    # 2026-11-09 扩军事行动词族: 美中央司令部成立特遣队阻止伊朗陆路运输先进武器 (见闻11/一财3
+    # 双源全 category=财经，标题 伊朗+武器 各计 1 分不敌 +3 被吞进 财经/投资 TOP4——地缘军事行动
+    # 属宏观事件，格什姆岛同款语境反转；防误并: 游戏入库稿"特遣队"无 成立/阻止 行动语境、
+    # 泰国军方特遣队宵禁稿同属安全事件落宏观亦合理)
+    if re.search(r'导弹击中|遭到?空袭|遭袭|遇袭|发射.{0,8}导弹|(?:两|三|数|多)枚导弹|'
+                 r'成立.{0,20}特遣队|军事特遣队|阻止.{0,15}(?:伊朗|武器|军火|軍火|军事物资)|'
+                 r'(?:block|prevent|stop|halt)s?.{0,20}(?:iran|weapon)|'
+                 r'central\s+command.{0,50}(?:task\s+force|weapon|iran)', text, re.I) \
             and not re.search(r'revenue|earnings|profit|财报|財報|营收|營收|利润|利潤|亏损|虧損', text, re.I):
         scores['宏观政策'] += 3
     # database category 加权 (只信 财经/投资/ai)
