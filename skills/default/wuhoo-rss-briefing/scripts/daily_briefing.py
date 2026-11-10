@@ -1393,10 +1393,34 @@ ENTITY_KEYS = [
     # 防误并: Netflix 内容/剧集稿无裁员锚不命中
     (re.compile(r'(?=[\s\S]*(netflix|奈飞|網飛))(?=[\s\S]*(裁员|裁員| layoffs?\b|lay\s*off|laying off|shed.{0,20}jobs|job cuts?\b|cutting.{0,20}jobs|reduc\w*.{0,20}staff))', re.I),
      'netflix_layoffs_2026'),
+    # 2026-11-10: 黄仁勋"疑似中国间谍婚外情"丑闻簇 (40+ 篇 10+ 源: BBC Business×5 hot 11-14/中央社12/
+    # TechCrunch/NYT/FT/Verge/DW/卫报/Ars/BBC中文/纽约时报中文/朝鲜日报中文/联合早报/见闻等，无 entity 规则 →
+    # 同事件 BBC 14 分 4 篇拆占财经 TOP2-5 四席 + 中央社中文版拆占科技/AI TOP4，跨榜拆散+同事件霸榜)。
+    # 双分支: ①人物锚(jensen huang/黄仁勋/黃仁勳/huang词边界/nvidia ceo|chief|boss)+丑闻语境词族共现;
+    # ②nvidia 锚 + affair/spy scandal/间谍强词共现 (覆盖 DW "Nvidia launches probe into alleged Chinese spy
+    # affair" 类无人物锚标题)。多波次报道词形覆盖教训同 10-10 (道歉信→启动调查→特朗普FBI→国会传唤→中方回应)。
+    # 市场综述守卫: 见闻11 "美伊和谈信号重创原油，黄仁勋风波未阻AI交易回暖，纳指涨近3%" 系每日市场综述非
+    # 丑闻本事件 (10-30 市场综述排除先例)。
+    # 防误并: 中央社"輝達與SK電信等韓企簽MOU　未回應黃仁勳爭議" (主体是 MOU 商务事件，'争议'不入语境词族)、
+    # Verge "US let Nvidia sell chips to empty office" 芯片出口漏洞另一线稿 (无 affair/间谍锚)。
+    (re.compile(
+        r'^(?![\s\S]*(?:纳指|标普|道指|三大股指|交易回暖|布油|WTI))'
+        r'(?:'
+        r'(?=[\s\S]*(?:jensen\s+huang|黄仁勋|黃仁勳|(?<![a-z])huang(?![a-z])'
+        r'|nvidia[\s\']{0,3}(?:ceo|chief|boss)|英伟达.{0,6}创始人|輝達.{0,6}執行長))'
+        r'(?=[\s\S]*(?:affair|婚外|出轨|出軌|外遇|romantic|\bsp(?:y|ies)\b|espionag|刺探|情报|情報'
+        r'|间谍|間諜|controversy|alleg|scandal|风波|道歉|apolog|investigat|probe|传唤|傳召|survive|留任|离职|做空|丑闻|接班'
+        r'|memo|letter|rally|交往|检视|檢視|调查|調查))'
+        r'|(?=[\s\S]*(?:nvidia|英伟达|輝達|英維達))'
+        r'(?=[\s\S]*(?:\baffair\b|spy\s+scandal|中国间谍|中國間諜|间谍|間諜|情報機構))'
+        r')', re.I), 'huang_affair_scandal'),
     # 2026-10-16: 塞尔达时之笛重制版报道簇 (IT之家"实体版包装展示"3 + IT之家"评测新细节自由视角/钱包翻倍"3 +
     # Engadget 评测 "plays even better than" 3 同产品发售衍生报道拆占产业 TOP3+TOP5，
     # iphone_duo_launch 衍生报道合并先例。锚点须 ocarina/时之笛/zelda+remake，裸 重制 不收防他游戏误并)
-    (re.compile(r'ocarina of time|塞尔达传说[\s\S]{0,10}时之笛|时之笛[\s\S]{0,6}重制|zelda[\s\S]{0,20}remake', re.I),
+    # 2026-11-10 扩: 原 塞尔达传说{0,10}时之笛/时之笛{0,6}重制 两分支不覆盖 BBC中文"《时之笛》评测：任天堂的
+    # 《萨尔达传说》重制版…" (词序倒装+译名"萨尔达"繁体变体) → 简化为裸产品名强锚 时之笛|時之笛
+    # (具体产品名直接锚定，iphone_duo/gemini_4_argon 先例；48h 窗口内即该发售事件)
+    (re.compile(r'ocarina of time|时之笛|時之笛|zelda[\s\S]{0,20}remake', re.I),
      'zelda_totk_remake'),
     # 2026-10-17: 特斯拉"飞行跑车"展示事件 (BBC Business14 "Watch: Did Tesla really just unveil a flying car?"
     # + 见闻热门6 "特斯拉飞行跑车安全吗？马斯克…" 同事件拆散，合并 [2源])。双锚 tesla/特斯拉 + flying car/飞行汽车/飞行跑车
