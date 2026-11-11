@@ -147,7 +147,7 @@ SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 # 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
 # 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
 SA_LOW_RE = re.compile(r'q[1-4]\s*20\d\d|commentary|portfolio (update|activity)|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for|wall street brunch', re.I)  # 2026-10-26: 'Third Avenue Real Estate Value Fund Q3 2026 Portfolio Activity' hot 高占财经TOP1——旧 q[12] 只覆盖 Q1/Q2，Q3 季报漏网，扩 q[1-4] 并补 portfolio activity 措辞变体  # 2026-10-19: SA 自营播客栏目 "Wall Street Brunch: SpaceX, Tesla, Meta On The Earnings Card"(无摘要占财经TOP1，同类 busy week for)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
-ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b|and how does it work\?|^\d+\s+\S+.{0,20}\btips\b', re.I)  # 2026-11-02: 扩 "5 Netflix tips we all wish we knew sooner" 数字清单体 tips 占产业 TOP5 (feed 级仍限 Engadget)  # 2026-10-25: 扩 "What kind of cooling system do EV batteries use and how does it work?" 科普解释体占产业 TOP5 (仍限 Engadget feed 级)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
+ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|^why\s+.{0,25}charging\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b|and how does it work\?|^\d+\s+\S+.{0,20}\btips\b', re.I)  # 2026-11-11: 扩 ^why…charging 科普解释体 ("Why EV fast charging slows down after 80 percent" 占产业 TOP5，feed 级仍限 Engadget；"Why Apple's M6 Chip…" 无 charging 不误伤)  # 2026-11-02: 扩 "5 Netflix tips we all wish we knew sooner" 数字清单体 tips 占产业 TOP5 (feed 级仍限 Engadget)  # 2026-10-25: 扩 "What kind of cooling system do EV batteries use and how does it work?" 科普解释体占产业 TOP5 (仍限 Engadget feed 级)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
 NOISE_PATTERNS = [
@@ -1206,8 +1206,11 @@ ENTITY_KEYS = [
     # 置于 ai_slowdown_debate 之前 — "收入增速放缓"是财务语义非放缓AI发展辩论。
     # 防误并: 虎嗅"为什么Anthropic不做Personal AI"/Ars"FTC probes Anthropic"/IT之家欧盟调查稿(营业额非营收)
     # 均无财务披露锚点不命中
+    # 2026-11-11: 移除裸 valuation|估值 锚 — 当日 FT "targets valuation of up to $1.4tn in IPO" 被该裸词
+    # 抢判进 q3_revenue 组、撤稿稿走 ipo_pitch，同一 IPO 事件拆 [7源]+[1源] 两组占财经TOP1+TOP4。
+    # 10-16 见闻"估值承压：收入增速放缓"稿仍靠 收入增速/增速放缓 锚命中，回归拦截验证。
     (re.compile(r'(?=[\s\S]*(anthropic|amodei|安特罗匹克))'
-                r'(?=[\s\S]*(168|16\.8 ?bn|quarterly revenue|revenue (?:up|grew|growth)|valuation|估值|营收|收入增速|增速放缓|盈利|现金流))', re.I),
+                r'(?=[\s\S]*(168|16\.8 ?bn|quarterly revenue|revenue (?:up|grew|growth)|营收|收入增速|增速放缓|盈利|现金流))', re.I),
      'anthropic_q3_revenue'),
     # 2026-10-16: 亚马逊旗下 Bee 发布两款 AI 录音设备 (TechCrunch9/Engadget6/IT之家3 同事件拆占产业 TOP1+TOP3)。
     # \bbee\b 词边界防卫报 "Beetaloo emissions" 子串命中; 须共现产品/发布语系 (frontier/eclipse/录音/note-taking)
@@ -1223,13 +1226,18 @@ ENTITY_KEYS = [
     # 防误并: 放缓辩论稿(无 ipo 词)不受影响; ipo 词边界用 (?<![a-z]) 防 CJK 邻接失效;
     # 二次收紧: 必须带招股书语境 (pitch/prospectus/招股/filing/申请/披露),
     # 否则 09-15 回归用例 "三巨头支持放缓、OpenAI推迟IPO引热议"+摘要含 Amodei 会被误并)
-    (re.compile(r'(anthropic|amodei|claude)[\s\S]{0,80}(?<![a-z])ipo(?![a-z])[\s\S]{0,80}(pitch|prospectus|filing|招股|申请|披露|valuation)'
-                r'|(pitch|prospectus|filing|招股|申请|披露|valuation)[\s\S]{0,80}(?<![a-z])ipo(?![a-z])[\s\S]{0,80}(anthropic|amodei|claude)'
-                r'|(?<![a-z])ipo(?![a-z])[\s\S]{0,60}(anthropic|amodei)[\s\S]{0,60}(pitch|prospectus|filing|招股)'
+    # 2026-11-11: ①ipo 词形扩 I.P.O. 点号变体 (NYT "Blockbuster I.P.O." 旧裸词不命中)；②语境补 估值；
+    # ③新增三锚 lookahead 分支 (anthropic + ipo变体 + 发行语境)，当日 FT20/NYT14/中央社/见闻热门9
+    # "1.4tn valuation/估值上看1.4兆/最高募资904亿" 等 IPO 定价主稿簇收编。防误并: "三巨头支持放缓、
+    # OpenAI推迟IPO引热议" 稿无 anthropic 锚不命中；模型发布稿由前位 claude_fable_51 规则收编。
+    (re.compile(r'(anthropic|amodei|claude)[\s\S]{0,80}(?<![a-z])i\.?\s?p\.?\s?o(?![a-z])[\s\S]{0,80}(pitch|prospectus|filing|招股|申请|披露|valuation|估值)'
+                r'|(pitch|prospectus|filing|招股|申请|披露|valuation|估值)[\s\S]{0,80}(?<![a-z])i\.?\s?p\.?\s?o(?![a-z])[\s\S]{0,80}(anthropic|amodei|claude)'
+                r'|(?<![a-z])i\.?\s?p\.?\s?o(?![a-z])[\s\S]{0,60}(anthropic|amodei)[\s\S]{0,60}(pitch|prospectus|filing|招股)'
                 # 2026-10-27: 招股书/prospectus 本身即 IPO 申报强锚 — IT之家"Anthropic 招股书披露生态打法"
                 # 衍生稿标题无 literal IPO 字样未并入 [6源] 事件拆占产业TOP3 (同 iphone_duo 衍生报道合并先例)
                 r'|(anthropic|amodei|claude)[\s\S]{0,60}(招股|prospectus)'
-                r'|(招股|prospectus)[\s\S]{0,60}(anthropic|amodei|claude)', re.I), 'anthropic_ipo_pitch'),
+                r'|(招股|prospectus)[\s\S]{0,60}(anthropic|amodei|claude)'
+                r'|(?=[\s\S]*(anthropic|amodei))(?=[\s\S]*(?<![a-z])i\.?\s?p\.?\s?o(?![a-z]))(?=[\s\S]*(valuation|估值|price range|per share|募资|上市|套现|cash out|招股|rais(?:e|ing|ed)))', re.I), 'anthropic_ipo_pitch'),
     # 2026-10-02: 去掉裸 (anthropic).{0,60}warn 分支 — 卫报 "Anthropic pushes for opt-out model... ABC warns
     # of cannibalisation"(新闻行业版权稿) 被误并进放缓辩论事件; 放缓语境词(slowdown/放缓)仍保留双向锚点
     # 2026-10-16: 放缓/放慢加负向后顾 — "收入增速放缓"(财务语义)曾被 branch1 anthropic+放缓 误捕
@@ -1288,6 +1296,21 @@ ENTITY_KEYS = [
     # 2026-09-25: OpenAI 智能体入侵澳大利亚政府(Medicare)网站、阿尔巴尼斯总理证实 (BBC Business17/BBC Business14/BBC World12/
     # FT9/卫报9/HN9/德国之声9/Ars9/IT之家6/格隆汇3 共9源标题各异不合并 → 财经 TOP1+TOP4 同事件拆两条 + 宏观 TOP5 又一条;
     # 锚点=openai/agent/albanese + australia/澳洲/medicare 双词共现距离80; 防误并: "F-35从澳洲返美被扣" RFI 条目无 openai/hack 词不命中)
+    # 2026-11-11: Uber 停车预约服务上线 (TechCrunch6 "following SpotHero acquisition" 与 Engadget6
+    # "launching its own parking reservation service" 同事件拆占产业 TOP3+TOP4) 双锚 uber+停车语系。
+    (re.compile(r'(?=[\s\S]*(uber|优步|優步))(?=[\s\S]*(parking|spothero|停车|停車))', re.I), 'uber_parking'),
+    # 2026-11-11: Anthropic Claude 办公套件发布 (Engadget6 "Claude Sheets" + TechCrunch "Claude Meetings" +
+    # IT之家6 "升级AI办公套件：从头脑风暴到数据看板" 同场发布拆榜; 产品词锚定，Fable/Mythos 5.2 模型发布稿
+    # 由前位 claude_fable_51 规则收编不误并)
+    (re.compile(r'claude\s*sheets?|claude\s*meetings?|whiteboard\s*app|办公套件[\s\S]{0,60}(claude|anthropic)|(claude|anthropic)[\s\S]{0,60}办公套件', re.I), 'anthropic_workspace'),
+    # 2026-11-11: 澳大利亚 AI 安全立法 (BBC17 "criminal penalties for rogue AI" + DW17 "mandatory AI
+    # safeguards" + 卫报6 "mandatory reporting" 拆占 财经TOP2 [2源]+宏观TOP2 两榜，同 09-30 跨分类教训)。
+    # 须置于 openai_australia_hack 之前 — 立法稿均带 "OpenAI hack" 因果状语，hack 规则分支2会先抢判。
+    # 防误并: 09-25 入侵事件本体稿("OpenAI agent hacked Australian government website")无立法语境词；
+    # Qantas 岗位外包稿无 criminal/mandatory。
+    (re.compile(r'(?=[\s\S]*(australia|australian|澳洲|澳大利亚|阿爾巴尼斯|阿尔巴尼斯))'
+                r'(?=[\s\S]*(criminal|penalt|rogue\s*ai|safeguard|mandatory|legislation|ai safety|立法|刑事|量刑|强制))', re.I), 'australia_ai_law'),
+    # 2026-11-11: OpenAI 智能体入侵澳洲政府/Medicare (BBC17/14/World12/FT9/卫报9/HN9/DW9/Ars9/IT6/格隆汇3
     (re.compile(r'(openai|chatgpt|altman|albanese|ai\s*agent)[\s\S]{0,80}(australia|australian|澳洲|澳大|medicare|阿尔巴尼斯)'
                 r'|(australia|australian|澳洲|澳大|medicare|阿尔巴尼斯)[\s\S]{0,80}(openai|hack|infiltrat|入侵|breach|agent)', re.I), 'openai_australia_hack'),
     # 2026-09-25: Claude 发现新型酶系统(类CRISPR) Anthropic 官方发布 (HN14 英文官方标题 + 华尔街见闻热门6 "Claude发现神秘DNA系统…上帝手术刀"
