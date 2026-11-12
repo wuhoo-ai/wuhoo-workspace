@@ -706,6 +706,9 @@ NOISE_PATTERNS = [
     # IT之家供应链爆料稿 ("苹果 HomePod mini 2 确认配 2GB 内存" hot12 占科技/AI TOP2——MacRumors
     # 未发布产品内存爆料，同类 功能机曝光/rd观测；防误伤 SK海力士发布内存 真新闻无"确认配N GB"句式)
     r'确认配\s*\d+\s*gb',
+    # 2026-11-12: 加拿大灰熊母子咬死游客幼童被击毙 (德国之声 "4 bears put down after killing
+    # mother, daughter" 动物伤人社会新闻占宏观 TOP5, 同类 killer toad/白头海雕/树懒动物特稿)
+    'put down after killing', 'grizzly', '灰熊',
     # BBC Business 生态软新闻 ("killer toad march across Australia" hot11 占财经 TOP5——
     # 矿业公司资助灭蛤蟆，非财经事件，同类 白头海雕/树懒 动物特稿)
     r'killer toad|cane toad',
@@ -1416,6 +1419,20 @@ ENTITY_KEYS = [
     # 防误并: Netflix 内容/剧集稿无裁员锚不命中
     (re.compile(r'(?=[\s\S]*(netflix|奈飞|網飛))(?=[\s\S]*(裁员|裁員| layoffs?\b|lay\s*off|laying off|shed.{0,20}jobs|job cuts?\b|cutting.{0,20}jobs|reduc\w*.{0,20}staff))', re.I),
      'netflix_layoffs_2026'),
+    # 2026-11-12: 黄仁勋"董事会罢免"新波次独立建组 (11-11 晚新事件: TechCrunch6 board preps to oust/Verge6
+    # preparing to fire/DW6 push out/HN6 Oust/见闻3 盘后跳水8%罢免/格隆汇3×2/纽约时报中文6 难以被惩罚+CNN6 能否生存
+    # +NYT6 Silicon Valley Tech Allies)。与丑闻认知稿分事件建组 (10-05 OpenAI resign/firings 两事件分开教训);
+    # 置于 huang_affair_scandal 之前防罢免稿被丑闻泛语境词(调查/风波)抢先判组。人物锚同丑闻规则。
+    # 防误并: APEC 随行稿(中央社15/联合早报3 无罢免词)、市场综述稿(守卫)、券商降级稿(无罢免词)、DLSS 产品稿
+    # (无人物锚)均不命中。allies 限"盟友"专词不收泛 support。
+    (re.compile(
+        r'^(?![\s\S]*(?:纳指|标普|道指|三大股指|交易回暖|布油|WTI))'
+        r'(?=[\s\S]*(?:jensen\s+huang|黄仁勋|黃仁勳|(?<![a-z])huang(?![a-z])'
+        r'|nvidia[\s\']{0,3}(?:c\.?e\.?o\.?|ceo|chief|boss)'
+        r'|(?:英伟达|英維達|輝達)[\s的\'’]{0,4}(?:ceo|執行長|行政总裁|首席执行)))'
+        r'(?=[\s\S]*(?:oust|ouster|push[\s-]*out|(?<![a-z])fir(?:e|es|ed|ing)(?![a-z])|dismiss|sack(?:ed|s)?'
+        r'|罢免|解职|撤职|罢黜|逼宫|惩罚|能否生存|governance|公司治理|allies|盟友))', re.I),
+     'huang_oust'),
     # 2026-11-10: 黄仁勋"疑似中国间谍婚外情"丑闻簇 (40+ 篇 10+ 源: BBC Business×5 hot 11-14/中央社12/
     # TechCrunch/NYT/FT/Verge/DW/卫报/Ars/BBC中文/纽约时报中文/朝鲜日报中文/联合早报/见闻等，无 entity 规则 →
     # 同事件 BBC 14 分 4 篇拆占财经 TOP2-5 四席 + 中央社中文版拆占科技/AI TOP4，跨榜拆散+同事件霸榜)。
@@ -1426,14 +1443,18 @@ ENTITY_KEYS = [
     # 丑闻本事件 (10-30 市场综述排除先例)。
     # 防误并: 中央社"輝達與SK電信等韓企簽MOU　未回應黃仁勳爭議" (主体是 MOU 商务事件，'争议'不入语境词族)、
     # Verge "US let Nvidia sell chips to empty office" 芯片出口漏洞另一线稿 (无 affair/间谍锚)。
+    # 2026-11-12 扩: NYT "Jensen Huang Said to Have Had Relationship" hot14 (标题/S[:50] 均无旧语境词) → 补
+    # relationship|suing|lawsuit|诉讼 后续波次词形 (10-10 多波次教训); 人物锚补 英伟达CEO 中文变体 (格隆汇
+    # "英伟达CEO婚外情收到警示"稿) 与 C.E.O. 点号变体 (NYT "Secrets, Chips and Spycraft: The Nvidia C.E.O. Scandal")。
     (re.compile(
         r'^(?![\s\S]*(?:纳指|标普|道指|三大股指|交易回暖|布油|WTI))'
         r'(?:'
         r'(?=[\s\S]*(?:jensen\s+huang|黄仁勋|黃仁勳|(?<![a-z])huang(?![a-z])'
-        r'|nvidia[\s\']{0,3}(?:ceo|chief|boss)|英伟达.{0,6}创始人|輝達.{0,6}執行長))'
-        r'(?=[\s\S]*(?:affair|婚外|出轨|出軌|外遇|romantic|\bsp(?:y|ies)\b|espionag|刺探|情报|情報'
+        r'|nvidia[\s\']{0,3}(?:c\.?e\.?o\.?|ceo|chief|boss)'
+        r'|(?:英伟达|英維達|輝達)[\s的\'’]{0,4}(?:ceo|執行長|行政总裁|首席执行)|英伟达.{0,6}创始人|輝達.{0,6}執行長))'
+        r'(?=[\s\S]*(?:affair|婚外|出轨|出軌|外遇|romantic|relationship|\bsp(?:y|ies)\b|espionag|刺探|情报|情報'
         r'|间谍|間諜|controversy|alleg|scandal|风波|道歉|apolog|investigat|probe|传唤|傳召|survive|留任|离职|做空|丑闻|接班'
-        r'|memo|letter|rally|交往|检视|檢視|调查|調查))'
+        r'|memo|letter|rally|交往|检视|檢視|调查|調查|suing|lawsuit|诉讼|訴訟))'
         r'|(?=[\s\S]*(?:nvidia|英伟达|輝達|英維達))'
         r'(?=[\s\S]*(?:\baffair\b|spy\s+scandal|中国间谍|中國間諜|间谍|間諜|情報機構))'
         r')', re.I), 'huang_affair_scandal'),
@@ -1445,6 +1466,10 @@ ENTITY_KEYS = [
     # (具体产品名直接锚定，iphone_duo/gemini_4_argon 先例；48h 窗口内即该发售事件)
     (re.compile(r'ocarina of time|时之笛|時之笛|zelda[\s\S]{0,20}remake', re.I),
      'zelda_totk_remake'),
+    # 2026-11-12: OpenAI 收购旅游初创 Odessia — IT之家中文"OpenAI 收购旅游初创公司 Odessia"与
+    # TechCrunch 英文"OpenAI acquires Odessia, travel startup created by Sonder founder"词序/语言不同
+    # 指纹不合并，拆占产业/公司 TOP2+TOP4。具体初创名裸词直接锚定 (iphone_duo/gemini_4_argon 先例)。
+    (re.compile(r'\bodessia\b', re.I), 'openai_odessia_acq'),
     # 2026-10-17: 特斯拉"飞行跑车"展示事件 (BBC Business14 "Watch: Did Tesla really just unveil a flying car?"
     # + 见闻热门6 "特斯拉飞行跑车安全吗？马斯克…" 同事件拆散，合并 [2源])。双锚 tesla/特斯拉 + flying car/飞行汽车/飞行跑车
     # 防误并: 小鹏汇天等他品牌飞行汽车稿无 tesla 锚不命中
@@ -1516,6 +1541,10 @@ PRIORITY_EVENTS = [
     # 2026-09-19: 巴菲特卸任伯克希尔董事长 (6源合并后 hot 11, 与另外 4 条同为 11 分的普通条目竞争排第 6 位被 TOP5 截断;
     # 56 年任期终结为当日最大财经人事事件, 同类 2026-08-09 Hassabis 案例 / 2026-09-15 放缓辩论案例)
     (re.compile(r'(buffett|巴菲特).{0,60}(steps? down|stepping down|卸任|接任|chairman|董事長|董事长)|(chairman|董事長|董事长|卸任).{0,40}(buffett|巴菲特)', re.I), '财经/投资'),
+    # 2026-11-12: 英伟达董事会被曝准备罢免黄仁勋 (11-11 美股盘后新波次: TechCrunch/Verge/DW/HN/格隆汇/见闻
+    # 等 hot 全 ≤6, 组代表被 9+ 分普通条目挤出所有 TOP5——4 万亿美元市值公司掌门动摇为当日最大产业人事事件,
+    # 同类 Hassabis 08-09 / 巴菲特 09-19 / 放缓辩论 09-15 保底案例)
+    (re.compile(r'(?=[\s\S]*(jensen\s+huang|黄仁勋|黃仁勳))(?=[\s\S]*(oust|ouster|push[\s-]*out|(?<![a-z])fir(?:e|es|ed|ing)(?![a-z])|dismiss|罢免|解职|撤职|罢黜|逼宫))', re.I), '产业/公司'),
 ]
 
 def apply_priority_events(results, topic_articles, priority_events=None):
