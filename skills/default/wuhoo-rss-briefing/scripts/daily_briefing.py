@@ -719,6 +719,12 @@ NOISE_PATTERNS = [
     # a month of Netflix Premium" hot 占产业/公司 TOP3——实体唱片 vs 订阅比价软文，
     # 同类 where to preorder/half off/best deals/on sale for)
     r'kpop demon hunters', r'costs less than a month of',
+    # 2026-11-13 新增 — 影视预告片宣传稿 (Ars "Netflix releases new trailer for Ray Gunn" hot6 占
+    # 产业/公司 TOP5——剧集预告 publicity 稿非产业事件，同类 10-10 watch the trailer/the altruists)
+    r'releases new trailer|new trailer for',
+    # 卫报美国日更栏目 The Daily ("Thursday briefing: What we do (and don't) know about Alice Huang
+    # and the Nvidia scandal" hot6——栏目聚合稿非单一事件，同类 早餐FM/india news:/europe live)
+    r'thursday briefing',
 ]
 
 def is_noise(text):
@@ -855,6 +861,11 @@ def classify(text, category_field):
     # inflation and AI debt" hot15 因标题 Tech/AI/inflation 命中科技表误分 科技/AI TOP1 — 市场大跌事件属财经)
     if re.search(r'sell[- ]?off|selloff|market rout', text, re.I):
         scores['财经/投资'] += 3
+    # 2026-11-13: 黄仁勋辞职主事件 → 科技/AI (huang_resign 组代表 BBC Business quits 稿 category=财经
+    # +3 被拉进财经 TOP3、科技/AI 榜当日不显示辞职事件 — 同 08-09 Hassabis FT 案例/09-19 silicon species
+    # 语境反转机制; 走 entity_key 判定与分组口径一致，见闻14 行情综述稿被 resign 守卫排除不受影响)
+    if entity_key(text, '') == 'huang_resign':
+        scores['科技/AI'] += 3
     # 2026-10-27: 产品用户规模/观看指标 → 产业/公司 (Solidot "Netflix 用户观看量下降，应用打开量下降" hot6
     # 摘要"应对用户增长停滞"命中宏观表'增长'被拉进宏观政策TOP2 — 产品用户增长/流失属公司经营动态非宏观经济)
     if re.search(r'用户增长|用户流失|观看量|打开量|日活|月活|订阅用户|subscriber (?:loss|decline)|unsubscriber', text, re.I):
@@ -1419,6 +1430,35 @@ ENTITY_KEYS = [
     # 防误并: Netflix 内容/剧集稿无裁员锚不命中
     (re.compile(r'(?=[\s\S]*(netflix|奈飞|網飛))(?=[\s\S]*(裁员|裁員| layoffs?\b|lay\s*off|laying off|shed.{0,20}jobs|job cuts?\b|cutting.{0,20}jobs|reduc\w*.{0,20}staff))', re.I),
      'netflix_layoffs_2026'),
+    # 2026-11-13: 黄仁勋"辞职"主事件独立建组 (11-12 晚事件高潮: DW14/BBC Business14/BBC World14
+    # "Jensen Huang resigns/quits as Nvidia CEO" + FT6 "resigns as Nvidia chief executive/is gone" +
+    # 中央社9/6 (黃仁勳辭輝達執行長/辭執行長並退出董事會/離任衝擊全球AI產業) + IT之家6/3×7 (即刻生效
+    # 辞去/临时CEO克雷斯任命/维持财报时间/内部信/市值失守4万亿/重创AI概念股) + 见闻11×2 (声明全文/
+    # 突然离任震动AI行业) + TechCrunch9×2 (open source in question/Trump floats Cook as successor) +
+    # Engadget6 "is out as NVIDIA CEO" + HN6 + Verge6 reactions + 卫报6 replace the departed +
+    # BBC中文3 接替 + 虎嗅3×4 + 凤凰3×8 + 纽约时报中文3×3 + 联合早报3 等 40+ 篇 — 无规则时 BBC World14
+    # 与 DW14 独立占科技/AI TOP2-3 且英文视频简介残句顶替摘要。辞职与"董事会准备罢免"(11-11 波次)、
+    # "婚外情丑闻认知"分事件建组 (11-12 新波次独立建组教训 + 10-05 resign/firings 分开教训)。
+    # 规则置于 huang_oust 之前: "resigns after reports of second affair deepened scandal"(HN6) 类
+    # oust+resign 双词稿事件归属为辞职本身; 也须先于 scandal (quits 稿含 scandal 字样防吞丑闻组)。
+    # 市场综述守卫: 见闻14 "黄仁勋辞职叠加油价走强，美股承压…美债、黄金遭抛售" 为每日行情综述
+    # (10-30 google_q3/11-12 scandal 守卫同构) — 若不排除，其 hot14+CJK 优先会夺组代表位，
+    # 主事件标题被行情稿顶替 (09-15 Sacks 推文决策同构)。
+    # 防误并回归: "Indonesia's vice president resigns" (BBC World3 无人物锚)、
+    # "Jensen Huang was having a third affair" (无辞职词→丑闻组)、
+    # "Nvidia's Ousted CEO" 讣告式稿 (无辞职词→罢免组)、"輝達11人董事會討論去留…撤職" (去留非辞职词→罢免组)。
+    (re.compile(
+        r'^(?![\s\S]*(?:纳指|标普|道指|三大股指|交易回暖|布油|WTI|油价|油價|美债|美債|黄金|黃金))'
+        r'(?=[\s\S]*(?:jensen\s+huang|黄仁勋|黃仁勳|(?<![a-z])huang(?![a-z])'
+        r'|nvidia[\s\'’°]{0,3}(?:c\.?e\.?o\.?|ceo|chief|boss)'
+        r'|(?:英伟达|英維達|輝達)[\s的\'’]{0,4}(?:ceo|執行長|行政总裁|首席执行)))'
+        r'(?=[\s\S]*(?:resign|quits?\b|stepped?\s+down|departs?\b|departed|departure'
+        r'|(?<![a-z])exit\b|(?:is|was)\s+gone|is\s+out\b|out\s+as\b|replac|successor'
+        r'|succeed(?:s|ing)?|interim'
+        r'|辞职|辭職|辞去|辭去|辞任|離任|离任|去职|去職|離職|离职'
+        r'|(?:辭|辞)[\s\S]{0,4}(?:執行長|行政總裁|行政总裁|CEO|职务|職務|職位|一職)'
+        r'|(?:黄仁勋|黃仁勳)[\s\S]{0,25}(?:接替|接任|继任)|(?:接替|接任|继任)[\s\S]{0,25}(?:黄仁勋|黃仁勳)))', re.I),
+     'huang_resign'),
     # 2026-11-12: 黄仁勋"董事会罢免"新波次独立建组 (11-11 晚新事件: TechCrunch6 board preps to oust/Verge6
     # preparing to fire/DW6 push out/HN6 Oust/见闻3 盘后跳水8%罢免/格隆汇3×2/纽约时报中文6 难以被惩罚+CNN6 能否生存
     # +NYT6 Silicon Valley Tech Allies)。与丑闻认知稿分事件建组 (10-05 OpenAI resign/firings 两事件分开教训);
