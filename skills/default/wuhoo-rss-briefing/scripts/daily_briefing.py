@@ -725,6 +725,15 @@ NOISE_PATTERNS = [
     # 卫报美国日更栏目 The Daily ("Thursday briefing: What we do (and don't) know about Alice Huang
     # and the Nvidia scandal" hot6——栏目聚合稿非单一事件，同类 早餐FM/india news:/europe live)
     r'thursday briefing',
+    # 2026-11-14 新增 — BBC 中文解释性特稿变体 ("中美能源大战，如何影响你的帐单？" hot19 占宏观 TOP1，
+    # 摘要仅图片说明 alt 文本无正文，栏目名式问号标题家族，同类 美国经济的真实表现/预测还准确吗/如何从N方面)
+    r'如何影响你的',
+    # 虎嗅观点评论体 ("腾讯'裁员50%'刷屏背后，其实是时代的悲哀" hot6 占产业/公司 TOP5——
+    # 谣言评论观点文非单一事件，同类 何处是底/若是反弹还没来/最担心的事情发生/投资逻辑彻底变)
+    r'刷屏背后',
+    # 2026-11-14 新增 — 影视文化回顾特稿 ("'可惜你不是中国人'医生一句话，逼出了美国版《我不是药神》"
+    # hot 占产业/公司 TOP5——电影票房情怀回顾文非产业事件，同类 aztec manuscript/勒卡雷)
+    r'我不是药神',
 ]
 
 def is_noise(text):
@@ -1096,6 +1105,15 @@ ENTITY_KEYS = [
     (re.compile(r'(ftc.*amazon|amazon.*ftc).*(advert|surcharg|overcharg|rigging)', re.I), 'ftc_amazon_surcharge'),
     # 2026-09-03: Google 发布 Gemini 3.8 Flash/Flash Cyber (DeepMind 官方+HN+IT之家×2+Verge+Ars+华尔街见闻×2+第一财经 9行8源; 此前 HN 英文标题与中文源不合并拆占 TOP5 两条)
     (re.compile(r'gemini\s*3\.?\s*8', re.I), 'gemini_38_flash'),
+    # 2026-11-14: 微软 M365/Outlook/Teams 全球宕机 (11-13 事件, 25 篇 15+ 源: BBC Business×2/DW×4/IT之家×4/
+    # Ars/TC×2/NYT×3/Engadget×2/Solidot/HN×2/卫报/Verge/BBC World/一财; 拆占 科技TOP4+财经TOP3+财经TOP4 跨榜、
+    # BBC 同厂两篇霸榜。IT之家 hot12「Anthropic 连发多条故障通报：微软服务中断波及 Claude」是该事件衍生报道——
+    # 本规则必须置于 ai_service_outage 之前，否则 claude+故障 同句被 09-04 四大AI宕机组吞并 (10-01/10-22 抢判教训链)。
+    # 双锚 lookahead: 服务锚(microsoft|微软|azure|m365|outlook|teams) + 宕机语系(outage|disruption|宕机|故障|服务中断)。
+    # 防误并: 微软财报/产品稿无宕机语系不并; OpenAI 09-04 四大宕机簇无微软服务锚不并。
+    (re.compile(r'(?=[\s\S]*(?:microsoft|微软|azure|m365|outlook|\bteams\b))'
+                r'(?=[\s\S]*(?:outage|disruptions?\b|宕机|故障|服务中断))', re.I),
+     'microsoft_outage'),
     # 2026-09-05: ChatGPT/Claude/Grok/Gemini 四大 AI 服务同时宕机 (09-04 事件, Solidot+Ars Tech+HN 4源, 此前 Solidot 新闻版与 HN Ask 版拆占科技/AI TOP5 两条)
     (re.compile(r'(openai|chatgpt|claude|grok|gemini).*(simultaneously|同时|downtime|outage|宕机|下线|故障)|(simultaneously|同时|downtime|outage|宕机|下线|故障).*(openai|chatgpt|claude|grok|gemini)', re.I), 'ai_service_outage'),
     # 2026-09-06: 美伊战争推高美国柴油价至历史新高 (BBC hot22/NYT/FT/美联社 6源同事件, 此前关键词表无油价词全部落未匹配 640 条)
