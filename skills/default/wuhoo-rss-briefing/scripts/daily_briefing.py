@@ -146,7 +146,7 @@ FEED_NOISE_RE = re.compile(r'arxiv|知乎日报|b站|bilibili', re.I)
 SPORT_FEED_RE = re.compile(r'football|soccer|sport', re.I)
 # 2026-09-19: 扩 transcript/discusses/analyst-investor day — 实测 'Vicinity Centres … Discusses Capability Showcase … Transcript'(hot11)
 # 与 'AeroVironment … Analyst/Investor Day Transcript'(hot11) 漏过旧规则占财经/投资 TOP5
-SA_LOW_RE = re.compile(r'q[1-4]\s*20\d\d|commentary|portfolio (update|activity)|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for|wall street brunch', re.I)  # 2026-10-26: 'Third Avenue Real Estate Value Fund Q3 2026 Portfolio Activity' hot 高占财经TOP1——旧 q[12] 只覆盖 Q1/Q2，Q3 季报漏网，扩 q[1-4] 并补 portfolio activity 措辞变体  # 2026-10-19: SA 自营播客栏目 "Wall Street Brunch: SpaceX, Tesla, Meta On The Earnings Card"(无摘要占财经TOP1，同类 busy week for)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
+SA_LOW_RE = re.compile(r'q[1-4]\s*20\d\d|commentary|portfolio (update|activity)|earnings call|presents at|slideshow|m&a call|\btranscript\b|discusses|analyst/investor day|busy week for|wall street brunch|^\s*ark[fgkwz]?s?:', re.I)  # 2026-11-16: 'ARKF: Tech Trouble Via Microsoft & The FAA - Bitcoin's Plunge Adds Pressure' (无摘要占财经TOP4)——SA 转发 ARK 系 ETF 日更市场评论栏目，标题固定 "ARKx:" 前缀格式  # 2026-10-26: 'Third Avenue Real Estate Value Fund Q3 2026 Portfolio Activity' hot 高占财经TOP1——旧 q[12] 只覆盖 Q1/Q2，Q3 季报漏网，扩 q[1-4] 并补 portfolio activity 措辞变体  # 2026-10-19: SA 自营播客栏目 "Wall Street Brunch: SpaceX, Tesla, Meta On The Earnings Card"(无摘要占财经TOP1，同类 busy week for)  # 2026-10-18: 周度市场前瞻栏目 "Meta, Tesla Headline Earnings In Busy Week For Markets"(无摘要占财经TOP5)  # 2026-09-11: 会议 slideshow/transcript 自动材料 (hot19 挤占财经 TOP2)
 ENGADGET_GUIDE_RE = re.compile(r'^(how to|considering|the reason your)\b|^why\s+.{0,25}charging\b|how (do you|to) (fix|clear|reset|change|disable|turn off|use)\b|and how does it work\?|^\d+\s+\S+.{0,20}\btips\b', re.I)  # 2026-11-11: 扩 ^why…charging 科普解释体 ("Why EV fast charging slows down after 80 percent" 占产业 TOP5，feed 级仍限 Engadget；"Why Apple's M6 Chip…" 无 charging 不误伤)  # 2026-11-02: 扩 "5 Netflix tips we all wish we knew sooner" 数字清单体 tips 占产业 TOP5 (feed 级仍限 Engadget)  # 2026-10-25: 扩 "What kind of cooling system do EV batteries use and how does it work?" 科普解释体占产业 TOP5 (仍限 Engadget feed 级)  # 2026-10-19: 扩 "The reason your Amazon Alexa devices are always listening" 解释体软文占产业TOP3 (feed 级仍限 Engadget；TechCrunch "always listening" 正常新闻不受影响)  # 2026-09-13: Engadget How-to 指南 (非新闻事件; 实测占产业/公司 TOP4); 2026-09-16 扩 considering ("Considering a Level 2 EV charger?…" 导购 hot6); 2026-10-18 扩 FAQ 句式 ("yellow light on your Alexa…how do you clear it"/"Common problems…how to fix them" 占产业 TOP2-3; 仍限 Engadget feed 级生效)
 
 # ── 噪声模式 (全量, skill 2026-08-20 版) ───────────────
@@ -734,6 +734,24 @@ NOISE_PATTERNS = [
     # 2026-11-14 新增 — 影视文化回顾特稿 ("'可惜你不是中国人'医生一句话，逼出了美国版《我不是药神》"
     # hot 占产业/公司 TOP5——电影票房情怀回顾文非产业事件，同类 aztec manuscript/勒卡雷)
     r'我不是药神',
+    # 2026-11-16 新增 — 卫报系播客节目推广稿 (Joshua Wong 纪录片播客 "…Hong Kong dissident Joshua Wong – podcast"
+    # hot6 占产业/公司 TOP5——播客剧集 publicity 非新闻事件，标题以破折号+podcast 收尾为卫报/泰晤士节目固定格式，
+    # 同类 thursday briefing/business daily/watch the trailer)
+    r'[-–—]\s*podcast\b',
+    # 2026-11-16 新增 — 产品评测/分析师评论体 (Engadget "Surface Laptop Ultra review: The most powerful
+    # Surface yet" hot12 占科技/AI TOP4——单机评测为评论性内容非事件本身，首发事件由各源报道覆盖；
+    # 尾随冒号限定排除 "under review"/"staff picks" 类正常措辞；SA "Digi International Q4 Review:" 同族，
+    # 同类 why buy a streaming device/automotive existential crisis 消费评测软文)
+    r'\breview:\s|in-?depth review',
+    # 2026-11-16 新增 — 京东京造白牌配件发售稿 (IT之家 "京东京造推出 130W 自带线车载充电器：2C + 1A
+    # 设计，99 元" 与 "…全罩汽车车衣：可疏水防暴晒，189 元起" 连占产业/公司 TOP3-4——京造为京东自有
+    # 品牌只发配件营销稿，同类 米家/漫步者/爱国者/影石 消费电子发售家族；京东集团并购/财报真新闻
+    # 标题不含 京造 不受影响)
+    r'京东京造.{0,30}(推出|上架|开售|首销|预售|发售|上新)',
+    # 2026-11-16 新增 — Verge 黑五促销导购 (Fanttik S1 Pro 螺丝刀 "$40 off in the run-up to Black Friday"
+    # hot6 占产业/公司 TOP5——美元数字+off 为降价导购固定措辞，同类 half off/percent off/on sale for/
+    # prime day；正常新闻标题不写 "$N off" 形)
+    r'\$\d+(\.\d+)?\s*off\b',
 ]
 
 def is_noise(text):
@@ -1111,9 +1129,19 @@ ENTITY_KEYS = [
     # 本规则必须置于 ai_service_outage 之前，否则 claude+故障 同句被 09-04 四大AI宕机组吞并 (10-01/10-22 抢判教训链)。
     # 双锚 lookahead: 服务锚(microsoft|微软|azure|m365|outlook|teams) + 宕机语系(outage|disruption|宕机|故障|服务中断)。
     # 防误并: 微软财报/产品稿无宕机语系不并; OpenAI 09-04 四大宕机簇无微软服务锚不并。
+    # 2026-11-16 中文语系补变体 (实测 BBC 中文「微软系统全球瘫痪」hot11 标题"瘫痪"+摘要"大规模中断/连线问题"
+    # 均不命中旧词表，14 源簇今日窗口内 4 篇拆成单源): 新增 瘫痪|癱瘓|大规模中断|连线问题|連線問題；
+    # 裸 中断 仍不收——"微软中断对俄服务"类决策稿防误并，只认复合词形。
     (re.compile(r'(?=[\s\S]*(?:microsoft|微软|azure|m365|outlook|\bteams\b))'
-                r'(?=[\s\S]*(?:outage|disruptions?\b|宕机|故障|服务中断))', re.I),
+                r'(?=[\s\S]*(?:outage|disruptions?\b|宕机|故障|服务中断|大规模中断|连线问题|連線問題|瘫痪|癱瘓))', re.I),
      'microsoft_outage'),
+    # 2026-11-16: ULA 火神火箭发射失败坠毁亚马逊 40 颗 Leo 卫星 (11-15 事件, IT之家9/Verge6/凤凰网3/一财3/Ars3
+    # 五源拆占 产业/公司 TOP1+TOP5。Vulcan/火神 具体火箭名+失败语系双锚 lookahead;
+    # 防误并: 'pegula' 含子串 ula 靠 (?<![a-z]) 词界拦截 (09-06 裸 nfl/conflict 教训链)；
+    # 正常"under review/delayed launch 推迟发射"无 fail/destroy/损失 语系不并)
+    (re.compile(r'(?=[\s\S]*(?:vulcan|火神|(?<![a-z])ula(?![a-z])))'
+                r'(?=[\s\S]*(?:fail|destroy|blow|异常|失败|未能|损失|坠|爆炸))', re.I),
+     'ula_vulcan_failure'),
     # 2026-09-05: ChatGPT/Claude/Grok/Gemini 四大 AI 服务同时宕机 (09-04 事件, Solidot+Ars Tech+HN 4源, 此前 Solidot 新闻版与 HN Ask 版拆占科技/AI TOP5 两条)
     (re.compile(r'(openai|chatgpt|claude|grok|gemini).*(simultaneously|同时|downtime|outage|宕机|下线|故障)|(simultaneously|同时|downtime|outage|宕机|下线|故障).*(openai|chatgpt|claude|grok|gemini)', re.I), 'ai_service_outage'),
     # 2026-09-06: 美伊战争推高美国柴油价至历史新高 (BBC hot22/NYT/FT/美联社 6源同事件, 此前关键词表无油价词全部落未匹配 640 条)
