@@ -1,0 +1,99 @@
+source_tiers:
+  BBC Sport Football: T2
+  懂球帝早报: T2
+  Breaking The Lines: T2
+  Sky Sports Football: T2
+  The Guardian Football: T2
+  SoccerNews: T2
+  World Soccer Talk: T2
+  Football Italia: T2
+  The Telegraph Football: T2
+  IT之家: T2
+  少数派: T2
+  36氪: T2
+  Solidot 奇点资讯: T2
+  虎嗅: T2
+  雷锋网: T2
+  Hacker News: T2
+  HuggingFace Blog: T2
+  TechCrunch: T2
+  The Verge: T2
+  arXiv AI 论文: T2
+  OpenAI Blog: T2
+  华尔街见闻: T2
+  华尔街见闻热门: T2
+  格隆汇: T2
+  联合早报: T2
+  凤凰网财经: T2
+  第一财经: T2
+  NYT Business: T2
+  BBC Business: T2
+  Financial Times: T2
+  路透社国际: T2
+  arXiv 量化金融: T2
+  知乎日报: T2
+  BBC World: T2
+  美联社: T2
+  德国之声: T2
+  半岛电视台: T2
+  B站排行榜: T2
+  纽约时报中文: T2
+  BBC 中文: T2
+  法国国际广播电台: T2
+  德国之声中文: T2
+  俄罗斯卫星通讯社: T2
+  朝鲜日报中文: T2
+  日经中文网: T2
+  中央社: T2
+  Engadget: T2
+  Ars Technica: T2
+  Hacker News 100+: T2
+  阮一峰: T2
+  云风 BLOG: T2
+  唐巧: T2
+  卫报国际: T2
+  Seeking Alpha: T2
+  Google DeepMind: T2
+  CoinDesk: T2
+  集思录: T2
+  Google AI Blog: T2
+  Meta (About FB): T2
+  Stratechery: T2
+  上交所科创板: T0
+  上交所披露: T0
+  美联储新闻: T0
+  财联社电报: T1
+  财联社加红: T1
+  财联社公司公告: T1
+  财联社深度: T1
+  金十重要: T1
+  金十数据: T1
+  华尔街见闻实时: T1
+  格隆汇首页: T1
+  晚点LatePost: T2
+  财新最新: T2
+  观察者网: T2
+  参考消息: T2
+  MIT科技评论: T2
+  巴伦中文: T2
+  36氪快讯: T2
+  CNBC: T2
+  MarketWatch: T2
+  HN头版: T2
+  Anthropic新闻: T4
+  UnusualWhales: T4
+  ImportAI: T4
+  触乐: T4
+  GameDiscoverCo: T4
+  GamesIndustry: T4
+  Unity博客: T4
+  arXiv NLP: T0
+  arXiv 机器学习: T0
+  arXiv 图形学: T0
+tier_weights:
+  T0: 10
+  T1: 9
+  T2: 7
+  T3: 5
+  T4: 6
+note: WP0 2026-11-16; tier 决定 salience 基础权重 W; T3=TrendRadar热度源(WP1)

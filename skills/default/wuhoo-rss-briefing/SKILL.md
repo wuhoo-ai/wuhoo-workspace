@@ -21,7 +21,7 @@ category: research
 ## 核心原则
 
 1. **直接查库**: 用 `execute_code` 查询 SQLite，不依赖 `fetcher.py` CLI
-2. **按热度排序**: `hot_score` 现已修复（v2.0），使用 `ORDER BY hot_score DESC, pub_date DESC` 获取真正热门的文章
+2. **热度排序不可信（2026-11-16 审计）**: `hot_score` v2.0 代码已修复但实测退化（95.7% 落 1-9 分，≥40 分 0 条），实质等于静态源权重。当前仍用 `ORDER BY hot_score DESC, pub_date DESC` 但结果不反映真实热度。升级方案（事件中心 + salience 排序）待拍板，见 `~/wuhoo-workspace/docs/NEWS-INTELLIGENCE-UPGRADE-2026-11-16.md` 及 wuhoo-news-rss 技能 references/news-upgrade-architecture.md
 3. **评分制分类**: 芯片 > 机器人 > 军事 > 财经 > 政策 > 科技（高优先级先匹配，避免重叠）。使用四大类关键词表打分（科技/AI、财经/投资、宏观政策、产业/公司）
 4. **事件级去重**: 同事件多源报道合并，标题归一化去前缀后取前 50 字符做 dedup key
 5. **Feed 权重已内置**: 高质量源（FT=10, 华尔街见闻=9）文章自然排序靠前，无需额外处理

@@ -1,0 +1,74 @@
+[
+ {
+  "name": "懂球帝早报",
+  "url": "http://127.0.0.1:1200/dongqiudi/daily"
+ },
+ {
+  "name": "Solidot 奇点资讯",
+  "url": "http://127.0.0.1:1200/solidot"
+ },
+ {
+  "name": "虎嗅",
+  "url": "http://127.0.0.1:1200/huxiu/article"
+ },
+ {
+  "name": "雷锋网",
+  "url": "http://127.0.0.1:1200/leiphone/newsflash"
+ },
+ {
+  "name": "Hacker News",
+  "url": "http://127.0.0.1:1200/hackernews/best"
+ },
+ {
+  "name": "HuggingFace Blog",
+  "url": "http://127.0.0.1:1200/huggingface/blog"
+ },
+ {
+  "name": "华尔街见闻",
+  "url": "http://127.0.0.1:1200/wallstreetcn/news"
+ },
+ {
+  "name": "华尔街见闻热门",
+  "url": "http://127.0.0.1:1200/wallstreetcn/hot"
+ },
+ {
+  "name": "格隆汇",
+  "url": "http://127.0.0.1:1200/gelonghui/live"
+ },
+ {
+  "name": "联合早报",
+  "url": "http://127.0.0.1:1200/zaobao/realtime/china"
+ },
+ {
+  "name": "凤凰网财经",
+  "url": "http://127.0.0.1:1200/ifeng/news"
+ },
+ {
+  "name": "第一财经",
+  "url": "http://127.0.0.1:1200/yicai/brief"
+ },
+ {
+  "name": "路透社国际",
+  "url": "http://127.0.0.1:1200/reuters/world"
+ },
+ {
+  "name": "知乎日报",
+  "url": "http://127.0.0.1:1200/zhihu/daily"
+ },
+ {
+  "name": "美联社",
+  "url": "http://127.0.0.1:1200/apnews/topics/apf-topnews"
+ },
+ {
+  "name": "德国之声",
+  "url": "http://127.0.0.1:1200/dw/news"
+ },
+ {
+  "name": "半岛电视台",
+  "url": "http://127.0.0.1:1200/aljazeera/news"
+ },
+ {
+  "name": "B站排行榜",
+  "url": "http://127.0.0.1:1200/bilibili/ranking/0"
+ }
+]

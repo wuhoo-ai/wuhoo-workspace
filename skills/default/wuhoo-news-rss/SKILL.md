@@ -36,7 +36,7 @@ RSSHub (--network host, 端口 1200)    Python 采集引擎 (python3.11)
 └──────────────────────────┘         │ 检索接口                     │
        ↕ 外网直连                     └─────────────────────────────┘
                                               ↕
-                                     Cron Job (每日 09:30, deliver=origin)
+                                     Cron Job (每日 08:00, deliver=origin)
                                      自动拉取 + 生成热点简报（微信推送）
 ```
 
@@ -97,7 +97,7 @@ feeds:
 
 ### 修改拉取频率
 
-编辑 `feeds/config.yaml` 中的 `settings.fetch_interval_minutes`。
+⚠️ 2026-11-16 实测：`settings.fetch_interval_minutes` **未被任何调度器读取**——fetcher 只在简报 cron 内被调用，实际每天抓取一次（08:00）。要提频需新增 cron（如 `0 * * * *`，裸命令 `python3.11 src/fetcher.py --fetch`），fetcher 本身 hash 去重可幂等重跑。
 
 ## 数据输出
 
@@ -107,13 +107,28 @@ feeds:
 
 ## 与 TrendRadar 的关系
 
-| 工具 | 定位 | 数据源 | 特点 | 权重 |
-|------|------|--------|------|------|
-| **wuhoo-news-rss** ⚠️ | 资讯内容 | RSSHub + RSS | 深度内容，可检索，可告警 | **50%** |
-| **TrendRadar** | 热点榜单 | 42 平台爬虫 | 实时热搜，短平快 | 30-40% |
-| **Web Search** | 个股精准舆情 | Tavily/Jina | 个股精准搜索 | 20% |
+### 辩论系统舆情权重（现行）
 
-三者**并存互补**，wuhoo-news-rss 看"大家在关注什么新闻"，TrendRadar 看"大家在搜什么"，Web Search 提供个股精准舆情。
+| 工具 | 定位 | 数据源 | 权重 |
+|------|------|--------|------|
+| **wuhoo-news-rss** ⚠️ | 资讯内容 | RSSHub + RSS | **50%** |
+| **TrendRadar** | 热点榜单 | newsnow 热榜聚合 | 30-40% |
+| **Web Search** | 个股精准舆情 | Brave/Jina | 20% |
+
+### TrendRadar MCP 集成（已核实，待部署）
+
+- 版本：TrendRadar v6.11.0 / MCP v4.1.1，**27 工具**（官方 docs/mcp 2026-07-07 逐类核实；早期 snippet 13/17 为旧版）
+- 8 类工具：基础查询3 / 智能搜索2 / 深度分析6 / RSS查询3 / 文章阅读2 / 消息推送3 / 系统管理5 / 存储同步3
+- MCP Resources 4 个：config://platforms, config://rss-feeds, config://keywords, data://available-dates
+- 部署：Docker `wantcat/trendradar` + `wantcat/trendradar-mcp`，HTTP streamableHttp `:3333/mcp`
+- 数据源：newsnow 自建 `ghcr.io/ourongxing/newsnow:latest :4444 /api/s`（去共享 API 单点）
+- 存储：local SQLite + HTML output/（MCP 分析本地数据，非实时联网）
+- Hermes 注册：`config.yaml → mcp_servers.trendradar.url: http://127.0.0.1:3333/mcp`，重启生效
+- 集成原则：关闭 TrendRadar 自带 rss/notification/ai_analysis，避免与 fetcher 双抓、与 Hermes 双推
+- 许可证：GPL-3.0，独立容器 + MCP/数据卷读取，不链接代码进 Hermes
+- 升级方向（v2 待拍板）：TrendRadar 仅供 T3 社会热度 velocity 信号，不做文章源
+
+详见 `references/news-upgrade-architecture.md`（源金字塔 + 事件中心 + 完整集成设计）。
 
 ## 与辩论系统的集成
 
@@ -169,7 +184,17 @@ DataAggregator._get_combined_sentiment()
 ### ⚠️ 关键陷阱：`insert_article` 新文章统计必须用 before/after 快照 (2026-09-10)
 `insert_article` 原用 `return conn.total_changes > 0` 判断是否新文章，但 `total_changes` 是**连接生命周期累计值** — 首条插入成功后恒 >0，此后所有被 `INSERT OR IGNORE` 忽略的重复也返回 True，导致 fetch 统计虚高（实测某次 fetch 报"新增 1407 条"而实际仅插入 26 条）。修复：`before = conn.total_changes` 快照 → `return conn.total_changes > before`。回归测试见 `tests/test_news_rss.py::TestInsertArticleCounting20260910`。
 
+# 升级方向偏好（用户拍板）
+
+- **一次性建成 agent 原生能力**，不分 P0/P1/P2 远期 deferred；内部按依赖排序施工但能力一次交付
+- **根治数据源头不足**是首要目标，不是只修 prompt/排序/去重；源头五重缺口（数量/类型/一手性/时效/独立性）须同时解决
+- 方案必须具体到命令、配置、表结构、算法、cron、prompt、验收数字，反对泛泛架构建议
+- 先落盘成文再讨论，不能未完成时只给抽象建议
+- 升级方案文档：`~/wuhoo-workspace/docs/NEWS-INTELLIGENCE-UPGRADE-2026-11-16.md`（v2，待 D1-D4 拍板）
+
 ## 已知问题 / 注意事项
+
+- **2026-11-16 链路审计（实测）**：60 源仅 46 可用（14 硬故障、21 七日零产出，有效 37）；抓取 100% 集中 08:00；hot_score 95.7% 落 1-9 分（≥40 分 0 条，热度不可信）；事件合并率 7%（52/740）、未分类丢弃 29.3%（217/740）；alert 命中 977 条/7 日但无推送通道。审计明细 `~/.hermes/cache/scratch/feed_audit_20261116.json`，升级方案 `~/wuhoo-workspace/docs/NEWS-INTELLIGENCE-UPGRADE-2026-11-16.md`（待拍板）。
 
 - **cron 环境禁止用绝对路径调用 python3.11 (2026-08-04)**：终端命令写成 `/usr/bin/python3.11 src/fetcher.py --fetch` 会触发 Hermes cron lifecycle guard 递归扫描该"被引用脚本"（含 `/` 的 executable token 被视为脚本），读取 ELF 二进制内容时崩溃 `ValueError: embedded null byte`。**必须用裸命令名**：`python3.11 src/fetcher.py --fetch`（guard 只扫描含 `/` 或 .sh 后缀的 executable）。execute_code 的 terminal() 同样受影响。
 - **RSSHub 容器 Up 但 HTTP 000 (2026-08-04)**：19 个 RSSHub 路由源 Connection refused。恢复流程见 wuhoo-infra skill。Pitfall：`podman rm -f rsshub` 后必须确认删除成功再 `podman run`，`;` 串联时 rm 可能未生效导致 "container name already in use"；rm 后加 `sleep 2`。
@@ -186,14 +211,15 @@ DataAggregator._get_combined_sentiment()
 
 ## Cron 自动简报
 
-> **2026-07-03 更新**：09:30 cron 已恢复为 **`deliver=origin`**（微信推送）。hot_score 系统已全面修复，现在按真实热度排序。cron 配置详见 cronjob list。新增 7 个高质量源（Stratechery/Seeking Alpha/DeepMind/CoinDesk 等），移除 11 个死亡源。
+> **2026-11-16 校准**：实际 cron 为 08:00（非旧文档 09:30），deliver=origin。hot_score v2.0 代码已修复但实测退化（95.7% 落 1-9 分），热度排序不可信——升级方案待拍板。
 
 ### Cron 配置
 
-- **Schedule**: `30 9 * * *`（每日 09:30）
+- **Schedule**: `0 8 * * *`（每日 08:00，job d6d628cc68a1）
 - **Skills**: `wuhoo-news-rss`, `wuhoo-rss-briefing`
 - **Delivery**: `origin`（微信推送）
 - **流程**: fetch → SQLite 直查 → 噪音过滤 → 四类 TOP 5 输出
+- ⚠️ 无独立小时级采集 cron；fetcher 仅在此 job 内被调用一次/天
 
 ### 手动触发（备用）
 
@@ -261,6 +287,7 @@ DataAggregator._get_combined_sentiment()
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 2.2 | 2026-11-16 | 链路审计实测写入（60源仅37有效/hot_score退化/事件合并率7%/alert无推送）；cron 校准 09:30→08:00；TrendRadar MCP 27工具核实+集成设计；升级方向偏好（一次性agent原生+根治源头）；新增 references/news-upgrade-architecture.md |
 | 2.1 | 2026-09-10 | 修复 `insert_article` 新文章统计 bug：`conn.total_changes > 0` 为连接累计值，首条插入后重复也被统计为新 → 改 before/after 快照对比（实测 fetch 报"新增 1407" vs 实际 26）；新增回归测试 TestInsertArticleCounting20260910 |
 | 2.0 | 2026-07-03 | **热点评分系统大修**：三层评分 (Feed权重 + 200关键词增强 + 模糊多源覆盖)；修复 `insert_article` 缺少 hot_score 列的严重 bug；修复 RSSNewsAdapter DB 路径 (skills/news-rss → skills/default/wuhoo-news-rss)；源清理：移除 11 个死亡源 (酷壳/cnbang/澎湃/品玩等)，合并 4 组冗余源；新增 7 个高质量源 (Stratechery/Seeking Alpha/Google DeepMind/CoinDesk/Meta/集思录/Google AI Blog)；关键词匹配增加 `\b` 词边界；RSSHub 路由大面积 503 标注 |
 | 1.8 | 2026-06-18 | 足球源 7→10：新增 懂球帝早报, BBC Sport Football RSSHub 路由, Breaking The Lines；失效路由标注更新 |

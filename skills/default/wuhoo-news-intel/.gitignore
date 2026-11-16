@@ -1,0 +1,6 @@
+# 运行时产物（可由管线/评测复现，不入库；保留 golden_set/eval_report/ab_dashboard/watchlist 作回归基线+审计）
+data/velocity_signals.json
+data/cards_*.json
+data/cards_*.txt
+data/brief_wechat_*.txt
+# *.log 已由根 .gitignore 全局忽略

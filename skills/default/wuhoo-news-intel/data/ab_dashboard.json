@@ -1,0 +1,104 @@
+{
+  "window_h": 72,
+  "raw_articles": 5207,
+  "A_baseline": {
+    "mode": "原始流+标题去重(重建基线)",
+    "unique_titles": 4917,
+    "naive_dup_rate": 0.0557,
+    "feeds": 80,
+    "semantic_dedup": false,
+    "personalization": false,
+    "numbers_verified": false
+  },
+  "B_event": {
+    "mode": "事件中心管线",
+    "events": 3845,
+    "merge_rate": 0.2616,
+    "multi_source_events": 438,
+    "avg_indep_sources": 3.13,
+    "distinct_entities": 1054,
+    "dedup_precision": 1.0,
+    "dedup_recall": 1.0,
+    "dedup_f1": 1.0,
+    "personalization_hit_top10": 1.0,
+    "cards": 10,
+    "numbers_verified_rate": 1.0
+  },
+  "delta": {
+    "semantic_dedup_gain": 0.2059,
+    "dup_rate_A_to_B": "5.6% → 26.2%"
+  },
+  "top10_hotspots": [
+    {
+      "event_id": 3584,
+      "salience": 60.35,
+      "n_indep": 7,
+      "topic": "财经",
+      "label": "金科股份：股票收盘价低于1元 存在可能因股价低于面值被终止上市的风险"
+    },
+    {
+      "event_id": 3516,
+      "salience": 53.97,
+      "n_indep": 6,
+      "topic": "财经",
+      "label": "共达电声：控股股东一致行动人拟增持1.5亿至2.5亿元股份"
+    },
+    {
+      "event_id": 3283,
+      "salience": 51.62,
+      "n_indep": 7,
+      "topic": "财经",
+      "label": "涉17家重点车企 供应商账款支付情况调研评估将进行"
+    },
+    {
+      "event_id": 3517,
+      "salience": 49.54,
+      "n_indep": 5,
+      "topic": "财经",
+      "label": "欧盟委员会无条件批准了裕信银行拟收购德商银行的交易"
+    },
+    {
+      "event_id": 3313,
+      "salience": 48.69,
+      "n_indep": 7,
+      "topic": "财经",
+      "label": "捷捷微电：全资子公司拟投资15亿元建设车规级高功率半导体器件芯片生产线项目"
+    },
+    {
+      "event_id": 261,
+      "salience": 47.89,
+      "n_indep": 8,
+      "topic": "财经",
+      "label": "王小洪在四川调研时强调，坚定信心，抢抓机遇，全力完成全年经济社会发展主要目标任务"
+    },
+    {
+      "event_id": 3307,
+      "salience": 46.89,
+      "n_indep": 6,
+      "topic": "财经",
+      "label": "盛屯矿业：拟4亿元至5亿元回购公司股份"
+    },
+    {
+      "event_id": 3302,
+      "salience": 45.96,
+      "n_indep": 6,
+      "topic": "财经",
+      "label": "财联社11月16日电，欧元区9月工业产出同比下降1.5%，预期下降0.2%；9月工业产出环比增长0.2%，预期增长0.3%。"
+    },
+    {
+      "event_id": 214,
+      "salience": 45.66,
+      "n_indep": 9,
+      "topic": "财经",
+      "label": "美联储理事Barr称AI智能体或加大未来银行挤兑风险"
+    },
+    {
+      "event_id": 3699,
+      "salience": 45.34,
+      "n_indep": 4,
+      "topic": "财经",
+      "label": "英伟达美股盘前跌超3%"
+    }
+  ],
+  "caveat": "A为重建基线(标题去重)非旧简报实测；50对黄金集启发式预标注needs_review；正式微信切换需用户盲评+拍板(D3-A)"
+}

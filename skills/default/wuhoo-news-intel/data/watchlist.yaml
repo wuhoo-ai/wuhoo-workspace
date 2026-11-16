@@ -1,0 +1,25 @@
+# WP2 watchlist 种子 — D1个人化基础(WP6将从trader持仓/gamedev guimei/三profile记忆跨域富化)。
+# tickers=精确匹配(高优先); keywords=关键词匹配。privacy: 只用ticker符号+行业, 不含持仓数量/成本/盈亏。
+# 调节: D3反馈闭环将动态增减group权重/关键词/topic_burst。
+groups:
+  - name: 美股科技
+    tickers: [NVDA, TSLA, AAPL, MSFT, GOOG, GOOGL, AMZN, META, AMD, AVGO, NFLX, PLTR]
+    keywords: [英伟达, 特斯拉, 苹果, 微软, 谷歌, 亚马逊, 博通, 奈飞]
+  - name: AI大模型
+    tickers: []
+    keywords: [OpenAI, Anthropic, Claude, DeepSeek, 大模型, 算力, Gemini, 英伟达, GPT, 智谱, 月之暗面]
+  - name: 宏观货币
+    tickers: []
+    keywords: [美联储, 降息, 加息, CPI, 非农, 关税, 人民币, 央行, 鲍威尔, 国债收益率]
+  - name: A股港股
+    tickers: []
+    keywords: [A股, 沪指, 恒生, 北向资金, 涨停, 证监会, 沪深, 创业板, 科创板]
+  - name: 游戏开发
+    tickers: []
+    keywords: [Unity, Unreal, 虚幻引擎, Steam, 任天堂, 米哈游, 游戏版号, 像素, guimei, 独立游戏, Godot]
+  - name: 期货大宗
+    tickers: []
+    keywords: [原油, 黄金, 沪铜, 期货, OPEC, 螺纹钢, 大宗商品]
+  - name: 加密
+    tickers: [BTC, ETH]
+    keywords: [比特币, 以太坊, 加密, 稳定币]

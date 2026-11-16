@@ -1,0 +1,141 @@
+{
+ "entities_cols": [
+  "entity_id",
+  "name",
+  "type",
+  "aliases"
+ ],
+ "events": 2738,
+ "event_members": 3383,
+ "event_entities": 1823,
+ "article_vectors": 3383,
+ "multi_source_events": 231,
+ "top_event": {
+  "event_id": 154,
+  "label": "报道称黄仁勋考虑重返英伟达 黄仁勋盟友施压英伟达董事会",
+  "topic": "财经",
+  "first_seen": "2026-11-14T08:03:18.989695",
+  "last_seen": "2026-11-16T13:35:29.487810",
+  "canonical_id": 271802,
+  "salience": 43.7253,
+  "n_indep_sources": 10,
+  "status": "active",
+  "canonical_hash": "14a560da93109b8e9d39fb8d5c5c8777"
+ },
+ "top_event_members": [
+  {
+   "article_id": 271802,
+   "similarity": 0.8927391171455383,
+   "feed_name": "财联社加红",
+   "title": "报道称黄仁勋考虑重返英伟达 黄仁勋盟友施压英伟达董事会",
+   "is_canon": 1
+  },
+  {
+   "article_id": 266644,
+   "similarity": 1.0,
+   "feed_name": "Solidot 奇点资讯",
+   "title": "英伟达员工请愿让黄仁勋复职",
+   "is_canon": 0
+  },
+  {
+   "article_id": 274182,
+   "similarity": 0.8925039172172546,
+   "feed_name": "巴伦中文",
+   "title": "黄仁勋考虑回归英伟达",
+   "is_canon": 0
+  },
+  {
+   "article_id": 270885,
+   "similarity": 0.8875759243965149,
+   "feed_name": "华尔街见闻",
+   "title": "公开斗法！黄仁勋与盟友商讨重返CEO计划，而贝森特则敦促英伟达选择“外部人士”",
+   "is_canon": 0
+  },
+  {
+   "article_id": 271934,
+   "similarity": 0.8570152521133423,
+   "feed_name": "格隆汇首页",
+   "title": "博弈拉开帷幕！黄仁勋商议回归，美财长施压换人",
+   "is_canon": 0
+  },
+  {
+   "article_id": 269317,
+   "similarity": 0.8377370238304138,
+   "feed_name": "IT之家",
+   "title": "消息称黄仁勋离职后参与遴选接班人，已与至少一位英伟达新 CEO 候选人通话",
+   "is_canon": 0
+  },
+  {
+   "article_id": 270011,
+   "similarity": 0.8352351188659668,
+   "feed_name": "中央社",
+   "title": "金融時報：黃仁勳考慮回鍋　矽谷盟友施壓輝達董事會要求讓他復職",
+   "is_canon": 0
+  },
+  {
+   "article_id": 266819,
+   "similarity": 0.8290802836418152,
+   "feed_name": "华尔街见闻热门",
+   "title": "“把老板请回来”！英伟达员工联名呼吁黄仁勋回归：他值得再给一次机会",
+   "is_canon": 0
+  },
+  {
+   "article_id": 269565,
+   "similarity": 0.8279929757118225,
+   "feed_name": "凤凰网财经",
+   "title": "英媒：黄仁勋考虑重返英伟达，盟友正组建游说团",
+   "is_canon": 0
+  },
+  {
+   "article_id": 271372,
+   "similarity": 0.802919864654541,
+   "feed_name": "朝鲜日报中文",
+   "title": "FT：黄仁勋与亲信商讨回归…还尝试游说白宫",
+   "is_canon": 0
+  },
+  {
+   "article_id": 269309,
+   "similarity": 0.7886142134666443,
+   "feed_name": "IT之家",
+   "title": "黄仁勋卸任后，英伟达新任 CEO 面临重建员工信任难题",
+   "is_canon": 0
+  },
+  {
+   "article_id": 269275,
+   "similarity": 0.776466965675354,
+   "feed_name": "IT之家",
+   "title": "消息称黄仁勋考虑重返英伟达担任 CEO，其硅谷盟友正施压董事会",
+   "is_canon": 0
+  }
+ ],
+ "top_event_entities": [
+  "TESLA",
+  "FT",
+  "NBA",
+  "WIRED",
+  "NVIDIA"
+ ],
+ "tencent_event_id": 2434,
+ "tencent_members": [
+  {
+   "feed_name": "IT之家",
+   "title": "腾讯混元 Hy4 flash 模型发布：224B 总参、12B 激活，单任务成本约 Hy4 的 5%"
+  },
+  {
+   "feed_name": "金十数据",
+   "title": "腾讯混元正式推出Hy4 flash：日常工作的极致性价比模型"
+  },
+  {
+   "feed_name": "华尔街见闻实时",
+   "title": "腾讯混元 Hy4 flash 发布，任务速度大幅提升，单任务成本仅为 Hy4 二十分之一"
+  },
+  {
+   "feed_name": "巴伦中文",
+   "title": "腾讯混元发布Hy4 flash，单任务成本降至Hy4二十分之一"
+  },
+  {
+   "feed_name": "36氪快讯",
+   "title": "腾讯混元Hy4 flash发布，任务速度大幅提升"
+  }
+ ]
+}

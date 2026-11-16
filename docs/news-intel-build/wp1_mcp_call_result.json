@@ -1,0 +1,35 @@
+{
+ "session": "b31117a29ce14296a7865ae0953d416d",
+ "trending": {
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+   "content": [
+    {
+     "type": "text",
+     "text": "{\n  \"topics\": [\n    {\n      \"keyword\": \"AI与大模型\",\n      \"frequency\": 41,\n      \"matched_news\": 41,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"美股与全球\",\n      \"frequency\": 23,\n      \"matched_news\": 23,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"游戏开发\",\n      \"frequency\": 19,\n      \"matched_news\": 19,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"科技产业\",\n      \"frequency\": 9,\n      \"matched_news\": 9,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"A股市场\",\n      \"frequency\": 4,\n      \"matched_news\": 4,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"期货与大宗\",\n      \"frequency\": 3,\n      \"matched_news\": 3,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"宏观与货币\",\n      \"frequency\": 1,\n      \"matched_news\": 1,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"加密与另类\",\n      \"frequency\": 1,\n      \"matched_news\": 1,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    }\n  ],\n  \"generated_at\": \"2026-11-16 13:00:31\",\n  \"mode\": \"current\",\n  \"extract_mode\": \"keywords\",\n  \"total_keywords\": 8,\n  \"description\": \"最新一批统计 - 基于预设关注词\",\n  \"success\": true\n}"
+    }
+   ],
+   "structuredContent": {
+    "result": "{\n  \"topics\": [\n    {\n      \"keyword\": \"AI与大模型\",\n      \"frequency\": 41,\n      \"matched_news\": 41,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"美股与全球\",\n      \"frequency\": 23,\n      \"matched_news\": 23,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"游戏开发\",\n      \"frequency\": 19,\n      \"matched_news\": 19,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"科技产业\",\n      \"frequency\": 9,\n      \"matched_news\": 9,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"A股市场\",\n      \"frequency\": 4,\n      \"matched_news\": 4,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"期货与大宗\",\n      \"frequency\": 3,\n      \"matched_news\": 3,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"宏观与货币\",\n      \"frequency\": 1,\n      \"matched_news\": 1,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    },\n    {\n      \"keyword\": \"加密与另类\",\n      \"frequency\": 1,\n      \"matched_news\": 1,\n      \"trend\": \"stable\",\n      \"weight_score\": 0.0\n    }\n  ],\n  \"generated_at\": \"2026-11-16 13:00:31\",\n  \"mode\": \"current\",\n  \"extract_mode\": \"keywords\",\n  \"total_keywords\": 8,\n  \"description\": \"最新一批统计 - 基于预设关注词\",\n  \"success\": true\n}"
+   },
+   "isError": false
+  }
+ },
+ "latest": {
+  "jsonrpc": "2.0",
+  "id": 3,
+  "result": {
+   "content": [
+    {
+     "type": "text",
+     "text": "{\n  \"success\": true,\n  \"summary\": {\n    \"description\": \"最新一批爬取的新闻数据\",\n    \"total\": 5,\n    \"returned\": 5,\n    \"platforms\": [\n      \"wallstreetcn-hot\",\n      \"zhihu\"\n    ]\n  },\n  \"data\": [\n    {\n      \"title\": \"本周重磅日程：APEC峰会、Anthropic IPO、黄仁勋听证会、英伟达与阿里腾讯财报\",\n      \"platform\": \"wallstreetcn-hot\",\n      \"platform_name\": \"华尔街见闻\",\n      \"rank\": 1,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    },\n    {\n      \"title\": \"中俄美元首将在深圳举行会晤，有哪些信息值得关注？\",\n      \"platform\": \"zhihu\",\n      \"platform_name\": \"知乎\",\n      \"rank\": 1,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    },\n    {\n      \"title\": \"公开斗法！黄仁勋与盟友商讨重返CEO计划，而贝森特则敦促英伟达选择“外部人士”\",\n      \"platform\": \"wallstreetcn-hot\",\n      \"platform_name\": \"华尔街见闻\",\n      \"rank\": 2,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    },\n    {\n      \"title\": \"中国平均每个家庭户人数降至 2.52 人，25 年间减少近 1 人，背后有哪些社会变化？会带来哪些影响？\",\n      \"platform\": \"zhihu\",\n      \"platform_name\": \"知乎\",\n      \"rank\": 2,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    },\n    {\n      \"title\": \"华尔街见闻早餐FM-Radio | 2026年11月16日\",\n      \"platform\": \"wallstreetcn-hot\",\n      \"platform_name\": \"华尔街见闻\",\n      \"rank\": 3,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    }\n  ]\n}"
+    }
+   ],
+   "structuredContent": {
+    "result": "{\n  \"success\": true,\n  \"summary\": {\n    \"description\": \"最新一批爬取的新闻数据\",\n    \"total\": 5,\n    \"returned\": 5,\n    \"platforms\": [\n      \"wallstreetcn-hot\",\n      \"zhihu\"\n    ]\n  },\n  \"data\": [\n    {\n      \"title\": \"本周重磅日程：APEC峰会、Anthropic IPO、黄仁勋听证会、英伟达与阿里腾讯财报\",\n      \"platform\": \"wallstreetcn-hot\",\n      \"platform_name\": \"华尔街见闻\",\n      \"rank\": 1,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    },\n    {\n      \"title\": \"中俄美元首将在深圳举行会晤，有哪些信息值得关注？\",\n      \"platform\": \"zhihu\",\n      \"platform_name\": \"知乎\",\n      \"rank\": 1,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    },\n    {\n      \"title\": \"公开斗法！黄仁勋与盟友商讨重返CEO计划，而贝森特则敦促英伟达选择“外部人士”\",\n      \"platform\": \"wallstreetcn-hot\",\n      \"platform_name\": \"华尔街见闻\",\n      \"rank\": 2,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    },\n    {\n      \"title\": \"中国平均每个家庭户人数降至 2.52 人，25 年间减少近 1 人，背后有哪些社会变化？会带来哪些影响？\",\n      \"platform\": \"zhihu\",\n      \"platform_name\": \"知乎\",\n      \"rank\": 2,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    },\n    {\n      \"title\": \"华尔街见闻早餐FM-Radio | 2026年11月16日\",\n      \"platform\": \"wallstreetcn-hot\",\n      \"platform_name\": \"华尔街见闻\",\n      \"rank\": 3,\n      \"timestamp\": \"2026-11-16 12:43:16\"\n    }\n  ]\n}"
+   },
+   "isError": false
+  }
+ }
+}

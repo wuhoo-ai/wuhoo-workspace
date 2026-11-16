@@ -1,0 +1,219 @@
+{
+ "ts": "2026-11-16 11:59:42",
+ "results": [
+  {
+   "name": "懂球帝早报",
+   "url": "http://127.0.0.1:1200/dongqiudi/daily",
+   "status": 200,
+   "items": 20,
+   "ok": true,
+   "latency": 11.58
+  },
+  {
+   "name": "Solidot 奇点资讯",
+   "url": "http://127.0.0.1:1200/solidot",
+   "status": 0,
+   "items": 0,
+   "ok": false,
+   "err": "timed out",
+   "latency": 20.03
+  },
+  {
+   "name": "虎嗅",
+   "url": "http://127.0.0.1:1200/huxiu/article",
+   "status": 200,
+   "items": 20,
+   "ok": true,
+   "latency": 8.04
+  },
+  {
+   "name": "雷锋网",
+   "url": "http://127.0.0.1:1200/leiphone/newsflash",
+   "status": 0,
+   "items": 0,
+   "ok": false,
+   "err": "timed out",
+   "latency": 20.03
+  },
+  {
+   "name": "Hacker News",
+   "url": "http://127.0.0.1:1200/hackernews/best",
+   "status": 200,
+   "items": 30,
+   "ok": true,
+   "latency": 0.98
+  },
+  {
+   "name": "HuggingFace Blog",
+   "url": "http://127.0.0.1:1200/huggingface/blog",
+   "status": 200,
+   "items": 9,
+   "ok": true,
+   "latency": 14.78
+  },
+  {
+   "name": "华尔街见闻",
+   "url": "http://127.0.0.1:1200/wallstreetcn/news",
+   "status": 0,
+   "items": 0,
+   "ok": false,
+   "err": "timed out",
+   "latency": 20.01
+  },
+  {
+   "name": "华尔街见闻热门",
+   "url": "http://127.0.0.1:1200/wallstreetcn/hot",
+   "status": 0,
+   "items": 0,
+   "ok": false,
+   "err": "timed out",
+   "latency": 20.02
+  },
+  {
+   "name": "格隆汇",
+   "url": "http://127.0.0.1:1200/gelonghui/live",
+   "status": 200,
+   "items": 15,
+   "ok": true,
+   "latency": 2.04
+  },
+  {
+   "name": "联合早报",
+   "url": "http://127.0.0.1:1200/zaobao/realtime/china",
+   "status": 200,
+   "items": 24,
+   "ok": true,
+   "latency": 7.79
+  },
+  {
+   "name": "凤凰网财经",
+   "url": "http://127.0.0.1:1200/ifeng/news",
+   "status": 0,
+   "items": 0,
+   "ok": false,
+   "err": "timed out",
+   "latency": 20.03
+  },
+  {
+   "name": "第一财经",
+   "url": "http://127.0.0.1:1200/yicai/brief",
+   "status": 200,
+   "items": 50,
+   "ok": true,
+   "latency": 4.36
+  },
+  {
+   "name": "路透社国际",
+   "url": "http://127.0.0.1:1200/reuters/world",
+   "status": 200,
+   "items": 20,
+   "ok": true,
+   "latency": 6.47
+  },
+  {
+   "name": "知乎日报",
+   "url": "http://127.0.0.1:1200/zhihu/daily",
+   "status": 200,
+   "items": 4,
+   "ok": true,
+   "latency": 6.62
+  },
+  {
+   "name": "美联社",
+   "url": "http://127.0.0.1:1200/apnews/topics/apf-topnews",
+   "status": 503,
+   "items": 0,
+   "ok": false,
+   "latency": 4.76
+  },
+  {
+   "name": "德国之声",
+   "url": "http://127.0.0.1:1200/dw/news",
+   "status": 0,
+   "items": 0,
+   "ok": false,
+   "err": "timed out",
+   "latency": 20.02
+  },
+  {
+   "name": "半岛电视台",
+   "url": "http://127.0.0.1:1200/aljazeera/news",
+   "status": 503,
+   "items": 0,
+   "ok": false,
+   "latency": 1.88
+  },
+  {
+   "name": "B站排行榜",
+   "url": "http://127.0.0.1:1200/bilibili/ranking/0",
+   "status": 200,
+   "items": 100,
+   "ok": true,
+   "latency": 2.79
+  },
+  {
+   "name": "new:sse/renewal",
+   "url": "http://127.0.0.1:1200/sse/renewal",
+   "status": 200,
+   "items": 20,
+   "ok": true,
+   "latency": 3.77
+  },
+  {
+   "name": "new:sse/disclosure",
+   "url": "http://127.0.0.1:1200/sse/disclosure",
+   "status": 200,
+   "items": 25,
+   "ok": true,
+   "latency": 11.26
+  },
+  {
+   "name": "new:wallstreetcn/live",
+   "url": "http://127.0.0.1:1200/wallstreetcn/live",
+   "status": 200,
+   "items": 100,
+   "ok": true,
+   "latency": 5.62
+  },
+  {
+   "name": "new:gelonghui/home",
+   "url": "http://127.0.0.1:1200/gelonghui/home",
+   "status": 200,
+   "items": 12,
+   "ok": true,
+   "latency": 6.16
+  },
+  {
+   "name": "new:caixin/latest",
+   "url": "http://127.0.0.1:1200/caixin/latest",
+   "status": 200,
+   "items": 20,
+   "ok": true,
+   "latency": 8.42
+  },
+  {
+   "name": "new:36kr/newsflashes",
+   "url": "http://127.0.0.1:1200/36kr/newsflashes",
+   "status": 200,
+   "items": 20,
+   "ok": true,
+   "latency": 5.38
+  },
+  {
+   "name": "new:chuapp",
+   "url": "http://127.0.0.1:1200/chuapp",
+   "status": 200,
+   "items": 10,
+   "ok": true,
+   "latency": 11.82
+  },
+  {
+   "name": "new:unusualwhales",
+   "url": "http://127.0.0.1:1200/unusualwhales/news",
+   "status": 200,
+   "items": 100,
+   "ok": true,
+   "latency": 4.72
+  }
+ ]
+}

@@ -94,3 +94,6 @@ data/trade/workflow_d/
 # OpenD binaries and logs (regenerable)
 tools/opend/
 data/backups/
+
+# News intel publish staging (generated HTML, reproducible via pipeline; canonical kept on disk)
+news-web/
