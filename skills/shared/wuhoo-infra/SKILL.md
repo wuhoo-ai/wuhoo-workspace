@@ -17,7 +17,9 @@ category: wuhoo
 - 次级 profile cron 由 default gateway 的 ticker 代跑；`hermes -p X cron status` 显示 "gateway not running" 是误报，以 default 侧为准。
 - cron 漂移钉定：drift_skip 报错时 `hermes -p X cron edit <ID> --provider token-plan --model qwen3.8-flash`。
 - GPU 健康检查 job 9eb1f08c4100 挂 monitor 脚本 `~/.hermes/scripts/gpu_health_monitor.sh`（确定性分桶输出，状态无变化 0 LLM 唤醒）。
-- Dashboard 服务：systemd --user `hermes-dashboard.service`，0.0.0.0:9119，basic auth（配置在 config.yaml dashboard.basic_auth）。
+- Dashboard 服务：监听 127.0.0.1:9119，nginx TLS 反代 https://wuhoo.shanavasa.click（auth 双门 basic+nous）。持久 unit 文件已写入 `~/.config/systemd/user/hermes-dashboard.service`（Restart=on-failure/RestartSec=5，WantedBy=default.target，--skip-build，日志 append `logs/dashboard-restart.log`）；启用 `systemctl --user daemon-reload && systemctl --user enable --now hermes-dashboard`（2026-11-17 写入时 enable 审批超时未执行，当前仍跑 transient 单元 `systemd-run --user --unit=hermes-dashboard --property=Restart=on-failure hermes dashboard --host 127.0.0.1 --port 9119 --no-open --skip-build`）。管理 `systemctl --user restart hermes-dashboard`，验证 `curl -s 127.0.0.1:9119/api/status`（version/release_date/overall）。linger=yes 已开，登出不断。
+- 版本标题日期修复（2026-11-17）：`hermes_cli/__init__.py` 的 `__release_date__` 原为手写常量（semver 迁移后 `scripts/releases/stamping.py` 不再 bump，停在 2026.9.24）。改为 PEP562 `__getattr__` 委托 `version_info.release_date()`：优先 install-stamp.commit_date → 活 git HEAD commit 时间（UTC）→ 常量兜底，格式 `YYYY.M.D`。补丁存 `~/.hermes/skills/autonomous-ai-agents/hermes-agent/references/release-date-fix-v0.23.2.patch`（vendored 仓工作区未提交，`hermes update` 后需重放）。验证 `hermes --version` 显示 `(2026.11.16)`。
+- 模型统一 qwen4-max（2026-11-17）：default/gamedev/trader 三 config 的 model.default + delegation + 15 段 auxiliary + providers.qwen.model 全切 qwen4-max；providers.qwen.models 白名单与 agent.reasoning_overrides 增 qwen4-max: max（保留 qwen3.8-flash 供 /model 切换）。aux 关思考沿用 extra_body `reasoning:{enabled:false}` 即可——custom profile 把 disabled reasoning_config 投影成顶层 `reasoning_effort:none`（auxiliary_client.py #75227/#112781），无需另加 reasoning_effort（加了也被投影覆盖，冗余）。坑：`probe_model_endpoints.py` 的 aux 探测发裸 payload（max_tokens=16、无任何 reasoning 控制），其 reasoning_tokens 是模型默认思考量、不代表真实 aux 线形，勿据此判 aux 关思考成败。cron 仅 RSS 简报 job d6d628cc68a1 原钉 qwen3.8-flash，已 `hermes cron edit --model qwen4-max --provider qwen`；其余 cron 无 pin 走 config 默认。
 - 回退基线：`config.yaml.bak.split-20260901` / `cron/jobs.json.bak.split-20260901`。
 - 重启 gateway 会牵连 Unity MCP 子进程（现挂 gamedev 域）：重启后按下方"GPU 节点"节验证。
 
@@ -37,6 +39,21 @@ sleep 8 && curl -s -o /dev/null -w "HTTP %{http_code}\n" http://127.0.0.1:1200/
 
 **Pitfall**: `podman stop` 可能卡死（conmon exited prematurely），直接用 `podman rm -f` 跳过 stop。容器 Up 但端口不监听 = 内部 Node.js 崩溃，必须重建。
 **Pitfall (2026-08-04)**: `podman rm -f rsshub` 在 `;` 串联命令中可能未生效（容器名仍被占用导致 run 失败 "container name already in use"）。rm 后加 `sleep 2` 并确认返回后再 run。重建后失败源应从 19+ → 3（路透社/B站 HTML 非 XML + Stratechery junk 为已知路由问题）。
+
+**根因（2026-11-17 实证，四个新闻容器同时挂）**：先查 journal 有没有
+`hermes-gateway.service: Killing process <pid> (conmon) with signal SIGKILL`。从 agent 终端 `podman run/start` 的
+容器 conmon 位于 hermes-gateway.service 的 cgroup，**gateway 重启会把 rsshub/newsnow/trendradar/trendradar-mcp 一起 SIGKILL**；
+podman 状态残留 `Up`，但 `podman top` 报 `/proc/<pid>/ns/mnt: no such file`、日志停在被杀时刻、端口全空。
+恢复（一次全起，且不再被下次重启连带）：
+
+```bash
+podman stop -t 3 rsshub newsnow trendradar trendradar-mcp   # conmon 已死会报 prematurely，忽略即可
+for c in rsshub newsnow trendradar trendradar-mcp; do
+  systemd-run --user --scope --unit=news-$c podman start $c
+done
+# 验证端口：1200(rsshub) 3333(trendradar-mcp) 4444(newsnow) 8090(trendradar)
+# 验证 cgroup：grep -oE 'news-[a-z-]+\.scope|hermes-gateway\.service' /proc/<容器pid>/cgroup
+```
 
 ## FRP 隧道
 
