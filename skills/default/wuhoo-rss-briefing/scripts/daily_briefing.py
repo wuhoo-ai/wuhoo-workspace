@@ -94,6 +94,13 @@ def clean_summary(s, feed_name=''):
     # 2026-10-14: 华尔街见闻 blockquote 摘要框 — "<strong>摘要</strong>…<strong>1&nbsp;</strong>正文"
     # clean_html+实体还原后成 "摘要 1 中美科技股背离背后…" ("如何看待当前中美科技股的背离" 占财经 TOP5)。
     s = re.sub(r'^摘要\s*(?:\d+\s*[、.]?\s*)?[:：]?\s*', '', s)
+    # 2026-11-17: 虎嗅/公众号转载 byline — "本文来自微信公众号：XXX" 吃满 50 字摘要窗口
+    # ("硅谷巨头在打什么算盘"占科技TOP3、"黄仁勋要回归"占产业TOP1 代表摘要实测只剩 byline 前缀)。
+    # 仅剥离 本文来自微信公众号：+ 紧随的账号名(无句读分隔的短段)；剥离后不足 10 字(纯账号名)→ 置空走组内回填。
+    _wx = re.match(r'^本文来自微信公众号[：:]\s*[^，,。；;！？\n]{0,40}[，,]?\s*', s)
+    if _wx:
+        _rest = s[_wx.end():]
+        s = '' if len(_rest) < 10 else _rest
     # 2026-11-07: Google DeepMind/AI Blog 图片卡 alt 文本垃圾 — 'Text "Gemini Introducing Gemini Omni 1.2 Flash"
     # surroudned by images of …' (Gemini Omni 合并组代表实测占满摘要位，alt 无正文价值) → 置空走组内中文回填
     if re.match(r'^Text\s*[""“]', s):
@@ -752,6 +759,12 @@ NOISE_PATTERNS = [
     # hot6 占产业/公司 TOP5——美元数字+off 为降价导购固定措辞，同类 half off/percent off/on sale for/
     # prime day；正常新闻标题不写 "$N off" 形)
     r'\$\d+(\.\d+)?\s*off\b',
+    # 2026-11-17 新增 — 美联储新闻源例行审批/执法文书稿（小时级回填把 10-09/10-29 等旧批文整批带进窗口，
+    # Mutual Federal Bancorp 申请获批 hot35 占财经 TOP3——银行控股公司审批/执法终止/终止执法为行政程序文书
+    # 非市场事件；该源 FOMC statement/discount rate minutes/consumer finances 等真政策稿措辞不同不受影响）
+    r'reserve board announces approval',
+    r'reserve board announces termination of enforcement',
+    r'reserve board (?:issues|announces) enforcement action',
 ]
 
 def is_noise(text):
@@ -946,6 +959,15 @@ def norm(t):
 
 # 强实体事件规则 (仅跨源同一事件, 泛公司名不放这里避免过度合并)
 ENTITY_KEYS = [
+    # 2026-11-17: 中俄美深圳元首会晤（11-16 官宣 11.19 三方会晤）——公告稿(见闻/观察者网/参考消息 35分×3)
+    # 与外交部后续表态(凤凰网/财联社×2/见闻实时/格隆汇/金十 5+ 源)同一事件两波次拆占 宏观TOP1+财经TOP4 两榜
+    # (10-10 多波次词形覆盖 + 09-30 跨分类拆榜教训)。锚点三选一强约束：中俄美(复合专名)/三方会晤/三国元首
+    # 与 会晤|峰会|会谈 共现；普京+特朗普 须与 会晤/深圳 距离 40 内。防误并回归：双边"中俄元首会晤"无 中俄美
+    # 不并；墨西哥总统/李家超赴深圳出席APEC稿无会晤锚不并；"深圳奇迹"“外贸超5万亿”城市稿不并。
+    (re.compile(r'(?=[\s\S]*(?:中俄美|三方会晤|三国元首))[\s\S]{0,24}(?:会晤|峰会|会谈)'
+                r'|(?:普京|普丁|putin)[\s\S]{0,40}(?:特朗普|川普|trump)[\s\S]{0,40}(?:会晤|峰会|深圳|summit)'
+                r'|(?:特朗普|川普|trump)[\s\S]{0,40}(?:普京|普丁|putin)[\s\S]{0,40}(?:会晤|峰会|深圳|summit)', re.I),
+     'triple_summit_shenzhen'),
     # 2026-11-07: OpenAI 完成 110 亿美元首期新融资·估值 1.25 万亿美元 (IT之家12/Verge12/TC9/见闻3×2 拆占
     # 科技TOP5(Verge版 [2源] 不含中文版)+财经TOP4 两榜; 见闻"大金主踩刹车"后续稿同事件无数字锚)。
     # 双分支: ①openai+数字锚(110 亿|11 billion|1.25 万亿/trillion/tn) ②openai+融资/funding+遇冷语系(缩水|缩减|踩刹车|软银|红杉)。
