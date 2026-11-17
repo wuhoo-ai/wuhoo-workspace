@@ -86,7 +86,7 @@ room 只有三个：
 
 ### 5.1 Codex 写入：MEMORY_JSON + notify
 
-Codex 每轮结束时，`~/.codex/config.toml` 里的 `notify` 会调用 `~/.hermes/scripts/codex_notify_ingest.py`，从最终答复中解析 `MEMORY_JSON:` 行并写入 MemPalace。该路径不经过 Codex 的 MCP 审批闸，仍然是单 hub 写入。
+Codex 每轮结束时，`~/.codex/config.toml` 里的 `notify` 会调用 `~/.codex/scripts/codex_notify_ingest.py`，从最终答复中解析 `MEMORY_JSON:` 行并写入 MemPalace。该路径不经过 Codex 的 MCP 审批闸，仍然是单 hub 写入，也不依赖 Hermes 进程、配置或脚本。
 
 Codex 需要写入记忆时，在最终答复末尾追加一行合法 JSON（单行，不要加代码围栏、不要改写字段名）：
 
@@ -101,9 +101,10 @@ MEMORY_JSON: {"wing":"project-hermes-infra","room":"decision","content":"2026-10
 - 一次答复最多写 1–3 条；多条就写多行 `MEMORY_JSON:`。
 - 写入是 turn 结束后的异步回调，通常 1 秒内完成；不要在同一轮里等待它返回。
 - 如果没有写记忆，不要输出 `MEMORY_JSON:`；`notify` 会记录 `no-marker` 并跳过。
-- 排错看 `~/.hermes/mempalace-sync/notify.log`；手工兜底可用：
-  `/usr/bin/python3.11 ~/.hermes/scripts/mempalace_write.py --wing <wing> --room <room> --content '<完整事实>' --source-file '<来源>' --added-by codex`
+- 排错看 `~/.codex/mempalace-sync/notify.log`；手工兜底可用：
+  `/usr/bin/python3.11 ~/.codex/scripts/mempalace_write.py --wing <wing> --room <room> --content '<完整事实>' --source-file '<来源>' --added-by codex`
 - 仍需遵守第 2 节的 secrets 禁令；脚本会二次扫描并拒绝敏感内容。
+- Codex 的模型密钥独立保存在权限为 `0600` 的 `~/.config/codex/token-plan.env`；shell、启动包装器和模型目录刷新脚本只读此文件或已导出的 `TOKEN_PLAN_API_KEY`，不得回退读取 `~/.hermes/.env`。
 
 ## 6. Hermes 原生记忆同步
 
