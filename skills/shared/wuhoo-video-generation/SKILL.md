@@ -23,14 +23,16 @@ dependencies: "python3.11, httpx, pyyaml, pillow"
 或需要把静态关键帧变成动态镜头时激活。分镜提示词脚本的编写见姊妹技能
 `~/wuhoo-workspace/skills/default/wuhoo-manju-storyboard`（GDD 故事线 → 分镜脚本）。
 
-## 可用性事实（2026-11-17 实测）
+## 可用性事实（2026-11-17 实测，含当日试产修正）
 
-- Token Plan cn-beijing（`token-plan.cn-beijing.maas.aliyuncs.com`）实时 catalog 含
-  `wan3.0-video`（2026-10-10 产品动态公告上架），**未见 `wan3.0-video-prime`**。
-- prime 已上架国际站 QwenCloud（新加坡等地域，USD 计价）。模型/Endpoint/Key 必须同地域，
-  cn-beijing key 不能调国际站。
-- 脚本默认 model=prime，提交被拒（模型不可用类错误，未计费）时**自动回退标准版**并打印提示。
-  每次试产以实际提交结果为准，回退事件记录在 sidecar JSON。
+- Token Plan cn-beijing（`token-plan.cn-beijing.maas.aliyuncs.com`）实时 catalog（23模型）含
+  `wan3.0-video`（2026-10-10 产品动态公告上架），**未列 `wan3.0-video-prime`**。
+- **但 prime 实际可调**：11-17 试产以 model=wan3.0-video-prime 直接提交 DashScope 原生端点
+  成功出片（task 26c944d4-7b4c-4300-8c37-e4af1a0d8eac，5s/720P/9:16，≈1.5min，未触发回退）。
+  catalog 列表滞后/不全，**模型可用性以实际提交为准**。
+- 脚本默认 model=prime；若提交被拒（模型不可用类错误，未计费）自动回退标准版并打印提示，
+  回退事件记录在 sidecar JSON。国际站 QwenCloud（新加坡等）prime 已公示上架（USD 计价）；
+  模型/Endpoint/Key 必须同地域，cn-beijing key 不能调国际站。
 
 ## Usage
 
@@ -145,8 +147,9 @@ python3.11 $S --task-id <task_id> --output out.mp4   # 续查+下载（24h 内�
 - **ratio 无 9:16/3:4**：竖屏漫剧用 adaptive + 竖构图首帧图驱动，不要硬传 9:16（报错）。
 - **prompt_extend 会改写意图**：精细分镜脚本默认关；只有 file/link 模式强制 true。
 - **同 seed 不逐帧确定**：复现靠 sidecar 记录参数+原片归档，不靠 seed 玄学。
-- **模型可用性随区域/时间变**：prime 在 cn-beijing 未上架（11-17 实测），自动回退标准版；
-  能力对齐，只是慢。别把回退当失败。
+- **模型可用性随区域/时间变，以实际提交为准**：prime 在 cn-beijing catalog 未列但实测可调
+  （11-17 试产实证）；catalog 滞后不代表不可用。被拒时自动回退标准版，能力对齐只是慢，
+  别把回退当失败。
 - **24h 双有效期**：task_id 过期查不到（UNKNOWN），video_url 过期下载 404；
   提交后当天必须完成下载归档。
 - **旧 happyhorse 已退役**：token-plan catalog 已无 happyhorse-*（11-17 实测 23 模型），

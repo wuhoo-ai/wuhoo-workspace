@@ -12,12 +12,14 @@
 
 | model id | 定位 | Token Plan cn-beijing | 国际站 QwenCloud |
 |---|---|---|---|
-| wan3.0-video-prime | 高速版，能力对齐标准版，端到端显著更快 | 未上架（11-17 实测 catalog+产品动态均无） | 已上架（SG 等地域） |
+| wan3.0-video-prime | 高速版，能力对齐标准版，端到端显著更快 | **catalog 未列但实际可调**（11-17 试产实证，task 26c944d4，5s/720P≈1.5min 出片） | 已上架（SG 等地域） |
 | wan3.0-video | 标准版 | 已上架（产品动态 2026-10-10 公告；catalog created=2026-10-13） | 已上架 |
 
 铁律：模型、Endpoint URL、API Key 必须同地域，跨地域调用失败。
+**模型可用性以实际提交为准——/compatible-mode/v1/models 列表滞后/不全（prime 实证）。**
 Token Plan 产品动态相关条目：2026-10-10「新增万相视频模型：个人版和团队版模型表新增 wan3.0-video」。
-prime 上架 cn-beijing 后本表需更新（重跑 catalog 探针即可核验）。
+ratio 争议：API 参考列 adaptive/21:9/16:9/4:3/1:1，使用指南另列 3:4/9:16；
+11-17 实证 adaptive+竖构图首帧 → 输出自动 9:16，竖屏漫剧走此正解。
 
 ## 提交任务
 

@@ -75,8 +75,13 @@ Wan3.0 原生支持多镜头叙事（≤30s、序号+时间戳），但单镜头
 
 ## ③ 关键帧生图 + vision 审
 
-- 每镜头一张关键帧（首帧），竖屏漫剧用 9:16 构图（如 1152x2048）。
-- 生图走 ~/.hermes/skills/image-generation/gen_image.py（wan2.7-image-pro / qwen-image-3.0-pro）。
+- 每镜头一张关键帧（首帧），竖屏漫剧用 9:16 构图（如 720*1280）。
+- **有权威母图的角色：关键帧优先=母图程序化竖裁（零重绘零成本）**——11-17 首试产实证：
+  wan2.7 t2i 对布局硬约束（孤悬比例/篷塌露骨/破洞透光/下缘消散/皮影接缝）三轮迭代仍 FAIL，
+  母图竖裁 vision 判定「可直接用」且锁定项全在。裁切前 vision 复核母图实际外观
+  （旧 prompt 文本与母图可能有 K2 已知偏差，以母图为准），裁切后 vision 确认人物完整/背景协调。
+- 无母图的新角色/新场景才走 t2i：~/.hermes/skills/image-generation/gen_image.py
+  （wan2.7-image-pro / qwen-image-3.0-pro），留足 3-5 次迭代预算，布局类约束预期服从度低。
 - **角色一致性三件套**（K2 批次已验证对策，MemPalace pitfall_c848e543）：
   1. 族系特征跨镜头锁定写死（发色/结饰/磷光/衣制），有标杆图的角色把特征逐条抄进 prompt；
   2. 手部条款：「五指并拢可读」+ 拱手/摊手等单手势，禁复杂手势；
@@ -128,7 +133,9 @@ python3.11 $S --prompt "<④成型提示词>" --image <关键帧.jpg> \
 
 - 首试产 5s/720P 验证方向，过了再上 1080P/更长时长（计价见视频技能）。
 - 竖屏：首帧竖构图 + ratio adaptive（API 参考 ratio 表无 9:16，使用指南有——以 adaptive+竖首帧为稳妥正解）。
-- 模型默认 wan3.0-video-prime，cn-beijing 未上架时自动回退 wan3.0-video（能力对齐，只是慢）。
+- 模型默认 wan3.0-video-prime，**cn-beijing 实测可调**（11-17 首试产 task 26c944d4，
+  catalog 未列但提交成功，≈1.5min 出片）；被拒时自动回退 wan3.0-video（能力对齐，只是慢）。
+- 竖屏实证：adaptive+竖构图首帧 → 输出自动 9:16，无需硬传 9:16。
 - 长任务纪律：--submit-only 拿 task_id，有界等待续查；24h 内必须下载归档。
 - 每镜头 3-5 次 prompt 迭代预算（29 生产纪律）；超预算停下复盘，不无限烧。
 
@@ -169,6 +176,14 @@ commit 信息带镜头号与验收结论；大文件走 LFS；双 remote（codeu
 - **发光体语义污染**：wan 系模型爱把「透光」画成 neon/rim light；prompt 必须写
   「背光透射、暖色平面色块、镂空透亮」并在负向清单禁发光体。
 - **旁白抢戏**：漫剧改编时旁白是吴守桥的「看见」，不是解说员；每场景≤3句，删对白留画面优先。
+- **vision 工具间歇路由错误**（11-17 实测）：hermes vision_analyze 偶发报
+  "supported API model names are deepseek-flash, deepseek-v4-pro, but you passed qwen4-max"
+  （aux vision 被路由到 deepseek-only 端点）。对策：图先转 JPEG q85-92 小图再送审
+  （成功率高）；兜底=token-plan compatible-mode chat/completions 直调 qwen3.8-max
+  （input:[text,image]）。大 PNG base64 直传（>2MB payload）会 WriteTimeout，一律先转 JPEG。
+- **t2i 布局硬约束服从度低**（11-17 三连败实证）：孤悬构图比例/物件破损细节/水墨消散/
+  皮影接缝类约束，wan2.7 三轮迭代仍难达标，且可能姿态回归（坐→站）。有母图走母图裁切，
+  无母图把布局约束当「尽力项」，验收以角色锁定+无穿帮为硬闸，场景级方向留人工修图/r2v 迭代。
 
 ## References
 
