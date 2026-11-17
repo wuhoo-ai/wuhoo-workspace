@@ -9,7 +9,7 @@
 
 | 目录 | 可见 profile | 内容 |
 |---|---|---|
-| `skills/shared/` | 全部 (default/trader/gamedev) | 跨域基础设施：wuhoo-infra、wuhoo-skill-testing |
+| `skills/shared/` | 全部 (default/trader/gamedev) | 跨域基础设施：wuhoo-infra、wuhoo-skill-testing、wuhoo-video-generation |
 | `skills/default/` | default | 资讯与个人线：wuhoo-news-rss、wuhoo-rss-briefing、wuhoo-football-predictor |
 | `skills/trader/` | trader | 投资全家桶（10 个）|
 | `skills/gamedev/` | gamedev | 游戏生产全家桶（18 个）|
