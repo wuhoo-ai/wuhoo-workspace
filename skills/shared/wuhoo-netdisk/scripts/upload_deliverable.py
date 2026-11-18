@@ -12,6 +12,7 @@
 import argparse
 import datetime
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -32,8 +33,10 @@ def run(args, check=True):
 
 
 def ensure_login():
+    # BaiduPCS-Go 未登录时 who 仍 rc=0 输出 "uid: 0"——必须解析 uid 数值判非零
     r = run(["who"], check=False)
-    if r.returncode != 0 or "uid" not in (r.stdout + r.stderr).lower():
+    m = re.search(r"uid:\s*(\d+)", r.stdout + r.stderr)
+    if r.returncode != 0 or not m or int(m.group(1)) == 0:
         print("[未登录] 先运行 scripts/login.sh（凭证文件自建，见技能 SKILL.md）", file=sys.stderr)
         sys.exit(2)
 

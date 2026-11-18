@@ -69,6 +69,10 @@ python3.11 -m pytest skills/wuhoo-stock-deep-analysis/tests/ -v
 python3.11 -m pytest skills/wuhoo-trade-diagnose/tests/ -v
 ```
 
+### 验证命令单独运行（exit 归因）
+
+pytest / bash -n 等验证收尾命令单独一条 terminal 调用运行，不要与其他命令用 `;`/`&&` 串接：串接时 exit_code 只反映最后一条命令，测试通过与否无法干净归因（验证追踪也不计）。施工脚本里多步用 `;` 分隔并逐步 echo rc；`&&` 链中可选步骤失败（如 cat 不存在的状态文件）会静默跳过后续主工作——可选步骤加 `2>/dev/null || true` 或改用 `;`。
+
 ## Mock 策略
 
 ### LLM/AI Agent 依赖
@@ -189,3 +193,11 @@ futu SDK 内部产生大量 `DeprecationWarning`（protobuf descriptor），运�
 ### Debate 测试超时
 
 直接初始化 DebateAgent 会调用 LLM，导致超时。**必须 mock 或使用纯逻辑测试**。
+
+### execute_code 内核 PYTHONPATH 污染 python3.11 子进程（2026-11-18 实证）
+
+execute_code 内核环境注入 `PYTHONPATH=<kernel scratch>:<python3.14 site-packages>:<hermes-agent>`。
+在内核里用 subprocess 跑 `python3.11 -m pytest` 或直接执行技能脚本时，子进程会继承该
+PYTHONPATH，把 3.14 的编译扩展（httpx/pydantic 等）喂给 3.11 → 导入错误、pytest 收集失败
+（"1 error in 0.3s"）、--help 空输出。**对策：subprocess env 剥离 PYTHONPATH/PYTHONHOME**；
+terminal 工具直跑不受影响（无此注入）。诊断特征：同一命令 terminal 直跑绿、内核子进程红。

@@ -43,8 +43,10 @@ else
   echo "[提示] 未填 STOKEN，仅登录 BDUSS（上传/下载可用，分享转存不可用）"
   out=$(bash "$PCS" login -bduss="$BDUSS" 2>&1)
 fi
-# 回显过滤：任何情况下不打印凭证值
-printf '%s\n' "$out" | sed "s/$BDUSS/***/g" ${STOKEN:+| sed "s/$STOKEN/***/g"}
+# 回显过滤：任何情况下不打印凭证值（bash 字面替换，无 sed 元字符/管道解析坑）
+out=${out//$BDUSS/***}
+if [ -n "$STOKEN" ]; then out=${out//$STOKEN/***}; fi
+printf '%s\n' "$out"
 
 echo "--- 验证 ---"
 bash "$PCS" who
