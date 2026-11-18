@@ -127,6 +127,7 @@ def main():
 
     stage = Path(tempfile.mkdtemp(prefix="netdisk-stage-", dir=os.path.expanduser("~/.hermes/cache/scratch")))
     token_dir = None
+    offline_ok = False
     try:
         shutil.copy2(prompt, stage / "prompt.md")
         files = [stage / "prompt.md", asset] + extras
@@ -146,6 +147,7 @@ def main():
             if r2.returncode != 0:
                 print(f"[FAIL] 离线下载入库 rc={r2.returncode}\n{r2.stderr[-500:]}", file=sys.stderr)
                 sys.exit(1)
+            offline_ok = True
         else:
             r = run(["upload"] + [str(f) for f in files] + [remote_dir])
             print(r.stdout[-1500:])
@@ -160,8 +162,11 @@ def main():
     finally:
         shutil.rmtree(stage, ignore_errors=True)
         if token_dir is not None:
-            subprocess.run(["sudo", "-n", "rm", "-rf", str(token_dir)], capture_output=True)
-            print(f"[清理] 布点目录已删: {token_dir}")
+            if offline_ok:
+                subprocess.run(["sudo", "-n", "rm", "-rf", str(token_dir)], capture_output=True)
+                print(f"[清理] 布点目录已删: {token_dir}")
+            else:
+                print(f"[保留] 离线任务未确认成功，布点保留供续查/重试: {token_dir}")
 
 
 if __name__ == "__main__":

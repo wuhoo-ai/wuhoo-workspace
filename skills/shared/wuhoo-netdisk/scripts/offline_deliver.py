@@ -30,14 +30,17 @@ CRED = Path.home() / '.config/baidupcs/credentials.env'
 UA = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/126.0 Safari/537.36')
 BASE = 'https://pan.baidu.com/rest/2.0/services/cloud_dl'
+META_SIZE_RE = re.compile(r'(?:文件大小|size)\s*[:：]?\s*(\d+)', re.I)
 
 
 def load_cookies():
     if not CRED.exists():
-        sys.exit('[凭证] 缺少 ~/.config/baidupcs/credentials.env，先运行 scripts/login.sh')
+        print('[凭证] 缺少 ~/.config/baidupcs/credentials.env，先运行 scripts/login.sh', file=sys.stderr)
+        sys.exit(4)
     mode = stat.S_IMODE(CRED.stat().st_mode)
     if mode != 0o600:
-        sys.exit(f'[凭证] 权限 {oct(mode)} 非 600，拒绝执行（chmod 600 后重试）')
+        print(f'[凭证] 权限 {oct(mode)} 非 600，拒绝执行（chmod 600 后重试）', file=sys.stderr)
+        sys.exit(4)
     vals = {}
     for line in CRED.read_text().splitlines():
         line = line.strip()
@@ -45,7 +48,8 @@ def load_cookies():
             k, v = line.split('=', 1)
             vals[k.strip()] = v.strip()
     if not vals.get('BDUSS'):
-        sys.exit('[凭证] credentials.env 缺 BDUSS')
+        print('[凭证] credentials.env 缺 BDUSS', file=sys.stderr)
+        sys.exit(4)
     cookies = {'BDUSS': vals['BDUSS']}
     if vals.get('STOKEN'):
         cookies['STOKEN'] = vals['STOKEN']
@@ -111,9 +115,13 @@ def main():
         st = int(ti.get('status') if ti.get('status') is not None else -1)
         if polls % 6 == 0:
             print(f'[poll{polls}] status={st} {fin}/{fs}B', flush=True)
-        if fs > 0 and fin >= fs:
+        if args.size and fs > 0 and fs != args.size:
+            outcome = 'failed'
+            print(f'[失败] 回源尺寸不符 poll{polls}: file_size={fs} 期望={args.size}（错误页/假完成）')
+            break
+        if st == 0 and fs > 0 and fin >= fs:
             outcome = 'success'
-            print(f'[完成] 字节数达标 poll{polls}: {fin}/{fs}')
+            print(f'[完成] status=0 字节达标 poll{polls}: {fin}/{fs}')
             break
         if st == 0 and polls >= 3:
             outcome = 'success'
@@ -141,7 +149,7 @@ def main():
         r = subprocess.run(['bash', PCS, 'meta', f'{args.save_path}/{name}'],
                            capture_output=True, text=True, timeout=90)
         meta = r.stdout + r.stderr
-        m = re.search(r'(?:文件大小|size)\s*[:：]?\s*(\d+)', meta, re.I)
+        m = META_SIZE_RE.search(meta)
         if m:
             ok_size = int(m.group(1)) == args.size
             print(f'[meta] size={m.group(1)} 期望={args.size} -> {"PASS" if ok_size else "FAIL"}')

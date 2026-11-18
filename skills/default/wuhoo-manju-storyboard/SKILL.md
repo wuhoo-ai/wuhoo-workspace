@@ -1,7 +1,7 @@
 ---
 name: wuhoo-manju-storyboard
 description: "Use when 把GDD故事线/剧情转成漫剧或故事视频的分镜提示词脚本. t2v多镜头直出主路线+角色文本锁定+人工审核终闸+网盘产物配对."
-version: 2.0.0
+version: 2.1.0
 category: default
 tags: ["wuhoo"]
 ---
@@ -17,7 +17,10 @@ tags: ["wuhoo"]
 用户要求：漫剧制作、故事视频、章节改编视频、结尾/宣传视频、分镜脚本、
 把 GDD 剧情变成画面清单。纯视频生成（已有提示词）直接用 wuhoo-video-generation。
 
-## 主路线（v2.0.0，用户 2026-11-18 拍板）
+## 主路线（v2.1.0，用户 2026-11-18 拍板 + 人工审核认可）
+
+**生产方式固定（用户 11-18 拍板）：Token Plan wan3.0 t2v 直出 → 百度网盘配对归档。**
+首轮人工审核结论：六镜 t2v 效果获认可（「挺不错」），提示词需优化 → 进入分镜提示词优化阶段。
 
 ```
 GDD章节剧本 → ①选段立项 → ②分镜拆解(画面清单) → ③多镜头t2v提示词成型(角色文本锁定)
@@ -34,12 +37,12 @@ GDD章节剧本 → ①选段立项 → ②分镜拆解(画面清单) → ③多
 - **vision LLM 审计闸撤销**（用户拍板「vision审计意义不大，靠我人工审核」）：
   人工审核是唯一最终闸；程序化指标（sidecar/ffprobe/frame_diff）只作零成本辅助参考。
 
-### 可选分支：i2v 首帧驱动（不再默认）
+### i2v 首帧分支：已关闭（用户 2026-11-18 拍板）
 
-仅当用户主动提供/批准首帧图时使用（如权威母图竖裁——11-17 shot-02 成功案例：
-LZW-1-calm-v2 母图程序化竖裁零重绘，双闸 PASS）。t2i 新出关键帧不作主路线：
-wan2.7 对布局硬约束（孤悬比例/破损细节/水墨消散/皮影接缝）三轮迭代实证难达标，
-且用户质疑其跨镜头统一性。i2v 用法见 wuhoo-video-generation 技能与 templates/shot-prompt.md。
+用户看过六镜 t2v 后拍板「李章武 i2v 这个没必要继续了」——i2v 母图竖裁线停止推进，
+shot-02（task 26c944d4，双闸 PASS）作为历史产物保留（网盘配对目录已归档）。
+背景：t2i 新出关键帧对布局硬约束（孤悬比例/破损细节/水墨消散/皮影接缝）三轮迭代实证难达标，
+且用户质疑其跨镜头统一性。templates/shot-prompt.md 仅留作历史参考，不再用于生产。
 
 ## 输入资产（guimei 仓 ~/wuhoo-workspace/games/guimei/）
 
@@ -157,7 +160,8 @@ python3.11 $S --task-id <id> --output <目录>/<名>.mp4
 - **网盘（wuhoo-netdisk 技能）**：媒体产物 + 配对提示词入库：
   `/wuhoo-assets/视频/<内容slug>-<YYYYMMDD>/prompt.md + <素材文件>`
   prompt.md 自包含（完整提示词逐字+参数单+来源+task_id/usage+人工审核记录），
-  模板见 wuhoo-netdisk/templates/prompt-md.md；上传用 upload_deliverable.py（自动配对+验证）。
+  模板见 wuhoo-netdisk/templates/prompt-md.md；上传用 upload_deliverable.py --offline
+  （自动配对+验证；大素材走百度离线下载回源——跨境直传 ≥4MB 被阻断，11-18 端到端实证）。
 - **git（guimei 仓，GitHub 为主）**：只留文本——
   ```
   games/guimei/manju/<YYYY-MM-DD>-<章节slug>/
@@ -203,6 +207,9 @@ python3.11 $S --task-id <id> --output <目录>/<名>.mp4
 
 ## Changelog
 
+- v2.1.0 (2026-11-18): 用户人工审核认可六镜 t2v 效果，生产方式固定
+  （Token Plan wan3.0 t2v → 百度网盘）；i2v 首帧分支关闭（shot-02 留档历史）；
+  归档上传改 --offline 离线下载回源通道；进入分镜提示词优化阶段。
 - v2.0.0 (2026-11-18): 用户拍板改 t2v 直出主路线（质疑 t2i 关键帧统一性）；
   vision LLM 审计闸撤销改人工审核终闸；新增多镜头提示词结构模板+角色文本锁定+一致性声明；
   经典案例参考入库；归档改网盘媒体配对+git 文本（wuhoo-netdisk 咬合）；
