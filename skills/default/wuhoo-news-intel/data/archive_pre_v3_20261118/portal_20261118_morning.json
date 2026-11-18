@@ -1,0 +1,6289 @@
+{
+ "meta": {
+  "date": "2026-11-18",
+  "edition": "morning",
+  "model": "qwen4-max",
+  "generated_at": "2026-11-18 11:24",
+  "data_asof": "11:24",
+  "tokens": 62057,
+  "calls": 51,
+  "quota_hit": false,
+  "partial": false,
+  "coverage": {
+   "ts": "2026-11-18T11:09:29",
+   "ok": 85,
+   "failed": 6,
+   "refused": 0,
+   "total": 91,
+   "ratio": 0.9341
+  },
+  "noise_filtered": 265,
+  "window_events": 7542,
+  "velocity_asof": "2026-11-18T10:20:43"
+ },
+ "overview": {
+  "mainline": "英伟达交出超预期财报的同时，最高权力交接与财务透明度收缩同步浮出水面，业绩高增与治理不确定性叠加，成为牵动全球风险资产定价的核心变量。",
+  "points": [
+   {
+    "head": "千亿美元营收与管理层剧变同框",
+    "body": "英伟达2027财年第三季度营收首次突破千亿美元、达到1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元、增长110%，第四季度指引1261亿至1339亿美元再创新高。但这是黄仁勋11月12日辞去总裁兼CEO后的首份财报，董事会主席琼斯确认其因个人行为不符合公司行为准则自愿辞职，董事会一致接受且不打算恢复其职位。业绩由临时CEO兼CFO主导发布，公司已聘请海德思哲遴选继任者并强调不赶时间，这意味着强劲数字背后的领导层真空短期内难以填补。"
+   },
+   {
+    "head": "高利率压制与龙头指引拉锯",
+    "body": "纽约联储主席威廉姆斯称通胀顽固地高企，把通胀降至2%仍有更多工作要做，10年期美债收益率维持在5%以上的天数逼近20年来最长记录。美股三大股指集体收跌，道指跌1.64%，标普500跌1.02%并连跌四日创9月以来最长连跌，纳指跌0.74%。不过芯片股尾盘拉升收窄跌幅，英伟达仅跌0.48%，盘后涨超4.4%，带动周三亚太盘初纳斯达克100股指期货涨超1.4%、日经225指数期货上涨1.9%，估值压力与业绩支撑正面对撞。"
+   },
+   {
+    "head": "披露口径收缩叠加资金转向AI",
+    "body": "据《金融时报》报道，英伟达在营收达到1040亿美元之际停止单独披露新加坡销售额，而此前该地区入账营收曾激增70%，透明度收缩与权力交接同时发生，放大了市场的疑虑。另一侧，比特币徘徊在64,500美元下方，Glassnode显示流通中约一半比特币处于浮亏，而9月底收于86,600美元时这一比例还不到四分之一，逢低买盘迟迟未现。Anthropic上市被视为投机资金新宠，OpenAI同期发布6.2 Sol与Astra两款模型，热度从加密向AI迁移的迹象值得留意。"
+   },
+   {
+    "head": "A股解禁抛压对冲回购托底",
+    "body": "今日8家公司合计92.51亿元市值限售股集中解禁，恒坤新材和德尔玛解禁量居前，富时A50期指夜盘微跌0.09%，短期情绪偏谨慎。与此同时，年内近1300家上市公司累计回购超1500亿元，在估值低位与成交缩量背景下产业资本托底意愿明确，机构判断向下风险正在收敛。APEC工商领导人峰会在深圳召开，李彦宏警示AI应用落地不及预期可能演变为泡沫，雷军、曾毓群共议机器人与AI前景，为后续板块轮动提供方向性线索。"
+   },
+   {
+    "head": "能源累库与安全端风险抬头",
+    "body": "商品端表现温和，WTI原油收报86.01美元/桶、布伦特报93.14美元/桶，涨幅均不足1%，但API数据显示上周美国原油库存增加527.8万桶，远超市场预期的减少50万桶，汽油库存也增逾500万桶，供给宽松信号与科技驱动的风险偏好回升方向相反。安全层面，攻击者借Optimizely漏洞向CNN、汇丰银行等178家机构网站植入恶意代码窃取加密货币，目标锁定iPhone用户，说明风险已从价格波动蔓延到基础设施本身。"
+   }
+  ],
+  "watch": "重点跟踪英伟达新任CEO人选的落定节奏与新加坡等地区收入披露口径的变化，观察治理与透明度疑虑会否抵消超预期业绩对全球科技股估值的支撑。"
+ },
+ "headlines": [
+  {
+   "event_id": 1235,
+   "title": "英伟达分析师电话会议要点总结",
+   "topic": "财经",
+   "n_indep": 17,
+   "salience": 81.6802,
+   "primary_entities": [
+    "NVIDIA",
+    "JENSEN_HUANG",
+    "MUSK",
+    "TRUMP",
+    "TESLA"
+   ],
+   "incidental_entities": [
+    "CNBC",
+    "FT",
+    "INTEL",
+    "LSEG",
+    "NVDA",
+    "PUTIN"
+   ],
+   "canonical_feed": "华尔街见闻实时",
+   "links": [
+    {
+     "url": "https://wallstreetcn.com/livenews/3201572",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://www.ithome.com/1/027/470.htm",
+     "feed": "IT之家"
+    },
+    {
+     "url": "https://original.ifeng.com/c/8y8Xo1QzM1V",
+     "feed": "凤凰网财经"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2537266?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://original.ifeng.com/c/8y5QrZj2Ecq",
+     "feed": "凤凰网财经"
+    },
+    {
+     "url": "https://international.caixin.com/2026-11-18/102506043.html",
+     "feed": "财新最新"
+    },
+    {
+     "url": "https://tech.ifeng.com/c/8y6K7vIGp2A",
+     "feed": "凤凰网财经"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2535006?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://www.guancha.cn/GuoJi%C2%B7ZhanLue/2026_11_18_908801.shtml",
+     "feed": "观察者网"
+    },
+    {
+     "url": "https://www.barrons.com.cn/news/262569",
+     "feed": "巴伦中文"
+    },
+    {
+     "url": "https://wallstreetcn.com/articles/3785975",
+     "feed": "华尔街见闻"
+    },
+    {
+     "url": "https://www.barrons.com.cn/news/263469",
+     "feed": "巴伦中文"
+    },
+    {
+     "url": "https://wallstreetcn.com/articles/3786122",
+     "feed": "华尔街见闻"
+    },
+    {
+     "url": "https://www.36kr.com/newsflashes/4074450230498437",
+     "feed": "36氪快讯"
+    },
+    {
+     "url": "https://www.ithome.com/1/028/580.htm",
+     "feed": "IT之家"
+    },
+    {
+     "url": "https://www.ithome.com/1/028/566.htm",
+     "feed": "IT之家"
+    },
+    {
+     "url": "https://www.cna.com.tw/news/aopl/202611180003.aspx",
+     "feed": "中央社"
+    },
+    {
+     "url": "https://www.gelonghui.com/live/2766122",
+     "feed": "格隆汇"
+    },
+    {
+     "url": "https://www.gelonghui.com/p/7437489",
+     "feed": "格隆汇首页"
+    },
+    {
+     "url": "https://www.cna.com.tw/news/aopl/202611170006.aspx",
+     "feed": "中央社"
+    },
+    {
+     "url": "https://www.gelonghui.com/p/7450068",
+     "feed": "格隆汇首页"
+    },
+    {
+     "url": "https://www.cna.com.tw/news/aopl/202611160004.aspx",
+     "feed": "中央社"
+    },
+    {
+     "url": "https://wallstreetcn.com/articles/3786123",
+     "feed": "华尔街见闻"
+    },
+    {
+     "url": "https://www.gelonghui.com/live/2766384",
+     "feed": "格隆汇"
+    },
+    {
+     "url": "https://original.ifeng.com/c/8y8vElbcYlN",
+     "feed": "凤凰网财经"
+    },
+    {
+     "url": "https://www.cna.com.tw/news/aopl/202611180007.aspx",
+     "feed": "中央社"
+    },
+    {
+     "url": "https://cnnews.chosun.com/client/news/viw.asp?nNewsNumb=20261165693&cate=&mcate=",
+     "feed": "朝鲜日报中文"
+    },
+    {
+     "url": "https://www.yicai.com/brief/103444330.html",
+     "feed": "第一财经"
+    },
+    {
+     "url": "https://news.ifeng.com/c/8y6Xhr1Szvr",
+     "feed": "凤凰网财经"
+    },
+    {
+     "url": "https://www.gelonghui.com/p/7466893",
+     "feed": "格隆汇首页"
+    },
+    {
+     "url": "https://www.ithome.com/1/028/295.htm",
+     "feed": "IT之家"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201540",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://www.gelonghui.com/p/7448585",
+     "feed": "格隆汇首页"
+    },
+    {
+     "url": "https://xnews.jin10.com/details/235298",
+     "feed": "金十重要"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2536050?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201432",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://www.cna.com.tw/news/aopl/202611170122.aspx",
+     "feed": "中央社"
+    },
+    {
+     "url": "https://www.ithome.com/1/028/595.htm",
+     "feed": "IT之家"
+    },
+    {
+     "url": "https://www.cls.cn/detail/2537266",
+     "feed": "财联社电报"
+    },
+    {
+     "url": "https://wallstreetcn.com/articles/3786136",
+     "feed": "华尔街见闻"
+    },
+    {
+     "url": "https://www.ithome.com/1/028/587.htm",
+     "feed": "IT之家"
+    },
+    {
+     "url": "https://news.ifeng.com/c/8y7wfCEtcgm",
+     "feed": "凤凰网财经"
+    },
+    {
+     "url": "https://www.yicai.com/brief/103443635.html",
+     "feed": "第一财经"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2536535?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201104",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://www.guancha.cn/GuoJi%C2%B7ZhanLue/2026_11_17_908710.shtml",
+     "feed": "观察者网"
+    },
+    {
+     "url": "https://www.barrons.com.cn/news/263219",
+     "feed": "巴伦中文"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201542",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2537271?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2537269?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://www.cls.cn/detail/2537296",
+     "feed": "财联社深度"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201544",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://www.yicai.com/brief/103444335.html",
+     "feed": "第一财经"
+    },
+    {
+     "url": "https://www.barrons.com.cn/news/263470",
+     "feed": "巴伦中文"
+    },
+    {
+     "url": "https://www.36kr.com/newsflashes/4074492542932104",
+     "feed": "36氪快讯"
+    },
+    {
+     "url": "https://www.36kr.com/newsflashes/4074476547969921",
+     "feed": "36氪快讯"
+    },
+    {
+     "url": "https://www.36kr.com/newsflashes/4074473961214855",
+     "feed": "36氪快讯"
+    },
+    {
+     "url": "https://www.barrons.com.cn/news/263479",
+     "feed": "巴伦中文"
+    }
+   ],
+   "merged_from": [
+    1235,
+    8593,
+    6084,
+    8712
+   ],
+   "fact": "英伟达董事会主席哈维·琼斯在11月18日的财报电话会上表示，黄仁勋于11月12日因个人行为不符合公司行为准则而自愿辞去总裁、CEO及董事职务，董事会一致接受辞呈且不打算恢复其CEO职位，正在审慎评估内外部候选人。临时CEO兼CFO科莱特·克雷斯披露第三季度营收达1,158亿美元，第四季度营收指引为1,300亿美元（区间1,274亿至1,326亿美元），毛利率预计71%至72%。此前11月17日黄仁勋发表辞职后首份声明称愿重返CEO岗位，马斯克等硅谷人士及近20万名联署者呼吁其复职，但美国财长贝森特公开敦促选择外部人士接任。",
+   "impact": "全球市值最高的芯片公司在创始人被迫离职后首次对外明确继任方向与业务展望，领导层真空期的治理走向直接影响AI算力供应链信心与美国出口管制政策协调。",
+   "divergence": "黄仁勋本人11月17日声明称愿回归，盟友组建游说团施压董事会；但董事会主席11月18日电话会明确拒绝复职，双方立场公开对立。此外，部分来源将辞职描述为'被迫辞去'，董事会则定性为'自愿辞职'，措辞存在分歧。",
+   "next_step": "关注董事会正式CEO遴选进展及新设国家安全与出口管制监督委员会与美国政府的沟通动向，同时跟踪第四季度1,300亿美元营收指引能否兑现。",
+   "unverified_numbers": [],
+   "numbers_verified": true,
+   "parse_failed": false,
+   "usage": {
+    "prompt_tokens": 2063,
+    "total_tokens": 2398,
+    "completion_tokens": 335,
+    "prompt_tokens_details": {
+     "cached_tokens": 2048,
+     "text_tokens": 2063
+    },
+    "completion_tokens_details": {}
+   },
+   "_cat": "ai_tech"
+  },
+  {
+   "event_id": 6068,
+   "title": "财联社11月18日早间新闻精选",
+   "topic": "财经",
+   "n_indep": 11,
+   "salience": 64.8778,
+   "primary_entities": [
+    "NVIDIA"
+   ],
+   "incidental_entities": [],
+   "canonical_feed": "财联社电报",
+   "links": [
+    {
+     "url": "https://www.cls.cn/detail/2537326",
+     "feed": "财联社电报"
+    },
+    {
+     "url": "https://wallstreetcn.com/articles/3786093",
+     "feed": "华尔街见闻"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2536528?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201100",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://www.gelonghui.com/p/7463738",
+     "feed": "格隆汇首页"
+    },
+    {
+     "url": "https://www.36kr.com/newsflashes/4073829944169346",
+     "feed": "36氪快讯"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2537326?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://www.barrons.com.cn/news/263216",
+     "feed": "巴伦中文"
+    },
+    {
+     "url": "https://www.cls.cn/detail/2536533",
+     "feed": "财联社深度"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201302",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://original.ifeng.com/c/8y84tKwlt0v",
+     "feed": "凤凰网财经"
+    },
+    {
+     "url": "https://wallstreetcn.com/articles/3786115",
+     "feed": "华尔街见闻"
+    },
+    {
+     "url": "https://news.ifeng.com/c/8y8IaZp9GGY",
+     "feed": "凤凰网财经"
+    },
+    {
+     "url": "https://www.zaobao.com.sg/news/china/story20261117-10012301",
+     "feed": "联合早报"
+    },
+    {
+     "url": "https://www.zaobao.com.sg/news/china/story20261117-10014411",
+     "feed": "联合早报"
+    },
+    {
+     "url": "https://www.yicai.com/brief/103443617.html",
+     "feed": "第一财经"
+    }
+   ],
+   "fact": "英伟达第三季度营收1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元，同比增长110%；公司预计第四季度营收1261亿至1339亿美元。首席财务官上调2028年营收增长预期，预计2028财年营收将增长75%，云业务积压订单达2.5万亿美元；董事会批准增加1500亿美元股票回购计划。同期，美国商务部于11月16日发布限制远程获取先进半导体临时最终规则，以新加坡、泰国、马来西亚、印尼和巴西存在非法对华转移芯片高风险为由，要求向相关国家企业出口先进芯片时申请美国出口许可证；中国商务部表示强烈不满、坚决反对，称若美方一意孤行将采取反制措施，外交部发言人郭嘉昆11月17日称美方滥用出口管制、属经济胁迫和长臂管辖。",
+   "impact": "英伟达业绩与指引大幅超出常规增速，显示AI算力需求仍在扩张，但美国新一轮出口管制及中方可能的反制，为其海外销售与全球半导体供应链带来政策不确定性。",
+   "divergence": "关于美国商务部发布限制远程获取先进半导体规则的日期，多数来源记为11月16日，凤凰网财经一篇报道写为10月16日，存在不一致；另据格隆汇转述央视，美国政府正在调查新加坡某公司涉嫌非法向中方转运英伟达芯片，该调查细节仅单一来源提及，未获其他来源核实。",
+   "next_step": "关注英伟达第四季度实际营收能否落在1261亿至1339亿美元指引区间，以及中方是否就美方新规出台具体反制措施。",
+   "unverified_numbers": [],
+   "numbers_verified": true,
+   "parse_failed": false,
+   "usage": {
+    "prompt_tokens": 2055,
+    "total_tokens": 2423,
+    "completion_tokens": 368,
+    "prompt_tokens_details": {
+     "cached_tokens": 2048,
+     "text_tokens": 2055
+    },
+    "completion_tokens_details": {}
+   },
+   "_cat": "finance"
+  },
+  {
+   "event_id": 6904,
+   "title": "周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%。 目前（美股盘后），英伟达涨超4.4%，Lumentum涨6.2%，闪迪涨5.6%，SK海力士ADR涨4.7%，美...",
+   "topic": "财经",
+   "n_indep": 6,
+   "salience": 43.7954,
+   "primary_entities": [
+    "NVIDIA",
+    "INTEL",
+    "ALIBABA",
+    "TSMC",
+    "GOOGLE",
+    "APPLE"
+   ],
+   "incidental_entities": [
+    "AMD"
+   ],
+   "canonical_feed": "华尔街见闻实时",
+   "links": [
+    {
+     "url": "https://wallstreetcn.com/livenews/3201571",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://www.yicai.com/brief/103444062.html",
+     "feed": "第一财经"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2536980?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201573",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3201367",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://www.cls.cn/detail/2536980",
+     "feed": "财联社电报"
+    },
+    {
+     "url": "https://wallstreetcn.com/articles/3786140",
+     "feed": "华尔街见闻"
+    },
+    {
+     "url": "https://www.gelonghui.com/live/2766421",
+     "feed": "格隆汇"
+    },
+    {
+     "url": "https://www.cls.cn/detail/2537294",
+     "feed": "财联社电报"
+    },
+    {
+     "url": "https://api3.cls.cn/share/article/2537294?os=web&sv=8.7.9&app=",
+     "feed": "财联社加红"
+    }
+   ],
+   "merged_from": [
+    6904,
+    8663
+   ],
+   "fact": "2026年11月18日周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%；财联社同日报道纳指期货涨1.38%、标普500指数期货涨0.75%。美股盘后英伟达涨超4.4%，华尔街见闻称其业绩超预期、盘后涨幅一度扩大至5%，并带动Lumentum涨6.2%、闪迪涨5.6%、SK海力士ADR涨4.7%、美光涨4.5%、阿斯麦ADR涨3.7%、英特尔涨2.1%、阿里巴巴涨1.3%、SpaceX涨0.7%，苹果跌超0.2%。",
+   "impact": "英伟达业绩超预期在盘后引发芯片及AI相关个股集体上涨，并推动亚太时段美股期指走高，显示市场对AI算力链的情绪明显回暖。",
+   "divergence": "同一事件各源快照时点不同导致数字不一致：纳指期货涨幅有1.4%以上（华尔街见闻）与1.38%（财联社、格隆汇）两种口径，标普期货为涨超0.8%与0.75%；英伟达盘后涨幅有涨超4.4%、涨超4%与扩大至5%三种表述；个股方面Lumentum为6.2%与7.5%、闪迪5.6%与6.7%、SK海力士ADR与美光4.7%/4.5%与5.5%、阿斯麦ADR 3.7%与4.4%、英特尔2.1%与3.1%、阿里1.3%与至多1.7%。另有第一财经报道纳指期货涨0.5%、标普涨0.12%、道指跌0.3%，以及财联社11月17日英伟达盘前涨1%、纳指期货涨0.6%的记录，属更早时点行情，非本次盘后数据。英伟达具体财报数字未在来源中给出，无法核实。",
+   "next_step": "关注美股正式开盘后期指涨幅能否兑现，以及英伟达财报细节与芯片股涨势的持续性。",
+   "unverified_numbers": [],
+   "numbers_verified": true,
+   "parse_failed": false,
+   "usage": {
+    "prompt_tokens": 1713,
+    "total_tokens": 2210,
+    "completion_tokens": 497,
+    "prompt_tokens_details": {
+     "cached_tokens": 256,
+     "text_tokens": 1713
+    },
+    "completion_tokens_details": {}
+   },
+   "_cat": "commodity"
+  },
+  {
+   "event_id": 1326,
+   "title": "AI抢走加密货币风头？Anthropic上市或成投机资金新宠",
+   "topic": "财经",
+   "n_indep": 5,
+   "salience": 35.2412,
+   "primary_entities": [
+    "BTC"
+   ],
+   "incidental_entities": [
+    "ETH",
+    "FED"
+   ],
+   "canonical_feed": "财联社深度",
+   "links": [
+    {
+     "url": "https://www.cls.cn/detail/2537249",
+     "feed": "财联社深度"
+    },
+    {
+     "url": "https://wallstreetcn.com/articles/3785964",
+     "feed": "华尔街见闻"
+    },
+    {
+     "url": "https://www.solidot.org/story?sid=85894",
+     "feed": "Solidot 奇点资讯"
+    },
+    {
+     "url": "https://www.cls.cn/detail/2535752",
+     "feed": "财联社深度"
+    },
+    {
+     "url": "https://wallstreetcn.com/livenews/3200457",
+     "feed": "华尔街见闻实时"
+    },
+    {
+     "url": "https://decrypt.co/383466/bitcoin-investors-capitulating-historical-bottom-signal",
+     "feed": "UnusualWhales"
+    }
+   ],
+   "fact": "据财联社11月18日报道，比特币价格徘徊在64,500美元下方，已从高点腰斩却仍未吸引逢低买入者；Glassnode数据显示目前流通中的比特币约有一半处于浮亏状态，而9月底收于86,600美元时这一比例还不到四分之一，上周日转移的比特币按美元计算的亏损规模是盈利规模的5.6倍，为7月中旬以来最大差距。同期华尔街见闻称比特币周日一度下探62,022美元、创7月14日以来新低，自10月21日以来累计跌幅超过20%并走向连续第六周下跌；Solidot则指出币值从10月3日的84,680美元跌至64,337美元，一个半月跌去四分之一，CryptoQuant的需求指标降至2023年12月以来最低，比特币ETF再现净卖出。与此同时，原本追逐AI概念股的散户投资者正把目光转向Anthropic的首次公开募股（IPO）。",
+   "impact": "这表明投机资金可能正从加密货币转向AI标的，叠加机构资金流出与利率前景趋紧，比特币的下跌不再只是短期波动，而是需求端的结构性走弱。",
+   "divergence": "各源对近期低点与价格的表述略有差异：华尔街见闻给出周六66,586美元、周日62,022美元后回升至约64,800美元，财联社称周末一度跌近62,000美元、最新徘徊在64,500美元下方，期权报道则以约6.5万美元为现价，属不同时点报价而非矛盾。Solidot将下跌原因归于美国通胀与AI大规模支出吸走资金，属分析机构判断；Anthropic IPO的具体时间与规模来源未给出，尚未核实。UnusualWhales标题称投资者投降式抛售历史上是见底信号，但无正文内容支撑，仅为观点。",
+   "next_step": "关注Anthropic IPO的定价与认购情况能否真正分流加密市场资金，以及比特币ETF净流出、6万美元行权价看跌期权持仓和Glassnode浮亏比例是否继续恶化。",
+   "unverified_numbers": [],
+   "numbers_verified": true,
+   "parse_failed": false,
+   "usage": {
+    "prompt_tokens": 1215,
+    "total_tokens": 1667,
+    "completion_tokens": 452,
+    "prompt_tokens_details": {
+     "cached_tokens": 1024,
+     "text_tokens": 1215
+    },
+    "completion_tokens_details": {}
+   },
+   "_cat": "crypto"
+  },
+  {
+   "event_id": 1355,
+   "title": "A股限售股解禁一览：92.51亿元市值限售股今日解禁",
+   "topic": "财经",
+   "n_indep": 3,
+   "salience": 34.8953,
+   "primary_entities": [],
+   "incidental_entities": [],
+   "canonical_feed": "财联社电报",
+   "links": [
+    {
+     "url": "https://www.cls.cn/detail/2537308",
+     "feed": "财联社电报"
+    },
+    {
+     "url": "https://www.gelonghui.com/live/2762211",
+     "feed": "格隆汇"
+    },
+    {
+     "url": "https://www.yicai.com/brief/103444355.html",
+     "feed": "第一财经"
+    },
+    {
+     "url": "https://www.yicai.com/brief/103441122.html",
+     "feed": "第一财经"
+    }
+   ],
+   "fact": "据Wind数据，2026年11月18日（周三）A股共有8家公司限售股解禁，合计解禁量4.23亿股，按最新收盘价计算合计解禁市值92.51亿元。其中恒坤新材、德尔玛、天海电子解禁量居前，分别为2.28亿股、1.73亿股、569.44万股；按解禁市值排序，恒坤新材73.84亿元、德尔玛12.87亿元、云天励飞-U 2.34亿元居前三。从解禁股数占总股本比例看，恒坤新材50.48%、德尔玛37.42%、云天励飞-U 1.2%居前。",
+   "impact": "当日解禁市值高度集中于恒坤新材和德尔玛两家公司，且二者解禁股占总股本比例分别达50.48%和37.42%，流通盘大幅扩容可能带来短期抛压。",
+   "divergence": "",
+   "next_step": "关注恒坤新材、德尔玛解禁后的实际减持公告及股价与成交量变化，以及后续交易日的解禁规模安排。",
+   "unverified_numbers": [],
+   "numbers_verified": true,
+   "parse_failed": false,
+   "usage": {
+    "prompt_tokens": 1061,
+    "total_tokens": 1311,
+    "completion_tokens": 250,
+    "prompt_tokens_details": {
+     "cached_tokens": 1024,
+     "text_tokens": 1061
+    },
+    "completion_tokens_details": {}
+   },
+   "_cat": "a_hk"
+  }
+ ],
+ "categories": {
+  "finance": {
+   "cards": [
+    {
+     "event_id": 6068,
+     "title": "财联社11月18日早间新闻精选",
+     "topic": "财经",
+     "n_indep": 11,
+     "salience": 64.8778,
+     "primary_entities": [
+      "NVIDIA"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537326",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786093",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2536528?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201100",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.gelonghui.com/p/7463738",
+       "feed": "格隆汇首页"
+      },
+      {
+       "url": "https://www.36kr.com/newsflashes/4073829944169346",
+       "feed": "36氪快讯"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537326?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263216",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2536533",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201302",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://original.ifeng.com/c/8y84tKwlt0v",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786115",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://news.ifeng.com/c/8y8IaZp9GGY",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://www.zaobao.com.sg/news/china/story20261117-10012301",
+       "feed": "联合早报"
+      },
+      {
+       "url": "https://www.zaobao.com.sg/news/china/story20261117-10014411",
+       "feed": "联合早报"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103443617.html",
+       "feed": "第一财经"
+      }
+     ],
+     "fact": "英伟达第三季度营收1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元，同比增长110%；公司预计第四季度营收1261亿至1339亿美元。首席财务官上调2028年营收增长预期，预计2028财年营收将增长75%，云业务积压订单达2.5万亿美元；董事会批准增加1500亿美元股票回购计划。同期，美国商务部于11月16日发布限制远程获取先进半导体临时最终规则，以新加坡、泰国、马来西亚、印尼和巴西存在非法对华转移芯片高风险为由，要求向相关国家企业出口先进芯片时申请美国出口许可证；中国商务部表示强烈不满、坚决反对，称若美方一意孤行将采取反制措施，外交部发言人郭嘉昆11月17日称美方滥用出口管制、属经济胁迫和长臂管辖。",
+     "impact": "英伟达业绩与指引大幅超出常规增速，显示AI算力需求仍在扩张，但美国新一轮出口管制及中方可能的反制，为其海外销售与全球半导体供应链带来政策不确定性。",
+     "divergence": "关于美国商务部发布限制远程获取先进半导体规则的日期，多数来源记为11月16日，凤凰网财经一篇报道写为10月16日，存在不一致；另据格隆汇转述央视，美国政府正在调查新加坡某公司涉嫌非法向中方转运英伟达芯片，该调查细节仅单一来源提及，未获其他来源核实。",
+     "next_step": "关注英伟达第四季度实际营收能否落在1261亿至1339亿美元指引区间，以及中方是否就美方新规出台具体反制措施。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 2055,
+      "total_tokens": 2423,
+      "completion_tokens": 368,
+      "prompt_tokens_details": {
+       "cached_tokens": 2048,
+       "text_tokens": 2055
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 3980,
+     "title": "华尔街见闻早餐 | 2026年11月18日",
+     "topic": "财经",
+     "n_indep": 8,
+     "salience": 61.5635,
+     "primary_entities": [
+      "NVIDIA",
+      "JENSEN_HUANG",
+      "ALIBABA",
+      "ANTHROPIC",
+      "FED"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201583",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786021",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537306",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537281",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2536238",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/594.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2536486",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://finance.caixin.com/2026-11-17/102505960.html",
+       "feed": "财新最新"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537297",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263471",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://www.36kr.com/newsflashes/4074456915792770",
+       "feed": "36氪快讯"
+      }
+     ],
+     "merged_from": [
+      3980,
+      7174
+     ],
+     "fact": "英伟达于美东时间周二盘后发布2027财年第三季度财报，营收首次突破千亿美元（此前市场预期约1090亿美元、盈利增长90%），营收与盈利均超市场预期，下一季度指引再创新高；这是黄仁勋11月12日辞去总裁兼CEO后的首份财报，临时CEO兼CFO科莱特·克雷斯与董事会主席哈维·琼斯出席电话会，琼斯明确表示董事会无意让黄仁勋回归CEO岗位，公司也不会急于寻找继任者。同日披露的2026年三季度13F持仓显示，伯克希尔·哈撒韦、桥水、景林、高瓴、高毅、段永平旗下H&H等机构对英伟达操作明显分化，减持名单拉长但仍有机构逆势加仓，拼多多、阿里巴巴、携程、BOSS直聘等中概股获多家机构增持。",
+     "impact": "在创始人突然离任、治理不确定性最高的时点，超预期业绩与强劲指引暂时支撑了AI叙事，而董事会拒绝黄仁勋复职意味着管理层过渡将长期化，机构持仓分化则反映资金对AI龙头估值与产业链位置的重新定价。",
+     "divergence": "盘后涨幅口径不一：华尔街见闻早餐称英伟达盘后涨4%，财联社深度截至发稿称上涨约3%。另有报道称美国SEC正调查英伟达，该消息在所给材料中未获证实；黄仁勋本人表示愿意重返CEO，与董事会明确不考虑其复职的表态直接冲突。",
+     "next_step": "关注临时CEO克雷斯如何交代继任安排与Vera Rubin放量节奏、黄仁勋12月1日出席美国国会听证的表态，以及SEC调查传闻是否被官方确认。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 2168,
+      "total_tokens": 2544,
+      "completion_tokens": 376,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 2168
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 1798,
+     "title": "马来西亚总理安瓦尔抵达深圳",
+     "topic": "财经",
+     "n_indep": 10,
+     "salience": 50.135,
+     "primary_entities": [
+      "APEC"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537198",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2762847",
+       "feed": "格隆汇"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3200419",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/262570",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://www.guancha.cn/GuoJi%C2%B7ZhanLue/2026_11_17_908642.shtml",
+       "feed": "观察者网"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201426",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://news.ifeng.com/c/8y8agRBJtVH",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103441667.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://www.cna.com.tw/news/acn/202611160107.aspx",
+       "feed": "中央社"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103443884.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537203",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://news.ifeng.com/c/8y8aTfhQ3im",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3200941",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.zaobao.com.sg/news/china/story20261116-10004895",
+       "feed": "联合早报"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103443518.html",
+       "feed": "第一财经"
+      }
+     ],
+     "fact": "2026年11月18日凌晨，马来西亚总理安瓦尔乘机抵达深圳，将出席亚太经合组织第三十三次领导人非正式会议及APEC工商领导人峰会。马来西亚方面表示，将继续同中国及其他APEC成员经济体开展建设性合作，推动会议取得更多基于共识的务实成果。同期，韩国总统李在明于11月18日凌晨抵达深圳，越共中央总书记、国家主席苏林于11月17日上午抵达，香港特区行政长官李家超于11月17日下午率团抵达；据中央社与联合早报报道，APEC工商领导人峰会在11月17日至18日举行，领导人非正式会议在11月19日举行。",
+     "impact": "多个经济体领导人集中抵深，意味着由中国第三次担任东道主的本届APEC会议进入实质议程阶段，马方强调以共识为基础的务实合作，是观察区域经贸协作走向的直接窗口。",
+     "divergence": "",
+     "next_step": "关注11月19日领导人非正式会议的共识成果与宣言表述，以及安瓦尔在APEC工商领导人峰会期间的双边会谈安排。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 1864,
+      "total_tokens": 2105,
+      "completion_tokens": 241,
+      "prompt_tokens_details": {
+       "cached_tokens": 1792,
+       "text_tokens": 1864
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8706,
+     "title": "上市公募REITs“破百”近在咫尺 行业迎来提质深耕窗口期",
+     "topic": "财经",
+     "n_indep": 5,
+     "salience": 47.8226,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537285",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201575",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263473",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://www.36kr.com/newsflashes/4074462342272130",
+       "feed": "36氪快讯"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103444361.html",
+       "feed": "第一财经"
+      }
+     ],
+     "fact": "据上海证券报11月18日报道，山证晋中公投瑞阳供热REIT已披露上市交易公告书，全市场上市的公募REITs数量即将突破百只关口。报道指出，公募REITs已从试点起步走向常态化发行，市场体量持续扩容、底层资产谱系不断丰富。",
+     "impact": "上市数量接近百只意味着公募REITs由试点探索转入常态化运行阶段，行业关注点从规模扩张转向存量资产的运营质量与深耕。",
+     "divergence": "五家来源均转引上海证券报同一内容，无数字或说法分歧；但来源未给出当前已上市的具体只数、市场规模金额及该供热REIT的发行细节，'即将破百'为报道表述而非已完成事实，'告别规模驱动、迎来提质深耕窗口期'系业内人士观点，非监管定调。",
+     "next_step": "跟踪山证晋中公投瑞阳供热REIT正式上市交易的时点及首只'破百'产品的落地情况，以及后续底层资产类型扩容与常态化发行的推进节奏。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 1077,
+      "total_tokens": 1303,
+      "completion_tokens": 226,
+      "prompt_tokens_details": {
+       "cached_tokens": 1024,
+       "text_tokens": 1077
+      },
+      "completion_tokens_details": {}
+     }
+    }
+   ],
+   "heat_list": [
+    {
+     "event_id": 8814,
+     "title": "韩国KOSPI指数开盘上涨2.6%",
+     "cat": "finance",
+     "sel": 45.0313,
+     "n_indep": 7,
+     "ents": [],
+     "summary": "【韩国KOSPI指数开盘上涨2.6%】财联社11月18日电，韩国KOSPI指数开盘上涨2.6%，报5098.82点。SK海力士涨超5%，三星电子涨超3%。日经225指数高开0.25%，报59007.40点。",
+     "lead": "【韩国KOSPI指数开盘上涨2.6%】财联社11月18日电，韩国KOSPI指数开盘上涨2.6%，报5098.82点。",
+     "members": [
+      {
+       "title": "韩国KOSPI指数开盘上涨2.6%",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537328",
+       "pub_date": "2026-11-18 00:01:21"
+      },
+      {
+       "title": "日韩股市周三高开 SK海力士涨超5%",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766542",
+       "pub_date": "2026-11-18 00:02:17"
+      },
+      {
+       "title": "韩国KOSPI指数开盘上涨2.6%",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2537328?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-18 00:01:21"
+      },
+      {
+       "title": "财联社11月18日电，韩国KOSPI指数涨幅扩大至3%，SK海力士涨近6%，三星电子涨超4%。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537332",
+       "pub_date": "2026-11-18 00:08:01"
+      },
+      {
+       "title": "<b>韩国KOSPI指数涨幅扩大至3% |</b> 韩国KOSPI指数涨幅扩大至3%，SK海力士涨近6%，三星电子涨超4%。",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103444386.html",
+       "pub_date": "2026-11-18 00:08:27"
+      },
+      {
+       "title": "韩国首尔综指开盘上涨2.6%，SK海力士涨超5%，三星电子涨近4%。日经225指数高开0.25%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201597",
+       "pub_date": "2026-11-18 00:02:07"
+      },
+      {
+       "title": "日韩股市集体高开，韩国KOSPI指数涨超2%",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263477",
+       "pub_date": "2026-11-18 00:03:45"
+      },
+      {
+       "title": "韩股涨幅扩大至3% SK海力士涨超6%",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766552",
+       "pub_date": "2026-11-18 00:09:37"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8872,
+     "title": "本月118家上市公司获海外机构调研 多数业绩表现较好",
+     "cat": "finance",
+     "sel": 43.6191,
+     "n_indep": 3,
+     "ents": [],
+     "summary": "【本月118家上市公司获海外机构调研 多数业绩表现较好】财联社11月18日电，据统计，11月以来共有118股获海外机构调研，其中25股获5家及以上海外机构调研。澜起科技、百济神州、沪电股份获海外机构调研家数居前，分别有49家、37家、27家。从股价上来看，13只海外机构调研股11月以来累计上涨超10%，华丰科技、安集科技、联赢激光涨幅居前，分别为43.52%、36.9%、26.52%。中际旭创、深南电路、大元泵业跌幅明显，均超过19%。从业绩来看，海外机构调研股多数业绩表现较",
+     "lead": "【本月118家上市公司获海外机构调研 多数业绩表现较好】财联社11月18日电，据统计，11月以来共有118股获海外机构调研，其中25股获5家及以上海外机构调研。",
+     "members": [
+      {
+       "title": "本月118家上市公司获海外机构调研 多数业绩表现较好",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537314",
+       "pub_date": "2026-11-17 23:53:33"
+      },
+      {
+       "title": "本月118家上市公司获海外机构调研，多数业绩表现较好",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263472",
+       "pub_date": "2026-11-17 23:55:58"
+      },
+      {
+       "title": "本月118家上市公司获海外机构调研，多数业绩表现较好",
+       "feed": "36氪快讯",
+       "url": "https://www.36kr.com/newsflashes/4074475140895618",
+       "pub_date": "2026-11-17 23:40:25"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 3866,
+     "title": "券商晨会精华：新型储能“十五五”方案落地，3亿千瓦锚定市场化新阶段",
+     "cat": "finance",
+     "sel": 43.0787,
+     "n_indep": 6,
+     "ents": [
+      "HUAWEI"
+     ],
+     "summary": "财联社11月18日讯，昨日，市场冲高回落后尾盘小幅回升，创业板指跌超1%，此前一度涨近1%，科创50指数早盘曾涨超3%。沪深两市成交额1.46万亿，较上一个交易日缩量268亿，全市场超4100只个股下跌，近80只个股跌停。盘面上，题材弱势轮动，芯片产业链表现活跃，家电板块反复活跃，华为算力概念局部走强；下跌方面，物理AI概念持续下挫，AI漫剧概念震荡走低、多股跌停。截至收盘，沪指跌0.5%，深成指跌0.49%，创业板指跌1.2%。 华泰证券认为，新型储能“十五五”方案落地，3",
+     "lead": "财联社11月18日讯，昨日，市场冲高回落后尾盘小幅回升，创业板指跌超1%，此前一度涨近1%，科创50指数早盘曾涨超3%。",
+     "members": [
+      {
+       "title": "券商晨会精华：新型储能“十五五”方案落地，3亿千瓦锚定市场化新阶段",
+       "feed": "财联社深度",
+       "url": "https://www.cls.cn/detail/2537312",
+       "pub_date": "2026-11-17 23:46:20"
+      },
+      {
+       "title": "19天11板文投控股：股票交易风险提示 前三季度净利润亏损3754.58万元",
+       "feed": "财联社公司公告",
+       "url": "https://api3.cls.cn/share/article/2535777?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-16 11:25:31"
+      },
+      {
+       "title": "生益科技：生产经营情况正常 订单饱满",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2536919",
+       "pub_date": "2026-11-17 10:58:16"
+      },
+      {
+       "title": "生益科技：生产经营情况正常 订单饱满",
+       "feed": "财联社公司公告",
+       "url": "https://api3.cls.cn/share/article/2536919?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 10:58:16"
+      },
+      {
+       "title": "生益科技：生产经营情况正常，订单饱满",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263313",
+       "pub_date": "2026-11-17 10:59:08"
+      },
+      {
+       "title": "九阳股份：股票交易异常波动 与华为无战略合作关系",
+       "feed": "财联社公司公告",
+       "url": "https://api3.cls.cn/share/article/2536755?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 09:09:02"
+      },
+      {
+       "title": "连续2日不足1.5万亿！A股成交额创年内第六低，融资余额规模再度下降",
+       "feed": "财联社深度",
+       "url": "https://www.cls.cn/detail/2536808",
+       "pub_date": "2026-11-17 09:36:47"
+      },
+      {
+       "title": "生益科技：生产经营情况正常，订单饱满",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2765673",
+       "pub_date": "2026-11-17 11:01:58"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社深度"
+    },
+    {
+     "event_id": 5252,
+     "title": "商务部等9部门加强废旧动力电池回收处理 电池回收行业迎政策东风",
+     "cat": "finance",
+     "sel": 43.0787,
+     "n_indep": 6,
+     "ents": [],
+     "summary": "商务部等9部门发布关于深入推进再生资源回收体系建设、促进回收行业高质量发展的意见。意见提出，加强废旧动力电池回收处理。修订实施《报废机动车回收管理办法实施细则》，推动新能源汽车“车电一体报废”回收拆解。研究制定新能源汽车动力电池数字身份证管理制度及相关行政法规。加强关键技术标准供给，积极推动国内成熟标准转化为国际标准。 信达证券研报指出，一般来说，当动力电池容量衰减至额定容量80%以下时，其性能难以满足正常使用需求，从而进入退役阶段，因此动力电池即将进入规模化退役阶段，有望迎",
+     "lead": "商务部等9部门发布关于深入推进再生资源回收体系建设、促进回收行业高质量发展的意见。",
+     "members": [
+      {
+       "title": "商务部等9部门加强废旧动力电池回收处理 电池回收行业迎政策东风",
+       "feed": "财联社深度",
+       "url": "https://www.cls.cn/detail/2537313",
+       "pub_date": "2026-11-17 23:48:54"
+      },
+      {
+       "title": "商务部等9部门：发展退役光伏、废旧风机设备回收拆解",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2764868",
+       "pub_date": "2026-11-17 04:03:02"
+      },
+      {
+       "title": "商务部等9部门：发展退役光伏、废旧风机设备回收拆解",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2764867",
+       "pub_date": "2026-11-17 04:01:43"
+      },
+      {
+       "title": "商务部等9部门：发展退役光伏、废旧风机设备回收拆解",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2536346",
+       "pub_date": "2026-11-17 04:00:58"
+      },
+      {
+       "title": "商务部等9部门：加强废旧动力电池回收处理 推动新能源汽车“车电一体报废”回收拆解",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2536344?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 03:59:42"
+      },
+      {
+       "title": "商务部等9部门：推动新能源汽车“车电一体报废”回收拆解",
+       "feed": "财联社深度",
+       "url": "https://www.cls.cn/detail/2536349",
+       "pub_date": "2026-11-17 04:04:54"
+      },
+      {
+       "title": "商务部等9部门：加强废旧动力电池回收处理 推动新能源汽车“车电一体报废”回收拆解",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2536344",
+       "pub_date": "2026-11-17 03:59:42"
+      },
+      {
+       "title": "商务部：推动新能源汽车“车电一体报废”回收拆解",
+       "feed": "IT之家",
+       "url": "https://www.ithome.com/1/028/511.htm",
+       "pub_date": "2026-11-17 12:02:59"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社深度"
+    },
+    {
+     "event_id": 7992,
+     "title": "俄罗斯总统普京抵达深圳",
+     "cat": "finance",
+     "sel": 41.2295,
+     "n_indep": 7,
+     "ents": [
+      "PUTIN"
+     ],
+     "summary": "【俄罗斯总统普京抵达深圳】财联社11月18日电，11月18日凌晨，俄罗斯总统普京乘专机抵达深圳，将出席11月18日至19日举行的亚太经合组织第三十三次领导人非正式会议。 (央视新闻)",
+     "lead": "【俄罗斯总统普京抵达深圳】财联社11月18日电，11月18日凌晨，俄罗斯总统普京乘专机抵达深圳，将出席11月18日至19日举行的亚太经合组织第三十三次领导人非正式会议。",
+     "members": [
+      {
+       "title": "俄罗斯总统普京抵达深圳",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537221",
+       "pub_date": "2026-11-17 17:53:09"
+      },
+      {
+       "title": "俄罗斯总统普京抵达深圳",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766195",
+       "pub_date": "2026-11-17 17:55:36"
+      },
+      {
+       "title": "俄罗斯总统普京抵达深圳",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201453",
+       "pub_date": "2026-11-17 17:53:04"
+      },
+      {
+       "title": "俄罗斯总统普京抵达深圳",
+       "feed": "华尔街见闻",
+       "url": "https://wallstreetcn.com/articles/3786125",
+       "pub_date": "2026-11-17 18:58:14"
+      },
+      {
+       "title": "普京抵达深圳",
+       "feed": "凤凰网财经",
+       "url": "https://news.ifeng.com/c/8y8fJOqQtdn",
+       "pub_date": "2026-11-17 17:52:15"
+      },
+      {
+       "title": "现场：普京抵达深圳",
+       "feed": "凤凰网财经",
+       "url": "https://original.ifeng.com/c/8y90loIPoVB",
+       "pub_date": "2026-11-17 22:44:51"
+      },
+      {
+       "title": "俄罗斯总统普京凌晨抵达深圳 蔡奇机场迎接",
+       "feed": "联合早报",
+       "url": "https://www.zaobao.com.sg/news/china/story20261118-10015689",
+       "pub_date": "2026-11-18 00:10:37"
+      },
+      {
+       "title": "俄罗斯总统普京抵达深圳，蔡奇前往机场迎接",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201463",
+       "pub_date": "2026-11-17 18:18:31"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8673,
+     "title": "校准截止日期临近 基金密集调整风险等级",
+     "cat": "finance",
+     "sel": 40.8759,
+     "n_indep": 4,
+     "ents": [],
+     "summary": "【校准截止日期临近 基金密集调整风险等级】财联社11月18日电，校准基金产品风险等级，是为了落实投资者适当性管理，让基金产品销售给合适的投资者。近期，20余家基金公司密集发布公告，调整旗下基金风险等级。今年6月，监管部门要求基金公司在6个月内，按照相关要求完善基金风险等级划分体系、完成相关系统改造。随着过渡窗口期临近，基金公司近期正密集校准产品风险等级。",
+     "lead": "【校准截止日期临近 基金密集调整风险等级】财联社11月18日电，校准基金产品风险等级，是为了落实投资者适当性管理，让基金产品销售给合适的投资者。",
+     "members": [
+      {
+       "title": "校准截止日期临近 基金密集调整风险等级",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537287",
+       "pub_date": "2026-11-17 22:45:38"
+      },
+      {
+       "title": "校准截止日期临近 基金密集调整风险等级",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766406",
+       "pub_date": "2026-11-17 22:54:24"
+      },
+      {
+       "title": "校准截止日期临近，基金密集调整风险等级",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201584",
+       "pub_date": "2026-11-17 23:37:29"
+      },
+      {
+       "title": "校准截止日期临近，基金密集调整风险等级",
+       "feed": "36氪快讯",
+       "url": "https://www.36kr.com/newsflashes/4074467680932745",
+       "pub_date": "2026-11-17 23:35:48"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8816,
+     "title": "投资日历：周三资本市场大事提醒",
+     "cat": "finance",
+     "sel": 40.4785,
+     "n_indep": 3,
+     "ents": [
+      "ALIBABA",
+      "NVIDIA"
+     ],
+     "summary": "【投资日历：周三资本市场大事提醒】 ①今日暂无新股申购。 ②亚太经合组织第三十三次领导人非正式会议于11月18日至19日在深圳举行。 ③2026中国5G+工业互联网大会将于11月18日在武汉举行。 ④2026苏州工业自动化及机器人展将于11月18日至20日举办。 ⑤英伟达新任临时首席执行官Colette Kress向员工发送电子邮件表示，将于太平洋时间11月18日上午9点（北京时间19日凌晨1点）召开公司会议。 ⑥2026西南采矿业科技创新大会暨贵州矿业科技博览会将于11月1",
+     "lead": "【投资日历：周三资本市场大事提醒】 ①今日暂无新股申购。",
+     "members": [
+      {
+       "title": "投资日历：周三资本市场大事提醒",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537319",
+       "pub_date": "2026-11-17 23:57:48"
+      },
+      {
+       "title": "投资日历：周三资本市场大事提醒",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766524",
+       "pub_date": "2026-11-17 23:59:04"
+      },
+      {
+       "title": "投资日历：周三资本市场大事提醒",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2537319?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 23:57:48"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8819,
+     "title": "理财产品提前退场常态化，行业竞争转向质量优先",
+     "cat": "finance",
+     "sel": 40.3039,
+     "n_indep": 3,
+     "ents": [],
+     "summary": "近期，银行理财产品提前终止的节奏明显加快。Wind数据显示，截至11月17日，四季度以来已有近200款产品被宣布提前终止；仅11月以来，理财子公司发布的提前终止或部分份额提前终止公告就达89则，涉及招银理财、浦银理财、信银理财、杭银理财、华夏理财等多家机构，退场品类以固定收益类为主。这一轮“退场潮”并非净值波动下的被动清盘，而是止盈触发、份额萎缩、底层资产退出等多重因素交织下的市场化出清，折射出理财行业从“规模扩张”向“质量优先”转轨的深层逻辑。（经济参考报）",
+     "lead": "近期，银行理财产品提前终止的节奏明显加快。",
+     "members": [
+      {
+       "title": "理财产品提前退场常态化，行业竞争转向质量优先",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201587",
+       "pub_date": "2026-11-17 23:39:37"
+      },
+      {
+       "title": "理财产品提前退场常态化 行业竞争转向质量优先",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766521",
+       "pub_date": "2026-11-17 23:57:43"
+      },
+      {
+       "title": "理财产品提前退场常态化，行业竞争转向质量优先",
+       "feed": "36氪快讯",
+       "url": "https://www.36kr.com/newsflashes/4074486793180291",
+       "pub_date": "2026-11-17 23:48:15"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8874,
+     "title": "财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。日本10月份进口同比增长21.6%，预估为25.9%。",
+     "cat": "finance",
+     "sel": 38.1584,
+     "n_indep": 4,
+     "ents": [
+      "MACRO",
+      "MOF",
+      "YOY"
+     ],
+     "summary": "财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。日本10月份进口同比增长21.6%，预估为25.9%。",
+     "lead": "财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。",
+     "members": [
+      {
+       "title": "财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。日本10月份进口同比增长21.6%，预估为25.9%。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537320",
+       "pub_date": "2026-11-17 23:51:33"
+      },
+      {
+       "title": "日本10月进口同比 21.6%，预期 25.9%，前值 18.9%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201589",
+       "pub_date": "2026-11-17 23:50:01"
+      },
+      {
+       "title": "日本10月出口同比 20.5%，预期 20.4%，前值 16.7%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201590",
+       "pub_date": "2026-11-17 23:50:01"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8828,
+     "title": "中信证券：稀土行业供需向好 关注板块配置价值",
+     "cat": "finance",
+     "sel": 35.3179,
+     "n_indep": 3,
+     "ents": [],
+     "summary": "【中信证券：稀土行业供需向好 关注板块配置价值】财联社11月18日电，中信证券研报认为，短期波动不改长期趋势，稀土行业基本面或持续向好。龙头企业三季报整体实现高增长；盛和资源公布冶炼分离业务股权转让事宜，产业链整合进一步深化，上游集中度有望持续提升。稀土行业供给刚性与需求弹性的逻辑或持续强化，板块调整后配置价值进一步凸显，持续推荐稀土产业链战略配置价值。",
+     "lead": "【中信证券：稀土行业供需向好 关注板块配置价值】财联社11月18日电，中信证券研报认为，短期波动不改长期趋势，稀土行业基本面或持续向好。",
+     "members": [
+      {
+       "title": "中信证券：稀土行业供需向好 关注板块配置价值",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537334",
+       "pub_date": "2026-11-18 00:09:50"
+      },
+      {
+       "title": "<b>中信证券：稀土行业供需向好，关注板块配置价值 |</b> 中信证券研报表示，短期波动不改长期趋势，稀土行业基本面或持续向好。龙头企业三季报整体实现高增长；...",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103444377.html",
+       "pub_date": "2026-11-18 00:01:01"
+      },
+      {
+       "title": "中信证券：稀土行业供需向好，关注板块配置价值",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766554",
+       "pub_date": "2026-11-18 00:10:28"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    }
+   ],
+   "digest": "今天这个领域的主线是英伟达交出超预期财报。公司2027财年第三季度营收首次突破千亿美元，达到1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元、增长110%，均高于市场此前约1090亿美元的预期；第四季度指引1261亿至1339亿美元再创新高，首席财务官还上调了2028财年营收增长75%的预期。值得注意的是，这是黄仁勋11月12日辞去总裁兼CEO后的首份财报，由临时CEO兼CFO主导发布，管理层交接与业绩高增同时出现。此外，马来西亚总理安瓦尔凌晨抵达深圳出席APEC会议，表态推动基于共识的务实合作；公募REITs上市数量即将破百，行业进入提质深耕窗口期。",
+   "merged": [
+    {
+     "primary": 3980,
+     "merged": [
+      7174
+     ]
+    }
+   ],
+   "mode": "llm+deterministic",
+   "n_total": 14
+  },
+  "ai_tech": {
+   "cards": [
+    {
+     "event_id": 1235,
+     "title": "英伟达分析师电话会议要点总结",
+     "topic": "财经",
+     "n_indep": 17,
+     "salience": 81.6802,
+     "primary_entities": [
+      "NVIDIA",
+      "JENSEN_HUANG",
+      "MUSK",
+      "TRUMP",
+      "TESLA"
+     ],
+     "incidental_entities": [
+      "CNBC",
+      "FT",
+      "INTEL",
+      "LSEG",
+      "NVDA",
+      "PUTIN"
+     ],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201572",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.ithome.com/1/027/470.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://original.ifeng.com/c/8y8Xo1QzM1V",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537266?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://original.ifeng.com/c/8y5QrZj2Ecq",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://international.caixin.com/2026-11-18/102506043.html",
+       "feed": "财新最新"
+      },
+      {
+       "url": "https://tech.ifeng.com/c/8y6K7vIGp2A",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2535006?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://www.guancha.cn/GuoJi%C2%B7ZhanLue/2026_11_18_908801.shtml",
+       "feed": "观察者网"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/262569",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3785975",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263469",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786122",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://www.36kr.com/newsflashes/4074450230498437",
+       "feed": "36氪快讯"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/580.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/566.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://www.cna.com.tw/news/aopl/202611180003.aspx",
+       "feed": "中央社"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766122",
+       "feed": "格隆汇"
+      },
+      {
+       "url": "https://www.gelonghui.com/p/7437489",
+       "feed": "格隆汇首页"
+      },
+      {
+       "url": "https://www.cna.com.tw/news/aopl/202611170006.aspx",
+       "feed": "中央社"
+      },
+      {
+       "url": "https://www.gelonghui.com/p/7450068",
+       "feed": "格隆汇首页"
+      },
+      {
+       "url": "https://www.cna.com.tw/news/aopl/202611160004.aspx",
+       "feed": "中央社"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786123",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766384",
+       "feed": "格隆汇"
+      },
+      {
+       "url": "https://original.ifeng.com/c/8y8vElbcYlN",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://www.cna.com.tw/news/aopl/202611180007.aspx",
+       "feed": "中央社"
+      },
+      {
+       "url": "https://cnnews.chosun.com/client/news/viw.asp?nNewsNumb=20261165693&cate=&mcate=",
+       "feed": "朝鲜日报中文"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103444330.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://news.ifeng.com/c/8y6Xhr1Szvr",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://www.gelonghui.com/p/7466893",
+       "feed": "格隆汇首页"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/295.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201540",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.gelonghui.com/p/7448585",
+       "feed": "格隆汇首页"
+      },
+      {
+       "url": "https://xnews.jin10.com/details/235298",
+       "feed": "金十重要"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2536050?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201432",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.cna.com.tw/news/aopl/202611170122.aspx",
+       "feed": "中央社"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/595.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537266",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786136",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/587.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://news.ifeng.com/c/8y7wfCEtcgm",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103443635.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2536535?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201104",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.guancha.cn/GuoJi%C2%B7ZhanLue/2026_11_17_908710.shtml",
+       "feed": "观察者网"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263219",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201542",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537271?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537269?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537296",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201544",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103444335.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263470",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://www.36kr.com/newsflashes/4074492542932104",
+       "feed": "36氪快讯"
+      },
+      {
+       "url": "https://www.36kr.com/newsflashes/4074476547969921",
+       "feed": "36氪快讯"
+      },
+      {
+       "url": "https://www.36kr.com/newsflashes/4074473961214855",
+       "feed": "36氪快讯"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263479",
+       "feed": "巴伦中文"
+      }
+     ],
+     "merged_from": [
+      1235,
+      8593,
+      6084,
+      8712
+     ],
+     "fact": "英伟达董事会主席哈维·琼斯在11月18日的财报电话会上表示，黄仁勋于11月12日因个人行为不符合公司行为准则而自愿辞去总裁、CEO及董事职务，董事会一致接受辞呈且不打算恢复其CEO职位，正在审慎评估内外部候选人。临时CEO兼CFO科莱特·克雷斯披露第三季度营收达1,158亿美元，第四季度营收指引为1,300亿美元（区间1,274亿至1,326亿美元），毛利率预计71%至72%。此前11月17日黄仁勋发表辞职后首份声明称愿重返CEO岗位，马斯克等硅谷人士及近20万名联署者呼吁其复职，但美国财长贝森特公开敦促选择外部人士接任。",
+     "impact": "全球市值最高的芯片公司在创始人被迫离职后首次对外明确继任方向与业务展望，领导层真空期的治理走向直接影响AI算力供应链信心与美国出口管制政策协调。",
+     "divergence": "黄仁勋本人11月17日声明称愿回归，盟友组建游说团施压董事会；但董事会主席11月18日电话会明确拒绝复职，双方立场公开对立。此外，部分来源将辞职描述为'被迫辞去'，董事会则定性为'自愿辞职'，措辞存在分歧。",
+     "next_step": "关注董事会正式CEO遴选进展及新设国家安全与出口管制监督委员会与美国政府的沟通动向，同时跟踪第四季度1,300亿美元营收指引能否兑现。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 2063,
+      "total_tokens": 2398,
+      "completion_tokens": 335,
+      "prompt_tokens_details": {
+       "cached_tokens": 2048,
+       "text_tokens": 2063
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8590,
+     "title": "财联社11月18日电，英伟达董事会主席哈维·琼斯称，我们希望尽快任命正式首席执行官，但不会为了赶时间而仓促决定，必须先找到最合适的人选。",
+     "topic": "财经",
+     "n_indep": 6,
+     "salience": 46.2134,
+     "primary_entities": [
+      "NVIDIA"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537283",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537283?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201558",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766408",
+       "feed": "格隆汇"
+      }
+     ],
+     "fact": "{\"fact\":\"2026年11月18日，英伟达董事会主席哈维·琼斯表示，公司希望尽快任命正式首席执行官，但不会为赶时间而仓促决定，必须先找到最合适的人选。他同时透露，公司已聘请猎头机构海德思哲主导CEO遴选工作，候选人将从公司内部和外部同时寻找，这将是一个\"细致的过程\"，不会刻意加速任命进度。\",\"impact\":\"英伟达正式CEO人选悬而未决且明确不设时间表，意味着公司治理层面的不确定性将持续，可能影响投资者对其战略延续性与决策效率的判断。\",\"divergence\":\"\",\"next_step\":\"关注海德思哲主导的遴选进展，以及内外部候选人名单与最终任命时间的披露。\"}",
+     "impact": "",
+     "divergence": "",
+     "next_step": "",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": true,
+     "usage": {
+      "prompt_tokens": 982,
+      "total_tokens": 1132,
+      "completion_tokens": 150,
+      "prompt_tokens_details": {
+       "cached_tokens": 0,
+       "text_tokens": 982
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 7999,
+     "title": "Nvidia stopped disclosing Singapore sales as revenues hit $104B",
+     "topic": "科技",
+     "n_indep": 2,
+     "salience": 40.9394,
+     "primary_entities": [
+      "NVIDIA",
+      "URL"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "HN头版",
+     "links": [
+      {
+       "url": "https://www.ft.com/content/dbde7a30-548c-4f9d-a4be-7898a0c24dcf",
+       "feed": "HN头版"
+      },
+      {
+       "url": "https://www.ft.com/content/dbde7a30-548c-4f9d-a4be-7898a0c24dcf?syn-25a6b1a6=1",
+       "feed": "Financial Times"
+      }
+     ],
+     "fact": "据《金融时报》报道，英伟达（Nvidia）在营收达到1040亿美元之际，停止单独披露新加坡的销售额。这家美国芯片制造商调整了财报的地区披露方式，而此前经由新加坡入账的营收曾激增70%。该报道登上Hacker News头版，获得63个点赞和27条评论。",
+     "impact": "新加坡曾是外界观察英伟达芯片实际流向与出口管制规避风险的重要窗口，取消这一地区披露会削弱投资者和监管方对其收入地理分布的可见度。",
+     "divergence": "",
+     "next_step": "关注英伟达后续财报中地区收入的划分口径、是否给出变更说明，以及监管机构对经新加坡转口芯片流向的回应。",
+     "unverified_numbers": [
+      "1040亿"
+     ],
+     "numbers_verified": false,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 569,
+      "total_tokens": 732,
+      "completion_tokens": 163,
+      "prompt_tokens_details": {
+       "cached_tokens": 0,
+       "text_tokens": 569
+      },
+      "completion_tokens_details": {}
+     }
+    }
+   ],
+   "heat_list": [
+    {
+     "event_id": 8672,
+     "title": "财联社11月18日电，英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设期间不提供。若数据中心建设延期，公司...",
+     "cat": "ai_tech",
+     "sel": 40.935,
+     "n_indep": 4,
+     "ents": [
+      "NVIDIA"
+     ],
+     "summary": "财联社11月18日电，英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设期间不提供。若数据中心建设延期，公司的担保“将不复存在”。",
+     "lead": "财联社11月18日电，英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。",
+     "members": [
+      {
+       "title": "财联社11月18日电，英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设期间不提供。若数据中心建设延期，公司...",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537286",
+       "pub_date": "2026-11-17 22:44:48"
+      },
+      {
+       "title": "格隆汇11月18日｜英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设期间不提供。若数据中心建设延期，公司的...",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766407",
+       "pub_date": "2026-11-17 22:54:48"
+      },
+      {
+       "title": "英伟达：数据中心项目延期将使其担保失效。 当它们准备行动时，担保启动。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201564",
+       "pub_date": "2026-11-17 22:40:57"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8707,
+     "title": "财联社11月18日电，英伟达盘后涨幅扩大至4%。",
+     "cat": "ai_tech",
+     "sel": 40.935,
+     "n_indep": 4,
+     "ents": [
+      "NVIDIA"
+     ],
+     "summary": "财联社11月18日电，英伟达盘后涨幅扩大至4%。",
+     "lead": "财联社11月18日电，英伟达盘后涨幅扩大至4%。",
+     "members": [
+      {
+       "title": "财联社11月18日电，英伟达盘后涨幅扩大至4%。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537284",
+       "pub_date": "2026-11-17 22:38:14"
+      },
+      {
+       "title": "财联社11月18日电，英伟达盘后涨幅扩大至4%。",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2537284?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 22:38:14"
+      },
+      {
+       "title": "英伟达盘后涨幅达到4%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201562",
+       "pub_date": "2026-11-17 22:37:42"
+      },
+      {
+       "title": "<b>英伟达股价盘后涨幅扩大至5% |</b> 英伟达股价盘后涨幅扩大至5%。",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103444343.html",
+       "pub_date": "2026-11-17 23:25:56"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8265,
+     "title": "财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。",
+     "cat": "ai_tech",
+     "sel": 40.8235,
+     "n_indep": 7,
+     "ents": [
+      "AAPL",
+      "APPLE",
+      "BACK",
+      "GET",
+      "MANY"
+     ],
+     "summary": "财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。",
+     "lead": "财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。",
+     "members": [
+      {
+       "title": "财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537234",
+       "pub_date": "2026-11-17 19:17:38"
+      },
+      {
+       "title": "格隆汇11月18日｜苹果(AAPL.O)发言人：正努力尽快让其余系统恢复上线。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766285",
+       "pub_date": "2026-11-17 19:47:38"
+      },
+      {
+       "title": "苹果发言人：今晨内部更新导致部分服务中断，目前我们的许多系统已恢复运行。 正努力尽快让剩余系统重新上线。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201488",
+       "pub_date": "2026-11-17 19:49:24"
+      },
+      {
+       "title": "格隆汇11月18日｜苹果(AAPL.O)发言人：在今日上午一次内部更新导致部分服务中断后，我们的许多系统已恢复运行。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766284",
+       "pub_date": "2026-11-17 19:46:41"
+      },
+      {
+       "title": "苹果称内部更新后出现服务中断，表示正努力恢复系统上线",
+       "feed": "36氪快讯",
+       "url": "https://www.36kr.com/newsflashes/4074468980265860",
+       "pub_date": "2026-11-17 23:33:08"
+      },
+      {
+       "title": "苹果回应服务大规模中断：内部系统更新引发故障，Apple Pay、iCloud、App Store 均受影响",
+       "feed": "IT之家",
+       "url": "https://www.ithome.com/1/028/589.htm",
+       "pub_date": "2026-11-17 23:22:05"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 6283,
+     "title": "财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。",
+     "cat": "ai_tech",
+     "sel": 40.4785,
+     "n_indep": 3,
+     "ents": [
+      "NVIDIA"
+     ],
+     "summary": "财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。",
+     "lead": "财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。",
+     "members": [
+      {
+       "title": "财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537299",
+       "pub_date": "2026-11-17 23:10:42"
+      },
+      {
+       "title": "<b>英伟达盘前涨超1% |</b> 英伟达盘前走高，现涨超1%，公司将于美东时间11月17日美股盘后（北京时间18日凌晨）公布2027财年第三季度业绩。",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103443787.html",
+       "pub_date": "2026-11-17 09:01:39"
+      },
+      {
+       "title": "财联社11月18日电，英伟达股价盘后涨超2%。公司预计第四季度营收1261亿至1339亿美元，高于市场预期。",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2537258?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 21:23:24"
+      },
+      {
+       "title": "财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2537299?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 23:10:42"
+      },
+      {
+       "title": "财联社11月18日电，英伟达股价盘后涨超2%。公司预计第四季度营收1261亿至1339亿美元，高于市场预期。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537258",
+       "pub_date": "2026-11-17 21:23:24"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8715,
+     "title": "英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。但董事会明确无意让黄仁勋复职。点击查看",
+     "cat": "ai_tech",
+     "sel": 38.4074,
+     "n_indep": 4,
+     "ents": [
+      "JENSEN_HUANG",
+      "NVIDIA"
+     ],
+     "summary": "英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。但董事会明确无意让黄仁勋复职。点击查看",
+     "lead": "英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。",
+     "members": [
+      {
+       "title": "英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。但董事会明确无意让黄仁勋复职。点击查看",
+       "feed": "金十重要",
+       "url": "https://xnews.jin10.com/details/235368",
+       "pub_date": "2026-11-17 22:56:23"
+      },
+      {
+       "title": "英伟达：预计四季度营收将为1300亿美元+/-3%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201561",
+       "pub_date": "2026-11-17 22:37:33"
+      },
+      {
+       "title": "英伟达史上首次单季营收突破1000亿美元，净利润同比翻倍",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263468",
+       "pub_date": "2026-11-17 23:34:06"
+      },
+      {
+       "title": "英伟达：2027财年第三季度营收1158亿美元，同比增长103%",
+       "feed": "36氪快讯",
+       "url": "https://www.36kr.com/newsflashes/4074448234828929",
+       "pub_date": "2026-11-17 23:03:04"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "金十重要"
+    },
+    {
+     "event_id": 8548,
+     "title": "英伟达三季度数据中心营收超预期，四季度指引超预期，股价盘后涨4%",
+     "cat": "ai_tech",
+     "sel": 37.6664,
+     "n_indep": 4,
+     "ents": [
+      "EPS",
+      "NVIDIA"
+     ],
+     "summary": "英伟达三季度营收1158亿美元，季环比增长20.3%、同比增长103.1%，分析师预期1093.3亿美元。 三季度数据中心营收1076亿美元，分析师预期1018.7亿美元。 三季度计算、网络营收1060亿美元，分析师预期982.7亿美元。 三季度Graphics营收98亿美元（分析师预期88.4亿美元），超大规模云服务（Hyperscale）营收601亿美元，边缘计算营收82亿美元（分析师预期75亿美元），AI云、工业、企业营收475亿美元。 三季度库存397亿美元，之前一个",
+     "lead": "英伟达三季度营收1158亿美元，季环比增长20.3%、同比增长103.1%，分析师预期1093.3亿美元。",
+     "members": [
+      {
+       "title": "英伟达三季度数据中心营收超预期，四季度指引超预期，股价盘后涨4%",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201522",
+       "pub_date": "2026-11-17 21:21:21"
+      },
+      {
+       "title": "<b>英伟达三季度数据中心营收超预期，盘后一度涨近4% |</b> 英伟达三季度营收1158亿美元，季环比增长20.3%、同比增长103.1%，分析师预期1093.3亿美元。三季度数...",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103444321.html",
+       "pub_date": "2026-11-17 21:52:34"
+      },
+      {
+       "title": "英伟达预计第四季度营收1261亿至1339亿美元 高于市场预期",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2537257?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 21:20:40"
+      },
+      {
+       "title": "英伟达预计第四季度营收1261亿至1339亿美元 高于市场预期",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537257",
+       "pub_date": "2026-11-17 21:20:40"
+      },
+      {
+       "title": "<b>英伟达供应链承诺达3900亿美元 |</b> 当地11月17日，英伟达公布2027财年第三季度财报。披露的文件显示，该公司的供应链承诺从上季度的2790亿美元增加至该季度...",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103444333.html",
+       "pub_date": "2026-11-17 23:14:36"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8873,
+     "title": "财联社11月18日电，英伟达临时CEO克雷斯表示，我们目前希望将重点放在扩大业务上。",
+     "cat": "ai_tech",
+     "sel": 35.5986,
+     "n_indep": 2,
+     "ents": [
+      "NVIDIA"
+     ],
+     "summary": "财联社11月18日电，英伟达临时CEO克雷斯表示，我们目前希望将重点放在扩大业务上。",
+     "lead": "财联社11月18日电，英伟达临时CEO克雷斯表示，我们目前希望将重点放在扩大业务上。",
+     "members": [
+      {
+       "title": "财联社11月18日电，英伟达临时CEO克雷斯表示，我们目前希望将重点放在扩大业务上。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537321",
+       "pub_date": "2026-11-17 23:53:15"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8875,
+     "title": "财联社11月18日电，英伟达临时CEO克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。所谓我们任何一类客户正在发生变化的说法根本...",
+     "cat": "ai_tech",
+     "sel": 35.5986,
+     "n_indep": 2,
+     "ents": [
+      "NVIDIA"
+     ],
+     "summary": "财联社11月18日电，英伟达临时CEO克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。所谓我们任何一类客户正在发生变化的说法根本不属实。",
+     "lead": "财联社11月18日电，英伟达临时CEO克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。",
+     "members": [
+      {
+       "title": "财联社11月18日电，英伟达临时CEO克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。所谓我们任何一类客户正在发生变化的说法根本...",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537318",
+       "pub_date": "2026-11-17 23:49:39"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8670,
+     "title": "财联社11月18日电，英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。",
+     "cat": "ai_tech",
+     "sel": 32.9216,
+     "n_indep": 2,
+     "ents": [
+      "NVIDIA"
+     ],
+     "summary": "财联社11月18日电，英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。",
+     "lead": "财联社11月18日电，英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。",
+     "members": [
+      {
+       "title": "财联社11月18日电，英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537280",
+       "pub_date": "2026-11-17 22:32:09"
+      },
+      {
+       "title": "格隆汇11月18日｜英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766410",
+       "pub_date": "2026-11-17 22:55:38"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    }
+   ],
+   "digest": "今天英伟达的核心事件是管理层剧变与信息披露调整同步浮出水面。董事会主席哈维·琼斯在财报电话会上确认，黄仁勋已于11月12日因个人行为不符合公司行为准则而自愿辞去总裁、CEO及董事职务，董事会一致接受且不打算恢复其职位。公司已聘请猎头机构海德思哲主导遴选，内外部候选人均在评估范围内，琼斯强调不会为赶时间仓促决定。与此同时，据《金融时报》报道，英伟达在营收达到1040亿美元之际停止单独披露新加坡销售额，而此前该地区入账营收曾激增70%。两条线索叠加，值得关注的信号是：这家芯片巨头正同时经历最高权力交接和财务透明度收缩，后续CEO人选落定节奏以及地区收入披露口径变化对市场信心的影响，将是短期观察重点。",
+   "merged": [
+    {
+     "primary": 1235,
+     "merged": [
+      8593,
+      6084,
+      8712
+     ]
+    }
+   ],
+   "mode": "llm+deterministic",
+   "n_total": 12
+  },
+  "macro": {
+   "cards": [
+    {
+     "event_id": 1779,
+     "title": "纽约联储主席：通胀“顽固地高企” 不认为当前形势需要采取重大行动",
+     "topic": "财经",
+     "n_indep": 8,
+     "salience": 33.6836,
+     "primary_entities": [
+      "FED",
+      "FOMC"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537239",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3785996",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537239?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263485",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201482",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://xnews.jin10.com/details/235370",
+       "feed": "金十重要"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766288",
+       "feed": "格隆汇"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537311",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786117",
+       "feed": "华尔街见闻"
+      }
+     ],
+     "fact": "{\"fact\":\"纽约联储主席威廉姆斯（John Williams，享有FOMC永久投票权）于美东时间11月17日接受采访时表示，通胀\"顽固地高企\"，美联储在将通胀率降至2%方面仍有更多工作要做，但他认为当前形势不需要采取激进的政策行动。他指出已看到关税和能源冲击向更广泛通胀数据传导的迹象，同时警告人工智能基础设施投资可能持续推高通胀；另一方面，他认为美国经济依然强劲、劳动力市场稳健，金融环境对经济增长相当有利。\",\"impact\":\"作为美联储\"三把手\"，威廉姆斯的表态直接回应了市场对下个月加息50个基点的预期，暗示美联储倾向渐进而非激进的紧缩路径，对利率预期和资产定价具有关键指引意义。\",\"divergence\":\"金十数据一条摘要称\"美联储仍需继续加息\"，但财联社深度报道及其他多数来源仅表述为\"仍有更多工作要做\"，未明确指向加息方向；此外华尔街见闻实时引述威廉姆斯称\"关税的影响已基本过去\"，而金十和格隆汇则称\"关税与能源冲击仍在影响通胀数据\"，两处表述存在张力。\",\"next_step\":\"关注美联储下月FOMC会议的利率决议及点阵图，以及后续通胀数据是否验证AI基建投资对物价的持续推升效应。\"}",
+     "impact": "",
+     "divergence": "",
+     "next_step": "",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": true,
+     "usage": {
+      "prompt_tokens": 1549,
+      "total_tokens": 1825,
+      "completion_tokens": 276,
+      "prompt_tokens_details": {
+       "cached_tokens": 1280,
+       "text_tokens": 1549
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8669,
+     "title": "财联社11月18日电，英伟达临时CEO克雷斯称，预计第四季度将是毛利率的低点，随后在2028财年回升至72%至73%区间。仍有望于明年推出Vera Rubin Ultra，并于2028年...",
+     "topic": "财经",
+     "n_indep": 2,
+     "salience": 32.9216,
+     "primary_entities": [
+      "NVIDIA"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537279",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766411",
+       "feed": "格隆汇"
+      }
+     ],
+     "fact": "2026年11月18日，英伟达临时CEO克雷斯表示，预计第四季度将是毛利率的低点，随后在2028财年回升至72%至73%区间。他同时称，公司仍有望于明年推出Vera Rubin Ultra，并于2028年推出Feynman。",
+     "impact": "管理层给出毛利率触底回升的时间与幅度指引，并确认下一代产品节奏未变，为投资者判断盈利拐点和产品迭代提供了直接依据。",
+     "divergence": "",
+     "next_step": "关注后续季度财报中毛利率是否如指引在第四季度见底，以及Vera Rubin Ultra和Feynman的实际发布进度。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 749,
+      "total_tokens": 896,
+      "completion_tokens": 147,
+      "prompt_tokens_details": {
+       "cached_tokens": 512,
+       "text_tokens": 749
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8708,
+     "title": "周三你需要知道的隔夜全球要闻：标普500指数创9月以来最长连跌；英伟达业绩和展望迎利好；10年期美债收益率维持在5%以上的天数逼近20年来最长记录",
+     "topic": "财经",
+     "n_indep": 2,
+     "salience": 32.9216,
+     "primary_entities": [
+      "TSMC",
+      "GOOGLE",
+      "NVIDIA"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537278",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537278?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      }
+     ],
+     "fact": "美股三大股指集体收跌，道琼斯指数跌1.64%，标普500指数跌1.02%、连续第四个交易日下跌并创9月以来最长连跌，纳斯达克综合指数跌0.74%；芯片股尾盘拉升跌幅收窄，台积电跌近4%，美光科技跌近1%，英伟达跌0.48%，谷歌跌超1%，耐克跌超6%，SpaceX涨超3%。盘后公布的英伟达第三季度营收为1158亿美元，环比增长20.3%、同比增长103.1%，高于市场预期的1093.3亿美元，其中数据中心营收1076亿美元（环比增21%、同比增110%，预期1018.7亿美元），调整后毛利率74.9%。公司预计第四季度营收1261亿至1339亿美元（预期1252.5亿美元）、GAAP与非GAAP毛利率在71.0%至72.0%之间，董事会批准新增1500亿美元股票回购计划，剩余回购授权额度为2273亿美元。",
+     "impact": "英伟达业绩与指引双双超出市场预期并追加大额回购，对当日承压的美股尤其是芯片板块构成情绪支撑，而标普500四连跌与标题所述10年期美债收益率维持在5%以上的天数逼近20年来最长记录，显示高利率环境仍在压制估值。",
+     "divergence": "两条来源内容一致，无数字分歧；但代表作全文在“英伟达首席财务官上调2028年营收增长预期，预计2028财年营收将增长75%，云业务积压订单达”处截断，云业务积压订单具体金额未给出，属未核实信息；标题提及的10年期美债收益率5%以上持续天数的具体数值亦未在正文中披露。",
+     "next_step": "关注英伟达财报及第四季度指引公布后的股价与芯片板块反应、CFO所述2028财年营收增长75%及云业务积压订单的完整口径，以及10年期美债收益率能否回落至5%以下、标普500连跌是否延续。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 1095,
+      "total_tokens": 1571,
+      "completion_tokens": 476,
+      "prompt_tokens_details": {
+       "cached_tokens": 1024,
+       "text_tokens": 1095
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 7712,
+     "title": "10年期美债收益率在美国零售销售数据发布后一度实现V形反转，随后在科技股抛售期间迎来避险",
+     "topic": "财经",
+     "n_indep": 4,
+     "salience": 31.3713,
+     "primary_entities": [
+      "FED",
+      "TIPS"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201502",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537192",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201415",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766130",
+       "feed": "格隆汇"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537192?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766352",
+       "feed": "格隆汇"
+      }
+     ],
+     "fact": "2026年11月17日纽约尾盘，美国10年期基准国债收益率下跌3.24个基点至5.0987%，日内在5.1494%—5.0865%区间波动：北京时间22:24刷新日高，亚太盘初以来（含美国零售销售数据发布时点）走出V形反转，23:28又出现一波短线跳水。同日两年期美债收益率跌4.23个基点至4.7870%，30年期跌1.83个基点至5.4569%；10年期通胀保值国债（TIPS）收益率跌4.20个基点至2.8735%，两年期TIPS跌5.90个基点至2.6069%，30年期TIPS跌3.21个基点至3.2861%。另据财联社、华尔街见闻与格隆汇11月18日报道，10年期美债收益率今年势将第27个交易日收于5%以上，逼近2007年29个交易日的纪录，交易员已完全计入美联储12月9日会议加息25个基点的可能性，并预计到2027年9月累计收紧幅度超过80个基点。",
+     "impact": "长端利率持续停留在5%上方意味着美国借贷成本处于近二十年罕见的高位，而零售数据后的V形反转与随后的跳水显示，市场对美联储进一步加息的定价与避险买盘正在同一交易日内反复拉锯。",
+     "divergence": "关于零售数据后的方向，各源口径不同：华尔街见闻称10月零售销售增速放缓后10年期收益率上涨约1个基点至5.14%，而另一条华尔街见闻实时稿记录当日收盘为跌3.24个基点至5.0987%、日高5.1494%，前者应为盘中时点报价、后者为尾盘收盘，并非同一时点数据。事件描述中的“科技股抛售期间迎来避险”在给定来源中未见直接佐证，属未核实。",
+     "next_step": "关注美联储12月9日会议是否兑现已被完全计入的25个基点加息，以及10年期收益率年内收于5%以上的交易日数能否突破2007年的29个交易日纪录。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 1495,
+      "total_tokens": 1996,
+      "completion_tokens": 501,
+      "prompt_tokens_details": {
+       "cached_tokens": 1280,
+       "text_tokens": 1495
+      },
+      "completion_tokens_details": {}
+     }
+    }
+   ],
+   "heat_list": [
+    {
+     "event_id": 8709,
+     "title": "美联储12月加息25个基点的概率为96.8%",
+     "cat": "macro",
+     "sel": 28.3807,
+     "n_indep": 2,
+     "ents": [
+      "FED"
+     ],
+     "summary": "【美联储12月加息25个基点的概率为96.8%】财联社11月18日电，据CME“美联储观察”：美联储12月加息25个基点的概率为96.8%，加息50个基点的概率为3.2%。美联储到明年1月累计加息25个基点的概率26.8%，累计加息50个基点的概率为70.9%，累计加息75个基点的概率为2.3%。",
+     "lead": "【美联储12月加息25个基点的概率为96.8%】财联社11月18日电，据CME“美联储观察”：美联储12月加息25个基点的概率为96.8%，加息50个基点的概率为3.2%。",
+     "members": [
+      {
+       "title": "美联储12月加息25个基点的概率为96.8%",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537277",
+       "pub_date": "2026-11-17 22:23:17"
+      },
+      {
+       "title": "美联储12月加息25个基点的概率为96.8%",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263474",
+       "pub_date": "2026-11-17 23:58:10"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8820,
+     "title": "美银预计美国利率将持续上行直至经济活动受到抑制",
+     "cat": "macro",
+     "sel": 27.6197,
+     "n_indep": 2,
+     "ents": [
+      "FED"
+     ],
+     "summary": "美国银行利率策略师表示，如果没有迹象表明短期利率正在抑制美国经济，那么短期利率可能会继续上升。 美银美国利率策略主管Mark Cabana表示，对于2年期美债收益率而言，这意味着到今年年底将达到5%，上次触及这一水平还是在2023年。Cabana写道，美国短期收益率上升“应该会不同程度地带动所有期限的债券收益率上涨”，并且“也会给全球利率带来上涨压力”。Cabana表示，从通胀和就业数据来看，“美国利率并未对经济活动造成实质性限制”。他还指出，美联储的政策前景和油价也可能推高",
+     "lead": "美国银行利率策略师表示，如果没有迹象表明短期利率正在抑制美国经济，那么短期利率可能会继续上升。",
+     "members": [
+      {
+       "title": "美银预计美国利率将持续上行直至经济活动受到抑制",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201581",
+       "pub_date": "2026-11-17 23:27:20"
+      },
+      {
+       "title": "美银预计美国利率将持续上行直至经济活动受到抑制",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766518",
+       "pub_date": "2026-11-17 23:57:17"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8881,
+     "title": "日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。",
+     "cat": "macro",
+     "sel": 27.6197,
+     "n_indep": 2,
+     "ents": [],
+     "summary": "日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。",
+     "lead": "日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。",
+     "members": [
+      {
+       "title": "日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201592",
+       "pub_date": "2026-11-17 23:50:07"
+      },
+      {
+       "title": "日本10月未季调商品贸易帐 -4765亿日元，预期 -10784亿日元，前值 -5366亿日元。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201591",
+       "pub_date": "2026-11-17 23:50:01"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8541,
+     "title": "新西兰三季度PPI产出季环比 0.8%，前值 1.6%。",
+     "cat": "macro",
+     "sel": 26.7249,
+     "n_indep": 3,
+     "ents": [],
+     "summary": "新西兰三季度PPI产出季环比 0.8%，前值 1.6%。",
+     "lead": "新西兰三季度PPI产出季环比 0.8%，前值 1.6%。",
+     "members": [
+      {
+       "title": "新西兰三季度PPI产出季环比 0.8%，前值 1.6%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201534",
+       "pub_date": "2026-11-17 21:45:01"
+      },
+      {
+       "title": "格隆汇11月18日｜新西兰第三季度输入PPI年率 4.5%，前值4.1%。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766367",
+       "pub_date": "2026-11-17 21:54:39"
+      },
+      {
+       "title": "格隆汇11月18日｜新西兰第三季度输出PPI年率 3.7%，前值3.2%。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766366",
+       "pub_date": "2026-11-17 21:53:39"
+      },
+      {
+       "title": "格隆汇11月18日｜新西兰第三季度输出PPI季率 0.8%，前值1.60%。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766360",
+       "pub_date": "2026-11-17 21:47:40"
+      },
+      {
+       "title": "格隆汇11月18日｜新西兰第三季度输入PPI季率 0.7%，前值2.90%。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766361",
+       "pub_date": "2026-11-17 21:48:40"
+      },
+      {
+       "title": "新西兰三季度PPI投入季环比 0.7%，前值 2.9%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201533",
+       "pub_date": "2026-11-17 21:45:01"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8325,
+     "title": "美国纽约联储主席（享有FOMC永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（AI）领域的融资正变得更加不透明和复杂。 还没有看到AI带来的金融稳定性风...",
+     "cat": "macro",
+     "sel": 22.6263,
+     "n_indep": 3,
+     "ents": [
+      "FED"
+     ],
+     "summary": "美国纽约联储主席（享有FOMC永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（AI）领域的融资正变得更加不透明和复杂。 还没有看到AI带来的金融稳定性风险。",
+     "lead": "美国纽约联储主席（享有FOMC永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（AI）领域的融资正变得更加不透明和复杂。",
+     "members": [
+      {
+       "title": "美国纽约联储主席（享有FOMC永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（AI）领域的融资正变得更加不透明和复杂。 还没有看到AI带来的金融稳定性风...",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201487",
+       "pub_date": "2026-11-17 19:34:57"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8319,
+     "title": "财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。",
+     "cat": "macro",
+     "sel": 22.1094,
+     "n_indep": 2,
+     "ents": [
+      "ISNA"
+     ],
+     "summary": "财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。",
+     "lead": "财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。",
+     "members": [
+      {
+       "title": "财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537236",
+       "pub_date": "2026-11-17 19:21:06"
+      },
+      {
+       "title": "报道：伊朗“认真寻求”通过外交途径打破僵局",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201491",
+       "pub_date": "2026-11-17 19:54:58"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8714,
+     "title": "美联储“三把手”称无需采取激进政策行动；伊朗驳斥脏弹传闻，卡塔尔称仍在调解美伊矛盾；英伟达营收翻倍，董事会拒绝黄仁勋复职……昨日今晨，全球都发生了哪些...",
+     "cat": "macro",
+     "sel": 21.51441,
+     "n_indep": 1,
+     "ents": [
+      "FED",
+      "JENSEN_HUANG",
+      "NVIDIA"
+     ],
+     "summary": "美联储“三把手”称无需采取激进政策行动；伊朗驳斥脏弹传闻，卡塔尔称仍在调解美伊矛盾；英伟达营收翻倍，董事会拒绝黄仁勋复职……昨日今晨，全球都发生了哪些大事？",
+     "lead": "美联储“三把手”称无需采取激进政策行动；",
+     "members": [
+      {
+       "title": "美联储“三把手”称无需采取激进政策行动；伊朗驳斥脏弹传闻，卡塔尔称仍在调解美伊矛盾；英伟达营收翻倍，董事会拒绝黄仁勋复职……昨日今晨，全球都发生了哪些...",
+       "feed": "金十重要",
+       "url": "https://xnews.jin10.com/details/235307",
+       "pub_date": "2026-11-17 23:01:05"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "金十重要"
+    },
+    {
+     "event_id": 8540,
+     "title": "美国国务院：批准可能向阿尔巴尼亚出售M142高机动性火箭炮系统（HIMARS），预计价值2.1亿美元。",
+     "cat": "macro",
+     "sel": 20.8916,
+     "n_indep": 2,
+     "ents": [],
+     "summary": "美国国务院：批准可能向阿尔巴尼亚出售M142高机动性火箭炮系统（HIMARS），预计价值2.1亿美元。",
+     "lead": "美国国务院：批准可能向阿尔巴尼亚出售M142高机动性火箭炮系统（HIMARS），预计价值2.1亿美元。",
+     "members": [
+      {
+       "title": "格隆汇11月18日｜美国国务院：批准可能向阿尔巴尼亚出售M142高机动性火箭炮系统（HIMARS），预计价值2.1亿美元。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766368",
+       "pub_date": "2026-11-17 21:56:41"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "金十数据"
+    },
+    {
+     "event_id": 8938,
+     "title": "恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。点击查看...",
+     "cat": "macro",
+     "sel": 20.29797,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。点击查看...",
+     "lead": "恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。",
+     "members": [
+      {
+       "title": "恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。点击查看...",
+       "feed": "金十重要",
+       "url": "https://xnews.jin10.com/details/235371",
+       "pub_date": "2026-11-18 00:09:34"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "金十重要"
+    },
+    {
+     "event_id": 8886,
+     "title": "富达：即便美债收益率达到6%，也不算“非常便宜”",
+     "cat": "macro",
+     "sel": 20.05506,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "近期美债的抛售潮引发了市场关于买入机会的讨论，但富达国际的Salman Ahmed认为，即便10年期美国国债收益率达到6%，也不算“非常便宜”。 该公司全球宏观及战略资产配置主管Ahmed表示，这一评估基于该公司的估值框架，该框架考虑了收益率曲线趋陡、实际利率上升以及长期通胀率高企等因素。“股票与债券之间的整体相关性为正，”Ahmed在新加坡表示。“而且由于各种因素，这种局面不会改变。财政赤字正大幅增加，债务持续攀升，通胀也更加顽固。” Ahmed警告称，有鉴于借贷成本上升可",
+     "lead": "近期美债的抛售潮引发了市场关于买入机会的讨论，但富达国际的Salman Ahmed认为，即便10年期美国国债收益率达到6%，也不算“非常便宜”。",
+     "members": [
+      {
+       "title": "富达：即便美债收益率达到6%，也不算“非常便宜”",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201582",
+       "pub_date": "2026-11-17 23:30:04"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8717,
+     "title": "<b>国内新闻</b><br /><span class=\"section-news\">1. 神舟二十四号计划近日择机实施发射。</span><br /><span class=\"section-news\">2. 外交部回应相关国家免签政...",
+     "cat": "macro",
+     "sel": 18.546930000000003,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "国内新闻 1. 神舟二十四号计划近日择机实施发射。 2. 外交部回应相关国家免签政策将于今年年底到期。 3. 商务部新闻发言人就中加经贸磋商成果答记者问。 4. 习近平分别会见加拿大、墨西哥、秘鲁、智利等多国领导人。 5. 数字广东建设“十五五”规划印发：培育光通信芯片、光传感芯片等产业集群。 6. 商务部新闻发言人就美商务部发布限制远程获取先进半导体相关措施答记者问。 7. 外交部批美国经济胁迫：美方不断泛化国家安全概念，滥用出口管制措施，中方将采",
+     "lead": "国内新闻 1. 神舟二十四号计划近日择机实施发射。",
+     "members": [],
+     "merged_from": null,
+     "canonical_feed": "金十重要"
+    }
+   ],
+   "digest": "今天市场的主线是利率压力与科技股调整交织。纽约联储主席威廉姆斯称通胀\"顽固地高企\"，美联储将通胀降至2%仍有更多工作要做，但当前形势不需要激进政策行动。10年期美债收益率维持在5%以上的天数逼近20年来最长记录，当日虽下跌3.24个基点至5.0987%，仍在零售数据发布后走出V形反转，并在科技股抛售中迎来避险买盘。美股三大股指集体收跌，道指跌1.64%，标普500跌1.02%、连跌四日创9月以来最长连跌，纳指跌0.74%。值得注意的是芯片股尾盘拉升收窄跌幅，英伟达仅跌0.48%，其临时CEO克雷斯预计第四季度为毛利率低点，随后在2028财年回升至72%至73%区间，明年推出Vera Rubin Ultra、2028年推出Feynman的计划不变。高利率持续压制估值，而龙头业绩指引仍构成支撑，两股力量的拉锯值得跟踪。",
+   "merged": [],
+   "mode": "llm+deterministic",
+   "n_total": 15
+  },
+  "a_hk": {
+   "cards": [
+    {
+     "event_id": 1355,
+     "title": "A股限售股解禁一览：92.51亿元市值限售股今日解禁",
+     "topic": "财经",
+     "n_indep": 3,
+     "salience": 34.8953,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537308",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2762211",
+       "feed": "格隆汇"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103444355.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103441122.html",
+       "feed": "第一财经"
+      }
+     ],
+     "fact": "据Wind数据，2026年11月18日（周三）A股共有8家公司限售股解禁，合计解禁量4.23亿股，按最新收盘价计算合计解禁市值92.51亿元。其中恒坤新材、德尔玛、天海电子解禁量居前，分别为2.28亿股、1.73亿股、569.44万股；按解禁市值排序，恒坤新材73.84亿元、德尔玛12.87亿元、云天励飞-U 2.34亿元居前三。从解禁股数占总股本比例看，恒坤新材50.48%、德尔玛37.42%、云天励飞-U 1.2%居前。",
+     "impact": "当日解禁市值高度集中于恒坤新材和德尔玛两家公司，且二者解禁股占总股本比例分别达50.48%和37.42%，流通盘大幅扩容可能带来短期抛压。",
+     "divergence": "",
+     "next_step": "关注恒坤新材、德尔玛解禁后的实际减持公告及股价与成交量变化，以及后续交易日的解禁规模安排。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 1061,
+      "total_tokens": 1311,
+      "completion_tokens": 250,
+      "prompt_tokens_details": {
+       "cached_tokens": 1024,
+       "text_tokens": 1061
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8890,
+     "title": "A股上市公司积极回购，机构称市场向下风险收敛",
+     "topic": "财经",
+     "n_indep": 2,
+     "salience": 34.7546,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201574",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.36kr.com/newsflashes/4074476049683332",
+       "feed": "36氪快讯"
+      }
+     ],
+     "fact": "截至2026年11月16日，今年以来共有近1300家A股上市公司实施回购，合计回购金额超1500亿元。近期市场持续震荡，A股估值已处于相对低位，上市公司积极开展回购。分析人士认为，当前市场成交缩量、政策稳市及中长期资金入市等因素有望形成支撑，市场向下的风险已有所收敛。",
+     "impact": "大规模回购叠加政策稳市和中长期资金入市预期，有助于提振市场信心、稳定估值底部。",
+     "divergence": "",
+     "next_step": "关注后续回购力度是否持续扩大，以及政策稳市措施和中长期资金入市的实际落地进展。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 642,
+      "total_tokens": 784,
+      "completion_tokens": 142,
+      "prompt_tokens_details": {
+       "cached_tokens": 512,
+       "text_tokens": 642
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8587,
+     "title": "财联社11月18日电，富时A50期指连续夜盘收跌0.09%，报12650点。",
+     "topic": "财经",
+     "n_indep": 2,
+     "salience": 26.1144,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537256",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201520",
+       "feed": "华尔街见闻实时"
+      }
+     ],
+     "fact": "2026年11月18日，富时A50期指连续合约夜盘收跌0.09%，报12650点。财联社电报与华尔街见闻实时均报道了同一数据，两源表述一致。",
+     "impact": "富时A50期指夜盘表现常被用作观察A股市场情绪的参考指标之一，本次微幅收跌显示夜盘波动有限。",
+     "divergence": "",
+     "next_step": "关注后续A股开盘走势及富时A50期指日盘变动情况。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 558,
+      "total_tokens": 681,
+      "completion_tokens": 123,
+      "prompt_tokens_details": {
+       "cached_tokens": 512,
+       "text_tokens": 558
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 5064,
+     "title": "雷军、李彦宏、王兴兴、曾毓群等齐聚，再谈AI与机器人未来",
+     "topic": "财经",
+     "n_indep": 11,
+     "salience": 18.8713,
+     "primary_entities": [
+      "BAIDU",
+      "APEC",
+      "ICBC"
+     ],
+     "incidental_entities": [
+      "CATL",
+      "CGTN"
+     ],
+     "canonical_feed": "财联社深度",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2536992",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://www.caixin.com/2026-11-17/102505603.html",
+       "feed": "财新最新"
+      },
+      {
+       "url": "https://finance.caixin.com/2026-11-17/102505702.html",
+       "feed": "财新最新"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201155",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103443341.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/322.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786105",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://www.zaobao.com.sg/news/china/story20261117-10012564",
+       "feed": "联合早报"
+      },
+      {
+       "url": "https://news.ifeng.com/c/8y82aV8eiRV",
+       "feed": "凤凰网财经"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2536979",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2536375",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103443361.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/225.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263186",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://www.caixin.com/2026-11-17/102505865.html",
+       "feed": "财新最新"
+      },
+      {
+       "url": "https://www.caixin.com/2026-11-17/102505647.html",
+       "feed": "财新最新"
+      }
+     ],
+     "fact": "{\"fact\":\"2026年11月17日至18日，2026年APEC工商领导人峰会在深圳举行，主题为\"共促繁荣，共赢未来\"。百度创始人李彦宏指出AI在算力和基础设施上投入巨大，但应用层落地成效不及预期，若无法突破可能演变为泡沫；小米雷军表示过去四年能真正实现商业闭环、挣到钱的AI公司相对较少，认为具身智能机器人是巨大的产业机会；宇树科技王兴兴用\"最激动人心\"形容AI正接近突破临界点；工商银行董事长廖林提出AI时代需处理好技术应用与组织架构衔接、技术迭代与投资周期统筹、技术创新与风险平衡三组关系。\",\"impact\":\"中国头部科技与金融企业掌门人在APEC峰会集中发声，共识指向AI从基础设施投入转向应用落地和商业变现是当前产业发展的核心瓶颈。\",\"divergence\":\"李彦宏对AI技术快速迭代的时长表述不一致：联合早报称\"过去三年多\"，雷军及多家媒体引述为\"过去四年\"，两者统计口径或起算时点可能存在差异。\",\"next_step\":\"关注百度\"Token交易所\"等应用层产品的实际商业化进展，以及具身智能机器人领域是否出现可验证的商业闭环案例。\"}",
+     "impact": "",
+     "divergence": "",
+     "next_step": "",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": true,
+     "usage": {
+      "prompt_tokens": 1913,
+      "total_tokens": 2180,
+      "completion_tokens": 267,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 1913
+      },
+      "completion_tokens_details": {}
+     }
+    }
+   ],
+   "heat_list": [
+    {
+     "event_id": 6683,
+     "title": "港股公告精选｜名创优品前三季度营收同比增约两成 中铝国际签署近56亿元总承包合同",
+     "cat": "a_hk",
+     "sel": 16.9637,
+     "n_indep": 6,
+     "ents": [
+      "SW"
+     ],
+     "summary": "财联社11月17日讯（编辑 冯轶） 财联社为您带来今日港股重要公告 1）公司要闻 中铝国际(02068.HK)： 签署越南氧化铝项目EPC工程总承包合同，总额约55.83亿元。 公告称，主要以EPC总承包模式承揽年产240万吨氧化铝厂的设计、材料与设备供应、工程施工、安装、竣工试验、缺陷修复工作，并为氧化铝厂商业运营首年提供质保及运营支持工作。 京东集团-SW(09618.HK)： 前9月总收入为9716.88亿元，同比增长1.56%，净利润为187.34亿元。三季度收入为人",
+     "lead": "财联社11月17日讯（编辑 冯轶） 财联社为您带来今日港股重要公告 1）公司要闻 中铝国际(02068.HK)： 签署越南氧化铝项目EPC工程总承包合同，总额约55.83亿元。",
+     "members": [
+      {
+       "title": "港股公告精选｜名创优品前三季度营收同比增约两成 中铝国际签署近56亿元总承包合同",
+       "feed": "财联社深度",
+       "url": "https://www.cls.cn/detail/2537042",
+       "pub_date": "2026-11-17 13:08:24"
+      },
+      {
+       "title": "中铝国际：签署55.83亿元越南年产240万吨氧化铝项目EPC合同",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2765680",
+       "pub_date": "2026-11-17 11:03:52"
+      },
+      {
+       "title": "中铝国际：签署越南年产240万吨氧化铝项目EPC合同，金额约55.83亿元",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201265",
+       "pub_date": "2026-11-17 11:03:49"
+      },
+      {
+       "title": "<b>中铝国际：签署越南年产240万吨氧化铝项目EPC合同，金额约55.83亿元 |</b> 中铝国际公告，公司此前于2026年10月23日中标越南平福年产240万吨氧化铝项目，11月...",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103444002.html",
+       "pub_date": "2026-11-17 11:18:47"
+      },
+      {
+       "title": "中铝国际：签署越南氧化铝项目EPC总承包合同 金额约55.83亿元",
+       "feed": "财联社公司公告",
+       "url": "https://api3.cls.cn/share/article/2536940?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 11:06:11"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社深度"
+    },
+    {
+     "event_id": 1400,
+     "title": "<b>A股分红派息转增一览：5股今日股权登记 |</b> Wind数据显示，根据上市公司权益分配方案梳理统计，5只A股今日股权登记。其中，5股拟派息。",
+     "cat": "a_hk",
+     "sel": 14.85513,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "Wind数据显示，根据上市公司权益分配方案梳理统计，5只A股今日股权登记。其中，5股拟派息。",
+     "lead": "Wind数据显示，根据上市公司权益分配方案梳理统计，5只A股今日股权登记。",
+     "members": [
+      {
+       "title": "<b>A股分红派息转增一览：5股今日股权登记 |</b> Wind数据显示，根据上市公司权益分配方案梳理统计，5只A股今日股权登记。其中，5股拟派息。",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103444357.html",
+       "pub_date": "2026-11-17 23:41:18"
+      },
+      {
+       "title": "<b>A股分红派息转增一览：10股今日股权登记 |</b> Wind数据显示，根据上市公司权益分配方案梳理统计，10只A股今日股权登记。其中，10股拟派息。",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103441138.html",
+       "pub_date": "2026-11-15 23:53:00"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "第一财经"
+    },
+    {
+     "event_id": 1408,
+     "title": "<b>A股股票回购一览：33家公司披露回购进展 |</b> Wind数据显示，11月18日，33家公司共发布33个股票回购相关进展。其中，4家公司股东提议回购公司股份，9家公司...",
+     "cat": "a_hk",
+     "sel": 14.85513,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "Wind数据显示，11月18日，33家公司共发布33个股票回购相关进展。其中，4家公司股东提议回购公司股份，9家公司首次披露股票回购预案，2家公司回购方案获股东大会通过，12家公司披露股票回购实施进展，6家公司回购方案已实施完毕。",
+     "lead": "Wind数据显示，11月18日，33家公司共发布33个股票回购相关进展。",
+     "members": [
+      {
+       "title": "<b>A股股票回购一览：33家公司披露回购进展 |</b> Wind数据显示，11月18日，33家公司共发布33个股票回购相关进展。其中，4家公司股东提议回购公司股份，9家公司...",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103444345.html",
+       "pub_date": "2026-11-17 23:27:04"
+      },
+      {
+       "title": "<b>A股股票回购一览：1家公司披露回购进展 |</b> Wind数据显示，11月16日，1家公司共发布1个股票回购相关进展。其中，1家公司披露股票回购实施进展。",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103441112.html",
+       "pub_date": "2026-11-15 23:28:00"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "第一财经"
+    },
+    {
+     "event_id": 8195,
+     "title": "恒生指数主连夜盘收跌032%，报23414点。 恒生科技指数主连夜盘收跌0.48%，报3732点。",
+     "cat": "a_hk",
+     "sel": 13.29048,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "恒生指数主连夜盘收跌032%，报23414点。 恒生科技指数主连夜盘收跌0.48%，报3732点。",
+     "lead": "恒生指数主连夜盘收跌032%，报23414点。",
+     "members": [
+      {
+       "title": "恒生指数主连夜盘收跌032%，报23414点。 恒生科技指数主连夜盘收跌0.48%，报3732点。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201472",
+       "pub_date": "2026-11-17 19:00:22"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 6700,
+     "title": "斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品",
+     "cat": "a_hk",
+     "sel": 13.2595,
+     "n_indep": 3,
+     "ents": [
+      "CATL"
+     ],
+     "summary": "【斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品】财联社11月17日电，斯莱克(300382.SZ)公告称，公司控股子公司分宜和骏近日与宁德时代签署《厂边厂配套供应协议》，宁德时代指定分宜和骏在江苏苏州、福建泉州投资生产，为其提供电池壳体等配套产品。协议有效期至2028年12月31日。本次协议签署不会对公司本年度财务状况及经营业绩构成重大影响。",
+     "lead": "【斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品】财联社11月17日电，斯莱克(300382.SZ)公告称，公司控股子公司分宜和骏近日与宁德时代签署《厂…",
+     "members": [
+      {
+       "title": "斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品",
+       "feed": "财联社公司公告",
+       "url": "https://api3.cls.cn/share/article/2536897?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 10:29:28"
+      },
+      {
+       "title": "<b>斯莱克：子公司与宁德时代签署《厂边厂配套供应协议》 |</b> 斯莱克公告，公司控股子公司分宜和骏近日与宁德时代签署《厂边厂配套供应协议》，宁德时代指定分...",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103443937.html",
+       "pub_date": "2026-11-17 10:37:11"
+      },
+      {
+       "title": "斯莱克：控股子公司分宜和骏与宁德时代签署《厂边厂配套供应协议》，宁德时代指定其在江苏苏州、福建泉州投资生产并供应电池壳体等配套产品，协议有效期至2028年...",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201240",
+       "pub_date": "2026-11-17 10:30:51"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社公司公告"
+    },
+    {
+     "event_id": 3317,
+     "title": "港股收盘 | 恒指和科指双双跌超1% 新消费与家电股逆势走强",
+     "cat": "a_hk",
+     "sel": 12.4146,
+     "n_indep": 6,
+     "ents": [
+      "ALIBABA",
+      "AMAZON",
+      "APPLE",
+      "BAIDU",
+      "GOOGLE",
+      "MICROSOFT"
+     ],
+     "summary": "财联社11月17日讯（编辑 胡家荣） 今日港股三大指数集体调整。截至收盘，恒生指数跌1.03%，报23508.17点；科技指数跌1.14%，报收3758.17点；国企指数跌0.97%，报收7904.37点。 值得注意的是，恒生科技指数在今日盘中一度下探至3715.15点，逼近2024年9月23日以来的低位。 龙头权重股同步承压，阿里巴巴(09988.HK)盘中低见85.10港元，腾讯控股(00700.HK)盘中触及376.80港元，双双创下2025年1月底以来的盘中股价新低。",
+     "lead": "财联社11月17日讯（编辑 胡家荣） 今日港股三大指数集体调整。",
+     "members": [
+      {
+       "title": "港股收盘 | 恒指和科指双双跌超1% 新消费与家电股逆势走强",
+       "feed": "财联社深度",
+       "url": "https://www.cls.cn/detail/2536645",
+       "pub_date": "2026-11-17 08:30:41"
+      },
+      {
+       "title": "恒生指数收盘涨0.49%，恒生科技指数跌0.3%",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3200514",
+       "pub_date": "2026-11-16 08:09:55"
+      },
+      {
+       "title": "港股午评：恒生指数跌0.77%，恒生科技指数跌0.46%",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263168",
+       "pub_date": "2026-11-17 04:02:42"
+      },
+      {
+       "title": "恒生指数收盘跌1.03%，恒生科技指数跌1.14%",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201135",
+       "pub_date": "2026-11-17 08:09:56"
+      },
+      {
+       "title": "恒指收跌1.03%，恒生科技指数跌1.14%",
+       "feed": "36氪快讯",
+       "url": "https://www.36kr.com/newsflashes/4073570817758344",
+       "pub_date": "2026-11-17 08:10:31"
+      },
+      {
+       "title": "港股午评：恒生指数跌0.77% 恒生科技指数跌0.46%",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2536345",
+       "pub_date": "2026-11-17 04:00:52"
+      },
+      {
+       "title": "恒指低开0.98%，报23521.16点；恒生科技指数跌1.09%。蔚来跌超5%，MINIMAX跌近4%，哔哩哔哩、智谱、联想、阿里巴巴等跌超3%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3200924",
+       "pub_date": "2026-11-17 01:21:04"
+      },
+      {
+       "title": "恒生科技指数盘中跌2%，阿里巴巴跌超5%，百度跌超6%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3200945",
+       "pub_date": "2026-11-17 01:51:34"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社深度"
+    },
+    {
+     "event_id": 6323,
+     "title": "财联社11月17日电，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为提交注册。",
+     "cat": "a_hk",
+     "sel": 11.765,
+     "n_indep": 5,
+     "ents": [],
+     "summary": "财联社11月17日电，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为提交注册。",
+     "lead": "财联社11月17日电，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为提交注册。",
+     "members": [
+      {
+       "title": "财联社11月17日电，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为提交注册。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2536735",
+       "pub_date": "2026-11-17 09:04:12"
+      },
+      {
+       "title": "<b>神州股份科创板IPO审核状态变更为“提交注册” |</b> 上交所网站披露，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为“提交注册”。",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103443907.html",
+       "pub_date": "2026-11-17 10:22:19"
+      },
+      {
+       "title": "上交所网站披露，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为“提交注册”。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201205",
+       "pub_date": "2026-11-17 09:43:03"
+      },
+      {
+       "title": "神州股份科创板IPO审核状态变更为“提交注册”",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2765536",
+       "pub_date": "2026-11-17 09:56:57"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 1361,
+     "title": "董明珠现身APEC会议现场",
+     "cat": "a_hk",
+     "sel": 11.5289,
+     "n_indep": 9,
+     "ents": [
+      "AELM",
+      "APEC",
+      "BAIDU",
+      "BYD",
+      "CATL",
+      "CHINA"
+     ],
+     "summary": "2026年APEC工商领导人峰会今日在深圳举办。下午3点10分左右，董明珠现身会议现场。据悉，董明珠将参与主题为“粤港澳大湾区与亚太发展机遇”的专题研讨。（证券时报）",
+     "lead": "2026年APEC工商领导人峰会今日在深圳举办。",
+     "members": [
+      {
+       "title": "董明珠现身APEC会议现场",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201128",
+       "pub_date": "2026-11-17 08:00:23"
+      },
+      {
+       "title": "戴庆成：深圳下一步如何走？",
+       "feed": "联合早报",
+       "url": "https://www.zaobao.com/news/china/story20261116-10001954",
+       "pub_date": "2026-11-15 21:00:00"
+      },
+      {
+       "title": "戴庆成：深圳下一步如何走？",
+       "feed": "联合早报",
+       "url": "https://www.zaobao.com.sg/news/china/story20261116-10001954",
+       "pub_date": "2026-11-15 21:00:00"
+      },
+      {
+       "title": "Xi is the man in the middle hosting APEC",
+       "feed": "德国之声",
+       "url": "https://www.dw.com/en/chinas-xi-jinping-center-stage-at-apec-summit/video-79960874",
+       "pub_date": "2026-11-16 14:51:24"
+      },
+      {
+       "title": "APEC前夕 习近平广东中山考察",
+       "feed": "联合早报",
+       "url": "https://www.zaobao.com.sg/news/china/story20261117-10009502",
+       "pub_date": "2026-11-17 00:20:55"
+      },
+      {
+       "title": "APEC工商領導人峰會登場　規劃發布「深圳倡議」",
+       "feed": "中央社",
+       "url": "https://www.cna.com.tw/news/acn/202611170058.aspx",
+       "pub_date": "2026-11-17 03:34:03"
+      },
+      {
+       "title": "港媒：台APEC代表施振荣赴深圳与会或获大陆礼遇",
+       "feed": "联合早报",
+       "url": "https://www.zaobao.com.sg/news/china/story20261117-10010637",
+       "pub_date": "2026-11-17 03:50:00"
+      },
+      {
+       "title": "26.29万亿元！中国以开放合作回答时代之问",
+       "feed": "凤凰网财经",
+       "url": "https://original.ifeng.com/c/8y60OmeNTaM",
+       "pub_date": "2026-11-16 03:18:08"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 6362,
+     "title": "比亚迪王传福：“我赢你输”，这样的生意做不长",
+     "cat": "a_hk",
+     "sel": 11.338,
+     "n_indep": 5,
+     "ents": [
+      "APEC",
+      "BYD"
+     ],
+     "summary": "作者 | 周智宇 “我赢你输是不可以长期的。”11月17日，在深圳举行的2026年亚太经合组织（APEC）工商领导人峰会上，比亚迪股份有限公司董事长兼总裁王传福这样回答关于可持续发展的提问。他举例说，比亚迪泰国工厂95%以上的员工是泰国人，许多零部件也从当地采购。 今年前10个月，比亚迪在海外卖出了超过150万辆乘用车和皮卡。据王传福介绍，比亚迪全球102万名员工中，有6万人在海外。谈及中国制造出海会不会抢当地人的饭碗，王传福认为，比亚迪带去的新能源汽车，恰能填补当地在这一领",
+     "lead": "作者 | 周智宇 “我赢你输是不可以长期的。",
+     "members": [
+      {
+       "title": "比亚迪王传福：“我赢你输”，这样的生意做不长",
+       "feed": "华尔街见闻",
+       "url": "https://wallstreetcn.com/articles/3786111",
+       "pub_date": "2026-11-17 11:45:24"
+      },
+      {
+       "title": "比亚迪王传福：“我赢你输”不可能长期发展",
+       "feed": "财新最新",
+       "url": "https://www.caixin.com/2026-11-17/102505812.html",
+       "pub_date": "2026-11-17 08:08:56"
+      },
+      {
+       "title": "比亚迪王传福：外界有一些误会，中国制造不是抢饭碗",
+       "feed": "凤凰网财经",
+       "url": "https://news.ifeng.com/c/8y87fCrpCSI",
+       "pub_date": "2026-11-17 09:01:08"
+      },
+      {
+       "title": "出海不是“抢饭碗”！比亚迪王传福称外界对中国制造有误会，新能源车是填补当地的空白",
+       "feed": "IT之家",
+       "url": "https://www.ithome.com/1/028/456.htm",
+       "pub_date": "2026-11-17 10:18:29"
+      },
+      {
+       "title": "王传福：中国新能源出海不是抢国外饭碗，而是填当地空白",
+       "feed": "观察者网",
+       "url": "https://www.guancha.cn/qiche/2026_11_17_908754.shtml",
+       "pub_date": "2026-11-17 10:42:10"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻"
+    },
+    {
+     "event_id": 2853,
+     "title": "部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量",
+     "cat": "a_hk",
+     "sel": 10.5275,
+     "n_indep": 6,
+     "ents": [],
+     "summary": "【部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量】财联社11月17日电，据财联社盯盘数据显示，尾盘多只宽基ETF集中放量，创业板ETF广发（159952）成交额突破50亿元，较昨日全天增超1.6倍，创成交额历史天量，沪深300ETF华泰柏瑞（510300）、中证1000ETF南方（512100）、中证500ETF南方（510500）15分钟内均成交超15亿元。",
+     "lead": "【部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量】财联社11月17日电，据财联社盯盘数据显示，尾盘多只宽基ETF集中放量，创业板ETF广发（159…",
+     "members": [
+      {
+       "title": "部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2536484",
+       "pub_date": "2026-11-17 06:47:45"
+      },
+      {
+       "title": "多只宽基ETF尾盘放量成交",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2763052",
+       "pub_date": "2026-11-16 06:56:33"
+      },
+      {
+       "title": "尾盘半小时多只宽基ETF显著放量 沪深300ETF华泰柏瑞（510300）成交超40亿",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2535333?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-16 06:58:40"
+      },
+      {
+       "title": "多只宽基ETF尾盘放量成交",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3200470",
+       "pub_date": "2026-11-16 06:55:56"
+      },
+      {
+       "title": "部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量",
+       "feed": "财联社加红",
+       "url": "https://api3.cls.cn/share/article/2536484?os=web&sv=8.7.9&app=",
+       "pub_date": "2026-11-17 06:47:45"
+      },
+      {
+       "title": "部分宽基ETF尾盘放量，创业板ETF广发（159952）成交超50亿元创历史天量",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263209",
+       "pub_date": "2026-11-17 06:48:51"
+      },
+      {
+       "title": "多只宽基ETF尾盘再度放量，创业板ETF广发（159952）成交超50亿元创历史天量，沪深300ETF华泰柏瑞（510300）、沪深300ETF易方达（510310）、中证500ETF南方(51050...",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201069",
+       "pub_date": "2026-11-17 06:45:41"
+      },
+      {
+       "title": "尾盘半小时多只宽基ETF显著放量 沪深300ETF华泰柏瑞（510300）成交超40亿",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2535333",
+       "pub_date": "2026-11-16 06:58:40"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 3296,
+     "title": "创业板指冲高回落跌1.2%，光刻机概念股逆势走强，多只宽基ETF尾盘再度放量",
+     "cat": "a_hk",
+     "sel": 10.4068,
+     "n_indep": 4,
+     "ents": [
+      "ALIBABA",
+      "CATL",
+      "HUAWEI",
+      "PCB",
+      "TENCENT"
+     ],
+     "summary": "1，整体走势：市场全天宽幅震荡，三大指数延续调整。个股跌多涨少，沪深京三市约4100股飘绿，今日成交1.47万亿。截止收盘沪指跌0.5%，深成指跌0.49%，创业板指跌1.2%。 2，行业板块：光刻机、小家电、贵金属、氟化工等板块涨幅居前，影视传媒、游戏、机器人、光伏等板块跌幅居前。 3，热门概念：半导体产业链盘中反弹，光刻机、光刻胶方向领涨，联合化学、国林科技、海立股份、东方嘉盛等多股涨停。家电股继续走强，小熊电器2连板，九阳股份上演地天板。下跌方面，AI漫剧概念大幅调整，",
+     "lead": "1，整体走势：市场全天宽幅震荡，三大指数延续调整。",
+     "members": [
+      {
+       "title": "创业板指冲高回落跌1.2%，光刻机概念股逆势走强，多只宽基ETF尾盘再度放量",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201084",
+       "pub_date": "2026-11-17 07:01:50"
+      },
+      {
+       "title": "港股收盘 | 三大指数表现不一 消费相关个股全线走暖",
+       "feed": "财联社深度",
+       "url": "https://www.cls.cn/detail/2535413",
+       "pub_date": "2026-11-16 08:42:20"
+      },
+      {
+       "title": "<b>A股收盘｜上证指数跌0.5% 半导体板块逆势上涨 |</b> 四大股指今日集体收跌，上证指数跌0.5%，深成指跌0.49%，创业板指跌1.2%，科创综指跌1.41%。贵金属、半导...",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103443582.html",
+       "pub_date": "2026-11-17 07:01:00"
+      },
+      {
+       "title": "【焦点复盘】沪指缩量跌0.5%失守3600点，影视、物理AI概念遭深幅回调，华为算力概念逆势走强",
+       "feed": "财联社深度",
+       "url": "https://www.cls.cn/detail/2536694",
+       "pub_date": "2026-11-17 09:04:31"
+      },
+      {
+       "title": "<b>A股午盘｜上证指数跌0.01% 影视院线板块领跌 |</b> 上证指数跌0.01%，深成指涨0.69%，创业板指涨0.72%，科创综指涨1.87%。影视院线、短剧游戏、文化传媒等板...",
+       "feed": "第一财经",
+       "url": "https://www.yicai.com/brief/103443238.html",
+       "pub_date": "2026-11-17 03:31:00"
+      },
+      {
+       "title": "港股收评：恒指涨0.49%，恒生科技指数跌0.3%，消费概念全天活跃",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/262640",
+       "pub_date": "2026-11-16 08:30:18"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    }
+   ],
+   "digest": "今日A股市场呈现多空交织格局。一方面，8家公司合计92.51亿元市值限售股集中解禁，恒坤新材和德尔玛解禁量居前，短期抛压值得关注；富时A50期指夜盘微跌0.09%，市场情绪偏谨慎。另一方面，年内近1300家上市公司累计回购超1500亿元，在估值低位与成交缩量背景下，产业资本持续托底意愿明确，机构判断向下风险正在收敛。此外，APEC工商领导人峰会在深圳召开，李彦宏警示AI应用落地不及预期或演变为泡沫，雷军、曾毓群等共议机器人与AI前景，科技产业方向性讨论为后续板块轮动提供线索。整体看，解禁压力与回购支撑对冲，政策稳市预期仍是主线。",
+   "merged": [],
+   "mode": "llm+deterministic",
+   "n_total": 15
+  },
+  "gaming": {
+   "cards": [
+    {
+     "event_id": 8798,
+     "title": "TGA 2026 各奖项入围游戏完整名单公布，《GTA 6》8 项提名领跑",
+     "topic": "科技",
+     "n_indep": 1,
+     "salience": 20.5371,
+     "primary_entities": [
+      "TGA",
+      "GTA"
+     ],
+     "incidental_entities": [
+      "VI"
+     ],
+     "canonical_feed": "IT之家",
+     "links": [
+      {
+       "url": "https://www.ithome.com/1/028/596.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/584.htm",
+       "feed": "IT之家"
+      }
+     ],
+     "fact": "IT之家11月18日报道，TGA（游戏大奖）公布了2026年度游戏入围名单及各奖项入围游戏，《GTA 6》以8项提名领跑，《控制：共振》和《生化危机：安魂曲》各获6项提名，《影之刃零》获5项提名，《Big Walk》《007：初露锋芒》及《塞尔达传说：时之笛》重制版各获4项提名。年度游戏入围作品包括《007：初露锋芒》《控制：共振》《侠盗猎车手 VI》《影之刃零》《生化危机：安魂曲》和《塞尔达传说：时之笛》重制版，颁奖典礼将于12月11日举行。",
+     "impact": "TGA年度提名名单集中反映了本年度最受关注的游戏作品及其行业认可度，《GTA 6》的领跑地位尤为突出。",
+     "divergence": "",
+     "next_step": "关注12月11日颁奖典礼各奖项最终归属，尤其是年度游戏花落谁家。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 864,
+      "total_tokens": 1086,
+      "completion_tokens": 222,
+      "prompt_tokens_details": {
+       "cached_tokens": 768,
+       "text_tokens": 864
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8800,
+     "title": "Steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响",
+     "topic": "科技",
+     "n_indep": 1,
+     "salience": 20.0169,
+     "primary_entities": [
+      "STEAM"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "IT之家",
+     "links": [
+      {
+       "url": "https://www.ithome.com/1/028/592.htm",
+       "feed": "IT之家"
+      }
+     ],
+     "fact": "据IT之家11月18日报道，Valve旗下游戏平台Steam于当地时间11月17日突发服务故障，商店、游戏下载、好友列表及云存档等多项在线功能受到影响。用户反馈称，Steam客户端无法下载游戏，好友列表无法加载，Steam Cloud云存档无法获取，商店页面只能显示部分内容；部分用户即使网络连接正常，也会遇到“No Connection”（无连接）错误。",
+     "impact": "Steam的下载、社交与云存档等核心在线功能同时失效，意味着用户在网络正常的情况下也无法正常使用平台的基础服务。",
+     "divergence": "",
+     "next_step": "关注Valve或Steam官方对故障原因的说明与服务恢复进展，以及各项功能是否已全部恢复正常。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 592,
+      "total_tokens": 741,
+      "completion_tokens": 149,
+      "prompt_tokens_details": {
+       "cached_tokens": 512,
+       "text_tokens": 592
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8896,
+     "title": "Archive Team is archiving the Apple Support Community (closes November 20, 2026)",
+     "topic": "科技",
+     "n_indep": 1,
+     "salience": 16.7127,
+     "primary_entities": [
+      "URL",
+      "APPLE"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "HN头版",
+     "links": [
+      {
+       "url": "https://wiki.archiveteam.org/index.php/Apple_Discussions",
+       "feed": "HN头版"
+      }
+     ],
+     "fact": "Archive Team 正在对 Apple Support Community（苹果支持社区）进行存档，该社区将于2026年11月20日关闭。相关条目发布在 Archive Team 的 wiki 页面（Apple_Discussions），并在 Hacker News 上引发讨论，获得6个点赞和2条评论。",
+     "impact": "苹果官方支持社区关闭后，其中积累的用户问答和技术讨论内容将依赖第三方存档保留，对技术资料的长期可访问性具有意义。",
+     "divergence": "",
+     "next_step": "关注 Archive Team 能否在11月20日关闭前完成完整存档，以及苹果是否提供官方替代平台或数据迁移方案。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 501,
+      "total_tokens": 642,
+      "completion_tokens": 141,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 501
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8570,
+     "title": "Valvoline's Slick Fall Offers A Buying Opportunity",
+     "topic": "财经",
+     "n_indep": 1,
+     "salience": 15.8016,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "Seeking Alpha",
+     "links": [
+      {
+       "url": "https://seekingalpha.com/article/4969262-valvoline-slick-fall-offers-buying-opportunity?source=feed_all_articles",
+       "feed": "Seeking Alpha"
+      }
+     ],
+     "fact": "Seeking Alpha发表了一篇题为《Valvoline's Slick Fall Offers A Buying Opportunity》的分析文章，标题观点认为润滑油企业胜牌（Valvoline）股价的下跌构成买入机会。来源仅提供标题，未给出摘要、具体跌幅、估值或财务数据，相关细节无法核实。",
+     "impact": "该标题代表一种看多观点，提示市场关注胜牌股价回调后可能存在的投资机会，但仅为单一来源的作者判断，并非已证实的事实。",
+     "divergence": "",
+     "next_step": "关注文章正文给出的具体论据（如跌幅、估值与业绩数据），以及胜牌后续财报和股价走势能否支撑这一买入观点。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 370,
+      "total_tokens": 510,
+      "completion_tokens": 140,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 370
+      },
+      "completion_tokens_details": {}
+     }
+    }
+   ],
+   "heat_list": [
+    {
+     "event_id": 8444,
+     "title": "Alpine Income Property Trust: Growth Is Slowing, But The Opportunity Is Getting Better",
+     "cat": "gaming",
+     "sel": 13.085550000000001,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "",
+     "lead": "",
+     "members": [
+      {
+       "title": "Alpine Income Property Trust: Growth Is Slowing, But The Opportunity Is Getting Better",
+       "feed": "Seeking Alpha",
+       "url": "https://seekingalpha.com/article/4969230-alpine-income-property-trust-growth-is-slowing-but-the-opportunity-is-getting-better?source=feed_all_articles",
+       "pub_date": "2026-11-17 20:08:05"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "Seeking Alpha"
+    },
+    {
+     "event_id": 8419,
+     "title": "There's a chance your Xbox Series X is plugged into the wrong HDMI port",
+     "cat": "gaming",
+     "sel": 9.421560000000001,
+     "n_indep": 1,
+     "ents": [
+      "HDMI"
+     ],
+     "summary": "Make sure you're getting the most out of your Xbox Series X, starting with a port check.",
+     "lead": "Make sure you're getting the most out of your Xbox Series X, starting with a port check.",
+     "members": [
+      {
+       "title": "There's a chance your Xbox Series X is plugged into the wrong HDMI port",
+       "feed": "Engadget",
+       "url": "https://www.engadget.com/2315403/chance-xbox-series-x-plugged-into-wrong-hdmi-port/",
+       "pub_date": "2026-11-17 21:00:00"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "Engadget"
+    },
+    {
+     "event_id": 8611,
+     "title": "Texas Community Bancshares, Inc. Announces Quarterly Cash Dividend and a Special Cash Dividend",
+     "cat": "gaming",
+     "sel": 8.849070000000001,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "",
+     "lead": "",
+     "members": [
+      {
+       "title": "Texas Community Bancshares, Inc. Announces Quarterly Cash Dividend and a Special Cash Dividend",
+       "feed": "UnusualWhales",
+       "url": "https://www.prnewswire.com/news-releases/texas-community-bancshares-inc-announces-quarterly-cash-dividend-and-a-special-cash-dividend-302942754.html",
+       "pub_date": "2026-11-17 21:48:02"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "UnusualWhales"
+    },
+    {
+     "event_id": 8628,
+     "title": "VibePrevisBench: Benchmarking 4D Scene Generation in Blender",
+     "cat": "gaming",
+     "sel": 8.849070000000001,
+     "n_indep": 1,
+     "ents": [
+      "BLENDER"
+     ],
+     "summary": "",
+     "lead": "",
+     "members": [
+      {
+       "title": "VibePrevisBench: Benchmarking 4D Scene Generation in Blender",
+       "feed": "UnusualWhales",
+       "url": "https://blockchain.news/news/vibeprevisbench-4d-scene-generation",
+       "pub_date": "2026-11-17 21:46:58"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "UnusualWhales"
+    },
+    {
+     "event_id": 8284,
+     "title": "Can you use a keyboard and mouse with an Xbox Series X?",
+     "cat": "gaming",
+     "sel": 8.669070000000001,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "Learn how to up your Xbox game with keyboard and mouse controls.",
+     "lead": "Learn how to up your Xbox game with keyboard and mouse controls.",
+     "members": [
+      {
+       "title": "Can you use a keyboard and mouse with an Xbox Series X?",
+       "feed": "Engadget",
+       "url": "https://www.engadget.com/2315395/use-keyboard-mouse-with-xbox-series-x/",
+       "pub_date": "2026-11-17 19:30:00"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "Engadget"
+    },
+    {
+     "event_id": 2319,
+     "title": "Examining PC game trends: beyond the Steam tag!",
+     "cat": "gaming",
+     "sel": 8.348220000000001,
+     "n_indep": 1,
+     "ents": [
+      "PC",
+      "STEAM"
+     ],
+     "summary": "Here’s another way to look at emerging trends. Also: GameDiscoverCo Show & lots of discovery news",
+     "lead": "Here’s another way to look at emerging trends.",
+     "members": [
+      {
+       "title": "Examining PC game trends: beyond the Steam tag!",
+       "feed": "GameDiscoverCo",
+       "url": "https://newsletter.gamediscover.co/p/examining-pc-game-trends-beyond-the",
+       "pub_date": "2026-11-17 19:11:42"
+      },
+      {
+       "title": "October 2026’s top new PC & console games, revealed...",
+       "feed": "GameDiscoverCo",
+       "url": "https://newsletter.gamediscover.co/p/october-2026s-top-new-pc-and-console",
+       "pub_date": "2026-11-06 20:13:13"
+      },
+      {
+       "title": "September 2026’s top new PC & console games, revealed...",
+       "feed": "GameDiscoverCo",
+       "url": "https://newsletter.gamediscover.co/p/september-2026s-top-new-pc-and-console",
+       "pub_date": "2026-10-06 18:53:05"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "GameDiscoverCo"
+    },
+    {
+     "event_id": 7641,
+     "title": "索尼赢得英国近 20 亿英镑诉讼：PlayStation 数字游戏定价未被认定违法",
+     "cat": "gaming",
+     "sel": 7.99857,
+     "n_indep": 1,
+     "ents": [
+      "MICROSOFT"
+     ],
+     "summary": "IT之家 11 月 17 日消息，据路透社报道，索尼在英国赢得了一场索赔近 20 亿英镑 （IT之家注：现汇率约合 176.11 亿元人民币） 的诉讼。 当地时间 17 日，伦敦竞争上诉法庭驳回了全部诉讼请求，认定原告 未能证明索尼利用 PlayStation 的垄断地位抬高数字游戏价格，违反竞争法 。 原告指控，索尼滥用市场支配地位，强制 PlayStation 主机的数字游戏及附加内容 只能通过 PlayStation Store 交易 ，导致数字版游戏比实体版更贵。 索",
+     "lead": "IT之家 11 月 17 日消息，据路透社报道，索尼在英国赢得了一场索赔近 20 亿英镑 （IT之家注：现汇率约合 176.11 亿元人民币） 的诉讼。",
+     "members": [
+      {
+       "title": "索尼赢得英国近 20 亿英镑诉讼：PlayStation 数字游戏定价未被认定违法",
+       "feed": "IT之家",
+       "url": "https://www.ithome.com/1/028/544.htm",
+       "pub_date": "2026-11-17 14:46:25"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "IT之家"
+    },
+    {
+     "event_id": 8383,
+     "title": "Ratepayers, Community Leaders and Legislators Rally to Stop NextEra",
+     "cat": "gaming",
+     "sel": 7.491960000000001,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "",
+     "lead": "",
+     "members": [
+      {
+       "title": "Ratepayers, Community Leaders and Legislators Rally to Stop NextEra",
+       "feed": "UnusualWhales",
+       "url": "https://www.prnewswire.com/news-releases/ratepayers-community-leaders-and-legislators-rally-to-stop-nextera-302942726.html",
+       "pub_date": "2026-11-17 19:26:57"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "UnusualWhales"
+    },
+    {
+     "event_id": 8016,
+     "title": "UK tribunal tosses PlayStation Store price-gouging lawsuit, citing physical games as competition",
+     "cat": "gaming",
+     "sel": 7.34463,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "Those same physical copies are on their way out.",
+     "lead": "Those same physical copies are on their way out.",
+     "members": [
+      {
+       "title": "UK tribunal tosses PlayStation Store price-gouging lawsuit, citing physical games as competition",
+       "feed": "Engadget",
+       "url": "https://www.engadget.com/2319408/uk-tribunal-tosses-playstation-store-price-gouging-lawsuit-citing-physical-games-as-competition/",
+       "pub_date": "2026-11-17 17:40:38"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "Engadget"
+    },
+    {
+     "event_id": 7444,
+     "title": "Steam 新一周游戏销量榜公布：《欧卡 2》75% 折扣登顶，国区《影之刃零》连续霸榜",
+     "cat": "gaming",
+     "sel": 7.312860000000001,
+     "n_indep": 1,
+     "ents": [
+      "AION",
+      "DLC",
+      "EA",
+      "FC",
+      "STEAM"
+     ],
+     "summary": "IT之家 11 月 17 日消息，Steam 平台现已公布了最新一周游戏销量排行榜（2026 年 11 月 10 日 - 2026 年 11 月 17 日，无免费游戏），《欧洲卡车模拟 2》以 75% 折扣强势登顶全球榜，其全新 DLC《欧洲卡车模拟 2 - Coaches》与《欧洲卡车模拟 2 - Iceland》双双首次进入榜单，国区方面《影之刃零》继续蝉联榜首。 全球榜单： 欧洲卡车模拟 2 使命召唤：现代战争 4 Bodycam AION 2 影之刃零 足球经理 27",
+     "lead": "IT之家 11 月 17 日消息，Steam 平台现已公布了最新一周游戏销量排行榜（2026 年 11 月 10 日 - 2026 年 11 月 17 日，无免费游戏），《欧洲卡车…",
+     "members": [
+      {
+       "title": "Steam 新一周游戏销量榜公布：《欧卡 2》75% 折扣登顶，国区《影之刃零》连续霸榜",
+       "feed": "IT之家",
+       "url": "https://www.ithome.com/1/028/540.htm",
+       "pub_date": "2026-11-17 14:31:07"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "IT之家"
+    },
+    {
+     "event_id": 8123,
+     "title": "Report: Civilization dev Firaxis lays off a third of its staff",
+     "cat": "gaming",
+     "sel": 7.07283,
+     "n_indep": 1,
+     "ents": [
+      "XCOM"
+     ],
+     "summary": "Firaxis, the 30-year-old studio behind the Civilization and XCOM franchises, is laying off a third of its staff, totalling 60 people, as",
+     "lead": "Firaxis, the 30-year-old studio behind the Civilization and XCOM franchises, is laying off…",
+     "members": [
+      {
+       "title": "Report: Civilization dev Firaxis lays off a third of its staff",
+       "feed": "GamesIndustry",
+       "url": "https://www.gamesindustry.biz/report-civilization-dev-firaxis-lays-off-a-third-of-its-staff-following-development-difficulties-with-xcom-sequel",
+       "pub_date": "2026-11-17 17:33:10"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "GamesIndustry"
+    }
+   ],
+   "digest": "今天游戏领域的焦点集中在TGA 2026年度入围名单的公布上。《GTA 6》以8项提名领跑全场，《控制：共振》和《生化危机：安魂曲》各获6项提名紧随其后，国产动作游戏《影之刃零》拿下5项提名，表现值得关注。与此同时，Steam平台在11月17日突发大规模服务故障，商店、游戏下载、好友列表及云存档等核心功能均受波及，用户端体验出现明显中断。一边是年度评选揭晓带来的行业热度，一边是基础设施层面的稳定性问题暴露，两条线索共同勾勒出今日游戏生态的面貌。",
+   "merged": [],
+   "mode": "llm+deterministic",
+   "n_total": 15
+  },
+  "commodity": {
+   "cards": [
+    {
+     "event_id": 6904,
+     "title": "周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%。 目前（美股盘后），英伟达涨超4.4%，Lumentum涨6.2%，闪迪涨5.6%，SK海力士ADR涨4.7%，美...",
+     "topic": "财经",
+     "n_indep": 6,
+     "salience": 43.7954,
+     "primary_entities": [
+      "NVIDIA",
+      "INTEL",
+      "ALIBABA",
+      "TSMC",
+      "GOOGLE",
+      "APPLE"
+     ],
+     "incidental_entities": [
+      "AMD"
+     ],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201571",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103444062.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2536980?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201573",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201367",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2536980",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3786140",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766421",
+       "feed": "格隆汇"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537294",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://api3.cls.cn/share/article/2537294?os=web&sv=8.7.9&app=",
+       "feed": "财联社加红"
+      }
+     ],
+     "merged_from": [
+      6904,
+      8663
+     ],
+     "fact": "2026年11月18日周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%；财联社同日报道纳指期货涨1.38%、标普500指数期货涨0.75%。美股盘后英伟达涨超4.4%，华尔街见闻称其业绩超预期、盘后涨幅一度扩大至5%，并带动Lumentum涨6.2%、闪迪涨5.6%、SK海力士ADR涨4.7%、美光涨4.5%、阿斯麦ADR涨3.7%、英特尔涨2.1%、阿里巴巴涨1.3%、SpaceX涨0.7%，苹果跌超0.2%。",
+     "impact": "英伟达业绩超预期在盘后引发芯片及AI相关个股集体上涨，并推动亚太时段美股期指走高，显示市场对AI算力链的情绪明显回暖。",
+     "divergence": "同一事件各源快照时点不同导致数字不一致：纳指期货涨幅有1.4%以上（华尔街见闻）与1.38%（财联社、格隆汇）两种口径，标普期货为涨超0.8%与0.75%；英伟达盘后涨幅有涨超4.4%、涨超4%与扩大至5%三种表述；个股方面Lumentum为6.2%与7.5%、闪迪5.6%与6.7%、SK海力士ADR与美光4.7%/4.5%与5.5%、阿斯麦ADR 3.7%与4.4%、英特尔2.1%与3.1%、阿里1.3%与至多1.7%。另有第一财经报道纳指期货涨0.5%、标普涨0.12%、道指跌0.3%，以及财联社11月17日英伟达盘前涨1%、纳指期货涨0.6%的记录，属更早时点行情，非本次盘后数据。英伟达具体财报数字未在来源中给出，无法核实。",
+     "next_step": "关注美股正式开盘后期指涨幅能否兑现，以及英伟达财报细节与芯片股涨势的持续性。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 1713,
+      "total_tokens": 2210,
+      "completion_tokens": 497,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 1713
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8825,
+     "title": "财联社11月18日电，日经225指数期货早盘上涨1.9%。",
+     "topic": "财经",
+     "n_indep": 3,
+     "salience": 34.8953,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "财联社电报",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537317",
+       "feed": "财联社电报"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766512",
+       "feed": "格隆汇"
+      }
+     ],
+     "fact": "2026年11月18日早盘，日经225指数期货上涨1.9%。财联社、格隆汇、金十数据三家来源均报道了同一涨幅数据。",
+     "impact": "日经225指数期货是日本股市的重要先行指标，早盘近2%的涨幅显示市场对当日日本股市开盘走势有较强看多预期。",
+     "divergence": "",
+     "next_step": "关注日经225指数现货开盘后的实际表现是否与期货涨幅一致，以及推动上涨的具体驱动因素。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 550,
+      "total_tokens": 667,
+      "completion_tokens": 117,
+      "prompt_tokens_details": {
+       "cached_tokens": 512,
+       "text_tokens": 550
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8547,
+     "title": "行业周报：美国上周API原油库存增超500万桶",
+     "topic": "财经",
+     "n_indep": 3,
+     "salience": 29.6943,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201529",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.gelonghui.com/live/2766349",
+       "feed": "格隆汇"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537263",
+       "feed": "财联社电报"
+      }
+     ],
+     "fact": "美国石油协会（API）数据显示，截至11月13日当周，美国API原油库存增加527.8万桶，前一周为增加896.8万桶，而市场预期为减少50万桶。同期库欣原油库存减少169.1万桶（前值增加510万桶），汽油库存增加512.2万桶（前值增加270万桶），馏分油库存增加35.1万桶（前值减少800万桶）。此外，当周API投产原油量为5.1万桶/日，前值为24.9万桶/日。",
+     "impact": "原油库存连续两周大幅增加且远超市场预期的减少方向，同时汽油和馏分油库存也同步累积，显示短期供需格局偏宽松，可能对油价形成压力。",
+     "divergence": "",
+     "next_step": "关注随后公布的美国能源信息署（EIA）官方原油库存数据是否与API趋势一致，以及炼厂开工率变化对后续库存走势的影响。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 761,
+      "total_tokens": 976,
+      "completion_tokens": 215,
+      "prompt_tokens_details": {
+       "cached_tokens": 512,
+       "text_tokens": 761
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 6578,
+     "title": "WTI 12月原油期货收涨0.29美元，涨幅0.34%，报86.01美元/桶。 布伦特1月原油期货收涨0.70美元，涨幅0.76%，报93.14美元/桶。 NYMEX 12月天然气期货收报3.2080美...",
+     "topic": "财经",
+     "n_indep": 5,
+     "salience": 29.412,
+     "primary_entities": [
+      "WTI",
+      "NYMEX"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201485",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.barrons.com.cn/news/263284",
+       "feed": "巴伦中文"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3201328",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.yicai.com/brief/103444323.html",
+       "feed": "第一财经"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2537240",
+       "feed": "财联社电报"
+      }
+     ],
+     "fact": "11月18日，WTI 12月原油期货收涨0.29美元，涨幅0.34%，报86.01美元/桶；布伦特1月原油期货收涨0.70美元，涨幅0.76%，报93.14美元/桶。同日NYMEX 12月天然气期货收报3.2080美元/百万英热单位，12月汽油期货收报2.5349美元/加仑，12月取暖油期货收报4.0475美元/加仑。",
+     "impact": "原油及成品油期货结算价是能源市场定价基准，直接影响下游炼化成本与通胀预期。",
+     "divergence": "巴伦中文报道WTI涨0.33%报86.003美元/桶、布伦特涨0.49%报92.897美元/桶，与第一财经、财联社、华尔街见闻的收盘数据存在差异，疑为盘中快照而非结算价；华尔街见闻另一条盘中快讯显示WTI日内涨幅达1.0%报86.58美元/桶；金十报道WTI突破87美元/桶日内涨2.21%、布伦特站上94美元/桶日内涨2.34%，与结算价差距较大，可能对应不同交易日或盘中时段，来源未注明具体日期，无法核实。",
+     "next_step": "关注后续交易日原油结算价能否站稳86美元/桶上方，以及盘中大幅波动是否由突发供给端消息驱动。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 1275,
+      "total_tokens": 1615,
+      "completion_tokens": 340,
+      "prompt_tokens_details": {
+       "cached_tokens": 1024,
+       "text_tokens": 1275
+      },
+      "completion_tokens_details": {}
+     }
+    }
+   ],
+   "heat_list": [
+    {
+     "event_id": 8737,
+     "title": "周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57%。 罗素2000股指期货跌1.37%。",
+     "cat": "commodity",
+     "sel": 18.546930000000003,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57%。 罗素2000股指期货跌1.37%。",
+     "lead": "周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57%。",
+     "members": [
+      {
+       "title": "周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57%。 罗素2000股指期货跌1.37%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201545",
+       "pub_date": "2026-11-17 22:09:24"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8267,
+     "title": "布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。",
+     "cat": "commodity",
+     "sel": 17.6876,
+     "n_indep": 2,
+     "ents": [],
+     "summary": "布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。",
+     "lead": "布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。",
+     "members": [
+      {
+       "title": "格隆汇11月18日｜布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766281",
+       "pub_date": "2026-11-17 19:45:39"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "金十数据"
+    },
+    {
+     "event_id": 7884,
+     "title": "夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%",
+     "cat": "commodity",
+     "sel": 17.2824,
+     "n_indep": 2,
+     "ents": [],
+     "summary": "【夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%】财联社11月18日电，国际铜夜盘收跌0.08%，沪铜收跌0.23%，沪铝收跌1.33%，沪锌收跌0.40%，沪铅收跌0.35%，沪镍收涨3.06%，沪锡收跌1.35%。氧化铝夜盘收跌0.31%，铝合金收跌1.01%。不锈钢夜盘收涨2.62%。",
+     "lead": "【夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%】财联社11月18日电，国际铜夜盘收跌0.08%，沪铜收跌0.23%，沪铝收跌1.33%，沪锌收跌0.40%，沪铅收跌0.35%…",
+     "members": [
+      {
+       "title": "夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537208",
+       "pub_date": "2026-11-17 17:03:01"
+      },
+      {
+       "title": "国际铜夜盘收跌0.08%，沪铜收跌0.38%，沪铝收跌1.33%，沪锌收跌0.4%，沪铅收跌0.35%，沪镍收涨3.04%，沪锡收跌1.35%。 氧化铝夜盘收跌0.31%，铝合金收跌1.01%。 ...",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201440",
+       "pub_date": "2026-11-17 17:08:14"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8600,
+     "title": "提醒：北京时间05:30，美国石油协会（API）将发布行业版原油库存周报，非API会员最早可在04:32前后获得数据详情。",
+     "cat": "commodity",
+     "sel": 17.06589,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "提醒：北京时间05:30，美国石油协会（API）将发布行业版原油库存周报，非API会员最早可在04:32前后获得数据详情。",
+     "lead": "提醒：北京时间05:30，美国石油协会（API）将发布行业版原油库存周报，非API会员最早可在04:32前后获得数据详情。",
+     "members": [
+      {
+       "title": "提醒：北京时间05:30，美国石油协会（API）将发布行业版原油库存周报，非API会员最早可在04:32前后获得数据详情。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201523",
+       "pub_date": "2026-11-17 21:21:31"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 8143,
+     "title": "恒指期货夜盘收跌0.32%，报23414点，低水94点。",
+     "cat": "commodity",
+     "sel": 16.2698,
+     "n_indep": 2,
+     "ents": [],
+     "summary": "恒指期货夜盘收跌0.32%，报23414点，低水94点。",
+     "lead": "恒指期货夜盘收跌0.32%，报23414点，低水94点。",
+     "members": [
+      {
+       "title": "格隆汇11月18日｜恒指期货夜盘收跌0.32%，报23414点，低水94点。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766242",
+       "pub_date": "2026-11-17 19:03:39"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "金十数据"
+    },
+    {
+     "event_id": 8152,
+     "title": "相关初步装船计划显示，安哥拉计划1月装载26船原油，低于12月计划的32船。",
+     "cat": "commodity",
+     "sel": 16.2698,
+     "n_indep": 2,
+     "ents": [],
+     "summary": "相关初步装船计划显示，安哥拉计划1月装载26船原油，低于12月计划的32船。",
+     "lead": "相关初步装船计划显示，安哥拉计划1月装载26船原油，低于12月计划的32船。",
+     "members": [
+      {
+       "title": "格隆汇11月18日｜安哥拉计划1月装载26船原油，低于12月计划的32船。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2766231",
+       "pub_date": "2026-11-17 18:38:36"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "金十数据"
+    },
+    {
+     "event_id": 7543,
+     "title": "LME伦镍日内涨超4.00%，现报16495.550美元/吨。",
+     "cat": "commodity",
+     "sel": 16.2308,
+     "n_indep": 3,
+     "ents": [],
+     "summary": "LME伦镍日内涨超4.00%，现报16495.550美元/吨。",
+     "lead": "LME伦镍日内涨超4.00%，现报16495.550美元/吨。",
+     "members": [
+      {
+       "title": "LME伦镍日内涨超4.00%，现报16495.550美元/吨。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201390",
+       "pub_date": "2026-11-17 15:12:37"
+      },
+      {
+       "title": "LME伦镍日内涨超3.00%，现报16340.000美元/吨",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263401",
+       "pub_date": "2026-11-17 14:45:05"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    },
+    {
+     "event_id": 5738,
+     "title": "焦煤期货主力合约跌幅扩大至2%",
+     "cat": "commodity",
+     "sel": 15.3525,
+     "n_indep": 4,
+     "ents": [],
+     "summary": "【焦煤期货主力合约跌幅扩大至2%】财联社11月17日电，焦煤期货主力合约跌幅扩大至2%，最新报1391元/吨。",
+     "lead": "【焦煤期货主力合约跌幅扩大至2%】财联社11月17日电，焦煤期货主力合约跌幅扩大至2%，最新报1391元/吨。",
+     "members": [
+      {
+       "title": "焦煤期货主力合约跌幅扩大至2%",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537055",
+       "pub_date": "2026-11-17 13:06:39"
+      },
+      {
+       "title": "焦煤期货主力合约跌幅扩大至2%，最新报1391元/吨",
+       "feed": "巴伦中文",
+       "url": "https://www.barrons.com.cn/news/263362",
+       "pub_date": "2026-11-17 13:07:55"
+      },
+      {
+       "title": "格隆汇11月17日｜焦煤期货主力合约跌幅扩大至2%，最新报1391元/吨。",
+       "feed": "格隆汇",
+       "url": "https://www.gelonghui.com/live/2765929",
+       "pub_date": "2026-11-17 13:07:01"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 7529,
+     "title": "财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。",
+     "cat": "commodity",
+     "sel": 14.5997,
+     "n_indep": 2,
+     "ents": [],
+     "summary": "财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。",
+     "lead": "财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。",
+     "members": [
+      {
+       "title": "财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。",
+       "feed": "财联社电报",
+       "url": "https://www.cls.cn/detail/2537132",
+       "pub_date": "2026-11-17 15:01:12"
+      },
+      {
+       "title": "焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201385",
+       "pub_date": "2026-11-17 15:00:35"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "财联社电报"
+    },
+    {
+     "event_id": 8327,
+     "title": "周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。 CBOT玉米期货涨0.11%，CBOT小麦期货涨1.50%，CBOT大豆期货跌0.26%。",
+     "cat": "commodity",
+     "sel": 14.448599999999999,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。 CBOT玉米期货涨0.11%，CBOT小麦期货涨1.50%，CBOT大豆期货跌0.26%。",
+     "lead": "周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。",
+     "members": [
+      {
+       "title": "周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。 CBOT玉米期货涨0.11%，CBOT小麦期货涨1.50%，CBOT大豆期货跌0.26%。",
+       "feed": "华尔街见闻实时",
+       "url": "https://wallstreetcn.com/livenews/3201492",
+       "pub_date": "2026-11-17 19:56:49"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "华尔街见闻实时"
+    }
+   ],
+   "digest": "今天全球市场的主线是科技股带动的风险偏好回升。周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%，日经225指数期货早盘上涨1.9%。推动力来自美股盘后：英伟达业绩超预期，盘后涨超4.4%、涨幅一度扩大至5%，Lumentum涨6.2%，闪迪涨5.6%，SK海力士ADR涨4.7%，芯片与存储链条同步走强。商品端则偏温和，WTI原油收报86.01美元/桶、布伦特报93.14美元/桶，涨幅均不足1%；但API数据显示上周美国原油库存增加527.8万桶，远超市场预期的减少50万桶，汽油库存也增逾500万桶，累库压力值得留意。",
+   "merged": [
+    {
+     "primary": 6904,
+     "merged": [
+      8663
+     ]
+    }
+   ],
+   "mode": "llm+deterministic",
+   "n_total": 14
+  },
+  "crypto": {
+   "cards": [
+    {
+     "event_id": 1326,
+     "title": "AI抢走加密货币风头？Anthropic上市或成投机资金新宠",
+     "topic": "财经",
+     "n_indep": 5,
+     "salience": 35.2412,
+     "primary_entities": [
+      "BTC"
+     ],
+     "incidental_entities": [
+      "ETH",
+      "FED"
+     ],
+     "canonical_feed": "财联社深度",
+     "links": [
+      {
+       "url": "https://www.cls.cn/detail/2537249",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://wallstreetcn.com/articles/3785964",
+       "feed": "华尔街见闻"
+      },
+      {
+       "url": "https://www.solidot.org/story?sid=85894",
+       "feed": "Solidot 奇点资讯"
+      },
+      {
+       "url": "https://www.cls.cn/detail/2535752",
+       "feed": "财联社深度"
+      },
+      {
+       "url": "https://wallstreetcn.com/livenews/3200457",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://decrypt.co/383466/bitcoin-investors-capitulating-historical-bottom-signal",
+       "feed": "UnusualWhales"
+      }
+     ],
+     "fact": "据财联社11月18日报道，比特币价格徘徊在64,500美元下方，已从高点腰斩却仍未吸引逢低买入者；Glassnode数据显示目前流通中的比特币约有一半处于浮亏状态，而9月底收于86,600美元时这一比例还不到四分之一，上周日转移的比特币按美元计算的亏损规模是盈利规模的5.6倍，为7月中旬以来最大差距。同期华尔街见闻称比特币周日一度下探62,022美元、创7月14日以来新低，自10月21日以来累计跌幅超过20%并走向连续第六周下跌；Solidot则指出币值从10月3日的84,680美元跌至64,337美元，一个半月跌去四分之一，CryptoQuant的需求指标降至2023年12月以来最低，比特币ETF再现净卖出。与此同时，原本追逐AI概念股的散户投资者正把目光转向Anthropic的首次公开募股（IPO）。",
+     "impact": "这表明投机资金可能正从加密货币转向AI标的，叠加机构资金流出与利率前景趋紧，比特币的下跌不再只是短期波动，而是需求端的结构性走弱。",
+     "divergence": "各源对近期低点与价格的表述略有差异：华尔街见闻给出周六66,586美元、周日62,022美元后回升至约64,800美元，财联社称周末一度跌近62,000美元、最新徘徊在64,500美元下方，期权报道则以约6.5万美元为现价，属不同时点报价而非矛盾。Solidot将下跌原因归于美国通胀与AI大规模支出吸走资金，属分析机构判断；Anthropic IPO的具体时间与规模来源未给出，尚未核实。UnusualWhales标题称投资者投降式抛售历史上是见底信号，但无正文内容支撑，仅为观点。",
+     "next_step": "关注Anthropic IPO的定价与认购情况能否真正分流加密市场资金，以及比特币ETF净流出、6万美元行权价看跌期权持仓和Glassnode浮亏比例是否继续恶化。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 1215,
+      "total_tokens": 1667,
+      "completion_tokens": 452,
+      "prompt_tokens_details": {
+       "cached_tokens": 1024,
+       "text_tokens": 1215
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8457,
+     "title": "OpenAI首席执行官Altman： 6.2 Sol 与 Astra 现已发布。 这两款模型能力出众，token 利用率极高。 希望大家能从中获得很高价值。 其是 6.2 Sol 极速版，我相信大...",
+     "topic": "财经",
+     "n_indep": 2,
+     "salience": 17.4475,
+     "primary_entities": [],
+     "incidental_entities": [
+      "GPT",
+      "OPENAI",
+      "URL"
+     ],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201516",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/",
+       "feed": "Hacker News 100+"
+      }
+     ],
+     "merged_from": [
+      8457,
+      8019
+     ],
+     "fact": "OpenAI首席执行官Altman宣布6.2 Sol与Astra两款模型现已发布，称其能力出众、token利用率极高，并特别提到6.2 Sol极速版。Hacker News上相关讨论帖标题为\"GPT‑6.2 Astra and Sol\"，链接指向OpenAI官方介绍页面，该帖获得123点热度、31条评论。",
+     "impact": "OpenAI推出新一代模型并强调token利用效率，意味着在同等调用成本下用户可获得更高产出，对依赖大模型的应用方具有直接的成本与性能意义。",
+     "divergence": "",
+     "next_step": "关注OpenAI官方介绍页中两款模型的具体定价、上下文长度及基准测试表现，以及6.2 Sol极速版与标准版的差异。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 645,
+      "total_tokens": 806,
+      "completion_tokens": 161,
+      "prompt_tokens_details": {
+       "cached_tokens": 512,
+       "text_tokens": 645
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 5847,
+     "title": "热门网站遭入侵，意图窃取加密货币，目标锁定iPhone用户",
+     "topic": "财经",
+     "n_indep": 2,
+     "salience": 14.0596,
+     "primary_entities": [
+      "CNN",
+      "APPLE",
+      "IKEA"
+     ],
+     "incidental_entities": [
+      "BBC",
+      "URI"
+     ],
+     "canonical_feed": "华尔街见闻实时",
+     "links": [
+      {
+       "url": "https://wallstreetcn.com/livenews/3201363",
+       "feed": "华尔街见闻实时"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/259.htm",
+       "feed": "IT之家"
+      },
+      {
+       "url": "https://www.ithome.com/1/028/530.htm",
+       "feed": "IT之家"
+      }
+     ],
+     "fact": "安全研究人员斯科特·赫尔姆（Scott Helme）披露，攻击者利用网站优化平台Optimizely的Experimentation功能漏洞，向全球178家组织的网站植入恶意JavaScript代码，受影响机构包括CNN、汇丰银行、宜家（IKEA）、Zoom、Salesforce等。Optimizely已证实该安全事件，称未经授权的一方借此向部分客户项目注入恶意脚本；据赫尔姆描述，这些脚本试图将加密货币支付地址替换为攻击者的钱包地址，并在用户输入时截取支付卡信息、窃取Cookie和屏幕截图，同时部署针对苹果iOS设备的漏洞利用代码。网络安全公司Hudson Rock表示也发现受影响网站曾向访问者分发恶意代码的证据。",
+     "impact": "这是一起通过第三方通用组件发起的供应链攻击，一次漏洞利用即可波及上百家高流量网站，普通用户在正常浏览知名站点时就可能面临加密货币被劫持和支付信息泄露的风险。",
+     "divergence": "IT之家一篇报道称苹果iOS 13至18.x旧版本访问恶意页面即会中毒，但华尔街见闻全文仅提及脚本部署了针对iOS设备的漏洞利用代码，未说明具体受影响版本范围及是否实际感染成功，该版本区间说法尚未获其他来源印证。",
+     "next_step": "关注Optimizely对漏洞的修复与完整受影响客户名单公布，以及苹果是否就相关iOS漏洞利用发布补丁或安全提示。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 925,
+      "total_tokens": 1217,
+      "completion_tokens": 292,
+      "prompt_tokens_details": {
+       "cached_tokens": 512,
+       "text_tokens": 925
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 8175,
+     "title": "Why Bitcoin Is Crashing Hard Right Now: Key Reasons, Technical Levels, And Cycle Context",
+     "topic": "财经",
+     "n_indep": 1,
+     "salience": 12.3059,
+     "primary_entities": [
+      "BTC"
+     ],
+     "incidental_entities": [],
+     "canonical_feed": "Seeking Alpha",
+     "links": [
+      {
+       "url": "https://seekingalpha.com/article/4969218-why-bitcoin-crashing-hard-right-now-key-reasons-technical-levels-cycle-context?source=feed_all_articles",
+       "feed": "Seeking Alpha"
+      }
+     ],
+     "fact": "Seeking Alpha发布题为《Why Bitcoin Is Crashing Hard Right Now: Key Reasons, Technical Levels, And Cycle Context》的分析文章，指出比特币（BTC）正在经历大幅下跌，并从关键原因、技术价位和周期背景三个维度进行解读。来源摘要未提供具体跌幅数字或价格水平。",
+     "impact": "比特币大幅回调可能影响加密市场整体情绪及关联资产配置决策，但具体幅度与驱动因素需待完整报道确认。",
+     "divergence": "",
+     "next_step": "关注该文章全文披露的具体下跌原因、关键技术支撑位及周期定位判断，并跟踪后续价格是否企稳。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 383,
+      "total_tokens": 512,
+      "completion_tokens": 129,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 383
+      },
+      "completion_tokens_details": {}
+     }
+    }
+   ],
+   "heat_list": [
+    {
+     "event_id": 8337,
+     "title": "Want to know what bitcoin is really worth? Check this chart.",
+     "cat": "crypto",
+     "sel": 9.36495,
+     "n_indep": 1,
+     "ents": [
+      "BTC"
+     ],
+     "summary": "A model for calculating bitcoin’s value has worked well to inform investors when the cryptocurrency is overbought or oversold. Now, the price is just right.",
+     "lead": "A model for calculating bitcoin’s value has worked well to inform investors when the crypt…",
+     "members": [
+      {
+       "title": "Want to know what bitcoin is really worth? Check this chart.",
+       "feed": "MarketWatch",
+       "url": "https://www.marketwatch.com/story/want-to-know-what-bitcoin-is-really-worth-check-this-chart-daa3fce7?mod=mw_rss_topstories",
+       "pub_date": "2026-11-17 19:34:00"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "MarketWatch"
+    },
+    {
+     "event_id": 7666,
+     "title": "Popular websites compromised in bid to steal crypto, target iPhone users - Reuters",
+     "cat": "crypto",
+     "sel": 8.636940000000001,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "Popular websites compromised in bid to steal crypto, target iPhone users Reuters",
+     "lead": "Popular websites compromised in bid to steal crypto, target iPhone users Reuters",
+     "members": [
+      {
+       "title": "Popular websites compromised in bid to steal crypto, target iPhone users - Reuters",
+       "feed": "路透社国际",
+       "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPTS1sYjJVSFJKSWN4SHY1S3g4aDJwdmd1SXp0YTY5aDJUNF9PS08zR29LWkVzVXk2d2tXZFh0dm9QRVNxc2xXYzczdWpXYmYwTmgwUDZfSFhBRE1XT3JHQnpNZERDdU5yMy16dDdVa1hYTVBqa0xGbTVPNkJBZTlIWmc4cldZaTI2QnpoaWo3NUxOb3FXQmZQck0yQzYzMVJ5MTROcFdTUGU4b0pmLUZ2Y3V3LVVJaEU?oc=5",
+       "pub_date": "2026-11-17 04:53:00"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "路透社国际"
+    },
+    {
+     "event_id": 8495,
+     "title": "Eastern Europe crypto flows fall 7.9% as Ukraine draws $12B in stablecoins",
+     "cat": "crypto",
+     "sel": 8.14221,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "",
+     "lead": "",
+     "members": [
+      {
+       "title": "Eastern Europe crypto flows fall 7.9% as Ukraine draws $12B in stablecoins",
+       "feed": "UnusualWhales",
+       "url": "https://cointelegraph.com/news/eastern-europe-crypto-activity-decline-chainalysis?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+       "pub_date": "2026-11-17 20:48:35"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "UnusualWhales"
+    }
+   ],
+   "digest": "今天加密货币领域的主线是信心流失。比特币价格徘徊在64,500美元下方，较高点腰斩却仍未吸引逢低买入者；Glassnode数据显示流通中约一半比特币处于浮亏，而9月底收于86,600美元时这一比例还不到四分之一，Seeking Alpha也就本轮暴跌的原因与周期位置发文剖析。值得注意的信号有两个：一是资金注意力可能转向AI，Anthropic上市被视为投机资金新宠；二是安全端出现系统性风险，攻击者借Optimizely漏洞向CNN、汇丰银行等178家机构网站植入恶意代码窃取加密货币，目标锁定iPhone用户。同期OpenAI发布6.2 Sol与Astra两款模型，进一步凸显热度分化。",
+   "merged": [
+    {
+     "primary": 8457,
+     "merged": [
+      8019
+     ]
+    }
+   ],
+   "mode": "llm+deterministic",
+   "n_total": 7
+  },
+  "football": {
+   "cards": [
+    {
+     "event_id": 6221,
+     "title": "Irish boxer Reeves dies aged 31 following three months in coma",
+     "topic": "足球",
+     "n_indep": 2,
+     "salience": 1.6508,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "Sky Sports Football",
+     "links": [
+      {
+       "url": "https://www.skysports.com/boxing/news/12040/13613108/irish-boxer-lee-reeves-dies-aged-31-three-months-after-suffering-serious-injuries-in-fight",
+       "feed": "Sky Sports Football"
+      },
+      {
+       "url": "https://www.aljazeera.com/sports/2026/11/17/irish-boxer-lee-reeves-31-dies-three-months-after-sustaining-injuries?traffic_source=rss",
+       "feed": "半岛电视台"
+      }
+     ],
+     "fact": "爱尔兰拳击手李·里夫斯(Lee Reeves)去世,年仅31岁。据半岛电视台报道,他在都柏林与加里·卡利(Gary Cully)的比赛中受重伤,三个月后在利默里克离世。Sky Sports Football同样确认了他在受伤三个月后死亡的消息。",
+     "impact": "一名职业拳手因比赛中的重伤在昏迷三个月后死亡,再次凸显拳击运动的头部创伤风险与赛后医疗保障问题。",
+     "divergence": "",
+     "next_step": "关注赛事主办方与爱尔兰拳击管理机构对比赛过程、现场医疗处置及后续安全规则的调查与回应。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 489,
+      "total_tokens": 616,
+      "completion_tokens": 127,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 489
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 3042,
+     "title": "西甲称网传亚马尔转发歧视亚裔内容截图系伪造",
+     "topic": "财经",
+     "n_indep": 1,
+     "salience": 0.7849,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "联合早报",
+     "links": [
+      {
+       "url": "https://www.zaobao.com.sg/news/china/story20261116-10008374",
+       "feed": "联合早报"
+      },
+      {
+       "url": "https://www.zaobao.com.sg/news/china/story20261116-10005816",
+       "feed": "联合早报"
+      }
+     ],
+     "fact": "据联合早报报道，效力于巴塞罗那的西班牙球星亚马尔被指于当地时间2026年11月15日（星期天）在Instagram转发一条带有侮辱亚裔和华人意味的视频后删除，相关话题登上中国微博热搜，部分网民要求其道歉。央视体育报道称，中央广播电视总台体育青少中心启动应急程序，要求西甲联盟核实并反馈；西甲联盟于11月16日（星期一）下午正式复函，称网传截图系恶意伪造、并非亚马尔本人发布。西甲联盟同时重申反对一切形式的种族主义与歧视，谴责虚假信息及恶意造谣，并表示已对传播不实信息的账号启动调查。",
+     "impact": "官方机构介入核实并认定截图造假，关系到球员名誉、跨国舆论中的虚假信息治理以及体育机构对中国市场舆情的应对方式。",
+     "divergence": "同一来源的两篇报道口径不同：前一篇称亚马尔“疑似转发后删除”、截图真实性仍待考证；后一篇引述西甲联盟回函称截图系恶意伪造。亚马尔是否确有转发行为，目前仅有西甲单方面说法，未见独立核实。",
+     "next_step": "关注西甲联盟对造谣账号的调查结论、是否公布可验证的技术证据，以及亚马尔本人或巴塞罗那俱乐部是否作出回应。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 813,
+      "total_tokens": 1082,
+      "completion_tokens": 269,
+      "prompt_tokens_details": {
+       "cached_tokens": 768,
+       "text_tokens": 813
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 1231,
+     "title": "England stun world champions Spain in one of their greatest victories",
+     "topic": "足球",
+     "n_indep": 2,
+     "salience": 0.0633,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "The Telegraph Football",
+     "links": [
+      {
+       "url": "https://www.telegraph.co.uk/football/2026/11/15/spain-vs-england-live-score-latest-nations-league-updates/",
+       "feed": "The Telegraph Football"
+      },
+      {
+       "url": "https://www.bbc.co.uk/sport/football/articles/c933ge310n33o?at_medium=RSS&at_campaign=rss",
+       "feed": "BBC Sport Football"
+      },
+      {
+       "url": "https://www.bbc.co.uk/sport/football/articles/cjg46lrpllrpo?at_medium=RSS&at_campaign=rss",
+       "feed": "BBC Sport Football"
+      }
+     ],
+     "merged_from": [
+      1231,
+      1138,
+      1139
+     ],
+     "fact": "{\"fact\":\"英格兰在客场击败世界冠军西班牙，被《每日电讯报》称为英格兰历史上最伟大的胜利之一。BBC记者Phil McNulty评价这场比赛为\"60分钟的完美加上30分钟的混乱\"，认为这是英格兰在主教练托马斯·图赫尔执教下表现最出色的一场比赛。\",\"impact\":\"客场战胜现任世界冠军标志着英格兰在图赫尔体系下的竞技水平达到新高度，对球队信心和大赛前景具有重要意义。\",\"divergence\":\"\",\"next_step\":\"关注图赫尔如何延续这一战术表现，以及英格兰在后续国际赛事中能否保持对顶级对手的竞争力。\"}",
+     "impact": "",
+     "divergence": "",
+     "next_step": "",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": true,
+     "usage": {
+      "prompt_tokens": 495,
+      "total_tokens": 615,
+      "completion_tokens": 120,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 495
+      },
+      "completion_tokens_details": {}
+     }
+    },
+    {
+     "event_id": 1140,
+     "title": "Aberdeen appoint Liechtenstein's Frick as head coach",
+     "topic": "足球",
+     "n_indep": 1,
+     "salience": 0.0,
+     "primary_entities": [],
+     "incidental_entities": [],
+     "canonical_feed": "BBC Sport Football",
+     "links": [
+      {
+       "url": "https://www.bbc.co.uk/sport/football/articles/cqrmgz9ypvwko?at_medium=RSS&at_campaign=rss",
+       "feed": "BBC Sport Football"
+      }
+     ],
+     "fact": "据BBC Sport Football报道，阿伯丁足球俱乐部宣布任命列支敦士登前前锋马里奥·弗里克（Mario Frick）为新任主教练。来源仅确认了这一任命消息，未提供合同期限、上任时间或前任主帅离任原因等细节。",
+     "impact": "阿伯丁更换主教练意味着球队执教思路可能随之调整，而由一位列支敦士登前国脚级前锋出任苏超球队主帅本身较为少见。",
+     "divergence": "",
+     "next_step": "关注阿伯丁官方后续公布的合同年限、正式上任日期及教练组安排，以及弗里克此前执教经历与球队换帅的具体原因。",
+     "unverified_numbers": [],
+     "numbers_verified": true,
+     "parse_failed": false,
+     "usage": {
+      "prompt_tokens": 414,
+      "total_tokens": 555,
+      "completion_tokens": 141,
+      "prompt_tokens_details": {
+       "cached_tokens": 256,
+       "text_tokens": 414
+      },
+      "completion_tokens_details": {}
+     }
+    }
+   ],
+   "heat_list": [
+    {
+     "event_id": 1141,
+     "title": "Ronaldinho makes comeback in Ravenna win",
+     "cat": "football",
+     "sel": 0.0,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "Brazil legend Ronaldinho makes his comeback aged 46 for Ravenna, playing the first half of their Italian third-tier derby against Forli.",
+     "lead": "Brazil legend Ronaldinho makes his comeback aged 46 for Ravenna, playing the first half of…",
+     "members": [
+      {
+       "title": "Ronaldinho makes comeback in Ravenna win",
+       "feed": "BBC Sport Football",
+       "url": "https://www.bbc.co.uk/sport/football/articles/ckregz4g823xo?at_medium=RSS&at_campaign=rss",
+       "pub_date": "2026-11-15 19:31:48"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "BBC Sport Football"
+    },
+    {
+     "event_id": 1142,
+     "title": "London City's 'bravery' paying off in top three pursuit",
+     "cat": "football",
+     "sel": 0.0,
+     "n_indep": 1,
+     "ents": [],
+     "summary": "After 10 games in the Women's Super League season, London City Lionesses have shown they are capable of finishing inside the top three.",
+     "lead": "After 10 games in the Women's Super League season, London City Lionesses have shown they a…",
+     "members": [
+      {
+       "title": "London City's 'bravery' paying off in top three pursuit",
+       "feed": "BBC Sport Football",
+       "url": "https://www.bbc.co.uk/sport/football/articles/c6y49gzjgew5o?at_medium=RSS&at_campaign=rss",
+       "pub_date": "2026-11-15 20:03:08"
+      }
+     ],
+     "merged_from": null,
+     "canonical_feed": "BBC Sport Football"
+    }
+   ],
+   "digest": "今天体育领域最令人痛心的消息来自拳击赛场：爱尔兰拳手李·里夫斯在都柏林与加里·卡利的比赛中受重伤，昏迷三个月后在利默里克离世，年仅31岁。这起悲剧再次将搏击运动的安全问题推到聚光灯下。足球方面同样不平静，英格兰客场击败世界冠军西班牙，被媒体称为队史最伟大的胜利之一，也是图赫尔执教以来最具说服力的表现。与此同时，巴萨球星亚马尔陷入舆论风波，网传其转发歧视亚裔内容的截图引发中国社交媒体强烈反响，西甲官方已明确回应称该截图系伪造。此外，苏超阿伯丁宣布任命列支敦士登前国脚马里奥·弗里克为新任主帅。今日主线是竞技荣耀与场外争议并行，而里夫斯的离世则提醒人们关注运动员生命安全的底线。",
+   "merged": [
+    {
+     "primary": 1231,
+     "merged": [
+      1138,
+      1139
+     ]
+    }
+   ],
+   "mode": "llm+deterministic",
+   "n_total": 6
+  }
+ },
+ "interest": {
+  "radar": {
+   "CATL": [
+    {
+     "event_id": 5064,
+     "title": "雷军、李彦宏、王兴兴、曾毓群等齐聚，再谈AI与机器人未来",
+     "sel": 18.9,
+     "cat": "a_hk",
+     "n_indep": 11
+    },
+    {
+     "event_id": 6700,
+     "title": "斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品",
+     "sel": 13.3,
+     "cat": "a_hk",
+     "n_indep": 3
+    },
+    {
+     "event_id": 1361,
+     "title": "董明珠现身APEC会议现场",
+     "sel": 11.5,
+     "cat": "a_hk",
+     "n_indep": 9
+    }
+   ],
+   "FAST": [
+    {
+     "event_id": 8332,
+     "title": "美国最大电网提议改革以加快数据中心接入",
+     "sel": 17.9,
+     "cat": "ai_tech",
+     "n_indep": 1
+    },
+    {
+     "event_id": 8341,
+     "title": "Launch HN: StarSling (YC P25) – Self-improving CI for agent-volume repos",
+     "sel": 15.3,
+     "cat": "ai_tech",
+     "n_indep": 1
+    },
+    {
+     "event_id": 7617,
+     "title": "Nexsan Unity Provides a Fast Protection Repository and a Retention-Locked Compliance Copy with S3 Object Locking for Joint ‘Proven Recovery’ Solutio...",
+     "sel": 6.4,
+     "cat": "gaming",
+     "n_indep": 1
+    }
+   ],
+   "FITB": [],
+   "HBAN": [],
+   "HENGRUI": [
+    {
+     "event_id": 1436,
+     "title": "中关村：36个在产产品纳入国家医保目录（2026年）",
+     "sel": 8.0,
+     "cat": "a_hk",
+     "n_indep": 2
+    },
+    {
+     "event_id": 3280,
+     "title": "《科创板日报》16日讯，香港交易所信息显示，花旗集团在恒瑞医药H股的持股比例于11月10日从6.00%降至5.29%。",
+     "sel": 1.1,
+     "cat": "a_hk",
+     "n_indep": 1
+    },
+    {
+     "event_id": 2010,
+     "title": "通威股份有限公司第九届董事会第十五次会议决议公告",
+     "sel": 0.5,
+     "cat": "a_hk",
+     "n_indep": 1
+    }
+   ],
+   "MOUTAI": [
+    {
+     "event_id": 6691,
+     "title": "炒茅台不赚钱了",
+     "sel": 5.5,
+     "cat": "a_hk",
+     "n_indep": 1
+    },
+    {
+     "event_id": 5635,
+     "title": "蔚来黔川山水人文线贯通：全长 1067 公里沿途布局 22 座充换电站，全国已建成 9860 座充换电站",
+     "sel": 4.2,
+     "cat": "a_hk",
+     "n_indep": 1
+    }
+   ],
+   "NVIDIA": [
+    {
+     "event_id": 1235,
+     "title": "英伟达分析师电话会议要点总结",
+     "sel": 81.7,
+     "cat": "ai_tech",
+     "n_indep": 16
+    },
+    {
+     "event_id": 6068,
+     "title": "财联社11月18日早间新闻精选",
+     "sel": 64.9,
+     "cat": "finance",
+     "n_indep": 11
+    },
+    {
+     "event_id": 3980,
+     "title": "华尔街见闻早餐 | 2026年11月18日",
+     "sel": 61.6,
+     "cat": "finance",
+     "n_indep": 5
+    }
+   ],
+   "PINGAN": [
+    {
+     "event_id": 5994,
+     "title": "Interbrand《2026中国最佳品牌排行榜》发布：中国平安品牌价值达1886.64亿元 蝉联中国金融行业第一",
+     "sel": 4.5,
+     "cat": "a_hk",
+     "n_indep": 1
+    },
+    {
+     "event_id": 6177,
+     "title": "深圳街头“出国错觉”拉满，外国客人来了花钱看病顺手吗？APEC启幕，看本土企业中国平安如何用一套“跨境底座”打通全链条！",
+     "sel": 3.1,
+     "cat": "a_hk",
+     "n_indep": 1
+    },
+    {
+     "event_id": 1778,
+     "title": "收评：沪指跌0.87%险守3600点 全市场超4300只个股下挫",
+     "sel": 2.2,
+     "cat": "a_hk",
+     "n_indep": 13
+    }
+   ],
+   "WULIANGYE": [],
+   "YIHUA": [],
+   "ZHONGBEI": []
+  },
+  "enhanced": [
+   {
+    "event_id": 1235,
+    "title": "英伟达分析师电话会议要点总结",
+    "cat": "ai_tech",
+    "salience": 81.6802,
+    "n_indep": 16,
+    "fact": "英伟达董事会主席哈维·琼斯在分析师电话会上明确表示，黄仁勋系“自愿辞职”，董事会无意重新任命其担任CEO，目前正在评估内部和外部候选人，遴选将“十分审慎”。此前11月17日，黄仁勋发布辞职后首份公开声明，承认个人行为过错、承诺配合董事会独立调查，并表示若董事会同意愿重返担任CEO；其硅谷盟友（含马斯克等）组建“战情室”游说复职并计划争取白宫支持。临时CEO兼CFO科莱特·克雷斯在会上强调“业务一切照常”，需求远超供应，并宣布成立新的“国家安全与出口管制监督委员会”。",
+    "background": "背景补充(模型知识,非当日报道):英伟达是全球领先的GPU与AI加速计算芯片设计公司，数据中心业务为其核心增长引擎，产品广泛用于大模型训练与推理。黄仁勋为公司联合创始人，长期担任CEO，是公司技术路线与战略的象征性人物，其去留对投资者信心与公司治理具有重大影响。Vera Rubin为其下一代计算架构，Hopper为上一代主力数据中心GPU架构。美国近年持续收紧对华及周边地区的先进芯片出口管制，转运风险成为监管重点，芯片企业的合规与政府沟通能力日益关键。创始人因个人行为问题离任、随后寻求复职并与董事会公开博弈，在公司治理层面属罕见情形。",
+    "impact": "影响:创始人去留悬而未决叠加董事会明确拒绝复职，使英伟达领导层继任成为市场焦点，直接关系公司治理稳定性与投资者信心；同时公司在 leadership 动荡下仍给出强劲营收指引并上调长期增长预期，显示AI算力需求基本面未受冲击。新设国家安全与出口管制监督委员会、以及美国针对多国转运风险的新规，凸显地缘合规已成为影响其增长兑现的关键变量。",
+    "data": "第三季度营收1,158亿美元；第四季度营收指引1,300亿美元（区间1,274亿—1,326亿美元），毛利率预计71%—72%；2028财年营收增长预期由70%上调至75%；Vera Rubin架构累计营收200亿美元；大型前沿AI实验室今年贡献约15%的数据中心营收；总体承诺金额升至5,180亿美元，其中供应链采购承诺3,900亿美元；担保总额1,180亿美元，含为SB Energy俄亥俄州数据中心园区（将租赁给OpenAI）提供最高1,050亿美元分阶段信用支持；网上联署呼吁复职近20万人；黄仁勋63岁。",
+    "divergence": "分歧/未核实:黄仁勋本人及硅谷盟友主张复职，而董事会主席明确拒绝、财长贝森特则敦促选择“外部人士”，双方立场公开对立；特朗普对回归的表态在来源中仅被提及未展开。董事会称“自愿辞职”，而部分报道用“被迫辞去”，离职性质表述不一；董事会独立调查的具体内容与结论未披露，高管团队在会上拒绝回应相关提问。",
+    "next_step": "下一步关注:正式CEO人选（内部候选人数据中心业务负责人伊恩·巴克已出席问答）及遴选进度；董事会独立调查结果与黄仁勋是否进一步行动；美国针对马来西亚、泰国、新加坡、印度尼西亚、巴西等国转运风险新出口规则的具体影响；第四季度营收与75%增长目标的兑现，以及对新兴云厂商巨额承诺与担保的风险敞口变化。",
+    "unverified_numbers": [],
+    "numbers_verified": true,
+    "links": [
+     {
+      "url": "https://wallstreetcn.com/livenews/3201572",
+      "feed": "华尔街见闻实时"
+     },
+     {
+      "url": "https://www.ithome.com/1/027/470.htm",
+      "feed": "IT之家"
+     },
+     {
+      "url": "https://original.ifeng.com/c/8y8Xo1QzM1V",
+      "feed": "凤凰网财经"
+     },
+     {
+      "url": "https://api3.cls.cn/share/article/2537266?os=web&sv=8.7.9&app=",
+      "feed": "财联社加红"
+     },
+     {
+      "url": "https://original.ifeng.com/c/8y5QrZj2Ecq",
+      "feed": "凤凰网财经"
+     },
+     {
+      "url": "https://international.caixin.com/2026-11-18/102506043.html",
+      "feed": "财新最新"
+     }
+    ],
+    "fulltext_fetched": [
+     "https://wallstreetcn.com/livenews/3201572",
+     "https://www.ithome.com/1/027/470.htm"
+    ],
+    "primary_entities": [
+     "NVIDIA",
+     "JENSEN_HUANG",
+     "MUSK",
+     "TRUMP",
+     "TESLA"
+    ]
+   },
+   {
+    "event_id": 5064,
+    "title": "雷军、李彦宏、王兴兴、曾毓群等齐聚，再谈AI与机器人未来",
+    "cat": "a_hk",
+    "salience": 18.8713,
+    "n_indep": 11,
+    "fact": "{\"fact\":\"2026年11月17日至18日，2026年APEC工商领导人峰会在深圳举行，主题为\"共促繁荣，共赢未来\"。百度李彦宏警告AI应用层渗透低于预期，若无法突破恐演变为泡沫；小米雷军指出过去四年能真正实现商业闭环的AI公司较少，认为具身智能机器人是巨大产业机会；宇树科技王兴兴则用\"最激动人心\"形容AI正接近突破临界点。工商银行董事长廖林提出AI时代需处理好技术应用与组织架构、技术迭代与投资周期、技术创新与风险三组关系。\",\"background\":\"背景补充(模型知识,非当日报道):APEC工商领导人峰会是亚太经合组织领导人非正式会议的重要配套活动，汇集区域商界领袖讨论经济议题。百度是中国领先的AI及搜索引擎公司，近年将战略重心转向大模型与AI应用；小米以智能手机和IoT生态起家，近年进入智能电动汽车领域；宇树科技是国内具身智能与人形机器人领域的代表性初创企业；宁德时代是全球最大动力电池制造商。当前全球AI产业正处于大规模基础设施投入期，芯片与算力投资激增，但应用层商业化回报尚未普遍兑现，业界对\"AI泡沫\"的讨论日趋密集。\",\"impact\":\"影响:多位中国顶级科技企业家在APEC这一高规格国际场合集中表达对AI商业化落地的担忧，信号意义重大——表明即便在算力与大模型层面取得显著进展，应用层的收入转化仍是产业核心瓶颈。李彦宏明确使用\"泡沫\"一词警示，雷军强调物理世界（机器人、终端）才是下一阶段机会所在，这些判断可能影响资本市场对AI概念股的估值逻辑，也为亚太区域AI合作指明从基础设施向应用落地转型的方向。\",\"data\":\"李彦宏称过去三年多AI各方面投入成倍增长；雷军称过去四年能挣到钱的AI公司比较少；李彦宏将AI分为四层（GPU芯片、云基础设施、大模型、应用），透露百度推出\"Token交易所\"撮合算力供需；廖林提出三组关系框架。\",\"divergence\":\"王兴兴与李彦宏对AI当前阶段的判断存在明显分歧：王兴兴认为AI正接近\"最激动人心\"的突破临界点，李彦宏则认为应用落地不及预期是\"最紧迫\"问题并警示泡沫风险。两人分别从技术突破与商业回报两个维度审视同一产业，乐观与审慎并存。\",\"next_step\":\"关注峰会第二日（11月18日）是否有更多具体合作倡议或政策信号发布；跟踪百度\"Token交易所\"模式的实际运营效果及AI业务收入占比变化；观察具身智能机器人领域后续融资与产品落地进展，验证雷军关于\"物理世界机会\"的判断。\"}",
+    "background": "",
+    "impact": "",
+    "data": "",
+    "divergence": "",
+    "next_step": "",
+    "unverified_numbers": [],
+    "numbers_verified": true,
+    "links": [
+     {
+      "url": "https://www.cls.cn/detail/2536992",
+      "feed": "财联社深度"
+     },
+     {
+      "url": "https://www.caixin.com/2026-11-17/102505603.html",
+      "feed": "财新最新"
+     },
+     {
+      "url": "https://finance.caixin.com/2026-11-17/102505702.html",
+      "feed": "财新最新"
+     },
+     {
+      "url": "https://wallstreetcn.com/livenews/3201155",
+      "feed": "华尔街见闻实时"
+     },
+     {
+      "url": "https://www.yicai.com/brief/103443341.html",
+      "feed": "第一财经"
+     },
+     {
+      "url": "https://www.ithome.com/1/028/322.htm",
+      "feed": "IT之家"
+     }
+    ],
+    "fulltext_fetched": [
+     "https://www.caixin.com/2026-11-17/102505603.html"
+    ],
+    "primary_entities": [
+     "BAIDU",
+     "APEC",
+     "ICBC"
+    ]
+   },
+   {
+    "event_id": 8800,
+    "title": "Steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响",
+    "cat": "gaming",
+    "salience": 20.0169,
+    "n_indep": 1,
+    "fact": "{\"fact\":\"据IT之家报道，Valve旗下游戏平台Steam于当地时间2026年11月17日突发大规模服务故障，商店、游戏下载、好友列表及云存档等多项在线功能受影响，部分用户在网络正常的情况下仍遇到\"No Connection\"错误。故障监测平台Downdetector一度收到接近4.8万条报障，SteamDB等第三方平台也显示商店、社区、客户端及Web API等服务出现断崖式下跌，但目前已陆续恢复。\",\"background\":\"背景补充(模型知识,非当日报道): Steam是Valve运营的全球最大PC游戏数字分发平台，集游戏购买、下载更新、社交互动、云存档同步等功能于一体，其服务高度依赖后端服务器集群与内容分发网络（CDN）。当核心API或认证服务出现异常时，会引发商店浏览、下载、好友系统、云存档等多模块连锁失效。Downdetector是基于用户主动上报的众包故障监测平台，其数据反映的是用户感知到的异常规模而非精确受影响人数；SteamDB则是独立第三方数据库，通过持续抓取Steam公开接口来追踪在线人数与服务状态变化。\",\"impact\":\"影响：Steam作为全球PC游戏生态的核心基础设施，其大规模宕机直接阻断数以亿计用户的游戏获取、社交和存档同步体验。云存档不可用意味着跨设备玩家可能暂时无法继续游戏进度；商店与下载中断则影响开发者收入与玩家消费。此次故障再次凸显集中式数字分发平台的单点脆弱性——一旦后端服务异常，整个生态链从购买到游玩均受波及。\",\"data\":\"Downdetector一度收到接近4.8万条Steam故障报告（来源：IT之家引述Downdetector数据）；故障发生时间为当地时间2026年11月17日（来源：IT之家）。\",\"divergence\":\"Valve尚未公布此次故障的具体原因，也未说明是否与服务器维护或其他技术问题有关（来源：IT之家原文）。Downdetector报障数量为用户主动提交，不能直接等同于实际受影响用户数量（来源：IT之家注释）。仅有单一中文媒体源报道，外媒原始报道细节未直接核实。\",\"next_step\":\"关注Valve是否发布官方故障说明或事后复盘报告，明确根因（如CDN故障、API过载、DDoS攻击或计划外维护）；观察Steam各服务模块是否完全恢复稳定；留意同期其他大型互联网平台（如苹果、微软）是否出现类似集中宕机，以判断是否存在共性基础设施问题。\"}",
+    "background": "",
+    "impact": "",
+    "data": "",
+    "divergence": "",
+    "next_step": "",
+    "unverified_numbers": [],
+    "numbers_verified": true,
+    "links": [
+     {
+      "url": "https://www.ithome.com/1/028/592.htm",
+      "feed": "IT之家"
+     }
+    ],
+    "fulltext_fetched": [
+     "https://www.ithome.com/1/028/592.htm"
+    ],
+    "primary_entities": [
+     "STEAM"
+    ]
+   }
+  ],
+  "watchlist_hits": [
+   {
+    "keyword": "宁德时代",
+    "items": [
+     {
+      "title": "斯莱克：控股子公司分宜和骏与宁德时代签署《厂边厂配套供应协议》，宁德时代指定其在江苏苏州、福建泉州投资生产并供应电池壳体等配套产品，协议有效期至2028年...",
+      "feed_name": "华尔街见闻实时",
+      "link": "https://wallstreetcn.com/livenews/3201240",
+      "pub_date": "2026-11-17 10:30:51"
+     },
+     {
+      "title": "宁德时代曾毓群：电动化的应用场景将从陆地延伸到海洋、天空",
+      "feed_name": "金十数据",
+      "link": "",
+      "pub_date": "2026-11-17 10:59:55"
+     },
+     {
+      "title": "斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品",
+      "feed_name": "财联社公司公告",
+      "link": "https://api3.cls.cn/share/article/2536897?os=web&sv=8.7.9&app=",
+      "pub_date": "2026-11-17 10:29:28"
+     },
+     {
+      "title": "宁德时代曾毓群：电动化的应用场景将从陆地延伸到海洋、天空",
+      "feed_name": "财联社电报",
+      "link": "https://www.cls.cn/detail/2536921",
+      "pub_date": "2026-11-17 10:59:11"
+     }
+    ]
+   },
+   {
+    "keyword": "恒瑞医药",
+    "items": [
+     {
+      "title": "《科创板日报》16日讯，香港交易所信息显示，花旗集团在恒瑞医药H股的持股比例于11月10日从6.00%降至5.29%。",
+      "feed_name": "财联社电报",
+      "link": "https://www.cls.cn/detail/2535574",
+      "pub_date": "2026-11-16 09:04:02"
+     },
+     {
+      "title": "恒瑞医药关于公司药品纳入国家医保目录的公告",
+      "feed_name": "上交所披露",
+      "link": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-11-16/600276_20261116_WNNG.pdf",
+      "pub_date": "2026-11-15 08:02:17"
+     },
+     {
+      "title": "<b>恒瑞医药：公司部分产品纳入国家医保目录 |</b> 恒瑞医药公告，据国家医保局、人力资源社会保障部关于印发《国家基本医疗保险、生育保险和工伤保险药品目录（...",
+      "feed_name": "第一财经",
+      "link": "https://www.yicai.com/brief/103440992.html",
+      "pub_date": "2026-11-15 08:36:00"
+     }
+    ]
+   },
+   {
+    "keyword": "中国平安",
+    "items": [
+     {
+      "title": "深圳街头“出国错觉”拉满，外国客人来了花钱看病顺手吗？APEC启幕，看本土企业中国平安如何用一套“跨境底座”打通全链条！",
+      "feed_name": "观察者网",
+      "link": "https://www.guancha.cn/CaiJing/2026_11_17_908718.shtml",
+      "pub_date": "2026-11-17 07:40:04"
+     },
+     {
+      "title": "Interbrand《2026中国最佳品牌排行榜》发布：中国平安品牌价值达1886.64亿元 蝉联中国金融行业第一",
+      "feed_name": "格隆汇",
+      "link": "https://www.gelonghui.com/live/2765149",
+      "pub_date": "2026-11-17 07:07:34"
+     }
+    ]
+   },
+   {
+    "keyword": "Blender",
+    "items": [
+     {
+      "title": "VibePrevisBench: Benchmarking 4D Scene Generation in Blender",
+      "feed_name": "UnusualWhales",
+      "link": "https://blockchain.news/news/vibeprevisbench-4d-scene-generation",
+      "pub_date": "2026-11-17 21:46:58"
+     }
+    ]
+   },
+   {
+    "keyword": "Steam",
+    "items": [
+     {
+      "title": "Steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响",
+      "feed_name": "IT之家",
+      "link": "https://www.ithome.com/1/028/592.htm",
+      "pub_date": "2026-11-17 23:33:00"
+     },
+     {
+      "title": "Examining PC game trends: beyond the Steam tag!",
+      "feed_name": "GameDiscoverCo",
+      "link": "https://newsletter.gamediscover.co/p/examining-pc-game-trends-beyond-the",
+      "pub_date": "2026-11-17 19:11:42"
+     },
+     {
+      "title": "Steam 新一周游戏销量榜公布：《欧卡 2》75% 折扣登顶，国区《影之刃零》连续霸榜",
+      "feed_name": "IT之家",
+      "link": "https://www.ithome.com/1/028/540.htm",
+      "pub_date": "2026-11-17 14:31:07"
+     },
+     {
+      "title": "经典游戏多人版本《黄金矿工：派对狂欢》登陆 Steam，支持 2–6 人同时在线游玩",
+      "feed_name": "IT之家",
+      "link": "https://www.ithome.com/1/028/318.htm",
+      "pub_date": "2026-11-17 08:14:54"
+     }
+    ]
+   },
+   {
+    "keyword": "Unity",
+    "items": [
+     {
+      "title": "China’s President Xi: urged settling differences via dialogue and consultation, tackling challenges through unity and coordination - Xinhua",
+      "feed_name": "UnusualWhales",
+      "link": "",
+      "pub_date": "2026-11-18 02:14:33"
+     },
+     {
+      "title": "Xi urges APEC members to resolve disputes through discussions and address shared challenges through greater cooperation and unity – Xinhua.",
+      "feed_name": "UnusualWhales",
+      "link": "",
+      "pub_date": "2026-11-18 02:14:33"
+     },
+     {
+      "title": "China's President Xi: China ready to collaborate with all parties to advance with confidence, build Asia-Pacific community for shared prosperity",
+      "feed_name": "UnusualWhales",
+      "link": "",
+      "pub_date": "2026-11-18 02:14:33"
+     },
+     {
+      "title": "Unity 推出 Fellowship 计划，向 10 支独立游戏团队各提供 5 万美元资金等支持",
+      "feed_name": "IT之家",
+      "link": "https://www.ithome.com/1/028/671.htm",
+      "pub_date": "2026-11-18 02:46:04"
+     }
+    ]
+   },
+   {
+    "keyword": "rig",
+    "items": [
+     {
+      "title": "MDGL Investigation Reminder: Madrigal Pharmaceuticals, Inc. Investors are Encouraged to Contact Kessler Topaz Meltzer & Check, LLP",
+      "feed_name": "UnusualWhales",
+      "link": "https://www.prnewswire.com/news-releases/mdgl-investigation-reminder-madrigal-pharmaceuticals-inc-investors-are-encouraged-to-contact-kessler-topaz-meltzer--check-llp-302942913.html",
+      "pub_date": "2026-11-18 02:07:22"
+     },
+     {
+      "title": "South Korea moves to ease rules governing the verification of origin for second-hand vehicle exports - YONHAP",
+      "feed_name": "UnusualWhales",
+      "link": "",
+      "pub_date": "2026-11-18 01:52:28"
+     },
+     {
+      "title": "Harbour BioMed's Partner Spruce Biosciences Separates CRHX-101 Program into Adrenyx Biosciences, Advancing Development of Harbour BioMed-Originated An...",
+      "feed_name": "UnusualWhales",
+      "link": "https://www.prnewswire.com/news-releases/harbour-biomeds-partner-spruce-biosciences-separates-crhx-101-program-into-adrenyx-biosciences-advancing-development-of-harbour-biomed-originated-antibody-through-a-standalone-company-302942976.html",
+      "pub_date": "2026-11-18 00:28:36"
+     },
+     {
+      "title": "NVIDIA INTERIM CEO KRESS SAYS HYPERSCALERS ARE RIGHT NOW FEVERISHLY LOOKING FOR MORE FOCUS IN TERMS OF THE COMPUTE NVIDIA HAS AVAILABLE, ADDING THAT T...",
+      "feed_name": "UnusualWhales",
+      "link": "",
+      "pub_date": "2026-11-17 23:48:30"
+     }
+    ]
+   },
+   {
+    "keyword": "独立游戏",
+    "items": [
+     {
+      "title": "Unity 推出 Fellowship 计划，向 10 支独立游戏团队各提供 5 万美元资金等支持",
+      "feed_name": "IT之家",
+      "link": "https://www.ithome.com/1/028/671.htm",
+      "pub_date": "2026-11-18 02:46:04"
+     }
+    ]
+   },
+   {
+    "keyword": "FAST",
+    "items": [
+     {
+      "title": "Shabana Mahmood to launch fast-track training to improve police leadership",
+      "feed_name": "卫报国际",
+      "link": "https://www.theguardian.com/uk-news/2026/nov/18/shabana-mahmood-fast-track-training-police-leadership",
+      "pub_date": "2026-11-18 00:01:26"
+     },
+     {
+      "title": "Trifast plc (TFSTF) Q2 2027 Earnings Call Transcript",
+      "feed_name": "Seeking Alpha",
+      "link": "https://seekingalpha.com/article/4969249-trifast-plc-tfstf-q2-2027-earnings-call-transcript?source=feed_all_articles",
+      "pub_date": "2026-11-17 19:53:05"
+     },
+     {
+      "title": "Nexsan Unity Provides a Fast Protection Repository and a Retention-Locked Compliance Copy with S3 Object Locking for Joint ‘Proven Recovery’ Solutio...",
+      "feed_name": "UnusualWhales",
+      "link": "http://www.businesswire.com/news/home/20261117334884/en/Nexsan-Unity-Provides-a-Fast-Protection-Repository-and-a-Retention-Locked-Compliance-Copy-with-S3-Object-Locking-for-Joint-%E2%80%98Proven-Recovery%E2%80%99-Solution/?feedref=JjAwJuNHiystnCoBq_hl-Q-tiwWZwkcswR1UZtV7eGe24xL9TZOyQUMS3J72mJlQ7fxFuNFTHSunhvli30RlBNXya2izy9YOgHlBiZQk2LOzmn6JePCpHPCiYGaEx4DL1Rq8pNwkf3AarimpDzQGuQ==",
+      "pub_date": "2026-11-17 14:41:42"
+     },
+     {
+      "title": "Rhapsody Launches Axon Broadcast to Help Health Tech Companies Differentiate and Go Live Faster",
+      "feed_name": "UnusualWhales",
+      "link": "https://www.prnewswire.com/news-releases/rhapsody-launches-axon-broadcast-to-help-health-tech-companies-differentiate-and-go-live-faster-302942302.html",
+      "pub_date": "2026-11-17 14:41:50"
+     }
+    ]
+   }
+  ],
+  "interest_entities": [
+   "CATL",
+   "FAST",
+   "FITB",
+   "HBAN",
+   "HENGRUI",
+   "MOUTAI",
+   "NVIDIA",
+   "PINGAN",
+   "WULIANGYE",
+   "YIHUA",
+   "ZHONGBEI"
+  ]
+ },
+ "hotlist": {
+  "computed_at": "2026-11-18T10:20:43",
+  "matched": [
+   {
+    "event_id": 1235,
+    "title": "英伟达分析师电话会议要点总结",
+    "sel": 81.6802,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 4,
+      "latest_rank": 26,
+      "rank_delta": -22,
+      "url": "https://www.ithome.com/1/028/594.htm",
+      "velocity": 0.36
+     }
+    ]
+   },
+   {
+    "event_id": 7174,
+    "title": "美股持仓大洗牌 中概股获机构密集加仓",
+    "sel": 51.1688,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 4,
+      "latest_rank": 18,
+      "rank_delta": -14,
+      "url": "https://www.36kr.com/newsflashes/4074456915792770",
+      "velocity": 0.3
+     }
+    ]
+   },
+   {
+    "event_id": 1798,
+    "title": "马来西亚总理安瓦尔抵达深圳",
+    "sel": 50.135,
+    "platforms": [
+     {
+      "platform": "卫星通讯社",
+      "best_rank": 3,
+      "latest_rank": 20,
+      "rank_delta": -17,
+      "url": "https://sputniknews.cn/20261118/1074171621.html",
+      "velocity": 0.43
+     }
+    ]
+   },
+   {
+    "event_id": 8706,
+    "title": "上市公募REITs“破百”近在咫尺 行业迎来提质深耕窗口期",
+    "sel": 47.8226,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 2,
+      "latest_rank": 16,
+      "rank_delta": -14,
+      "url": "https://www.36kr.com/newsflashes/4074462342272130",
+      "velocity": 0.32
+     }
+    ]
+   },
+   {
+    "event_id": 8872,
+    "title": "本月118家上市公司获海外机构调研 多数业绩表现较好",
+    "sel": 43.6191,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 10,
+      "latest_rank": 10,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074475140895618",
+      "velocity": 0.21
+     }
+    ]
+   },
+   {
+    "event_id": 7992,
+    "title": "俄罗斯总统普京抵达深圳",
+    "sel": 41.2295,
+    "platforms": [
+     {
+      "platform": "微博",
+      "best_rank": 1,
+      "latest_rank": 7,
+      "rank_delta": 4,
+      "url": "https://s.weibo.com/weibo?q=%23%E6%99%AE%E4%BA%AC%E6%8A%B5%E8%BE%BE%E6%B7%B1%E5%9C%B3%23",
+      "velocity": 1.82
+     },
+     {
+      "platform": "澎湃",
+      "best_rank": 1,
+      "latest_rank": 1,
+      "rank_delta": 5,
+      "url": "https://www.thepaper.cn/newsDetail_forward_34495697",
+      "velocity": 1.7
+     },
+     {
+      "platform": "抖音",
+      "best_rank": 1,
+      "latest_rank": 4,
+      "rank_delta": -3,
+      "url": "https://www.douyin.com/hot/2751526",
+      "velocity": 1.5
+     },
+     {
+      "platform": "头条",
+      "best_rank": 2,
+      "latest_rank": 7,
+      "rank_delta": -3,
+      "url": "https://www.toutiao.com/trending/7709277155649130047/",
+      "velocity": 1.4667
+     },
+     {
+      "platform": "B站热搜",
+      "best_rank": 3,
+      "latest_rank": 3,
+      "rank_delta": 0,
+      "url": "https://search.bilibili.com/all?keyword=%E4%BF%84%E7%BD%97%E6%96%AF%E6%80%BB%E7%BB%9F%E6%99%AE%E4%BA%AC%E6%8A%B5%E8%BE%BE%E6%B7%B1%E5%9C%B3",
+      "velocity": 1.2333
+     },
+     {
+      "platform": "卫星通讯社",
+      "best_rank": 1,
+      "latest_rank": 19,
+      "rank_delta": -18,
+      "url": "https://sputniknews.cn/20261118/1074172333.html",
+      "velocity": 0.45
+     },
+     {
+      "platform": "百度",
+      "best_rank": 1,
+      "latest_rank": 2,
+      "rank_delta": -1,
+      "url": "https://www.baidu.com/s?wd=%E6%99%AE%E4%BA%AC%E6%8A%B5%E8%BE%BE%E6%B7%B1%E5%9C%B3",
+      "velocity": 0.45
+     },
+     {
+      "platform": "B站热搜",
+      "best_rank": 1,
+      "latest_rank": 1,
+      "rank_delta": 0,
+      "url": "https://search.bilibili.com/all?keyword=%E4%BF%84%E7%BD%97%E6%96%AF%E6%80%BB%E7%BB%9F%E6%99%AE%E4%BA%AC%E5%B0%86%E6%8A%B5%E8%BE%BE%E6%B7%B1%E5%9C%B3",
+      "velocity": 0.3
+     }
+    ]
+   },
+   {
+    "event_id": 7999,
+    "title": "Nvidia stopped disclosing Singapore sales as revenues hit $104B",
+    "sel": 40.9394,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 4,
+      "latest_rank": 8,
+      "rank_delta": 21,
+      "url": "https://news.ycombinator.com/item?id=50534631",
+      "velocity": 3.08
+     }
+    ]
+   },
+   {
+    "event_id": 8707,
+    "title": "财联社11月18日电，英伟达盘后涨幅扩大至4%。",
+    "sel": 40.935,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 10,
+      "latest_rank": 10,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074456279700608",
+      "velocity": 0.21
+     }
+    ]
+   },
+   {
+    "event_id": 8673,
+    "title": "校准截止日期临近 基金密集调整风险等级",
+    "sel": 40.8759,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 12,
+      "latest_rank": 12,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074467680932745",
+      "velocity": 0.19
+     }
+    ]
+   },
+   {
+    "event_id": 8819,
+    "title": "理财产品提前退场常态化，行业竞争转向质量优先",
+    "sel": 40.3039,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 6,
+      "latest_rank": 19,
+      "rank_delta": -13,
+      "url": "https://www.36kr.com/newsflashes/4074486793180291",
+      "velocity": 0.28
+     }
+    ]
+   },
+   {
+    "event_id": 8715,
+    "title": "英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。但董事会明确无意让黄仁勋复职。点击查看",
+    "sel": 38.4074,
+    "platforms": [
+     {
+      "platform": "华尔街见闻",
+      "best_rank": 3,
+      "latest_rank": 3,
+      "rank_delta": 1,
+      "url": "https://wallstreetcn.com/articles/3786136",
+      "velocity": 1.3133
+     },
+     {
+      "platform": "IT之家",
+      "best_rank": 1,
+      "latest_rank": 26,
+      "rank_delta": -25,
+      "url": "https://www.ithome.com/1/028/575.htm",
+      "velocity": 0.45
+     }
+    ]
+   },
+   {
+    "event_id": 8828,
+    "title": "中信证券：稀土行业供需向好 关注板块配置价值",
+    "sel": 35.3179,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 2,
+      "latest_rank": 16,
+      "rank_delta": -14,
+      "url": "https://www.36kr.com/newsflashes/4074549491717250",
+      "velocity": 1.1667
+     }
+    ]
+   },
+   {
+    "event_id": 8890,
+    "title": "A股上市公司积极回购，机构称市场向下风险收敛",
+    "sel": 34.7546,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 9,
+      "latest_rank": 9,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074476049683332",
+      "velocity": 0.22
+     }
+    ]
+   },
+   {
+    "event_id": 8375,
+    "title": "微软苹果接连宕机，谷歌紧急回应 Gmail 故障传闻“服务运行正常”",
+    "sel": 32.0326,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 1,
+      "latest_rank": 29,
+      "rank_delta": -28,
+      "url": "https://www.ithome.com/1/028/591.htm",
+      "velocity": 0.42
+     }
+    ]
+   },
+   {
+    "event_id": 8052,
+    "title": "财联社11月18日电，谷歌表示，谷歌钱包（Google Wallet）现已在美国iOS系统上推出。",
+    "sel": 31.7712,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 9,
+      "latest_rank": 16,
+      "rank_delta": -7,
+      "url": "https://www.ithome.com/1/028/613.htm",
+      "velocity": 0.8333
+     }
+    ]
+   },
+   {
+    "event_id": 8826,
+    "title": "中信建投：旗舰模型加快迭代，Agent商业场景扩展",
+    "sel": 30.6296,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 3,
+      "latest_rank": 14,
+      "rank_delta": -11,
+      "url": "https://www.36kr.com/newsflashes/4074518741030022",
+      "velocity": 0.31
+     }
+    ]
+   },
+   {
+    "event_id": 8063,
+    "title": "Apple Services Down",
+    "sel": 27.9932,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 2,
+      "latest_rank": 21,
+      "rank_delta": -11,
+      "url": "https://news.ycombinator.com/item?id=50535238",
+      "velocity": 1.4667
+     }
+    ]
+   },
+   {
+    "event_id": 8829,
+    "title": "华泰证券：市场化机制加速盈利模式清晰 看好国内储能中长期需求",
+    "sel": 27.9163,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 10,
+      "latest_rank": 10,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074502194189443",
+      "velocity": 0.21
+     }
+    ]
+   },
+   {
+    "event_id": 8200,
+    "title": "微软联合逾40家机构发起AI透明度倡议，推动建立行业通用标准",
+    "sel": 26.1707,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 8,
+      "latest_rank": 19,
+      "rank_delta": -11,
+      "url": "https://www.36kr.com/newsflashes/4074503736235143",
+      "velocity": 0.26
+     }
+    ]
+   },
+   {
+    "event_id": 6906,
+    "title": "Anthropic尚未上市便获“买入”评级 机构目标价最高达105美元",
+    "sel": 25.5298,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 12,
+      "latest_rank": 12,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074453370819718",
+      "velocity": 0.19
+     }
+    ]
+   },
+   {
+    "event_id": 8830,
+    "title": "中信建投：半导体设备、材料、零部件板块业绩有望加速",
+    "sel": 24.5508,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 6,
+      "latest_rank": 17,
+      "rank_delta": -11,
+      "url": "https://www.36kr.com/newsflashes/4074509364417668",
+      "velocity": 0.28
+     }
+    ]
+   },
+   {
+    "event_id": 6483,
+    "title": "英伟达董事会设立国家安全与出口管制监督委员会",
+    "sel": 23.1492,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 4,
+      "latest_rank": 27,
+      "rank_delta": -23,
+      "url": "https://www.ithome.com/1/028/545.htm",
+      "velocity": 0.42
+     },
+     {
+      "platform": "36氪",
+      "best_rank": 14,
+      "latest_rank": 14,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074464348951684",
+      "velocity": 0.17
+     }
+    ]
+   },
+   {
+    "event_id": 4152,
+    "title": "Advancing computer-use agents for healthcare teams",
+    "sel": 22.6847,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 14,
+      "latest_rank": 29,
+      "rank_delta": -15,
+      "url": "https://news.ycombinator.com/item?id=50535898",
+      "velocity": 0.32
+     }
+    ]
+   },
+   {
+    "event_id": 8895,
+    "title": "英伟达披露最高1180亿美元担保敞口，其中1050亿美元涉及OpenAI数据中心项目",
+    "sel": 22.16295,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 5,
+      "latest_rank": 18,
+      "rank_delta": -13,
+      "url": "https://www.36kr.com/newsflashes/4074486517240706",
+      "velocity": 0.29
+     }
+    ]
+   },
+   {
+    "event_id": 8137,
+    "title": "iCloud, App Store, and other Apple services hit by ongoing outage",
+    "sel": 21.7369,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 20,
+      "latest_rank": 30,
+      "rank_delta": -5,
+      "url": "https://news.ycombinator.com/item?id=50535268",
+      "velocity": 0.23
+     }
+    ]
+   },
+   {
+    "event_id": 8824,
+    "title": "高盛预计明年新兴市场债券总回报将达10%",
+    "sel": 20.4584,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 13,
+      "latest_rank": 13,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074497531417735",
+      "velocity": 0.18
+     }
+    ]
+   },
+   {
+    "event_id": 7295,
+    "title": "特朗普声称：美稀土产量将在10个月内追平中国",
+    "sel": 20.355,
+    "platforms": [
+     {
+      "platform": "卫星通讯社",
+      "best_rank": 16,
+      "latest_rank": 19,
+      "rank_delta": -3,
+      "url": "https://sputniknews.cn/20261117/1074168871.html",
+      "velocity": 0.21
+     }
+    ]
+   },
+   {
+    "event_id": 7828,
+    "title": "财联社11月18日电，黄仁勋表示，将致力于配合英伟达董事会的调查。",
+    "sel": 20.0476,
+    "platforms": [
+     {
+      "platform": "华尔街见闻",
+      "best_rank": 3,
+      "latest_rank": 3,
+      "rank_delta": 1,
+      "url": "https://wallstreetcn.com/articles/3786042",
+      "velocity": 0.454
+     },
+     {
+      "platform": "36氪",
+      "best_rank": 13,
+      "latest_rank": 13,
+      "rank_delta": 0,
+      "url": "https://www.36kr.com/newsflashes/4074450230498437",
+      "velocity": 0.18
+     }
+    ]
+   },
+   {
+    "event_id": 8598,
+    "title": "英伟达临时CEO Kress：（在CEO黄仁勋离开的情况下）路线图处于正轨之上。",
+    "sel": 19.7964,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 4,
+      "latest_rank": 22,
+      "rank_delta": -18,
+      "url": "https://www.ithome.com/1/028/606.htm",
+      "velocity": 1.1
+     }
+    ]
+   },
+   {
+    "event_id": 8588,
+    "title": "英伟达董事会主席哈维·琼斯：今天的电话会议将不会就黄仁勋辞职的相关情况以及正在进行的调查作出说明或接受提问。",
+    "sel": 19.7964,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 4,
+      "latest_rank": 29,
+      "rank_delta": -25,
+      "url": "https://www.ithome.com/1/028/580.htm",
+      "velocity": 0.39
+     }
+    ]
+   },
+   {
+    "event_id": 7988,
+    "title": "OpenAI推出GPT-6.2 Astra和Sol 性能提升同时降低使用成本",
+    "sel": 19.1696,
+    "platforms": [
+     {
+      "platform": "知乎",
+      "best_rank": 2,
+      "latest_rank": 2,
+      "rank_delta": 0,
+      "url": "https://www.zhihu.com/question/2106209204986041745",
+      "velocity": 1.2667
+     }
+    ]
+   },
+   {
+    "event_id": 8722,
+    "title": "英伟达临时CEO克雷斯：黄仁勋离职后客户和合作伙伴仍“全面参与合作”。",
+    "sel": 19.12392,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 6,
+      "latest_rank": 6,
+      "rank_delta": 0,
+      "url": "https://www.ithome.com/1/028/626.htm",
+      "velocity": 1.1333
+     },
+     {
+      "platform": "百度",
+      "best_rank": 6,
+      "latest_rank": 6,
+      "rank_delta": 4,
+      "url": "https://www.baidu.com/s?wd=%E8%8B%B1%E4%BC%9F%E8%BE%BE%E8%91%A3%E4%BA%8B%E9%95%BF%EF%BC%9A%E6%97%A0%E6%84%8F%E8%AE%A9%E9%BB%84%E4%BB%81%E5%8B%8B%E5%9B%9E%E5%BD%92%E5%A4%8D%E8%81%8C",
+      "velocity": 0.376
+     },
+     {
+      "platform": "百度",
+      "best_rank": 13,
+      "latest_rank": 13,
+      "rank_delta": 0,
+      "url": "https://www.baidu.com/s?wd=%E8%8B%B1%E4%BC%9F%E8%BE%BE%E5%85%AC%E5%B8%83%E9%BB%84%E4%BB%81%E5%8B%8B%E7%A6%BB%E8%81%8C%E5%90%8E%E7%9A%84%E9%A6%96%E4%BB%BD%E8%B4%A2%E6%8A%A5",
+      "velocity": 0.24
+     }
+    ]
+   },
+   {
+    "event_id": 6035,
+    "title": "Latent Lattice Language Models",
+    "sel": 19.1062,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 17,
+      "latest_rank": 23,
+      "rank_delta": 5,
+      "url": "https://news.ycombinator.com/item?id=50539039",
+      "velocity": 1.3667
+     }
+    ]
+   },
+   {
+    "event_id": 8328,
+    "title": "浑水做空英伟达。",
+    "sel": 18.576,
+    "platforms": [
+     {
+      "platform": "百度",
+      "best_rank": 13,
+      "latest_rank": 13,
+      "rank_delta": 4,
+      "url": "https://www.baidu.com/s?wd=%E6%B5%91%E6%B0%B4%E5%81%9A%E7%A9%BA%E8%8B%B1%E4%BC%9F%E8%BE%BE",
+      "velocity": 1.02
+     },
+     {
+      "platform": "头条",
+      "best_rank": 5,
+      "latest_rank": 5,
+      "rank_delta": 13,
+      "url": "https://www.toutiao.com/trending/7708199848868200502/",
+      "velocity": 0.602
+     }
+    ]
+   },
+   {
+    "event_id": 8798,
+    "title": "TGA 2026 各奖项入围游戏完整名单公布，《GTA 6》8 项提名领跑",
+    "sel": 18.48339,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 2,
+      "latest_rank": 24,
+      "rank_delta": -22,
+      "url": "https://www.ithome.com/1/028/596.htm",
+      "velocity": 0.38
+     }
+    ]
+   },
+   {
+    "event_id": 4672,
+    "title": "特朗普最新表态：我期待访问中国",
+    "sel": 18.4449,
+    "platforms": [
+     {
+      "platform": "卫星通讯社",
+      "best_rank": 3,
+      "latest_rank": 9,
+      "rank_delta": -6,
+      "url": "https://sputniknews.cn/20261118/1074176004.html",
+      "velocity": 1.3333
+     },
+     {
+      "platform": "百度",
+      "best_rank": 13,
+      "latest_rank": 28,
+      "rank_delta": -5,
+      "url": "https://www.baidu.com/s?wd=%E7%89%B9%E6%9C%97%E6%99%AE%EF%BC%9A%E6%88%91%E6%9C%9F%E5%BE%85%E8%AE%BF%E9%97%AE%E4%B8%AD%E5%9B%BD",
+      "velocity": 0.33
+     }
+    ]
+   },
+   {
+    "event_id": 8799,
+    "title": "微软决策模型 Microsoft-Decision-1.1 登场，跑赢 GPT-6 Luna 与 Gemini",
+    "sel": 18.13248,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 5,
+      "latest_rank": 27,
+      "rank_delta": -22,
+      "url": "https://www.ithome.com/1/028/593.htm",
+      "velocity": 0.35
+     }
+    ]
+   },
+   {
+    "event_id": 8800,
+    "title": "Steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响",
+    "sel": 18.01521,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 6,
+      "latest_rank": 28,
+      "rank_delta": -22,
+      "url": "https://www.ithome.com/1/028/592.htm",
+      "velocity": 0.34
+     }
+    ]
+   },
+   {
+    "event_id": 8801,
+    "title": "多语言错误率直降 50%：微软升级医患对话 AI 转录引擎，已覆盖全美 1/3 医师",
+    "sel": 17.781480000000002,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 2,
+      "latest_rank": 30,
+      "rank_delta": -28,
+      "url": "https://www.ithome.com/1/028/590.htm",
+      "velocity": 0.41
+     }
+    ]
+   },
+   {
+    "event_id": 7087,
+    "title": "三星电子Q3存储器价格较去年上涨270%",
+    "sel": 17.6665,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 3,
+      "latest_rank": 17,
+      "rank_delta": -14,
+      "url": "https://www.36kr.com/newsflashes/4073896820806536",
+      "velocity": 0.31
+     }
+    ]
+   },
+   {
+    "event_id": 8802,
+    "title": "微软首款语音对语音模型：MAI Realtime 1 登场，起价每分钟 0.01 美元",
+    "sel": 17.54739,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 4,
+      "latest_rank": 21,
+      "rank_delta": -17,
+      "url": "https://www.ithome.com/1/028/588.htm",
+      "velocity": 0.36
+     }
+    ]
+   },
+   {
+    "event_id": 8803,
+    "title": "Framework 无线触控板键盘开放预订：99 美元，集成 120Hz 精密触控板",
+    "sel": 17.313299999999998,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 6,
+      "latest_rank": 23,
+      "rank_delta": -17,
+      "url": "https://www.ithome.com/1/028/586.htm",
+      "velocity": 0.34
+     }
+    ]
+   },
+   {
+    "event_id": 8744,
+    "title": "Quad9's withdrawal from France: A canary in the coal mine",
+    "sel": 17.230140000000002,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 3,
+      "latest_rank": 4,
+      "rank_delta": 11,
+      "url": "https://news.ycombinator.com/item?id=50538994",
+      "velocity": 2.3133
+     }
+    ]
+   },
+   {
+    "event_id": 8653,
+    "title": "微软宣布 PowerShell 7 将随 Windows 默认提供，Win11 26H2 为最后一个预装 5.1 的版本",
+    "sel": 16.8768,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 1,
+      "latest_rank": 26,
+      "rank_delta": -25,
+      "url": "https://www.ithome.com/1/028/583.htm",
+      "velocity": 0.42
+     }
+    ]
+   },
+   {
+    "event_id": 8654,
+    "title": "“全球第一修图 AI 模型”：微软 MAI Image 2.7 登场，用 1/5 价格击败 GPT Image 2.6 登顶",
+    "sel": 16.768710000000002,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 2,
+      "latest_rank": 27,
+      "rank_delta": -25,
+      "url": "https://www.ithome.com/1/028/582.htm",
+      "velocity": 0.41
+     }
+    ]
+   },
+   {
+    "event_id": 8813,
+    "title": "华尔街见闻早餐FM-Radio | 2026年11月18日",
+    "sel": 16.71201,
+    "platforms": [
+     {
+      "platform": "华尔街见闻",
+      "best_rank": 5,
+      "latest_rank": 5,
+      "rank_delta": 3,
+      "url": "https://wallstreetcn.com/articles/3786137",
+      "velocity": 1.4067
+     }
+    ]
+   },
+   {
+    "event_id": 8812,
+    "title": "老旧软件面临“AI威胁”！微软故障、全美停飞之后，美国国家安全局系统瘫痪，苹果多项服务受扰",
+    "sel": 16.71201,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 2,
+      "latest_rank": 26,
+      "rank_delta": -24,
+      "url": "https://www.ithome.com/1/028/601.htm",
+      "velocity": 1.2667
+     }
+    ]
+   },
+   {
+    "event_id": 8562,
+    "title": "Java4Shell: RCE in OpenJDK when processing Base64",
+    "sel": 16.5366,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 1,
+      "latest_rank": 1,
+      "rank_delta": 12,
+      "url": "https://news.ycombinator.com/item?id=50538240",
+      "velocity": 2.46
+     }
+    ]
+   },
+   {
+    "event_id": 8538,
+    "title": "英伟达担忧暂缓！上季营收首破千亿，本季指引再超预期创新高，Vera Rubin“爆发式开局” | 财报见闻",
+    "sel": 16.49646,
+    "platforms": [
+     {
+      "platform": "华尔街见闻",
+      "best_rank": 2,
+      "latest_rank": 2,
+      "rank_delta": 3,
+      "url": "https://wallstreetcn.com/articles/3786135",
+      "velocity": 1.7067
+     }
+    ]
+   },
+   {
+    "event_id": 8827,
+    "title": "拜登承认：北约东扩必然引发俄罗斯担忧",
+    "sel": 16.4646,
+    "platforms": [
+     {
+      "platform": "凤凰网",
+      "best_rank": 8,
+      "latest_rank": 9,
+      "rank_delta": -1,
+      "url": "https://news.ifeng.com/c/8y93CfUa2Jm",
+      "velocity": 1.1667
+     }
+    ]
+   },
+   {
+    "event_id": 8655,
+    "title": "微软性价比最高编程 AI 模型：MAI Code 2 用 5% 成本达 Claude Opus 5.5 约 96% 性能",
+    "sel": 16.44417,
+    "platforms": [
+     {
+      "platform": "IT之家",
+      "best_rank": 5,
+      "latest_rank": 30,
+      "rank_delta": -25,
+      "url": "https://www.ithome.com/1/028/579.htm",
+      "velocity": 0.38
+     }
+    ]
+   },
+   {
+    "event_id": 8656,
+    "title": "黄仁勋走了，英伟达仍赚翻了：首份财报超预期，接班人稳住了？",
+    "sel": 15.86718,
+    "platforms": [
+     {
+      "platform": "贴吧",
+      "best_rank": 4,
+      "latest_rank": 4,
+      "rank_delta": 1,
+      "url": "https://tieba.baidu.com/hottopic/browse/hottopic?amp%3Btopic_name=%E9%BB%84%E4%BB%81%E5%8B%8B%E5%96%8A%E8%AF%9D%E6%84%BF%E5%9B%9E%E8%8B%B1%E4%BC%9F%E8%BE%BE&topic_id=28369927",
+      "velocity": 1.28
+     },
+     {
+      "platform": "百度",
+      "best_rank": 6,
+      "latest_rank": 12,
+      "rank_delta": 3,
+      "url": "https://www.baidu.com/s?wd=%E9%BB%84%E4%BB%81%E5%8B%8B%EF%BC%9A%E6%84%BF%E9%87%8D%E8%BF%94%E8%8B%B1%E4%BC%9F%E8%BE%BE%E4%BB%BBCEO",
+      "velocity": 0.442
+     },
+     {
+      "platform": "IT之家",
+      "best_rank": 3,
+      "latest_rank": 28,
+      "rank_delta": -25,
+      "url": "https://www.ithome.com/1/028/566.htm",
+      "velocity": 0.43
+     },
+     {
+      "platform": "IT之家",
+      "best_rank": 5,
+      "latest_rank": 22,
+      "rank_delta": -17,
+      "url": "https://www.ithome.com/1/028/587.htm",
+      "velocity": 0.35
+     },
+     {
+      "platform": "36氪",
+      "best_rank": 2,
+      "latest_rank": 13,
+      "rank_delta": -11,
+      "url": "https://www.36kr.com/newsflashes/4074519572337541",
+      "velocity": 0.32
+     },
+     {
+      "platform": "知乎",
+      "best_rank": 11,
+      "latest_rank": 20,
+      "rank_delta": -9,
+      "url": "https://www.zhihu.com/question/2106184214257451464",
+      "velocity": 0.26
+     }
+    ]
+   },
+   {
+    "event_id": 8341,
+    "title": "Launch HN: StarSling (YC P25) – Self-improving CI for agent-volume repos",
+    "sel": 15.31566,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 7,
+      "latest_rank": 19,
+      "rank_delta": -12,
+      "url": "https://news.ycombinator.com/item?id=50536468",
+      "velocity": 1.3
+     }
+    ]
+   },
+   {
+    "event_id": 8896,
+    "title": "Archive Team is archiving the Apple Support Community (closes November 20, 2026)",
+    "sel": 15.041430000000002,
+    "platforms": [
+     {
+      "platform": "Hacker News",
+      "best_rank": 4,
+      "latest_rank": 6,
+      "rank_delta": 4,
+      "url": "https://news.ycombinator.com/item?id=50539747",
+      "velocity": 1.62
+     }
+    ]
+   },
+   {
+    "event_id": 8935,
+    "title": "日本10月贸易逆差收窄 能源进口额仍居高不下",
+    "sel": 15.03504,
+    "platforms": [
+     {
+      "platform": "36氪",
+      "best_rank": 3,
+      "latest_rank": 17,
+      "rank_delta": -14,
+      "url": "https://www.36kr.com/newsflashes/4074549188891524",
+      "velocity": 1.1333
+     }
+    ]
+   }
+  ],
+  "blind": [
+   {
+    "title": "Lampa Camera",
+    "platform": "Product Hunt",
+    "best_rank": 1,
+    "url": "https://www.producthunt.com/products/lampa-camera"
+   },
+   {
+    "title": "普京身边罕见无提黑色手提箱保镖随行",
+    "platform": "百度",
+    "best_rank": 2,
+    "url": "https://www.baidu.com/s?wd=%E6%99%AE%E4%BA%AC%E8%BA%AB%E8%BE%B9%E7%BD%95%E8%A7%81%E6%97%A0%E6%8F%90%E9%BB%91%E8%89%B2%E6%89%8B%E6%8F%90%E7%AE%B1%E4%BF%9D%E9%95%96%E9%9A%8F%E8%A1%8C"
+   },
+   {
+    "title": "2026年APEC工商领导人峰会开幕",
+    "platform": "抖音",
+    "best_rank": 1,
+    "url": "https://www.douyin.com/hot/2750072"
+   },
+   {
+    "title": "Versine",
+    "platform": "Product Hunt",
+    "best_rank": 4,
+    "url": "https://www.producthunt.com/products/versine"
+   },
+   {
+    "title": "韩国总统李在明抵达深圳",
+    "platform": "抖音",
+    "best_rank": 2,
+    "url": "https://www.douyin.com/hot/2751532"
+   },
+   {
+    "title": "Glass Page",
+    "platform": "Product Hunt",
+    "best_rank": 3,
+    "url": "https://www.producthunt.com/products/glass-page"
+   },
+   {
+    "title": "凌晨接机 “中国排面”依旧整齐划一",
+    "platform": "百度",
+    "best_rank": 1,
+    "url": "https://www.baidu.com/s?wd=%E5%87%8C%E6%99%A8%E6%8E%A5%E6%9C%BA+%E2%80%9C%E4%B8%AD%E5%9B%BD%E6%8E%92%E9%9D%A2%E2%80%9D%E4%BE%9D%E6%97%A7%E6%95%B4%E9%BD%90%E5%88%92%E4%B8%80"
+   },
+   {
+    "title": "Link.bio",
+    "platform": "Product Hunt",
+    "best_rank": 4,
+    "url": "https://www.producthunt.com/products/link-bio"
+   },
+   {
+    "title": "41人没症状被AI查出早期肠癌",
+    "platform": "微博",
+    "best_rank": 5,
+    "url": "https://s.weibo.com/weibo?q=%2341%E4%BA%BA%E6%B2%A1%E7%97%87%E7%8A%B6%E8%A2%ABAI%E6%9F%A5%E5%87%BA%E6%97%A9%E6%9C%9F%E8%82%A0%E7%99%8C%23"
+   },
+   {
+    "title": "DearInside",
+    "platform": "Product Hunt",
+    "best_rank": 3,
+    "url": "https://www.producthunt.com/products/dearinside"
+   },
+   {
+    "title": "新任007为何是帕丁森",
+    "platform": "B站热搜",
+    "best_rank": 7,
+    "url": "https://search.bilibili.com/all?keyword=%E6%96%B0%E4%BB%BB007%E4%B8%BA%E4%BD%95%E6%98%AF%E5%B8%95%E4%B8%81%E6%A3%AE"
+   },
+   {
+    "title": "TheBold",
+    "platform": "Product Hunt",
+    "best_rank": 1,
+    "url": "https://www.producthunt.com/products/thebold"
+   },
+   {
+    "title": "Creatify Max",
+    "platform": "Product Hunt",
+    "best_rank": 1,
+    "url": "https://www.producthunt.com/products/creatify"
+   },
+   {
+    "title": "Continuo",
+    "platform": "Product Hunt",
+    "best_rank": 1,
+    "url": "https://www.producthunt.com/products/continuo-4"
+   },
+   {
+    "title": "Trellus",
+    "platform": "Product Hunt",
+    "best_rank": 2,
+    "url": "https://www.producthunt.com/products/trellus"
+   }
+  ]
+ },
+ "archive": {
+  "dailies": [
+   {
+    "date": "2026-11-18",
+    "n_cards": 10,
+    "tokens": 19338,
+    "top_cat": "财经"
+   },
+   {
+    "date": "2026-11-17",
+    "n_cards": 10,
+    "tokens": 17279,
+    "top_cat": "财经"
+   },
+   {
+    "date": "2026-11-16t",
+    "n_cards": 3,
+    "tokens": 4337,
+    "top_cat": "财经"
+   },
+   {
+    "date": "2026-11-16",
+    "n_cards": 10,
+    "tokens": 14354,
+    "top_cat": "财经"
+   }
+  ],
+  "editions": [
+   "2026-11-18-morning",
+   "2026-11-17-morning",
+   "2026-11-17-evening"
+  ]
+ }
+}

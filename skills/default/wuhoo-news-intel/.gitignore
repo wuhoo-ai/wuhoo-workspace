@@ -3,4 +3,9 @@ data/velocity_signals.json
 data/cards_*.json
 data/cards_*.txt
 data/brief_wechat_*.txt
+# 2026-11-18 v3: 门户日输出(--no-llm 重渲染源, 每日构建复现) + hourly 运行时状态
+data/portal_*.json
+data/refused_streak.txt
+data/source_coverage.json
+# archive_pre_*/ 是一次性 before/after 审计证据(不可复现), 入库保留
 # *.log 已由根 .gitignore 全局忽略

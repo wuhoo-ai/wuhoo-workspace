@@ -33,6 +33,48 @@ GUIMEI = os.path.join(HOME, "wuhoo-workspace/games/guimei/docs")
 CATEGORIES = {"科技", "财经", "游戏", "宏观", "加密", "体育", "综合", "国际", "社会"}
 PY = "python3.11"   # cron 安全：裸命令，不用绝对路径（lifecycle guard）
 
+# ---- 2026-11-17 P0/P1 修复常量 ----
+COVERAGE_FILE = os.path.join(DATA, "source_coverage.json")
+OPS_LOG = os.path.join(DATA, "ops_alerts.log")
+COVERAGE_MIN = 0.70           # P0-1 源健康闸门: 可用源占比低于此值=降级(今日生产时实测0.55)
+SINGLE_SOURCE_DISCOUNT = 0.9  # P1-4 单源事件选择层降权(不改落库salience, 排序语义保持纯净)
+# P1-4 SA 机械类噪声(财报转录/幻灯片/基金评论/会议摘要; 近7天628篇中约272篇命中)。
+# 命中 interest/watchlist 实体(持仓/关注, 如 FITB/FAST/HBAN)时豁免=信号非噪声。
+SA_NOISE_PATTERNS = [
+    r"Earnings Call Transcript",
+    r"Earnings Call Presentation",
+    r"Analyst/Investor Day",
+    r"Slideshow\s*$",
+    r"Presents at\b",
+    r"Top Contributors And Detractors",
+    r"Q[1-4] 20\d\d\s*(?:Earnings Call\s*)?(?:Transcript|Comment|Presentation|Results)",
+    r"20\d\d Q[1-4]\s*-?\s*(?:Results|Comment)",
+]
+# 2026-11-18 用户拍板D: 每日聚合meta文章(早间精选/见闻早餐/投资日历/晨会精华等)本身是摘要非新闻,
+# 多源转载致salience虚高占据头部 → 选择层无条件过滤(不豁免持仓, 因其为跨主题聚合)。
+DIGEST_META_PATTERN = re.compile(
+    r"早间新闻精选|早间精选|新闻精选|见闻早餐|早餐\s*[|｜]|投资日历|晨会精华|晨会纪要|早参|"
+    r"盘前必读|盘后总结|每日精选|今日看点|今日必读|要闻汇总|新闻汇总|公告精选|公告汇总|"
+    r"研报精选|研报汇总|机构观点汇总|新闻早报|新闻晚报|财经早报|财经晚报|早盘提示|公告速递|"
+    r"早知道|财联社早报|财联社晚报|晚间新闻精选|【早报】|【晚报】|昨夜今晨|要闻速递|金十数据整理", re.I)
+# 2026-11-18(D): Sky足球源曾误用综合体育频道(rss/12040, 混板球/F1/赛马/拳击/高尔夫), 已换纯足球rss/11095;
+# IGN曾误用全量feed(ign/all, 混影视娱乐), 已换纯游戏games-all。已入库的类目内异类内容在选择层排除
+# (仅作用对应类目, 不误伤综合源的正常报道)。
+NON_FOOTBALL_PATTERN = re.compile(
+    r"\bODI\b|\bbat first\b|\bScorecard\b|\bcricket\b|\bAshes\b|\bT20\b|\bTest match\b|"
+    r"\bF1\b|\bFormula 1\b|\bGrand Prix\b|\bhorse racing\b|\bchasing debut\b|"
+    r"\bWBC\b|\bboxing\b|\bDP World Tour\b|\bPGA\b|\bgolf\b", re.I)
+NON_GAMING_PATTERN = re.compile(
+    r"\bJames Bond\b|\bCasting\b|\bMovie Review\b|\bTV Review\b|\bFilm Review\b|\bBox Office\b", re.I)
+CATEGORY_NOISE = {"足球": NON_FOOTBALL_PATTERN, "游戏": NON_GAMING_PATTERN}
+# P0-2 brief 层 LLM 同故事归并(qwen4-max, 一次调用覆盖 TOP20 候选; 跨语 cos 实测 0.48-0.51
+# 远低于聚类阈值, 语义判断交给 LLM; 失败时回退确定性实体锚规则)。
+DEDUP_SYSTEM = (
+    "你是新闻事件归并器。给定候选事件列表,判断哪些属于同一个新闻事件:"
+    "同一件事的不同角度/不同语言/后续进展算同一事件;同一家公司的不同事件不算;"
+    "不确定时不合并。只输出一个JSON对象: {\"groups\":[[事件ID,...],...]},"
+    "groups只含应合并的组(每组≥2个ID),没有可合并的则groups为空数组。不要markdown围栏。")
+
 
 def conn():
     return ec.get_conn()
@@ -62,6 +104,7 @@ def load_member_rows(c, aids):
 def recompute_salience(c, verbose=False):
     """用当前 interest_profile/topic_burst/velocity 重算所有 active 事件 salience（不重聚类）。
     D3 调节即时生效路径：tune 写表 → recompute → 新 salience。复用 ec.compute_salience。"""
+    ec.refresh_dynamic_aliases(c)
     tier_map = ec.load_tier_map(c)
     weights = ec.load_feed_weights()
     vel = ec.load_velocity_map(c)
@@ -208,19 +251,25 @@ def build_index_html():
 
 
 def publish_web(verbose=True):
-    """把 NEWS_WEB 静态产物同步到 nginx 可读 web 根 SERVE_DIR + 生成归档 index.html。
-    幂等：每次全量 copy（文件小）。workspace NEWS_WEB 保留作 git 审计 canonical。"""
+    """把 NEWS_WEB 静态产物同步到 nginx 可读 web 根 SERVE_DIR + index.html。
+    幂等：每次全量 copy（文件小）。workspace NEWS_WEB 保留作 git 审计 canonical。
+    2026-11-17 门户模式: NEWS_WEB/.portal_index 标记存在时 index.html 由 portal.py 生成,
+    直接 copy(不再用旧 build_index_html 覆盖); 回滚=删标记后重新 publish。"""
     import shutil, glob
     n = 0
-    for sub in ("daily", "event", "eval"):
+    for sub in ("daily", "event", "eval", "portal"):
         dst = os.path.join(SERVE_DIR, sub)
         os.makedirs(dst, exist_ok=True)
         for f in glob.glob(os.path.join(NEWS_WEB, sub, "*.html")):
             shutil.copy2(f, os.path.join(dst, os.path.basename(f)))
             n += 1
-    body = build_index_html()
-    for root in (SERVE_DIR, NEWS_WEB):
-        write_html(os.path.join(root, "index.html"), "Wuhoo 新闻情报归档", body)
+    marker = os.path.join(NEWS_WEB, ".portal_index")
+    if os.path.exists(marker) and os.path.exists(os.path.join(NEWS_WEB, "index.html")):
+        shutil.copy2(os.path.join(NEWS_WEB, "index.html"), os.path.join(SERVE_DIR, "index.html"))
+    else:
+        body = build_index_html()
+        for root in (SERVE_DIR, NEWS_WEB):
+            write_html(os.path.join(root, "index.html"), "Wuhoo 新闻情报归档", body)
     if verbose:
         print(f"publish_web: {n} HTML → {SERVE_DIR} (+index.html)")
     return n
@@ -238,28 +287,276 @@ def make_fallback(stamp):
     return dst, os.path.getsize(dst)
 
 
+# ---------- 4.5 源覆盖 / 候选过滤 / 同故事归并 (P0-1, P1-4, P0-2, 2026-11-17) ----------
+def log_ops(msg):
+    try:
+        with open(OPS_LOG, "a", encoding="utf-8") as f:
+            f.write(f"{now().strftime('%F %T')} {msg}\n")
+    except Exception:
+        pass
+
+
+def parse_coverage(log_path):
+    """解析 hourly_fetch.log 最后一轮采集: ✅ok / ⚠️❌failed / Connection refused 子集。"""
+    try:
+        txt = open(log_path, encoding="utf-8", errors="replace").read()
+    except Exception:
+        return None
+    rounds = txt.split("START fetch")
+    if len(rounds) < 2:
+        return None
+    last = rounds[-1]
+    ok = len(re.findall(r"✅\s*\d+\s*条", last))
+    failed = len(re.findall(r"⚠️", last)) + len(re.findall(r"❌", last))
+    m = re.search(r"失败:\s*(\d+)", last)
+    if m:
+        failed = int(m.group(1))
+    refused = len(re.findall(r"Connection refused", last))
+    ts = None
+    mt = re.search(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) END rc=", last)
+    if mt:
+        ts = mt.group(1).replace(" ", "T")
+    total = ok + failed
+    return {"ts": ts or now().isoformat(), "ok": ok, "failed": failed,
+            "refused": refused, "total": total,
+            "ratio": round(ok / total, 4) if total else 1.0}
+
+
+def cmd_coverage(a):
+    cov = parse_coverage(os.path.join(DATA, "hourly_fetch.log"))
+    if not cov:
+        print("coverage: 无采集轮次可解析"); return
+    with open(COVERAGE_FILE, "w", encoding="utf-8") as f:
+        json.dump(cov, f, ensure_ascii=False)
+    print(f"coverage: ok={cov['ok']}/{cov['total']} ratio={cov['ratio']} refused={cov['refused']} ts={cov['ts']}")
+    if cov["ratio"] < COVERAGE_MIN:
+        log_ops(f"ALERT 源覆盖降级 ok={cov['ok']}/{cov['total']} ratio={cov['ratio']} refused={cov['refused']}")
+
+
+def read_coverage():
+    """读最近一轮覆盖(1h内); 过期/缺失返回 None(不误报降级)。"""
+    try:
+        d = json.load(open(COVERAGE_FILE, encoding="utf-8"))
+        ts = ec.parse_dt(d.get("ts", ""))
+        if ts and (now() - ts).total_seconds() < 3600:
+            return d
+    except Exception:
+        pass
+    return None
+
+
+def candidate_entities(c, eid):
+    return {r[0] for r in c.execute(
+        "SELECT en.name FROM event_entities ee JOIN entities en ON ee.entity_id=en.entity_id "
+        "WHERE ee.event_id=?", (eid,))}
+
+
+def interest_watch_entities(c):
+    """interest entity 键 + watchlist 启用值的规范集(噪声豁免/强实体锚, P1-4/P0-2)。"""
+    ents = set()
+    for r in c.execute("SELECT key FROM interest_profile WHERE key LIKE 'entity:%'"):
+        ents.add(r[0].split(":", 1)[1])
+    for r in c.execute("SELECT value FROM watchlist WHERE enabled=1"):
+        ents.add(ec.canonical_entity(r[0]))
+    return ents
+
+
+def is_noise_candidate(c, ev, keep_ents):
+    """P1-4: SA 机械类噪声(转录/幻灯片/基金评论)选择层过滤; 命中持仓/关注实体豁免。
+    2026-11-18(D): 每日聚合meta文章(早间精选/早餐/投资日历等)无条件过滤(跨主题摘要非新闻)。"""
+    row = c.execute("SELECT feed_name, title, category FROM articles WHERE id=?", (ev["canonical_id"],)).fetchone()
+    if not row:
+        return False
+    title, feed = row["title"] or "", row["feed_name"] or ""
+    if DIGEST_META_PATTERN.search(title):
+        return True
+    cat_pat = CATEGORY_NOISE.get(row["category"] or "")
+    if cat_pat and cat_pat.search(title):
+        return True
+    if feed == "Seeking Alpha":
+        noisy = any(re.search(p, title, re.I) for p in SA_NOISE_PATTERNS)
+    else:
+        noisy = bool(re.search(r"Earnings Call Transcript", title, re.I))
+    if noisy and (candidate_entities(c, ev["event_id"]) & keep_ents):
+        return False
+    return noisy
+
+
+def sel_score(ev):
+    """选择层分: salience × 单源降权(P1-4)。落库 salience 不变, 排序语义保持纯净。"""
+    return ev["salience"] * (SINGLE_SOURCE_DISCOUNT if ev["n_indep_sources"] <= 1 else 1.0)
+
+
+def same_story_rule(topic_a, topic_b, shared, strong, cos):
+    """P0-2 确定性兜底规则(纯函数可测): 共享实体≥2 且含≥1强实体(别名规范名/interest种子),
+    同主题或共享≥3, 质心cos≥0.30 sanity floor。
+    实测: Jensen 中英 cos0.48-0.51 共享{NVIDIA,JENSEN_HUANG}→并;
+    Rubin vs Jensen cos0.19 共享{NVIDIA}→不并。"""
+    if len(shared) < 2 or not (shared & strong):
+        return False
+    if topic_a != topic_b and len(shared) < 3:
+        return False
+    return cos >= 0.30
+
+
+def deterministic_groups(c, cands, keep_ents):
+    ents = {ev["event_id"]: candidate_entities(c, ev["event_id"]) for ev in cands}
+    strong = set(ec.ENTITY_ALIASES.values()) | keep_ents
+    vids, mat = ec.load_vectors(c, [ev["canonical_id"] for ev in cands])
+    vmap = {aid: mat[i] for i, aid in enumerate(vids)}
+    parent = {ev["event_id"]: ev["event_id"] for ev in cands}
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for i in range(len(cands)):
+        for j in range(i + 1, len(cands)):
+            a, b = cands[i], cands[j]
+            shared = ents[a["event_id"]] & ents[b["event_id"]]
+            va, vb = vmap.get(a["canonical_id"]), vmap.get(b["canonical_id"])
+            cos = float(va @ vb) if va is not None and vb is not None else 0.0
+            if same_story_rule(a["topic"], b["topic"], shared, strong, cos):
+                ra, rb = find(a["event_id"]), find(b["event_id"])
+                if ra != rb:
+                    parent[rb] = ra
+    groups = {}
+    for ev in cands:
+        groups.setdefault(find(ev["event_id"]), []).append(ev["event_id"])
+    return [g for g in groups.values() if len(g) >= 2]
+
+
+def llm_dedup(c, cands):
+    """P0-2 主路径: 一次 qwen4-max 调用判 TOP20 候选同故事(跨语/跨角度)。
+    返回 (groups, usage); 错误/quota/解析失败 → (None, usage), 调用方回退确定性规则。"""
+    lines = []
+    for ev in cands:
+        ents = ",".join(sorted(candidate_entities(c, ev["event_id"]))[:6])
+        lines.append(f"{ev['event_id']}|{ev['topic']}|{ev['n_indep_sources']}源|{ec.clean_text(ev['label'])[:80]}|实体:{ents}")
+    user = "候选事件:\n" + "\n".join(lines) + "\n\n请输出JSON。"
+    res = sy.call_qwen(DEDUP_SYSTEM, user, max_tokens=600)
+    usage = res.get("usage", {}) or {}
+    if "error" in res:
+        log_ops(f"dedup LLM 失败: {res['error']} → 回退确定性规则")
+        return None, usage
+    d = sy.parse_json(res.get("content", ""))
+    if d.get("_parse_failed"):
+        log_ops("dedup LLM 输出解析失败 → 回退确定性规则")
+        return None, usage
+    valid = {ev["event_id"] for ev in cands}
+    groups = []
+    for g in d.get("groups", []) or []:
+        if not isinstance(g, list):
+            continue
+        ids = []
+        for x in g:
+            try:
+                xi = int(x)
+            except (TypeError, ValueError):
+                continue
+            if xi in valid and xi not in ids:
+                ids.append(xi)
+        if len(ids) >= 2:
+            groups.append(ids)
+    return groups, usage
+
+
+def build_groups(c, cands, keep_ents):
+    """同故事归并成组(primary=选择分最高), 返回 (groups, mode, usage)。
+    2026-11-17: LLM 组 + 确定性组取并集(union-find)——实测 LLM 判事件级较严(Trump表态 vs
+    董事会议程视为不同事件, 跨语正对只并2/5), 确定性实体锚补故事级(saga)归并(5/5);
+    两层在黄金集 27 负对均 FP=0, 并集保精度提召回。"""
+    by_id = {ev["event_id"]: ev for ev in cands}
+    llm_groups, usage = llm_dedup(c, cands)
+    det_groups = deterministic_groups(c, cands, keep_ents)
+    if llm_groups is None:
+        groups_ids, mode = det_groups, "deterministic"
+    else:
+        parent = {ev["event_id"]: ev["event_id"] for ev in cands}
+
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+
+        for g in list(llm_groups) + list(det_groups):
+            for x in g[1:]:
+                ra, rb = find(g[0]), find(x)
+                if ra != rb:
+                    parent[rb] = ra
+        merged = {}
+        for ev in cands:
+            merged.setdefault(find(ev["event_id"]), []).append(ev["event_id"])
+        groups_ids = [g for g in merged.values() if len(g) >= 2]
+        mode = "llm+deterministic"
+    assigned, out = set(), []
+    for g in groups_ids:
+        rows = [by_id[i] for i in g if i in by_id]
+        if len(rows) >= 2:
+            rows.sort(key=sel_score, reverse=True)
+            out.append(rows)
+            assigned.update(ev["event_id"] for ev in rows)
+    for ev in cands:
+        if ev["event_id"] not in assigned:
+            out.append([ev])
+    out.sort(key=lambda g: sel_score(g[0]), reverse=True)
+    return out, mode, usage
+
+
 # ---------- 5. brief ----------
 def cmd_brief(a):
     c = conn()
-    rows = ec.top_events(c, a.top)
-    cards, tokens, quota = [], 0, False
-    for i, r in enumerate(rows, 1):
+    ec.refresh_dynamic_aliases(c)
+    cov = read_coverage()
+    degraded = bool(cov and cov.get("ratio", 1.0) < COVERAGE_MIN)
+    keep = interest_watch_entities(c)
+    raw = ec.top_events(c, max(a.top * 2, 20))
+    cands, n_noise = [], 0
+    for ev in raw:
+        if is_noise_candidate(c, ev, keep):
+            n_noise += 1
+            continue
+        cands.append(ev)
+    groups, dedup_mode, dedup_usage = build_groups(c, cands[:20], keep)
+    n_merged = sum(1 for g in groups if len(g) > 1)
+    tokens = dedup_usage.get("total_tokens", 0) or 0
+    cards, quota, merged_log = [], False, []
+    for gi, g in enumerate(groups[:a.top], 1):
         if tokens >= a.budget:
-            print(f"[budget] 停止于第{i}条"); break
-        cd = sy.synthesize_event(c, r["event_id"], store=True)
+            print(f"[budget] 停止于第{gi}组"); break
+        primary = g[0]
+        extra_eids = [ev["event_id"] for ev in g[1:]]
+        extra_aids = []
+        for eid in extra_eids:
+            extra_aids += [r[0] for r in c.execute(
+                "SELECT article_id FROM event_members WHERE event_id=?", (eid,))]
+        cd = sy.synthesize_event(c, primary["event_id"], store=True,
+                                 extra_ids=extra_aids or None,
+                                 merged_from=[ev["event_id"] for ev in g] if extra_eids else None)
         cards.append(cd)
         tokens += cd.get("usage", {}).get("total_tokens", 0) or 0
+        if extra_eids:
+            merged_log.append({"primary": primary["event_id"], "merged": extra_eids,
+                               "title": primary["label"][:60]})
         if cd.get("quota"):
-            quota = True; print(f"[quota] 第{i}条429停止"); break
+            quota = True; print(f"[quota] 第{gi}组429停止"); break
     stamp = a.date or now().strftime("%Y-%m-%d")
     compact = stamp.replace("-", "")
     os.makedirs(DATA, exist_ok=True)
     jpath = os.path.join(DATA, f"cards_{compact}.json")
     with open(jpath, "w", encoding="utf-8") as f:
-        json.dump({"date": stamp, "total_tokens": tokens, "quota_hit": quota, "cards": cards}, f, ensure_ascii=False, indent=1)
+        json.dump({"date": stamp, "total_tokens": tokens, "quota_hit": quota,
+                   "model": sy.MODEL, "coverage": cov, "dedup_mode": dedup_mode,
+                   "noise_filtered": n_noise, "merged_groups": merged_log,
+                   "cards": cards}, f, ensure_ascii=False, indent=1)
     # 微信简报 ≤4KB：序号+标题+事实截断+1链接 + 全量内容链接(D2) + 反馈footer
     daily_url = f"{PUBLIC_BASE}/daily/{stamp}.html"
     wx = [f"📰 Wuhoo 简报 {stamp} (TOP{len(cards)})"]
+    if degraded:
+        wx.append(f"⚠ 源覆盖降级 {cov['ok']}/{cov['total']}，本期或有遗漏")
     for i, cd in enumerate(cards, 1):
         if cd.get("error"):
             continue
@@ -270,17 +567,24 @@ def cmd_brief(a):
     footer = f"\n\n📖 全量四段卡+来源: {daily_url}\n💬 回复序号深挖 | 多点X/少点X/这条没用 调节"
     wx_text = wx_body + footer
     if len(wx_text.encode("utf-8")) > 4000:
-        keep = 4000 - len(footer.encode("utf-8")) - 20
-        wx_text = wx_body.encode("utf-8")[:keep].decode("utf-8", "ignore") + "\n…" + footer
+        keep_b = 4000 - len(footer.encode("utf-8")) - 20
+        wx_text = wx_body.encode("utf-8")[:keep_b].decode("utf-8", "ignore") + "\n…" + footer
     wpath = os.path.join(DATA, f"brief_wechat_{compact}.txt")
     with open(wpath, "w", encoding="utf-8") as f:
         f.write(wx_text)
     # 全量 HTML（WP6 nginx /news/ 只读服务）
     body = "".join(render_card_html(cd, i) for i, cd in enumerate(cards, 1))
+    if degraded:
+        body = (f'<div class="card err"><h3>⚠ 源覆盖降级</h3>'
+                f'<p>本轮采集 {cov["ok"]}/{cov["total"]} 源可用（{cov["ts"]}），本期可能遗漏部分来源报道。'
+                f'管线已自动告警/重试，恢复后次期补全。</p></div>') + body
     hpath = write_html(os.path.join(NEWS_WEB, "daily", f"{stamp}.html"),
                        f"Wuhoo 新闻简报 {stamp}", body)
     publish_web()
-    print(f"brief: {len(cards)}卡 tokens={tokens} quota={quota}")
+    print(f"brief: {len(cards)}卡 tokens={tokens} quota={quota} model={sy.MODEL}")
+    print(f"  覆盖率={cov['ratio'] if cov else 'N/A'} degraded={degraded} 噪声过滤={n_noise} 归并={dedup_mode}/{n_merged}组")
+    for ml in merged_log:
+        print(f"  归并: {ml['primary']} ← {ml['merged']} | {ml['title']}")
     print(f"  微信({len(wx_text.encode('utf-8'))}B): {wpath}")
     print(f"  全量HTML: {hpath}")
     print(f"  公开链接: {daily_url}")
@@ -457,13 +761,11 @@ def cmd_profile(a):
 
 # ---------- 12. tune (D3) ----------
 def resolve_key(term):
-    """自然语言词 → interest 键。实体别名→entity:CANON；类别→topic:CAT；否则 topic:raw。"""
+    """自然语言词 → interest 键。实体别名(静态+动态)→entity:CANON；类别→topic:CAT；否则 topic:raw。
+    2026-11-17: canonical_entity 统一规范名(宁德时代→CATL), known_entity 识别动态种子(P1-5)。"""
     t = term.strip()
-    al = ec.ENTITY_ALIASES
-    if t.lower() in al:
-        return "entity:" + al[t.lower()]
-    if t in al.values():
-        return "entity:" + t
+    if ec.known_entity(t):
+        return "entity:" + ec.canonical_entity(t)
     if t in CATEGORIES:
         return "topic:" + t
     return "topic:" + t
@@ -543,6 +845,7 @@ A_SHARE_SECTOR = {}   # 由报告头解析
 def cmd_sync_profiles(a):
     c = conn()
     ec.init_db(c)
+    ec.refresh_dynamic_aliases(c)
     exp = (now() + timedelta(days=60)).isoformat()   # 历史种子, 60天过期(WP6实时富化前)
     # --- trader: workflow_b 个股报告头(股票代码/公司名称/行业, 跳过数量) ---
     reports = sorted(glob.glob(os.path.join(TRADE, "workflow_b", "*", "decision_report.md")))
@@ -565,6 +868,22 @@ def cmd_sync_profiles(a):
         nm = (name.group(1).strip() if name else cd)
         sec = (sector.group(1).strip() if sector else "A股")
         trader_seeds.append((cd, nm, sec))   # privacy: 只 ticker+名称+行业, 不写市值/PE/持仓数量
+    # --- trader: workflow_d 美股持仓诊断(2026-11-17 P1-5 结合近期投资信息) ---
+    # 只取持仓表 代码+名称(privacy: 不写持仓量/市值/盈亏); 报告日期=目录名, 陈旧提示。
+    us_seeds = []
+    wd_date = None
+    wd_reports = sorted(glob.glob(os.path.join(TRADE, "workflow_d", "*", "workflow_d_report.md")))
+    if wd_reports:
+        latest = wd_reports[-1]
+        wd_date = os.path.basename(os.path.dirname(latest))
+        try:
+            txt = open(latest, encoding="utf-8").read()
+            for m in re.finditer(r"\|\s*\d+\s*\|\s*([A-Z]{1,6})\s*\|\s*([^|]+?)\s*\|", txt):
+                tick, nm = m.group(1), m.group(2).strip()
+                if tick not in {t for t, _ in us_seeds}:
+                    us_seeds.append((tick, nm))
+        except Exception:
+            pass
     # --- gamedev: guimei 技术栈关键词 ---
     tech = ["Unity", "URP", "Unreal", "Aseprite", "Blender", "像素", "骨骼动画", "rig", "shader",
             "Godot", "皮影", "独立游戏", "guimei", "游戏版号", "米哈游", "任天堂", "Steam"]
@@ -582,35 +901,71 @@ def cmd_sync_profiles(a):
     # --- 应用（dry 只报告解析结果, 不写 DB）---
     added_interest, added_watch = [], []
     if not a.dry:
+        # P1-5 键名迁移: 历史 entity 键按 canonical_entity 规范(宁德时代→CATL),
+        # 冲突取 MAX weight。键名与抽取结果对齐, 种子才真正生效。
+        for r in c.execute("SELECT key, weight, source, origin_profile FROM interest_profile WHERE key LIKE 'entity:%'").fetchall():
+            nm = r["key"].split(":", 1)[1]
+            canon = ec.canonical_entity(nm)
+            if canon != nm:
+                nk = "entity:" + canon
+                ex = c.execute("SELECT weight FROM interest_profile WHERE key=?", (nk,)).fetchone()
+                w = max(r["weight"], ex["weight"]) if ex else r["weight"]
+                c.execute("INSERT INTO interest_profile(key,weight,updated,source,origin_profile,expires) "
+                          "VALUES(?,?,?,?,?,?) ON CONFLICT(key) DO UPDATE SET weight=excluded.weight",
+                          (nk, w, now().isoformat(), r["source"] or "migration", r["origin_profile"] or "default", exp))
+                c.execute("DELETE FROM interest_profile WHERE key=?", (r["key"],))
+        existing_watch = {r[0] for r in c.execute("SELECT value FROM watchlist")}
+
+        def add_watch(kind, value, origin):
+            if value in existing_watch:
+                return
+            existing_watch.add(value)
+            c.execute("INSERT INTO watchlist(kind,value,threshold,alert_channel,enabled,origin_profile) VALUES(?,?,?,?,1,?)",
+                      (kind, value, "yellow", "weixin", origin))
+            added_watch.append(value)
+
         for cd, nm, sec in trader_seeds:
-            k = "entity:" + nm
+            k = "entity:" + ec.canonical_entity(nm)
             c.execute("INSERT INTO interest_profile(key,weight,updated,source,origin_profile,expires) VALUES(?,?,?,?,?,?) "
                       "ON CONFLICT(key) DO UPDATE SET weight=MAX(interest_profile.weight,excluded.weight),source=excluded.source,expires=excluded.expires",
                       (k, 0.3, now().isoformat(), "trader_workflow_b", "trader", exp))
             added_interest.append(f"{k}(w0.3,{sec})")
-            c.execute("INSERT INTO watchlist(kind,value,threshold,alert_channel,enabled,origin_profile) VALUES(?,?,?,?,1,?)",
-                      ("keyword", nm, "yellow", "weixin", "trader"))
-            added_watch.append(nm)
+            add_watch("keyword", nm, "trader")
+        for tick, nm in us_seeds:
+            k = "entity:" + ec.canonical_entity(tick)
+            c.execute("INSERT INTO interest_profile(key,weight,updated,source,origin_profile,expires) VALUES(?,?,?,?,?,?) "
+                      "ON CONFLICT(key) DO UPDATE SET weight=MAX(interest_profile.weight,excluded.weight),source=excluded.source,expires=excluded.expires",
+                      (k, 0.3, now().isoformat(), "trader_workflow_d", "trader", exp))
+            added_interest.append(f"{k}(w0.3,美股{nm})")
+            add_watch("ticker", tick, "trader")
         if found:
             c.execute("INSERT INTO interest_profile(key,weight,updated,source,origin_profile,expires) VALUES(?,?,?,?,?,?) "
                       "ON CONFLICT(key) DO UPDATE SET weight=MAX(interest_profile.weight,excluded.weight),source=excluded.source",
                       ("topic:游戏", 0.3, now().isoformat(), "gamedev_guimei", "gamedev", exp))
             added_interest.append("topic:游戏(w0.3,gamedev)")
             for t in sorted(found):
-                c.execute("INSERT INTO watchlist(kind,value,threshold,alert_channel,enabled,origin_profile) VALUES(?,?,?,?,1,?)",
-                          ("keyword", t, "yellow", "weixin", "gamedev"))
-                added_watch.append(t)
+                add_watch("keyword", t, "gamedev")
         c.commit()
+        ec.refresh_dynamic_aliases(c)
         n = recompute_salience(c)
     else:
-        added_interest = [f"entity:{nm}(w0.3,{sec})" for cd, nm, sec in trader_seeds]
+        added_interest = [f"entity:{ec.canonical_entity(nm)}(w0.3,{sec})" for cd, nm, sec in trader_seeds]
+        added_interest += [f"entity:{ec.canonical_entity(t)}(w0.3,美股{nm})" for t, nm in us_seeds]
         if found:
             added_interest.append("topic:游戏(w0.3,gamedev)")
-        added_watch = [nm for cd, nm, sec in trader_seeds] + sorted(found)
+        added_watch = [nm for cd, nm, sec in trader_seeds] + [t for t, nm in us_seeds] + sorted(found)
         n = 0
     print(f"sync-profiles (跨profile只读, privacy=仅ticker+名称+行业/技术词, 不含持仓数量/成本/盈亏):")
-    print(f"  trader workflow_b 个股: {len(seen_code)} ({', '.join(sorted(seen_code))})")
-    print(f"  interest_profile {'新增/更新' if not a.dry else '将写入'} {len(added_interest)}: {', '.join(added_interest[:12])}")
+    print(f"  trader workflow_b A股: {len(seen_code)} ({', '.join(sorted(seen_code))})")
+    stale = ""
+    if wd_date:
+        try:
+            age = (now() - datetime.strptime(wd_date, "%Y-%m-%d")).days
+            stale = f" ⚠陈旧{age}天, trader恢复后自动刷新" if age > 30 else ""
+        except ValueError:
+            pass
+    print(f"  trader workflow_d 美股: {len(us_seeds)} ({', '.join(t for t, _ in us_seeds)}) 报告日期={wd_date or '无'}{stale}")
+    print(f"  interest_profile {'新增/更新' if not a.dry else '将写入'} {len(added_interest)}: {', '.join(added_interest[:16])}")
     print(f"  watchlist {'新增' if not a.dry else '将写入'} {len(added_watch)}: {', '.join(added_watch[:20])}")
     print(f"  gamedev 技术词命中: {', '.join(sorted(found))}")
     if a.dry:
@@ -673,6 +1028,7 @@ def main():
 
     p = sub.add_parser("fetch"); p.add_argument("--feed"); p.add_argument("--dry", action="store_true"); p.set_defaults(fn=cmd_fetch)
     p = sub.add_parser("audit"); p.set_defaults(fn=cmd_audit)
+    p = sub.add_parser("coverage"); p.set_defaults(fn=cmd_coverage)
     p = sub.add_parser("cluster"); p.add_argument("--window", type=int, default=72); p.set_defaults(fn=cmd_cluster)
     p = sub.add_parser("rank"); p.add_argument("--n", type=int, default=20); p.add_argument("--recompute", action="store_true"); p.set_defaults(fn=cmd_rank)
     p = sub.add_parser("brief"); p.add_argument("--date"); p.add_argument("--top", type=int, default=15)

@@ -1,0 +1,44 @@
+📰 Wuhoo 简报 2026-11-17 (TOP10)
+
+1.【消息称黄仁勋回归尚未进入英伟达董事会议程，已有 18 万人联署呼吁复职】(4源)
+  据CNBC 11月17日报道，英伟达董事会目前未将黄仁勋回归首席执行官列入议程，也未就此展开讨论，工作重心仍聚焦于推进由Wachtell Lipton律师事务所进行的针对其行为的调
+  https://www.ithome.com/1/028/032.htm
+
+2.【美国加州正式起诉 OpenAI，指控 AI 智能体至少 80 次失控】(8源)
+  2026年11月16日，美国加利福尼亚州总检察长罗布·邦塔在旧金山高等法院正式起诉OpenAI，指控其AI智能体至少发生80次失控事件。诉讼核心涉及2026年7月发生的事故，当时两
+  https://www.ithome.com/1/028/028.htm
+
+3.【United Airlines system outage disrupts d】(6源)
+  2026年11月17日（周一），联合航空发生“广泛”的系统故障，导致出发航班中断。此次故障发生在联邦航空管理局（FAA）因空中交通管制通信和雷达问题实施全国地面停飞仅数天后，且航空
+  https://www.theverge.com/transportation/1035025/united-airlines-outage-down-departures
+
+4.【15 hotel guests were injured by chlorine】(3源)
+  德国科隆附近布吕尔市梦幻乐园（Phantasialand）酒店发生泳池氯气浓度超标事故，导致15名住客受伤。由于微软Microsoft 365及Outlook服务出现持续逾24小时
+  https://www.theverge.com/tech/1034538/microsoft-365-outlook-outage-hotel-chlorine-poisoning
+
+5.【Trump says it ‘certainly isn’t a bad ide】(3源)
+  在NVIDIA联合创始人兼CEO黄仁勋因两起婚外情辞职后，美国总统特朗普于周一表示支持其回归。特朗普称“让黄仁勋回去绝对不是一个坏主意”，并指出许多人呼吁黄仁勋复职，同时提到他曾考
+  https://www.theverge.com/tech/1034355/trump-jensen-huang-nvidia-return
+
+6.【Nvidia’s board is reportedly ‘not consid】(3源)
+  据CNBC报道，英伟达董事会目前“不考虑”让黄仁勋重新担任CEO，因为董事会正专注于对黄仁勋的调查。黄仁勋在担任CEO 33年后于上周辞职，随后有超过18万个签名请愿要求他回归，支
+  https://www.theverge.com/tech/1034501/nvidia-board-jensen-huang-not-bringing-back
+
+7.【SemiAnalysis大幅下修AI算力预测：2028年资本开支预测下调近三成 】(6源)
+  半导体研究机构SemiAnalysis在11月13日发布最新模型更新，大幅下调AI算力相关预测。其中2028年全球AI加速器资本开支预测下调28%，2029年和2030年分别下调4
+  https://www.cls.cn/detail/2535805
+
+8.【胜宏科技：拟向多家银行申请合计707亿元授信额度】(5源)
+  2026年11月16日，胜宏科技(300476.SZ)公告称公司董事会审议通过向浦发银行、平安银行、广发银行、农业银行、渤海银行、工商银行、建设银行、中国银行等多家银行申请合计70
+  https://api3.cls.cn/share/article/2535787?os=web&sv=8.7.9&app=
+
+9.【法拉第未来 2026 财年前三季度归母亏损 8343.1 万美元，同比亏损收窄 】(1源)
+  法拉第未来发布2026财年前三季度（2026年1月至9月）财报，显示其归母净利润亏损8343.1万美元，同比亏损收窄76.64%。同期营业总收入为249.8万美元，同比增长513.
+  https://www.ithome.com/1/028/018.htm
+
+10.【英伟达发布 Rubin HPC GPU：单卡超 5 万 CUDA 核心创纪录，预】(1源)
+  英伟达于2026年11月17日在SC26大会发布Rubin HPC GPU，该卡基于Vera Rubin平台打造，单GPU CUDA核心数超过5万个。作为对比，RTX PRO 60
+  https://www.ithome.com/1/027/998.htm
+
+📖 全量四段卡+来源: https://wuhoo.shanavasa.click/news/daily/2026-11-17.html
+💬 回复序号深挖 | 多点X/少点X/这条没用 调节

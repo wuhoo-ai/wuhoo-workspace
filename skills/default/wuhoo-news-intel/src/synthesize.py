@@ -14,6 +14,7 @@ import os
 import sys
 import json
 import re
+import time
 import argparse
 import urllib.request
 import urllib.error
@@ -24,7 +25,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import event_center as ec
 
 BASE = "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
-MODEL = "qwen3.8-flash"
+# 2026-11-17 用户拍板: 生产模型 qwen4-max(效果优先档)。wire shape 与 qwen3.8 相同,
+# reasoning_effort=none + thinking.disabled 实测 200 且无 reasoning tokens(探针验证)。
+MODEL = "qwen4-max"
 ENV_PATH = os.path.expanduser("~/.hermes/.env")
 DATA_DIR = os.path.join(ec.HOME, "wuhoo-workspace/skills/default/wuhoo-news-intel/data")
 
@@ -63,7 +66,8 @@ _KEY = None
 
 
 def call_qwen(system, user, max_tokens=520, temperature=0.2):
-    """关思考调用 qwen3.8-flash。返回 {content,usage} 或 {error,quota}。"""
+    """关思考调用 qwen4-max(MODEL常量)。返回 {content,usage} 或 {error,quota}。
+    429 退避重试(15/30/60s)后才标 quota——瞬时 RPM/TPM 限流不应停掉整个构建。"""
     global _KEY
     if _KEY is None:
         _KEY = load_key()
@@ -85,7 +89,10 @@ def call_qwen(system, user, max_tokens=520, temperature=0.2):
         "Authorization": "Bearer " + _KEY,
     })
     last = None
-    for attempt in range(2):
+    attempt = 0
+    i429 = 0
+    backoff_429 = (15, 30, 60)
+    while attempt < 2:
         try:
             with urllib.request.urlopen(req, timeout=90) as resp:
                 r = json.loads(resp.read())
@@ -96,12 +103,19 @@ def call_qwen(system, user, max_tokens=520, temperature=0.2):
         except urllib.error.HTTPError as e:
             body = e.read().decode("utf-8", "replace")[:300]
             if e.code == 429:
+                # 2026-11-18: 429 多为瞬时限流(门户v3构建实测), 先退避重试不消耗 attempt;
+                # 连续失败才标 quota(真配额耗尽语义保留, Budget.quota 停止后续合成)。
+                if i429 < len(backoff_429):
+                    time.sleep(backoff_429[i429])
+                    i429 += 1
+                    continue
                 return {"error": "429 quota/rate", "quota": True, "detail": body}
             last = {"error": f"HTTP {e.code}", "detail": body}
             if e.code < 500:
                 return last
         except Exception as e:
             last = {"error": type(e).__name__ + ": " + str(e)[:200]}
+        attempt += 1
     return last or {"error": "unknown"}
 
 
@@ -171,13 +185,22 @@ def verify_numbers(fact, corpus, refdate=""):
     return unverified
 
 
-def gather_context(conn, event_id):
+def gather_context(conn, event_id, extra_ids=None):
+    """extra_ids: brief 层同故事归并(P0-2)时并入的其他事件成员文章 id, 语料/实体/链接取并集。"""
     ev = conn.execute("SELECT * FROM events WHERE event_id=?", (event_id,)).fetchone()
     if not ev:
         return None
     members = conn.execute(
         "SELECT a.* FROM event_members m JOIN articles a ON a.id=m.article_id "
         "WHERE m.event_id=? ORDER BY m.similarity DESC", (event_id,)).fetchall()
+    if extra_ids:
+        have = {a["id"] for a in members}
+        extra_rows = []
+        for i in range(0, len(extra_ids), 500):
+            ch = extra_ids[i:i + 500]
+            qm = ",".join("?" * len(ch))
+            extra_rows += conn.execute(f"SELECT * FROM articles WHERE id IN ({qm})", ch).fetchall()
+        members = list(members) + [a for a in extra_rows if a["id"] not in have]
     if not members:
         return None
     canon = None
@@ -245,18 +268,23 @@ def collect_links(ctx):
     return urls
 
 
-def synthesize_event(conn, event_id, dry=False, store=True):
-    ctx = gather_context(conn, event_id)
+def synthesize_event(conn, event_id, dry=False, store=True, extra_ids=None, merged_from=None):
+    ctx = gather_context(conn, event_id, extra_ids=extra_ids)
     if not ctx:
         return {"event_id": event_id, "error": "no event/members"}
     ev, canon = ctx["ev"], ctx["canon"]
     user = build_user_prompt(ctx)
+    # 归并卡(P0-2)独立源数按成员并集重算(通讯社归并); 未归并沿用事件落库值
+    n_indep = (len({ec.wire_key(a["feed_name"]) for a in ctx["members"]})
+               if extra_ids else ev["n_indep_sources"])
     base = {
         "event_id": event_id, "title": ev["label"], "topic": ev["topic"],
-        "n_indep": ev["n_indep_sources"], "salience": ev["salience"],
+        "n_indep": n_indep, "salience": ev["salience"],
         "primary_entities": ctx["primary"][:8], "incidental_entities": ctx["incidental"][:8],
         "canonical_feed": canon["feed_name"], "links": collect_links(ctx),
     }
+    if merged_from:
+        base["merged_from"] = merged_from
     if dry:
         base["prompt_user"] = user
         base["dry"] = True
@@ -317,6 +345,7 @@ def main():
     ap.add_argument("--budget", type=int, default=90000)
     a = ap.parse_args()
     conn = ec.get_conn()
+    ec.refresh_dynamic_aliases(conn)
     os.makedirs(a.out, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d")
 

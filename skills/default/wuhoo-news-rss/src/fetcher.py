@@ -161,9 +161,12 @@ def fetch_feed(feed_cfg: dict, timeout: int = 30, retries: int = 3) -> Optional[
     url = feed_cfg["url"]
     name = feed_cfg["name"]
 
+    # 按源 UA 覆盖(2026-11-18): 部分源站(Endpoints/InsideEVs)对非浏览器 UA 返回 403 错误页
+    # 或 200 HTML 挑战页, feedparser 当 XML 解析报 mismatched tag。config 可配 user_agent 字段。
+    ua = feed_cfg.get("user_agent") or "wuhoo-news-rss/1.0 (+https://github.com/wuhoo/openclaw)"
     for attempt in range(retries):
         try:
-            headers = {"User-Agent": "wuhoo-news-rss/1.0 (+https://github.com/wuhoo/openclaw)"}
+            headers = {"User-Agent": ua}
             result = feedparser.parse(url, request_headers=headers)
 
             if result.bozo and not result.entries:

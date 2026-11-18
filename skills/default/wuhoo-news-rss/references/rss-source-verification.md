@@ -43,6 +43,19 @@ curl -sL "http://127.0.0.1:1200/dongqiudi/daily" | head -50
 # 检查: 是否返回有效 RSS XML? 内容是否相关? item 数量?
 ```
 
+**HTTP 200 + XML 形态检查不够——必须用生产 UA 做完整 feedparser 解析**（2026-11-18 起强制）：
+
+```python
+# python3.11 (有 feedparser)
+import feedparser
+d = feedparser.parse(url, request_headers={
+    "User-Agent": "wuhoo-news-rss/1.0 (+https://github.com/wuhoo/openclaw)"})  # fetcher 生产 UA
+assert not d.bozo and len(d.entries) > 0   # bozo=True 即解析失败, 不可入库
+```
+
+源站可能按 UA 判别返回不同内容（403 错误页 / 200 HTML 挑战页），浏览器 UA 探测通过
+不代表生产 UA 能通过。解析失败但浏览器 UA 正常 → config 该源加 `user_agent` 覆盖（见陷阱 5）。
+
 ### Step 5: 分类结果
 
 | HTTP Code | 含义 | 处理 |
@@ -86,3 +99,4 @@ curl -sL "http://127.0.0.1:1200/dongqiudi/daily" | head -50
 2. **部分路由需要 URL 参数** — 例如 `dongqiudi/special/1` 503 但 `dongqiudi/daily` 200
 3. **RSSHub Debug Info 中的 `Hot Error Routes` 列表很有价值** — 从中可以发现用户试图使用但失败的路由，可作为替代方案的参考
 4. **原生 RSS 源和 RSSHub 路由可能返回不同内容** — BBC Sport 原生 RSS 和 RSSHub 路由内容不同，都值得加入
+5. **源站按 UA 判别返回不同内容（2026-11-18 实证）** — Endpoints News 对 fetcher 默认 UA `wuhoo-news-rss/1.0 (+github...)` 返回 403 错误页、InsideEVs 返回 200 HTML 挑战页，feedparser 当 XML 解析均报 `mismatched tag`；而 Mozilla 兼容 UA 探测 200+有效 RSS（24/20 条）。修复：config.yaml 该源条目加 `user_agent: "Mozilla/5.0 (compatible; wuhoo-news-rss/1.0)"`（fetch_feed 2026-11-18 起支持按源覆盖，未配置保持默认 UA，不影响其他源）。**勿改全局 UA**——其余 103 源用默认 UA 正常，全局改动爆炸半径大。回归测试 `tests/test_news_rss.py::TestFetchFeedUAOverride20261118`。

@@ -27,7 +27,7 @@ feeds:
   - 深度
   status: ✅ 新增 (2026-06-18, 战术分析)
 - name: Sky Sports Football
-  url: https://www.skysports.com/rss/12040
+  url: https://www.skysports.com/rss/11095  # 2026-11-18: 12040实为综合体育频道(混板球ODI/F1/赛马), 11095纯足球(实测Nations League等)
   category: 足球
   tags:
   - 足球
@@ -767,6 +767,148 @@ feeds:
   - 渲染
   - 论文
   status: ✅ WP0新增 (2026-11-16, 实测OK, T0)
+- name: Endpoints News
+  url: https://endpts.com/feed/
+  user_agent: "Mozilla/5.0 (compatible; wuhoo-news-rss/1.0)"
+  category: 医药
+  tier: T2
+  tags:
+  - 医药
+  - 生物
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/24items, 医药深度; 源站拦非浏览器UA→user_agent覆盖)
+- name: STAT News
+  url: https://www.statnews.com/feed/
+  category: 医药
+  tier: T2
+  tags:
+  - 医药
+  - 健康
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/20items)
+- name: CnEVPost
+  url: https://cnevpost.com/feed/
+  category: 新能源
+  tier: T2
+  tags:
+  - 新能源
+  - 电动车
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/50items, 中国电动车)
+- name: InsideEVs
+  url: https://insideevs.com/rss/articles/all/
+  user_agent: "Mozilla/5.0 (compatible; wuhoo-news-rss/1.0)"
+  category: 新能源
+  tier: T2
+  tags:
+  - 新能源
+  - 电动车
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/20items; 源站对非浏览器UA回HTML挑战页→user_agent覆盖)
+- name: Cointelegraph
+  url: https://cointelegraph.com/rss
+  category: 加密
+  tier: T2
+  tags:
+  - 加密
+  - 区块链
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/30items)
+- name: Decrypt
+  url: https://decrypt.co/feed
+  category: 加密
+  tier: T2
+  tags:
+  - 加密
+  - 区块链
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/37items)
+- name: PANews
+  url: http://127.0.0.1:1200/panewslab/news
+  category: 加密
+  tier: T2
+  tags:
+  - 加密
+  - 中文
+  - RSSHub
+  status: ✅ 新增 (2026-11-18, 实测200/50items, 中文链媒)
+- name: Odaily星球日报
+  url: http://127.0.0.1:1200/odaily/newsflash
+  category: 加密
+  tier: T2
+  tags:
+  - 加密
+  - 中文
+  - RSSHub
+  - 快讯
+  status: ✅ 新增 (2026-11-18, 实测200/100items)
+- name: Product Hunt
+  url: https://www.producthunt.com/feed
+  category: 科技
+  tier: T4
+  tags:
+  - 产品
+  - AI
+  - 独立开发
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/50items, 补热榜盲区8/15)
+- name: GameLook
+  url: http://www.gamelook.com.cn/feed
+  category: 游戏
+  tier: T4
+  tags:
+  - 游戏
+  - 产业
+  - 中文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/15items, 游戏大观)
+- name: IGN
+  url: https://feeds.feedburner.com/ign/games-all  # 2026-11-18: ign/all混影视娱乐(James Bond选角等), games-all纯游戏(实测20条全游戏)
+  category: 游戏
+  tier: T4
+  tags:
+  - 游戏
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/20items)
+- name: 机核
+  url: https://www.gcores.com/rss
+  category: 游戏
+  tier: T4
+  tags:
+  - 游戏
+  - 文化
+  - 中文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/20items)
+- name: Defense News
+  url: https://www.defensenews.com/arc/outboundfeeds/rss/
+  category: 军工
+  tier: T2
+  tags:
+  - 军工
+  - 国防
+  - 地缘
+  - 英文
+  - 原生
+  status: ✅ 新增 (2026-11-18, 实测200/10items, 军工用户提权)
+- name: 澎湃新闻
+  url: http://127.0.0.1:1200/thepaper/featured
+  category: 综合
+  tier: T2
+  tags:
+  - 社会
+  - 中文
+  - RSSHub
+  - 深度
+  status: ✅ 新增 (2026-11-18, 实测200/21items, 补社会盲区)
 settings:
   rsshub_base: http://127.0.0.1:1200
   fetch_interval_minutes: 60
@@ -867,14 +1009,15 @@ feed_weights:
   arXiv 量化金融: 4
   知乎日报: 3
   集思录: 5
-  BBC Sport Football: 0
-  懂球帝早报: 0
-  Sky Sports Football: 0
-  The Guardian Football: 0
-  SoccerNews: 0
-  World Soccer Talk: 0
-  Football Italia: 0
-  Breaking The Lines: 0
+  BBC Sport Football: 6
+  懂球帝早报: 6
+  Sky Sports Football: 6
+  The Guardian Football: 6
+  SoccerNews: 6
+  World Soccer Talk: 6
+  Football Italia: 6
+  Breaking The Lines: 6
+  The Telegraph Football: 6
   阮一峰: 4
   云风 BLOG: 2
   唐巧: 2
@@ -912,3 +1055,17 @@ feed_weights:
   arXiv NLP: 5
   arXiv 机器学习: 5
   arXiv 图形学: 5
+  Endpoints News: 8
+  STAT News: 8
+  CnEVPost: 7
+  InsideEVs: 6
+  Cointelegraph: 7
+  Decrypt: 6
+  PANews: 7
+  Odaily星球日报: 7
+  Product Hunt: 6
+  GameLook: 7
+  IGN: 7
+  机核: 6
+  Defense News: 8
+  澎湃新闻: 7

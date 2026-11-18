@@ -13,7 +13,7 @@ groups:
     keywords: [美联储, 降息, 加息, CPI, 非农, 关税, 人民币, 央行, 鲍威尔, 国债收益率]
   - name: A股港股
     tickers: []
-    keywords: [A股, 沪指, 恒生, 北向资金, 涨停, 证监会, 沪深, 创业板, 科创板]
+    keywords: [A股, 沪指, 恒生, 北向资金, 涨停, 证监会, 沪深, 创业板, 科创板, 北交所, 新股, 申购, 中签]
   - name: 游戏开发
     tickers: []
     keywords: [Unity, Unreal, 虚幻引擎, Steam, 任天堂, 米哈游, 游戏版号, 像素, guimei, 独立游戏, Godot]

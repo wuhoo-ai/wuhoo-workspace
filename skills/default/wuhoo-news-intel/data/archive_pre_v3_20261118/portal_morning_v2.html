@@ -1,0 +1,901 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wuhoo 情报门户 · 2026-11-18 晨版</title><style>
+:root{--bg:#f5f6f8;--card:#fff;--fg:#1a1a1a;--muted:#6b7280;--line:#e5e7eb;--accent:#c0392b;
+--link:#2471a3;--chip:#eef2f7;--heat:#e74c3c;--bg-note:#fff8e1;--bg-note-fg:#8a6d3b}
+[data-theme=dark]{--bg:#111418;--card:#1b1f26;--fg:#e6e6e6;--muted:#9aa4b2;--line:#2c333d;
+--accent:#e74c3c;--link:#6cb2e8;--chip:#232a33;--heat:#e74c3c;--bg-note:#2a2416;--bg-note-fg:#d9b96c}
+*{box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;margin:0;background:var(--bg);
+color:var(--fg);line-height:1.7}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px 48px}
+@media(min-width:1500px){.wrap{max-width:1280px}}
+header{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);padding:8px 14px}
+.topline{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-bottom:6px}
+.datelabel{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+#dateSelect{min-height:44px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:14px;
+background:var(--card);color:var(--fg);max-width:230px}
+.hrow{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+h1{font-size:19px;margin:0;color:var(--accent);white-space:nowrap}
+.badge{font-size:12px;padding:2px 8px;border-radius:10px;background:var(--chip);color:var(--muted)}
+.badge.warn{background:#fdecea;color:#c0392b}
+[data-theme=dark] .badge.warn{background:#3a2220;color:#f0a09a}
+.spacer{flex:1}
+button,.tab{min-height:44px;min-width:44px;border:1px solid var(--line);background:var(--card);
+color:var(--fg);border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer}
+#search{min-height:44px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px;
+background:var(--card);color:var(--fg);width:180px}
+nav{max-width:1200px;margin:8px auto 0;display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;align-items:center}
+.navbtn{flex:0 0 auto;font-size:16px;padding:8px 10px}
+.tab{white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;font-size:13px}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.page{display:none}
+.page.active{display:block}
+section{margin-top:22px;scroll-margin-top:160px}
+h2{font-size:18px;border-left:4px solid var(--accent);padding-left:10px;margin:0 0 10px}
+.digest{font-size:14px;color:var(--muted);background:var(--card);border:1px solid var(--line);
+border-radius:8px;padding:10px 12px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card details{margin:0}
+.card summary{list-style:none;cursor:pointer;padding:12px 14px;min-height:44px}
+.card summary::-webkit-details-marker{display:none}
+.ctitle{font-size:16px;font-weight:600;margin:0 0 4px}
+.rank{color:var(--accent);font-weight:700;margin-right:4px}
+.cfact{font-size:13px;color:var(--muted);margin:0 0 6px}
+.meta{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{background:var(--chip);border-radius:8px;padding:1px 7px;font-size:11px}
+.hot{background:#fdecea;color:#c0392b;border-radius:8px;padding:1px 7px;font-size:11px}
+[data-theme=dark] .hot{background:#3a2220;color:#f0a09a}
+.heatbar{height:4px;background:var(--chip);border-radius:2px;margin:6px 0 0}
+.heatbar i{display:block;height:4px;background:var(--heat);border-radius:2px}
+.cbody{padding:0 14px 12px;border-top:1px solid var(--line);font-size:14px}
+.cbody p{margin:8px 0}
+.card.compact .cbody{font-size:13px}
+.bg-note{background:var(--bg-note);color:var(--bg-note-fg);border-radius:8px;padding:8px 10px;font-size:13px}
+.div{color:#b9770e}.warn{color:var(--accent)}
+.links{font-size:13px;padding-left:18px;margin:6px 0}.links a{color:var(--link);word-break:break-all}
+.links .chip{margin-left:6px}
+.overview{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.mainline{font-size:15px;font-weight:600;margin:0 0 10px}
+.ovpoints{margin:0;padding-left:22px}
+.ovpoints li{margin:8px 0;font-size:14px}
+.ovpoints li b{color:var(--accent);margin-right:6px}
+.watch{font-size:13px;color:var(--muted);margin:10px 0 0;border-top:1px dashed var(--line);padding-top:8px}
+.ovtext{font-size:14px;margin:0}
+.radar{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.tile h4{margin:0 0 6px;font-size:14px}
+.tile ul{margin:0;padding-left:16px;font-size:13px}
+.tile a{color:var(--link)}
+.empty{color:var(--muted);font-size:13px}
+table.hot{width:100%;border-collapse:collapse;font-size:13px;background:var(--card)}
+table.hot th,table.hot td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+.banner{background:#fdecea;color:#c0392b;border-radius:8px;padding:10px 12px;margin:12px 0;font-size:14px}
+[data-theme=dark] .banner{background:#3a2220;color:#f0a09a}
+footer{font-size:12px;color:var(--muted);margin-top:30px;text-align:center;border-top:1px solid var(--line);padding-top:14px}
+a{color:var(--link)}
+.archlist{font-size:13px;padding-left:18px}
+</style></head><body>
+<header>
+<div class="topline"><label class="datelabel">📅 回看 <select id="dateSelect" aria-label="选择日期"><option value="/news/portal/2026-11-18-morning.html" selected>2026-11-18 晨版</option><option value="/news/portal/2026-11-17-evening.html">2026-11-17 晚版</option><option value="/news/portal/2026-11-17-morning.html">2026-11-17 晨版</option><option value="/news/daily/2026-11-16t.html">2026-11-16t 简报</option><option value="/news/daily/2026-11-16.html">2026-11-16 简报</option></select></label>
+<span class="badge">2026-11-18 晨版</span><span class="badge">源覆盖 85/91</span>
+<span class="badge">数据截至 11:24</span>
+<span class="badge"><a href="/news/portal/2026-11-18-morning.html" style="font-weight:700">晨版</a></span></div>
+<div class="hrow"><h1>Wuhoo 情报门户</h1><span class="spacer"></span>
+<input id="search" type="search" placeholder="搜索标题/实体…" aria-label="搜索">
+<span id="searchCount" class="badge"></span>
+<button id="expandAll" title="全部展开">展开</button>
+<button id="collapseAll" title="全部收起">收起</button>
+<button id="themeBtn">🌙 夜间</button></div>
+<nav><button id="prevPage" class="navbtn" title="上一页(←)">←</button><a class="tab active" href="#overview">总览</a><a class="tab" href="#cat-finance">财经</a><a class="tab" href="#cat-ai_tech">AI与科技</a><a class="tab" href="#cat-macro">宏观与政策</a><a class="tab" href="#cat-a_hk">A股港股</a><a class="tab" href="#cat-gaming">游戏</a><a class="tab" href="#cat-commodity">商品期货</a><a class="tab" href="#cat-crypto">加密</a><a class="tab" href="#cat-football">足球</a><a class="tab" href="#interest">兴趣深挖</a><a class="tab" href="#hotlist">热榜交叉</a><a class="tab" href="#archive">归档</a><button id="nextPage" class="navbtn" title="下一页(→)">→</button></nav>
+</header>
+<div class="wrap"><section id="overview" class="page active"><h2>今日总览 · 2026-11-18 晨版</h2><div class="overview"><p class="mainline">📌 主线 · 英伟达交出超预期财报的同时，最高权力交接与财务透明度收缩同步浮出水面，业绩高增与治理不确定性叠加，成为牵动全球风险资产定价的核心变量。</p><ol class="ovpoints"><li><b>千亿美元营收与管理层剧变同框</b><span>英伟达2027财年第三季度营收首次突破千亿美元、达到1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元、增长110%，第四季度指引1261亿至1339亿美元再创新高。但这是黄仁勋11月12日辞去总裁兼CEO后的首份财报，董事会主席琼斯确认其因个人行为不符合公司行为准则自愿辞职，董事会一致接受且不打算恢复其职位。业绩由临时CEO兼CFO主导发布，公司已聘请海德思哲遴选继任者并强调不赶时间，这意味着强劲数字背后的领导层真空短期内难以填补。</span></li><li><b>高利率压制与龙头指引拉锯</b><span>纽约联储主席威廉姆斯称通胀顽固地高企，把通胀降至2%仍有更多工作要做，10年期美债收益率维持在5%以上的天数逼近20年来最长记录。美股三大股指集体收跌，道指跌1.64%，标普500跌1.02%并连跌四日创9月以来最长连跌，纳指跌0.74%。不过芯片股尾盘拉升收窄跌幅，英伟达仅跌0.48%，盘后涨超4.4%，带动周三亚太盘初纳斯达克100股指期货涨超1.4%、日经225指数期货上涨1.9%，估值压力与业绩支撑正面对撞。</span></li><li><b>披露口径收缩叠加资金转向AI</b><span>据《金融时报》报道，英伟达在营收达到1040亿美元之际停止单独披露新加坡销售额，而此前该地区入账营收曾激增70%，透明度收缩与权力交接同时发生，放大了市场的疑虑。另一侧，比特币徘徊在64,500美元下方，Glassnode显示流通中约一半比特币处于浮亏，而9月底收于86,600美元时这一比例还不到四分之一，逢低买盘迟迟未现。Anthropic上市被视为投机资金新宠，OpenAI同期发布6.2 Sol与Astra两款模型，热度从加密向AI迁移的迹象值得留意。</span></li><li><b>A股解禁抛压对冲回购托底</b><span>今日8家公司合计92.51亿元市值限售股集中解禁，恒坤新材和德尔玛解禁量居前，富时A50期指夜盘微跌0.09%，短期情绪偏谨慎。与此同时，年内近1300家上市公司累计回购超1500亿元，在估值低位与成交缩量背景下产业资本托底意愿明确，机构判断向下风险正在收敛。APEC工商领导人峰会在深圳召开，李彦宏警示AI应用落地不及预期可能演变为泡沫，雷军、曾毓群共议机器人与AI前景，为后续板块轮动提供方向性线索。</span></li><li><b>能源累库与安全端风险抬头</b><span>商品端表现温和，WTI原油收报86.01美元/桶、布伦特报93.14美元/桶，涨幅均不足1%，但API数据显示上周美国原油库存增加527.8万桶，远超市场预期的减少50万桶，汽油库存也增逾500万桶，供给宽松信号与科技驱动的风险偏好回升方向相反。安全层面，攻击者借Optimizely漏洞向CNN、汇丰银行等178家机构网站植入恶意代码窃取加密货币，目标锁定iPhone用户，说明风险已从价格波动蔓延到基础设施本身。</span></li></ol><p class="watch">👁 关注 · 重点跟踪英伟达新任CEO人选的落定节奏与新加坡等地区收入披露口径的变化，观察治理与透明度疑虑会否抵消超预期业绩对全球科技股估值的支撑。</p></div><div class="grid"><article class="card" data-cat="ai_tech" data-search="英伟达分析师电话会议要点总结 nvidia jensen_huang musk trump tesla ai与科技" id="e1235">
+<details open><summary>
+<p class="ctitle">1. 英伟达分析师电话会议要点总结</p>
+<p class="cfact">英伟达董事会主席哈维·琼斯在11月18日的财报电话会上表示，黄仁勋于11月12日因个人行为不符合公司行为准则而自愿辞去总裁、CEO及董事职务，董事会一致接受辞呈…</p>
+<div class="meta"><span class="chip">17独立源</span>
+<span class="chip">S=81.7</span><span class="chip">NVIDIA</span><span class="chip">JENSEN_HUANG</span><span class="chip">MUSK</span><span class="chip">TRUMP</span><span class="hot">IT之家 #4</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>英伟达董事会主席哈维·琼斯在11月18日的财报电话会上表示，黄仁勋于11月12日因个人行为不符合公司行为准则而自愿辞去总裁、CEO及董事职务，董事会一致接受辞呈且不打算恢复其CEO职位，正在审慎评估内外部候选人。临时CEO兼CFO科莱特·克雷斯披露第三季度营收达1,158亿美元，第四季度营收指引为1,300亿美元（区间1,274亿至1,326亿美元），毛利率预计71%至72%。此前11月17日黄仁勋发表辞职后首份声明称愿重返CEO岗位，马斯克等硅谷人士及近20万名联署者呼吁其复职，但美国财长贝森特公开敦促选择外部人士接任。</p><p><b>影响：</b>全球市值最高的芯片公司在创始人被迫离职后首次对外明确继任方向与业务展望，领导层真空期的治理走向直接影响AI算力供应链信心与美国出口管制政策协调。</p><p class="div"><b>分歧/未核实：</b>黄仁勋本人11月17日声明称愿回归，盟友组建游说团施压董事会；但董事会主席11月18日电话会明确拒绝复职，双方立场公开对立。此外，部分来源将辞职描述为&#x27;被迫辞去&#x27;，董事会则定性为&#x27;自愿辞职&#x27;，措辞存在分歧。</p><p><b>下一步关注：</b>关注董事会正式CEO遴选进展及新设国家安全与出口管制监督委员会与美国政府的沟通动向，同时跟踪第四季度1,300亿美元营收指引能否兑现。</p><p class="meta">跨源归并自事件 1235, 8593, 6084, 8712（语料/链接取并集）</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201572" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.ithome.com/1/027/470.htm" rel="noopener">IT之家</a></li><li><a href="https://original.ifeng.com/c/8y8Xo1QzM1V" rel="noopener">凤凰网财经</a></li><li><a href="https://api3.cls.cn/share/article/2537266?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://original.ifeng.com/c/8y5QrZj2Ecq" rel="noopener">凤凰网财经</a></li><li><a href="https://international.caixin.com/2026-11-18/102506043.html" rel="noopener">财新最新</a></li></ul></div></details></article><article class="card" data-cat="finance" data-search="财联社11月18日早间新闻精选 nvidia 财经" id="e6068">
+<details open><summary>
+<p class="ctitle">2. 财联社11月18日早间新闻精选</p>
+<p class="cfact">英伟达第三季度营收1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元，同比增长110%；公司预计第四季度营收1261亿至1339亿美元。</p>
+<div class="meta"><span class="chip">11独立源</span>
+<span class="chip">S=64.9</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:79%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>英伟达第三季度营收1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元，同比增长110%；公司预计第四季度营收1261亿至1339亿美元。首席财务官上调2028年营收增长预期，预计2028财年营收将增长75%，云业务积压订单达2.5万亿美元；董事会批准增加1500亿美元股票回购计划。同期，美国商务部于11月16日发布限制远程获取先进半导体临时最终规则，以新加坡、泰国、马来西亚、印尼和巴西存在非法对华转移芯片高风险为由，要求向相关国家企业出口先进芯片时申请美国出口许可证；中国商务部表示强烈不满、坚决反对，称若美方一意孤行将采取反制措施，外交部发言人郭嘉昆11月17日称美方滥用出口管制、属经济胁迫和长臂管辖。</p><p><b>影响：</b>英伟达业绩与指引大幅超出常规增速，显示AI算力需求仍在扩张，但美国新一轮出口管制及中方可能的反制，为其海外销售与全球半导体供应链带来政策不确定性。</p><p class="div"><b>分歧/未核实：</b>关于美国商务部发布限制远程获取先进半导体规则的日期，多数来源记为11月16日，凤凰网财经一篇报道写为10月16日，存在不一致；另据格隆汇转述央视，美国政府正在调查新加坡某公司涉嫌非法向中方转运英伟达芯片，该调查细节仅单一来源提及，未获其他来源核实。</p><p><b>下一步关注：</b>关注英伟达第四季度实际营收能否落在1261亿至1339亿美元指引区间，以及中方是否就美方新规出台具体反制措施。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537326" rel="noopener">财联社电报</a></li><li><a href="https://wallstreetcn.com/articles/3786093" rel="noopener">华尔街见闻</a></li><li><a href="https://api3.cls.cn/share/article/2536528?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://wallstreetcn.com/livenews/3201100" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.gelonghui.com/p/7463738" rel="noopener">格隆汇首页</a></li><li><a href="https://www.36kr.com/newsflashes/4073829944169346" rel="noopener">36氪快讯</a></li></ul></div></details></article><article class="card" data-cat="commodity" data-search="周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%。 目前（美股盘后），英伟达涨超4.4%，lumentum涨6.2%，闪迪涨5.6%，sk海力士adr涨4.7%，美... nvidia intel alibaba tsmc google apple 商品期货" id="e6904">
+<details open><summary>
+<p class="ctitle">3. 周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%。 目前（美股盘后），英伟达涨超4.4%，Lumentum涨6.2%，闪迪涨5.6%，SK海力士ADR涨4.7%，美...</p>
+<p class="cfact">2026年11月18日周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%；</p>
+<div class="meta"><span class="chip">6独立源</span>
+<span class="chip">S=43.8</span><span class="chip">NVIDIA</span><span class="chip">INTEL</span><span class="chip">ALIBABA</span><span class="chip">TSMC</span></div>
+<div class="heatbar"><i style="width:54%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>2026年11月18日周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%；财联社同日报道纳指期货涨1.38%、标普500指数期货涨0.75%。美股盘后英伟达涨超4.4%，华尔街见闻称其业绩超预期、盘后涨幅一度扩大至5%，并带动Lumentum涨6.2%、闪迪涨5.6%、SK海力士ADR涨4.7%、美光涨4.5%、阿斯麦ADR涨3.7%、英特尔涨2.1%、阿里巴巴涨1.3%、SpaceX涨0.7%，苹果跌超0.2%。</p><p><b>影响：</b>英伟达业绩超预期在盘后引发芯片及AI相关个股集体上涨，并推动亚太时段美股期指走高，显示市场对AI算力链的情绪明显回暖。</p><p class="div"><b>分歧/未核实：</b>同一事件各源快照时点不同导致数字不一致：纳指期货涨幅有1.4%以上（华尔街见闻）与1.38%（财联社、格隆汇）两种口径，标普期货为涨超0.8%与0.75%；英伟达盘后涨幅有涨超4.4%、涨超4%与扩大至5%三种表述；个股方面Lumentum为6.2%与7.5%、闪迪5.6%与6.7%、SK海力士ADR与美光4.7%/4.5%与5.5%、阿斯麦ADR 3.7%与4.4%、英特尔2.1%与3.1%、阿里1.3%与至多1.7%。另有第一财经报道纳指期货涨0.5%、标普涨0.12%、道指跌0.3%，以及财联社11月17日英伟达盘前涨1%、纳指期货涨0.6%的记录，属更早时点行情，非本次盘后数据。英伟达具体财报数字未在来源中给出，无法核实。</p><p><b>下一步关注：</b>关注美股正式开盘后期指涨幅能否兑现，以及英伟达财报细节与芯片股涨势的持续性。</p><p class="meta">跨源归并自事件 6904, 8663（语料/链接取并集）</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201571" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.yicai.com/brief/103444062.html" rel="noopener">第一财经</a></li><li><a href="https://api3.cls.cn/share/article/2536980?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://wallstreetcn.com/livenews/3201573" rel="noopener">华尔街见闻实时</a></li><li><a href="https://wallstreetcn.com/livenews/3201367" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.cls.cn/detail/2536980" rel="noopener">财联社电报</a></li></ul></div></details></article><article class="card" data-cat="crypto" data-search="ai抢走加密货币风头？anthropic上市或成投机资金新宠 btc 加密" id="e1326">
+<details open><summary>
+<p class="ctitle">4. AI抢走加密货币风头？Anthropic上市或成投机资金新宠</p>
+<p class="cfact">据财联社11月18日报道，比特币价格徘徊在64,500美元下方，已从高点腰斩却仍未吸引逢低买入者；</p>
+<div class="meta"><span class="chip">5独立源</span>
+<span class="chip">S=35.2</span><span class="chip">BTC</span></div>
+<div class="heatbar"><i style="width:43%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据财联社11月18日报道，比特币价格徘徊在64,500美元下方，已从高点腰斩却仍未吸引逢低买入者；Glassnode数据显示目前流通中的比特币约有一半处于浮亏状态，而9月底收于86,600美元时这一比例还不到四分之一，上周日转移的比特币按美元计算的亏损规模是盈利规模的5.6倍，为7月中旬以来最大差距。同期华尔街见闻称比特币周日一度下探62,022美元、创7月14日以来新低，自10月21日以来累计跌幅超过20%并走向连续第六周下跌；Solidot则指出币值从10月3日的84,680美元跌至64,337美元，一个半月跌去四分之一，CryptoQuant的需求指标降至2023年12月以来最低，比特币ETF再现净卖出。与此同时，原本追逐AI概念股的散户投资者正把目光转向Anthropic的首次公开募股（IPO）。</p><p><b>影响：</b>这表明投机资金可能正从加密货币转向AI标的，叠加机构资金流出与利率前景趋紧，比特币的下跌不再只是短期波动，而是需求端的结构性走弱。</p><p class="div"><b>分歧/未核实：</b>各源对近期低点与价格的表述略有差异：华尔街见闻给出周六66,586美元、周日62,022美元后回升至约64,800美元，财联社称周末一度跌近62,000美元、最新徘徊在64,500美元下方，期权报道则以约6.5万美元为现价，属不同时点报价而非矛盾。Solidot将下跌原因归于美国通胀与AI大规模支出吸走资金，属分析机构判断；Anthropic IPO的具体时间与规模来源未给出，尚未核实。UnusualWhales标题称投资者投降式抛售历史上是见底信号，但无正文内容支撑，仅为观点。</p><p><b>下一步关注：</b>关注Anthropic IPO的定价与认购情况能否真正分流加密市场资金，以及比特币ETF净流出、6万美元行权价看跌期权持仓和Glassnode浮亏比例是否继续恶化。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537249" rel="noopener">财联社深度</a></li><li><a href="https://wallstreetcn.com/articles/3785964" rel="noopener">华尔街见闻</a></li><li><a href="https://www.solidot.org/story?sid=85894" rel="noopener">Solidot 奇点资讯</a></li><li><a href="https://www.cls.cn/detail/2535752" rel="noopener">财联社深度</a></li><li><a href="https://wallstreetcn.com/livenews/3200457" rel="noopener">华尔街见闻实时</a></li><li><a href="https://decrypt.co/383466/bitcoin-investors-capitulating-historical-bottom-signal" rel="noopener">UnusualWhales</a></li></ul></div></details></article><article class="card" data-cat="a_hk" data-search="a股限售股解禁一览：92.51亿元市值限售股今日解禁  a股港股" id="e1355">
+<details open><summary>
+<p class="ctitle">5. A股限售股解禁一览：92.51亿元市值限售股今日解禁</p>
+<p class="cfact">据Wind数据，2026年11月18日（周三）A股共有8家公司限售股解禁，合计解禁量4.23亿股，按最新收盘价计算合计解禁市值92.51亿元。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=34.9</span></div>
+<div class="heatbar"><i style="width:43%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据Wind数据，2026年11月18日（周三）A股共有8家公司限售股解禁，合计解禁量4.23亿股，按最新收盘价计算合计解禁市值92.51亿元。其中恒坤新材、德尔玛、天海电子解禁量居前，分别为2.28亿股、1.73亿股、569.44万股；按解禁市值排序，恒坤新材73.84亿元、德尔玛12.87亿元、云天励飞-U 2.34亿元居前三。从解禁股数占总股本比例看，恒坤新材50.48%、德尔玛37.42%、云天励飞-U 1.2%居前。</p><p><b>影响：</b>当日解禁市值高度集中于恒坤新材和德尔玛两家公司，且二者解禁股占总股本比例分别达50.48%和37.42%，流通盘大幅扩容可能带来短期抛压。</p><p><b>下一步关注：</b>关注恒坤新材、德尔玛解禁后的实际减持公告及股价与成交量变化，以及后续交易日的解禁规模安排。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537308" rel="noopener">财联社电报</a></li><li><a href="https://www.gelonghui.com/live/2762211" rel="noopener">格隆汇</a></li><li><a href="https://www.yicai.com/brief/103444355.html" rel="noopener">第一财经</a></li><li><a href="https://www.yicai.com/brief/103441122.html" rel="noopener">第一财经</a></li></ul></div></details></article></div></section><section id="cat-finance" class="page"><h2>财经 <span class="badge">14条</span></h2><div class="digest">今天这个领域的主线是英伟达交出超预期财报。公司2027财年第三季度营收首次突破千亿美元，达到1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元、增长110%，均高于市场此前约1090亿美元的预期；第四季度指引1261亿至1339亿美元再创新高，首席财务官还上调了2028财年营收增长75%的预期。值得注意的是，这是黄仁勋11月12日辞去总裁兼CEO后的首份财报，由临时CEO兼CFO主导发布，管理层交接与业绩高增同时出现。此外，马来西亚总理安瓦尔凌晨抵达深圳出席APEC会议，表态推动基于共识的务实合作；公募REITs上市数量即将破百，行业进入提质深耕窗口期。</div><div class="grid"><article class="card" data-cat="finance" data-search="财联社11月18日早间新闻精选 nvidia 财经" id="e6068">
+<details open><summary>
+<p class="ctitle">1. 财联社11月18日早间新闻精选</p>
+<p class="cfact">英伟达第三季度营收1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元，同比增长110%；公司预计第四季度营收1261亿至1339亿美元。</p>
+<div class="meta"><span class="chip">11独立源</span>
+<span class="chip">S=64.9</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>英伟达第三季度营收1158亿美元，同比增长103.1%，其中数据中心营收1076亿美元，同比增长110%；公司预计第四季度营收1261亿至1339亿美元。首席财务官上调2028年营收增长预期，预计2028财年营收将增长75%，云业务积压订单达2.5万亿美元；董事会批准增加1500亿美元股票回购计划。同期，美国商务部于11月16日发布限制远程获取先进半导体临时最终规则，以新加坡、泰国、马来西亚、印尼和巴西存在非法对华转移芯片高风险为由，要求向相关国家企业出口先进芯片时申请美国出口许可证；中国商务部表示强烈不满、坚决反对，称若美方一意孤行将采取反制措施，外交部发言人郭嘉昆11月17日称美方滥用出口管制、属经济胁迫和长臂管辖。</p><p><b>影响：</b>英伟达业绩与指引大幅超出常规增速，显示AI算力需求仍在扩张，但美国新一轮出口管制及中方可能的反制，为其海外销售与全球半导体供应链带来政策不确定性。</p><p class="div"><b>分歧/未核实：</b>关于美国商务部发布限制远程获取先进半导体规则的日期，多数来源记为11月16日，凤凰网财经一篇报道写为10月16日，存在不一致；另据格隆汇转述央视，美国政府正在调查新加坡某公司涉嫌非法向中方转运英伟达芯片，该调查细节仅单一来源提及，未获其他来源核实。</p><p><b>下一步关注：</b>关注英伟达第四季度实际营收能否落在1261亿至1339亿美元指引区间，以及中方是否就美方新规出台具体反制措施。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537326" rel="noopener">财联社电报</a></li><li><a href="https://wallstreetcn.com/articles/3786093" rel="noopener">华尔街见闻</a></li><li><a href="https://api3.cls.cn/share/article/2536528?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://wallstreetcn.com/livenews/3201100" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.gelonghui.com/p/7463738" rel="noopener">格隆汇首页</a></li><li><a href="https://www.36kr.com/newsflashes/4073829944169346" rel="noopener">36氪快讯</a></li></ul></div></details></article><article class="card" data-cat="finance" data-search="华尔街见闻早餐 | 2026年11月18日 nvidia jensen_huang alibaba anthropic fed 财经" id="e3980">
+<details open><summary>
+<p class="ctitle">2. 华尔街见闻早餐 | 2026年11月18日</p>
+<p class="cfact">英伟达于美东时间周二盘后发布2027财年第三季度财报，营收首次突破千亿美元（此前市场预期约1090亿美元、盈利增长90%），营收与盈利均超市场预期，下一季度指引…</p>
+<div class="meta"><span class="chip">8独立源</span>
+<span class="chip">S=61.6</span><span class="chip">NVIDIA</span><span class="chip">JENSEN_HUANG</span><span class="chip">ALIBABA</span><span class="chip">ANTHROPIC</span></div>
+<div class="heatbar"><i style="width:95%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>英伟达于美东时间周二盘后发布2027财年第三季度财报，营收首次突破千亿美元（此前市场预期约1090亿美元、盈利增长90%），营收与盈利均超市场预期，下一季度指引再创新高；这是黄仁勋11月12日辞去总裁兼CEO后的首份财报，临时CEO兼CFO科莱特·克雷斯与董事会主席哈维·琼斯出席电话会，琼斯明确表示董事会无意让黄仁勋回归CEO岗位，公司也不会急于寻找继任者。同日披露的2026年三季度13F持仓显示，伯克希尔·哈撒韦、桥水、景林、高瓴、高毅、段永平旗下H&amp;H等机构对英伟达操作明显分化，减持名单拉长但仍有机构逆势加仓，拼多多、阿里巴巴、携程、BOSS直聘等中概股获多家机构增持。</p><p><b>影响：</b>在创始人突然离任、治理不确定性最高的时点，超预期业绩与强劲指引暂时支撑了AI叙事，而董事会拒绝黄仁勋复职意味着管理层过渡将长期化，机构持仓分化则反映资金对AI龙头估值与产业链位置的重新定价。</p><p class="div"><b>分歧/未核实：</b>盘后涨幅口径不一：华尔街见闻早餐称英伟达盘后涨4%，财联社深度截至发稿称上涨约3%。另有报道称美国SEC正调查英伟达，该消息在所给材料中未获证实；黄仁勋本人表示愿意重返CEO，与董事会明确不考虑其复职的表态直接冲突。</p><p><b>下一步关注：</b>关注临时CEO克雷斯如何交代继任安排与Vera Rubin放量节奏、黄仁勋12月1日出席美国国会听证的表态，以及SEC调查传闻是否被官方确认。</p><p class="meta">跨源归并自事件 3980, 7174（语料/链接取并集）</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201583" rel="noopener">华尔街见闻实时</a></li><li><a href="https://wallstreetcn.com/articles/3786021" rel="noopener">华尔街见闻</a></li><li><a href="https://www.cls.cn/detail/2537306" rel="noopener">财联社电报</a></li><li><a href="https://www.cls.cn/detail/2537281" rel="noopener">财联社深度</a></li><li><a href="https://www.cls.cn/detail/2536238" rel="noopener">财联社深度</a></li><li><a href="https://www.ithome.com/1/028/594.htm" rel="noopener">IT之家</a></li></ul></div></details></article><article class="card" data-cat="finance" data-search="马来西亚总理安瓦尔抵达深圳 apec 财经" id="e1798">
+<details open><summary>
+<p class="ctitle">3. 马来西亚总理安瓦尔抵达深圳</p>
+<p class="cfact">2026年11月18日凌晨，马来西亚总理安瓦尔乘机抵达深圳，将出席亚太经合组织第三十三次领导人非正式会议及APEC工商领导人峰会。</p>
+<div class="meta"><span class="chip">10独立源</span>
+<span class="chip">S=50.1</span><span class="chip">APEC</span><span class="hot">卫星通讯社 #3</span></div>
+<div class="heatbar"><i style="width:77%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>2026年11月18日凌晨，马来西亚总理安瓦尔乘机抵达深圳，将出席亚太经合组织第三十三次领导人非正式会议及APEC工商领导人峰会。马来西亚方面表示，将继续同中国及其他APEC成员经济体开展建设性合作，推动会议取得更多基于共识的务实成果。同期，韩国总统李在明于11月18日凌晨抵达深圳，越共中央总书记、国家主席苏林于11月17日上午抵达，香港特区行政长官李家超于11月17日下午率团抵达；据中央社与联合早报报道，APEC工商领导人峰会在11月17日至18日举行，领导人非正式会议在11月19日举行。</p><p><b>影响：</b>多个经济体领导人集中抵深，意味着由中国第三次担任东道主的本届APEC会议进入实质议程阶段，马方强调以共识为基础的务实合作，是观察区域经贸协作走向的直接窗口。</p><p><b>下一步关注：</b>关注11月19日领导人非正式会议的共识成果与宣言表述，以及安瓦尔在APEC工商领导人峰会期间的双边会谈安排。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537198" rel="noopener">财联社电报</a></li><li><a href="https://www.gelonghui.com/live/2762847" rel="noopener">格隆汇</a></li><li><a href="https://wallstreetcn.com/livenews/3200419" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.barrons.com.cn/news/262570" rel="noopener">巴伦中文</a></li><li><a href="https://www.guancha.cn/GuoJi%C2%B7ZhanLue/2026_11_17_908642.shtml" rel="noopener">观察者网</a></li><li><a href="https://wallstreetcn.com/livenews/3201426" rel="noopener">华尔街见闻实时</a></li></ul></div></details></article><article class="card" data-cat="finance" data-search="上市公募reits“破百”近在咫尺 行业迎来提质深耕窗口期  财经" id="e8706">
+<details open><summary>
+<p class="ctitle">4. 上市公募REITs“破百”近在咫尺 行业迎来提质深耕窗口期</p>
+<p class="cfact">据上海证券报11月18日报道，山证晋中公投瑞阳供热REIT已披露上市交易公告书，全市场上市的公募REITs数量即将突破百只关口。</p>
+<div class="meta"><span class="chip">5独立源</span>
+<span class="chip">S=47.8</span><span class="hot">36氪 #2</span></div>
+<div class="heatbar"><i style="width:74%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据上海证券报11月18日报道，山证晋中公投瑞阳供热REIT已披露上市交易公告书，全市场上市的公募REITs数量即将突破百只关口。报道指出，公募REITs已从试点起步走向常态化发行，市场体量持续扩容、底层资产谱系不断丰富。</p><p><b>影响：</b>上市数量接近百只意味着公募REITs由试点探索转入常态化运行阶段，行业关注点从规模扩张转向存量资产的运营质量与深耕。</p><p class="div"><b>分歧/未核实：</b>五家来源均转引上海证券报同一内容，无数字或说法分歧；但来源未给出当前已上市的具体只数、市场规模金额及该供热REIT的发行细节，&#x27;即将破百&#x27;为报道表述而非已完成事实，&#x27;告别规模驱动、迎来提质深耕窗口期&#x27;系业内人士观点，非监管定调。</p><p><b>下一步关注：</b>跟踪山证晋中公投瑞阳供热REIT正式上市交易的时点及首只&#x27;破百&#x27;产品的落地情况，以及后续底层资产类型扩容与常态化发行的推进节奏。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537285" rel="noopener">财联社电报</a></li><li><a href="https://wallstreetcn.com/livenews/3201575" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.barrons.com.cn/news/263473" rel="noopener">巴伦中文</a></li><li><a href="https://www.36kr.com/newsflashes/4074462342272130" rel="noopener">36氪快讯</a></li><li><a href="https://www.yicai.com/brief/103444361.html" rel="noopener">第一财经</a></li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="韩国kospi指数开盘上涨2.6%  财经" id="e8814">
+<details open><summary>
+<p class="ctitle"><span class="rank">#5</span> 韩国KOSPI指数开盘上涨2.6%</p>
+<p class="cfact">【韩国KOSPI指数开盘上涨2.6%】财联社11月18日电，韩国KOSPI指数开盘上涨2.6%，报5098.82点。</p>
+<div class="meta"><span class="chip">7独立源</span>
+<span class="chip">S=45.0</span></div>
+<div class="heatbar"><i style="width:69%"></i></div>
+</summary><div class="cbody"><p>【韩国KOSPI指数开盘上涨2.6%】财联社11月18日电，韩国KOSPI指数开盘上涨2.6%，报5098.82点。SK海力士涨超5%，三星电子涨超3%。日经225指数高开0.25%，报59007.40点。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537328" rel="noopener">财联社电报</a><span class="chip">2026-11-18</span> 韩国KOSPI指数开盘上涨2.6%</li><li><a href="https://www.gelonghui.com/live/2766542" rel="noopener">格隆汇</a><span class="chip">2026-11-18</span> 日韩股市周三高开 SK海力士涨超5%</li><li><a href="https://api3.cls.cn/share/article/2537328?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-18</span> 韩国KOSPI指数开盘上涨2.6%</li><li><a href="https://www.cls.cn/detail/2537332" rel="noopener">财联社电报</a><span class="chip">2026-11-18</span> 财联社11月18日电，韩国KOSPI指数涨幅扩大至3%，SK海力士涨近6%，三星电子涨超4%。</li><li><a href="https://www.yicai.com/brief/103444386.html" rel="noopener">第一财经</a><span class="chip">2026-11-18</span> &lt;b&gt;韩国KOSPI指数涨幅扩大至3% |&lt;/b&gt; 韩国KOSPI指数涨幅扩大至3%，SK海力士涨近6%，三星电子涨超4</li><li><a href="https://wallstreetcn.com/livenews/3201597" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-18</span> 韩国首尔综指开盘上涨2.6%，SK海力士涨超5%，三星电子涨近4%。日经225指数高开0.25%。</li><li><a href="https://www.barrons.com.cn/news/263477" rel="noopener">巴伦中文</a><span class="chip">2026-11-18</span> 日韩股市集体高开，韩国KOSPI指数涨超2%</li><li><a href="https://www.gelonghui.com/live/2766552" rel="noopener">格隆汇</a><span class="chip">2026-11-18</span> 韩股涨幅扩大至3% SK海力士涨超6%</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="本月118家上市公司获海外机构调研 多数业绩表现较好  财经" id="e8872">
+<details open><summary>
+<p class="ctitle"><span class="rank">#6</span> 本月118家上市公司获海外机构调研 多数业绩表现较好</p>
+<p class="cfact">【本月118家上市公司获海外机构调研 多数业绩表现较好】财联社11月18日电，据统计，11月以来共有118股获海外机构调研，其中25股获5家及以上海外机构调研。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=43.6</span><span class="hot">36氪 #10</span></div>
+<div class="heatbar"><i style="width:67%"></i></div>
+</summary><div class="cbody"><p>【本月118家上市公司获海外机构调研 多数业绩表现较好】财联社11月18日电，据统计，11月以来共有118股获海外机构调研，其中25股获5家及以上海外机构调研。澜起科技、百济神州、沪电股份获海外机构调研家数居前，分别有49家、37家、27家。从股价上来看，13只海外机构调研股11月以来累计上涨超10%，华丰科技、安集科技、联赢激光涨幅居前，分别为43.52%、36.9%、26.52%。中际旭创、深南电路、大元泵业跌幅明显，均超过19%。从业绩来看，海外机构调研股多数业绩表现较</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537314" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 本月118家上市公司获海外机构调研 多数业绩表现较好</li><li><a href="https://www.barrons.com.cn/news/263472" rel="noopener">巴伦中文</a><span class="chip">2026-11-17</span> 本月118家上市公司获海外机构调研，多数业绩表现较好</li><li><a href="https://www.36kr.com/newsflashes/4074475140895618" rel="noopener">36氪快讯</a><span class="chip">2026-11-17</span> 本月118家上市公司获海外机构调研，多数业绩表现较好</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="券商晨会精华：新型储能“十五五”方案落地，3亿千瓦锚定市场化新阶段 huawei 财经" id="e3866">
+<details open><summary>
+<p class="ctitle"><span class="rank">#7</span> 券商晨会精华：新型储能“十五五”方案落地，3亿千瓦锚定市场化新阶段</p>
+<p class="cfact">财联社11月18日讯，昨日，市场冲高回落后尾盘小幅回升，创业板指跌超1%，此前一度涨近1%，科创50指数早盘曾涨超3%。</p>
+<div class="meta"><span class="chip">6独立源</span>
+<span class="chip">S=43.1</span><span class="chip">HUAWEI</span></div>
+<div class="heatbar"><i style="width:66%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日讯，昨日，市场冲高回落后尾盘小幅回升，创业板指跌超1%，此前一度涨近1%，科创50指数早盘曾涨超3%。沪深两市成交额1.46万亿，较上一个交易日缩量268亿，全市场超4100只个股下跌，近80只个股跌停。盘面上，题材弱势轮动，芯片产业链表现活跃，家电板块反复活跃，华为算力概念局部走强；下跌方面，物理AI概念持续下挫，AI漫剧概念震荡走低、多股跌停。截至收盘，沪指跌0.5%，深成指跌0.49%，创业板指跌1.2%。 华泰证券认为，新型储能“十五五”方案落地，3</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537312" rel="noopener">财联社深度</a><span class="chip">2026-11-17</span> 券商晨会精华：新型储能“十五五”方案落地，3亿千瓦锚定市场化新阶段</li><li><a href="https://api3.cls.cn/share/article/2535777?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社公司公告</a><span class="chip">2026-11-16</span> 19天11板文投控股：股票交易风险提示 前三季度净利润亏损3754.58万元</li><li><a href="https://www.cls.cn/detail/2536919" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 生益科技：生产经营情况正常 订单饱满</li><li><a href="https://api3.cls.cn/share/article/2536919?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社公司公告</a><span class="chip">2026-11-17</span> 生益科技：生产经营情况正常 订单饱满</li><li><a href="https://www.barrons.com.cn/news/263313" rel="noopener">巴伦中文</a><span class="chip">2026-11-17</span> 生益科技：生产经营情况正常，订单饱满</li><li><a href="https://api3.cls.cn/share/article/2536755?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社公司公告</a><span class="chip">2026-11-17</span> 九阳股份：股票交易异常波动 与华为无战略合作关系</li><li><a href="https://www.cls.cn/detail/2536808" rel="noopener">财联社深度</a><span class="chip">2026-11-17</span> 连续2日不足1.5万亿！A股成交额创年内第六低，融资余额规模再度下降</li><li><a href="https://www.gelonghui.com/live/2765673" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 生益科技：生产经营情况正常，订单饱满</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="商务部等9部门加强废旧动力电池回收处理 电池回收行业迎政策东风  财经" id="e5252">
+<details open><summary>
+<p class="ctitle"><span class="rank">#8</span> 商务部等9部门加强废旧动力电池回收处理 电池回收行业迎政策东风</p>
+<p class="cfact">商务部等9部门发布关于深入推进再生资源回收体系建设、促进回收行业高质量发展的意见。</p>
+<div class="meta"><span class="chip">6独立源</span>
+<span class="chip">S=43.1</span></div>
+<div class="heatbar"><i style="width:66%"></i></div>
+</summary><div class="cbody"><p>商务部等9部门发布关于深入推进再生资源回收体系建设、促进回收行业高质量发展的意见。意见提出，加强废旧动力电池回收处理。修订实施《报废机动车回收管理办法实施细则》，推动新能源汽车“车电一体报废”回收拆解。研究制定新能源汽车动力电池数字身份证管理制度及相关行政法规。加强关键技术标准供给，积极推动国内成熟标准转化为国际标准。 信达证券研报指出，一般来说，当动力电池容量衰减至额定容量80%以下时，其性能难以满足正常使用需求，从而进入退役阶段，因此动力电池即将进入规模化退役阶段，有望迎</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537313" rel="noopener">财联社深度</a><span class="chip">2026-11-17</span> 商务部等9部门加强废旧动力电池回收处理 电池回收行业迎政策东风</li><li><a href="https://www.gelonghui.com/live/2764868" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 商务部等9部门：发展退役光伏、废旧风机设备回收拆解</li><li><a href="https://www.gelonghui.com/live/2764867" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 商务部等9部门：发展退役光伏、废旧风机设备回收拆解</li><li><a href="https://www.cls.cn/detail/2536346" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 商务部等9部门：发展退役光伏、废旧风机设备回收拆解</li><li><a href="https://api3.cls.cn/share/article/2536344?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-17</span> 商务部等9部门：加强废旧动力电池回收处理 推动新能源汽车“车电一体报废”回收拆解</li><li><a href="https://www.cls.cn/detail/2536349" rel="noopener">财联社深度</a><span class="chip">2026-11-17</span> 商务部等9部门：推动新能源汽车“车电一体报废”回收拆解</li><li><a href="https://www.cls.cn/detail/2536344" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 商务部等9部门：加强废旧动力电池回收处理 推动新能源汽车“车电一体报废”回收拆解</li><li><a href="https://www.ithome.com/1/028/511.htm" rel="noopener">IT之家</a><span class="chip">2026-11-17</span> 商务部：推动新能源汽车“车电一体报废”回收拆解</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="俄罗斯总统普京抵达深圳 putin 财经" id="e7992">
+<details open><summary>
+<p class="ctitle"><span class="rank">#9</span> 俄罗斯总统普京抵达深圳</p>
+<p class="cfact">【俄罗斯总统普京抵达深圳】财联社11月18日电，11月18日凌晨，俄罗斯总统普京乘专机抵达深圳，将出席11月18日至19日举行的亚太经合组织第三十三次领导人非正式会议。</p>
+<div class="meta"><span class="chip">7独立源</span>
+<span class="chip">S=41.2</span><span class="chip">PUTIN</span><span class="hot">微博 #1</span><span class="hot">澎湃 #1</span><span class="hot">抖音 #1</span></div>
+<div class="heatbar"><i style="width:64%"></i></div>
+</summary><div class="cbody"><p>【俄罗斯总统普京抵达深圳】财联社11月18日电，11月18日凌晨，俄罗斯总统普京乘专机抵达深圳，将出席11月18日至19日举行的亚太经合组织第三十三次领导人非正式会议。 (央视新闻)</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537221" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 俄罗斯总统普京抵达深圳</li><li><a href="https://www.gelonghui.com/live/2766195" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 俄罗斯总统普京抵达深圳</li><li><a href="https://wallstreetcn.com/livenews/3201453" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 俄罗斯总统普京抵达深圳</li><li><a href="https://wallstreetcn.com/articles/3786125" rel="noopener">华尔街见闻</a><span class="chip">2026-11-17</span> 俄罗斯总统普京抵达深圳</li><li><a href="https://news.ifeng.com/c/8y8fJOqQtdn" rel="noopener">凤凰网财经</a><span class="chip">2026-11-17</span> 普京抵达深圳</li><li><a href="https://original.ifeng.com/c/8y90loIPoVB" rel="noopener">凤凰网财经</a><span class="chip">2026-11-17</span> 现场：普京抵达深圳</li><li><a href="https://www.zaobao.com.sg/news/china/story20261118-10015689" rel="noopener">联合早报</a><span class="chip">2026-11-18</span> 俄罗斯总统普京凌晨抵达深圳 蔡奇机场迎接</li><li><a href="https://wallstreetcn.com/livenews/3201463" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 俄罗斯总统普京抵达深圳，蔡奇前往机场迎接</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="校准截止日期临近 基金密集调整风险等级  财经" id="e8673">
+<details open><summary>
+<p class="ctitle"><span class="rank">#10</span> 校准截止日期临近 基金密集调整风险等级</p>
+<p class="cfact">【校准截止日期临近 基金密集调整风险等级】财联社11月18日电，校准基金产品风险等级，是为了落实投资者适当性管理，让基金产品销售给合适的投资者。</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=40.9</span><span class="hot">36氪 #12</span></div>
+<div class="heatbar"><i style="width:63%"></i></div>
+</summary><div class="cbody"><p>【校准截止日期临近 基金密集调整风险等级】财联社11月18日电，校准基金产品风险等级，是为了落实投资者适当性管理，让基金产品销售给合适的投资者。近期，20余家基金公司密集发布公告，调整旗下基金风险等级。今年6月，监管部门要求基金公司在6个月内，按照相关要求完善基金风险等级划分体系、完成相关系统改造。随着过渡窗口期临近，基金公司近期正密集校准产品风险等级。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537287" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 校准截止日期临近 基金密集调整风险等级</li><li><a href="https://www.gelonghui.com/live/2766406" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 校准截止日期临近 基金密集调整风险等级</li><li><a href="https://wallstreetcn.com/livenews/3201584" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 校准截止日期临近，基金密集调整风险等级</li><li><a href="https://www.36kr.com/newsflashes/4074467680932745" rel="noopener">36氪快讯</a><span class="chip">2026-11-17</span> 校准截止日期临近，基金密集调整风险等级</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="投资日历：周三资本市场大事提醒 alibaba nvidia 财经" id="e8816">
+<details open><summary>
+<p class="ctitle"><span class="rank">#11</span> 投资日历：周三资本市场大事提醒</p>
+<p class="cfact">【投资日历：周三资本市场大事提醒】 ①今日暂无新股申购。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=40.5</span><span class="chip">ALIBABA</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:62%"></i></div>
+</summary><div class="cbody"><p>【投资日历：周三资本市场大事提醒】 ①今日暂无新股申购。 ②亚太经合组织第三十三次领导人非正式会议于11月18日至19日在深圳举行。 ③2026中国5G+工业互联网大会将于11月18日在武汉举行。 ④2026苏州工业自动化及机器人展将于11月18日至20日举办。 ⑤英伟达新任临时首席执行官Colette Kress向员工发送电子邮件表示，将于太平洋时间11月18日上午9点（北京时间19日凌晨1点）召开公司会议。 ⑥2026西南采矿业科技创新大会暨贵州矿业科技博览会将于11月1</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537319" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 投资日历：周三资本市场大事提醒</li><li><a href="https://www.gelonghui.com/live/2766524" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 投资日历：周三资本市场大事提醒</li><li><a href="https://api3.cls.cn/share/article/2537319?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-17</span> 投资日历：周三资本市场大事提醒</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="理财产品提前退场常态化，行业竞争转向质量优先  财经" id="e8819">
+<details open><summary>
+<p class="ctitle"><span class="rank">#12</span> 理财产品提前退场常态化，行业竞争转向质量优先</p>
+<p class="cfact">近期，银行理财产品提前终止的节奏明显加快。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=40.3</span><span class="hot">36氪 #6</span></div>
+<div class="heatbar"><i style="width:62%"></i></div>
+</summary><div class="cbody"><p>近期，银行理财产品提前终止的节奏明显加快。Wind数据显示，截至11月17日，四季度以来已有近200款产品被宣布提前终止；仅11月以来，理财子公司发布的提前终止或部分份额提前终止公告就达89则，涉及招银理财、浦银理财、信银理财、杭银理财、华夏理财等多家机构，退场品类以固定收益类为主。这一轮“退场潮”并非净值波动下的被动清盘，而是止盈触发、份额萎缩、底层资产退出等多重因素交织下的市场化出清，折射出理财行业从“规模扩张”向“质量优先”转轨的深层逻辑。（经济参考报）</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201587" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 理财产品提前退场常态化，行业竞争转向质量优先</li><li><a href="https://www.gelonghui.com/live/2766521" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 理财产品提前退场常态化 行业竞争转向质量优先</li><li><a href="https://www.36kr.com/newsflashes/4074486793180291" rel="noopener">36氪快讯</a><span class="chip">2026-11-17</span> 理财产品提前退场常态化，行业竞争转向质量优先</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。日本10月份进口同比增长21.6%，预估为25.9%。 macro mof yoy 财经" id="e8874">
+<details open><summary>
+<p class="ctitle"><span class="rank">#13</span> 财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。日本10月份进口同比增长21.6%，预估为25.9%。</p>
+<p class="cfact">财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=38.2</span><span class="chip">MACRO</span><span class="chip">MOF</span><span class="chip">YOY</span></div>
+<div class="heatbar"><i style="width:59%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。日本10月份进口同比增长21.6%，预估为25.9%。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537320" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，日本10月份出口同比增长20.5%，预估为20.4%。日本10月份进口同比增长21.6%，预估为2</li><li><a href="https://wallstreetcn.com/livenews/3201589" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 日本10月进口同比 21.6%，预期 25.9%，前值 18.9%。</li><li><a href="https://wallstreetcn.com/livenews/3201590" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 日本10月出口同比 20.5%，预期 20.4%，前值 16.7%。</li></ul></div></details></article><article class="card compact" data-cat="finance" data-search="中信证券：稀土行业供需向好 关注板块配置价值  财经" id="e8828">
+<details open><summary>
+<p class="ctitle"><span class="rank">#14</span> 中信证券：稀土行业供需向好 关注板块配置价值</p>
+<p class="cfact">【中信证券：稀土行业供需向好 关注板块配置价值】财联社11月18日电，中信证券研报认为，短期波动不改长期趋势，稀土行业基本面或持续向好。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=35.3</span><span class="hot">36氪 #2</span></div>
+<div class="heatbar"><i style="width:54%"></i></div>
+</summary><div class="cbody"><p>【中信证券：稀土行业供需向好 关注板块配置价值】财联社11月18日电，中信证券研报认为，短期波动不改长期趋势，稀土行业基本面或持续向好。龙头企业三季报整体实现高增长；盛和资源公布冶炼分离业务股权转让事宜，产业链整合进一步深化，上游集中度有望持续提升。稀土行业供给刚性与需求弹性的逻辑或持续强化，板块调整后配置价值进一步凸显，持续推荐稀土产业链战略配置价值。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537334" rel="noopener">财联社电报</a><span class="chip">2026-11-18</span> 中信证券：稀土行业供需向好 关注板块配置价值</li><li><a href="https://www.yicai.com/brief/103444377.html" rel="noopener">第一财经</a><span class="chip">2026-11-18</span> &lt;b&gt;中信证券：稀土行业供需向好，关注板块配置价值 |&lt;/b&gt; 中信证券研报表示，短期波动不改长期趋势，稀土行业基本面或</li><li><a href="https://www.gelonghui.com/live/2766554" rel="noopener">格隆汇</a><span class="chip">2026-11-18</span> 中信证券：稀土行业供需向好，关注板块配置价值</li></ul></div></details></article></div></section><section id="cat-ai_tech" class="page"><h2>AI与科技 <span class="badge">12条</span></h2><div class="digest">今天英伟达的核心事件是管理层剧变与信息披露调整同步浮出水面。董事会主席哈维·琼斯在财报电话会上确认，黄仁勋已于11月12日因个人行为不符合公司行为准则而自愿辞去总裁、CEO及董事职务，董事会一致接受且不打算恢复其职位。公司已聘请猎头机构海德思哲主导遴选，内外部候选人均在评估范围内，琼斯强调不会为赶时间仓促决定。与此同时，据《金融时报》报道，英伟达在营收达到1040亿美元之际停止单独披露新加坡销售额，而此前该地区入账营收曾激增70%。两条线索叠加，值得关注的信号是：这家芯片巨头正同时经历最高权力交接和财务透明度收缩，后续CEO人选落定节奏以及地区收入披露口径变化对市场信心的影响，将是短期观察重点。</div><div class="grid"><article class="card" data-cat="ai_tech" data-search="英伟达分析师电话会议要点总结 nvidia jensen_huang musk trump tesla ai与科技" id="e1235">
+<details open><summary>
+<p class="ctitle">1. 英伟达分析师电话会议要点总结</p>
+<p class="cfact">英伟达董事会主席哈维·琼斯在11月18日的财报电话会上表示，黄仁勋于11月12日因个人行为不符合公司行为准则而自愿辞去总裁、CEO及董事职务，董事会一致接受辞呈…</p>
+<div class="meta"><span class="chip">17独立源</span>
+<span class="chip">S=81.7</span><span class="chip">NVIDIA</span><span class="chip">JENSEN_HUANG</span><span class="chip">MUSK</span><span class="chip">TRUMP</span><span class="hot">IT之家 #4</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>英伟达董事会主席哈维·琼斯在11月18日的财报电话会上表示，黄仁勋于11月12日因个人行为不符合公司行为准则而自愿辞去总裁、CEO及董事职务，董事会一致接受辞呈且不打算恢复其CEO职位，正在审慎评估内外部候选人。临时CEO兼CFO科莱特·克雷斯披露第三季度营收达1,158亿美元，第四季度营收指引为1,300亿美元（区间1,274亿至1,326亿美元），毛利率预计71%至72%。此前11月17日黄仁勋发表辞职后首份声明称愿重返CEO岗位，马斯克等硅谷人士及近20万名联署者呼吁其复职，但美国财长贝森特公开敦促选择外部人士接任。</p><p><b>影响：</b>全球市值最高的芯片公司在创始人被迫离职后首次对外明确继任方向与业务展望，领导层真空期的治理走向直接影响AI算力供应链信心与美国出口管制政策协调。</p><p class="div"><b>分歧/未核实：</b>黄仁勋本人11月17日声明称愿回归，盟友组建游说团施压董事会；但董事会主席11月18日电话会明确拒绝复职，双方立场公开对立。此外，部分来源将辞职描述为&#x27;被迫辞去&#x27;，董事会则定性为&#x27;自愿辞职&#x27;，措辞存在分歧。</p><p><b>下一步关注：</b>关注董事会正式CEO遴选进展及新设国家安全与出口管制监督委员会与美国政府的沟通动向，同时跟踪第四季度1,300亿美元营收指引能否兑现。</p><p class="meta">跨源归并自事件 1235, 8593, 6084, 8712（语料/链接取并集）</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201572" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.ithome.com/1/027/470.htm" rel="noopener">IT之家</a></li><li><a href="https://original.ifeng.com/c/8y8Xo1QzM1V" rel="noopener">凤凰网财经</a></li><li><a href="https://api3.cls.cn/share/article/2537266?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://original.ifeng.com/c/8y5QrZj2Ecq" rel="noopener">凤凰网财经</a></li><li><a href="https://international.caixin.com/2026-11-18/102506043.html" rel="noopener">财新最新</a></li></ul></div></details></article><article class="card" data-cat="ai_tech" data-search="财联社11月18日电，英伟达董事会主席哈维·琼斯称，我们希望尽快任命正式首席执行官，但不会为了赶时间而仓促决定，必须先找到最合适的人选。 nvidia ai与科技" id="e8590">
+<details open><summary>
+<p class="ctitle">2. 财联社11月18日电，英伟达董事会主席哈维·琼斯称，我们希望尽快任命正式首席执行官，但不会为了赶时间而仓促决定，必须先找到最合适的人选。</p>
+<p class="cfact">{&quot;fact&quot;:&quot;2026年11月18日，英伟达董事会主席哈维·琼斯表示，公司希望尽快任命正式首席执行官，但不会为赶时间而仓促决定，必须先找到最合适的人选。</p>
+<div class="meta"><span class="chip">6独立源</span>
+<span class="chip">S=46.2</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:57%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>{&quot;fact&quot;:&quot;2026年11月18日，英伟达董事会主席哈维·琼斯表示，公司希望尽快任命正式首席执行官，但不会为赶时间而仓促决定，必须先找到最合适的人选。他同时透露，公司已聘请猎头机构海德思哲主导CEO遴选工作，候选人将从公司内部和外部同时寻找，这将是一个&quot;细致的过程&quot;，不会刻意加速任命进度。&quot;,&quot;impact&quot;:&quot;英伟达正式CEO人选悬而未决且明确不设时间表，意味着公司治理层面的不确定性将持续，可能影响投资者对其战略延续性与决策效率的判断。&quot;,&quot;divergence&quot;:&quot;&quot;,&quot;next_step&quot;:&quot;关注海德思哲主导的遴选进展，以及内外部候选人名单与最终任命时间的披露。&quot;}</p><p><b>影响：</b></p><p><b>下一步关注：</b></p><ul class="links"><li><a href="https://www.cls.cn/detail/2537283" rel="noopener">财联社电报</a></li><li><a href="https://api3.cls.cn/share/article/2537283?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://wallstreetcn.com/livenews/3201558" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.gelonghui.com/live/2766408" rel="noopener">格隆汇</a></li></ul></div></details></article><article class="card" data-cat="ai_tech" data-search="nvidia stopped disclosing singapore sales as revenues hit $104b nvidia url ai与科技" id="e7999">
+<details open><summary>
+<p class="ctitle">3. Nvidia stopped disclosing Singapore sales as revenues hit $104B</p>
+<p class="cfact">据《金融时报》报道，英伟达（Nvidia）在营收达到1040亿美元之际，停止单独披露新加坡的销售额。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=40.9</span><span class="chip">NVIDIA</span><span class="chip">URL</span><span class="hot">Hacker News #4</span></div>
+<div class="heatbar"><i style="width:50%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据《金融时报》报道，英伟达（Nvidia）在营收达到1040亿美元之际，停止单独披露新加坡的销售额。这家美国芯片制造商调整了财报的地区披露方式，而此前经由新加坡入账的营收曾激增70%。该报道登上Hacker News头版，获得63个点赞和27条评论。</p><p><b>影响：</b>新加坡曾是外界观察英伟达芯片实际流向与出口管制规避风险的重要窗口，取消这一地区披露会削弱投资者和监管方对其收入地理分布的可见度。</p><p class="warn">⚠ 数字未核实：1040亿</p><p><b>下一步关注：</b>关注英伟达后续财报中地区收入的划分口径、是否给出变更说明，以及监管机构对经新加坡转口芯片流向的回应。</p><ul class="links"><li><a href="https://www.ft.com/content/dbde7a30-548c-4f9d-a4be-7898a0c24dcf" rel="noopener">HN头版</a></li><li><a href="https://www.ft.com/content/dbde7a30-548c-4f9d-a4be-7898a0c24dcf?syn-25a6b1a6=1" rel="noopener">Financial Times</a></li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="财联社11月18日电，英伟达临时ceo克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设期间不提供。若数据中心建设延期，公司... nvidia ai与科技" id="e8672">
+<details open><summary>
+<p class="ctitle"><span class="rank">#4</span> 财联社11月18日电，英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设期间不提供。若数据中心建设延期，公司...</p>
+<p class="cfact">财联社11月18日电，英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=40.9</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:50%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设期间不提供。若数据中心建设延期，公司的担保“将不复存在”。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537286" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设</li><li><a href="https://www.gelonghui.com/live/2766407" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜英伟达临时CEO克雷斯称，英伟达将严格审视提供融资支持的企业。数据中心担保仅在设施就绪后启动，建设期</li><li><a href="https://wallstreetcn.com/livenews/3201564" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 英伟达：数据中心项目延期将使其担保失效。 当它们准备行动时，担保启动。</li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="财联社11月18日电，英伟达盘后涨幅扩大至4%。 nvidia ai与科技" id="e8707">
+<details open><summary>
+<p class="ctitle"><span class="rank">#5</span> 财联社11月18日电，英伟达盘后涨幅扩大至4%。</p>
+<p class="cfact">财联社11月18日电，英伟达盘后涨幅扩大至4%。</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=40.9</span><span class="chip">NVIDIA</span><span class="hot">36氪 #10</span></div>
+<div class="heatbar"><i style="width:50%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，英伟达盘后涨幅扩大至4%。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537284" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达盘后涨幅扩大至4%。</li><li><a href="https://api3.cls.cn/share/article/2537284?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达盘后涨幅扩大至4%。</li><li><a href="https://wallstreetcn.com/livenews/3201562" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 英伟达盘后涨幅达到4%。</li><li><a href="https://www.yicai.com/brief/103444343.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;英伟达股价盘后涨幅扩大至5% |&lt;/b&gt; 英伟达股价盘后涨幅扩大至5%。</li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。 aapl apple back get many ai与科技" id="e8265">
+<details open><summary>
+<p class="ctitle"><span class="rank">#6</span> 财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。</p>
+<p class="cfact">财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。</p>
+<div class="meta"><span class="chip">7独立源</span>
+<span class="chip">S=40.8</span><span class="chip">AAPL</span><span class="chip">APPLE</span><span class="chip">BACK</span><span class="chip">GET</span></div>
+<div class="heatbar"><i style="width:50%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537234" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，苹果称中断并非由网络攻击所致，正努力“尽快”恢复系统运行。</li><li><a href="https://www.gelonghui.com/live/2766285" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜苹果(AAPL.O)发言人：正努力尽快让其余系统恢复上线。</li><li><a href="https://wallstreetcn.com/livenews/3201488" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 苹果发言人：今晨内部更新导致部分服务中断，目前我们的许多系统已恢复运行。 正努力尽快让剩余系统重新上线。</li><li><a href="https://www.gelonghui.com/live/2766284" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜苹果(AAPL.O)发言人：在今日上午一次内部更新导致部分服务中断后，我们的许多系统已恢复运行。</li><li><a href="https://www.36kr.com/newsflashes/4074468980265860" rel="noopener">36氪快讯</a><span class="chip">2026-11-17</span> 苹果称内部更新后出现服务中断，表示正努力恢复系统上线</li><li><a href="https://www.ithome.com/1/028/589.htm" rel="noopener">IT之家</a><span class="chip">2026-11-17</span> 苹果回应服务大规模中断：内部系统更新引发故障，Apple Pay、iCloud、App Store 均受影响</li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。 nvidia ai与科技" id="e6283">
+<details open><summary>
+<p class="ctitle"><span class="rank">#7</span> 财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。</p>
+<p class="cfact">财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=40.5</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:50%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董事会批准增加1500亿美元股票回购计划。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537299" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董</li><li><a href="https://www.yicai.com/brief/103443787.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;英伟达盘前涨超1% |&lt;/b&gt; 英伟达盘前走高，现涨超1%，公司将于美东时间11月17日美股盘后（北京时间18日凌</li><li><a href="https://api3.cls.cn/share/article/2537258?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达股价盘后涨超2%。公司预计第四季度营收1261亿至1339亿美元，高于市场预期。</li><li><a href="https://api3.cls.cn/share/article/2537299?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达股价盘后涨幅扩大至5%，此前公司预计第四季度营收1261亿至1339亿美元，高于市场预期；董</li><li><a href="https://www.cls.cn/detail/2537258" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达股价盘后涨超2%。公司预计第四季度营收1261亿至1339亿美元，高于市场预期。</li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。但董事会明确无意让黄仁勋复职。点击查看 jensen_huang nvidia ai与科技" id="e8715">
+<details open><summary>
+<p class="ctitle"><span class="rank">#8</span> 英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。但董事会明确无意让黄仁勋复职。点击查看</p>
+<p class="cfact">英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=38.4</span><span class="chip">JENSEN_HUANG</span><span class="chip">NVIDIA</span><span class="hot">华尔街见闻 #3</span><span class="hot">IT之家 #1</span></div>
+<div class="heatbar"><i style="width:47%"></i></div>
+</summary><div class="cbody"><p>英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。但董事会明确无意让黄仁勋复职。点击查看</p><ul class="links"><li><a href="https://xnews.jin10.com/details/235368" rel="noopener">金十重要</a><span class="chip">2026-11-17</span> 英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下一财年增长预期上调至75%。</li><li><a href="https://wallstreetcn.com/livenews/3201561" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 英伟达：预计四季度营收将为1300亿美元+/-3%。</li><li><a href="https://www.barrons.com.cn/news/263468" rel="noopener">巴伦中文</a><span class="chip">2026-11-17</span> 英伟达史上首次单季营收突破1000亿美元，净利润同比翻倍</li><li><a href="https://www.36kr.com/newsflashes/4074448234828929" rel="noopener">36氪快讯</a><span class="chip">2026-11-17</span> 英伟达：2027财年第三季度营收1158亿美元，同比增长103%</li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="英伟达三季度数据中心营收超预期，四季度指引超预期，股价盘后涨4% eps nvidia ai与科技" id="e8548">
+<details open><summary>
+<p class="ctitle"><span class="rank">#9</span> 英伟达三季度数据中心营收超预期，四季度指引超预期，股价盘后涨4%</p>
+<p class="cfact">英伟达三季度营收1158亿美元，季环比增长20.3%、同比增长103.1%，分析师预期1093.3亿美元。</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=37.7</span><span class="chip">EPS</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:46%"></i></div>
+</summary><div class="cbody"><p>英伟达三季度营收1158亿美元，季环比增长20.3%、同比增长103.1%，分析师预期1093.3亿美元。 三季度数据中心营收1076亿美元，分析师预期1018.7亿美元。 三季度计算、网络营收1060亿美元，分析师预期982.7亿美元。 三季度Graphics营收98亿美元（分析师预期88.4亿美元），超大规模云服务（Hyperscale）营收601亿美元，边缘计算营收82亿美元（分析师预期75亿美元），AI云、工业、企业营收475亿美元。 三季度库存397亿美元，之前一个</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201522" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 英伟达三季度数据中心营收超预期，四季度指引超预期，股价盘后涨4%</li><li><a href="https://www.yicai.com/brief/103444321.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;英伟达三季度数据中心营收超预期，盘后一度涨近4% |&lt;/b&gt; 英伟达三季度营收1158亿美元，季环比增长20.3%</li><li><a href="https://api3.cls.cn/share/article/2537257?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-17</span> 英伟达预计第四季度营收1261亿至1339亿美元 高于市场预期</li><li><a href="https://www.cls.cn/detail/2537257" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 英伟达预计第四季度营收1261亿至1339亿美元 高于市场预期</li><li><a href="https://www.yicai.com/brief/103444333.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;英伟达供应链承诺达3900亿美元 |&lt;/b&gt; 当地11月17日，英伟达公布2027财年第三季度财报。披露的文件显示</li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="财联社11月18日电，英伟达临时ceo克雷斯表示，我们目前希望将重点放在扩大业务上。 nvidia ai与科技" id="e8873">
+<details open><summary>
+<p class="ctitle"><span class="rank">#10</span> 财联社11月18日电，英伟达临时CEO克雷斯表示，我们目前希望将重点放在扩大业务上。</p>
+<p class="cfact">财联社11月18日电，英伟达临时CEO克雷斯表示，我们目前希望将重点放在扩大业务上。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=35.6</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:44%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，英伟达临时CEO克雷斯表示，我们目前希望将重点放在扩大业务上。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537321" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达临时CEO克雷斯表示，我们目前希望将重点放在扩大业务上。</li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="财联社11月18日电，英伟达临时ceo克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。所谓我们任何一类客户正在发生变化的说法根本... nvidia ai与科技" id="e8875">
+<details open><summary>
+<p class="ctitle"><span class="rank">#11</span> 财联社11月18日电，英伟达临时CEO克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。所谓我们任何一类客户正在发生变化的说法根本...</p>
+<p class="cfact">财联社11月18日电，英伟达临时CEO克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=35.6</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:44%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，英伟达临时CEO克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。所谓我们任何一类客户正在发生变化的说法根本不属实。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537318" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达临时CEO克雷斯表示，超大规模云服务商目前正急切地寻求更集中地利用我们现有的算力资源。所谓我</li></ul></div></details></article><article class="card compact" data-cat="ai_tech" data-search="财联社11月18日电，英伟达临时ceo称供应商和合作伙伴“百分百支持我们”。 nvidia ai与科技" id="e8670">
+<details open><summary>
+<p class="ctitle"><span class="rank">#12</span> 财联社11月18日电，英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。</p>
+<p class="cfact">财联社11月18日电，英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=32.9</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:40%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537280" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。</li><li><a href="https://www.gelonghui.com/live/2766410" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜英伟达临时CEO称供应商和合作伙伴“百分百支持我们”。</li></ul></div></details></article></div></section><section id="cat-macro" class="page"><h2>宏观与政策 <span class="badge">15条</span></h2><div class="digest">今天市场的主线是利率压力与科技股调整交织。纽约联储主席威廉姆斯称通胀&quot;顽固地高企&quot;，美联储将通胀降至2%仍有更多工作要做，但当前形势不需要激进政策行动。10年期美债收益率维持在5%以上的天数逼近20年来最长记录，当日虽下跌3.24个基点至5.0987%，仍在零售数据发布后走出V形反转，并在科技股抛售中迎来避险买盘。美股三大股指集体收跌，道指跌1.64%，标普500跌1.02%、连跌四日创9月以来最长连跌，纳指跌0.74%。值得注意的是芯片股尾盘拉升收窄跌幅，英伟达仅跌0.48%，其临时CEO克雷斯预计第四季度为毛利率低点，随后在2028财年回升至72%至73%区间，明年推出Vera Rubin Ultra、2028年推出Feynman的计划不变。高利率持续压制估值，而龙头业绩指引仍构成支撑，两股力量的拉锯值得跟踪。</div><div class="grid"><article class="card" data-cat="macro" data-search="纽约联储主席：通胀“顽固地高企” 不认为当前形势需要采取重大行动 fed fomc 宏观与政策" id="e1779">
+<details open><summary>
+<p class="ctitle">1. 纽约联储主席：通胀“顽固地高企” 不认为当前形势需要采取重大行动</p>
+<p class="cfact">{&quot;fact&quot;:&quot;纽约联储主席威廉姆斯（John Williams，享有FOMC永久投票权）于美东时间11月17日接受采访时表示，通胀&quot;顽固地高企&quot;，美联储在将…</p>
+<div class="meta"><span class="chip">8独立源</span>
+<span class="chip">S=33.7</span><span class="chip">FED</span><span class="chip">FOMC</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>{&quot;fact&quot;:&quot;纽约联储主席威廉姆斯（John Williams，享有FOMC永久投票权）于美东时间11月17日接受采访时表示，通胀&quot;顽固地高企&quot;，美联储在将通胀率降至2%方面仍有更多工作要做，但他认为当前形势不需要采取激进的政策行动。他指出已看到关税和能源冲击向更广泛通胀数据传导的迹象，同时警告人工智能基础设施投资可能持续推高通胀；另一方面，他认为美国经济依然强劲、劳动力市场稳健，金融环境对经济增长相当有利。&quot;,&quot;impact&quot;:&quot;作为美联储&quot;三把手&quot;，威廉姆斯的表态直接回应了市场对下个月加息50个基点的预期，暗示美联储倾向渐进而非激进的紧缩路径，对利率预期和资产定价具有关键指引意义。&quot;,&quot;divergence&quot;:&quot;金十数据一条摘要称&quot;美联储仍需继续加息&quot;，但财联社深度报道及其他多数来源仅表述为&quot;仍有更多工作要做&quot;，未明确指向加息方向；此外华尔街见闻实时引述威廉姆斯称&quot;关税的影响已基本过去&quot;，而金十和格隆汇则称&quot;关税与能源冲击仍在影响通胀数据&quot;，两处表述存在张力。&quot;,&quot;next_step&quot;:&quot;关注美联储下月FOMC会议的利率决议及点阵图，以及后续通胀数据是否验证AI基建投资对物价的持续推升效应。&quot;}</p><p><b>影响：</b></p><p><b>下一步关注：</b></p><ul class="links"><li><a href="https://www.cls.cn/detail/2537239" rel="noopener">财联社电报</a></li><li><a href="https://wallstreetcn.com/articles/3785996" rel="noopener">华尔街见闻</a></li><li><a href="https://api3.cls.cn/share/article/2537239?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://www.barrons.com.cn/news/263485" rel="noopener">巴伦中文</a></li><li><a href="https://wallstreetcn.com/livenews/3201482" rel="noopener">华尔街见闻实时</a></li><li><a href="https://xnews.jin10.com/details/235370" rel="noopener">金十重要</a></li></ul></div></details></article><article class="card" data-cat="macro" data-search="财联社11月18日电，英伟达临时ceo克雷斯称，预计第四季度将是毛利率的低点，随后在2028财年回升至72%至73%区间。仍有望于明年推出vera rubin ultra，并于2028年... nvidia 宏观与政策" id="e8669">
+<details open><summary>
+<p class="ctitle">2. 财联社11月18日电，英伟达临时CEO克雷斯称，预计第四季度将是毛利率的低点，随后在2028财年回升至72%至73%区间。仍有望于明年推出Vera Rubin Ultra，并于2028年...</p>
+<p class="cfact">2026年11月18日，英伟达临时CEO克雷斯表示，预计第四季度将是毛利率的低点，随后在2028财年回升至72%至73%区间。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=32.9</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:98%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>2026年11月18日，英伟达临时CEO克雷斯表示，预计第四季度将是毛利率的低点，随后在2028财年回升至72%至73%区间。他同时称，公司仍有望于明年推出Vera Rubin Ultra，并于2028年推出Feynman。</p><p><b>影响：</b>管理层给出毛利率触底回升的时间与幅度指引，并确认下一代产品节奏未变，为投资者判断盈利拐点和产品迭代提供了直接依据。</p><p><b>下一步关注：</b>关注后续季度财报中毛利率是否如指引在第四季度见底，以及Vera Rubin Ultra和Feynman的实际发布进度。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537279" rel="noopener">财联社电报</a></li><li><a href="https://www.gelonghui.com/live/2766411" rel="noopener">格隆汇</a></li></ul></div></details></article><article class="card" data-cat="macro" data-search="周三你需要知道的隔夜全球要闻：标普500指数创9月以来最长连跌；英伟达业绩和展望迎利好；10年期美债收益率维持在5%以上的天数逼近20年来最长记录 tsmc google nvidia 宏观与政策" id="e8708">
+<details open><summary>
+<p class="ctitle">3. 周三你需要知道的隔夜全球要闻：标普500指数创9月以来最长连跌；英伟达业绩和展望迎利好；10年期美债收益率维持在5%以上的天数逼近20年来最长记录</p>
+<p class="cfact">美股三大股指集体收跌，道琼斯指数跌1.64%，标普500指数跌1.02%、连续第四个交易日下跌并创9月以来最长连跌，纳斯达克综合指数跌0.74%；</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=32.9</span><span class="chip">TSMC</span><span class="chip">GOOGLE</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:98%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>美股三大股指集体收跌，道琼斯指数跌1.64%，标普500指数跌1.02%、连续第四个交易日下跌并创9月以来最长连跌，纳斯达克综合指数跌0.74%；芯片股尾盘拉升跌幅收窄，台积电跌近4%，美光科技跌近1%，英伟达跌0.48%，谷歌跌超1%，耐克跌超6%，SpaceX涨超3%。盘后公布的英伟达第三季度营收为1158亿美元，环比增长20.3%、同比增长103.1%，高于市场预期的1093.3亿美元，其中数据中心营收1076亿美元（环比增21%、同比增110%，预期1018.7亿美元），调整后毛利率74.9%。公司预计第四季度营收1261亿至1339亿美元（预期1252.5亿美元）、GAAP与非GAAP毛利率在71.0%至72.0%之间，董事会批准新增1500亿美元股票回购计划，剩余回购授权额度为2273亿美元。</p><p><b>影响：</b>英伟达业绩与指引双双超出市场预期并追加大额回购，对当日承压的美股尤其是芯片板块构成情绪支撑，而标普500四连跌与标题所述10年期美债收益率维持在5%以上的天数逼近20年来最长记录，显示高利率环境仍在压制估值。</p><p class="div"><b>分歧/未核实：</b>两条来源内容一致，无数字分歧；但代表作全文在“英伟达首席财务官上调2028年营收增长预期，预计2028财年营收将增长75%，云业务积压订单达”处截断，云业务积压订单具体金额未给出，属未核实信息；标题提及的10年期美债收益率5%以上持续天数的具体数值亦未在正文中披露。</p><p><b>下一步关注：</b>关注英伟达财报及第四季度指引公布后的股价与芯片板块反应、CFO所述2028财年营收增长75%及云业务积压订单的完整口径，以及10年期美债收益率能否回落至5%以下、标普500连跌是否延续。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537278" rel="noopener">财联社电报</a></li><li><a href="https://api3.cls.cn/share/article/2537278?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li></ul></div></details></article><article class="card" data-cat="macro" data-search="10年期美债收益率在美国零售销售数据发布后一度实现v形反转，随后在科技股抛售期间迎来避险 fed tips 宏观与政策" id="e7712">
+<details open><summary>
+<p class="ctitle">4. 10年期美债收益率在美国零售销售数据发布后一度实现V形反转，随后在科技股抛售期间迎来避险</p>
+<p class="cfact">2026年11月17日纽约尾盘，美国10年期基准国债收益率下跌3.24个基点至5.0987%，日内在5.1494%—5.0865%区间波动：北京时间22:24刷…</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=31.4</span><span class="chip">FED</span><span class="chip">TIPS</span></div>
+<div class="heatbar"><i style="width:93%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>2026年11月17日纽约尾盘，美国10年期基准国债收益率下跌3.24个基点至5.0987%，日内在5.1494%—5.0865%区间波动：北京时间22:24刷新日高，亚太盘初以来（含美国零售销售数据发布时点）走出V形反转，23:28又出现一波短线跳水。同日两年期美债收益率跌4.23个基点至4.7870%，30年期跌1.83个基点至5.4569%；10年期通胀保值国债（TIPS）收益率跌4.20个基点至2.8735%，两年期TIPS跌5.90个基点至2.6069%，30年期TIPS跌3.21个基点至3.2861%。另据财联社、华尔街见闻与格隆汇11月18日报道，10年期美债收益率今年势将第27个交易日收于5%以上，逼近2007年29个交易日的纪录，交易员已完全计入美联储12月9日会议加息25个基点的可能性，并预计到2027年9月累计收紧幅度超过80个基点。</p><p><b>影响：</b>长端利率持续停留在5%上方意味着美国借贷成本处于近二十年罕见的高位，而零售数据后的V形反转与随后的跳水显示，市场对美联储进一步加息的定价与避险买盘正在同一交易日内反复拉锯。</p><p class="div"><b>分歧/未核实：</b>关于零售数据后的方向，各源口径不同：华尔街见闻称10月零售销售增速放缓后10年期收益率上涨约1个基点至5.14%，而另一条华尔街见闻实时稿记录当日收盘为跌3.24个基点至5.0987%、日高5.1494%，前者应为盘中时点报价、后者为尾盘收盘，并非同一时点数据。事件描述中的“科技股抛售期间迎来避险”在给定来源中未见直接佐证，属未核实。</p><p><b>下一步关注：</b>关注美联储12月9日会议是否兑现已被完全计入的25个基点加息，以及10年期收益率年内收于5%以上的交易日数能否突破2007年的29个交易日纪录。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201502" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.cls.cn/detail/2537192" rel="noopener">财联社电报</a></li><li><a href="https://wallstreetcn.com/livenews/3201415" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.gelonghui.com/live/2766130" rel="noopener">格隆汇</a></li><li><a href="https://api3.cls.cn/share/article/2537192?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://www.gelonghui.com/live/2766352" rel="noopener">格隆汇</a></li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="美联储12月加息25个基点的概率为96.8% fed 宏观与政策" id="e8709">
+<details open><summary>
+<p class="ctitle"><span class="rank">#5</span> 美联储12月加息25个基点的概率为96.8%</p>
+<p class="cfact">【美联储12月加息25个基点的概率为96.8%】财联社11月18日电，据CME“美联储观察”：美联储12月加息25个基点的概率为96.8%，加息50个基点的概率为3.2%。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=28.4</span><span class="chip">FED</span></div>
+<div class="heatbar"><i style="width:84%"></i></div>
+</summary><div class="cbody"><p>【美联储12月加息25个基点的概率为96.8%】财联社11月18日电，据CME“美联储观察”：美联储12月加息25个基点的概率为96.8%，加息50个基点的概率为3.2%。美联储到明年1月累计加息25个基点的概率26.8%，累计加息50个基点的概率为70.9%，累计加息75个基点的概率为2.3%。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537277" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 美联储12月加息25个基点的概率为96.8%</li><li><a href="https://www.barrons.com.cn/news/263474" rel="noopener">巴伦中文</a><span class="chip">2026-11-17</span> 美联储12月加息25个基点的概率为96.8%</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="美银预计美国利率将持续上行直至经济活动受到抑制 fed 宏观与政策" id="e8820">
+<details open><summary>
+<p class="ctitle"><span class="rank">#6</span> 美银预计美国利率将持续上行直至经济活动受到抑制</p>
+<p class="cfact">美国银行利率策略师表示，如果没有迹象表明短期利率正在抑制美国经济，那么短期利率可能会继续上升。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=27.6</span><span class="chip">FED</span></div>
+<div class="heatbar"><i style="width:82%"></i></div>
+</summary><div class="cbody"><p>美国银行利率策略师表示，如果没有迹象表明短期利率正在抑制美国经济，那么短期利率可能会继续上升。 美银美国利率策略主管Mark Cabana表示，对于2年期美债收益率而言，这意味着到今年年底将达到5%，上次触及这一水平还是在2023年。Cabana写道，美国短期收益率上升“应该会不同程度地带动所有期限的债券收益率上涨”，并且“也会给全球利率带来上涨压力”。Cabana表示，从通胀和就业数据来看，“美国利率并未对经济活动造成实质性限制”。他还指出，美联储的政策前景和油价也可能推高</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201581" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 美银预计美国利率将持续上行直至经济活动受到抑制</li><li><a href="https://www.gelonghui.com/live/2766518" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 美银预计美国利率将持续上行直至经济活动受到抑制</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。  宏观与政策" id="e8881">
+<details open><summary>
+<p class="ctitle"><span class="rank">#7</span> 日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。</p>
+<p class="cfact">日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=27.6</span></div>
+<div class="heatbar"><i style="width:82%"></i></div>
+</summary><div class="cbody"><p>日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201592" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 日本10月季调后商品贸易帐 -7672.17亿日元，预期 -9080亿日元，前值 -7040亿日元。</li><li><a href="https://wallstreetcn.com/livenews/3201591" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 日本10月未季调商品贸易帐 -4765亿日元，预期 -10784亿日元，前值 -5366亿日元。</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="新西兰三季度ppi产出季环比 0.8%，前值 1.6%。  宏观与政策" id="e8541">
+<details open><summary>
+<p class="ctitle"><span class="rank">#8</span> 新西兰三季度PPI产出季环比 0.8%，前值 1.6%。</p>
+<p class="cfact">新西兰三季度PPI产出季环比 0.8%，前值 1.6%。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=26.7</span></div>
+<div class="heatbar"><i style="width:79%"></i></div>
+</summary><div class="cbody"><p>新西兰三季度PPI产出季环比 0.8%，前值 1.6%。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201534" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 新西兰三季度PPI产出季环比 0.8%，前值 1.6%。</li><li><a href="https://www.gelonghui.com/live/2766367" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜新西兰第三季度输入PPI年率 4.5%，前值4.1%。</li><li><a href="https://www.gelonghui.com/live/2766366" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜新西兰第三季度输出PPI年率 3.7%，前值3.2%。</li><li><a href="https://www.gelonghui.com/live/2766360" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜新西兰第三季度输出PPI季率 0.8%，前值1.60%。</li><li><a href="https://www.gelonghui.com/live/2766361" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜新西兰第三季度输入PPI季率 0.7%，前值2.90%。</li><li><a href="https://wallstreetcn.com/livenews/3201533" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 新西兰三季度PPI投入季环比 0.7%，前值 2.9%。</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="美国纽约联储主席（享有fomc永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（ai）领域的融资正变得更加不透明和复杂。 还没有看到ai带来的金融稳定性风... fed 宏观与政策" id="e8325">
+<details open><summary>
+<p class="ctitle"><span class="rank">#9</span> 美国纽约联储主席（享有FOMC永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（AI）领域的融资正变得更加不透明和复杂。 还没有看到AI带来的金融稳定性风...</p>
+<p class="cfact">美国纽约联储主席（享有FOMC永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（AI）领域的融资正变得更加不透明和复杂。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=22.6</span><span class="chip">FED</span></div>
+<div class="heatbar"><i style="width:67%"></i></div>
+</summary><div class="cbody"><p>美国纽约联储主席（享有FOMC永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（AI）领域的融资正变得更加不透明和复杂。 还没有看到AI带来的金融稳定性风险。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201487" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 美国纽约联储主席（享有FOMC永久投票权、号称“美联储三把手”）威廉姆斯：人工智能（AI）领域的融资正变得更加不透明和复</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。 isna 宏观与政策" id="e8319">
+<details open><summary>
+<p class="ctitle"><span class="rank">#10</span> 财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。</p>
+<p class="cfact">财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=22.1</span><span class="chip">ISNA</span></div>
+<div class="heatbar"><i style="width:66%"></i></div>
+</summary><div class="cbody"><p>财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537236" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月18日电，据报道，伊朗方面正“认真寻求”通过外交途径结束僵局。</li><li><a href="https://wallstreetcn.com/livenews/3201491" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 报道：伊朗“认真寻求”通过外交途径打破僵局</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="美联储“三把手”称无需采取激进政策行动；伊朗驳斥脏弹传闻，卡塔尔称仍在调解美伊矛盾；英伟达营收翻倍，董事会拒绝黄仁勋复职……昨日今晨，全球都发生了哪些... fed jensen_huang nvidia 宏观与政策" id="e8714">
+<details open><summary>
+<p class="ctitle"><span class="rank">#11</span> 美联储“三把手”称无需采取激进政策行动；伊朗驳斥脏弹传闻，卡塔尔称仍在调解美伊矛盾；英伟达营收翻倍，董事会拒绝黄仁勋复职……昨日今晨，全球都发生了哪些...</p>
+<p class="cfact">美联储“三把手”称无需采取激进政策行动；</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=21.5</span><span class="chip">FED</span><span class="chip">JENSEN_HUANG</span><span class="chip">NVIDIA</span></div>
+<div class="heatbar"><i style="width:64%"></i></div>
+</summary><div class="cbody"><p>美联储“三把手”称无需采取激进政策行动；伊朗驳斥脏弹传闻，卡塔尔称仍在调解美伊矛盾；英伟达营收翻倍，董事会拒绝黄仁勋复职……昨日今晨，全球都发生了哪些大事？</p><ul class="links"><li><a href="https://xnews.jin10.com/details/235307" rel="noopener">金十重要</a><span class="chip">2026-11-17</span> 美联储“三把手”称无需采取激进政策行动；伊朗驳斥脏弹传闻，卡塔尔称仍在调解美伊矛盾；英伟达营收翻倍，董事会拒绝黄仁勋复职</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="美国国务院：批准可能向阿尔巴尼亚出售m142高机动性火箭炮系统（himars），预计价值2.1亿美元。  宏观与政策" id="e8540">
+<details open><summary>
+<p class="ctitle"><span class="rank">#12</span> 美国国务院：批准可能向阿尔巴尼亚出售M142高机动性火箭炮系统（HIMARS），预计价值2.1亿美元。</p>
+<p class="cfact">美国国务院：批准可能向阿尔巴尼亚出售M142高机动性火箭炮系统（HIMARS），预计价值2.1亿美元。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=20.9</span></div>
+<div class="heatbar"><i style="width:62%"></i></div>
+</summary><div class="cbody"><p>美国国务院：批准可能向阿尔巴尼亚出售M142高机动性火箭炮系统（HIMARS），预计价值2.1亿美元。</p><ul class="links"><li><a href="https://www.gelonghui.com/live/2766368" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜美国国务院：批准可能向阿尔巴尼亚出售M142高机动性火箭炮系统（HIMARS），预计价值2.1亿美元</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。点击查看...  宏观与政策" id="e8938">
+<details open><summary>
+<p class="ctitle"><span class="rank">#13</span> 恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。点击查看...</p>
+<p class="cfact">恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=20.3</span></div>
+<div class="heatbar"><i style="width:60%"></i></div>
+</summary><div class="cbody"><p>恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。点击查看...</p><ul class="links"><li><a href="https://xnews.jin10.com/details/235371" rel="noopener">金十重要</a><span class="chip">2026-11-18</span> 恐慌正在离开科技板块向全市场扩散，通胀、利率与基础设施风险共振，广泛风险资产正在补交此前漏算的账单。点击查看...</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="富达：即便美债收益率达到6%，也不算“非常便宜”  宏观与政策" id="e8886">
+<details open><summary>
+<p class="ctitle"><span class="rank">#14</span> 富达：即便美债收益率达到6%，也不算“非常便宜”</p>
+<p class="cfact">近期美债的抛售潮引发了市场关于买入机会的讨论，但富达国际的Salman Ahmed认为，即便10年期美国国债收益率达到6%，也不算“非常便宜”。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=20.1</span></div>
+<div class="heatbar"><i style="width:60%"></i></div>
+</summary><div class="cbody"><p>近期美债的抛售潮引发了市场关于买入机会的讨论，但富达国际的Salman Ahmed认为，即便10年期美国国债收益率达到6%，也不算“非常便宜”。 该公司全球宏观及战略资产配置主管Ahmed表示，这一评估基于该公司的估值框架，该框架考虑了收益率曲线趋陡、实际利率上升以及长期通胀率高企等因素。“股票与债券之间的整体相关性为正，”Ahmed在新加坡表示。“而且由于各种因素，这种局面不会改变。财政赤字正大幅增加，债务持续攀升，通胀也更加顽固。” Ahmed警告称，有鉴于借贷成本上升可</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201582" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 富达：即便美债收益率达到6%，也不算“非常便宜”</li></ul></div></details></article><article class="card compact" data-cat="macro" data-search="&lt;b&gt;国内新闻&lt;/b&gt;&lt;br /&gt;&lt;span class=&quot;section-news&quot;&gt;1. 神舟二十四号计划近日择机实施发射。&lt;/span&gt;&lt;br /&gt;&lt;span class=&quot;section-news&quot;&gt;2. 外交部回应相关国家免签政...  宏观与政策" id="e8717">
+<details open><summary>
+<p class="ctitle"><span class="rank">#15</span> &lt;b&gt;国内新闻&lt;/b&gt;&lt;br /&gt;&lt;span class=&quot;section-news&quot;&gt;1. 神舟二十四号计划近日择机实施发射。&lt;/span&gt;&lt;br /&gt;&lt;span class=&quot;section-news&quot;&gt;2. 外交部回应相关国家免签政...</p>
+<p class="cfact">国内新闻 1. 神舟二十四号计划近日择机实施发射。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=18.5</span></div>
+<div class="heatbar"><i style="width:55%"></i></div>
+</summary><div class="cbody"><p>国内新闻 1. 神舟二十四号计划近日择机实施发射。 2. 外交部回应相关国家免签政策将于今年年底到期。 3. 商务部新闻发言人就中加经贸磋商成果答记者问。 4. 习近平分别会见加拿大、墨西哥、秘鲁、智利等多国领导人。 5. 数字广东建设“十五五”规划印发：培育光通信芯片、光传感芯片等产业集群。 6. 商务部新闻发言人就美商务部发布限制远程获取先进半导体相关措施答记者问。 7. 外交部批美国经济胁迫：美方不断泛化国家安全概念，滥用出口管制措施，中方将采</p><ul class="links"></ul></div></details></article></div></section><section id="cat-a_hk" class="page"><h2>A股港股 <span class="badge">15条</span></h2><div class="digest">今日A股市场呈现多空交织格局。一方面，8家公司合计92.51亿元市值限售股集中解禁，恒坤新材和德尔玛解禁量居前，短期抛压值得关注；富时A50期指夜盘微跌0.09%，市场情绪偏谨慎。另一方面，年内近1300家上市公司累计回购超1500亿元，在估值低位与成交缩量背景下，产业资本持续托底意愿明确，机构判断向下风险正在收敛。此外，APEC工商领导人峰会在深圳召开，李彦宏警示AI应用落地不及预期或演变为泡沫，雷军、曾毓群等共议机器人与AI前景，科技产业方向性讨论为后续板块轮动提供线索。整体看，解禁压力与回购支撑对冲，政策稳市预期仍是主线。</div><div class="grid"><article class="card" data-cat="a_hk" data-search="a股限售股解禁一览：92.51亿元市值限售股今日解禁  a股港股" id="e1355">
+<details open><summary>
+<p class="ctitle">1. A股限售股解禁一览：92.51亿元市值限售股今日解禁</p>
+<p class="cfact">据Wind数据，2026年11月18日（周三）A股共有8家公司限售股解禁，合计解禁量4.23亿股，按最新收盘价计算合计解禁市值92.51亿元。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=34.9</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据Wind数据，2026年11月18日（周三）A股共有8家公司限售股解禁，合计解禁量4.23亿股，按最新收盘价计算合计解禁市值92.51亿元。其中恒坤新材、德尔玛、天海电子解禁量居前，分别为2.28亿股、1.73亿股、569.44万股；按解禁市值排序，恒坤新材73.84亿元、德尔玛12.87亿元、云天励飞-U 2.34亿元居前三。从解禁股数占总股本比例看，恒坤新材50.48%、德尔玛37.42%、云天励飞-U 1.2%居前。</p><p><b>影响：</b>当日解禁市值高度集中于恒坤新材和德尔玛两家公司，且二者解禁股占总股本比例分别达50.48%和37.42%，流通盘大幅扩容可能带来短期抛压。</p><p><b>下一步关注：</b>关注恒坤新材、德尔玛解禁后的实际减持公告及股价与成交量变化，以及后续交易日的解禁规模安排。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537308" rel="noopener">财联社电报</a></li><li><a href="https://www.gelonghui.com/live/2762211" rel="noopener">格隆汇</a></li><li><a href="https://www.yicai.com/brief/103444355.html" rel="noopener">第一财经</a></li><li><a href="https://www.yicai.com/brief/103441122.html" rel="noopener">第一财经</a></li></ul></div></details></article><article class="card" data-cat="a_hk" data-search="a股上市公司积极回购，机构称市场向下风险收敛  a股港股" id="e8890">
+<details open><summary>
+<p class="ctitle">2. A股上市公司积极回购，机构称市场向下风险收敛</p>
+<p class="cfact">截至2026年11月16日，今年以来共有近1300家A股上市公司实施回购，合计回购金额超1500亿元。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=34.8</span><span class="hot">36氪 #9</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>截至2026年11月16日，今年以来共有近1300家A股上市公司实施回购，合计回购金额超1500亿元。近期市场持续震荡，A股估值已处于相对低位，上市公司积极开展回购。分析人士认为，当前市场成交缩量、政策稳市及中长期资金入市等因素有望形成支撑，市场向下的风险已有所收敛。</p><p><b>影响：</b>大规模回购叠加政策稳市和中长期资金入市预期，有助于提振市场信心、稳定估值底部。</p><p><b>下一步关注：</b>关注后续回购力度是否持续扩大，以及政策稳市措施和中长期资金入市的实际落地进展。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201574" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.36kr.com/newsflashes/4074476049683332" rel="noopener">36氪快讯</a></li></ul></div></details></article><article class="card" data-cat="a_hk" data-search="财联社11月18日电，富时a50期指连续夜盘收跌0.09%，报12650点。  a股港股" id="e8587">
+<details open><summary>
+<p class="ctitle">3. 财联社11月18日电，富时A50期指连续夜盘收跌0.09%，报12650点。</p>
+<p class="cfact">2026年11月18日，富时A50期指连续合约夜盘收跌0.09%，报12650点。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=26.1</span></div>
+<div class="heatbar"><i style="width:75%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>2026年11月18日，富时A50期指连续合约夜盘收跌0.09%，报12650点。财联社电报与华尔街见闻实时均报道了同一数据，两源表述一致。</p><p><b>影响：</b>富时A50期指夜盘表现常被用作观察A股市场情绪的参考指标之一，本次微幅收跌显示夜盘波动有限。</p><p><b>下一步关注：</b>关注后续A股开盘走势及富时A50期指日盘变动情况。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537256" rel="noopener">财联社电报</a></li><li><a href="https://wallstreetcn.com/livenews/3201520" rel="noopener">华尔街见闻实时</a></li></ul></div></details></article><article class="card" data-cat="a_hk" data-search="雷军、李彦宏、王兴兴、曾毓群等齐聚，再谈ai与机器人未来 baidu apec icbc a股港股" id="e5064">
+<details open><summary>
+<p class="ctitle">4. 雷军、李彦宏、王兴兴、曾毓群等齐聚，再谈AI与机器人未来</p>
+<p class="cfact">{&quot;fact&quot;:&quot;2026年11月17日至18日，2026年APEC工商领导人峰会在深圳举行，主题为&quot;共促繁荣，共赢未来&quot;。</p>
+<div class="meta"><span class="chip">11独立源</span>
+<span class="chip">S=18.9</span><span class="chip">BAIDU</span><span class="chip">APEC</span><span class="chip">ICBC</span></div>
+<div class="heatbar"><i style="width:54%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>{&quot;fact&quot;:&quot;2026年11月17日至18日，2026年APEC工商领导人峰会在深圳举行，主题为&quot;共促繁荣，共赢未来&quot;。百度创始人李彦宏指出AI在算力和基础设施上投入巨大，但应用层落地成效不及预期，若无法突破可能演变为泡沫；小米雷军表示过去四年能真正实现商业闭环、挣到钱的AI公司相对较少，认为具身智能机器人是巨大的产业机会；宇树科技王兴兴用&quot;最激动人心&quot;形容AI正接近突破临界点；工商银行董事长廖林提出AI时代需处理好技术应用与组织架构衔接、技术迭代与投资周期统筹、技术创新与风险平衡三组关系。&quot;,&quot;impact&quot;:&quot;中国头部科技与金融企业掌门人在APEC峰会集中发声，共识指向AI从基础设施投入转向应用落地和商业变现是当前产业发展的核心瓶颈。&quot;,&quot;divergence&quot;:&quot;李彦宏对AI技术快速迭代的时长表述不一致：联合早报称&quot;过去三年多&quot;，雷军及多家媒体引述为&quot;过去四年&quot;，两者统计口径或起算时点可能存在差异。&quot;,&quot;next_step&quot;:&quot;关注百度&quot;Token交易所&quot;等应用层产品的实际商业化进展，以及具身智能机器人领域是否出现可验证的商业闭环案例。&quot;}</p><p><b>影响：</b></p><p><b>下一步关注：</b></p><ul class="links"><li><a href="https://www.cls.cn/detail/2536992" rel="noopener">财联社深度</a></li><li><a href="https://www.caixin.com/2026-11-17/102505603.html" rel="noopener">财新最新</a></li><li><a href="https://finance.caixin.com/2026-11-17/102505702.html" rel="noopener">财新最新</a></li><li><a href="https://wallstreetcn.com/livenews/3201155" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.yicai.com/brief/103443341.html" rel="noopener">第一财经</a></li><li><a href="https://www.ithome.com/1/028/322.htm" rel="noopener">IT之家</a></li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="港股公告精选｜名创优品前三季度营收同比增约两成 中铝国际签署近56亿元总承包合同 sw a股港股" id="e6683">
+<details open><summary>
+<p class="ctitle"><span class="rank">#5</span> 港股公告精选｜名创优品前三季度营收同比增约两成 中铝国际签署近56亿元总承包合同</p>
+<p class="cfact">财联社11月17日讯（编辑 冯轶） 财联社为您带来今日港股重要公告 1）公司要闻 中铝国际(02068.HK)： 签署越南氧化铝项目EPC工程总承包合同，总额约55.83亿元。</p>
+<div class="meta"><span class="chip">6独立源</span>
+<span class="chip">S=17.0</span><span class="chip">SW</span></div>
+<div class="heatbar"><i style="width:49%"></i></div>
+</summary><div class="cbody"><p>财联社11月17日讯（编辑 冯轶） 财联社为您带来今日港股重要公告 1）公司要闻 中铝国际(02068.HK)： 签署越南氧化铝项目EPC工程总承包合同，总额约55.83亿元。 公告称，主要以EPC总承包模式承揽年产240万吨氧化铝厂的设计、材料与设备供应、工程施工、安装、竣工试验、缺陷修复工作，并为氧化铝厂商业运营首年提供质保及运营支持工作。 京东集团-SW(09618.HK)： 前9月总收入为9716.88亿元，同比增长1.56%，净利润为187.34亿元。三季度收入为人</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537042" rel="noopener">财联社深度</a><span class="chip">2026-11-17</span> 港股公告精选｜名创优品前三季度营收同比增约两成 中铝国际签署近56亿元总承包合同</li><li><a href="https://www.gelonghui.com/live/2765680" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 中铝国际：签署55.83亿元越南年产240万吨氧化铝项目EPC合同</li><li><a href="https://wallstreetcn.com/livenews/3201265" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 中铝国际：签署越南年产240万吨氧化铝项目EPC合同，金额约55.83亿元</li><li><a href="https://www.yicai.com/brief/103444002.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;中铝国际：签署越南年产240万吨氧化铝项目EPC合同，金额约55.83亿元 |&lt;/b&gt; 中铝国际公告，公司此前于2</li><li><a href="https://api3.cls.cn/share/article/2536940?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社公司公告</a><span class="chip">2026-11-17</span> 中铝国际：签署越南氧化铝项目EPC总承包合同 金额约55.83亿元</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="&lt;b&gt;a股分红派息转增一览：5股今日股权登记 |&lt;/b&gt; wind数据显示，根据上市公司权益分配方案梳理统计，5只a股今日股权登记。其中，5股拟派息。  a股港股" id="e1400">
+<details open><summary>
+<p class="ctitle"><span class="rank">#6</span> &lt;b&gt;A股分红派息转增一览：5股今日股权登记 |&lt;/b&gt; Wind数据显示，根据上市公司权益分配方案梳理统计，5只A股今日股权登记。其中，5股拟派息。</p>
+<p class="cfact">Wind数据显示，根据上市公司权益分配方案梳理统计，5只A股今日股权登记。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=14.9</span></div>
+<div class="heatbar"><i style="width:43%"></i></div>
+</summary><div class="cbody"><p>Wind数据显示，根据上市公司权益分配方案梳理统计，5只A股今日股权登记。其中，5股拟派息。</p><ul class="links"><li><a href="https://www.yicai.com/brief/103444357.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;A股分红派息转增一览：5股今日股权登记 |&lt;/b&gt; Wind数据显示，根据上市公司权益分配方案梳理统计，5只A股今</li><li><a href="https://www.yicai.com/brief/103441138.html" rel="noopener">第一财经</a><span class="chip">2026-11-15</span> &lt;b&gt;A股分红派息转增一览：10股今日股权登记 |&lt;/b&gt; Wind数据显示，根据上市公司权益分配方案梳理统计，10只A</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="&lt;b&gt;a股股票回购一览：33家公司披露回购进展 |&lt;/b&gt; wind数据显示，11月18日，33家公司共发布33个股票回购相关进展。其中，4家公司股东提议回购公司股份，9家公司...  a股港股" id="e1408">
+<details open><summary>
+<p class="ctitle"><span class="rank">#7</span> &lt;b&gt;A股股票回购一览：33家公司披露回购进展 |&lt;/b&gt; Wind数据显示，11月18日，33家公司共发布33个股票回购相关进展。其中，4家公司股东提议回购公司股份，9家公司...</p>
+<p class="cfact">Wind数据显示，11月18日，33家公司共发布33个股票回购相关进展。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=14.9</span></div>
+<div class="heatbar"><i style="width:43%"></i></div>
+</summary><div class="cbody"><p>Wind数据显示，11月18日，33家公司共发布33个股票回购相关进展。其中，4家公司股东提议回购公司股份，9家公司首次披露股票回购预案，2家公司回购方案获股东大会通过，12家公司披露股票回购实施进展，6家公司回购方案已实施完毕。</p><ul class="links"><li><a href="https://www.yicai.com/brief/103444345.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;A股股票回购一览：33家公司披露回购进展 |&lt;/b&gt; Wind数据显示，11月18日，33家公司共发布33个股票回</li><li><a href="https://www.yicai.com/brief/103441112.html" rel="noopener">第一财经</a><span class="chip">2026-11-15</span> &lt;b&gt;A股股票回购一览：1家公司披露回购进展 |&lt;/b&gt; Wind数据显示，11月16日，1家公司共发布1个股票回购相关</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="恒生指数主连夜盘收跌032%，报23414点。 恒生科技指数主连夜盘收跌0.48%，报3732点。  a股港股" id="e8195">
+<details open><summary>
+<p class="ctitle"><span class="rank">#8</span> 恒生指数主连夜盘收跌032%，报23414点。 恒生科技指数主连夜盘收跌0.48%，报3732点。</p>
+<p class="cfact">恒生指数主连夜盘收跌032%，报23414点。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=13.3</span></div>
+<div class="heatbar"><i style="width:38%"></i></div>
+</summary><div class="cbody"><p>恒生指数主连夜盘收跌032%，报23414点。 恒生科技指数主连夜盘收跌0.48%，报3732点。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201472" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 恒生指数主连夜盘收跌032%，报23414点。 恒生科技指数主连夜盘收跌0.48%，报3732点。</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品 catl a股港股" id="e6700">
+<details open><summary>
+<p class="ctitle"><span class="rank">#9</span> 斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品</p>
+<p class="cfact">【斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品】财联社11月17日电，斯莱克(300382.SZ)公告称，公司控股子公司分宜和骏近日与宁德时代签署《厂…</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=13.3</span><span class="chip">CATL</span></div>
+<div class="heatbar"><i style="width:38%"></i></div>
+</summary><div class="cbody"><p>【斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品】财联社11月17日电，斯莱克(300382.SZ)公告称，公司控股子公司分宜和骏近日与宁德时代签署《厂边厂配套供应协议》，宁德时代指定分宜和骏在江苏苏州、福建泉州投资生产，为其提供电池壳体等配套产品。协议有效期至2028年12月31日。本次协议签署不会对公司本年度财务状况及经营业绩构成重大影响。</p><ul class="links"><li><a href="https://api3.cls.cn/share/article/2536897?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社公司公告</a><span class="chip">2026-11-17</span> 斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品</li><li><a href="https://www.yicai.com/brief/103443937.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;斯莱克：子公司与宁德时代签署《厂边厂配套供应协议》 |&lt;/b&gt; 斯莱克公告，公司控股子公司分宜和骏近日与宁德时代签</li><li><a href="https://wallstreetcn.com/livenews/3201240" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 斯莱克：控股子公司分宜和骏与宁德时代签署《厂边厂配套供应协议》，宁德时代指定其在江苏苏州、福建泉州投资生产并供应电池壳体</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="港股收盘 | 恒指和科指双双跌超1% 新消费与家电股逆势走强 alibaba amazon apple baidu google a股港股" id="e3317">
+<details open><summary>
+<p class="ctitle"><span class="rank">#10</span> 港股收盘 | 恒指和科指双双跌超1% 新消费与家电股逆势走强</p>
+<p class="cfact">财联社11月17日讯（编辑 胡家荣） 今日港股三大指数集体调整。</p>
+<div class="meta"><span class="chip">6独立源</span>
+<span class="chip">S=12.4</span><span class="chip">ALIBABA</span><span class="chip">AMAZON</span><span class="chip">APPLE</span><span class="chip">BAIDU</span></div>
+<div class="heatbar"><i style="width:36%"></i></div>
+</summary><div class="cbody"><p>财联社11月17日讯（编辑 胡家荣） 今日港股三大指数集体调整。截至收盘，恒生指数跌1.03%，报23508.17点；科技指数跌1.14%，报收3758.17点；国企指数跌0.97%，报收7904.37点。 值得注意的是，恒生科技指数在今日盘中一度下探至3715.15点，逼近2024年9月23日以来的低位。 龙头权重股同步承压，阿里巴巴(09988.HK)盘中低见85.10港元，腾讯控股(00700.HK)盘中触及376.80港元，双双创下2025年1月底以来的盘中股价新低。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2536645" rel="noopener">财联社深度</a><span class="chip">2026-11-17</span> 港股收盘 | 恒指和科指双双跌超1% 新消费与家电股逆势走强</li><li><a href="https://wallstreetcn.com/livenews/3200514" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-16</span> 恒生指数收盘涨0.49%，恒生科技指数跌0.3%</li><li><a href="https://www.barrons.com.cn/news/263168" rel="noopener">巴伦中文</a><span class="chip">2026-11-17</span> 港股午评：恒生指数跌0.77%，恒生科技指数跌0.46%</li><li><a href="https://wallstreetcn.com/livenews/3201135" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 恒生指数收盘跌1.03%，恒生科技指数跌1.14%</li><li><a href="https://www.36kr.com/newsflashes/4073570817758344" rel="noopener">36氪快讯</a><span class="chip">2026-11-17</span> 恒指收跌1.03%，恒生科技指数跌1.14%</li><li><a href="https://www.cls.cn/detail/2536345" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 港股午评：恒生指数跌0.77% 恒生科技指数跌0.46%</li><li><a href="https://wallstreetcn.com/livenews/3200924" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 恒指低开0.98%，报23521.16点；恒生科技指数跌1.09%。蔚来跌超5%，MINIMAX跌近4%，哔哩哔哩、智谱</li><li><a href="https://wallstreetcn.com/livenews/3200945" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 恒生科技指数盘中跌2%，阿里巴巴跌超5%，百度跌超6%。</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="财联社11月17日电，江苏神州半导体科技股份有限公司科创板ipo审核状态变更为提交注册。  a股港股" id="e6323">
+<details open><summary>
+<p class="ctitle"><span class="rank">#11</span> 财联社11月17日电，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为提交注册。</p>
+<p class="cfact">财联社11月17日电，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为提交注册。</p>
+<div class="meta"><span class="chip">5独立源</span>
+<span class="chip">S=11.8</span></div>
+<div class="heatbar"><i style="width:34%"></i></div>
+</summary><div class="cbody"><p>财联社11月17日电，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为提交注册。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2536735" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月17日电，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为提交注册。</li><li><a href="https://www.yicai.com/brief/103443907.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;神州股份科创板IPO审核状态变更为“提交注册” |&lt;/b&gt; 上交所网站披露，江苏神州半导体科技股份有限公司科创板I</li><li><a href="https://wallstreetcn.com/livenews/3201205" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 上交所网站披露，江苏神州半导体科技股份有限公司科创板IPO审核状态变更为“提交注册”。</li><li><a href="https://www.gelonghui.com/live/2765536" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 神州股份科创板IPO审核状态变更为“提交注册”</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="董明珠现身apec会议现场 aelm apec baidu byd catl a股港股" id="e1361">
+<details open><summary>
+<p class="ctitle"><span class="rank">#12</span> 董明珠现身APEC会议现场</p>
+<p class="cfact">2026年APEC工商领导人峰会今日在深圳举办。</p>
+<div class="meta"><span class="chip">9独立源</span>
+<span class="chip">S=11.5</span><span class="chip">AELM</span><span class="chip">APEC</span><span class="chip">BAIDU</span><span class="chip">BYD</span></div>
+<div class="heatbar"><i style="width:33%"></i></div>
+</summary><div class="cbody"><p>2026年APEC工商领导人峰会今日在深圳举办。下午3点10分左右，董明珠现身会议现场。据悉，董明珠将参与主题为“粤港澳大湾区与亚太发展机遇”的专题研讨。（证券时报）</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201128" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 董明珠现身APEC会议现场</li><li><a href="https://www.zaobao.com/news/china/story20261116-10001954" rel="noopener">联合早报</a><span class="chip">2026-11-15</span> 戴庆成：深圳下一步如何走？</li><li><a href="https://www.zaobao.com.sg/news/china/story20261116-10001954" rel="noopener">联合早报</a><span class="chip">2026-11-15</span> 戴庆成：深圳下一步如何走？</li><li><a href="https://www.dw.com/en/chinas-xi-jinping-center-stage-at-apec-summit/video-79960874" rel="noopener">德国之声</a><span class="chip">2026-11-16</span> Xi is the man in the middle hosting APEC</li><li><a href="https://www.zaobao.com.sg/news/china/story20261117-10009502" rel="noopener">联合早报</a><span class="chip">2026-11-17</span> APEC前夕 习近平广东中山考察</li><li><a href="https://www.cna.com.tw/news/acn/202611170058.aspx" rel="noopener">中央社</a><span class="chip">2026-11-17</span> APEC工商領導人峰會登場　規劃發布「深圳倡議」</li><li><a href="https://www.zaobao.com.sg/news/china/story20261117-10010637" rel="noopener">联合早报</a><span class="chip">2026-11-17</span> 港媒：台APEC代表施振荣赴深圳与会或获大陆礼遇</li><li><a href="https://original.ifeng.com/c/8y60OmeNTaM" rel="noopener">凤凰网财经</a><span class="chip">2026-11-16</span> 26.29万亿元！中国以开放合作回答时代之问</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="比亚迪王传福：“我赢你输”，这样的生意做不长 apec byd a股港股" id="e6362">
+<details open><summary>
+<p class="ctitle"><span class="rank">#13</span> 比亚迪王传福：“我赢你输”，这样的生意做不长</p>
+<p class="cfact">作者 | 周智宇 “我赢你输是不可以长期的。</p>
+<div class="meta"><span class="chip">5独立源</span>
+<span class="chip">S=11.3</span><span class="chip">APEC</span><span class="chip">BYD</span></div>
+<div class="heatbar"><i style="width:32%"></i></div>
+</summary><div class="cbody"><p>作者 | 周智宇 “我赢你输是不可以长期的。”11月17日，在深圳举行的2026年亚太经合组织（APEC）工商领导人峰会上，比亚迪股份有限公司董事长兼总裁王传福这样回答关于可持续发展的提问。他举例说，比亚迪泰国工厂95%以上的员工是泰国人，许多零部件也从当地采购。 今年前10个月，比亚迪在海外卖出了超过150万辆乘用车和皮卡。据王传福介绍，比亚迪全球102万名员工中，有6万人在海外。谈及中国制造出海会不会抢当地人的饭碗，王传福认为，比亚迪带去的新能源汽车，恰能填补当地在这一领</p><ul class="links"><li><a href="https://wallstreetcn.com/articles/3786111" rel="noopener">华尔街见闻</a><span class="chip">2026-11-17</span> 比亚迪王传福：“我赢你输”，这样的生意做不长</li><li><a href="https://www.caixin.com/2026-11-17/102505812.html" rel="noopener">财新最新</a><span class="chip">2026-11-17</span> 比亚迪王传福：“我赢你输”不可能长期发展</li><li><a href="https://news.ifeng.com/c/8y87fCrpCSI" rel="noopener">凤凰网财经</a><span class="chip">2026-11-17</span> 比亚迪王传福：外界有一些误会，中国制造不是抢饭碗</li><li><a href="https://www.ithome.com/1/028/456.htm" rel="noopener">IT之家</a><span class="chip">2026-11-17</span> 出海不是“抢饭碗”！比亚迪王传福称外界对中国制造有误会，新能源车是填补当地的空白</li><li><a href="https://www.guancha.cn/qiche/2026_11_17_908754.shtml" rel="noopener">观察者网</a><span class="chip">2026-11-17</span> 王传福：中国新能源出海不是抢国外饭碗，而是填当地空白</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="部分宽基etf尾盘放量 创业板etf广发（159952）成交超50亿元创历史天量  a股港股" id="e2853">
+<details open><summary>
+<p class="ctitle"><span class="rank">#14</span> 部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量</p>
+<p class="cfact">【部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量】财联社11月17日电，据财联社盯盘数据显示，尾盘多只宽基ETF集中放量，创业板ETF广发（159…</p>
+<div class="meta"><span class="chip">6独立源</span>
+<span class="chip">S=10.5</span></div>
+<div class="heatbar"><i style="width:30%"></i></div>
+</summary><div class="cbody"><p>【部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量】财联社11月17日电，据财联社盯盘数据显示，尾盘多只宽基ETF集中放量，创业板ETF广发（159952）成交额突破50亿元，较昨日全天增超1.6倍，创成交额历史天量，沪深300ETF华泰柏瑞（510300）、中证1000ETF南方（512100）、中证500ETF南方（510500）15分钟内均成交超15亿元。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2536484" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量</li><li><a href="https://www.gelonghui.com/live/2763052" rel="noopener">格隆汇</a><span class="chip">2026-11-16</span> 多只宽基ETF尾盘放量成交</li><li><a href="https://api3.cls.cn/share/article/2535333?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-16</span> 尾盘半小时多只宽基ETF显著放量 沪深300ETF华泰柏瑞（510300）成交超40亿</li><li><a href="https://wallstreetcn.com/livenews/3200470" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-16</span> 多只宽基ETF尾盘放量成交</li><li><a href="https://api3.cls.cn/share/article/2536484?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a><span class="chip">2026-11-17</span> 部分宽基ETF尾盘放量 创业板ETF广发（159952）成交超50亿元创历史天量</li><li><a href="https://www.barrons.com.cn/news/263209" rel="noopener">巴伦中文</a><span class="chip">2026-11-17</span> 部分宽基ETF尾盘放量，创业板ETF广发（159952）成交超50亿元创历史天量</li><li><a href="https://wallstreetcn.com/livenews/3201069" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 多只宽基ETF尾盘再度放量，创业板ETF广发（159952）成交超50亿元创历史天量，沪深300ETF华泰柏瑞（5103</li><li><a href="https://www.cls.cn/detail/2535333" rel="noopener">财联社电报</a><span class="chip">2026-11-16</span> 尾盘半小时多只宽基ETF显著放量 沪深300ETF华泰柏瑞（510300）成交超40亿</li></ul></div></details></article><article class="card compact" data-cat="a_hk" data-search="创业板指冲高回落跌1.2%，光刻机概念股逆势走强，多只宽基etf尾盘再度放量 alibaba catl huawei pcb tencent a股港股" id="e3296">
+<details open><summary>
+<p class="ctitle"><span class="rank">#15</span> 创业板指冲高回落跌1.2%，光刻机概念股逆势走强，多只宽基ETF尾盘再度放量</p>
+<p class="cfact">1，整体走势：市场全天宽幅震荡，三大指数延续调整。</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=10.4</span><span class="chip">ALIBABA</span><span class="chip">CATL</span><span class="chip">HUAWEI</span><span class="chip">PCB</span></div>
+<div class="heatbar"><i style="width:30%"></i></div>
+</summary><div class="cbody"><p>1，整体走势：市场全天宽幅震荡，三大指数延续调整。个股跌多涨少，沪深京三市约4100股飘绿，今日成交1.47万亿。截止收盘沪指跌0.5%，深成指跌0.49%，创业板指跌1.2%。 2，行业板块：光刻机、小家电、贵金属、氟化工等板块涨幅居前，影视传媒、游戏、机器人、光伏等板块跌幅居前。 3，热门概念：半导体产业链盘中反弹，光刻机、光刻胶方向领涨，联合化学、国林科技、海立股份、东方嘉盛等多股涨停。家电股继续走强，小熊电器2连板，九阳股份上演地天板。下跌方面，AI漫剧概念大幅调整，</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201084" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 创业板指冲高回落跌1.2%，光刻机概念股逆势走强，多只宽基ETF尾盘再度放量</li><li><a href="https://www.cls.cn/detail/2535413" rel="noopener">财联社深度</a><span class="chip">2026-11-16</span> 港股收盘 | 三大指数表现不一 消费相关个股全线走暖</li><li><a href="https://www.yicai.com/brief/103443582.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;A股收盘｜上证指数跌0.5% 半导体板块逆势上涨 |&lt;/b&gt; 四大股指今日集体收跌，上证指数跌0.5%，深成指跌0</li><li><a href="https://www.cls.cn/detail/2536694" rel="noopener">财联社深度</a><span class="chip">2026-11-17</span> 【焦点复盘】沪指缩量跌0.5%失守3600点，影视、物理AI概念遭深幅回调，华为算力概念逆势走强</li><li><a href="https://www.yicai.com/brief/103443238.html" rel="noopener">第一财经</a><span class="chip">2026-11-17</span> &lt;b&gt;A股午盘｜上证指数跌0.01% 影视院线板块领跌 |&lt;/b&gt; 上证指数跌0.01%，深成指涨0.69%，创业板指涨</li><li><a href="https://www.barrons.com.cn/news/262640" rel="noopener">巴伦中文</a><span class="chip">2026-11-16</span> 港股收评：恒指涨0.49%，恒生科技指数跌0.3%，消费概念全天活跃</li></ul></div></details></article></div></section><section id="cat-gaming" class="page"><h2>游戏 <span class="badge">15条</span></h2><div class="digest">今天游戏领域的焦点集中在TGA 2026年度入围名单的公布上。《GTA 6》以8项提名领跑全场，《控制：共振》和《生化危机：安魂曲》各获6项提名紧随其后，国产动作游戏《影之刃零》拿下5项提名，表现值得关注。与此同时，Steam平台在11月17日突发大规模服务故障，商店、游戏下载、好友列表及云存档等核心功能均受波及，用户端体验出现明显中断。一边是年度评选揭晓带来的行业热度，一边是基础设施层面的稳定性问题暴露，两条线索共同勾勒出今日游戏生态的面貌。</div><div class="grid"><article class="card" data-cat="gaming" data-search="tga 2026 各奖项入围游戏完整名单公布，《gta 6》8 项提名领跑 tga gta 游戏" id="e8798">
+<details open><summary>
+<p class="ctitle">1. TGA 2026 各奖项入围游戏完整名单公布，《GTA 6》8 项提名领跑</p>
+<p class="cfact">IT之家11月18日报道，TGA（游戏大奖）公布了2026年度游戏入围名单及各奖项入围游戏，《GTA 6》以8项提名领跑，《控制：共振》和《生化危机：安魂曲》各…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=20.5</span><span class="chip">TGA</span><span class="chip">GTA</span><span class="hot">IT之家 #2</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>IT之家11月18日报道，TGA（游戏大奖）公布了2026年度游戏入围名单及各奖项入围游戏，《GTA 6》以8项提名领跑，《控制：共振》和《生化危机：安魂曲》各获6项提名，《影之刃零》获5项提名，《Big Walk》《007：初露锋芒》及《塞尔达传说：时之笛》重制版各获4项提名。年度游戏入围作品包括《007：初露锋芒》《控制：共振》《侠盗猎车手 VI》《影之刃零》《生化危机：安魂曲》和《塞尔达传说：时之笛》重制版，颁奖典礼将于12月11日举行。</p><p><b>影响：</b>TGA年度提名名单集中反映了本年度最受关注的游戏作品及其行业认可度，《GTA 6》的领跑地位尤为突出。</p><p><b>下一步关注：</b>关注12月11日颁奖典礼各奖项最终归属，尤其是年度游戏花落谁家。</p><ul class="links"><li><a href="https://www.ithome.com/1/028/596.htm" rel="noopener">IT之家</a></li><li><a href="https://www.ithome.com/1/028/584.htm" rel="noopener">IT之家</a></li></ul></div></details></article><article class="card" data-cat="gaming" data-search="steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响 steam 游戏" id="e8800">
+<details open><summary>
+<p class="ctitle">2. Steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响</p>
+<p class="cfact">据IT之家11月18日报道，Valve旗下游戏平台Steam于当地时间11月17日突发服务故障，商店、游戏下载、好友列表及云存档等多项在线功能受到影响。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=20.0</span><span class="chip">STEAM</span><span class="hot">IT之家 #6</span></div>
+<div class="heatbar"><i style="width:97%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据IT之家11月18日报道，Valve旗下游戏平台Steam于当地时间11月17日突发服务故障，商店、游戏下载、好友列表及云存档等多项在线功能受到影响。用户反馈称，Steam客户端无法下载游戏，好友列表无法加载，Steam Cloud云存档无法获取，商店页面只能显示部分内容；部分用户即使网络连接正常，也会遇到“No Connection”（无连接）错误。</p><p><b>影响：</b>Steam的下载、社交与云存档等核心在线功能同时失效，意味着用户在网络正常的情况下也无法正常使用平台的基础服务。</p><p><b>下一步关注：</b>关注Valve或Steam官方对故障原因的说明与服务恢复进展，以及各项功能是否已全部恢复正常。</p><ul class="links"><li><a href="https://www.ithome.com/1/028/592.htm" rel="noopener">IT之家</a></li></ul></div></details></article><article class="card" data-cat="gaming" data-search="archive team is archiving the apple support community (closes november 20, 2026) url apple 游戏" id="e8896">
+<details open><summary>
+<p class="ctitle">3. Archive Team is archiving the Apple Support Community (closes November 20, 2026)</p>
+<p class="cfact">Archive Team 正在对 Apple Support Community（苹果支持社区）进行存档，该社区将于2026年11月20日关闭。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=16.7</span><span class="chip">URL</span><span class="chip">APPLE</span><span class="hot">Hacker News #4</span></div>
+<div class="heatbar"><i style="width:81%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>Archive Team 正在对 Apple Support Community（苹果支持社区）进行存档，该社区将于2026年11月20日关闭。相关条目发布在 Archive Team 的 wiki 页面（Apple_Discussions），并在 Hacker News 上引发讨论，获得6个点赞和2条评论。</p><p><b>影响：</b>苹果官方支持社区关闭后，其中积累的用户问答和技术讨论内容将依赖第三方存档保留，对技术资料的长期可访问性具有意义。</p><p><b>下一步关注：</b>关注 Archive Team 能否在11月20日关闭前完成完整存档，以及苹果是否提供官方替代平台或数据迁移方案。</p><ul class="links"><li><a href="https://wiki.archiveteam.org/index.php/Apple_Discussions" rel="noopener">HN头版</a></li></ul></div></details></article><article class="card" data-cat="gaming" data-search="valvoline&#x27;s slick fall offers a buying opportunity  游戏" id="e8570">
+<details open><summary>
+<p class="ctitle">4. Valvoline&#x27;s Slick Fall Offers A Buying Opportunity</p>
+<p class="cfact">Seeking Alpha发表了一篇题为《Valvoline&#x27;s Slick Fall Offers A Buying Opportunity》的分析文章，标题…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=15.8</span></div>
+<div class="heatbar"><i style="width:77%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>Seeking Alpha发表了一篇题为《Valvoline&#x27;s Slick Fall Offers A Buying Opportunity》的分析文章，标题观点认为润滑油企业胜牌（Valvoline）股价的下跌构成买入机会。来源仅提供标题，未给出摘要、具体跌幅、估值或财务数据，相关细节无法核实。</p><p><b>影响：</b>该标题代表一种看多观点，提示市场关注胜牌股价回调后可能存在的投资机会，但仅为单一来源的作者判断，并非已证实的事实。</p><p><b>下一步关注：</b>关注文章正文给出的具体论据（如跌幅、估值与业绩数据），以及胜牌后续财报和股价走势能否支撑这一买入观点。</p><ul class="links"><li><a href="https://seekingalpha.com/article/4969262-valvoline-slick-fall-offers-buying-opportunity?source=feed_all_articles" rel="noopener">Seeking Alpha</a></li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="alpine income property trust: growth is slowing, but the opportunity is getting better  游戏" id="e8444">
+<details open><summary>
+<p class="ctitle"><span class="rank">#5</span> Alpine Income Property Trust: Growth Is Slowing, But The Opportunity Is Getting Better</p>
+<p class="cfact"></p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=13.1</span></div>
+<div class="heatbar"><i style="width:64%"></i></div>
+</summary><div class="cbody"><ul class="links"><li><a href="https://seekingalpha.com/article/4969230-alpine-income-property-trust-growth-is-slowing-but-the-opportunity-is-getting-better?source=feed_all_articles" rel="noopener">Seeking Alpha</a><span class="chip">2026-11-17</span> Alpine Income Property Trust: Growth Is Slowing, But The Opp</li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="there&#x27;s a chance your xbox series x is plugged into the wrong hdmi port hdmi 游戏" id="e8419">
+<details open><summary>
+<p class="ctitle"><span class="rank">#6</span> There&#x27;s a chance your Xbox Series X is plugged into the wrong HDMI port</p>
+<p class="cfact">Make sure you&#x27;re getting the most out of your Xbox Series X, starting with a port check.</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=9.4</span><span class="chip">HDMI</span></div>
+<div class="heatbar"><i style="width:46%"></i></div>
+</summary><div class="cbody"><p>Make sure you&#x27;re getting the most out of your Xbox Series X, starting with a port check.</p><ul class="links"><li><a href="https://www.engadget.com/2315403/chance-xbox-series-x-plugged-into-wrong-hdmi-port/" rel="noopener">Engadget</a><span class="chip">2026-11-17</span> There&#x27;s a chance your Xbox Series X is plugged into the wron</li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="texas community bancshares, inc. announces quarterly cash dividend and a special cash dividend  游戏" id="e8611">
+<details open><summary>
+<p class="ctitle"><span class="rank">#7</span> Texas Community Bancshares, Inc. Announces Quarterly Cash Dividend and a Special Cash Dividend</p>
+<p class="cfact"></p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=8.8</span></div>
+<div class="heatbar"><i style="width:43%"></i></div>
+</summary><div class="cbody"><ul class="links"><li><a href="https://www.prnewswire.com/news-releases/texas-community-bancshares-inc-announces-quarterly-cash-dividend-and-a-special-cash-dividend-302942754.html" rel="noopener">UnusualWhales</a><span class="chip">2026-11-17</span> Texas Community Bancshares, Inc. Announces Quarterly Cash Di</li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="vibeprevisbench: benchmarking 4d scene generation in blender blender 游戏" id="e8628">
+<details open><summary>
+<p class="ctitle"><span class="rank">#8</span> VibePrevisBench: Benchmarking 4D Scene Generation in Blender</p>
+<p class="cfact"></p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=8.8</span><span class="chip">BLENDER</span></div>
+<div class="heatbar"><i style="width:43%"></i></div>
+</summary><div class="cbody"><ul class="links"><li><a href="https://blockchain.news/news/vibeprevisbench-4d-scene-generation" rel="noopener">UnusualWhales</a><span class="chip">2026-11-17</span> VibePrevisBench: Benchmarking 4D Scene Generation in Blender</li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="can you use a keyboard and mouse with an xbox series x?  游戏" id="e8284">
+<details open><summary>
+<p class="ctitle"><span class="rank">#9</span> Can you use a keyboard and mouse with an Xbox Series X?</p>
+<p class="cfact">Learn how to up your Xbox game with keyboard and mouse controls.</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=8.7</span></div>
+<div class="heatbar"><i style="width:42%"></i></div>
+</summary><div class="cbody"><p>Learn how to up your Xbox game with keyboard and mouse controls.</p><ul class="links"><li><a href="https://www.engadget.com/2315395/use-keyboard-mouse-with-xbox-series-x/" rel="noopener">Engadget</a><span class="chip">2026-11-17</span> Can you use a keyboard and mouse with an Xbox Series X?</li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="examining pc game trends: beyond the steam tag! pc steam 游戏" id="e2319">
+<details open><summary>
+<p class="ctitle"><span class="rank">#10</span> Examining PC game trends: beyond the Steam tag!</p>
+<p class="cfact">Here’s another way to look at emerging trends.</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=8.3</span><span class="chip">PC</span><span class="chip">STEAM</span></div>
+<div class="heatbar"><i style="width:41%"></i></div>
+</summary><div class="cbody"><p>Here’s another way to look at emerging trends. Also: GameDiscoverCo Show &amp; lots of discovery news</p><ul class="links"><li><a href="https://newsletter.gamediscover.co/p/examining-pc-game-trends-beyond-the" rel="noopener">GameDiscoverCo</a><span class="chip">2026-11-17</span> Examining PC game trends: beyond the Steam tag!</li><li><a href="https://newsletter.gamediscover.co/p/october-2026s-top-new-pc-and-console" rel="noopener">GameDiscoverCo</a><span class="chip">2026-11-06</span> October 2026’s top new PC &amp; console games, revealed...</li><li><a href="https://newsletter.gamediscover.co/p/september-2026s-top-new-pc-and-console" rel="noopener">GameDiscoverCo</a><span class="chip">2026-10-06</span> September 2026’s top new PC &amp; console games, revealed...</li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="索尼赢得英国近 20 亿英镑诉讼：playstation 数字游戏定价未被认定违法 microsoft 游戏" id="e7641">
+<details open><summary>
+<p class="ctitle"><span class="rank">#11</span> 索尼赢得英国近 20 亿英镑诉讼：PlayStation 数字游戏定价未被认定违法</p>
+<p class="cfact">IT之家 11 月 17 日消息，据路透社报道，索尼在英国赢得了一场索赔近 20 亿英镑 （IT之家注：现汇率约合 176.11 亿元人民币） 的诉讼。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=8.0</span><span class="chip">MICROSOFT</span></div>
+<div class="heatbar"><i style="width:39%"></i></div>
+</summary><div class="cbody"><p>IT之家 11 月 17 日消息，据路透社报道，索尼在英国赢得了一场索赔近 20 亿英镑 （IT之家注：现汇率约合 176.11 亿元人民币） 的诉讼。 当地时间 17 日，伦敦竞争上诉法庭驳回了全部诉讼请求，认定原告 未能证明索尼利用 PlayStation 的垄断地位抬高数字游戏价格，违反竞争法 。 原告指控，索尼滥用市场支配地位，强制 PlayStation 主机的数字游戏及附加内容 只能通过 PlayStation Store 交易 ，导致数字版游戏比实体版更贵。 索</p><ul class="links"><li><a href="https://www.ithome.com/1/028/544.htm" rel="noopener">IT之家</a><span class="chip">2026-11-17</span> 索尼赢得英国近 20 亿英镑诉讼：PlayStation 数字游戏定价未被认定违法</li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="ratepayers, community leaders and legislators rally to stop nextera  游戏" id="e8383">
+<details open><summary>
+<p class="ctitle"><span class="rank">#12</span> Ratepayers, Community Leaders and Legislators Rally to Stop NextEra</p>
+<p class="cfact"></p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=7.5</span></div>
+<div class="heatbar"><i style="width:36%"></i></div>
+</summary><div class="cbody"><ul class="links"><li><a href="https://www.prnewswire.com/news-releases/ratepayers-community-leaders-and-legislators-rally-to-stop-nextera-302942726.html" rel="noopener">UnusualWhales</a><span class="chip">2026-11-17</span> Ratepayers, Community Leaders and Legislators Rally to Stop </li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="uk tribunal tosses playstation store price-gouging lawsuit, citing physical games as competition  游戏" id="e8016">
+<details open><summary>
+<p class="ctitle"><span class="rank">#13</span> UK tribunal tosses PlayStation Store price-gouging lawsuit, citing physical games as competition</p>
+<p class="cfact">Those same physical copies are on their way out.</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=7.3</span></div>
+<div class="heatbar"><i style="width:36%"></i></div>
+</summary><div class="cbody"><p>Those same physical copies are on their way out.</p><ul class="links"><li><a href="https://www.engadget.com/2319408/uk-tribunal-tosses-playstation-store-price-gouging-lawsuit-citing-physical-games-as-competition/" rel="noopener">Engadget</a><span class="chip">2026-11-17</span> UK tribunal tosses PlayStation Store price-gouging lawsuit, </li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="steam 新一周游戏销量榜公布：《欧卡 2》75% 折扣登顶，国区《影之刃零》连续霸榜 aion dlc ea fc steam 游戏" id="e7444">
+<details open><summary>
+<p class="ctitle"><span class="rank">#14</span> Steam 新一周游戏销量榜公布：《欧卡 2》75% 折扣登顶，国区《影之刃零》连续霸榜</p>
+<p class="cfact">IT之家 11 月 17 日消息，Steam 平台现已公布了最新一周游戏销量排行榜（2026 年 11 月 10 日 - 2026 年 11 月 17 日，无免费游戏），《欧洲卡车…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=7.3</span><span class="chip">AION</span><span class="chip">DLC</span><span class="chip">EA</span><span class="chip">FC</span></div>
+<div class="heatbar"><i style="width:36%"></i></div>
+</summary><div class="cbody"><p>IT之家 11 月 17 日消息，Steam 平台现已公布了最新一周游戏销量排行榜（2026 年 11 月 10 日 - 2026 年 11 月 17 日，无免费游戏），《欧洲卡车模拟 2》以 75% 折扣强势登顶全球榜，其全新 DLC《欧洲卡车模拟 2 - Coaches》与《欧洲卡车模拟 2 - Iceland》双双首次进入榜单，国区方面《影之刃零》继续蝉联榜首。 全球榜单： 欧洲卡车模拟 2 使命召唤：现代战争 4 Bodycam AION 2 影之刃零 足球经理 27</p><ul class="links"><li><a href="https://www.ithome.com/1/028/540.htm" rel="noopener">IT之家</a><span class="chip">2026-11-17</span> Steam 新一周游戏销量榜公布：《欧卡 2》75% 折扣登顶，国区《影之刃零》连续霸榜</li></ul></div></details></article><article class="card compact" data-cat="gaming" data-search="report: civilization dev firaxis lays off a third of its staff xcom 游戏" id="e8123">
+<details open><summary>
+<p class="ctitle"><span class="rank">#15</span> Report: Civilization dev Firaxis lays off a third of its staff</p>
+<p class="cfact">Firaxis, the 30-year-old studio behind the Civilization and XCOM franchises, is laying off…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=7.1</span><span class="chip">XCOM</span></div>
+<div class="heatbar"><i style="width:34%"></i></div>
+</summary><div class="cbody"><p>Firaxis, the 30-year-old studio behind the Civilization and XCOM franchises, is laying off a third of its staff, totalling 60 people, as</p><ul class="links"><li><a href="https://www.gamesindustry.biz/report-civilization-dev-firaxis-lays-off-a-third-of-its-staff-following-development-difficulties-with-xcom-sequel" rel="noopener">GamesIndustry</a><span class="chip">2026-11-17</span> Report: Civilization dev Firaxis lays off a third of its sta</li></ul></div></details></article></div></section><section id="cat-commodity" class="page"><h2>商品期货 <span class="badge">14条</span></h2><div class="digest">今天全球市场的主线是科技股带动的风险偏好回升。周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%，日经225指数期货早盘上涨1.9%。推动力来自美股盘后：英伟达业绩超预期，盘后涨超4.4%、涨幅一度扩大至5%，Lumentum涨6.2%，闪迪涨5.6%，SK海力士ADR涨4.7%，芯片与存储链条同步走强。商品端则偏温和，WTI原油收报86.01美元/桶、布伦特报93.14美元/桶，涨幅均不足1%；但API数据显示上周美国原油库存增加527.8万桶，远超市场预期的减少50万桶，汽油库存也增逾500万桶，累库压力值得留意。</div><div class="grid"><article class="card" data-cat="commodity" data-search="周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%。 目前（美股盘后），英伟达涨超4.4%，lumentum涨6.2%，闪迪涨5.6%，sk海力士adr涨4.7%，美... nvidia intel alibaba tsmc google apple 商品期货" id="e6904">
+<details open><summary>
+<p class="ctitle">1. 周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%。 目前（美股盘后），英伟达涨超4.4%，Lumentum涨6.2%，闪迪涨5.6%，SK海力士ADR涨4.7%，美...</p>
+<p class="cfact">2026年11月18日周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%；</p>
+<div class="meta"><span class="chip">6独立源</span>
+<span class="chip">S=43.8</span><span class="chip">NVIDIA</span><span class="chip">INTEL</span><span class="chip">ALIBABA</span><span class="chip">TSMC</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>2026年11月18日周三亚太盘初，纳斯达克100股指期货涨超1.4%，标普股指期货涨超0.8%；财联社同日报道纳指期货涨1.38%、标普500指数期货涨0.75%。美股盘后英伟达涨超4.4%，华尔街见闻称其业绩超预期、盘后涨幅一度扩大至5%，并带动Lumentum涨6.2%、闪迪涨5.6%、SK海力士ADR涨4.7%、美光涨4.5%、阿斯麦ADR涨3.7%、英特尔涨2.1%、阿里巴巴涨1.3%、SpaceX涨0.7%，苹果跌超0.2%。</p><p><b>影响：</b>英伟达业绩超预期在盘后引发芯片及AI相关个股集体上涨，并推动亚太时段美股期指走高，显示市场对AI算力链的情绪明显回暖。</p><p class="div"><b>分歧/未核实：</b>同一事件各源快照时点不同导致数字不一致：纳指期货涨幅有1.4%以上（华尔街见闻）与1.38%（财联社、格隆汇）两种口径，标普期货为涨超0.8%与0.75%；英伟达盘后涨幅有涨超4.4%、涨超4%与扩大至5%三种表述；个股方面Lumentum为6.2%与7.5%、闪迪5.6%与6.7%、SK海力士ADR与美光4.7%/4.5%与5.5%、阿斯麦ADR 3.7%与4.4%、英特尔2.1%与3.1%、阿里1.3%与至多1.7%。另有第一财经报道纳指期货涨0.5%、标普涨0.12%、道指跌0.3%，以及财联社11月17日英伟达盘前涨1%、纳指期货涨0.6%的记录，属更早时点行情，非本次盘后数据。英伟达具体财报数字未在来源中给出，无法核实。</p><p><b>下一步关注：</b>关注美股正式开盘后期指涨幅能否兑现，以及英伟达财报细节与芯片股涨势的持续性。</p><p class="meta">跨源归并自事件 6904, 8663（语料/链接取并集）</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201571" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.yicai.com/brief/103444062.html" rel="noopener">第一财经</a></li><li><a href="https://api3.cls.cn/share/article/2536980?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://wallstreetcn.com/livenews/3201573" rel="noopener">华尔街见闻实时</a></li><li><a href="https://wallstreetcn.com/livenews/3201367" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.cls.cn/detail/2536980" rel="noopener">财联社电报</a></li></ul></div></details></article><article class="card" data-cat="commodity" data-search="财联社11月18日电，日经225指数期货早盘上涨1.9%。  商品期货" id="e8825">
+<details open><summary>
+<p class="ctitle">2. 财联社11月18日电，日经225指数期货早盘上涨1.9%。</p>
+<p class="cfact">2026年11月18日早盘，日经225指数期货上涨1.9%。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=34.9</span></div>
+<div class="heatbar"><i style="width:80%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>2026年11月18日早盘，日经225指数期货上涨1.9%。财联社、格隆汇、金十数据三家来源均报道了同一涨幅数据。</p><p><b>影响：</b>日经225指数期货是日本股市的重要先行指标，早盘近2%的涨幅显示市场对当日日本股市开盘走势有较强看多预期。</p><p><b>下一步关注：</b>关注日经225指数现货开盘后的实际表现是否与期货涨幅一致，以及推动上涨的具体驱动因素。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537317" rel="noopener">财联社电报</a></li><li><a href="https://www.gelonghui.com/live/2766512" rel="noopener">格隆汇</a></li></ul></div></details></article><article class="card" data-cat="commodity" data-search="行业周报：美国上周api原油库存增超500万桶  商品期货" id="e8547">
+<details open><summary>
+<p class="ctitle">3. 行业周报：美国上周API原油库存增超500万桶</p>
+<p class="cfact">美国石油协会（API）数据显示，截至11月13日当周，美国API原油库存增加527.8万桶，前一周为增加896.8万桶，而市场预期为减少50万桶。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=29.7</span></div>
+<div class="heatbar"><i style="width:68%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>美国石油协会（API）数据显示，截至11月13日当周，美国API原油库存增加527.8万桶，前一周为增加896.8万桶，而市场预期为减少50万桶。同期库欣原油库存减少169.1万桶（前值增加510万桶），汽油库存增加512.2万桶（前值增加270万桶），馏分油库存增加35.1万桶（前值减少800万桶）。此外，当周API投产原油量为5.1万桶/日，前值为24.9万桶/日。</p><p><b>影响：</b>原油库存连续两周大幅增加且远超市场预期的减少方向，同时汽油和馏分油库存也同步累积，显示短期供需格局偏宽松，可能对油价形成压力。</p><p><b>下一步关注：</b>关注随后公布的美国能源信息署（EIA）官方原油库存数据是否与API趋势一致，以及炼厂开工率变化对后续库存走势的影响。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201529" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.gelonghui.com/live/2766349" rel="noopener">格隆汇</a></li><li><a href="https://www.cls.cn/detail/2537263" rel="noopener">财联社电报</a></li></ul></div></details></article><article class="card" data-cat="commodity" data-search="wti 12月原油期货收涨0.29美元，涨幅0.34%，报86.01美元/桶。 布伦特1月原油期货收涨0.70美元，涨幅0.76%，报93.14美元/桶。 nymex 12月天然气期货收报3.2080美... wti nymex 商品期货" id="e6578">
+<details open><summary>
+<p class="ctitle">4. WTI 12月原油期货收涨0.29美元，涨幅0.34%，报86.01美元/桶。 布伦特1月原油期货收涨0.70美元，涨幅0.76%，报93.14美元/桶。 NYMEX 12月天然气期货收报3.2080美...</p>
+<p class="cfact">11月18日，WTI 12月原油期货收涨0.29美元，涨幅0.34%，报86.01美元/桶；</p>
+<div class="meta"><span class="chip">5独立源</span>
+<span class="chip">S=29.4</span><span class="chip">WTI</span><span class="chip">NYMEX</span></div>
+<div class="heatbar"><i style="width:67%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>11月18日，WTI 12月原油期货收涨0.29美元，涨幅0.34%，报86.01美元/桶；布伦特1月原油期货收涨0.70美元，涨幅0.76%，报93.14美元/桶。同日NYMEX 12月天然气期货收报3.2080美元/百万英热单位，12月汽油期货收报2.5349美元/加仑，12月取暖油期货收报4.0475美元/加仑。</p><p><b>影响：</b>原油及成品油期货结算价是能源市场定价基准，直接影响下游炼化成本与通胀预期。</p><p class="div"><b>分歧/未核实：</b>巴伦中文报道WTI涨0.33%报86.003美元/桶、布伦特涨0.49%报92.897美元/桶，与第一财经、财联社、华尔街见闻的收盘数据存在差异，疑为盘中快照而非结算价；华尔街见闻另一条盘中快讯显示WTI日内涨幅达1.0%报86.58美元/桶；金十报道WTI突破87美元/桶日内涨2.21%、布伦特站上94美元/桶日内涨2.34%，与结算价差距较大，可能对应不同交易日或盘中时段，来源未注明具体日期，无法核实。</p><p><b>下一步关注：</b>关注后续交易日原油结算价能否站稳86美元/桶上方，以及盘中大幅波动是否由突发供给端消息驱动。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201485" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.barrons.com.cn/news/263284" rel="noopener">巴伦中文</a></li><li><a href="https://wallstreetcn.com/livenews/3201328" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.yicai.com/brief/103444323.html" rel="noopener">第一财经</a></li><li><a href="https://www.cls.cn/detail/2537240" rel="noopener">财联社电报</a></li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57%。 罗素2000股指期货跌1.37%。  商品期货" id="e8737">
+<details open><summary>
+<p class="ctitle"><span class="rank">#5</span> 周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57%。 罗素2000股指期货跌1.37%。</p>
+<p class="cfact">周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57%。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=18.5</span></div>
+<div class="heatbar"><i style="width:42%"></i></div>
+</summary><div class="cbody"><p>周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57%。 罗素2000股指期货跌1.37%。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201545" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 周二（11月17日）纽约尾盘，标普500股指期货最终跌0.96%，道指期货跌1.65%，纳斯达克100股指期货跌0.57</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。  商品期货" id="e8267">
+<details open><summary>
+<p class="ctitle"><span class="rank">#6</span> 布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。</p>
+<p class="cfact">布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=17.7</span></div>
+<div class="heatbar"><i style="width:40%"></i></div>
+</summary><div class="cbody"><p>布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。</p><ul class="links"><li><a href="https://www.gelonghui.com/live/2766281" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜布伦特原油期货结算价为每桶93.14美元，上涨70美分，涨幅0.76%。</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%  商品期货" id="e7884">
+<details open><summary>
+<p class="ctitle"><span class="rank">#7</span> 夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%</p>
+<p class="cfact">【夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%】财联社11月18日电，国际铜夜盘收跌0.08%，沪铜收跌0.23%，沪铝收跌1.33%，沪锌收跌0.40%，沪铅收跌0.35%…</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=17.3</span></div>
+<div class="heatbar"><i style="width:39%"></i></div>
+</summary><div class="cbody"><p>【夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%】财联社11月18日电，国际铜夜盘收跌0.08%，沪铜收跌0.23%，沪铝收跌1.33%，沪锌收跌0.40%，沪铅收跌0.35%，沪镍收涨3.06%，沪锡收跌1.35%。氧化铝夜盘收跌0.31%，铝合金收跌1.01%。不锈钢夜盘收涨2.62%。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537208" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 夜盘期货收盘：沪镍涨3.06% 不锈钢涨2.62%</li><li><a href="https://wallstreetcn.com/livenews/3201440" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 国际铜夜盘收跌0.08%，沪铜收跌0.38%，沪铝收跌1.33%，沪锌收跌0.4%，沪铅收跌0.35%，沪镍收涨3.04</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="提醒：北京时间05:30，美国石油协会（api）将发布行业版原油库存周报，非api会员最早可在04:32前后获得数据详情。  商品期货" id="e8600">
+<details open><summary>
+<p class="ctitle"><span class="rank">#8</span> 提醒：北京时间05:30，美国石油协会（API）将发布行业版原油库存周报，非API会员最早可在04:32前后获得数据详情。</p>
+<p class="cfact">提醒：北京时间05:30，美国石油协会（API）将发布行业版原油库存周报，非API会员最早可在04:32前后获得数据详情。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=17.1</span></div>
+<div class="heatbar"><i style="width:39%"></i></div>
+</summary><div class="cbody"><p>提醒：北京时间05:30，美国石油协会（API）将发布行业版原油库存周报，非API会员最早可在04:32前后获得数据详情。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201523" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 提醒：北京时间05:30，美国石油协会（API）将发布行业版原油库存周报，非API会员最早可在04:32前后获得数据详情</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="恒指期货夜盘收跌0.32%，报23414点，低水94点。  商品期货" id="e8143">
+<details open><summary>
+<p class="ctitle"><span class="rank">#9</span> 恒指期货夜盘收跌0.32%，报23414点，低水94点。</p>
+<p class="cfact">恒指期货夜盘收跌0.32%，报23414点，低水94点。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=16.3</span></div>
+<div class="heatbar"><i style="width:37%"></i></div>
+</summary><div class="cbody"><p>恒指期货夜盘收跌0.32%，报23414点，低水94点。</p><ul class="links"><li><a href="https://www.gelonghui.com/live/2766242" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜恒指期货夜盘收跌0.32%，报23414点，低水94点。</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="相关初步装船计划显示，安哥拉计划1月装载26船原油，低于12月计划的32船。  商品期货" id="e8152">
+<details open><summary>
+<p class="ctitle"><span class="rank">#10</span> 相关初步装船计划显示，安哥拉计划1月装载26船原油，低于12月计划的32船。</p>
+<p class="cfact">相关初步装船计划显示，安哥拉计划1月装载26船原油，低于12月计划的32船。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=16.3</span></div>
+<div class="heatbar"><i style="width:37%"></i></div>
+</summary><div class="cbody"><p>相关初步装船计划显示，安哥拉计划1月装载26船原油，低于12月计划的32船。</p><ul class="links"><li><a href="https://www.gelonghui.com/live/2766231" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月18日｜安哥拉计划1月装载26船原油，低于12月计划的32船。</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="lme伦镍日内涨超4.00%，现报16495.550美元/吨。  商品期货" id="e7543">
+<details open><summary>
+<p class="ctitle"><span class="rank">#11</span> LME伦镍日内涨超4.00%，现报16495.550美元/吨。</p>
+<p class="cfact">LME伦镍日内涨超4.00%，现报16495.550美元/吨。</p>
+<div class="meta"><span class="chip">3独立源</span>
+<span class="chip">S=16.2</span></div>
+<div class="heatbar"><i style="width:37%"></i></div>
+</summary><div class="cbody"><p>LME伦镍日内涨超4.00%，现报16495.550美元/吨。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201390" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> LME伦镍日内涨超4.00%，现报16495.550美元/吨。</li><li><a href="https://www.barrons.com.cn/news/263401" rel="noopener">巴伦中文</a><span class="chip">2026-11-17</span> LME伦镍日内涨超3.00%，现报16340.000美元/吨</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="焦煤期货主力合约跌幅扩大至2%  商品期货" id="e5738">
+<details open><summary>
+<p class="ctitle"><span class="rank">#12</span> 焦煤期货主力合约跌幅扩大至2%</p>
+<p class="cfact">【焦煤期货主力合约跌幅扩大至2%】财联社11月17日电，焦煤期货主力合约跌幅扩大至2%，最新报1391元/吨。</p>
+<div class="meta"><span class="chip">4独立源</span>
+<span class="chip">S=15.4</span></div>
+<div class="heatbar"><i style="width:35%"></i></div>
+</summary><div class="cbody"><p>【焦煤期货主力合约跌幅扩大至2%】财联社11月17日电，焦煤期货主力合约跌幅扩大至2%，最新报1391元/吨。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537055" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 焦煤期货主力合约跌幅扩大至2%</li><li><a href="https://www.barrons.com.cn/news/263362" rel="noopener">巴伦中文</a><span class="chip">2026-11-17</span> 焦煤期货主力合约跌幅扩大至2%，最新报1391元/吨</li><li><a href="https://www.gelonghui.com/live/2765929" rel="noopener">格隆汇</a><span class="chip">2026-11-17</span> 格隆汇11月17日｜焦煤期货主力合约跌幅扩大至2%，最新报1391元/吨。</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，pvc跌1%，焦炭跌0.8%。  商品期货" id="e7529">
+<details open><summary>
+<p class="ctitle"><span class="rank">#13</span> 财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。</p>
+<p class="cfact">财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=14.6</span></div>
+<div class="heatbar"><i style="width:33%"></i></div>
+</summary><div class="cbody"><p>财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537132" rel="noopener">财联社电报</a><span class="chip">2026-11-17</span> 财联社11月17日电，焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。</li><li><a href="https://wallstreetcn.com/livenews/3201385" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 焦煤夜盘收跌约2.9%，棕榈油跌1.1%，PVC跌1%，焦炭跌0.8%。</li></ul></div></details></article><article class="card compact" data-cat="commodity" data-search="周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。 cbot玉米期货涨0.11%，cbot小麦期货涨1.50%，cbot大豆期货跌0.26%。  商品期货" id="e8327">
+<details open><summary>
+<p class="ctitle"><span class="rank">#14</span> 周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。 CBOT玉米期货涨0.11%，CBOT小麦期货涨1.50%，CBOT大豆期货跌0.26%。</p>
+<p class="cfact">周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=14.4</span></div>
+<div class="heatbar"><i style="width:33%"></i></div>
+</summary><div class="cbody"><p>周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。 CBOT玉米期货涨0.11%，CBOT小麦期货涨1.50%，CBOT大豆期货跌0.26%。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201492" rel="noopener">华尔街见闻实时</a><span class="chip">2026-11-17</span> 周二（11月17日）纽约尾盘，彭博谷物分类指数涨0.50%，报29.8078点。 CBOT玉米期货涨0.11%，CBOT</li></ul></div></details></article></div></section><section id="cat-crypto" class="page"><h2>加密 <span class="badge">7条</span></h2><div class="digest">今天加密货币领域的主线是信心流失。比特币价格徘徊在64,500美元下方，较高点腰斩却仍未吸引逢低买入者；Glassnode数据显示流通中约一半比特币处于浮亏，而9月底收于86,600美元时这一比例还不到四分之一，Seeking Alpha也就本轮暴跌的原因与周期位置发文剖析。值得注意的信号有两个：一是资金注意力可能转向AI，Anthropic上市被视为投机资金新宠；二是安全端出现系统性风险，攻击者借Optimizely漏洞向CNN、汇丰银行等178家机构网站植入恶意代码窃取加密货币，目标锁定iPhone用户。同期OpenAI发布6.2 Sol与Astra两款模型，进一步凸显热度分化。</div><div class="grid"><article class="card" data-cat="crypto" data-search="ai抢走加密货币风头？anthropic上市或成投机资金新宠 btc 加密" id="e1326">
+<details open><summary>
+<p class="ctitle">1. AI抢走加密货币风头？Anthropic上市或成投机资金新宠</p>
+<p class="cfact">据财联社11月18日报道，比特币价格徘徊在64,500美元下方，已从高点腰斩却仍未吸引逢低买入者；</p>
+<div class="meta"><span class="chip">5独立源</span>
+<span class="chip">S=35.2</span><span class="chip">BTC</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据财联社11月18日报道，比特币价格徘徊在64,500美元下方，已从高点腰斩却仍未吸引逢低买入者；Glassnode数据显示目前流通中的比特币约有一半处于浮亏状态，而9月底收于86,600美元时这一比例还不到四分之一，上周日转移的比特币按美元计算的亏损规模是盈利规模的5.6倍，为7月中旬以来最大差距。同期华尔街见闻称比特币周日一度下探62,022美元、创7月14日以来新低，自10月21日以来累计跌幅超过20%并走向连续第六周下跌；Solidot则指出币值从10月3日的84,680美元跌至64,337美元，一个半月跌去四分之一，CryptoQuant的需求指标降至2023年12月以来最低，比特币ETF再现净卖出。与此同时，原本追逐AI概念股的散户投资者正把目光转向Anthropic的首次公开募股（IPO）。</p><p><b>影响：</b>这表明投机资金可能正从加密货币转向AI标的，叠加机构资金流出与利率前景趋紧，比特币的下跌不再只是短期波动，而是需求端的结构性走弱。</p><p class="div"><b>分歧/未核实：</b>各源对近期低点与价格的表述略有差异：华尔街见闻给出周六66,586美元、周日62,022美元后回升至约64,800美元，财联社称周末一度跌近62,000美元、最新徘徊在64,500美元下方，期权报道则以约6.5万美元为现价，属不同时点报价而非矛盾。Solidot将下跌原因归于美国通胀与AI大规模支出吸走资金，属分析机构判断；Anthropic IPO的具体时间与规模来源未给出，尚未核实。UnusualWhales标题称投资者投降式抛售历史上是见底信号，但无正文内容支撑，仅为观点。</p><p><b>下一步关注：</b>关注Anthropic IPO的定价与认购情况能否真正分流加密市场资金，以及比特币ETF净流出、6万美元行权价看跌期权持仓和Glassnode浮亏比例是否继续恶化。</p><ul class="links"><li><a href="https://www.cls.cn/detail/2537249" rel="noopener">财联社深度</a></li><li><a href="https://wallstreetcn.com/articles/3785964" rel="noopener">华尔街见闻</a></li><li><a href="https://www.solidot.org/story?sid=85894" rel="noopener">Solidot 奇点资讯</a></li><li><a href="https://www.cls.cn/detail/2535752" rel="noopener">财联社深度</a></li><li><a href="https://wallstreetcn.com/livenews/3200457" rel="noopener">华尔街见闻实时</a></li><li><a href="https://decrypt.co/383466/bitcoin-investors-capitulating-historical-bottom-signal" rel="noopener">UnusualWhales</a></li></ul></div></details></article><article class="card" data-cat="crypto" data-search="openai首席执行官altman： 6.2 sol 与 astra 现已发布。 这两款模型能力出众，token 利用率极高。 希望大家能从中获得很高价值。 其是 6.2 sol 极速版，我相信大...  加密" id="e8457">
+<details open><summary>
+<p class="ctitle">2. OpenAI首席执行官Altman： 6.2 Sol 与 Astra 现已发布。 这两款模型能力出众，token 利用率极高。 希望大家能从中获得很高价值。 其是 6.2 Sol 极速版，我相信大...</p>
+<p class="cfact">OpenAI首席执行官Altman宣布6.2 Sol与Astra两款模型现已发布，称其能力出众、token利用率极高，并特别提到6.2 Sol极速版。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=17.4</span></div>
+<div class="heatbar"><i style="width:50%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>OpenAI首席执行官Altman宣布6.2 Sol与Astra两款模型现已发布，称其能力出众、token利用率极高，并特别提到6.2 Sol极速版。Hacker News上相关讨论帖标题为&quot;GPT‑6.2 Astra and Sol&quot;，链接指向OpenAI官方介绍页面，该帖获得123点热度、31条评论。</p><p><b>影响：</b>OpenAI推出新一代模型并强调token利用效率，意味着在同等调用成本下用户可获得更高产出，对依赖大模型的应用方具有直接的成本与性能意义。</p><p><b>下一步关注：</b>关注OpenAI官方介绍页中两款模型的具体定价、上下文长度及基准测试表现，以及6.2 Sol极速版与标准版的差异。</p><p class="meta">跨源归并自事件 8457, 8019（语料/链接取并集）</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201516" rel="noopener">华尔街见闻实时</a></li><li><a href="https://openai.com/index/introducing-gpt-6-2-astra-sol/" rel="noopener">Hacker News 100+</a></li></ul></div></details></article><article class="card" data-cat="crypto" data-search="热门网站遭入侵，意图窃取加密货币，目标锁定iphone用户 cnn apple ikea 加密" id="e5847">
+<details open><summary>
+<p class="ctitle">3. 热门网站遭入侵，意图窃取加密货币，目标锁定iPhone用户</p>
+<p class="cfact">安全研究人员斯科特·赫尔姆（Scott Helme）披露，攻击者利用网站优化平台Optimizely的Experimentation功能漏洞，向全球178家组织…</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=14.1</span><span class="chip">CNN</span><span class="chip">APPLE</span><span class="chip">IKEA</span></div>
+<div class="heatbar"><i style="width:40%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>安全研究人员斯科特·赫尔姆（Scott Helme）披露，攻击者利用网站优化平台Optimizely的Experimentation功能漏洞，向全球178家组织的网站植入恶意JavaScript代码，受影响机构包括CNN、汇丰银行、宜家（IKEA）、Zoom、Salesforce等。Optimizely已证实该安全事件，称未经授权的一方借此向部分客户项目注入恶意脚本；据赫尔姆描述，这些脚本试图将加密货币支付地址替换为攻击者的钱包地址，并在用户输入时截取支付卡信息、窃取Cookie和屏幕截图，同时部署针对苹果iOS设备的漏洞利用代码。网络安全公司Hudson Rock表示也发现受影响网站曾向访问者分发恶意代码的证据。</p><p><b>影响：</b>这是一起通过第三方通用组件发起的供应链攻击，一次漏洞利用即可波及上百家高流量网站，普通用户在正常浏览知名站点时就可能面临加密货币被劫持和支付信息泄露的风险。</p><p class="div"><b>分歧/未核实：</b>IT之家一篇报道称苹果iOS 13至18.x旧版本访问恶意页面即会中毒，但华尔街见闻全文仅提及脚本部署了针对iOS设备的漏洞利用代码，未说明具体受影响版本范围及是否实际感染成功，该版本区间说法尚未获其他来源印证。</p><p><b>下一步关注：</b>关注Optimizely对漏洞的修复与完整受影响客户名单公布，以及苹果是否就相关iOS漏洞利用发布补丁或安全提示。</p><ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201363" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.ithome.com/1/028/259.htm" rel="noopener">IT之家</a></li><li><a href="https://www.ithome.com/1/028/530.htm" rel="noopener">IT之家</a></li></ul></div></details></article><article class="card" data-cat="crypto" data-search="why bitcoin is crashing hard right now: key reasons, technical levels, and cycle context btc 加密" id="e8175">
+<details open><summary>
+<p class="ctitle">4. Why Bitcoin Is Crashing Hard Right Now: Key Reasons, Technical Levels, And Cycle Context</p>
+<p class="cfact">Seeking Alpha发布题为《Why Bitcoin Is Crashing Hard Right Now: Key Reasons, Technical…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=12.3</span><span class="chip">BTC</span></div>
+<div class="heatbar"><i style="width:35%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>Seeking Alpha发布题为《Why Bitcoin Is Crashing Hard Right Now: Key Reasons, Technical Levels, And Cycle Context》的分析文章，指出比特币（BTC）正在经历大幅下跌，并从关键原因、技术价位和周期背景三个维度进行解读。来源摘要未提供具体跌幅数字或价格水平。</p><p><b>影响：</b>比特币大幅回调可能影响加密市场整体情绪及关联资产配置决策，但具体幅度与驱动因素需待完整报道确认。</p><p><b>下一步关注：</b>关注该文章全文披露的具体下跌原因、关键技术支撑位及周期定位判断，并跟踪后续价格是否企稳。</p><ul class="links"><li><a href="https://seekingalpha.com/article/4969218-why-bitcoin-crashing-hard-right-now-key-reasons-technical-levels-cycle-context?source=feed_all_articles" rel="noopener">Seeking Alpha</a></li></ul></div></details></article><article class="card compact" data-cat="crypto" data-search="want to know what bitcoin is really worth? check this chart. btc 加密" id="e8337">
+<details open><summary>
+<p class="ctitle"><span class="rank">#5</span> Want to know what bitcoin is really worth? Check this chart.</p>
+<p class="cfact">A model for calculating bitcoin’s value has worked well to inform investors when the crypt…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=9.4</span><span class="chip">BTC</span></div>
+<div class="heatbar"><i style="width:27%"></i></div>
+</summary><div class="cbody"><p>A model for calculating bitcoin’s value has worked well to inform investors when the cryptocurrency is overbought or oversold. Now, the price is just right.</p><ul class="links"><li><a href="https://www.marketwatch.com/story/want-to-know-what-bitcoin-is-really-worth-check-this-chart-daa3fce7?mod=mw_rss_topstories" rel="noopener">MarketWatch</a><span class="chip">2026-11-17</span> Want to know what bitcoin is really worth? Check this chart.</li></ul></div></details></article><article class="card compact" data-cat="crypto" data-search="popular websites compromised in bid to steal crypto, target iphone users - reuters  加密" id="e7666">
+<details open><summary>
+<p class="ctitle"><span class="rank">#6</span> Popular websites compromised in bid to steal crypto, target iPhone users - Reuters</p>
+<p class="cfact">Popular websites compromised in bid to steal crypto, target iPhone users Reuters</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=8.6</span></div>
+<div class="heatbar"><i style="width:25%"></i></div>
+</summary><div class="cbody"><p>Popular websites compromised in bid to steal crypto, target iPhone users Reuters</p><ul class="links"><li><a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxPTS1sYjJVSFJKSWN4SHY1S3g4aDJwdmd1SXp0YTY5aDJUNF9PS08zR29LWkVzVXk2d2tXZFh0dm9QRVNxc2xXYzczdWpXYmYwTmgwUDZfSFhBRE1XT3JHQnpNZERDdU5yMy16dDdVa1hYTVBqa0xGbTVPNkJBZTlIWmc4cldZaTI2QnpoaWo3NUxOb3FXQmZQck0yQzYzMVJ5MTROcFdTUGU4b0pmLUZ2Y3V3LVVJaEU?oc=5" rel="noopener">路透社国际</a><span class="chip">2026-11-17</span> Popular websites compromised in bid to steal crypto, target </li></ul></div></details></article><article class="card compact" data-cat="crypto" data-search="eastern europe crypto flows fall 7.9% as ukraine draws $12b in stablecoins  加密" id="e8495">
+<details open><summary>
+<p class="ctitle"><span class="rank">#7</span> Eastern Europe crypto flows fall 7.9% as Ukraine draws $12B in stablecoins</p>
+<p class="cfact"></p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=8.1</span></div>
+<div class="heatbar"><i style="width:23%"></i></div>
+</summary><div class="cbody"><ul class="links"><li><a href="https://cointelegraph.com/news/eastern-europe-crypto-activity-decline-chainalysis?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound" rel="noopener">UnusualWhales</a><span class="chip">2026-11-17</span> Eastern Europe crypto flows fall 7.9% as Ukraine draws $12B </li></ul></div></details></article></div></section><section id="cat-football" class="page"><h2>足球 <span class="badge">6条</span></h2><div class="digest">今天体育领域最令人痛心的消息来自拳击赛场：爱尔兰拳手李·里夫斯在都柏林与加里·卡利的比赛中受重伤，昏迷三个月后在利默里克离世，年仅31岁。这起悲剧再次将搏击运动的安全问题推到聚光灯下。足球方面同样不平静，英格兰客场击败世界冠军西班牙，被媒体称为队史最伟大的胜利之一，也是图赫尔执教以来最具说服力的表现。与此同时，巴萨球星亚马尔陷入舆论风波，网传其转发歧视亚裔内容的截图引发中国社交媒体强烈反响，西甲官方已明确回应称该截图系伪造。此外，苏超阿伯丁宣布任命列支敦士登前国脚马里奥·弗里克为新任主帅。今日主线是竞技荣耀与场外争议并行，而里夫斯的离世则提醒人们关注运动员生命安全的底线。</div><div class="grid"><article class="card" data-cat="football" data-search="irish boxer reeves dies aged 31 following three months in coma  足球" id="e6221">
+<details open><summary>
+<p class="ctitle">1. Irish boxer Reeves dies aged 31 following three months in coma</p>
+<p class="cfact">爱尔兰拳击手李·里夫斯(Lee Reeves)去世,年仅31岁。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=1.7</span></div>
+<div class="heatbar"><i style="width:100%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>爱尔兰拳击手李·里夫斯(Lee Reeves)去世,年仅31岁。据半岛电视台报道,他在都柏林与加里·卡利(Gary Cully)的比赛中受重伤,三个月后在利默里克离世。Sky Sports Football同样确认了他在受伤三个月后死亡的消息。</p><p><b>影响：</b>一名职业拳手因比赛中的重伤在昏迷三个月后死亡,再次凸显拳击运动的头部创伤风险与赛后医疗保障问题。</p><p><b>下一步关注：</b>关注赛事主办方与爱尔兰拳击管理机构对比赛过程、现场医疗处置及后续安全规则的调查与回应。</p><ul class="links"><li><a href="https://www.skysports.com/boxing/news/12040/13613108/irish-boxer-lee-reeves-dies-aged-31-three-months-after-suffering-serious-injuries-in-fight" rel="noopener">Sky Sports Football</a></li><li><a href="https://www.aljazeera.com/sports/2026/11/17/irish-boxer-lee-reeves-31-dies-three-months-after-sustaining-injuries?traffic_source=rss" rel="noopener">半岛电视台</a></li></ul></div></details></article><article class="card" data-cat="football" data-search="西甲称网传亚马尔转发歧视亚裔内容截图系伪造  足球" id="e3042">
+<details open><summary>
+<p class="ctitle">2. 西甲称网传亚马尔转发歧视亚裔内容截图系伪造</p>
+<p class="cfact">据联合早报报道，效力于巴塞罗那的西班牙球星亚马尔被指于当地时间2026年11月15日（星期天）在Instagram转发一条带有侮辱亚裔和华人意味的视频后删除，相…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=0.8</span></div>
+<div class="heatbar"><i style="width:48%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据联合早报报道，效力于巴塞罗那的西班牙球星亚马尔被指于当地时间2026年11月15日（星期天）在Instagram转发一条带有侮辱亚裔和华人意味的视频后删除，相关话题登上中国微博热搜，部分网民要求其道歉。央视体育报道称，中央广播电视总台体育青少中心启动应急程序，要求西甲联盟核实并反馈；西甲联盟于11月16日（星期一）下午正式复函，称网传截图系恶意伪造、并非亚马尔本人发布。西甲联盟同时重申反对一切形式的种族主义与歧视，谴责虚假信息及恶意造谣，并表示已对传播不实信息的账号启动调查。</p><p><b>影响：</b>官方机构介入核实并认定截图造假，关系到球员名誉、跨国舆论中的虚假信息治理以及体育机构对中国市场舆情的应对方式。</p><p class="div"><b>分歧/未核实：</b>同一来源的两篇报道口径不同：前一篇称亚马尔“疑似转发后删除”、截图真实性仍待考证；后一篇引述西甲联盟回函称截图系恶意伪造。亚马尔是否确有转发行为，目前仅有西甲单方面说法，未见独立核实。</p><p><b>下一步关注：</b>关注西甲联盟对造谣账号的调查结论、是否公布可验证的技术证据，以及亚马尔本人或巴塞罗那俱乐部是否作出回应。</p><ul class="links"><li><a href="https://www.zaobao.com.sg/news/china/story20261116-10008374" rel="noopener">联合早报</a></li><li><a href="https://www.zaobao.com.sg/news/china/story20261116-10005816" rel="noopener">联合早报</a></li></ul></div></details></article><article class="card" data-cat="football" data-search="england stun world champions spain in one of their greatest victories  足球" id="e1231">
+<details open><summary>
+<p class="ctitle">3. England stun world champions Spain in one of their greatest victories</p>
+<p class="cfact">{&quot;fact&quot;:&quot;英格兰在客场击败世界冠军西班牙，被《每日电讯报》称为英格兰历史上最伟大的胜利之一。</p>
+<div class="meta"><span class="chip">2独立源</span>
+<span class="chip">S=0.1</span></div>
+<div class="heatbar"><i style="width:4%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>{&quot;fact&quot;:&quot;英格兰在客场击败世界冠军西班牙，被《每日电讯报》称为英格兰历史上最伟大的胜利之一。BBC记者Phil McNulty评价这场比赛为&quot;60分钟的完美加上30分钟的混乱&quot;，认为这是英格兰在主教练托马斯·图赫尔执教下表现最出色的一场比赛。&quot;,&quot;impact&quot;:&quot;客场战胜现任世界冠军标志着英格兰在图赫尔体系下的竞技水平达到新高度，对球队信心和大赛前景具有重要意义。&quot;,&quot;divergence&quot;:&quot;&quot;,&quot;next_step&quot;:&quot;关注图赫尔如何延续这一战术表现，以及英格兰在后续国际赛事中能否保持对顶级对手的竞争力。&quot;}</p><p><b>影响：</b></p><p><b>下一步关注：</b></p><p class="meta">跨源归并自事件 1231, 1138, 1139（语料/链接取并集）</p><ul class="links"><li><a href="https://www.telegraph.co.uk/football/2026/11/15/spain-vs-england-live-score-latest-nations-league-updates/" rel="noopener">The Telegraph Football</a></li><li><a href="https://www.bbc.co.uk/sport/football/articles/c933ge310n33o?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Sport Football</a></li><li><a href="https://www.bbc.co.uk/sport/football/articles/cjg46lrpllrpo?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Sport Football</a></li></ul></div></details></article><article class="card" data-cat="football" data-search="aberdeen appoint liechtenstein&#x27;s frick as head coach  足球" id="e1140">
+<details open><summary>
+<p class="ctitle">4. Aberdeen appoint Liechtenstein&#x27;s Frick as head coach</p>
+<p class="cfact">据BBC Sport Football报道，阿伯丁足球俱乐部宣布任命列支敦士登前前锋马里奥·弗里克（Mario Frick）为新任主教练。</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=0.0</span></div>
+<div class="heatbar"><i style="width:4%"></i></div>
+</summary><div class="cbody"><p><b>事实：</b>据BBC Sport Football报道，阿伯丁足球俱乐部宣布任命列支敦士登前前锋马里奥·弗里克（Mario Frick）为新任主教练。来源仅确认了这一任命消息，未提供合同期限、上任时间或前任主帅离任原因等细节。</p><p><b>影响：</b>阿伯丁更换主教练意味着球队执教思路可能随之调整，而由一位列支敦士登前国脚级前锋出任苏超球队主帅本身较为少见。</p><p><b>下一步关注：</b>关注阿伯丁官方后续公布的合同年限、正式上任日期及教练组安排，以及弗里克此前执教经历与球队换帅的具体原因。</p><ul class="links"><li><a href="https://www.bbc.co.uk/sport/football/articles/cqrmgz9ypvwko?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Sport Football</a></li></ul></div></details></article><article class="card compact" data-cat="football" data-search="ronaldinho makes comeback in ravenna win  足球" id="e1141">
+<details open><summary>
+<p class="ctitle"><span class="rank">#5</span> Ronaldinho makes comeback in Ravenna win</p>
+<p class="cfact">Brazil legend Ronaldinho makes his comeback aged 46 for Ravenna, playing the first half of…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=0.0</span></div>
+<div class="heatbar"><i style="width:4%"></i></div>
+</summary><div class="cbody"><p>Brazil legend Ronaldinho makes his comeback aged 46 for Ravenna, playing the first half of their Italian third-tier derby against Forli.</p><ul class="links"><li><a href="https://www.bbc.co.uk/sport/football/articles/ckregz4g823xo?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Sport Football</a><span class="chip">2026-11-15</span> Ronaldinho makes comeback in Ravenna win</li></ul></div></details></article><article class="card compact" data-cat="football" data-search="london city&#x27;s &#x27;bravery&#x27; paying off in top three pursuit  足球" id="e1142">
+<details open><summary>
+<p class="ctitle"><span class="rank">#6</span> London City&#x27;s &#x27;bravery&#x27; paying off in top three pursuit</p>
+<p class="cfact">After 10 games in the Women&#x27;s Super League season, London City Lionesses have shown they a…</p>
+<div class="meta"><span class="chip">1独立源</span>
+<span class="chip">S=0.0</span></div>
+<div class="heatbar"><i style="width:4%"></i></div>
+</summary><div class="cbody"><p>After 10 games in the Women&#x27;s Super League season, London City Lionesses have shown they are capable of finishing inside the top three.</p><ul class="links"><li><a href="https://www.bbc.co.uk/sport/football/articles/c6y49gzjgew5o?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Sport Football</a><span class="chip">2026-11-15</span> London City&#x27;s &#x27;bravery&#x27; paying off in top three pursuit</li></ul></div></details></article></div></section><section id="interest" class="page"><h2>兴趣深挖 · 持仓雷达</h2><div class="radar"><div class="tile"><h4>CATL <span class="chip">3条</span></h4><ul><li><a href="#e5064">雷军、李彦宏、王兴兴、曾毓群等齐聚，再谈AI与机器人未来</a> <span class="chip">S=18.9</span></li><li><a href="#e6700">斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品</a> <span class="chip">S=13.3</span></li><li><a href="#e1361">董明珠现身APEC会议现场</a> <span class="chip">S=11.5</span></li></ul></div><div class="tile"><h4>FAST <span class="chip">3条</span></h4><ul><li><a href="#e8332">美国最大电网提议改革以加快数据中心接入</a> <span class="chip">S=17.9</span></li><li><a href="#e8341">Launch HN: StarSling (YC P25) – Self-impro</a> <span class="chip">S=15.3</span></li><li><a href="#e7617">Nexsan Unity Provides a Fast Protection Re</a> <span class="chip">S=6.4</span></li></ul></div><div class="tile"><h4>FITB</h4><p class="empty">今日无新增</p></div><div class="tile"><h4>HBAN</h4><p class="empty">今日无新增</p></div><div class="tile"><h4>HENGRUI <span class="chip">3条</span></h4><ul><li><a href="#e1436">中关村：36个在产产品纳入国家医保目录（2026年）</a> <span class="chip">S=8.0</span></li><li><a href="#e3280">《科创板日报》16日讯，香港交易所信息显示，花旗集团在恒瑞医药H股的持股比例于11月</a> <span class="chip">S=1.1</span></li><li><a href="#e2010">通威股份有限公司第九届董事会第十五次会议决议公告</a> <span class="chip">S=0.5</span></li></ul></div><div class="tile"><h4>MOUTAI <span class="chip">2条</span></h4><ul><li><a href="#e6691">炒茅台不赚钱了</a> <span class="chip">S=5.5</span></li><li><a href="#e5635">蔚来黔川山水人文线贯通：全长 1067 公里沿途布局 22 座充换电站，全国已建成 </a> <span class="chip">S=4.2</span></li></ul></div><div class="tile"><h4>NVIDIA <span class="chip">3条</span></h4><ul><li><a href="#e1235">英伟达分析师电话会议要点总结</a> <span class="chip">S=81.7</span></li><li><a href="#e6068">财联社11月18日早间新闻精选</a> <span class="chip">S=64.9</span></li><li><a href="#e3980">华尔街见闻早餐 | 2026年11月18日</a> <span class="chip">S=61.6</span></li></ul></div><div class="tile"><h4>PINGAN <span class="chip">3条</span></h4><ul><li><a href="#e5994">Interbrand《2026中国最佳品牌排行榜》发布：中国平安品牌价值达1886.</a> <span class="chip">S=4.5</span></li><li><a href="#e6177">深圳街头“出国错觉”拉满，外国客人来了花钱看病顺手吗？APEC启幕，看本土企业中国平</a> <span class="chip">S=3.1</span></li><li><a href="#e1778">收评：沪指跌0.87%险守3600点 全市场超4300只个股下挫</a> <span class="chip">S=2.2</span></li></ul></div><div class="tile"><h4>WULIANGYE</h4><p class="empty">今日无新增</p></div><div class="tile"><h4>YIHUA</h4><p class="empty">今日无新增</p></div><div class="tile"><h4>ZHONGBEI</h4><p class="empty">今日无新增</p></div></div><h3 style="font-size:16px;margin:18px 0 8px">增强深读卡（六段 · 背景段为模型知识标注）</h3><div class="grid"><article class="card" data-search="英伟达分析师电话会议要点总结 nvidia jensen_huang musk trump tesla" id="x1235">
+<details open><summary>
+<p class="ctitle">🔬 1. 英伟达分析师电话会议要点总结</p>
+<div class="meta"><span class="chip">AI与科技</span>
+<span class="chip">16独立源</span><span class="chip">S=81.7</span></div>
+</summary><div class="cbody">
+<p><b>事实：</b>英伟达董事会主席哈维·琼斯在分析师电话会上明确表示，黄仁勋系“自愿辞职”，董事会无意重新任命其担任CEO，目前正在评估内部和外部候选人，遴选将“十分审慎”。此前11月17日，黄仁勋发布辞职后首份公开声明，承认个人行为过错、承诺配合董事会独立调查，并表示若董事会同意愿重返担任CEO；其硅谷盟友（含马斯克等）组建“战情室”游说复职并计划争取白宫支持。临时CEO兼CFO科莱特·克雷斯在会上强调“业务一切照常”，需求远超供应，并宣布成立新的“国家安全与出口管制监督委员会”。</p>
+<p class="bg-note">背景补充(模型知识,非当日报道):英伟达是全球领先的GPU与AI加速计算芯片设计公司，数据中心业务为其核心增长引擎，产品广泛用于大模型训练与推理。黄仁勋为公司联合创始人，长期担任CEO，是公司技术路线与战略的象征性人物，其去留对投资者信心与公司治理具有重大影响。Vera Rubin为其下一代计算架构，Hopper为上一代主力数据中心GPU架构。美国近年持续收紧对华及周边地区的先进芯片出口管制，转运风险成为监管重点，芯片企业的合规与政府沟通能力日益关键。创始人因个人行为问题离任、随后寻求复职并与董事会公开博弈，在公司治理层面属罕见情形。</p>
+<p><b>影响：</b>影响:创始人去留悬而未决叠加董事会明确拒绝复职，使英伟达领导层继任成为市场焦点，直接关系公司治理稳定性与投资者信心；同时公司在 leadership 动荡下仍给出强劲营收指引并上调长期增长预期，显示AI算力需求基本面未受冲击。新设国家安全与出口管制监督委员会、以及美国针对多国转运风险的新规，凸显地缘合规已成为影响其增长兑现的关键变量。</p><p><b>关键数据：</b>第三季度营收1,158亿美元；第四季度营收指引1,300亿美元（区间1,274亿—1,326亿美元），毛利率预计71%—72%；2028财年营收增长预期由70%上调至75%；Vera Rubin架构累计营收200亿美元；大型前沿AI实验室今年贡献约15%的数据中心营收；总体承诺金额升至5,180亿美元，其中供应链采购承诺3,900亿美元；担保总额1,180亿美元，含为SB Energy俄亥俄州数据中心园区（将租赁给OpenAI）提供最高1,050亿美元分阶段信用支持；网上联署呼吁复职近20万人；黄仁勋63岁。</p><p class="div"><b>分歧/未核实：</b>分歧/未核实:黄仁勋本人及硅谷盟友主张复职，而董事会主席明确拒绝、财长贝森特则敦促选择“外部人士”，双方立场公开对立；特朗普对回归的表态在来源中仅被提及未展开。董事会称“自愿辞职”，而部分报道用“被迫辞去”，离职性质表述不一；董事会独立调查的具体内容与结论未披露，高管团队在会上拒绝回应相关提问。</p>
+<p><b>下一步关注：</b>下一步关注:正式CEO人选（内部候选人数据中心业务负责人伊恩·巴克已出席问答）及遴选进度；董事会独立调查结果与黄仁勋是否进一步行动；美国针对马来西亚、泰国、新加坡、印度尼西亚、巴西等国转运风险新出口规则的具体影响；第四季度营收与75%增长目标的兑现，以及对新兴云厂商巨额承诺与担保的风险敞口变化。</p><p class="meta">全文深读: 2 篇（Jina）</p>
+<ul class="links"><li><a href="https://wallstreetcn.com/livenews/3201572" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.ithome.com/1/027/470.htm" rel="noopener">IT之家</a></li><li><a href="https://original.ifeng.com/c/8y8Xo1QzM1V" rel="noopener">凤凰网财经</a></li><li><a href="https://api3.cls.cn/share/article/2537266?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">财联社加红</a></li><li><a href="https://original.ifeng.com/c/8y5QrZj2Ecq" rel="noopener">凤凰网财经</a></li><li><a href="https://international.caixin.com/2026-11-18/102506043.html" rel="noopener">财新最新</a></li></ul></div></details></article><article class="card" data-search="雷军、李彦宏、王兴兴、曾毓群等齐聚，再谈ai与机器人未来 baidu apec icbc" id="x5064">
+<details open><summary>
+<p class="ctitle">🔬 2. 雷军、李彦宏、王兴兴、曾毓群等齐聚，再谈AI与机器人未来</p>
+<div class="meta"><span class="chip">A股港股</span>
+<span class="chip">11独立源</span><span class="chip">S=18.9</span></div>
+</summary><div class="cbody">
+<p><b>事实：</b>{&quot;fact&quot;:&quot;2026年11月17日至18日，2026年APEC工商领导人峰会在深圳举行，主题为&quot;共促繁荣，共赢未来&quot;。百度李彦宏警告AI应用层渗透低于预期，若无法突破恐演变为泡沫；小米雷军指出过去四年能真正实现商业闭环的AI公司较少，认为具身智能机器人是巨大产业机会；宇树科技王兴兴则用&quot;最激动人心&quot;形容AI正接近突破临界点。工商银行董事长廖林提出AI时代需处理好技术应用与组织架构、技术迭代与投资周期、技术创新与风险三组关系。&quot;,&quot;background&quot;:&quot;背景补充(模型知识,非当日报道):APEC工商领导人峰会是亚太经合组织领导人非正式会议的重要配套活动，汇集区域商界领袖讨论经济议题。百度是中国领先的AI及搜索引擎公司，近年将战略重心转向大模型与AI应用；小米以智能手机和IoT生态起家，近年进入智能电动汽车领域；宇树科技是国内具身智能与人形机器人领域的代表性初创企业；宁德时代是全球最大动力电池制造商。当前全球AI产业正处于大规模基础设施投入期，芯片与算力投资激增，但应用层商业化回报尚未普遍兑现，业界对&quot;AI泡沫&quot;的讨论日趋密集。&quot;,&quot;impact&quot;:&quot;影响:多位中国顶级科技企业家在APEC这一高规格国际场合集中表达对AI商业化落地的担忧，信号意义重大——表明即便在算力与大模型层面取得显著进展，应用层的收入转化仍是产业核心瓶颈。李彦宏明确使用&quot;泡沫&quot;一词警示，雷军强调物理世界（机器人、终端）才是下一阶段机会所在，这些判断可能影响资本市场对AI概念股的估值逻辑，也为亚太区域AI合作指明从基础设施向应用落地转型的方向。&quot;,&quot;data&quot;:&quot;李彦宏称过去三年多AI各方面投入成倍增长；雷军称过去四年能挣到钱的AI公司比较少；李彦宏将AI分为四层（GPU芯片、云基础设施、大模型、应用），透露百度推出&quot;Token交易所&quot;撮合算力供需；廖林提出三组关系框架。&quot;,&quot;divergence&quot;:&quot;王兴兴与李彦宏对AI当前阶段的判断存在明显分歧：王兴兴认为AI正接近&quot;最激动人心&quot;的突破临界点，李彦宏则认为应用落地不及预期是&quot;最紧迫&quot;问题并警示泡沫风险。两人分别从技术突破与商业回报两个维度审视同一产业，乐观与审慎并存。&quot;,&quot;next_step&quot;:&quot;关注峰会第二日（11月18日）是否有更多具体合作倡议或政策信号发布；跟踪百度&quot;Token交易所&quot;模式的实际运营效果及AI业务收入占比变化；观察具身智能机器人领域后续融资与产品落地进展，验证雷军关于&quot;物理世界机会&quot;的判断。&quot;}</p>
+<p class="bg-note"></p>
+<p><b>影响：</b></p>
+<p><b>下一步关注：</b></p><p class="meta">全文深读: 1 篇（Jina）</p>
+<ul class="links"><li><a href="https://www.cls.cn/detail/2536992" rel="noopener">财联社深度</a></li><li><a href="https://www.caixin.com/2026-11-17/102505603.html" rel="noopener">财新最新</a></li><li><a href="https://finance.caixin.com/2026-11-17/102505702.html" rel="noopener">财新最新</a></li><li><a href="https://wallstreetcn.com/livenews/3201155" rel="noopener">华尔街见闻实时</a></li><li><a href="https://www.yicai.com/brief/103443341.html" rel="noopener">第一财经</a></li><li><a href="https://www.ithome.com/1/028/322.htm" rel="noopener">IT之家</a></li></ul></div></details></article><article class="card" data-search="steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响 steam" id="x8800">
+<details open><summary>
+<p class="ctitle">🔬 3. Steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响</p>
+<div class="meta"><span class="chip">游戏</span>
+<span class="chip">1独立源</span><span class="chip">S=20.0</span></div>
+</summary><div class="cbody">
+<p><b>事实：</b>{&quot;fact&quot;:&quot;据IT之家报道，Valve旗下游戏平台Steam于当地时间2026年11月17日突发大规模服务故障，商店、游戏下载、好友列表及云存档等多项在线功能受影响，部分用户在网络正常的情况下仍遇到&quot;No Connection&quot;错误。故障监测平台Downdetector一度收到接近4.8万条报障，SteamDB等第三方平台也显示商店、社区、客户端及Web API等服务出现断崖式下跌，但目前已陆续恢复。&quot;,&quot;background&quot;:&quot;背景补充(模型知识,非当日报道): Steam是Valve运营的全球最大PC游戏数字分发平台，集游戏购买、下载更新、社交互动、云存档同步等功能于一体，其服务高度依赖后端服务器集群与内容分发网络（CDN）。当核心API或认证服务出现异常时，会引发商店浏览、下载、好友系统、云存档等多模块连锁失效。Downdetector是基于用户主动上报的众包故障监测平台，其数据反映的是用户感知到的异常规模而非精确受影响人数；SteamDB则是独立第三方数据库，通过持续抓取Steam公开接口来追踪在线人数与服务状态变化。&quot;,&quot;impact&quot;:&quot;影响：Steam作为全球PC游戏生态的核心基础设施，其大规模宕机直接阻断数以亿计用户的游戏获取、社交和存档同步体验。云存档不可用意味着跨设备玩家可能暂时无法继续游戏进度；商店与下载中断则影响开发者收入与玩家消费。此次故障再次凸显集中式数字分发平台的单点脆弱性——一旦后端服务异常，整个生态链从购买到游玩均受波及。&quot;,&quot;data&quot;:&quot;Downdetector一度收到接近4.8万条Steam故障报告（来源：IT之家引述Downdetector数据）；故障发生时间为当地时间2026年11月17日（来源：IT之家）。&quot;,&quot;divergence&quot;:&quot;Valve尚未公布此次故障的具体原因，也未说明是否与服务器维护或其他技术问题有关（来源：IT之家原文）。Downdetector报障数量为用户主动提交，不能直接等同于实际受影响用户数量（来源：IT之家注释）。仅有单一中文媒体源报道，外媒原始报道细节未直接核实。&quot;,&quot;next_step&quot;:&quot;关注Valve是否发布官方故障说明或事后复盘报告，明确根因（如CDN故障、API过载、DDoS攻击或计划外维护）；观察Steam各服务模块是否完全恢复稳定；留意同期其他大型互联网平台（如苹果、微软）是否出现类似集中宕机，以判断是否存在共性基础设施问题。&quot;}</p>
+<p class="bg-note"></p>
+<p><b>影响：</b></p>
+<p><b>下一步关注：</b></p><p class="meta">全文深读: 1 篇（Jina）</p>
+<ul class="links"><li><a href="https://www.ithome.com/1/028/592.htm" rel="noopener">IT之家</a></li></ul></div></details></article></div><h3 style="font-size:16px;margin:18px 0 8px">关注关键词命中流</h3><div class="tile" style="margin-bottom:8px"><h4>宁德时代</h4><ul><li><a href="https://wallstreetcn.com/livenews/3201240" rel="noopener">斯莱克：控股子公司分宜和骏与宁德时代签署《厂边厂配套供应协议》，宁德时代指定其在江苏苏州、福建泉州投</a> <span class="chip">华尔街见闻实时</span></li><li><a href="" rel="noopener">宁德时代曾毓群：电动化的应用场景将从陆地延伸到海洋、天空</a> <span class="chip">金十数据</span></li><li><a href="https://api3.cls.cn/share/article/2536897?os=web&amp;sv=8.7.9&amp;app=" rel="noopener">斯莱克：子公司与宁德时代签署厂边厂配套供应协议 为其提供电池壳体等配套产品</a> <span class="chip">财联社公司公告</span></li><li><a href="https://www.cls.cn/detail/2536921" rel="noopener">宁德时代曾毓群：电动化的应用场景将从陆地延伸到海洋、天空</a> <span class="chip">财联社电报</span></li></ul></div><div class="tile" style="margin-bottom:8px"><h4>恒瑞医药</h4><ul><li><a href="https://www.cls.cn/detail/2535574" rel="noopener">《科创板日报》16日讯，香港交易所信息显示，花旗集团在恒瑞医药H股的持股比例于11月10日从6.00</a> <span class="chip">财联社电报</span></li><li><a href="https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-11-16/600276_20261116_WNNG.pdf" rel="noopener">恒瑞医药关于公司药品纳入国家医保目录的公告</a> <span class="chip">上交所披露</span></li><li><a href="https://www.yicai.com/brief/103440992.html" rel="noopener">&lt;b&gt;恒瑞医药：公司部分产品纳入国家医保目录 |&lt;/b&gt; 恒瑞医药公告，据国家医保局、人力资源社会保</a> <span class="chip">第一财经</span></li></ul></div><div class="tile" style="margin-bottom:8px"><h4>中国平安</h4><ul><li><a href="https://www.guancha.cn/CaiJing/2026_11_17_908718.shtml" rel="noopener">深圳街头“出国错觉”拉满，外国客人来了花钱看病顺手吗？APEC启幕，看本土企业中国平安如何用一套“跨</a> <span class="chip">观察者网</span></li><li><a href="https://www.gelonghui.com/live/2765149" rel="noopener">Interbrand《2026中国最佳品牌排行榜》发布：中国平安品牌价值达1886.64亿元 蝉联中</a> <span class="chip">格隆汇</span></li></ul></div><div class="tile" style="margin-bottom:8px"><h4>Blender</h4><ul><li><a href="https://blockchain.news/news/vibeprevisbench-4d-scene-generation" rel="noopener">VibePrevisBench: Benchmarking 4D Scene Generation </a> <span class="chip">UnusualWhales</span></li></ul></div><div class="tile" style="margin-bottom:8px"><h4>Steam</h4><ul><li><a href="https://www.ithome.com/1/028/592.htm" rel="noopener">Steam 突发大规模服务故障：游戏下载、好友列表、云存档均受影响</a> <span class="chip">IT之家</span></li><li><a href="https://newsletter.gamediscover.co/p/examining-pc-game-trends-beyond-the" rel="noopener">Examining PC game trends: beyond the Steam tag!</a> <span class="chip">GameDiscoverCo</span></li><li><a href="https://www.ithome.com/1/028/540.htm" rel="noopener">Steam 新一周游戏销量榜公布：《欧卡 2》75% 折扣登顶，国区《影之刃零》连续霸榜</a> <span class="chip">IT之家</span></li><li><a href="https://www.ithome.com/1/028/318.htm" rel="noopener">经典游戏多人版本《黄金矿工：派对狂欢》登陆 Steam，支持 2–6 人同时在线游玩</a> <span class="chip">IT之家</span></li></ul></div><div class="tile" style="margin-bottom:8px"><h4>Unity</h4><ul><li><a href="" rel="noopener">China’s President Xi: urged settling differences v</a> <span class="chip">UnusualWhales</span></li><li><a href="" rel="noopener">Xi urges APEC members to resolve disputes through </a> <span class="chip">UnusualWhales</span></li><li><a href="" rel="noopener">China&#x27;s President Xi: China ready to collaborate w</a> <span class="chip">UnusualWhales</span></li><li><a href="https://www.ithome.com/1/028/671.htm" rel="noopener">Unity 推出 Fellowship 计划，向 10 支独立游戏团队各提供 5 万美元资金等支持</a> <span class="chip">IT之家</span></li></ul></div><div class="tile" style="margin-bottom:8px"><h4>rig</h4><ul><li><a href="https://www.prnewswire.com/news-releases/mdgl-investigation-reminder-madrigal-pharmaceuticals-inc-investors-are-encouraged-to-contact-kessler-topaz-meltzer--check-llp-302942913.html" rel="noopener">MDGL Investigation Reminder: Madrigal Pharmaceutic</a> <span class="chip">UnusualWhales</span></li><li><a href="" rel="noopener">South Korea moves to ease rules governing the veri</a> <span class="chip">UnusualWhales</span></li><li><a href="https://www.prnewswire.com/news-releases/harbour-biomeds-partner-spruce-biosciences-separates-crhx-101-program-into-adrenyx-biosciences-advancing-development-of-harbour-biomed-originated-antibody-through-a-standalone-company-302942976.html" rel="noopener">Harbour BioMed&#x27;s Partner Spruce Biosciences Separa</a> <span class="chip">UnusualWhales</span></li><li><a href="" rel="noopener">NVIDIA INTERIM CEO KRESS SAYS HYPERSCALERS ARE RIG</a> <span class="chip">UnusualWhales</span></li></ul></div><div class="tile" style="margin-bottom:8px"><h4>独立游戏</h4><ul><li><a href="https://www.ithome.com/1/028/671.htm" rel="noopener">Unity 推出 Fellowship 计划，向 10 支独立游戏团队各提供 5 万美元资金等支持</a> <span class="chip">IT之家</span></li></ul></div><div class="tile" style="margin-bottom:8px"><h4>FAST</h4><ul><li><a href="https://www.theguardian.com/uk-news/2026/nov/18/shabana-mahmood-fast-track-training-police-leadership" rel="noopener">Shabana Mahmood to launch fast-track training to i</a> <span class="chip">卫报国际</span></li><li><a href="https://seekingalpha.com/article/4969249-trifast-plc-tfstf-q2-2027-earnings-call-transcript?source=feed_all_articles" rel="noopener">Trifast plc (TFSTF) Q2 2027 Earnings Call Transcri</a> <span class="chip">Seeking Alpha</span></li><li><a href="http://www.businesswire.com/news/home/20261117334884/en/Nexsan-Unity-Provides-a-Fast-Protection-Repository-and-a-Retention-Locked-Compliance-Copy-with-S3-Object-Locking-for-Joint-%E2%80%98Proven-Recovery%E2%80%99-Solution/?feedref=JjAwJuNHiystnCoBq_hl-Q-tiwWZwkcswR1UZtV7eGe24xL9TZOyQUMS3J72mJlQ7fxFuNFTHSunhvli30RlBNXya2izy9YOgHlBiZQk2LOzmn6JePCpHPCiYGaEx4DL1Rq8pNwkf3AarimpDzQGuQ==" rel="noopener">Nexsan Unity Provides a Fast Protection Repository</a> <span class="chip">UnusualWhales</span></li><li><a href="https://www.prnewswire.com/news-releases/rhapsody-launches-axon-broadcast-to-help-health-tech-companies-differentiate-and-go-live-faster-302942302.html" rel="noopener">Rhapsody Launches Axon Broadcast to Help Health Te</a> <span class="chip">UnusualWhales</span></li></ul></div></section><section id="hotlist" class="page"><h2>热榜交叉验证（榜中榜）</h2><p class="meta">热榜数据截至 2026-11-18T10:20:43 · 匹配 55 事件</p><table class="hot"><tr><th>我们的事件</th><th>上榜平台/排名</th><th>选择分</th></tr><tr><td><a href="#e1235">英伟达分析师电话会议要点总结</a></td><td><span class="hot">IT之家 #4 ↑-22</span></td><td>81.7</td></tr><tr><td><a href="#e7174">美股持仓大洗牌 中概股获机构密集加仓</a></td><td><span class="hot">36氪 #4 ↑-14</span></td><td>51.2</td></tr><tr><td><a href="#e1798">马来西亚总理安瓦尔抵达深圳</a></td><td><span class="hot">卫星通讯社 #3 ↑-17</span></td><td>50.1</td></tr><tr><td><a href="#e8706">上市公募REITs“破百”近在咫尺 行业迎来提质深耕窗口期</a></td><td><span class="hot">36氪 #2 ↑-14</span></td><td>47.8</td></tr><tr><td><a href="#e8872">本月118家上市公司获海外机构调研 多数业绩表现较好</a></td><td><span class="hot">36氪 #10</span></td><td>43.6</td></tr><tr><td><a href="#e7992">俄罗斯总统普京抵达深圳</a></td><td><span class="hot">微博 #1 ↑4</span> <span class="hot">澎湃 #1 ↑5</span> <span class="hot">抖音 #1 ↑-3</span> <span class="hot">头条 #2 ↑-3</span> <span class="hot">B站热搜 #3</span></td><td>41.2</td></tr><tr><td><a href="#e7999">Nvidia stopped disclosing Singapore sales as r</a></td><td><span class="hot">Hacker News #4 ↑21</span></td><td>40.9</td></tr><tr><td><a href="#e8707">财联社11月18日电，英伟达盘后涨幅扩大至4%。</a></td><td><span class="hot">36氪 #10</span></td><td>40.9</td></tr><tr><td><a href="#e8673">校准截止日期临近 基金密集调整风险等级</a></td><td><span class="hot">36氪 #12</span></td><td>40.9</td></tr><tr><td><a href="#e8819">理财产品提前退场常态化，行业竞争转向质量优先</a></td><td><span class="hot">36氪 #6 ↑-13</span></td><td>40.3</td></tr><tr><td><a href="#e8715">英伟达第三财季营收同比增长103%至1158亿美元，预计下季度营收达到1300亿美元，并将下</a></td><td><span class="hot">华尔街见闻 #3 ↑1</span> <span class="hot">IT之家 #1 ↑-25</span></td><td>38.4</td></tr><tr><td><a href="#e8828">中信证券：稀土行业供需向好 关注板块配置价值</a></td><td><span class="hot">36氪 #2 ↑-14</span></td><td>35.3</td></tr><tr><td><a href="#e8890">A股上市公司积极回购，机构称市场向下风险收敛</a></td><td><span class="hot">36氪 #9</span></td><td>34.8</td></tr><tr><td><a href="#e8375">微软苹果接连宕机，谷歌紧急回应 Gmail 故障传闻“服务运行正常”</a></td><td><span class="hot">IT之家 #1 ↑-28</span></td><td>32.0</td></tr><tr><td><a href="#e8052">财联社11月18日电，谷歌表示，谷歌钱包（Google Wallet）现已在美国iOS系统上</a></td><td><span class="hot">IT之家 #9 ↑-7</span></td><td>31.8</td></tr><tr><td><a href="#e8826">中信建投：旗舰模型加快迭代，Agent商业场景扩展</a></td><td><span class="hot">36氪 #3 ↑-11</span></td><td>30.6</td></tr><tr><td><a href="#e8063">Apple Services Down</a></td><td><span class="hot">Hacker News #2 ↑-11</span></td><td>28.0</td></tr><tr><td><a href="#e8829">华泰证券：市场化机制加速盈利模式清晰 看好国内储能中长期需求</a></td><td><span class="hot">36氪 #10</span></td><td>27.9</td></tr><tr><td><a href="#e8200">微软联合逾40家机构发起AI透明度倡议，推动建立行业通用标准</a></td><td><span class="hot">36氪 #8 ↑-11</span></td><td>26.2</td></tr><tr><td><a href="#e6906">Anthropic尚未上市便获“买入”评级 机构目标价最高达105美元</a></td><td><span class="hot">36氪 #12</span></td><td>25.5</td></tr><tr><td><a href="#e8830">中信建投：半导体设备、材料、零部件板块业绩有望加速</a></td><td><span class="hot">36氪 #6 ↑-11</span></td><td>24.6</td></tr><tr><td><a href="#e6483">英伟达董事会设立国家安全与出口管制监督委员会</a></td><td><span class="hot">IT之家 #4 ↑-23</span> <span class="hot">36氪 #14</span></td><td>23.1</td></tr><tr><td><a href="#e4152">Advancing computer-use agents for healthcare t</a></td><td><span class="hot">Hacker News #14 ↑-15</span></td><td>22.7</td></tr><tr><td><a href="#e8895">英伟达披露最高1180亿美元担保敞口，其中1050亿美元涉及OpenAI数据中心项目</a></td><td><span class="hot">36氪 #5 ↑-13</span></td><td>22.2</td></tr><tr><td><a href="#e8137">iCloud, App Store, and other Apple services hi</a></td><td><span class="hot">Hacker News #20 ↑-5</span></td><td>21.7</td></tr></table><h3 style="font-size:16px;margin:16px 0 8px">RSS 盲区提醒（热榜前列但未被我们的源覆盖）</h3><ul class="archlist"><li><a href="https://www.producthunt.com/products/lampa-camera" rel="noopener">Lampa Camera</a> <span class="chip">Product Hunt #1</span></li><li><a href="https://www.baidu.com/s?wd=%E6%99%AE%E4%BA%AC%E8%BA%AB%E8%BE%B9%E7%BD%95%E8%A7%81%E6%97%A0%E6%8F%90%E9%BB%91%E8%89%B2%E6%89%8B%E6%8F%90%E7%AE%B1%E4%BF%9D%E9%95%96%E9%9A%8F%E8%A1%8C" rel="noopener">普京身边罕见无提黑色手提箱保镖随行</a> <span class="chip">百度 #2</span></li><li><a href="https://www.douyin.com/hot/2750072" rel="noopener">2026年APEC工商领导人峰会开幕</a> <span class="chip">抖音 #1</span></li><li><a href="https://www.producthunt.com/products/versine" rel="noopener">Versine</a> <span class="chip">Product Hunt #4</span></li><li><a href="https://www.douyin.com/hot/2751532" rel="noopener">韩国总统李在明抵达深圳</a> <span class="chip">抖音 #2</span></li><li><a href="https://www.producthunt.com/products/glass-page" rel="noopener">Glass Page</a> <span class="chip">Product Hunt #3</span></li><li><a href="https://www.baidu.com/s?wd=%E5%87%8C%E6%99%A8%E6%8E%A5%E6%9C%BA+%E2%80%9C%E4%B8%AD%E5%9B%BD%E6%8E%92%E9%9D%A2%E2%80%9D%E4%BE%9D%E6%97%A7%E6%95%B4%E9%BD%90%E5%88%92%E4%B8%80" rel="noopener">凌晨接机 “中国排面”依旧整齐划一</a> <span class="chip">百度 #1</span></li><li><a href="https://www.producthunt.com/products/link-bio" rel="noopener">Link.bio</a> <span class="chip">Product Hunt #4</span></li><li><a href="https://s.weibo.com/weibo?q=%2341%E4%BA%BA%E6%B2%A1%E7%97%87%E7%8A%B6%E8%A2%ABAI%E6%9F%A5%E5%87%BA%E6%97%A9%E6%9C%9F%E8%82%A0%E7%99%8C%23" rel="noopener">41人没症状被AI查出早期肠癌</a> <span class="chip">微博 #5</span></li><li><a href="https://www.producthunt.com/products/dearinside" rel="noopener">DearInside</a> <span class="chip">Product Hunt #3</span></li><li><a href="https://search.bilibili.com/all?keyword=%E6%96%B0%E4%BB%BB007%E4%B8%BA%E4%BD%95%E6%98%AF%E5%B8%95%E4%B8%81%E6%A3%AE" rel="noopener">新任007为何是帕丁森</a> <span class="chip">B站热搜 #7</span></li><li><a href="https://www.producthunt.com/products/thebold" rel="noopener">TheBold</a> <span class="chip">Product Hunt #1</span></li><li><a href="https://www.producthunt.com/products/creatify" rel="noopener">Creatify Max</a> <span class="chip">Product Hunt #1</span></li><li><a href="https://www.producthunt.com/products/continuo-4" rel="noopener">Continuo</a> <span class="chip">Product Hunt #1</span></li><li><a href="https://www.producthunt.com/products/trellus" rel="noopener">Trellus</a> <span class="chip">Product Hunt #2</span></li></ul></section><section id="archive" class="page"><h2>归档与工具</h2>
+<div class="grid"><div class="tile"><h4>📅 每日简报归档</h4><ul class="archlist"><li><a href="/news/daily/2026-11-18.html">2026-11-18</a> <span class="chip">10卡</span> <span class="chip">主类:财经</span></li><li><a href="/news/daily/2026-11-17.html">2026-11-17</a> <span class="chip">10卡</span> <span class="chip">主类:财经</span></li><li><a href="/news/daily/2026-11-16t.html">2026-11-16t</a> <span class="chip">3卡</span> <span class="chip">主类:财经</span></li><li><a href="/news/daily/2026-11-16.html">2026-11-16</a> <span class="chip">10卡</span> <span class="chip">主类:财经</span></li></ul></div>
+<div class="tile"><h4>🗂 门户版次归档</h4><ul class="archlist"><li><a href="/news/portal/2026-11-18-morning.html">2026-11-18-morning</a></li><li><a href="/news/portal/2026-11-17-morning.html">2026-11-17-morning</a></li><li><a href="/news/portal/2026-11-17-evening.html">2026-11-17-evening</a></li></ul>
+<h4 style="margin-top:12px">📊 A/B 评测</h4><ul class="archlist">
+<li><a href="/news/eval/dashboard.html">A/B 指标看板</a></li>
+<li><a href="/news/eval/blind.html">双轨盲评（2周观察）</a></li></ul></div></div></section><footer>Wuhoo 情报门户 · 2026-11-18 晨版 · 生成 2026-11-18 11:24 CST · 模型 qwen4-max · 合成 62057 tokens / 51 调用 · 数字经来源核验 · 背景段为模型知识标注 · 只读<br>数据每小时采集，门户每日晨/晚两版。类目分页(←→翻页)，卡片默认展开。反馈调节：多点X / 少点X / 这条没用。</footer></div>
+<script>
+(function(){
+ var root=document.documentElement;
+ var saved=localStorage.getItem('portal-theme');if(saved)root.setAttribute('data-theme',saved);
+ var tb=document.getElementById('themeBtn');
+ function tl(){tb.textContent=root.getAttribute('data-theme')==='dark'?'☀ 日间':'🌙 夜间';}tl();
+ tb.onclick=function(){var n=root.getAttribute('data-theme')==='dark'?'light':'dark';
+   root.setAttribute('data-theme',n);localStorage.setItem('portal-theme',n);tl();};
+ var ds=document.getElementById('dateSelect');
+ if(ds)ds.onchange=function(){if(ds.value)location.href=ds.value;};
+ var pages=[].slice.call(document.querySelectorAll('.page'));
+ var order=pages.map(function(p){return p.id;});
+ var tabs=[].slice.call(document.querySelectorAll('.tab'));
+ var cur='overview';
+ var q=document.getElementById('search'),cnt=document.getElementById('searchCount');
+ function applySearch(){
+   var v=(q.value||'').trim().toLowerCase();var n=0;
+   var active=document.querySelector('.page.active');if(!active)return;
+   active.querySelectorAll('.card[data-search]').forEach(function(c){
+     var hit=!v||c.getAttribute('data-search').indexOf(v)>=0;
+     c.style.display=hit?'':'none';if(hit&&v)n++;});
+   cnt.textContent=v?('命中 '+n+' 卡'):'';}
+ function show(id){
+   if(order.indexOf(id)<0)id='overview';cur=id;
+   pages.forEach(function(p){p.classList.toggle('active',p.id===id);});
+   tabs.forEach(function(t){t.classList.toggle('active',t.getAttribute('href')==='#'+id);});
+   applySearch();window.scrollTo(0,0);}
+ tabs.forEach(function(t){t.addEventListener('click',function(e){e.preventDefault();
+   var id=t.getAttribute('href').slice(1);show(id);history.replaceState(null,'','#'+id);});});
+ function step(d){var i=order.indexOf(cur);var j=(i+d+order.length)%order.length;
+   show(order[j]);history.replaceState(null,'','#'+order[j]);}
+ var pv=document.getElementById('prevPage'),nx=document.getElementById('nextPage');
+ if(pv)pv.onclick=function(){step(-1);};if(nx)nx.onclick=function(){step(1);};
+ document.addEventListener('keydown',function(e){
+   if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;
+   if(e.key==='ArrowLeft')step(-1);else if(e.key==='ArrowRight')step(1);});
+ q.addEventListener('input',applySearch);
+ document.getElementById('expandAll').onclick=function(){
+   document.querySelectorAll('.page.active .card details').forEach(function(d){d.open=true;});};
+ document.getElementById('collapseAll').onclick=function(){
+   document.querySelectorAll('.page.active .card details').forEach(function(d){d.open=false;});};
+ function route(){
+   var h=location.hash.slice(1);
+   if(!h){show('overview');return;}
+   var el=document.getElementById(h);
+   if(el){var sec=el.closest('.page');
+     if(sec){show(sec.id);setTimeout(function(){el.scrollIntoView();},0);}else show('overview');}
+   else if(order.indexOf(h)>=0)show(h);else show('overview');}
+ window.addEventListener('hashchange',route);
+ route();
+})();
+</script></body></html>

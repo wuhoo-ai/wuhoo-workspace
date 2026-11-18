@@ -134,11 +134,20 @@ def build(c):
         for j in range(i + 1, len(nv_events)):
             if neg2 >= 8:
                 break
-            ma = _members(c, nv_events[i]["event_id"])
-            mb = _members(c, nv_events[j]["event_id"])
+            ei, ej = nv_events[i]["event_id"], nv_events[j]["event_id"]
+            # 2026-11-17: 共享实体≥2 的事件对跳过——疑似同故事(如欠合并的 Jensen 中英簇)，
+            # 不能启发式标成"不同故事"负例，否则与跨语正对矛盾(黄金集自洽性)。
+            enti = {r[0] for r in c.execute(
+                "SELECT en.name FROM event_entities ee JOIN entities en ON ee.entity_id=en.entity_id WHERE ee.event_id=?", (ei,))}
+            entj = {r[0] for r in c.execute(
+                "SELECT en.name FROM event_entities ee JOIN entities en ON ee.entity_id=en.entity_id WHERE ee.event_id=?", (ej,))}
+            if len(enti & entj) >= 2:
+                continue
+            ma = _members(c, ei)
+            mb = _members(c, ej)
             if ma and mb:
                 add(ma[0], mb[0], "no_merge", "neg_same_entity",
-                    f"同NVIDIA实体不同故事: ev{nv_events[i]['event_id']}「{nv_events[i]['label'][:24]}」 vs ev{nv_events[j]['event_id']}「{nv_events[j]['label'][:24]}」")
+                    f"同NVIDIA实体不同故事: ev{ei}「{nv_events[i]['label'][:24]}」 vs ev{ej}「{nv_events[j]['label'][:24]}」")
                 neg2 += 1
 
     # ---- 负对3(不应合并): 随机不同事件 ----
@@ -152,6 +161,25 @@ def build(c):
         if m1 and m2:
             add(m1[0], m2[0], "no_merge", "neg_random", "随机不同事件(应不合并)")
             neg3 += 1
+
+    # ---- 2026-11-17 P0-2: 人工核验补充对(article_id 稳定, 独立于聚类状态) ----
+    # 跨语同事件正对: Jensen Huang 回归故事中文簇×英文簇(当日剖析人工核验同一事件,
+    # 旧黄金集无此类正对 → P/R/F1=1.0 过拟合掩盖跨语欠合并);
+    # 同实体不同故事负对: Rubin GPU 发布 vs Jensen saga(防实体锚归并过并)。
+    curated = [
+        (306500, 297392, "merge", "pos_crosslingual", "黄仁勋回归:IT之家中文 vs Verge英文Trump表态(跨语同事件,2026-11-17人工核验)"),
+        (274081, 294928, "merge", "pos_crosslingual", "财新中文 vs FT英文Trump表态(跨语同事件)"),
+        (306500, 300044, "merge", "pos_crosslingual", "IT之家中文 vs Verge英文董事会(跨语同事件)"),
+        (287609, 299413, "merge", "pos_crosslingual", "虎嗅中文 vs CNBC英文董事会(跨语同事件)"),
+        (279319, 297932, "merge", "pos_crosslingual", "华尔街见闻中文 vs 卫报英文(跨语同事件)"),
+        (306498, 306500, "no_merge", "neg_same_entity_curated", "Rubin GPU发布 vs 黄仁勋回归(同NVIDIA不同事件,防过并)"),
+        (306498, 297392, "no_merge", "neg_same_entity_curated", "Rubin GPU发布 vs Trump挺黄仁勋(同NVIDIA不同事件,防过并)"),
+    ]
+    for aid, bid, label, kind, why in curated:
+        ra = c.execute("SELECT id,title,feed_name,link FROM articles WHERE id=?", (aid,)).fetchone()
+        rb = c.execute("SELECT id,title,feed_name,link FROM articles WHERE id=?", (bid,)).fetchone()
+        if ra and rb:
+            add(dict(ra), dict(rb), label, kind, why)
 
     os.makedirs(DATA, exist_ok=True)
     json.dump({"pairs": pairs, "n": len(pairs),
@@ -170,10 +198,61 @@ def _event_of(c, aid):
     return r["event_id"] if r else None
 
 
-def evaluate(c, pairs=None):
+def _event_row(c, eid):
+    return c.execute(
+        "SELECT event_id,label,topic,salience,n_indep_sources,canonical_id,last_seen "
+        "FROM events WHERE event_id=?", (eid,)).fetchone()
+
+
+def evaluate(c, pairs=None, use_llm=False):
+    """双层评测(2026-11-17 P0-2): 聚类层(L1) + brief归并层(L2 LLM/L3确定性)。
+    生产路径=L1+L2/L3, 验收看 combined; clustering_only 单列保持透明。
+    use_llm=True 时对未决对涉及的事件跑一次真实 qwen4-max 归并调用(耗tokens)。"""
     if pairs is None:
         pairs = json.load(open(GOLDEN, encoding="utf-8"))["pairs"]
+    import intel
+    ec.refresh_dynamic_aliases(c)
+    keep = intel.interest_watch_entities(c)
+    strong = set(ec.ENTITY_ALIASES.values()) | keep
+
+    llm_groups = None
+    if use_llm:
+        eids = set()
+        for p in pairs:
+            ea, eb = _event_of(c, p["a_id"]), _event_of(c, p["b_id"])
+            if ea and eb and ea != eb:
+                eids.update((ea, eb))
+        rows = [r for r in (_event_row(c, e) for e in sorted(eids)) if r]
+        if rows:
+            groups, _u = intel.llm_dedup(c, rows)
+            if groups is not None:
+                llm_groups = groups
+
+    pair_cache = {}
+
+    def brief_layer_merged(ea, eb):
+        if ea is None or eb is None or ea == eb:
+            return False
+        key = (min(ea, eb), max(ea, eb))
+        if key in pair_cache:
+            return pair_cache[key]
+        res = False
+        ra, rb = _event_row(c, ea), _event_row(c, eb)
+        if ra and rb:
+            # 并集语义(与生产 build_groups 一致): 确定性实体锚 OR LLM 组
+            shared = intel.candidate_entities(c, ea) & intel.candidate_entities(c, eb)
+            vids, mat = ec.load_vectors(c, [ra["canonical_id"], rb["canonical_id"]])
+            vmap = {aid: mat[i] for i, aid in enumerate(vids)}
+            va, vb = vmap.get(ra["canonical_id"]), vmap.get(rb["canonical_id"])
+            cos = float(va @ vb) if va is not None and vb is not None else 0.0
+            res = intel.same_story_rule(ra["topic"], rb["topic"], shared, strong, cos)
+            if not res and llm_groups is not None:
+                res = any(ea in g and eb in g for g in llm_groups)
+        pair_cache[key] = res
+        return res
+
     TP = FP = FN = TN = 0
+    cTP = cFP = cFN = cTN = 0
     details = []
     for p in pairs:
         ea, eb = _event_of(c, p["a_id"]), _event_of(c, p["b_id"])
@@ -187,19 +266,44 @@ def evaluate(c, pairs=None):
             FN += 1; verdict = "FN"
         else:
             TN += 1; verdict = "TN"
-        details.append({**p, "ea": ea, "eb": eb, "merged": merged, "verdict": verdict})
-    P = TP / (TP + FP) if (TP + FP) else 0.0
-    R = TP / (TP + FN) if (TP + FN) else 0.0
-    F1 = 2 * P * R / (P + R) if (P + R) else 0.0
+        comb = merged or brief_layer_merged(ea, eb)
+        if gold and comb:
+            cTP += 1; cv = "TP"
+        elif (not gold) and comb:
+            cFP += 1; cv = "FP"
+        elif gold and not comb:
+            cFN += 1; cv = "FN"
+        else:
+            cTN += 1; cv = "TN"
+        details.append({**p, "ea": ea, "eb": eb, "merged": merged, "verdict": verdict,
+                        "combined_merged": comb, "combined_verdict": cv})
+
+    def prf(tp, fp, fn):
+        p_ = tp / (tp + fp) if (tp + fp) else 0.0
+        r_ = tp / (tp + fn) if (tp + fn) else 0.0
+        f_ = 2 * p_ * r_ / (p_ + r_) if (p_ + r_) else 0.0
+        return round(p_, 4), round(r_, 4), round(f_, 4)
+
+    P, R, F1 = prf(TP, FP, FN)
+    cP, cR, cF1 = prf(cTP, cFP, cFN)
+    by_kind = {}
+    for d in details:
+        bk = by_kind.setdefault(d["kind"], {"n": 0, "gold_merge": 0, "l1_merged": 0, "combined_merged": 0})
+        bk["n"] += 1
+        bk["gold_merge"] += int(d["label"] == "merge")
+        bk["l1_merged"] += int(d["merged"])
+        bk["combined_merged"] += int(d["combined_merged"])
 
     # §10 指标
     ev = c.execute("SELECT COUNT(*) n, SUM(n_indep_sources>=2) multi FROM events").fetchone()
     arts = c.execute("SELECT COUNT(*) n FROM article_vectors").fetchone()["n"]
     merge_rate = (arts - ev["n"]) / arts if arts else 0.0
-    # 个人化命中率: TOP10 卡匹配 interest_profile 实体/主题占比
+    # 个人化命中率: 最新 cards 文件 TOP 卡匹配 interest_profile 实体/主题占比
     hit = None
-    cards_path = os.path.join(DATA, "cards_20261116.json")
-    if os.path.exists(cards_path):
+    import glob as _glob
+    cards_files = sorted(_glob.glob(os.path.join(DATA, "cards_*.json")), key=os.path.getmtime, reverse=True)
+    cards_path = cards_files[0] if cards_files else None
+    if cards_path and os.path.exists(cards_path):
         cards = json.load(open(cards_path, encoding="utf-8"))
         cards = cards if isinstance(cards, list) else cards.get("cards", [])
         ip = {r["key"] for r in c.execute("SELECT key FROM interest_profile")}
@@ -213,29 +317,37 @@ def evaluate(c, pairs=None):
                 nhit += 1
         hit = nhit / len(cards) if cards else 0.0
     report = {
-        "dedup": {"TP": TP, "FP": FP, "FN": FN, "TN": TN,
-                  "precision": round(P, 4), "recall": round(R, 4), "f1": round(F1, 4),
-                  "target": "P>=0.85 R>=0.80 (WP3验收)",
-                  "pass": P >= 0.85 and R >= 0.80},
+        "dedup": {"TP": cTP, "FP": cFP, "FN": cFN, "TN": cTN,
+                  "precision": cP, "recall": cR, "f1": cF1,
+                  "layer": "combined(L1聚类+L2/L3 brief归并)", "llm_eval": use_llm,
+                  "target": "P>=0.85 R>=0.80 (生产路径验收)",
+                  "pass": cP >= 0.85 and cR >= 0.80},
+        "clustering_only": {"TP": TP, "FP": FP, "FN": FN, "TN": TN,
+                            "precision": P, "recall": R, "f1": F1},
+        "by_kind": by_kind,
         "metrics": {"events": ev["n"], "multi_source_events": ev["multi"],
                     "vectorized_articles": arts, "merge_rate": round(merge_rate, 4),
-                    "personalization_hit_top10": round(hit, 4) if hit is not None else None},
-        "fp_cases": [d for d in details if d["verdict"] == "FP"],
-        "fn_cases": [d for d in details if d["verdict"] == "FN"],
+                    "personalization_hit_top10": round(hit, 4) if hit is not None else None,
+                    "cards_file": os.path.basename(cards_path) if cards_path else None},
+        "fp_cases": [d for d in details if d["combined_verdict"] == "FP"],
+        "fn_cases": [d for d in details if d["combined_verdict"] == "FN"],
         "details": details,
     }
     json.dump(report, open(REPORT, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    print(f"eval: 去重 P={P:.3f} R={R:.3f} F1={F1:.3f} (TP{TP}/FP{FP}/FN{FN}/TN{TN})")
-    print(f"  WP3验收 P>=0.85 R>=0.80: {'PASS' if report['dedup']['pass'] else 'FAIL'}")
+    print(f"eval: 聚类层 P={P:.3f} R={R:.3f} F1={F1:.3f} (TP{TP}/FP{FP}/FN{FN}/TN{TN})")
+    print(f"      生产路径(聚类+brief归并{' LLM' if use_llm else ' 确定性'}) P={cP:.3f} R={cR:.3f} F1={cF1:.3f} (TP{cTP}/FP{cFP}/FN{cFN}/TN{cTN})")
+    print(f"  验收 P>=0.85 R>=0.80: {'PASS' if report['dedup']['pass'] else 'FAIL'}")
     print(f"  合并率={merge_rate:.1%} 多源事件={ev['multi']} 个人化命中TOP10={hit}")
+    for k, bk in sorted(by_kind.items()):
+        print(f"  [{k}] n={bk['n']} gold_merge={bk['gold_merge']} L1并={bk['l1_merged']} combined并={bk['combined_merged']}")
     if report["fp_cases"]:
         print(f"  过度合并FP {len(report['fp_cases'])}例:")
         for d in report["fp_cases"][:6]:
             print(f"    [{d['kind']}] {d['a_title'][:30]} || {d['b_title'][:30]}")
     if report["fn_cases"]:
         print(f"  欠合并FN {len(report['fn_cases'])}例:")
-        for d in report["fn_cases"][:4]:
-            print(f"    {d['a_title'][:30]} || {d['b_title'][:30]}")
+        for d in report["fn_cases"][:6]:
+            print(f"    [{d['kind']}] {d['a_title'][:30]} || {d['b_title'][:30]}")
     print(f"  → {REPORT}")
     return report
 
@@ -421,12 +533,14 @@ def blind_eval(c):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["build", "eval", "ab", "blind"])
+    ap.add_argument("--llm", action="store_true",
+                    help="eval 时用真实 qwen4-max 归并调用评测 L2 层(耗tokens)")
     a = ap.parse_args()
     c = conn()
     if a.cmd == "build":
         build(c)
     elif a.cmd == "eval":
-        evaluate(c)
+        evaluate(c, use_llm=a.llm)
     elif a.cmd == "ab":
         ab_dashboard(c)
     elif a.cmd == "blind":

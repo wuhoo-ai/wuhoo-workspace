@@ -77,6 +77,9 @@ WIRE_GROUPS = {
 TIER_BONUS = {"T0": 1.5, "T1": 1.2, "T2": 1.0, "T3": 0.8, "T4": 1.0}
 
 # 实体别名归一（中英 → 规范名），用于 entity_overlap
+# 2026-11-17 扩充: 人物(黄仁勋/Trump等, 跨语同事件归并的实体锚, P0-2) +
+# A股持仓名(trader workflow_b 7只, P1-5 种子生效前提) +
+# 美股持仓(trader workflow_d 2026-06-30: FITB/FAST/HBAN, 近期投资信息)。
 ENTITY_ALIASES = {
     "英伟达": "NVIDIA", "nvidia": "NVIDIA", "nvda": "NVIDIA",
     "苹果": "APPLE", "apple": "APPLE", "aapl": "APPLE",
@@ -91,10 +94,87 @@ ENTITY_ALIASES = {
     "比特币": "BTC", "bitcoin": "BTC", "btc": "BTC", "以太坊": "ETH", "ethereum": "ETH",
     "腾讯": "TENCENT", "阿里": "ALIBABA", "阿里巴巴": "ALIBABA", "百度": "BAIDU",
     "华为": "HUAWEI", "比亚迪": "BYD", "宁德时代": "CATL",
+    # --- 人物（跨语同事件实体锚, 2026-11-17 P0-2）---
+    "黄仁勋": "JENSEN_HUANG", "jensen huang": "JENSEN_HUANG", "詹森·黄": "JENSEN_HUANG",
+    "特朗普": "TRUMP", "trump": "TRUMP", "川普": "TRUMP",
+    "拜登": "BIDEN", "biden": "BIDEN",
+    "普京": "PUTIN", "putin": "PUTIN",
+    "鲍威尔": "POWELL", "powell": "POWELL",
+    "马斯克": "MUSK", "elon musk": "MUSK", "musk": "MUSK",
+    "奥特曼": "ALTMAN", "sam altman": "ALTMAN",
+    "库克": "COOK", "tim cook": "COOK",
+    # --- A股持仓名（trader workflow_b 种子, P1-5 修复）---
+    "五粮液": "WULIANGYE", "贵州茅台": "MOUTAI", "茅台": "MOUTAI",
+    "恒瑞医药": "HENGRUI", "中国平安": "PINGAN",
+    "意华股份": "YIHUA", "中贝通信": "ZHONGBEI",
+    # --- 美股持仓（trader workflow_d 2026-06-30, 近期投资信息）---
+    "五三银行": "FITB", "fifth third": "FITB", "fitb": "FITB",
+    "快扣": "FAST", "fastenal": "FAST",
+    "亨廷顿银行": "HBAN", "huntington bancshares": "HBAN", "hban": "HBAN",
 }
+# 泛词停用（2026-11-17 实测扩充: 财经7天高频junk US/SZ/SH/TO/IN/OF/SAYS等来自
+# 大写ticker正则误抓英文常用词/交易所代码, 污染实体重叠归并精度）
 STOP_TICKERS = {"AI", "GPU", "CPU", "IPO", "CEO", "CFO", "GDP", "CPI", "PMI", "ETF",
                 "API", "SDK", "LLM", "AGI", "USA", "USD", "EUR", "THE", "AND", "FOR",
-                "NEW", "TOP", "ALL", "ONE", "OUT", "HOW", "WHY", "WHAT", "WITH"}
+                "NEW", "TOP", "ALL", "ONE", "OUT", "HOW", "WHY", "WHAT", "WITH",
+                "US", "UK", "UN", "EU", "SH", "SZ", "HK", "TO", "IN", "OF", "ON",
+                "AT", "BY", "IS", "IT", "AS", "BE", "DO", "GO", "NO", "SO", "UP",
+                "IF", "OR", "AN", "AM", "PM", "FROM", "THAT", "THIS", "WILL",
+                "HAS", "HAVE", "ARE", "WAS", "WERE", "NOT", "BUT", "CAN", "MAY",
+                "ITS", "HIS", "HER", "THEM", "THEY", "THEN", "THAN", "WHEN",
+                "WHERE", "WHICH", "WHO", "ALSO", "MORE", "MOST", "SOME", "SUCH",
+                "ONLY", "OWN", "SAME", "TOO", "VERY", "JUST", "LIKE", "OVER",
+                "AFTER", "BEFORE", "BETWEEN", "UNDER", "AGAIN", "EACH", "FEW",
+                "BOTH", "ANY", "SAYS", "SAY", "SAID", "NEXT", "LAST", "FIRST",
+                "SECOND", "THIRD", "BEST", "WORST", "BIG", "SMALL", "HIGH",
+                "LOW", "LONG", "SHORT", "OPEN", "CLOSE", "FREE", "REAL", "TRUE",
+                "FALSE", "NONE", "ELSE", "EVER", "NEVER", "ALWAYS", "OFTEN",
+                "NVIDI", "WHOM", "WHOSE", "ABOUT", "INTO", "THROUGH",
+                "DURING", "WITHOUT", "WITHIN", "ALONG", "FOLLOWING", "ACROSS",
+                "BEHIND", "BEYOND", "PLUS", "MINUS", "VERSUS", "VIA", "PER"}
+
+# 动态别名（P1-5）: interest_profile entity 键 + watchlist 启用值自动注册进实体抽取,
+# 未来 sync-profiles/tune 新增种子无需改代码即生效。refresh_dynamic_aliases(conn) 刷新。
+_DYNAMIC_ALIASES = {}
+
+
+def canonical_entity(name):
+    """名称→规范实体名: 静态别名 > 动态别名 > ASCII大写化 > CJK原样。
+    sync-profiles 写 interest 键必须用本函数, 否则键名与抽取结果不匹配(宁德时代→CATL 教训)。"""
+    n = (name or "").strip()
+    if not n:
+        return n
+    if n.lower() in ENTITY_ALIASES:
+        return ENTITY_ALIASES[n.lower()]
+    if n.lower() in _DYNAMIC_ALIASES:
+        return _DYNAMIC_ALIASES[n.lower()]
+    return n.upper() if n.isascii() else n
+
+
+def known_entity(name):
+    n = (name or "").strip()
+    return (n.lower() in ENTITY_ALIASES or n in ENTITY_ALIASES.values()
+            or n.lower() in _DYNAMIC_ALIASES)
+
+
+def refresh_dynamic_aliases(conn):
+    """从 interest_profile(entity:键) + watchlist(enabled=1) 注册动态别名。
+    规范名与 canonical_entity 一致, 保证 interest 键 ↔ 抽取结果 ↔ salience gain 三者对齐。"""
+    global _DYNAMIC_ALIASES
+    m = {}
+    try:
+        for r in conn.execute("SELECT key FROM interest_profile WHERE key LIKE 'entity:%'").fetchall():
+            nm = r[0].split(":", 1)[1]
+            canon = ENTITY_ALIASES.get(nm.lower(), nm.upper() if nm.isascii() else nm)
+            m[nm.lower()] = canon
+        for r in conn.execute("SELECT value FROM watchlist WHERE enabled=1").fetchall():
+            nm = r[0]
+            canon = ENTITY_ALIASES.get(nm.lower(), nm.upper() if nm.isascii() else nm)
+            m[nm.lower()] = canon
+    except sqlite3.OperationalError:
+        pass
+    _DYNAMIC_ALIASES = m
+    return len(m)
 
 
 def get_conn():
@@ -158,13 +238,22 @@ def fingerprint(title):
 
 
 def extract_entities(text):
-    """轻量实体抽取：规范别名 + 大写 ticker（词边界，去停用）。返回 set。"""
+    """轻量实体抽取：静态别名 + 动态别名(interest/watchlist种子, P1-5) + 大写 ticker（词边界，去停用）。返回 set。"""
     text = clean_text(text)
     if not text:
         return set()
     ents = set()
     low = text.lower()
     for alias, canon in ENTITY_ALIASES.items():
+        if alias.isascii():
+            if re.search(r"\b" + re.escape(alias) + r"\b", low):
+                ents.add(canon)
+        else:
+            if alias in low:
+                ents.add(canon)
+    for alias, canon in _DYNAMIC_ALIASES.items():
+        if alias in ENTITY_ALIASES:
+            continue
         if alias.isascii():
             if re.search(r"\b" + re.escape(alias) + r"\b", low):
                 ents.add(canon)
@@ -316,8 +405,10 @@ def load_vectors(conn, ids):
 
 
 def cluster(conn, window_h=WINDOW_H, cos_direct=COS_DIRECT, cos_entity=COS_ENTITY, verbose=True):
-    """窗口重建聚类：按 fetched_at 升序增量并入事件（质心余弦 + 实体重叠）。"""
+    """窗口重建聚类：按 fetched_at 升序增量并入事件（质心余弦 + 实体重叠）。
+    2026-11-17: 动态别名刷新(P1-5) + top-K 候选扫描(P0-2, 修贪心单点漏并)。"""
     init_db(conn)
+    refresh_dynamic_aliases(conn)
     rows = window_articles(conn, window_h)
     if not rows:
         print("窗口内无文章"); return 0
@@ -351,33 +442,36 @@ def cluster(conn, window_h=WINDOW_H, cos_direct=COS_DIRECT, cos_entity=COS_ENTIT
         ents = extract_entities((r["title"] or "") + " " + (r["summary"] or ""))
         subj = company_subject(r["title"])
         nt = norm_title_key(r["title"])
-        best_j, best_sim = -1, -1.0
-        if len(events):
-            sims = centroids @ v
-            best_j = int(np.argmax(sims)); best_sim = float(sims[best_j])
         merged = False
+        best_j, best_sim = -1, -1.0
         # 召回兜底(§11): 跨源规范化标题完全相同(≥8字符)=ground truth同故事通稿，强制合并，
         # override cosine。同标题不同正文摘录会拉低cosine致欠合并(如国家统计局发布会格隆汇vs金十)。
         # 同标题→同company_subject，与下方精度guard不冲突。
         ti_j = title2event.get(nt) if len(nt) >= 8 else None
         if ti_j is not None:
             best_j, best_sim, merged = ti_j, 1.0, True
-        elif best_j >= 0:
-            if best_sim >= cos_direct:
-                merged = True
-            elif best_sim >= cos_entity:
-                overlap = len(ents & events[best_j]["ents"])
-                if overlap >= 1:
-                    merged = True
-            # 精度兜底(§11 宁少并不错并): 不同公司主语的 A股公告，即使通稿模板 cosine 高也不合并。
-            # override cos_direct/cos_entity 双路径。公司核心=主语前2汉字(品牌区分位)，
-            # 同公司不同写法(小鹏汽车/小鹏集团)核心相同→不误拆(保护recall)；
-            # 不同公司(通威/赛伍/盛屯)核心各异→拦截。仅双方都有具体公司主语才生效。
-            if merged and subj:
-                ev_subj = events[best_j]["subjects"]
-                core = subj[:2]
-                if ev_subj and core not in {s[:2] for s in ev_subj}:
-                    merged = False
+        elif len(events):
+            # 2026-11-17 P0-2: top-K 候选扫描替代贪心 argmax 单点。
+            # 实测 Jensen 英文簇间 cos=0.768(≥0.75+共享NVIDIA)却漏并: 最高cos候选无共享实体时
+            # 旧逻辑直接新建事件。现依次试前8个(≥cos_entity)候选, 第一个通过路径+guard者并入。
+            sims = centroids @ v
+            order = np.argsort(-sims)
+            for j in order[:8]:
+                s = float(sims[j])
+                if s < cos_entity:
+                    break
+                ok = s >= cos_direct or len(ents & events[j]["ents"]) >= 1
+                if not ok:
+                    continue
+                # 精度兜底(§11 宁少并不错并): 不同公司主语的 A股公告，即使通稿模板 cosine 高也不合并。
+                # 公司核心=主语前2汉字(品牌区分位)，同公司不同写法核心相同→不误拆(保护recall)；
+                # 不同公司核心各异→拦截(跳过该候选继续试下一个)。仅双方都有具体公司主语才生效。
+                if subj:
+                    ev_subj = events[j]["subjects"]
+                    if ev_subj and subj[:2] not in {x[:2] for x in ev_subj}:
+                        continue
+                best_j, best_sim, merged = int(j), s, True
+                break
         if merged:
             ev = events[best_j]
             ev["members"].append(aid)

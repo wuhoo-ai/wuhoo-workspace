@@ -357,3 +357,160 @@ location /news/ {
 - **下一步（观察期）**：双轨并行约 2 周，用户每日盲评 A/B（/news/eval/blind.html），监控 FP/重复度/个人化；期满用户拍板微信切换。
 - **阻塞/待用户**：① A5 gateway /restart（WP1 live TrendRadar MCP 注入 + 8642 收尾，用户触发）；② 微信正式切换（D3-A 盲评后拍板）；③ 用户侧认证 200 验证（口头凭据）。
 - **关键路径**：管线 skills/default/wuhoo-news-intel/{src/event_center.py,src/intel.py,src/synthesize.py,scripts/daily_intel_pipeline.sh,scripts/eval_golden.py}；DB wuhoo-news-rss/news.db；web /var/www/news/（staging wuhoo-workspace/news-web/）；审计 docs/news-intel-build/AUDIT-LOG.md；方案 docs/NEWS-INTELLIGENCE-UPGRADE-2026-11-16.md。
+
+## 2026-11-17 生产后修复（P0 全部 + P1-4/P1-5 · 用户拍板）
+
+背景：B轨首次正式生产（08:15）剖析（PRODUCTION-AUTOPSY-2026-11-17.md）确认三根因：①Jensen Huang 同一故事占 TOP10 三席（跨语 cos 实测 0.48-0.51 欠合并，黄金集无跨语正对掩盖）；②interest 7 个 A股 entity 种子全部失效（6 名称不在词典 + 宁德时代→CATL 键名不匹配）；③生产窗口 RSSHub conmon 挂死 41/91 源缺席且管线无感知。用户拍板：模型 qwen4-max、P0 全部完成、P1-4/P1-5 结合近期金融投资信息更新。
+
+### 变更（文件 + 机制）
+- **模型**：synthesize.py MODEL=qwen4-max（探针实测 reasoning_effort=none + thinking.disabled → HTTP 200 无 reasoning tokens）；A轨 jobs.json 已钉 qwen4-max（10:11 切换会话所改，确认不回退）。
+- **P0-1 源健康闸门**：
+  - intel.py `coverage` 子命令：解析 hourly_fetch.log 最后一轮（✅/⚠️/❌/失败汇总/Connection refused）→ data/source_coverage.json {ok/failed/refused/total/ratio/ts}。
+  - rss_hourly_fetch.sh：每轮调 coverage；refused≥10 连续 2 轮 → `podman restart rsshub` + data/ops_alerts.log（有界幂等，streak 文件计数复位）。
+  - daily_intel_pipeline.sh：fetch 后 ratio<0.70 → 告警 + sleep 300 + 重采一次（有界单重试）。
+  - cmd_brief：read_coverage（1h 内有效）ratio<0.70 → HTML 降级横幅 + 微信提示行 + cards meta。告警只落日志，不做未授权微信推送。
+- **P0-2 跨语同故事归并（三层防线）**：
+  - L1 聚类：top-K(8) 候选扫描替代贪心 argmax（修最高 cos 候选无共享实体时的漏并，实测英英簇间 cos 0.768）；ENTITY_ALIASES 增人物锚（黄仁勋→JENSEN_HUANG、特朗普→TRUMP 等 9 组）+ A股 7 持仓名 + 美股 FITB/FAST/HBAN；STOP_TICKERS 扩至约 140 个实测泛词（US/TO/IN/OF/SAYS/SH/SZ/NVIDI 等，财经 7 天高频 junk）。
+  - L2 brief 层 LLM 归并：一次 qwen4-max 调用判 TOP20 候选（DEDUP_SYSTEM，max_tokens 600），groups JSON，非法 ID/单元素组剔除。
+  - L3 确定性规则 + 并集：same_story_rule（共享实体≥2 含强实体 + 同主题或共享≥3 + 质心 cos≥0.30）。实测 LLM 事件级判定较严（跨语正对只并 2/5，Trump 表态 vs 董事会议程视为不同事件），确定性实体锚补故事级（5/5）→ build_groups 取两层组并集（union-find），mode=llm+deterministic；LLM 失败/quota 回退纯确定性。
+  - 归并卡：gather_context(extra_ids) 语料/实体/链接并集，n_indep 按 wire 归并重算，cards JSON 记 merged_from/dedup_mode/model/coverage/noise_filtered。
+  - 黄金集：build 增 5 对人工核验跨语正对（Jensen 中英）+ 2 对同实体不同故事负对（Rubin vs Jensen）；同实体负对采样跳过共享实体≥2 疑似同故事（防标签自相矛盾）；eval 改双层（clustering_only + combined 生产路径）+ by_kind，--llm 用真实调用评 L2。
+- **P1-4 SA 噪声（结合近期投资信息）**：SA_NOISE_PATTERNS 8 条正则（Earnings Call Transcript/Presentation、Analyst/Investor Day、Slideshow、Presents at、基金评论、Qx Results；近 7 天 628 篇中约 272 篇命中）；选择层过滤，命中 interest/watchlist 实体（持仓 FITB/FAST/HBAN 等）豁免=信号；单源事件选择分 ×0.9（SINGLE_SOURCE_DISCOUNT，不改落库 salience）。
+- **P1-5 个人化修复（结合近期投资信息）**：
+  - canonical_entity / known_entity / refresh_dynamic_aliases：interest entity 键 + watchlist 启用值动态注册进 extract_entities，键名与抽取规范名对齐；未来新增种子无需改代码。
+  - sync-profiles：新增 workflow_d 美股持仓表解析（2026-06-30：FITB/FAST/HBAN，仅 ticker+名称，陈旧 140 天标注）；旧键自动迁移（entity:宁德时代→entity:CATL，保留 source/origin_profile）；watchlist 去重（本次仅新增 3 条，旧版会重复插 16 条）。
+  - watchlist.yaml A股港股组 + 北交所/新股/申购/中签（9 月北交所打新活动）。
+  - resolve_key 用 known_entity/canonical_entity（tune「多点宁德时代」→ entity:CATL）。
+- **测试**：tests/{conftest.py, test_intel_fixes_20261117.py} 29 用例（纯逻辑/内存 DB/mock LLM，wuhoo-skill-testing 规范）。
+
+### 验证证据（全部真实运行）
+- pytest 29/29 passed（0.30s）。
+- qwen4-max 探针：HTTP 200，content=OK，reasoning 空，usage 31 tokens。
+- sync-profiles：interest 15 键（A股 7 canonical + 美股 3 + NVIDIA + topic 4），watchlist 19 条，recompute 4615 事件。
+- 重聚类：7432 篇 → 5375 事件，合并率 27.7%（旧 25.1%），多源事件 797；Jensen 中文簇吸收新文章 N=5。
+- 黄金集 57 对（正 30/负 27）：聚类层 P=1.000 R=0.833（跨语 5 FN 属预期，cos 0.48 低于安全阈值）；生产路径 combined P=1.000 R=1.000 F1=1.000 PASS（确定性与 --llm 并集均满分；27 负对零错并）。
+- 原始故障案例直接验证：build_groups([2612,4110,2309,4610,5010,5415]) → Jensen 3→1 组（primary 2612），Rubin 独立，对照事件独立，dedup 仅 411 tokens。
+- hourly wrapper 实跑：rc=0，streak=0，coverage ok=85/91 ratio=0.9341 refused=0。
+- 闸门逻辑：ratio 0.55 → 触发重试（exit 0）；0.93 → 放行（exit 1）。
+- brief 再生成（--date 2026-11-17，15:2x）：10 卡 qwen4-max 18185 tokens quota=False，数字核验 10/10，真实归并 1 组（财政部中加对话 5615←5621，N 7→11），噪声过滤 0（SA 午后已衰减出 TOP20），coverage 0.9341 无降级；微信 3696B、HTML 20491B、兜底 /tmp/nb20261117.html；publish sha256 两端一致（74914521…），无凭据 401 预期。
+- 修复前留档：data/archive_pre_fix_20261117/（cards/brief/pipeline log/HTML）。
+
+### 注意 / 观察
+- 今日 daily 页面为 15:2x 验证刷新版（午后快照）：Jensen/OpenAI/Rubin 等早间科技事件因 D 半衰 12h 衰减出 TOP20（rank 62/614/740），午后财联社/金十 T1 快讯多源新鲜文章主导榜单（TOP10 全财经）。属 salience 新鲜度衰减正常行为，非回归；明日 08:10 cron 照常出晨版。主题多样性配额（P2-8）仍为观察项。
+- A轨明日 08:00 起用 qwen4-max 跑 42 调用流程，配额消耗上升（用户拍板接受）；qwen 配额探针 f624cf1487b1 持续监控。
+- P2 项（陈旧事件归档/多样性配额/velocity 新鲜度/微信截断）未拍板未动。
+- index.html 深度定制：已实施（见下「门户定制」段），不再是待讨论项。
+
+## 2026-11-17 门户定制（tophub 式分类门户 · 用户拍板全推荐案）
+
+用户参照 https://tophub.today/dashboard，诉求：分类目概括各源热点 + 按兴趣深挖 + 知识更丰富。
+拍板 5 项全推荐：①分类门户骨架 ②8 类目 ③L2 主体+兴趣 L3 混合 ④晨+晚双版 ⑤搜索/筛选/展开/夜间模式。
+
+### 实现
+- 新生成器 src/portal.py（~750 行）：六区单文件静态 HTML + 原生 JS（无外部依赖/无构建）。
+  A 顶栏(日期/版次/数据截至/覆盖徽章/搜索/夜间) B 今日总览(AI 跨类目导读+TOP5 头条)
+  C 分类热点(8 类×≤4 卡+类目导读) D 兴趣深挖(持仓雷达+六段增强卡+Jina 全文深读+watchlist 命中流)
+  E 热榜交叉验证(velocity×事件匹配, 榜中榜式+RSS 盲区) F 归档(每日元数据+版次归档+评测入口)。
+- 8 类目: 财经/AI与科技/宏观与政策/A股港股/游戏/商品期货/加密/足球。分类=实体驱动(A股持仓)+关键词
+  (优先级 crypto>commodity>a_hk>macro>ai_tech>gaming>football>finance 兜底)+topic 兜底。
+  词边界修正(\bETH\b/\bAI\b/\bFed\b 等防 Hegseth/Shanghai 误匹配); NBA 2K/GTA 归游戏非足球。
+- 知识档: 主体 L2 四段卡(sy.synthesize_event)+类目导读(DIGEST_SYSTEM)+总览(OVERVIEW_SYSTEM);
+  兴趣区 L3 六段增强卡(ENHANCED_SYSTEM, background 段强制"背景补充(模型知识,非当日报道):"前缀,
+  不含需溯源数字; fact/data 仍经 verify_numbers)。Jina Reader(r.jina.ai)抓兴趣事件 top2 链接全文,
+  失败降级摘要。预算 90k(原 60k), Budget 类有界+quota 回退。
+- 热榜交叉: velocity_signals.json(1043 信号/19 平台)×top300 事件, 指纹索引+实体索引+difflib 匹配,
+  输出事件×平台排名徽章+盲区(热榜前列未被 RSS 覆盖 top15)。
+- 持仓雷达: 11 interest 实体逐一看今日相关事件(无则诚实空态), 无 LLM。
+- 发布: portal.py 写 NEWS_WEB/index.html + portal/{date}-{edition}.html + .portal_index 标记;
+  intel.publish_web 改为标记感知(有标记 copy 门户 index, 无标记回退旧 build_index_html=回滚开关),
+  增 copy portal/ 子目录。daily/event/eval 旧页不动。
+- 管线: daily_intel_pipeline.sh 加 $1=edition(morning 默认/evening), brief 后跑 portal build。
+  晨版 cron a898cbb5e6a5(08:10)不变(启动器 "$@" 透传, 无参=morning);
+  晚版 cron 750003d2ce23(18:00, no_agent, script news_intel_evening.sh, deliver local)。
+- 交互 JS: 夜间模式(localStorage portal-theme)、搜索(data-search 客户端过滤+命中计数)、
+  类目 tab 锚点+hash 直达、全部展开/收起、<details> 原生折叠。CSS 移动优先(触控≥44px, 桌面双栏)。
+- 测试: tests/test_portal.py 17 用例(分类/词边界/热度/预算守卫/热榜匹配/渲染 smoke/降级横幅/空态)。
+
+### 验证（真实运行）
+- pytest 46/46 passed（含原 29 + 门户 17）。
+- portal build --dry: 窗口 5208 事件, 噪声过滤 167, 8 类目候选分布合理(修正后加密/足球/游戏归位)。
+- portal build morning: 32 卡+3 增强卡, tokens=62779/90000, calls=52, quota=False, partial=False;
+  归并 7 组; 覆盖 0.9231 无降级; 热榜匹配 65 事件+盲区 15; 总览 856 字(美联储紧缩跨类目主线);
+  3 增强卡 numbers_verified 全 True, Jina 全文抓取 2/1/1 篇成功, 背景段标注合规;
+  持仓雷达 6 实体有命中(CATL/FAST/HENGRUI/MOUTAI/NVIDIA/PINGAN), 5 实体今日无新增(诚实空态);
+  watchlist 命中 8 组。
+- 发布: index.html sha256 staging↔serve 一致(1eb3e80f…); portal 归档两端一致; .portal_index 标记在;
+  HTML 结构解析 0 告警(12 section/40 article/40 details, 栈空); node --check JS 语法 OK。
+- 云主机 Chromium 缺 libatk 无法截图自检(诚实标注), 结构/内容/发布完整性已验证; 视觉由用户设备查看。
+- 回滚: rm news-web/.portal_index && python3.11 src/intel.py publish(或重跑 brief) → 旧归档索引恢复。
+
+### 注意
+- 门户每日晨/晚两版, 数据每小时采集; 静态页无实时刷新(以数据截至时间+两版替代 tophub 订阅流)。
+- 微信版仍由 intel.py brief 产出 ≤4KB, 门户增强不影响投递纪律; B轨 shadow deliver local 不推微信。
+- 分类是确定性规则(可测), 跨类目同故事不全局归并(各类目独立 lens); 游戏类含 arXiv 图形学论文(源配置所致)。
+- 增强卡背景段=模型知识(显式标注), 数字仍只来自语料; Jina 全文部分源有 CAPTCHA(降级摘要, 不编造)。
+
+## 2026-11-18 门户 v2 迭代（用户看过 v1 反馈 4 点）
+
+用户反馈: ①总览格式化条目化(一大片文字可读性差) ②类目分页+每类扩充 top8-15 按热度 ③顶部日期下拉回看 ④默认展开所有卡片、单列纵向、支持宽幅屏幕。
+
+### 实现（portal.py）
+- 总览结构化: OVERVIEW_SYSTEM 改输出 JSON {mainline, points[{head,body}]×3-5, watch}; render_overview 渲染主线+有序条目+关注线; 旧字符串/解析失败兜底段落。
+- 类目分页: 每 section class="page", JS show(id) 单页显示, tab/←→按钮/键盘翻页/hash 路由(锚点自动激活所在页); 默认总览页。
+- 热度榜扩充: 每类 N=clamp(高于 top×0.25 的事件数, 8, 15), 冷类目(top<5)封顶 8; 前 4 组深度卡(LLM 四段)+其余紧凑卡(无 LLM, 代表作摘要+成员链接+热度+实体+热榜徽章)。成本不变(~62k, 深度卡仍 31-32, 紧凑卡零 token)。
+- 日期下拉: 顶部 dateSelect, 选项=门户版次(portal/{date}-{ed})优先+无门户日期回退 daily; onchange 跳转; 绝对 /news/ 前缀。
+- 默认展开单列宽幅: 所有 details open; .grid 单列(去 820px 双栏); wrap max-width 1200(≥1500 屏 1280)居中; 触控≥44px。
+- 内部链接全改 /news/ 绝对前缀(index 与 portal 归档共用, 修 v1 归档页相对链接断裂 bug)。
+
+### 过度归并修复（v2 扩充暴露）
+- 现象: 11-18 NVIDIA 财报日, AI与科技 14 个同主语事件经 build_groups union-find 传递闭包塌缩成 1 张巨卡(merged_from 14), n_total=2, 热度榜被吞空。
+- 根因: v1 归并跑全部候选(≤4 组), v2 扩到 15 候选后, 财报日大量共享 NVIDIA 强实体+cos≥0.30 的事件链式传递合并。
+- 修复: 归并仅限头部 DEEP_CAND=6 候选池产出深度卡; 热度榜取头部池外候选(cands[6:N])+头部 leftover 组, 各自独立不做全局传递归并。保住多样性同时保留头部跨语归并(Jensen 修复不回退)。
+- 验证: AI与科技 2+0 → 3 深度+9 热度=12 条; 新增 test_bounded_deep_pool_preserves_heat(模拟头部塌缩, 断言热度榜保住 ev7-15)。
+
+### 验证
+- pytest 55/55 passed（canonical, 含门户 v2 9 新用例）。
+- build morning: 31 深度卡+67 热度条+3 增强卡, 62057 tokens/51 调用 quota=False; 8 类目 N 分布(热 15/冷 8); 覆盖 0.9341; 热榜匹配 55; 总览结构化 4 条目。
+- publish_web rc=0(10 HTML+index 同步); HTML 结构(上一同渲染码 build 已验): 10 page/日期下拉/mainline/ovpoints/单列无 1fr1fr/details open; node JS 语法 OK。
+- 双版 cron 实测正常: 晚版 750003d2ce23 11-17 18:17 ok, 晨版 a898cbb5e6a5 11-18 08:30 ok。
+- 云主机 Chromium 缺 libatk 无法截图(诚实标注), 视觉由用户设备查看。
+
+### 注意
+- 紧凑卡=代表作摘要+成员链接(无 LLM 合成), 与深度卡(四段 LLM)区分; 热度榜不做跨语归并(头部深度卡仍归并), 残余跨语重复风险低(聚类层已分)。
+- 日期下拉回看依赖归档文件存在; 旧 daily(门户前)回退简报页。
+
+## 2026-11-18 门户 v3 大改（用户 A–F 拍板，中断会话续接施工）
+
+用户拍板(11-18 12:41): A.动态上限采纳 B.新增5类目全要+军工提权 C.源扩展全要+足球权重恢复 D.要过滤全面提高质量 E.热度榜需要去重 F.成本暂不考虑跑顺再看。
+会话两次中断于"更新测试"步(模型响应超时)。13:12 续接，核实代码改动已落盘(portal.py 13类目/动态上限/军工加权/dedup_heat + intel.py DIGEST过滤 + config 14新源/足球权重)，从测试步继续。
+
+### 实现
+- 类目 8→13(portal.py): +美股/医药健康/地缘与军工/新能源与汽车/消费。classify 改关键词优先(sector 在 a_hk 前, 持仓按主题归 sector: CATL→新能源/HENGRUI→医药/MOUTAI→消费), 持仓实体兜底 a_hk, 新 topic 兜底(医药/新能源/加密/军工)。优先级 crypto>commodity>new_energy>pharma>consumer>us_stock>a_hk>geopolitics>macro>ai_tech>gaming>football>finance。
+- 动态上限 CAT_LIST_MAX(拍板A): 财经/AI/宏观/美股 40, A股/商品/医药/新能源/消费/地缘 25, 游戏/加密/足球 10; CAND_PER_CAT 15→40。紧凑卡无 LLM, 扩容零 token 增量。
+- 军工提权(拍板B): CAT_SALIENCE_MULT={"geopolitics":1.3} 落 load_window 选择层(落库 salience 不变)。
+- 热度榜跨语去重(拍板E): dedup_heat 贪心非传递——按 sel 降序与深度卡 primary+已留 heat 比对 same_story_rule, 命中丢弃, heat_dup 字段记录; 不做 union-find 传递闭包(防重演 DEEP_CAND 过并事故)。
+- digest 过滤(拍板D, intel.py DIGEST_META_PATTERN): 每日聚合 meta 文章无条件过滤(不豁免持仓)。dry 审计三轮渐进覆盖变体: 早间精选/见闻早餐/投资日历/晨会精华 → +【早报】/【晚报】/昨夜今晨/要闻速递/金十数据整理。
+- 源扩展(拍板C): 两轮探测 41 候选, 14 可用写入 config(医药 Endpoints/STAT, 新能源 CnEVPost/InsideEVs, 加密 Cointelegraph/Decrypt/PANews/Odaily, Product Hunt, 游戏 GameLook/IGN/机核, 军工 Defense News 权重8, 澎湃)。A股公告专用源(证券时报/深交所/巨潮/东方财富)无公开 RSS, 如实保留现有上交所/财联社公告源。足球 9 源权重 0→6 恢复。总源 91→105。
+
+### dry 审计发现并修复的质量问题（拍板D"全面提高质量"）
+1. UA 判别(Endpoints/InsideEVs): 浏览器 UA 探测 200+XML 通过, 生产 fetcher UA 得 403 错误页/200 HTML 挑战页 → feedparser mismatched tag。修: fetch_feed 按源 user_agent 覆盖(config 字段, 其余 103 源默认 UA 不动); rss-source-verification.md 强化"必须生产 UA 完整 feedparser 解析(bozo=False+entries>0)"。回归 TestFetchFeedUAOverride20261118(news-rss 5/5)。
+2. Sky Sports Football URL 频道错配: rss/12040 实为综合体育(板球ODI/F1/赛马/拳击WBC/高尔夫DP World Tour, 存量20+篇占据足球TOP), rss/11095 纯足球(实测 Nations League)。换 URL+存量污染 NON_FOOTBALL_PATTERN 选择层排除(仅作用足球类目)。
+3. IGN ign/all 混影视娱乐(James Bond 选角占游戏TOP1): 换 games-all 纯游戏 feed+NON_GAMING_PATTERN 存量排除。CATEGORY_NOISE 字典统一机制, 不误伤综合源正常报道。
+4. consumer"零售"抢 macro"零售销售"数据新闻(美债收益率V形反转占消费#4): 改负向前瞻 零售(?!销售), 不动全局优先级(避免 macro 抢 A股/美股行情标题的副作用)。
+5. call_qwen 429 零重试缺陷: 任何 429 立即 quota=True → Budget.quota 停掉全部后续合成。v3 构建实测瞬时限流触发 dedup 层 429(回退确定性规则), 合成层未触发但风险真实(明早 cron 13 类目同样会撞)。修: 429 退避重试 15/30/60s(不消耗 5xx attempt), 连续失败才标 quota; 5xx/4xx 语义不变。回归 TestCallQwen429Backoff 3 用例。
+
+### 数据与验证
+- 采集: 13:05 hourly 已用新配置入库 629 新文章; 13:30 全量轮 4377 条/新增 164/失败 7(含 2 UA 源, 修复后医药/新能源重采 24+20 全过); 足球/游戏新 URL 重采 18+14。覆盖率 97/105=0.924。
+- 重聚类×2: 13476 篇→9080 事件(合并率 32.6%) → 源修复后 13669 篇→9188 事件(32.8%, 多源 1632)。合并率较 11-16 的 26.2% 提升(新源增强跨源覆盖)。
+- pytest: news-intel 87/87 绿(portal 45 + intel_fixes 42, 较 v2 基线 55 新增 32 用例), news-rss 5/5 绿。canonical 单独运行 exit=0。
+- dry 审计×3 轮: 13 类目归位正常(1117 漏网"安瓦尔抵达深圳"归地缘与军工; 持仓按主题归 sector; 军工概念A股行情仍归 a_hk 正确); 第三轮足球全真足球/游戏TOP1 Unity Fellowship/商品期货金十digest消失/消费美债新闻归macro。
+- v2 基线留档: data/archive_pre_v3_20261118/(portal JSON + index_v2.html + portal_morning_v2.html)。
+- 构建: 首次前台 600s 超时被终止(13类目×6+调用/类, 无半截产物); 后台重跑 proc_a4bf68c65e0f exit=0, 878s(~14.6min), 日志 data/portal_build_v3_20261118.log。
+- 构建产物: portal_20261118_morning.json 574903B / HTML 580723B(v2: 264250/247090)。13类目×4深度卡=52 + 热度257 = 总309条(v2 98条, 3.2倍); 跨语去重丢弃14(ai_tech 8/us_stock 4/macro 1/pharma 1——拍板E生效, NVIDIA财报日中英同故事清理); 总览结构化5条目; 持仓雷达11实体; 增强卡2/3(第3张被预算闸跳过, partial=True诚实标注); 热榜匹配68/盲区15; 覆盖99/105=0.9429; tokens 90921/81调用/quota_hit=False。
+- 预算修复: portal.py 默认 + daily_intel_pipeline.sh 显式 90000→120000(13类目实测~91k, 90k必partial; 今晚18:00晚版起完整构建)。晨/晚启动器均确认薄转发(morning "$@"透传/evening写死)。
+- 发布: portal.py build 末尾自动 intel.publish_web()(非独立子命令, 技能清单已修正); sha256 staging==published==归档(28c89018ab54b26bb3a174881c020a569989c2aaecdf56e27c31e7e90579e633); 无凭据访问401预期(用户持口头凭据)。
+- HTML结构: 17页(13类目+总览+兴趣+热榜+归档)/13 cat id齐全/257紧凑卡/316 details open/dateSelect/mainline+ovpoints/单列无1fr1fr/背景标注×2/partial"预算"诚实标注。
+- 类目抽查: 足球TOP全真足球(Rice-Arsenal/Haaland-Norway/England Nations League/Man Utd)+导读正常; 游戏TOP1 Unity Fellowship; 商品期货金十digest消失; 消费美债零售销售归macro。
+- pytest 终态: news-intel 87/87(portal 45+intel_fixes 42), news-rss 5/5, canonical 单独运行 exit=0。
+- velocity_signals.json 15:20 新鲜(TrendRadar :20 cron 正常)。
+- 遗留观察: ①增强卡2/3, 今晚晚版120k预算补全3张 ②【风口研报·公司】单公司摘要栏目仍在消费#4(非跨主题digest, 未过滤, 观察) ③代码按约定保持工作区未commit, 按用户节奏推送。

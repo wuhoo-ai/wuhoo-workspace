@@ -63,3 +63,35 @@ class TestInsertArticleCounting20260910:
             assert insert_article(conn, self._article('h2')) is False  # 再次重复
         finally:
             conn.close()
+
+
+class TestFetchFeedUAOverride20261118:
+    """2026-11-18: Endpoints/InsideEVs 对非浏览器 UA 返回 403 错误页/200 HTML 挑战页,
+    feedparser 当 XML 解析报 mismatched tag。fetch_feed 支持 config 按源 user_agent 覆盖,
+    未配置时保持默认 UA(不影响其他源行为)。"""
+
+    def _mock_result(self):
+        r = MagicMock()
+        r.bozo = False
+        r.entries = [{'title': 'T', 'link': 'l'}]
+        r.feed = {'title': 'F'}
+        return r
+
+    def _headers(self, mp):
+        kw = mp.call_args.kwargs
+        return kw.get('request_headers') or mp.call_args[1].get('request_headers')
+
+    def test_default_ua_when_not_configured(self):
+        import fetcher
+        with patch.object(fetcher.feedparser, 'parse', return_value=self._mock_result()) as mp:
+            out = fetcher.fetch_feed({'name': 'X', 'url': 'http://x/rss'})
+        assert out is not None
+        assert self._headers(mp)['User-Agent'].startswith('wuhoo-news-rss/1.0')
+
+    def test_config_ua_override(self):
+        import fetcher
+        ua = 'Mozilla/5.0 (compatible; wuhoo-news-rss/1.0)'
+        with patch.object(fetcher.feedparser, 'parse', return_value=self._mock_result()) as mp:
+            out = fetcher.fetch_feed({'name': 'X', 'url': 'http://x/rss', 'user_agent': ua})
+        assert out is not None
+        assert self._headers(mp)['User-Agent'] == ua

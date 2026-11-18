@@ -1,22 +1,22 @@
 {
   "window_h": 72,
-  "raw_articles": 5207,
+  "raw_articles": 7432,
   "A_baseline": {
     "mode": "原始流+标题去重(重建基线)",
-    "unique_titles": 4917,
-    "naive_dup_rate": 0.0557,
-    "feeds": 80,
+    "unique_titles": 6980,
+    "naive_dup_rate": 0.0608,
+    "feeds": 79,
     "semantic_dedup": false,
     "personalization": false,
     "numbers_verified": false
   },
   "B_event": {
     "mode": "事件中心管线",
-    "events": 3845,
-    "merge_rate": 0.2616,
-    "multi_source_events": 438,
-    "avg_indep_sources": 3.13,
-    "distinct_entities": 1054,
+    "events": 5897,
+    "merge_rate": 0.2711,
+    "multi_source_events": 634,
+    "avg_indep_sources": 3.14,
+    "distinct_entities": 1573,
     "dedup_precision": 1.0,
     "dedup_recall": 1.0,
     "dedup_f1": 1.0,
@@ -25,79 +25,79 @@
     "numbers_verified_rate": 1.0
   },
   "delta": {
-    "semantic_dedup_gain": 0.2059,
-    "dup_rate_A_to_B": "5.6% → 26.2%"
+    "semantic_dedup_gain": 0.2103,
+    "dup_rate_A_to_B": "6.1% → 27.1%"
   },
   "top10_hotspots": [
     {
-      "event_id": 3584,
-      "salience": 60.35,
+      "event_id": 5615,
+      "salience": 53.67,
       "n_indep": 7,
       "topic": "财经",
-      "label": "金科股份：股票收盘价低于1元 存在可能因股价低于面值被终止上市的风险"
+      "label": "财政部发布第二次中加经济财金战略对话联合成果文件"
     },
     {
-      "event_id": 3516,
-      "salience": 53.97,
+      "event_id": 5010,
+      "salience": 51.67,
       "n_indep": 6,
       "topic": "财经",
-      "label": "共达电声：控股股东一致行动人拟增持1.5亿至2.5亿元股份"
+      "label": "工商银行廖林：AI时代机遇和挑战并存，需处理好三组关系"
     },
     {
-      "event_id": 3283,
-      "salience": 51.62,
-      "n_indep": 7,
-      "topic": "财经",
-      "label": "涉17家重点车企 供应商账款支付情况调研评估将进行"
-    },
-    {
-      "event_id": 3517,
-      "salience": 49.54,
-      "n_indep": 5,
-      "topic": "财经",
-      "label": "欧盟委员会无条件批准了裕信银行拟收购德商银行的交易"
-    },
-    {
-      "event_id": 3313,
-      "salience": 48.69,
-      "n_indep": 7,
-      "topic": "财经",
-      "label": "捷捷微电：全资子公司拟投资15亿元建设车规级高功率半导体器件芯片生产线项目"
-    },
-    {
-      "event_id": 261,
-      "salience": 47.89,
+      "event_id": 5267,
+      "salience": 50.27,
       "n_indep": 8,
       "topic": "财经",
-      "label": "王小洪在四川调研时强调，坚定信心，抢抓机遇，全力完成全年经济社会发展主要目标任务"
+      "label": "宇树科技王兴兴：机器人行业首要痛点是模型泛化能力不足 机器人更换应用场景往往需要重新训练"
     },
     {
-      "event_id": 3307,
-      "salience": 46.89,
-      "n_indep": 6,
+      "event_id": 5415,
+      "salience": 49.91,
+      "n_indep": 5,
       "topic": "财经",
-      "label": "盛屯矿业：拟4亿元至5亿元回购公司股份"
+      "label": "蔚来：有网络传言抹黑蔚来公司财务经营情况 已向公安机关报案"
     },
     {
-      "event_id": 3302,
-      "salience": 45.96,
-      "n_indep": 6,
+      "event_id": 5835,
+      "salience": 46.15,
+      "n_indep": 3,
       "topic": "财经",
-      "label": "财联社11月16日电，欧元区9月工业产出同比下降1.5%，预期下降0.2%；9月工业产出环比增长0.2%，预期增长0.3%。"
+      "label": "中广天择：AI算料业务已成为公司新的增长曲线 AI漫剧业务也陆续有产品上线"
     },
     {
-      "event_id": 214,
-      "salience": 45.66,
-      "n_indep": 9,
+      "event_id": 2532,
+      "salience": 45.23,
+      "n_indep": 7,
       "topic": "财经",
-      "label": "美联储理事Barr称AI智能体或加大未来银行挤兑风险"
+      "label": "韩国KOSPI指数收跌2.59%"
     },
     {
-      "event_id": 3699,
-      "salience": 45.34,
-      "n_indep": 4,
+      "event_id": 4829,
+      "salience": 45.08,
+      "n_indep": 7,
       "topic": "财经",
-      "label": "英伟达美股盘前跌超3%"
+      "label": "习近平会见加拿大总理卡尼"
+    },
+    {
+      "event_id": 5421,
+      "salience": 44.47,
+      "n_indep": 5,
+      "topic": "财经",
+      "label": "蒙古国总统呼日勒苏赫宣布辞职"
+    },
+    {
+      "event_id": 5144,
+      "salience": 44.11,
+      "n_indep": 8,
+      "topic": "财经",
+      "label": "小米辟谣汽车召回短信"
+    },
+    {
+      "event_id": 4281,
+      "salience": 43.87,
+      "n_indep": 11,
+      "topic": "财经",
+      "label": "360回应市场部负责人被带走"
     }
   ],
   "caveat": "A为重建基线(标题去重)非旧简报实测；50对黄金集启发式预标注needs_review；正式微信切换需用户盲评+拍板(D3-A)"
