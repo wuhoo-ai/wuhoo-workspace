@@ -514,3 +514,9 @@ location /news/ {
 - pytest 终态: news-intel 87/87(portal 45+intel_fixes 42), news-rss 5/5, canonical 单独运行 exit=0。
 - velocity_signals.json 15:20 新鲜(TrendRadar :20 cron 正常)。
 - 遗留观察: ①增强卡2/3, 今晚晚版120k预算补全3张 ②【风口研报·公司】单公司摘要栏目仍在消费#4(非跨主题digest, 未过滤, 观察) ③代码按约定保持工作区未commit, 按用户节奏推送。
+
+### 提交记录（并行会话卷入说明 + 标签栏 UI 迭代）
+- 标签栏 UI(用户 16:0x 反馈): .tab 加 justify-content:center+text-align:center+flex:1 0 auto(伸缩编排/文字居中/窄屏保留横向滚动), ≥1500px media query nav 随 wrap 扩至 1280。--no-llm 零token重渲染上线, sha256 四处一致(cd4e7240...), 87/87 复绿。
+- v3 全部 31 文件暂存后通过泄露扫描(sk-/ghp_/PRIVATE KEY/BDUSS/STOKEN/字面token 零匹配); 16:14:53 并行 guimei/netdisk 会话提交 cd37ce3("guimei指针: 分镜提示词优化方案(待拍板)")以 git add -A 将其卷入并推送 origin/hermes-agent。
+- 核验: 31 文件全在 cd37ce3(--name-only 逐一核对); HEAD 内容抽查通过(标签CSS/预算120000/fetcher user_agent/嵌套gitignore); 运行时产物正确排除(data/ 仅 4 基线+6 留档证据 tracked)。
+- 本补记恢复 news v3 审计索引(原提交消息未提及 news)。教训: 多会话共享 workspace 时 git add 具体路径后须立即 commit, 不留暂存窗口; 并行工作流宜用 worktree 隔离。

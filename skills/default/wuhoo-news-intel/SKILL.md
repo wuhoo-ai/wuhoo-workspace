@@ -150,6 +150,8 @@ fetch（hourly cron bb84c71fff5b，wrapper 含 coverage 统计 + RSSHub 挂死�
 21. **源URL频道错配（2026-11-18）**：Sky Sports Football rss/12040实为综合体育频道(混板球ODI/F1/赛马/拳击WBC/高尔夫)，纯足球是rss/11095；IGN ign/all混影视娱乐，纯游戏是games-all。教训：加源后必抽查实际文章标题的类目纯度(dry看类目TOP)，HTTP 200+XML有效≠内容符合类目。存量污染由选择层CATEGORY_NOISE排除(换URL只管增量)。
 22. **dry审计是分类改动必经闸**：v3十三类目上线dry三轮渐进暴露digest变体(【早报】/昨夜今晨/要闻速递)、足球异类、游戏影视、consumer抢macro零售销售——均在选择层/模式层修复并补回归。分类改动后必跑--dry抽查各类目TOP归位(踩坑16的延伸)。
 
+23. **多会话共享 workspace 的 git 卷入（2026-11-18 实证）**：并行 guimei/netdisk 会话 git add -A 会把本会话暂存的 news 文件卷进它的提交（消息不含 news，审计索引断裂）。对策：git add 具体路径后立即 commit+push 不留暂存窗口；提交后 git show --name-only 核对文件清单+内容抽查；被卷入时补审计索引提交恢复可追溯，不重写历史。
+
 ## 待用户/观察期
 
 - A5 gateway /restart（WP1 live TrendRadar MCP 注入 + 8642 收尾，用户触发）。
