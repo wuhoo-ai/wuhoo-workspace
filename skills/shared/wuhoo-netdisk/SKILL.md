@@ -97,7 +97,7 @@ bash $S/pcs.sh mkdir /wuhoo-assets/图片
 
 ## Pitfalls
 
-- **跨境上传阻断（2026-11-18 实测，SG 阿里云→百度 PCS，硬坑）**：<1MB 小文件正常成功；
+- **跨境上传阻断（2026-11-18 实测，SG 阿里云→百度 PCS，硬坑）**：<1MB 小文件**通常**成功但**不保证**——401KB jpg 实测也卡死（16:2x 吴道子批次，prompt.md 8KB/json 850B 秒传，同批 401KB 接触表两次直传均停滞）；≥4MB 固定分片永远无法完成
   ≥4MB 固定分片永远无法完成——实时进度呈锯齿重置（传到 600-800KB→0B/s 停滞→回退重传），
   shot-02 独占带宽 30min、t2v 11 分片并发 24min 均 0 分片完成。根因=跨境上传方向连接被
   policing/重置，非工具 bug；BaiduPCS-Go 无分片尺寸选项（4MB 固定），并发再高也救不了单分片。
@@ -109,6 +109,15 @@ bash $S/pcs.sh mkdir /wuhoo-assets/图片
   ②国内出口（config proxy 经 NAS/国内节点，或文件中转到国内再传）；③极空间 NAS 远程下载（URL 直链）。
   诊断法：直接前台跑 pcs.sh upload 看实时进度（upload_deliverable 子进程管道会吞输出）+
   pcs_uploading.json 分片 checksum 计数 + ss -tinp bytes_sent 差分测真实吞吐。
+- **upload_deliverable --offline 的附件直传阶段可卡死整条管线**：小文件阶段把 prompt+全部 extras 一次直传，任一附件（哪怕 400KB）被 policing 卡住就到不了布点/离线阶段。恢复法：手动布点（sudo mkdir token 目录+copy+chmod 644+HEAD 验证）→ 每个文件各走一次 offline_deliver（或自写双任务轮询脚本）→ ls+meta+sha256 验证 → sudo rm 布点。勿整脚本重跑（prompt.md 会落重复名）。
+- **pan.baidu.com API 的 httpx 解压坑**：cloud_dl 响应偶发 content-encoding 与实际 body 不符 → httpx.DecodingError(zlib incorrect header check)。对策：请求头加 Accept-Encoding: identity + api() 包重试。注意 add_task 响应解码失败≠任务未创建（服务端可能已成功）——重添加前必须先 list_task 按 source_url 里的 token 查重，复用已有 task_id，否则落重复文件。
+- **离线下载风控 vcode → 降级发链接（用户 11-18 拍板，勿 OCR）**：cloud_dl add_task 可能返回
+  error_code=-19（vcode+img 图像验证码，follow_redirects 会落到 403.html 假象）。用户明确否决
+  OCR 识别验证码路线（"验证码千奇百怪靠OCR不太可能搞定"），且连续失败会升级风控。降级动作：
+  保留 nginx 布点 → 把 HTTPS 直链发给用户（terminal 答复 + 微信双通道：
+  `hermes send --list` 查目标，`hermes send --to weixin:<DM目标> --file <msg.txt>`），
+  用户自行下载后放入网盘配对目录即完成入库；prompt.md/小附件仍直传不受影响。
+  布点保留到用户确认收到再清。实测：读接口(list/query)不受风控影响，仅写接口(add_task)被拦。
 - **STOKEN 拿错**：必须是 pan.baidu.com 域下的 STOKEN（含大写字母），bdstoken 无效；
   拿错只影响转存，上传下载仍可用 BDUSS。
 - **非 SVIP 下载限速**：上传不受会员限制（分片并发上传正常跑）；下载慢是账号侧限速，

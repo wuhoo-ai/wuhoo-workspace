@@ -113,6 +113,19 @@
   跑脚本+日志文件，或拆成多次短 query_task；百度侧任务不受轮询进程死亡影响。
 - notify=true 参数偶发序列化失败 → 可省略 notify 改主动 poll 日志。
 
+## 风控 vcode 拦截与降级（2026-11-18 吴道子批次实测 + 用户拍板）
+
+- 现象：add_task 返回 302（Location: /403.html）+ JSON body `{vcode, img, error_code:-19,
+  error_msg:"vcode is needed"}`；follow_redirects=True 时只看到 403.html 页面，必须
+  follow_redirects=False 才能拿到 vcode 质询本体。读接口 list_task/query_task 不受影响。
+- 触发背景：同日早前 add_task 正常（探针+45.6MB 入库成功），跨境直传卡死期间大量失败重试后
+  写接口开始要验证码——疑似账号/IP 级风控，非参数问题。
+- 用户拍板（11-18）：**不做 OCR 验证码**（ddddocr+vision 双引擎三次尝试均失败，验证码风格多变），
+  降级为把布点 HTTPS 直链发给用户（terminal+微信双通道，`hermes send --to weixin:<DM>`），
+  用户自行下载入网盘。布点保留至用户确认。
+- 降级消息要素：产物事实（时长/尺寸/模型）+ 直链 + 网盘目标目录（prompt.md 已直传入库）+
+  审核焦点。微信短消息（<1KB）不触 iLink 限流。
+
 ## 极空间（Zspace）NAS 能力（研究事实，供 NAS 路线）
 
 - 内置远程下载/下载中心支持 URL 直链+磁力+BT，手机 App/PC 均可远程创建任务（不依赖 frp）。
