@@ -1,7 +1,7 @@
 ---
 name: wuhoo-netdisk
 description: "Use when 上传/下载非代码素材产物到百度网盘. BaiduPCS-Go CLI, 产物配对目录规范(类型/内容-时间/prompt.md+素材), 凭证零回显登录."
-version: 1.0.0
+version: 1.2.0
 category: shared
 tags: ["wuhoo"]
 dependencies: "BaiduPCS-Go v4.0.2 (~/tools/baidupcs/), python3.11, bash"
@@ -69,6 +69,17 @@ python3.11 $S/upload_deliverable.py --type 视频 \
 # 先 dry-run 看计划
 python3.11 $S/upload_deliverable.py ... --dry-run
 
+# 大素材（≥1MB）必加 --offline：跨境直传被阻断，素材自动布点 nginx /media-temp/<token>/
+# → 百度离线下载回源入库 → 落盘验证 → 清布点（prompt/附件仍直传）
+python3.11 $S/upload_deliverable.py --type 视频 \
+  --name guimei-ch01-六镜t2v --date 20261118 \
+  --prompt /path/prompt.md --asset /path/ch01-multishot-t2v.mp4 \
+  --extra /path/sidecar.json --offline
+
+# 单链接入库（素材已有百度可回源的 HTTPS 直链时）
+python3.11 $S/offline_deliver.py --url <https直链> --save-path <网盘目录> \
+  --name <文件名> --size <字节数> [--timeout 900]
+
 # 通用 CLI 透传（配置目录已隔离）
 bash $S/pcs.sh ls /wuhoo-assets/视频
 bash $S/pcs.sh quota
@@ -80,7 +91,8 @@ bash $S/pcs.sh mkdir /wuhoo-assets/图片
 ## 与生产技能的咬合
 
 - wuhoo-manju-storyboard / wuhoo-video-generation：产物验收（人工审核）后，
-  写 prompt.md（模板）→ upload_deliverable.py 配对上传 → git 报告记录网盘路径。
+  写 prompt.md（模板）→ upload_deliverable.py --offline 配对入库（大素材走离线下载回源）
+  → git 报告记录网盘路径。入库后建议回传 sha256 校验（下载方向 1.1-1.7MB/s，成本低）。
 - 出图/音频/文档类产物同规范入库；git 仓不再新增媒体 LFS 对象（历史存量待 Codeup 清理拍板后一并处置）。
 
 ## Pitfalls
@@ -89,8 +101,12 @@ bash $S/pcs.sh mkdir /wuhoo-assets/图片
   ≥4MB 固定分片永远无法完成——实时进度呈锯齿重置（传到 600-800KB→0B/s 停滞→回退重传），
   shot-02 独占带宽 30min、t2v 11 分片并发 24min 均 0 分片完成。根因=跨境上传方向连接被
   policing/重置，非工具 bug；BaiduPCS-Go 无分片尺寸选项（4MB 固定），并发再高也救不了单分片。
-  对策方向：①国内出口（config proxy 经 NAS/国内节点，或文件中转到国内再传）；
-  ②百度离线下载（临时 HTTPS 链接→网盘 App 云添加，百度服务器→SG 的下载方向不受此限）。
+  对策（选型表+cloud_dl API 契约+端到端实证记录见 references/cross-border-transfer.md）：
+  ①**百度离线下载 cloud_dl（11-18 已端到端实证，大文件首选）**：布点 nginx /media-temp/<token>/
+  临时 HTTPS 直链→add_task→百度国内节点群回源入库（45.6MB 约4分钟，sha256 回传校验一致）；
+  upload_deliverable.py --offline 一条命令配对。卡死任务（status=1 长期 0/0 + nginx 日志静默）
+  → cancel_task 重添加换节点群；
+  ②国内出口（config proxy 经 NAS/国内节点，或文件中转到国内再传）；③极空间 NAS 远程下载（URL 直链）。
   诊断法：直接前台跑 pcs.sh upload 看实时进度（upload_deliverable 子进程管道会吞输出）+
   pcs_uploading.json 分片 checksum 计数 + ss -tinp bytes_sent 差分测真实吞吐。
 - **STOKEN 拿错**：必须是 pan.baidu.com 域下的 STOKEN（含大写字母），bdstoken 无效；
