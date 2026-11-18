@@ -74,7 +74,8 @@ def main():
 
     cookies = load_cookies()
     s = httpx.Client(cookies=cookies, timeout=30, follow_redirects=True,
-                     headers={'User-Agent': UA, 'Referer': 'https://pan.baidu.com/disk/home'})
+                     headers={'User-Agent': UA, 'Referer': 'https://pan.baidu.com/disk/home',
+                              'Accept-Encoding': 'identity'})  # 百度偶发损坏gzip响应致DecodingError，identity绕开
     r = s.get('https://pan.baidu.com/api/gettemplatevariable',
               params={'clienttype': 0, 'app_id': 250528, 'web': 1,
                       'fields': json.dumps(['bdstoken'])})
