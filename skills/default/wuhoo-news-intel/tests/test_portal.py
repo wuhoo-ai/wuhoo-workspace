@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+from datetime import timedelta
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
@@ -509,3 +510,71 @@ class TestPortalV3:
         assert 7 not in {h["event_id"] for h in out["heat_list"]}
         assert out["n_total"] == 10  # 2深度 + (9热度 - 1去重)
         c.close()
+
+
+class TestRetentionPrune:
+    """2026-11-18 用户拍板: 默认保留7天内容(窗口含今天); days=1 仅留今天(一次性清理)。"""
+
+    def _setup(self, tmp_path, monkeypatch):
+        import intel
+        web = tmp_path / "web"
+        serve = tmp_path / "serve"
+        data = tmp_path / "data"
+        for root in (web, serve):
+            for sub in ("portal", "daily", "eval", "event"):
+                (root / sub).mkdir(parents=True)
+        data.mkdir()
+        monkeypatch.setattr(portal, "NEWS_WEB", str(web))
+        monkeypatch.setattr(portal, "DATA", str(data))
+        monkeypatch.setattr(intel, "SERVE_DIR", str(serve))
+        today = intel.now().date()
+        d = lambda n: (today - timedelta(days=n)).isoformat()
+        dc = lambda n: (today - timedelta(days=n)).strftime("%Y%m%d")
+        for root in (web, serve):
+            (root / "portal" / f"{d(0)}-morning.html").write_text("x")
+            (root / "portal" / f"{d(6)}-morning.html").write_text("x")
+            (root / "portal" / f"{d(7)}-evening.html").write_text("x")
+            (root / "daily" / f"{d(7)}.html").write_text("x")
+            (root / "daily" / f"{d(0)}.html").write_text("x")
+            (root / "index.html").write_text("x")
+            (root / "eval" / "dashboard.html").write_text("x")
+            (root / "event" / "154.html").write_text("x")
+        (data / f"portal_{dc(7)}_morning.json").write_text("x")
+        (data / f"cards_{dc(0)}.json").write_text("x")
+        (data / f"brief_wechat_{dc(8)}.txt").write_text("x")
+        arch = data / "archive_pre_v3"
+        arch.mkdir()
+        (arch / "portal_20200101_morning.json").write_text("x")
+        return web, serve, data, today
+
+    def test_seven_day_window(self, tmp_path, monkeypatch):
+        web, serve, data, today = self._setup(tmp_path, monkeypatch)
+        removed = portal.prune_old_content(7, verbose=False)
+        d = lambda n: (today - timedelta(days=n)).isoformat()
+        dc = lambda n: (today - timedelta(days=n)).strftime("%Y%m%d")
+        for root in (web, serve):
+            assert (root / "portal" / f"{d(0)}-morning.html").exists()
+            assert (root / "portal" / f"{d(6)}-morning.html").exists()  # 边界: 第7天保留
+            assert not (root / "portal" / f"{d(7)}-evening.html").exists()
+            assert not (root / "daily" / f"{d(7)}.html").exists()
+            assert (root / "daily" / f"{d(0)}.html").exists()
+            assert (root / "index.html").exists()
+            assert (root / "eval" / "dashboard.html").exists()
+            assert (root / "event" / "154.html").exists()
+        assert not (data / f"portal_{dc(7)}_morning.json").exists()
+        assert (data / f"cards_{dc(0)}.json").exists()
+        assert not (data / f"brief_wechat_{dc(8)}.txt").exists()
+        assert (data / "archive_pre_v3" / "portal_20200101_morning.json").exists()
+        assert len(removed) == 6  # 双根×(portal1+daily1) + data2
+
+    def test_days1_keeps_only_today(self, tmp_path, monkeypatch):
+        web, serve, data, today = self._setup(tmp_path, monkeypatch)
+        portal.prune_old_content(1, verbose=False)
+        d6 = (today - timedelta(days=6)).isoformat()
+        for root in (web, serve):
+            assert not (root / "portal" / f"{d6}-morning.html").exists()
+            assert (root / "portal" / f"{today.isoformat()}-morning.html").exists()
+            assert (root / "index.html").exists()
+
+    def test_default_is_seven(self):
+        assert portal.RETENTION_DAYS == 7

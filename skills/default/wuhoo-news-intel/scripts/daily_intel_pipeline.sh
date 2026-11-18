@@ -5,6 +5,7 @@
 # 2026-11-17 P0-1: brief 前源健康闸门 — 覆盖率<0.70 时告警+等300s重采一次(有界单重试),
 # 仍降级则 brief 自动在 HTML/微信文本标注"源覆盖降级"(intel.py read_coverage)。
 # 2026-11-17 门户: $1=edition(morning默认/evening), brief 后跑 portal.py build(13类目+兴趣深挖+热榜交叉)。
+# 2026-11-18 用户拍板: cron 仅晨版一次(08:10), 晚版 cron 已移除(evening 参数保留供手动跑); 内容默认保留7天(portal.prune_old_content, 构建发布后自动清理)。
 set -uo pipefail
 INTEL=/home/admin/wuhoo-workspace/skills/default/wuhoo-news-intel
 SRC="$INTEL/src"

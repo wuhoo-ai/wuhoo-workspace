@@ -22,7 +22,7 @@ import glob
 import argparse
 import difflib
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timedelta
 from collections import Counter, defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -41,6 +41,7 @@ DEEP_CAND = 6        # 送归并的头部候选池上限(限制传递闭包过�
 CAND_PER_CAT = 40    # 每类目候选上限(动态上限最大40)
 LIST_MIN = 8         # 每类目热度榜总条目下限(含深度卡)
 LIST_MAX = 40        # 默认上限(被CAT_LIST_MAX按类目覆盖)
+RETENTION_DAYS = 7   # 2026-11-18用户拍板: 默认保留7天内容(窗口含今天), 每次构建发布后自动清理
 HEAT_RATIO = 0.25    # 热度榜纳入: sel >= 类目最高分×此比例
 COLD_CAP = 5.0       # 类目最高分<此值=冷类目, 条目封顶LIST_MIN
 # 动态上限(2026-11-18用户拍板A): 高量40/中量25/薄10。热度榜紧凑卡无LLM, 扩容零token增量。
@@ -1008,10 +1009,12 @@ def render_html(data):
 
 
 # ---------------- build 编排 ----------------
-def build(edition="morning", budget_limit=90000, dry=False, no_llm=False):
+def build(edition="morning", budget_limit=120000, dry=False, no_llm=False):
     c = ec.get_conn()
     ec.refresh_dynamic_aliases(c)
     date = intel.now().strftime("%Y-%m-%d")
+    if not dry:
+        prune_old_content()  # 保留清理先于归档扫描, 下拉不列已删页; dry 只读不清理
     if no_llm:
         # 从已存 JSON 重渲染(零token)
         pat = os.path.join(DATA, f"portal_{date.replace('-','')}_{edition}.json")
@@ -1021,6 +1024,7 @@ def build(edition="morning", budget_limit=90000, dry=False, no_llm=False):
                 raise SystemExit("no-llm: 无已存 portal JSON")
             pat = cands[0]
         data = json.load(open(pat, encoding="utf-8"))
+        data["archive"] = archive_meta()  # 归档下拉按当前文件系统刷新(清理后旧页不再列出)
         html = render_html(data)
         _write_outputs(html, data, edition, date)
         print(f"no-llm 重渲染: {pat} → index.html ({len(html)}B)")
@@ -1114,6 +1118,32 @@ def build(edition="morning", budget_limit=90000, dry=False, no_llm=False):
     print(f"  JSON: {jpath}")
     print(f"  公开链接: {PUBLIC_BASE}/")
     c.close()
+
+
+def prune_old_content(days=RETENTION_DAYS, verbose=True):
+    """清理保留窗口外的日期命名日内容（2026-11-18 用户拍板: 默认保留7天）。
+    范围=日期命名日流: portal/{date}-*.html + daily/{date}*.html(staging+发布双根)
+    + data/portal_YYYYMMDD_*.json / cards_YYYYMMDD* / brief_wechat_YYYYMMDD*。
+    不动: index.html、eval/功能页、event/深挖页(非日期命名)、archive_pre_*/审计留档(子目录不匹配根glob)。
+    days=1 仅留今天(一次性历史清理用)。每次 build 发布后自动调用。"""
+    cutoff = intel.now().date() - timedelta(days=days - 1)
+    removed = []
+    for root in (NEWS_WEB, intel.SERVE_DIR):
+        for sub in ("portal", "daily"):
+            for f in glob.glob(os.path.join(root, sub, "*.html")):
+                m = re.match(r"(\d{4}-\d{2}-\d{2})", os.path.basename(f))
+                if m and datetime.strptime(m.group(1), "%Y-%m-%d").date() < cutoff:
+                    os.remove(f)
+                    removed.append(f)
+    for pat in ("portal_*.json", "cards_*.json", "cards_*.txt", "brief_wechat_*.txt"):
+        for f in glob.glob(os.path.join(DATA, pat)):
+            m = re.match(r"(?:portal_|cards_|brief_wechat_)(\d{8})", os.path.basename(f))
+            if m and datetime.strptime(m.group(1), "%Y%m%d").date() < cutoff:
+                os.remove(f)
+                removed.append(f)
+    if verbose:
+        print(f"retention prune(days={days}, cutoff={cutoff}): removed {len(removed)} files")
+    return removed
 
 
 def _write_outputs(html, data, edition, date):

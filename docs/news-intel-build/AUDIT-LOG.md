@@ -520,3 +520,13 @@ location /news/ {
 - v3 全部 31 文件暂存后通过泄露扫描(sk-/ghp_/PRIVATE KEY/BDUSS/STOKEN/字面token 零匹配); 16:14:53 并行 guimei/netdisk 会话提交 cd37ce3("guimei指针: 分镜提示词优化方案(待拍板)")以 git add -A 将其卷入并推送 origin/hermes-agent。
 - 核验: 31 文件全在 cd37ce3(--name-only 逐一核对); HEAD 内容抽查通过(标签CSS/预算120000/fetcher user_agent/嵌套gitignore); 运行时产物正确排除(data/ 仅 4 基线+6 留档证据 tracked)。
 - 本补记恢复 news v3 审计索引(原提交消息未提及 news)。教训: 多会话共享 workspace 时 git add 具体路径后须立即 commit, 不留暂存窗口; 并行工作流宜用 worktree 隔离。
+
+## 2026-11-18 收尾（用户拍板: 清历史+晨版单次+7天保留, 此事 done）
+- 用户指令: 删除18日以前内容; 每天只跑早晨8点1次; 默认保留7天; 修改完提交推送。
+- 一次性清理: prune_old_content(days=1) 删 19 文件(portal/daily 双根 10 HTML + data 日输出 9) + event/154.html(11-16 深挖页, 非日期命名手动删)。双根仅存 2026-11-18 内容。审计留档 archive_pre_*/ 保留(不可复现证据, 非日流内容, 不参与自动清理)。
+- 晚版 cron 750003d2ce23(0 18 * * *) 移除 + 孤儿启动器 news_intel_evening.sh 删除; 晨版 a898cbb5e6a5(10 8 * * *) 保留为每日唯一门户构建(08:10 错峰 08:00 四 job 撞车, 属"早晨8点"档; evening 参数保留供手动)。08:00 A轨微信简报 d6d628cc68a1 不动(独立投递, 非门户构建)。
+- 保留策略: portal.RETENTION_DAYS=7 + prune_old_content(窗口含今天; 范围=日期命名日流 portal/daily HTML 双根 + data portal_/cards_/brief_wechat_; 不动 index/eval/event/审计留档)。build 开头调用(dry 跳过), 先清理后归档扫描。
+- 归档下拉根因修复: portal JSON archive 段是构建时快照, --no-llm 重渲染原样复用→列出已删页(404)。修: no-llm 实时 archive_meta() 刷新。重渲染后下拉仅 2026-11-18-morning ✓。
+- 测试: +TestRetentionPrune 3 用例(7天窗口边界第7天留/第8天删、双根、功能页与留档不动、days=1仅留今天、默认7), 90/90 绿。施工坑: patch 模糊匹配把新类插穿既有测试(短断言锚点), 精确修复后全绿; 教训入技能#14。
+- 发布: sha256 staging==published(42dcd8d9...), 401 auth 门预期。函数默认预算对齐 120000。
+- 提交: 本条与代码同 commit 推送(见 git log, 具体路径 add 即提不留暂存窗口)。

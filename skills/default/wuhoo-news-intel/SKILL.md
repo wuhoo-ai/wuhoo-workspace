@@ -67,7 +67,7 @@ fetch（hourly cron bb84c71fff5b，wrapper 含 coverage 统计 + RSSHub 挂死�
 - 发布: `intel.publish_web()` 是函数非独立子命令（CLI 无 publish 选项，2026-11-18 实测）；portal.py build 末尾自动调用（staging→/var/www/news/ + index 归档，.portal_index 标记感知）；intel.py brief/dive 内部也调。
 
 ### 门户 `src/portal.py`（2026-11-17 用户拍板 tophub 式分类门户）
-- `build [--edition morning|evening] [--budget 90000] [--dry] [--no-llm]`：六区单文件静态 HTML+原生 JS。
+- `build [--edition morning|evening] [--budget 120000] [--dry] [--no-llm]`：六区单文件静态 HTML+原生 JS。构建开头自动 prune_old_content(RETENTION_DAYS=7, 2026-11-18 用户拍板默认保留7天; dry 不清理); --no-llm 重渲染实时刷新归档下拉。
   A 顶栏(日期下拉回看/版次/数据截至/覆盖徽章/搜索/夜间) B 今日总览(结构化条目化:主线+3-5要点+关注) C 分类热点(13类分页,每类8-40条动态上限=4深度卡+热度榜紧凑卡+类目导读)
   D 兴趣深挖(持仓雷达+六段增强卡+Jina全文深读+watchlist命中流) E 热榜交叉(velocity×事件+RSS盲区) F 归档。
   v2(2026-11-18用户反馈): 类目分页(tab/←→/键盘/hash路由), 卡片默认展开单列宽幅(max1200), 日期下拉, 总览JSON条目化。
@@ -78,8 +78,7 @@ fetch（hourly cron bb84c71fff5b，wrapper 含 coverage 统计 + RSSHub 挂死�
   不含需溯源数字；fact/data 经 verify_numbers)。Jina Reader 抓兴趣事件 top2 链接全文, CAPTCHA/失败降级摘要。
 - `--dry` 打印分类/候选/兴趣/热榜计划(零token)；`--no-llm` 从已存 portal JSON 重渲染(改样式/回滚验证, 零token)。
 - 预算 Budget 类有界(90k)+quota 回退；data/portal_{date}_{edition}.json 全量留档。
-- 管线 daily_intel_pipeline.sh $1=edition(morning默认/evening)；晨版 cron a898cbb5e6a5(08:10)无参=morning，
-  晚版 cron 750003d2ce23(18:00, script news_intel_evening.sh)。启动器 "$@" 透传。
+- 管线 daily_intel_pipeline.sh $1=edition(morning默认/evening)；**2026-11-18 用户拍板: cron 仅晨版一次** a898cbb5e6a5(08:10)无参=morning；晚版 cron 750003d2ce23 已移除(evening 参数保留供手动跑, 孤儿启动器已删)。启动器 "$@" 透传。
 
 ### 评测 `scripts/eval_golden.py`（4 子命令）
 - `build`：黄金集（cross-feed 同 norm_title 正 + cross-company 负 + 同实体不同故事负 + 2026-11-17 人工核验跨语正对/Rubin 负对），独立 ground truth，needs_review；同实体负对自动跳过共享实体≥2 的疑似同故事（防与跨语正对矛盾）。
@@ -108,14 +107,13 @@ fetch（hourly cron bb84c71fff5b，wrapper 含 coverage 统计 + RSSHub 挂死�
 |---|---|---|---|---|
 | d6d628cc68a1 | RSS资讯简报推送 | 0 8 * * * | agent/origin | A 轨 control（微信，冻结 fallback，末条=完整简报正文纪律） |
 | a898cbb5e6a5 | 新闻情报daily管线(B轨shadow) | 10 8 * * * | no_agent/local | B 轨 shadow 晨版（brief+门户 morning，web 只读，待切换） |
-| 750003d2ce23 | 新闻情报晚版管线(B轨shadow+门户) | 0 18 * * * | no_agent/local | B 轨 shadow 晚版（brief+门户 evening，2026-11-17 用户拍板双版） |
 | bb84c71fff5b | hourly 采集 | 每小时 | no_agent | 持续入库 + coverage 统计 + RSSHub 挂死自动重启（refused≥10 连续2轮 → podman restart rsshub，记 ops_alerts.log） |
 | bb3616830971 | TrendRadar速度信号 | 20 * * * * | no_agent | velocity_signals 全量刷新（salience V 因子数据源；TrendRadar 挂死时从前一日 db 计算=陈旧） |
 | 9c6449d45c15 | 关注巡检告警（paused） | */30 * * * * | — | 施工期防误推，切换后启用 |
 
 ## 回滚 runbook（每层独立 disable）
 
-- B 轨停：`cronjob_manage pause job_id=a898cbb5e6a5`（A 轨微信 fallback 自动接管）；晚版另 pause 750003d2ce23。
+- B 轨停：`cronjob_manage pause job_id=a898cbb5e6a5`（A 轨微信 fallback 自动接管）。晚版 cron 已移除(2026-11-18)。
 - 门户回滚：`rm ~/wuhoo-workspace/news-web/.portal_index` 后重跑 brief/publish → publish_web 回退旧 build_index_html 归档索引（portal.py 代码保留，删标记即切换）。
 - 微信切换（用户拍板后）：B 轨 cron 改 deliver origin + 推微信；A 轨 pause 保留 fallback。回退=B pause + A resume。
 - 采集停：pause bb84c71fff5b。
@@ -139,10 +137,10 @@ fetch（hourly cron bb84c71fff5b，wrapper 含 coverage 统计 + RSSHub 挂死�
 11. **成品噪声审计两类**：Seeking Alpha 机械类（财报转录/幻灯片/基金评论，单源同分并列贴门槛，淡日灌榜）→ 选择层模式过滤+持仓豁免，不在入库层删（保留数据）；The Verge quickpost 复合标题把多条无关故事混一卡。窗口外事件永不归档仍 active，排序池只增不减；选择层仍无主题多样性配额与窗口守卫（观察项）。审计成品先查这两类噪声与陈旧事件占比。
 12. **源健康闸门**：RSSHub conmon 挂死时容器 Up 但全路由 Connection refused，无闸门则管线用残缺口径发布且无感知；现 hourly refused≥10 连续2轮自动 podman restart + brief 前 ratio<0.70 有界重试 + 降级横幅。告警落 data/ops_alerts.log，不做未授权微信推送。
 13. **index.html 生成权**：旧由 publish_web/build_index_html 每次 brief/dive 重建（手改必被覆盖）；2026-11-17 起门户模式由 portal.py 生成 index.html + .portal_index 标记，publish_web 标记感知（有标记 copy 门户 index，无标记回退旧归档索引=回滚开关）。定制改 portal.py，勿手改 staging。数据全在 news.db/cards JSON/velocity_signals.json，纯静态生成。
-14. **回归测试**：tests/test_intel_fixes_20261117.py（42 用例）+ tests/test_portal.py（45 用例），共 87（2026-11-18 v3 新增 32：13类目分类/动态上限/军工加权/digest过滤/类目噪声/热度去重贪心非传递/429退避），纯逻辑/内存DB/mock LLM；分 skill 运行 `python3.11 -m pytest tests/ -v`（wuhoo-skill-testing 规范）。测试SQL含撇号标题必须参数化(?)勿拼字面量。
+14. **回归测试**：tests/test_intel_fixes_20261117.py（42 用例）+ tests/test_portal.py（48 用例），共 90（v3 新增 32 + 保留策略 3），纯逻辑/内存DB/mock LLM；分 skill 运行 `python3.11 -m pytest tests/ -v`（wuhoo-skill-testing 规范）。测试SQL含撇号标题必须参数化(?)勿拼字面量。追加测试类时 old_string 用文件真实末尾唯一锚点——短断言行会被模糊匹配到错误位置插穿既有测试(2026-11-18实证, 修复后90/90)。
 16. **门户分类词边界**：关键词正则英文缩写必须左右双边界（\bETH\b/\bAI\b/\bFed\b/\bCOIN\b），否则 Hegseth 尾音 eth 误判加密、Shanghai 尾音 ai 误判科技、Bitcoin 尾音 coin 误判。NBA 2K/GTA 是游戏非足球。分类后必跑 --dry 抽查各类目 top 卡归位。
 17. **增强卡背景段纪律**：background 允许模型知识但强制"背景补充(模型知识,非当日报道):"前缀且不含需溯源数字/日期/价格；fact/data 仍经 verify_numbers 对语料(含Jina全文)核验。Jina(r.jina.ai)部分源 CAPTCHA/空 → 降级摘要合成，不编造全文。
-18. **门户版次管道**：daily_intel_pipeline.sh $1=edition，启动器 ~/.hermes/scripts/*.sh 用 "$@" 透传（晨版无参=morning，晚版 launcher 写死 evening）。改管线后确认启动器是薄转发（exec bash workspace脚本）而非独立副本，否则 cron 跑旧码。
+18. **门户版次管道**：daily_intel_pipeline.sh $1=edition，启动器 ~/.hermes/scripts/*.sh 用 "$@" 透传（晨版无参=morning；晚版 launcher 已随 cron 移除 2026-11-18）。改管线后确认启动器是薄转发（exec bash workspace脚本）而非独立副本，否则 cron 跑旧码。
 19. **门户热度榜扩充须限头部归并池**：类目候选扩到8-15后，若 build_groups 跑全部候选，财报日同一主语(NVIDIA)10+事件共享强实体+cos≥0.30 经 union-find 传递闭包塌缩成1张巨卡吞空热度榜(n_total=2)。修：归并仅限头部 DEEP_CAND=6 出深度卡，热度榜取 cands[6:]+头部leftover独立呈现(无全局传递归并)。头部跨语归并(Jensen修复)不回退。审计类目多样性先看 n_total 与 merged_from 长度。
 15. **验证修复勿只看重生成页面**：salience 半衰 12h 会让原故障事件跌出 brief 候选窗，页面"看起来正常"不等于修复生效；对原故障事件直接调 build_groups/same_story_rule 做定向断言（目标组归并+反例独立），重生成前把 cards/brief/log/HTML 留档 before/after。
 
@@ -151,6 +149,8 @@ fetch（hourly cron bb84c71fff5b，wrapper 含 coverage 统计 + RSSHub 挂死�
 22. **dry审计是分类改动必经闸**：v3十三类目上线dry三轮渐进暴露digest变体(【早报】/昨夜今晨/要闻速递)、足球异类、游戏影视、consumer抢macro零售销售——均在选择层/模式层修复并补回归。分类改动后必跑--dry抽查各类目TOP归位(踩坑16的延伸)。
 
 23. **多会话共享 workspace 的 git 卷入（2026-11-18 实证）**：并行 guimei/netdisk 会话 git add -A 会把本会话暂存的 news 文件卷进它的提交（消息不含 news，审计索引断裂）。对策：git add 具体路径后立即 commit+push 不留暂存窗口；提交后 git show --name-only 核对文件清单+内容抽查；被卷入时补审计索引提交恢复可追溯，不重写历史。
+
+24. **归档下拉是构建时快照（2026-11-18）**：portal JSON 的 archive 段在构建时扫描文件系统固化；--no-llm 重渲染若直接复用旧 JSON 会列出已清理的旧页(404)。已修: no-llm 路径实时 archive_meta() 刷新 + prune 移到 build 开头(先清理后扫描, dry 跳过)。清理内容后必重渲染刷新下拉。
 
 ## 待用户/观察期
 
