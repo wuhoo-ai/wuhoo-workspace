@@ -106,17 +106,19 @@ python3.11 $S --task-id <task_id> --output out.mp4   # 续查+下载（24h 内�
 - 音频：单段 [1,15]s，总 ≤15s；≤15MB。
 - 大视频/音频建议公网 URL 直传（本地 base64 体积膨胀 ~33%，写超时风险）。
 
-## Pipeline: 故事线 → 分镜 → 关键帧 → 视频（漫剧主产线）
+## Pipeline: 故事线 → 分镜 → 视频（漫剧主产线，v2 路线）
 
-1. GDD 章节 → 分镜提示词脚本：`wuhoo-manju-storyboard` 技能。
-2. 关键帧出图：`~/.hermes/skills/image-generation/gen_image.py`
-   （wan2.7-image-pro / qwen-image-3.0-pro，竖屏 9:16 用 1152x2048 或同比例）。
-   角色一致性：族系特征（发色/结饰/磷光等）跨镜头锁定写死在 prompt；
-   手部写"五指并拢可读"+单手势；物件-场景空间关系显式声明（K2 批次已验证对策）。
-3. 关键帧 → 镜头：本技能 i2v（首帧）或首尾帧；角色参考图锁脸用 r2v。
-4. 镜头拼接：ffmpeg concat；配乐/台词混音另走音频管线。
-5. 验收：sidecar JSON 数值 + vision 逐关键帧复核（双闸方法论，
-   见 gamedev 域 ai-2d-rig-pipeline 技能 references；worker 自报视觉结论不可信）。
+主路线（用户 11-18 拍板）：**多镜头 t2v 直出**——GDD 章节 → 分镜提示词（角色文本锁定+
+一致性声明+时间戳分镜）→ 本技能 t2v 一次生成 ≤30s 多镜头叙事（原生台词/BGM/音效）。
+分镜提示词编写见 `~/wuhoo-workspace/skills/default/wuhoo-manju-storyboard`（v2.0.0）。
+实证：ch01 六镜 30s/720P/9:16 prime ≈3min17s（task 0f7534fe）。
+
+可选分支 i2v（用户批准首帧时）：
+1. 首帧优先=权威母图程序化竖裁（零重绘）；t2i 新出关键帧仅用于无母图角色，
+   布局硬约束服从度低（wan2.7 三连败实证），留 3-5 次迭代预算。
+2. 关键帧作 first_frame 输入本技能；prompt 只写运动与声音。
+3. 镜头拼接 ffmpeg concat；验收=人工审核终闸（用户）+ sidecar/帧差辅助指标。
+产物配对入库走 wuhoo-netdisk 技能（网盘媒体+prompt.md，git 只留文本）。
 
 ## API Details
 
@@ -144,7 +146,9 @@ python3.11 $S --task-id <task_id> --output out.mp4   # 续查+下载（24h 内�
 - **PNG 透明通道不支持**：首帧带 alpha 会被拒或出黑底；脚本自动白底合成（guimei 白底惯例）。
 - **大 PNG base64 写超时**：4.2MB PNG→5.6MB base64 曾致 httpx.WriteTimeout；
   脚本 >4MB 自动转 JPEG q85，勿手工传大 PNG。
-- **ratio 无 9:16/3:4**：竖屏漫剧用 adaptive + 竖构图首帧图驱动，不要硬传 9:16（报错）。
+- **ratio 文档分歧已实证**：API 参考表列 adaptive/21:9/16:9/4:3/1:1，使用指南另列 3:4/9:16；
+  **t2v 直传 9:16 实测被接受**（11-18 task 0f7534fe，30s 多镜头出片 9:16）；
+  i2v 用 adaptive+竖构图首帧同样输出 9:16。脚本 choices 已含 3:4/9:16。
 - **prompt_extend 会改写意图**：精细分镜脚本默认关；只有 file/link 模式强制 true。
 - **同 seed 不逐帧确定**：复现靠 sidecar 记录参数+原片归档，不靠 seed 玄学。
 - **模型可用性随区域/时间变，以实际提交为准**：prime 在 cn-beijing catalog 未列但实测可调

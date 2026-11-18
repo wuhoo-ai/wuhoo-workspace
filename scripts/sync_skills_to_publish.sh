@@ -15,7 +15,7 @@ WHITELIST=(
   wuhoo-game-gates wuhoo-game-gpu wuhoo-game-plan wuhoo-game-review
   wuhoo-game-scene wuhoo-game-voice wuhoo-sprite-pipeline wuhoo-ui-ugui
   wuhoo-unity-headless wuhoo-unity-reference wuhoo-skill-testing
-  wuhoo-video-generation
+  wuhoo-video-generation wuhoo-netdisk
 )
 names=("$@")
 [ ${#names[@]} -eq 0 ] && names=("${WHITELIST[@]}")
