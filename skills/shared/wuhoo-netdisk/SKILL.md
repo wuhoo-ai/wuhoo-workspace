@@ -85,6 +85,14 @@ bash $S/pcs.sh mkdir /wuhoo-assets/图片
 
 ## Pitfalls
 
+- **跨境上传阻断（2026-11-18 实测，SG 阿里云→百度 PCS，硬坑）**：<1MB 小文件正常成功；
+  ≥4MB 固定分片永远无法完成——实时进度呈锯齿重置（传到 600-800KB→0B/s 停滞→回退重传），
+  shot-02 独占带宽 30min、t2v 11 分片并发 24min 均 0 分片完成。根因=跨境上传方向连接被
+  policing/重置，非工具 bug；BaiduPCS-Go 无分片尺寸选项（4MB 固定），并发再高也救不了单分片。
+  对策方向：①国内出口（config proxy 经 NAS/国内节点，或文件中转到国内再传）；
+  ②百度离线下载（临时 HTTPS 链接→网盘 App 云添加，百度服务器→SG 的下载方向不受此限）。
+  诊断法：直接前台跑 pcs.sh upload 看实时进度（upload_deliverable 子进程管道会吞输出）+
+  pcs_uploading.json 分片 checksum 计数 + ss -tinp bytes_sent 差分测真实吞吐。
 - **STOKEN 拿错**：必须是 pan.baidu.com 域下的 STOKEN（含大写字母），bdstoken 无效；
   拿错只影响转存，上传下载仍可用 BDUSS。
 - **非 SVIP 下载限速**：上传不受会员限制（分片并发上传正常跑）；下载慢是账号侧限速，
